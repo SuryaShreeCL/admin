@@ -1,16 +1,16 @@
-import { TextField, Grid, withStyles, Divider } from "@material-ui/core";
-import React, { Component } from "react";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import { TextField, Grid, withStyles, Divider } from '@material-ui/core';
+import React, { Component } from 'react';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import {
   deleteInterestDetails,
   getInterestDetails,
   getTestQuestionSet,
   saveInterestDetails,
-} from "../../AsyncApiCall/Student";
-import MySnackBar from "../MySnackBar";
-import "./InterestDetail.css";
+} from '../../AsyncApiCall/Student';
+import MySnackBar from '../MySnackBar';
+import './InterestDetail.css';
 import {
   BolderPara,
   QuestionList,
@@ -18,7 +18,9 @@ import {
   RightContent,
   TestHeader,
   useStyles,
-} from "./InterestDetailStyles";
+} from './InterestDetailStyles';
+
+const DISALLOWED_INTEREST_TEST = ['ACS_MS'];
 class InterestDetail extends Component {
   constructor(props) {
     super(props);
@@ -28,17 +30,17 @@ class InterestDetail extends Component {
     this.state = {
       interestArr: [
         {
-          id: "",
-          areaOfInterest: "",
+          id: '',
+          areaOfInterest: '',
           updatedBy: {
-            id: "",
+            id: '',
           },
-          helperText: "",
+          helperText: '',
         },
       ],
       snackOpen: false,
-      snackColor: "",
-      snackMsg: "",
+      snackColor: '',
+      snackMsg: '',
       testQuestionSet: null,
     };
   }
@@ -48,7 +50,7 @@ class InterestDetail extends Component {
     getInterestDetails(
       this.props.match.params.studentId,
       this.props.match.params.productId
-    ).then((response) => {
+    ).then(response => {
       if (response.status === 200) {
         if (response.data.length > 0) {
           const tempHolder = response.data.map((eachItem, index) => {
@@ -58,7 +60,7 @@ class InterestDetail extends Component {
               updatedBy: {
                 id: eachItem.updatedBy.id,
               },
-              helperText: "",
+              helperText: '',
             };
           });
           this.setState({
@@ -71,29 +73,25 @@ class InterestDetail extends Component {
 
   getInterestTestQuestionSet = () => {
     const { studentId, productId } = this.props.match.params;
-    getTestQuestionSet(studentId, productId).then((response) => {
+    getTestQuestionSet(studentId, productId).then(response => {
       if (response.success) {
         this.setState({ testQuestionSet: response.data });
-      } else {
-        this.setState({
-          snackColor: "error",
-          snackOpen: true,
-          snackMsg: response.message,
-        });
       }
+      //  else {
+      //   this.setState({
+      //     snackColor: "error",
+      //     snackOpen: true,
+      //     snackMsg: response.message,
+      //   });
+      // }
     });
   };
 
   componentDidMount() {
     this.getInterestDetails();
-    const { productId } = this.props.match.params;
-    if (
-      productId === "5" ||
-      productId === "3" ||
-      productId === "1" ||
-      productId === "d953e26e-ba53-4626-8aca-c9f110c81e7c"
-    ) {
-      return this.getInterestTestQuestionSet();
+    const { variant_SKU } = this.props.variantStepList;
+    if (!DISALLOWED_INTEREST_TEST.includes(variant_SKU)) {
+      this.getInterestTestQuestionSet();
     }
   }
 
@@ -102,12 +100,12 @@ class InterestDetail extends Component {
   handleAdd = () => {
     let arr = this.state.interestArr;
     arr.push({
-      id: "",
-      areaOfInterest: "",
+      id: '',
+      areaOfInterest: '',
       updatedBy: {
-        id: "",
+        id: '',
       },
-      helperText: "",
+      helperText: '',
     });
     this.setState({
       interestArr: arr,
@@ -129,13 +127,13 @@ class InterestDetail extends Component {
       } else {
         // To delete a row that is comming from api
 
-        deleteInterestDetails(data.id).then((response) => {
+        deleteInterestDetails(data.id).then(response => {
           if (response.status === 200) {
             this.getInterestDetails();
             this.setState({
               snackMsg: response.data,
               snackOpen: true,
-              snackColor: "success",
+              snackColor: 'success',
             });
           }
         });
@@ -161,7 +159,7 @@ class InterestDetail extends Component {
   // Handles save and update
 
   handleSave = () => {
-    const adminuserId = window.sessionStorage.getItem("adminUserId");
+    const adminuserId = window.sessionStorage.getItem('adminUserId');
     const productId = this.props.match.params.productId;
     const studentId = this.props.match.params.studentId;
     const requestBody = this.state.interestArr.map((eachItem, index) => {
@@ -198,22 +196,20 @@ class InterestDetail extends Component {
     }
 
     if (!error) {
-      saveInterestDetails(studentId, productId, requestBody).then(
-        (response) => {
-          if (response.status === 200) {
-            this.getInterestDetails();
-            this.setState({
-              snackColor: "success",
-              snackOpen: true,
-              snackMsg: "Saved Successfully",
-            });
-          }
+      saveInterestDetails(studentId, productId, requestBody).then(response => {
+        if (response.status === 200) {
+          this.getInterestDetails();
+          this.setState({
+            snackColor: 'success',
+            snackOpen: true,
+            snackMsg: 'Saved Successfully',
+          });
         }
-      );
+      });
     } else {
       this.setState({
-        snackColor: "error",
-        snackMsg: "Please fill the required field",
+        snackColor: 'error',
+        snackMsg: 'Please fill the required field',
         snackOpen: true,
       });
     }
@@ -245,23 +241,20 @@ class InterestDetail extends Component {
   };
 
   renderSupplementaryQuestions = () => {
-    const productId = this.props.match.params.productId;
-    console.log(productId, "ppppppppppp");
-    if (productId === "3" || productId === "1") {
-      console.log("trueeee");
+    const { variant_SKU } = this.props.variantStepList;
+    if (DISALLOWED_INTEREST_TEST.includes(variant_SKU)) return null;
+    else {
       return (
         <Grid item xs={6} className={this.props.classes.rightWrapper}>
           <Divider
             absolute={true}
-            variant={"fullWidth"}
-            orientation={"vertical"}
+            variant={'fullWidth'}
+            orientation={'vertical'}
             className={this.props.classes.customDividerColor}
           />
           {this.renderRightContainer()}
         </Grid>
       );
-    } else {
-      return <div></div>;
     }
   };
 
@@ -294,28 +287,28 @@ class InterestDetail extends Component {
                   sm={9}
                   xl={9}
                   lg={9}
-                  className={"grid"}
+                  className={'grid'}
                 >
                   <TextField
-                    className={"textField_align"}
-                    label="Enter interest Area"
+                    className={'textField_align'}
+                    label='Enter interest Area'
                     value={data.areaOfInterest}
                     helperText={data.helperText}
                     error={data.helperText.length > 0}
-                    onChange={(e) => this.handleTextChange(e, index)}
+                    onChange={e => this.handleTextChange(e, index)}
                     fullWidth
                   ></TextField>
                 </Grid>
 
-                <Grid item xs={2} className={"icon_div"}>
+                <Grid item xs={2} className={'icon_div'}>
                   <AddCircleOutlineIcon
                     className={classes.addIcon}
-                    color="primary"
+                    color='primary'
                     onClick={() => this.handleAdd()}
                   />
                   <DeleteOutlineIcon
                     className={classes.deleteIcon}
-                    color="secondary"
+                    color='secondary'
                     onClick={() => {
                       this.handleDelete(data, index);
                     }}
@@ -330,13 +323,13 @@ class InterestDetail extends Component {
         </Grid>
         <Divider className={classes.dividerColor} />
         {/* button */}
-        <div className={"save_button_div"}>
+        <div className={'save_button_div'}>
           <PrimaryButton
-            variant={"contained"}
-            color={"primary"}
+            variant={'contained'}
+            color={'primary'}
             onClick={this.handleSave}
           >
-            {"Save"}
+            {'Save'}
           </PrimaryButton>
         </div>
         <MySnackBar

@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -26,13 +27,13 @@ import {
 import { getStudentsById } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
-import { isEmptyString } from "../Validation";
+import { isEmptyString, isEmptyObject } from "../Validation";
 import { StudentStepDetails } from "../../Actions/Student";
 import { getdashboarddetails } from "../../Actions/ProfileGapAction";
 import { getVariantStepsById } from "../../Actions/ProductAction";
 import "../../Asset/All.css";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { isEmptyObject } from "jquery";
+import moment from "moment";
 class AdmissionServices extends Component {
   constructor() {
     super();
@@ -50,6 +51,8 @@ class AdmissionServices extends Component {
       buttonstatus: false,
       verifydetail: [],
       mentordetails: {},
+      selectedMentor: {},
+      isLoading: false,
     };
   }
   handleClick(e) {
@@ -57,23 +60,34 @@ class AdmissionServices extends Component {
   }
 
   allocate = () => {
-    isEmptyString(this.state.mentor)
+    this.setState({ isLoading: true });
+    isEmptyString(this.state.selectedMentor)
       ? this.setState({ mentorErr: "Field Required" })
       : this.setState({ mentorErr: "" });
-    if (this.state.mentor !== null && this.state.mentor !== undefined) {
+    if (
+      this.state.selectedMentor !== null &&
+      this.state.selectedMentor !== undefined
+    ) {
       let obj = {
-        id: this.state.mentor.id,
-        name: this.state.mentor.name,
-        department: this.state.mentor.department,
-        calendarId: this.state.mentor.calendarId,
+        id: this.state.selectedMentor.id,
+        name: this.state.selectedMentor.name,
+        department: this.state.selectedMentor.department,
+        calendarId: this.state.selectedMentor.calendarId,
       };
-      console.log(obj);
+
       this.props.updatementor(
         this.props.match.params.studentId,
         this.props.match.params.productId,
         obj,
         (response) => {
           if (response.status === 200) {
+            this.setState({
+              show: false,
+              isLoading: false,
+              snackmsg: "Updated Successfully",
+              snackvariant: "success",
+              snackopen: true,
+            });
             this.props.StudentStepDetails(
               this.props.match.params.studentId,
               this.props.match.params.productId
@@ -86,7 +100,6 @@ class AdmissionServices extends Component {
               this.props.match.params.studentId,
               this.props.match.params.productId,
               (response) => {
-                console.log(response);
                 if (response.data.success === true) {
                   this.setState({
                     mentor: response.data.data,
@@ -102,12 +115,6 @@ class AdmissionServices extends Component {
           }
         }
       );
-      this.setState({
-        show: false,
-        snackmsg: "Updated Successfully",
-        snackvariant: "success",
-        snackopen: true,
-      });
     }
   };
   componentDidUpdate(prevProps, prevState) {
@@ -149,7 +156,6 @@ class AdmissionServices extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response);
         if (response.data.success === true) {
           this.setState({
             mentor: response.data,
@@ -166,14 +172,12 @@ class AdmissionServices extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        console.log(response.data);
         if (response.status === 200) {
           for (
             let i = 0;
             i < response.data.onboardingVerificationStatus.length;
             i++
           ) {
-            console.log(response.data.onboardingVerificationStatus[i].status);
             if (
               response.data.onboardingVerificationStatus[i] &&
               response.data.onboardingVerificationStatus[i].status ===
@@ -230,8 +234,6 @@ class AdmissionServices extends Component {
     );
   };
   render() {
-    console.log(this.props);
-    console.log(this.state);
     return (
       <div style={{ padding: 25 }}>
         {this.props.getproductdetailsList.length !== 0 &&
@@ -568,43 +570,8 @@ class AdmissionServices extends Component {
                 this.props.getproductdetailsList.product.length !== 0 &&
                 this.props.getproductdetailsList.product.map(
                   (eachdata, index) => {
-                    let enrollmentdate = new Date(
-                      eachdata.EnrollmentDate
-                    ).getDate();
-                    let enrollmentmonth =
-                      new Date(eachdata.EnrollmentDate).getMonth() + 1;
-                    let enrollmentyear = new Date(
-                      eachdata.EnrollmentDate
-                    ).getFullYear();
-                    let enrollment =
-                      eachdata.EnrollmentDate !== null
-                        ? enrollmentdate +
-                          "/" +
-                          enrollmentmonth +
-                          "/" +
-                          enrollmentyear
-                        : null;
-                    let expirydate = new Date(eachdata.ExpiryDate).getDate();
-                    let expirymonth = new Date(eachdata.ExpiryDate).getMonth();
-                    let expiryyear = new Date(
-                      eachdata.ExpiryDate
-                    ).getFullYear();
-                    let newexpiry = eachdata.ExpiryDate
-                      ? expirydate + "/" + expirymonth + "/" + expiryyear
-                      : null;
-                    let eosdate = new Date(
-                      eachdata["End Of service Date"]
-                    ).getDate();
-                    let eosmonth = new Date(
-                      eachdata["End Of service Date"]
-                    ).getMonth();
-                    let eosyear = new Date(
-                      eachdata["End Of service Date"]
-                    ).getFullYear();
-                    let neweos =
-                      eachdata["End Of service Date"] !== null
-                        ? eosdate + "/" + eosmonth + "/" + eosyear
-                        : null;
+                    let endOfServiceDate = eachdata["End Of service Date"];
+
                     return (
                       <TableRow>
                         <TableCell
@@ -666,7 +633,9 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {enrollment}
+                          {moment(new Date(eachdata.EnrollmentDate)).format(
+                            "MMM yyyy"
+                          )}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -678,7 +647,10 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {newexpiry}
+                          {/* {eachdata.ExpiryDate} */}
+                          {moment(new Date(eachdata.ExpiryDate)).format(
+                            "MMM yyyy"
+                          )}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -690,7 +662,9 @@ class AdmissionServices extends Component {
                             borderBottom: "none",
                           }}
                         >
-                          {neweos}
+                          {moment(new Date(endOfServiceDate)).format(
+                            "MMM yyyy"
+                          )}
                         </TableCell>
                         <TableCell
                           align="center"
@@ -790,12 +764,10 @@ class AdmissionServices extends Component {
                   id="combo-box-demo"
                   value={this.state.mentor}
                   onChange={(e, newValue) => {
-                    console.log(newValue);
-                    this.setState({ mentor: newValue });
+                    this.setState({ selectedMentor: newValue });
                   }}
                   options={this.props.mentorList}
                   getOptionLabel={(option) => {
-                    console.log(option);
                     return option.name;
                   }}
                   renderInput={(params) => (
@@ -831,14 +803,26 @@ class AdmissionServices extends Component {
                 <PrimaryButton
                   style={{ textTransform: "none" }}
                   disabled={
-                    this.state.mentor === null ||
-                    isEmptyString(this.state.mentor) ||
-                    isEmptyObject(this.state.mentor)
+                    this.state.selectedMentor === null ||
+                    isEmptyString(this.state.selectedMentor) ||
+                    isEmptyObject(this.state.selectedMentor) ||
+                    this.state.isLoading === true
                   }
                   variant={"contained"}
                   color={"primary"}
                   onClick={() => this.allocate()}
                 >
+                  {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
                   Allocate
                 </PrimaryButton>
               </div>

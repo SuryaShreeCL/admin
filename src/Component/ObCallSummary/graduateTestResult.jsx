@@ -1,4 +1,4 @@
-import DateFnsUtils from "@date-io/date-fns";
+import DateFnsUtils from '@date-io/date-fns';
 import {
   Card,
   createMuiTheme,
@@ -13,23 +13,23 @@ import {
   TextField,
   ThemeProvider,
   Typography,
-} from "@material-ui/core";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import { ExpandMore } from "@material-ui/icons";
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import PublishRoundedIcon from "@material-ui/icons/PublishRounded";
-import { Autocomplete } from "@material-ui/lab";
+} from '@material-ui/core';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import { ExpandMore } from '@material-ui/icons';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import PublishRoundedIcon from '@material-ui/icons/PublishRounded';
+import { Autocomplete } from '@material-ui/lab';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-import DoccumentCard from "../Utils/DoccumentCard";
-import ExamDateCard from "../Utils/ExamDateCard";
-import React, { Component } from "react";
-import Dropzone from "react-dropzone";
-import { Link } from "react-router-dom";
+} from '@material-ui/pickers';
+import DoccumentCard from '../Utils/DoccumentCard';
+import ExamDateCard from '../Utils/ExamDateCard';
+import React, { Component } from 'react';
+import Dropzone from 'react-dropzone';
+import { Link } from 'react-router-dom';
 import {
   downloadGAT,
   fileuploadGAT,
@@ -41,43 +41,45 @@ import {
   updategrescore,
   updateieltsscore,
   updatetoeflscore,
-} from "../../Actions/Calldetails";
+} from '../../Actions/Calldetails';
 import {
   proofUplaod,
   getStudentsById,
   getDocumentList,
   getexpecteddate,
   getieltsexam,
-} from "../../Actions/Student";
-import { connect } from "react-redux";
-import Mysnack from "../MySnackBar";
-import { URL } from "../../Actions/URL";
+} from '../../Actions/Student';
+import { connect } from 'react-redux';
+import Mysnack from '../MySnackBar';
+import { URL } from '../../Actions/URL';
 import {
   viewStudentStatus,
   updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import Status from "../Utils/Status";
-import { SECTION } from "../../Constant/Variables";
-import Model from "../Utils/SectionModel";
-import Pencil from "../../Asset/Images/pencil.png";
-import Warning from "../../Asset/Images/warningImg.png";
-import PrimaryButton from "../../Utils/PrimaryButton";
+} from '../../Actions/AdminAction';
+import Status from '../Utils/Status';
+import { SECTION } from '../../Constant/Variables';
+import Model from '../Utils/SectionModel';
+import Pencil from '../../Asset/Images/pencil.png';
+import Warning from '../../Asset/Images/warningImg.png';
+import PrimaryButton from '../../Utils/PrimaryButton';
+import * as moment from 'moment';
+
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
       root: {
-        color: "#1093FF",
+        color: '#1093FF',
       },
     },
     MuiInputLabel: {
       root: {
-        fontSize: "14px",
-        whiteSpace: "nowrap",
+        fontSize: '14px',
+        whiteSpace: 'nowrap',
       },
     },
     MuiFormControl: {
       marginNormal: {
-        marginTop: "0px",
+        marginTop: '0px',
       },
     },
   },
@@ -86,28 +88,24 @@ const theme = createMuiTheme({
 class GraduateTestResult extends Component {
   constructor() {
     super();
-    this.onDrop = (files) => {
-      console.log(files);
+    this.onDrop = files => {
       this.setState({ files });
     };
-    this.gmatonDrop = (files) => {
-      console.log(files);
+    this.gmatonDrop = files => {
       this.setState({ gmatfiles: files });
     };
-    this.toeflonDrop = (files) => {
-      console.log(files);
+    this.toeflonDrop = files => {
       this.setState({ toeflfiles: files });
     };
-    this.ieltsonDrop = (files) => {
-      console.log(files);
+    this.ieltsonDrop = files => {
       this.setState({ ieltsfiles: files });
     };
     var today = new Date(),
       date =
         today.getFullYear() +
-        "/" +
+        '/' +
         (today.getMonth() + 1) +
-        "/" +
+        '/' +
         today.getDate();
     this.state = {
       disable: false,
@@ -122,34 +120,34 @@ class GraduateTestResult extends Component {
       toefldate: null,
       ieltsdate: new Date(),
       greattempt: {},
-      grequan: "",
-      greverbal: "",
-      gretotal: "",
-      greanalytic: "",
+      grequan: '',
+      greverbal: '',
+      gretotal: '',
+      greanalytic: '',
       gmatattempt: {},
-      gmatquan: "",
-      gmatanalytic: "",
-      gmatint: "",
-      gmatverb: "",
-      gmatscore: "",
+      gmatquan: '',
+      gmatanalytic: '',
+      gmatint: '',
+      gmatverb: '',
+      gmatscore: '',
       toeflattempt: {},
-      toeflread: "",
-      toeflscore: "",
-      toeflwrite: "",
-      toefllis: "",
-      toeflspeak: "",
+      toeflread: '',
+      toeflscore: '',
+      toeflwrite: '',
+      toefllis: '',
+      toeflspeak: '',
       ieltsattempt: {},
-      ieltsread: "",
-      ieltsscore: "",
-      ieltswrite: "",
-      ieltslis: "",
-      ieltsspeak: "",
-      greid: "",
-      gmatid: "",
-      toeflid: "",
-      ieltsid: "",
-      snackmsg: "",
-      snackVariant: "",
+      ieltsread: '',
+      ieltsscore: '',
+      ieltswrite: '',
+      ieltslis: '',
+      ieltsspeak: '',
+      greid: '',
+      gmatid: '',
+      toeflid: '',
+      ieltsid: '',
+      snackmsg: '',
+      snackVariant: '',
       snackopen: false,
       files: [],
       fileErr: false,
@@ -163,14 +161,14 @@ class GraduateTestResult extends Component {
       ieltsfiles: [],
       ieltsfileErr: false,
       ieltsfinalFile: null,
-      grefilename: "",
-      gmatfilename: "",
-      ieltsfilename: "",
-      toeflfilename: "",
-      greindex: "",
-      gmatindex: "",
-      ieltsindex: "",
-      toeflindex: "",
+      grefilename: '',
+      gmatfilename: '',
+      ieltsfilename: '',
+      toeflfilename: '',
+      greindex: '',
+      gmatindex: '',
+      ieltsindex: '',
+      toeflindex: '',
       documentedit: false,
       greDateList: [],
       gmatDateList: [],
@@ -179,7 +177,7 @@ class GraduateTestResult extends Component {
       sectionStatus: {
         model: false,
         data: null,
-        sectionName: "",
+        sectionName: '',
       },
     };
   }
@@ -191,9 +189,9 @@ class GraduateTestResult extends Component {
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getexpecteddate(
-      "gre",
+      'gre',
       this.props.match.params.studentId,
-      (response) => {
+      response => {
         if (response.status === 200) {
           this.setState({
             greDateList: response.data,
@@ -202,9 +200,9 @@ class GraduateTestResult extends Component {
       }
     );
     this.props.getexpecteddate(
-      "gmat",
+      'gmat',
       this.props.match.params.studentId,
-      (response) => {
+      response => {
         if (response.status === 200) {
           this.setState({
             gmatDateList: response.data,
@@ -213,9 +211,9 @@ class GraduateTestResult extends Component {
       }
     );
     this.props.getexpecteddate(
-      "tofel",
+      'tofel',
       this.props.match.params.studentId,
-      (response) => {
+      response => {
         if (response.status === 200) {
           this.setState({
             toeflDateList: response.data,
@@ -223,7 +221,7 @@ class GraduateTestResult extends Component {
         }
       }
     );
-    this.props.getieltsexam(this.props.match.params.studentId, (response) => {
+    this.props.getieltsexam(this.props.match.params.studentId, response => {
       if (response.status === 200) {
         this.setState({
           ieltsDateList: response.data,
@@ -232,18 +230,18 @@ class GraduateTestResult extends Component {
     });
   }
   analyticalArr = [
-    { title: "0.5" },
-    { title: "1.0" },
-    { title: "1.5" },
-    { title: "2.0" },
-    { title: "2.5" },
-    { title: "3.0" },
-    { title: "3.5" },
-    { title: "4.0" },
-    { title: "4.5" },
-    { title: "5.0" },
-    { title: "5.5" },
-    { title: "6.0" },
+    { title: '0.5' },
+    { title: '1.0' },
+    { title: '1.5' },
+    { title: '2.0' },
+    { title: '2.5' },
+    { title: '3.0' },
+    { title: '3.5' },
+    { title: '4.0' },
+    { title: '4.5' },
+    { title: '5.0' },
+    { title: '5.5' },
+    { title: '6.0' },
   ];
   componentDidUpdate(prevProps, prevState) {
     if (this.props.fileuploadGATList !== prevProps.fileuploadGATList) {
@@ -265,176 +263,173 @@ class GraduateTestResult extends Component {
       this.props.getieltsscore(this.props.match.params.studentId);
     }
     if (this.state.files !== prevState.files) {
-      console.log(this.state.greattempt);
-      console.log(this.state.files[0]);
       var name =
         this.props.getStudentsByIdList.firstName +
-        "_" +
+        '_' +
         this.props.getStudentsByIdList.lastName +
-        "_" +
-        "GRE" +
+        '_' +
+        'GRE' +
         this.state.greattempt.title;
-      console.log(name);
+
       var file = this.state.files[0];
-      console.log(file);
+
       this.setState({ grefilename: file.name });
-      var indexOf = file.type.indexOf("/");
+      var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      console.log(blob);
 
       var newFile = new File(
         [blob],
         name
-          .concat(".", newFileType)
+          .concat('.', newFileType)
           .replace(
-            "vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "docx"
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
           ),
         { type: newFileType }
       );
-      console.log("NEW FILE..................", newFile);
-      console.log("NEW FILE TYPE..................", newFileType);
+
       this.setState({
         finalFile: newFile,
       });
     }
     if (this.state.gmatfiles !== prevState.gmatfiles) {
-      console.log(this.state.gmatfiles[0]);
       var name =
         this.props.getStudentsByIdList.firstName +
-        "_" +
+        '_' +
         this.props.getStudentsByIdList.lastName +
-        "_" +
-        "GMAT" +
+        '_' +
+        'GMAT' +
         this.state.gmatattempt.title;
-      console.log(name);
+
       var file = this.state.gmatfiles[0];
-      console.log(file);
+
       this.setState({ gmatfilename: file.name });
-      var indexOf = file.type.indexOf("/");
+      var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      console.log(blob);
 
       var newFile = new File(
         [blob],
         name
-          .concat(".", newFileType)
+          .concat('.', newFileType)
           .replace(
-            "vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "docx"
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
           ),
         { type: newFileType }
       );
-      console.log("NEW FILE..................", newFile);
-      console.log("NEW FILE TYPE..................", newFileType);
+
       this.setState({
         gmatfinalFile: newFile,
       });
     }
     if (this.state.toeflfiles !== prevState.toeflfiles) {
-      console.log(this.state.toeflfiles[0]);
       var name =
         this.props.getStudentsByIdList.firstName +
-        "_" +
+        '_' +
         this.props.getStudentsByIdList.lastName +
-        "_" +
-        "TOEFL" +
+        '_' +
+        'TOEFL' +
         this.state.toeflattempt.title;
-      console.log(name);
+
       var file = this.state.toeflfiles[0];
-      console.log(file);
+
       this.setState({ toeflfilename: file.name });
-      var indexOf = file.type.indexOf("/");
+      var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      console.log(blob);
 
       var newFile = new File(
         [blob],
         name
-          .concat(".", newFileType)
+          .concat('.', newFileType)
           .replace(
-            "vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "docx"
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
           ),
         { type: newFileType }
       );
-      console.log("NEW FILE..................", newFile);
-      console.log("NEW FILE TYPE..................", newFileType);
+
       this.setState({
         toeflfinalFile: newFile,
       });
     }
     if (this.state.ieltsfiles !== prevState.ieltsfiles) {
-      console.log(this.state.ieltsfiles[0]);
       var name =
         this.props.getStudentsByIdList.firstName +
-        "_" +
+        '_' +
         this.props.getStudentsByIdList.lastName +
-        "_" +
-        "IELTS" +
+        '_' +
+        'IELTS' +
         this.state.ieltsattempt.title;
-      console.log(name);
+
       var file = this.state.ieltsfiles[0];
-      console.log(file);
+
       this.setState({ ieltsfilename: file.name });
-      var indexOf = file.type.indexOf("/");
+      var indexOf = file.type.indexOf('/');
       var newFileType = file.type.substr(indexOf + 1);
 
       var blob = new Blob([file], { type: newFileType });
-      console.log(blob);
 
       var newFile = new File(
         [blob],
         name
-          .concat(".", newFileType)
+          .concat('.', newFileType)
           .replace(
-            "vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "docx"
+            'vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'docx'
           ),
         { type: newFileType }
       );
-      console.log("NEW FILE..................", newFile);
-      console.log("NEW FILE TYPE..................", newFileType);
+
       this.setState({
         ieltsfinalFile: newFile,
       });
     }
   }
+
+  customFileFormat = file => {
+    if (file) {
+      return {
+        name: file.path,
+        size: file.fileSizeInBytes,
+      };
+    } else return null;
+  };
+
   handleClick(data, index) {
-    console.log(data, index);
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
       gredate: data.completedExamDate,
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
-      greanalytic: { title: data.analyticalWriting && data.analyticalWriting.toString() },
+      greanalytic: {
+        title: data.analyticalWriting && data.analyticalWriting.toString(),
+      },
       gretotal: data.score,
       greid: data.id,
       greindex: index + 1,
+      finalFile: this.customFileFormat(data.studentDocument),
     });
   }
 
-  documentClick = (data) => {
-    console.log(data);
+  documentClick = data => {
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
-        "/api/v1/files/download/" +
+        '/api/v1/files/download/' +
         this.props.match.params.studentId +
-        "/" +
+        '/' +
         data.path
     );
   };
 
-  handleGmatclick = (data) => {
-    console.log(data);
+  handleGmatclick = data => {
     this.setState({
       gmatshow: true,
       gmatattempt: { title: data.attempt },
@@ -445,10 +440,11 @@ class GraduateTestResult extends Component {
       gmatanalytic: { title: data.analyticalAssessment.toString() },
       gmatdate: data.completedExamDate,
       gmatid: data.id,
+      gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
   };
-  handletoeflClick = (data) => {
-    console.log(data);
+
+  handletoeflClick = data => {
     this.setState({
       toeflshow: true,
       toeflspeak: data.speaking,
@@ -459,10 +455,11 @@ class GraduateTestResult extends Component {
       toefldate: data.completedExamDate,
       toeflscore: data.score,
       toeflid: data.id,
+      toeflfinalFile: this.customFileFormat(data.studentDocument),
     });
   };
-  handleIeltsClick = (data) => {
-    console.log(data);
+
+  handleIeltsClick = data => {
     this.setState({
       ieltsshow: true,
       ieltsspeak: data.speakingScore,
@@ -473,30 +470,29 @@ class GraduateTestResult extends Component {
       ieltsdate: data.completedExamDate,
       ieltsscore: data.totalScore,
       ieltsid: data.id,
+      ieltsfinalFile: this.customFileFormat(data.studentDocument),
     });
   };
+
   handledownload = (data, index) => {
-    console.log(data, index);
-    // console.log(this.props.getgrescoreList[index].studentDocument.path)
     if (
-      data === "GRE" &&
+      data === 'GRE' &&
       this.props.getgrescoreList[index].studentDocument !== null
     ) {
-      // console.log("GRE" && this.props.getgrescoreList[index].studentDocument !== null)
       this.props.downloadGAT(
         this.props.match.params.studentId,
         this.props.getgrescoreList[index].studentDocument.path
       );
       window.open(
         URL +
-          "/api/v1/files/download/" +
+          '/api/v1/files/download/' +
           this.props.match.params.studentId +
-          "/" +
+          '/' +
           this.props.getgrescoreList[index].studentDocument.path
       );
     }
     if (
-      data === "GMAT" &&
+      data === 'GMAT' &&
       this.props.getgmatscoreList[index].studentDocument !== null
     ) {
       this.props.downloadGAT(
@@ -505,14 +501,14 @@ class GraduateTestResult extends Component {
       );
       window.open(
         URL +
-          "/api/v1/files/download/" +
+          '/api/v1/files/download/' +
           this.props.match.params.studentId +
-          "/" +
+          '/' +
           this.props.getgmatscoreList[index].studentDocument.path
       );
     }
     if (
-      data === "TOEFL" &&
+      data === 'TOEFL' &&
       this.props.gettoeflscoreList[index].studentDocument !== null
     ) {
       this.props.downloadGAT(
@@ -521,14 +517,14 @@ class GraduateTestResult extends Component {
       );
       window.open(
         URL +
-          "/api/v1/files/download/" +
+          '/api/v1/files/download/' +
           this.props.match.params.studentId +
-          "/" +
+          '/' +
           this.props.gettoeflscoreList[index].studentDocument.path
       );
     }
     if (
-      data === "IELTS" &&
+      data === 'IELTS' &&
       this.props.getieltsscoreList[index].studentDocument !== null
     ) {
       this.props.downloadGAT(
@@ -537,32 +533,21 @@ class GraduateTestResult extends Component {
       );
       window.open(
         URL +
-          "/api/v1/files/download/" +
+          '/api/v1/files/download/' +
           this.props.match.params.studentId +
-          "/" +
+          '/' +
           this.props.getieltsscoreList[index].studentDocument.path
       );
     }
   };
-  Drop = () => {
-    let files = this.state.files.map((file) => (
-      <li key={file.name}>
-        {file.name} - {file.size} bytes
-      </li>
-    ));
 
-    this.setState({
-      files,
-    });
-  };
-  handleSave = (data) => {
-    console.log(data);
-    if (data === "GRE") {
+  handleSave = data => {
+    if (data === 'GRE') {
       let date = new Date(this.state.gredate).getDate();
       let month = new Date(this.state.gredate).getMonth();
       let year = new Date(this.state.gredate).getFullYear();
       let time = new Date(this.state.gredate).toLocaleTimeString();
-      console.log(time);
+
       let obj = {
         attempt: this.state.greattempt && this.state.greattempt.title,
         expectedExamDate: null,
@@ -573,25 +558,25 @@ class GraduateTestResult extends Component {
         score: this.state.gretotal,
         completedExamDate: this.state.gredate,
       };
-      console.log(obj);
+
       this.props.updategrescore(this.state.greid, obj);
       const d = new FormData();
-      d.append("file", this.state.finalFile);
-      console.log(d);
+      d.append('file', this.state.finalFile);
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
-        "gre",
+        'gre',
         this.state.greid,
         d
       );
       this.setState({
-        snackmsg: "Updated Successfully",
-        snackVariant: "Success",
+        snackmsg: 'Updated Successfully',
+        snackVariant: 'Success',
         snackopen: true,
         show: false,
       });
     }
-    if (data === "GMAT") {
+    if (data === 'GMAT') {
       let obj = {
         attempt: this.state.gmatattempt && this.state.gmatattempt.title,
         expectedExamDate: null,
@@ -603,25 +588,24 @@ class GraduateTestResult extends Component {
         verbalReasoning: this.state.gmatverb,
       };
 
-      console.log(obj);
       this.props.updategmatscore(this.state.gmatid, obj);
       const d = new FormData();
-      d.append("file", this.state.gmatfinalFile);
-      console.log(d);
+      d.append('file', this.state.gmatfinalFile);
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
-        "gmat",
+        'gmat',
         this.state.gmatid,
         d
       );
       this.setState({
-        snackmsg: "Updated Successfully",
-        snackVariant: "Success",
+        snackmsg: 'Updated Successfully',
+        snackVariant: 'Success',
         snackopen: true,
         gmatshow: false,
       });
     }
-    if (data === "TOEFL") {
+    if (data === 'TOEFL') {
       let obj = {
         attempt: this.state.toeflattempt && this.state.toeflattempt.title,
         reading: this.state.toeflread,
@@ -632,25 +616,25 @@ class GraduateTestResult extends Component {
         completedExamDate: this.state.toefldate,
         expectedExamDate: null,
       };
-      console.log(obj);
+
       this.props.updatetoeflscore(this.state.toeflid, obj);
       const d = new FormData();
-      d.append("file", this.state.toeflfinalFile);
-      console.log(d);
+      d.append('file', this.state.toeflfinalFile);
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
-        "tofel",
+        'tofel',
         this.state.toeflid,
         d
       );
       this.setState({
-        snackmsg: "Updated Successfully",
-        snackVariant: "Success",
+        snackmsg: 'Updated Successfully',
+        snackVariant: 'Success',
         snackopen: true,
         toeflshow: false,
       });
     }
-    if (data === "IELTS") {
+    if (data === 'IELTS') {
       let obj = {
         attempt: this.state.ieltsattempt && this.state.ieltsattempt.title,
         readingScore: this.state.ieltsread,
@@ -661,42 +645,43 @@ class GraduateTestResult extends Component {
         completedExamDate: this.state.ieltsdate,
         expectedExamDate: null,
       };
-      console.log(obj);
+
       this.props.updateieltsscore(this.state.ieltsid, obj);
       const d = new FormData();
-      d.append("file", this.state.ieltsfinalFile);
-      console.log(this.state.ieltsfinalFile);
+      d.append('file', this.state.ieltsfinalFile);
+
       this.props.fileuploadGAT(
         this.props.match.params.studentId,
-        "ielts",
+        'ielts',
         this.state.ieltsid,
         d
       );
       this.setState({
-        snackmsg: "Updated Successfully",
-        snackVariant: "Success",
+        snackmsg: 'Updated Successfully',
+        snackVariant: 'Success',
         snackopen: true,
         ieltsshow: false,
       });
     }
   };
+
   attempt = [
-    { title: "1" },
-    { title: "2" },
-    { title: "3" },
-    { title: "4" },
-    { title: "5" },
-    { title: "6" },
-    { title: "7" },
-    { title: "8" },
-    { title: "9" },
-    { title: "10" },
+    { title: '1' },
+    { title: '2' },
+    { title: '3' },
+    { title: '4' },
+    { title: '5' },
+    { title: '6' },
+    { title: '7' },
+    { title: '8' },
+    { title: '9' },
+    { title: '10' },
   ];
 
-  getStatus = (sectionName) => {
+  getStatus = sectionName => {
     if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
       const { studentStatus } = this.props;
-      return studentStatus.find((item) => item.sectionName === sectionName);
+      return studentStatus.find(item => item.sectionName === sectionName);
     }
   };
 
@@ -716,42 +701,21 @@ class GraduateTestResult extends Component {
     />
   );
 
+  renderScoreCard = file => {
+    if (file) {
+      const { name, size } = file;
+      return <li key={name}>{size ? `${name} - ${size} bytes` : name}</li>;
+    } else return null;
+  };
+
   render() {
-    console.log(this.state);
-    console.log(this.props);
-    const files =
-      this.state.finalFile !== null ? (
-        <li key={this.state.finalFile.name}>
-          {this.state.finalFile.name} - {this.state.finalFile.size} bytes
-        </li>
-      ) : null;
-    const gmatfiles =
-      this.state.gmatfinalFile !== null ? (
-        <li key={this.state.gmatfinalFile.name}>
-          {this.state.gmatfinalFile.name} - {this.state.gmatfinalFile.size}{" "}
-          bytes
-        </li>
-      ) : null;
-    const toeflfiles =
-      this.state.toeflfinalFile !== null ? (
-        <li key={this.state.toeflfinalFile.name}>
-          {this.state.toeflfinalFile.name} - {this.state.toeflfinalFile.size}{" "}
-          bytes
-        </li>
-      ) : null;
-    const ieltsfiles =
-      this.state.ieltsfinalFile !== null ? (
-        <li key={this.state.ieltsfinalFile.name}>
-          {this.state.ieltsfinalFile.name} - {this.state.ieltsfinalFile.size}{" "}
-          bytes
-        </li>
-      ) : null;
+    const files = this.renderScoreCard(this.state.finalFile);
+    const gmatfiles = this.renderScoreCard(this.state.gmatfinalFile);
+    const toeflfiles = this.renderScoreCard(this.state.toeflfinalFile);
+    const ieltsfiles = this.renderScoreCard(this.state.ieltsfinalFile);
+
     const { classes } = this.props;
-    if (this.state.finalFile !== null) {
-      console.log(this.state.finalFile.name);
-    }
-    console.log("State.....", this.state);
-    console.log(this.props.downloadGATList);
+
     const { HeadStyle, GridStyle } = style;
 
     return (
@@ -760,19 +724,19 @@ class GraduateTestResult extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "18%",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '18%',
               }}
             >
               <p
                 style={{
-                  fontStyle: "Poppins",
-                  fontWeight: "600",
-                  fontStyle: "normal",
-                  fontSize: "18px",
-                  color: "#0081FF",
+                  fontStyle: 'Poppins',
+                  fontWeight: '600',
+                  fontStyle: 'normal',
+                  fontSize: '18px',
+                  color: '#0081FF',
                 }}
               >
                 Graduate Test Details
@@ -802,20 +766,20 @@ class GraduateTestResult extends Component {
             </div>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               <div
                 style={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                   paddingLeft: 15,
                   paddingTop: 10,
                 }}
               >
-                {this.props.getgrescoreList.length !== 0 ? "GRE" : null}
+                {this.props.getgrescoreList.length !== 0 ? 'GRE' : null}
               </div>
             </div>
             <TableContainer>
@@ -824,98 +788,98 @@ class GraduateTestResult extends Component {
                   {this.props.getgrescoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Verbal Reasoning
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Analytical Writing
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Quantitative Reasoning
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Total
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       ></TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       ></TableCell>
                     </TableRow>
@@ -924,109 +888,112 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
                     this.props.getgrescoreList.map((eachdata, index) => {
+                      console.log(eachdata.expectedExamDate);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = date + "/" + month + "/" + year;
+                      let examdate = date + '/' + month + '/' + year;
                       return (
                         <TableRow>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.completedExamDate)
+                            ).format('MMM yyyy')}
                           </TableCell>
 
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.verbalReasoning}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.analyticalWriting}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.quantitativeReasoning}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
-                            style={{ borderBottom: "none", cursor: "pointer" }}
-                            onClick={() => console.log("hello")}
+                            style={{ borderBottom: 'none', cursor: 'pointer' }}
+                            // onClick={() => }
                           >
                             <div
                               style={{
-                                color: "#407BFF",
+                                color: '#407BFF',
                                 fontSize: 18,
-                                fontStyle: "italic",
+                                fontStyle: 'italic',
                               }}
                             >
                               <IconButton
                                 onClick={() =>
-                                  this.handledownload("GRE", index)
+                                  this.handledownload('GRE', index)
                                 }
                               >
                                 <GetAppIcon />
@@ -1034,7 +1001,7 @@ class GraduateTestResult extends Component {
                               {/* <Link onClick={()=>this.handledownload("GRE",index)}>Access Here</Link> */}
                             </div>
                           </TableCell>
-                          <TableCell style={{ borderBottom: "none" }}>
+                          <TableCell style={{ borderBottom: 'none' }}>
                             <IconButton
                               onClick={() => this.handleClick(eachdata, index)}
                             >
@@ -1042,7 +1009,7 @@ class GraduateTestResult extends Component {
                             </IconButton>
                           </TableCell>
                           <TableCell
-                            style={{ borderBottom: "none" }}
+                            style={{ borderBottom: 'none' }}
                           ></TableCell>
                         </TableRow>
                       );
@@ -1052,20 +1019,20 @@ class GraduateTestResult extends Component {
             </TableContainer>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               <div
                 style={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                   paddingLeft: 15,
                   paddingTop: 10,
                 }}
               >
-                {this.props.getgmatscoreList.length > 0 ? "GMAT" : null}
+                {this.props.getgmatscoreList.length > 0 ? 'GMAT' : null}
               </div>
             </div>
             <TableContainer>
@@ -1074,103 +1041,103 @@ class GraduateTestResult extends Component {
                   {this.props.getgmatscoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Quantitative
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                           width: 20,
                         }}
                       >
                         Analytical Writing Assessment
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                           width: 20,
                         }}
                       >
                         Verbal Reasoning
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                           width: 20,
                         }}
                       >
                         Integrated Reasoning
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Total
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       ></TableCell>
                     </TableRow>
@@ -1179,123 +1146,126 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgmatscoreList !== null &&
                     this.props.getgmatscoreList.map((eachdata, index) => {
+                      console.log(eachdata);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = date + "/" + month + "/" + year;
+                      let examdate = date + '/' + month + '/' + year;
                       return (
                         <TableRow>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.completedExamDate)
+                            ).format('MMM yyyy')}
                           </TableCell>
 
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.quantitativeReasoning}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.analyticalAssessment}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.verbalReasoning}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.integratedReasoning}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
-                            style={{ borderBottom: "none" }}
+                            style={{ borderBottom: 'none' }}
                           >
-                            <div style={{ color: "#407BFF", fontSize: 18 }}>
+                            <div style={{ color: '#407BFF', fontSize: 18 }}>
                               <div
                                 style={{
-                                  color: "#407BFF",
+                                  color: '#407BFF',
                                   fontSize: 18,
-                                  fontStyle: "italic",
+                                  fontStyle: 'italic',
                                 }}
                               >
                                 <IconButton
                                   onClick={() =>
-                                    this.handledownload("GMAT", index)
+                                    this.handledownload('GMAT', index)
                                   }
                                 >
                                   <GetAppIcon />
@@ -1319,20 +1289,20 @@ class GraduateTestResult extends Component {
             </TableContainer>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               <div
                 style={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                   paddingLeft: 15,
                   paddingTop: 10,
                 }}
               >
-                {this.props.gettoeflscoreList.length !== 0 ? "TOEFL" : null}
+                {this.props.gettoeflscoreList.length !== 0 ? 'TOEFL' : null}
               </div>
               <div></div>
             </div>
@@ -1342,100 +1312,100 @@ class GraduateTestResult extends Component {
                   {this.props.gettoeflscoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Reading
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Writing
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
-                        Speaking{" "}
+                        Speaking{' '}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Listening
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Total
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       ></TableCell>
                     </TableRow>
@@ -1450,124 +1420,126 @@ class GraduateTestResult extends Component {
                       let year = new Date(
                         eachdata.completedExamDate
                       ).getFullYear();
-                      let examdate = date + "/" + month + "/" + year;
+                      let examdate = date + '/' + month + '/' + year;
                       return (
                         <TableRow>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
-                            {examdate}
+                            {moment(
+                              new Date(eachdata && eachdata.completedExamDate)
+                            ).format('MMM yyyy')}
                           </TableCell>
 
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.reading}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.writing}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.speaking}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
                             {eachdata.listening}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
                             style={{
-                              color: "#000000",
+                              color: '#000000',
                               fontWeight: 400,
                               fontSize: 14,
-                              fontFamily: "Montserrat",
-                              borderBottom: "none",
+                              fontFamily: 'Montserrat',
+                              borderBottom: 'none',
                             }}
                           >
-                            {" "}
+                            {' '}
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align="center"
+                            align='center'
                             contentEditable={this.state.disable}
-                            style={{ borderBottom: "none" }}
+                            style={{ borderBottom: 'none' }}
                           >
                             <div
                               style={{
-                                color: "#407BFF",
+                                color: '#407BFF',
                                 fontSize: 18,
-                                fontStyle: "italic",
+                                fontStyle: 'italic',
                               }}
                             >
                               <div
                                 style={{
-                                  color: "#407BFF",
+                                  color: '#407BFF',
                                   fontSize: 18,
-                                  fontStyle: "italic",
+                                  fontStyle: 'italic',
                                 }}
                               >
                                 <IconButton
                                   onClick={() =>
-                                    this.handledownload("TOEFL", index)
+                                    this.handledownload('TOEFL', index)
                                   }
                                 >
                                   <GetAppIcon />
@@ -1591,20 +1563,20 @@ class GraduateTestResult extends Component {
             </TableContainer>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}
             >
               <div
                 style={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                   paddingLeft: 15,
                   paddingTop: 10,
                 }}
               >
-                {this.props.getieltsscoreList.length !== 0 ? "IELTS" : null}
+                {this.props.getieltsscoreList.length !== 0 ? 'IELTS' : null}
               </div>
               <div></div>
             </div>
@@ -1614,100 +1586,100 @@ class GraduateTestResult extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Reading
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Writing
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
-                        Speaking{" "}
+                        Speaking{' '}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Listening
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Total
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       >
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{
-                          color: "#000000",
+                          color: '#000000',
                           fontWeight: 400,
                           fontSize: 14,
-                          fontFamily: "Montserrat",
+                          fontFamily: 'Montserrat',
                         }}
                       ></TableCell>
                     </TableRow>
@@ -1715,6 +1687,7 @@ class GraduateTestResult extends Component {
                   <TableBody>
                     {this.props.getieltsscoreList.length !== 0 &&
                       this.props.getieltsscoreList.map((eachdata, index) => {
+                        console.log(eachdata);
                         let date = new Date(
                           eachdata.completedExamDate
                         ).getDate();
@@ -1723,115 +1696,117 @@ class GraduateTestResult extends Component {
                         let year = new Date(
                           eachdata.completedExamDate
                         ).getFullYear();
-                        let ieltsdate = date + "/" + month + "/" + year;
+                        let ieltsdate = date + '/' + month + '/' + year;
                         return (
                           <TableRow>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.attempt}
                             </TableCell>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
-                              {ieltsdate}
+                              {moment(
+                                new Date(eachdata && eachdata.completedExamDate)
+                              ).format('MMM yyyy')}
                             </TableCell>
 
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.readingScore}
                             </TableCell>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.writingScore}
                             </TableCell>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.speakingScore}
                             </TableCell>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.listeningScore}
                             </TableCell>
                             <TableCell
-                              align="center"
+                              align='center'
                               contentEditable={this.state.disable}
                               style={{
-                                color: "#000000",
+                                color: '#000000',
                                 fontWeight: 400,
                                 fontSize: 14,
-                                fontFamily: "Montserrat",
-                                borderBottom: "none",
+                                fontFamily: 'Montserrat',
+                                borderBottom: 'none',
                               }}
                             >
                               {eachdata.totalScore}
                             </TableCell>
                             <TableCell
-                              align="center"
-                              style={{ borderBottom: "none" }}
+                              align='center'
+                              style={{ borderBottom: 'none' }}
                             >
                               <div
                                 style={{
-                                  color: "#407BFF",
+                                  color: '#407BFF',
                                   fontSize: 18,
-                                  fontStyle: "italic",
+                                  fontStyle: 'italic',
                                 }}
                               >
                                 <IconButton
                                   onClick={() =>
-                                    this.handledownload("IELTS", index)
+                                    this.handledownload('IELTS', index)
                                   }
                                 >
                                   <GetAppIcon />
@@ -1853,29 +1828,29 @@ class GraduateTestResult extends Component {
                 </Table>
               )}
             </TableContainer>
-            <Grid item md={12} container justifyContent={"space-between"}>
+            <Grid item md={12} container justifyContent={'space-between'}>
               <p style={HeadStyle}>Documents Received</p>
               <IconButton
                 onClick={() =>
                   this.setState({ documentedit: !this.state.documentedit })
                 }
               >
-                <EditRoundedIcon color={"inherit"} />
+                <EditRoundedIcon color={'inherit'} />
               </IconButton>
             </Grid>
             {this.props.getAllDocumentList.GRE &&
               this.props.getAllDocumentList.GRE.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction="column">
+                  <Grid item md={12} direction='column'>
                     <p style={GridStyle}>GRE</p>
                   </Grid>
                   <Grid item={12} container>
                     {this.props.getAllDocumentList.GRE
-                      ? this.props.getAllDocumentList.GRE.map((data) => (
+                      ? this.props.getAllDocumentList.GRE.map(data => (
                           <Grid
                             item
                             md={4}
-                            direction="row"
+                            direction='row'
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1883,7 +1858,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category="Gre"
+                              category='Gre'
                               id={data.greId}
                               status={this.state.documentedit}
                             />
@@ -1896,16 +1871,16 @@ class GraduateTestResult extends Component {
             {this.props.getAllDocumentList.GMAT &&
               this.props.getAllDocumentList.GMAT.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction="column">
+                  <Grid item md={12} direction='column'>
                     <p style={GridStyle}>GMAT</p>
                   </Grid>
                   <Grid item={12} container>
                     {this.props.getAllDocumentList.GMAT
-                      ? this.props.getAllDocumentList.GMAT.map((data) => (
+                      ? this.props.getAllDocumentList.GMAT.map(data => (
                           <Grid
                             item
                             md={4}
-                            direction="row"
+                            direction='row'
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1913,7 +1888,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category="Gmat"
+                              category='Gmat'
                               id={data.gmatId}
                               status={this.state.documentedit}
                             />
@@ -1931,11 +1906,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item={12} container>
                     {this.props.getAllDocumentList.TOEFL
-                      ? this.props.getAllDocumentList.TOEFL.map((data) => (
+                      ? this.props.getAllDocumentList.TOEFL.map(data => (
                           <Grid
                             item
                             md={4}
-                            direction="row"
+                            direction='row'
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1943,7 +1918,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category="Toefl"
+                              category='Toefl'
                               id={data.tofelId}
                               status={this.state.documentedit}
                             />
@@ -1956,16 +1931,16 @@ class GraduateTestResult extends Component {
             {this.props.getAllDocumentList.IELTS &&
               this.props.getAllDocumentList.IELTS.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction="column">
+                  <Grid item md={12} direction='column'>
                     <p style={GridStyle}>IELTS</p>
                   </Grid>
                   <Grid item={12} container>
                     {this.props.getAllDocumentList.IELTS
-                      ? this.props.getAllDocumentList.IELTS.map((data) => (
+                      ? this.props.getAllDocumentList.IELTS.map(data => (
                           <Grid
                             item
                             md={4}
-                            direction="row"
+                            direction='row'
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1973,7 +1948,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category="Ielts"
+                              category='Ielts'
                               id={data.ieltsId}
                               status={this.state.documentedit}
                             />
@@ -1990,12 +1965,14 @@ class GraduateTestResult extends Component {
               <Grid container spacing={3}>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.greDateList.length > 0 ? "GRE" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.greDateList.length > 0 ? 'GRE' : ''}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
                       {this.state.greDateList &&
-                        this.state.greDateList.map((eachdata) => {
+                        this.state.greDateList.map(eachdata => {
                           return (
                             <Grid item md={3}>
                               <ExamDateCard date={eachdata.expectedExamDate} />
@@ -2007,12 +1984,14 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.gmatDateList.length > 0 ? "GMAT" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.gmatDateList.length > 0 ? 'GMAT' : ''}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
                       {this.state.gmatDateList &&
-                        this.state.gmatDateList.map((eachdata) => {
+                        this.state.gmatDateList.map(eachdata => {
                           return (
                             <Grid item md={3}>
                               <ExamDateCard date={eachdata.expectedExamDate} />
@@ -2024,12 +2003,14 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "TOEFL" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.toeflDateList.length > 0 ? 'TOEFL' : ''}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
                       {this.state.toeflDateList &&
-                        this.state.toeflDateList.map((eachdata) => {
+                        this.state.toeflDateList.map(eachdata => {
                           return (
                             <Grid item md={3}>
                               <ExamDateCard date={eachdata.expectedExamDate} />
@@ -2041,12 +2022,14 @@ class GraduateTestResult extends Component {
                 </Grid>
                 <Grid item md={12}>
                   <Grid item md={12}>
-                    <p style={GridStyle}>{this.state.toeflDateList.length > 0 ? "IELTS" : ""}</p>
+                    <p style={GridStyle}>
+                      {this.state.toeflDateList.length > 0 ? 'IELTS' : ''}
+                    </p>
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
                       {this.state.ieltsDateList &&
-                        this.state.ieltsDateList.map((eachdata) => {
+                        this.state.ieltsDateList.map(eachdata => {
                           return (
                             <Grid item md={3}>
                               <ExamDateCard date={eachdata.expectedExamDate} />
@@ -2062,7 +2045,7 @@ class GraduateTestResult extends Component {
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
-              maxWidth="sm"
+              maxWidth='sm'
               fullWidth={true}
             >
               <DialogContent>
@@ -2070,9 +2053,9 @@ class GraduateTestResult extends Component {
                   <Grid item md={12}>
                     <Typography
                       style={{
-                        fontFamily: "Montserrat",
+                        fontFamily: 'Montserrat',
                         fontSize: 18,
-                        color: "#052A4E",
+                        color: '#052A4E',
                         fontWeight: 600,
                       }}
                     >
@@ -2082,51 +2065,63 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       options={this.attempt}
                       value={this.state.greattempt}
                       onChange={(e, newValue) =>
                         this.setState({ greattempt: newValue })
                       }
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Attempt"
-                          variant="standard"
+                          label='Attempt'
+                          variant='standard'
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
-                      disableFuture
-                      margin="normal"
+                    {/* <KeyboardDatePicker
+                     
+                     
                       id="date-picker-dialog"
-                      label="Exam Date"
-                      format="dd/MM/yyyy"
-                      fullWidth
-                      value={this.state.gredate}
+                      
+                      format="MMM/yyyy"
+                     
+                     
                       onChange={(newValue) =>
                         this.setState({ gredate: new Date(newValue) })
                       }
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
+                    /> */}
+                    <TextField
+                      disableFuture
+                      margin='normal'
+                      label='Exam Date'
+                      value={this.state.gredate}
+                      type='month'
+                      onChange={e => this.setState({ gredate: e.target.value })}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name='ExamDate'
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Quantative Reasoning (Max Score 170)"
+                      type='number'
+                      label='Quantative Reasoning (Max Score 170)'
                       fullWidth
                       value={this.state.grequan}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 170) {
                           e.preventDefault();
                         } else {
@@ -2139,11 +2134,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Verbal Reasoning (Max Score 170)"
+                      type='number'
+                      label='Verbal Reasoning (Max Score 170)'
                       fullWidth
                       value={this.state.greverbal}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 170) {
                           e.preventDefault();
                         } else {
@@ -2156,11 +2151,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Total (Max Score 340)"
+                      type='number'
+                      label='Total (Max Score 340)'
                       fullWidth
                       value={this.state.gretotal}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 340) {
                           e.preventDefault();
                         } else {
@@ -2184,23 +2179,22 @@ class GraduateTestResult extends Component {
                       }
                     /> */}
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       options={this.analyticalArr}
                       value={this.state.greanalytic}
                       onChange={(e, newValue) =>
                         this.setState({ greanalytic: newValue })
                       }
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Analytical Writing (Max Score 6)"
-                          variant="standard"
+                          label='Analytical Writing (Max Score 6)'
+                          variant='standard'
                         />
                       )}
                     />
@@ -2211,36 +2205,36 @@ class GraduateTestResult extends Component {
                         <section>
                           <div
                             style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
+                              height: '100px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              border: '1px dashed #1093FF',
                             }}
-                            {...getRootProps({ className: "dropzone" })}
+                            {...getRootProps({ className: 'dropzone' })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
+                            <PublishRoundedIcon color='primary' />
                           </div>
                           <Typography
                             style={{
-                              paddingTop: "5px",
-                              display: this.state.fileErr ? "block" : "none",
+                              paddingTop: '5px',
+                              display: this.state.fileErr ? 'block' : 'none',
                             }}
-                            variant={"body2"}
-                            color={"secondary"}
+                            variant={'body2'}
+                            color={'secondary'}
                           >
                             Marksheet/Transcript
                           </Typography>
                           <aside>
                             <p
                               style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
+                                color: '#686868',
+                                fontFamily: 'Montserrat',
                               }}
                             >
-                              File Size: less than 1MB | Format: PDF{" "}
+                              {'File Size: less than 1MB | Format: PDF'}
                             </p>
                             {/* <h4>Files</h4> */}
                             <ul>
@@ -2254,19 +2248,19 @@ class GraduateTestResult extends Component {
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"contained"}
-                      style={{ width: "130px", textTransform: "none" }}
-                      onClick={() => this.handleSave("GRE")}
+                      color={'primary'}
+                      variant={'contained'}
+                      style={{ width: '130px', textTransform: 'none' }}
+                      onClick={() => this.handleSave('GRE')}
                     >
                       Save
                     </PrimaryButton>
                   </Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"outlined"}
-                      style={{ width: "130px", textTransform: "none" }}
+                      color={'primary'}
+                      variant={'outlined'}
+                      style={{ width: '130px', textTransform: 'none' }}
                       onClick={() => this.setState({ show: false })}
                     >
                       Cancel
@@ -2285,9 +2279,9 @@ class GraduateTestResult extends Component {
                   <Grid item md={12}>
                     <Typography
                       style={{
-                        fontFamily: "Montserrat",
+                        fontFamily: 'Montserrat',
                         fontSize: 18,
-                        color: "#052A4E",
+                        color: '#052A4E',
                         fontWeight: 600,
                       }}
                     >
@@ -2297,53 +2291,66 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       options={this.attempt}
                       value={this.state.gmatattempt}
                       onChange={(e, newValue) => {
                         this.setState({ gmatattempt: newValue });
                       }}
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Attempt"
-                          variant="standard"
+                          label='Attempt'
+                          variant='standard'
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin='normal'
+                      label='Exam Date'
+                      value={this.state.gmatdate}
+                      type='month'
+                      onChange={e =>
+                        this.setState({ gmatdate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name='ExamDate'
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
-                      format="dd/MM/yyyy"
+                      format="MMM/yyyy"
                       fullWidth
-                      value={this.state.gmatdate}
+                     
                       // disabled
                       onChange={(newValue) => {
-                        console.log(newValue);
                         this.setState({ gmatdate: new Date(newValue) });
                       }}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Quantative Reasoning (Max Score 60)"
+                      type='number'
+                      label='Quantative Reasoning (Max Score 60)'
                       fullWidth
                       value={this.state.gmatquan}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 60) {
                           e.preventDefault();
                         } else {
@@ -2363,34 +2370,33 @@ class GraduateTestResult extends Component {
                       }
                     /> */}
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       options={this.analyticalArr}
                       value={this.state.gmatanalytic}
                       onChange={(e, newValue) =>
                         this.setState({ gmatanalytic: newValue })
                       }
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Analytical Writing Assessment (Max Score 6)"
-                          variant="standard"
+                          label='Analytical Writing Assessment (Max Score 6)'
+                          variant='standard'
                         />
                       )}
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Integrated Reasoning (Max Score 8)"
+                      type='number'
+                      label='Integrated Reasoning (Max Score 8)'
                       fullWidth
                       value={this.state.gmatint}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 8) {
                           e.preventDefault();
                         } else {
@@ -2401,11 +2407,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Verbal Reasoning (Max Score 60)"
+                      type='number'
+                      label='Verbal Reasoning (Max Score 60)'
                       fullWidth
                       value={this.state.gmatverb}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 60) {
                           e.preventDefault();
                         } else {
@@ -2416,11 +2422,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Total (Max Score 800)"
+                      type='number'
+                      label='Total (Max Score 800)'
                       fullWidth
                       value={this.state.gmatscore}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 800) {
                           e.preventDefault();
                         } else {
@@ -2436,38 +2442,38 @@ class GraduateTestResult extends Component {
                         <section>
                           <div
                             style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
+                              height: '100px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              border: '1px dashed #1093FF',
                             }}
-                            {...getRootProps({ className: "dropzone" })}
+                            {...getRootProps({ className: 'dropzone' })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
+                            <PublishRoundedIcon color='primary' />
                           </div>
                           <Typography
                             style={{
-                              paddingTop: "5px",
+                              paddingTop: '5px',
                               display: this.state.gmatfileErr
-                                ? "block"
-                                : "none",
+                                ? 'block'
+                                : 'none',
                             }}
-                            variant={"body2"}
-                            color={"secondary"}
+                            variant={'body2'}
+                            color={'secondary'}
                           >
                             Marksheet/Transcript
                           </Typography>
                           <aside>
                             <p
                               style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
+                                color: '#686868',
+                                fontFamily: 'Montserrat',
                               }}
                             >
-                              File Size: less than 1MB | Format: PDF{" "}
+                              {'File Size: less than 1MB | Format: PDF'}
                             </p>
                             {/* <h4>Files</h4> */}
                             <ul>
@@ -2483,19 +2489,19 @@ class GraduateTestResult extends Component {
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"contained"}
-                      style={{ width: "130px", textTransform: "none" }}
-                      onClick={() => this.handleSave("GMAT")}
+                      color={'primary'}
+                      variant={'contained'}
+                      style={{ width: '130px', textTransform: 'none' }}
+                      onClick={() => this.handleSave('GMAT')}
                     >
                       Save
                     </PrimaryButton>
                   </Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"outlined"}
-                      style={{ width: "130px", textTransform: "none" }}
+                      color={'primary'}
+                      variant={'outlined'}
+                      style={{ width: '130px', textTransform: 'none' }}
                       onClick={() => this.setState({ gmatshow: false })}
                     >
                       Cancel
@@ -2513,9 +2519,9 @@ class GraduateTestResult extends Component {
                   <Grid item md={12}>
                     <Typography
                       style={{
-                        fontFamily: "Montserrat",
+                        fontFamily: 'Montserrat',
                         fontSize: 18,
-                        color: "#052A4E",
+                        color: '#052A4E',
                         fontWeight: 600,
                       }}
                     >
@@ -2525,8 +2531,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       // disabled={this.state.disable}
                       options={this.attempt}
@@ -2534,27 +2540,41 @@ class GraduateTestResult extends Component {
                       onChange={(e, newValue) => {
                         this.setState({ toeflattempt: newValue });
                       }}
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Attempt"
-                          variant="standard"
+                          label='Attempt'
+                          variant='standard'
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin='normal'
+                      label='Exam Date'
+                      value={this.state.toefldate}
+                      type='month'
+                      onChange={e =>
+                        this.setState({ toefldate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name='ExamDate'
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
                       label="Exam Date"
                       disableFuture
-                      format="dd/MM/yyyy"
+                      format="MMM/yyyy"
                       fullWidth
                       value={this.state.toefldate}
                       // disabled
@@ -2564,15 +2584,15 @@ class GraduateTestResult extends Component {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Reading (Max Score 30)"
+                      type='number'
+                      label='Reading (Max Score 30)'
                       fullWidth
                       value={this.state.toeflread}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 30) {
                           e.preventDefault();
                         } else {
@@ -2583,11 +2603,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Writing (Max Score 30)"
+                      type='number'
+                      label='Writing (Max Score 30)'
                       fullWidth
                       value={this.state.toeflwrite}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 30) {
                           e.preventDefault();
                         } else {
@@ -2598,11 +2618,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Speaking (Max Score 30)"
+                      type='number'
+                      label='Speaking (Max Score 30)'
                       fullWidth
                       value={this.state.toeflspeak}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 30) {
                           e.preventDefault();
                         } else {
@@ -2613,11 +2633,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Listening (Max Score 30)"
+                      type='number'
+                      label='Listening (Max Score 30)'
                       fullWidth
                       value={this.state.toefllis}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 30) {
                           e.preventDefault();
                         } else {
@@ -2628,11 +2648,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Total (Max Score 120)"
+                      type='number'
+                      label='Total (Max Score 120)'
                       fullWidth
                       value={this.state.toeflscore}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 120) {
                           e.preventDefault();
                         } else {
@@ -2648,38 +2668,38 @@ class GraduateTestResult extends Component {
                         <section>
                           <div
                             style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
+                              height: '100px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              border: '1px dashed #1093FF',
                             }}
-                            {...getRootProps({ className: "dropzone" })}
+                            {...getRootProps({ className: 'dropzone' })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
+                            <PublishRoundedIcon color='primary' />
                           </div>
                           <Typography
                             style={{
-                              paddingTop: "5px",
+                              paddingTop: '5px',
                               display: this.state.toeflfileErr
-                                ? "block"
-                                : "none",
+                                ? 'block'
+                                : 'none',
                             }}
-                            variant={"body2"}
-                            color={"secondary"}
+                            variant={'body2'}
+                            color={'secondary'}
                           >
                             Marksheet/Transcript
                           </Typography>
                           <aside>
                             <p
                               style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
+                                color: '#686868',
+                                fontFamily: 'Montserrat',
                               }}
                             >
-                              File Size: less than 1MB | Format: PDF{" "}
+                              {'File Size: less than 1MB | Format: PDF'}
                             </p>
                             {/* <h4>Files</h4> */}
                             <ul>
@@ -2695,19 +2715,19 @@ class GraduateTestResult extends Component {
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"contained"}
-                      style={{ width: "130px", textTransform: "none" }}
-                      onClick={() => this.handleSave("TOEFL")}
+                      color={'primary'}
+                      variant={'contained'}
+                      style={{ width: '130px', textTransform: 'none' }}
+                      onClick={() => this.handleSave('TOEFL')}
                     >
                       Save
                     </PrimaryButton>
                   </Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"outlined"}
-                      style={{ width: "130px", textTransform: "none" }}
+                      color={'primary'}
+                      variant={'outlined'}
+                      style={{ width: '130px', textTransform: 'none' }}
                       onClick={() => this.setState({ toeflshow: false })}
                     >
                       Cancel
@@ -2725,9 +2745,9 @@ class GraduateTestResult extends Component {
                   <Grid item md={12}>
                     <Typography
                       style={{
-                        fontFamily: "Montserrat",
+                        fontFamily: 'Montserrat',
                         fontSize: 18,
-                        color: "#052A4E",
+                        color: '#052A4E',
                         fontWeight: 600,
                       }}
                     >
@@ -2737,30 +2757,43 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id="combo-box-demo"
+                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      id='combo-box-demo'
                       fullWidth
                       options={this.attempt}
                       value={this.state.ieltsattempt}
                       onChange={(e, newValue) => {
-                        console.log(newValue);
                         this.setState({ ieltsattempt: newValue });
                       }}
-                      getOptionLabel={(option) => {
-                        console.log(option);
+                      getOptionLabel={option => {
                         return option.title;
                       }}
-                      renderInput={(params) => (
+                      renderInput={params => (
                         <TextField
                           {...params}
-                          label="Attempt"
-                          variant="standard"
+                          label='Attempt'
+                          variant='standard'
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <KeyboardDatePicker
+                    <TextField
+                      disableFuture
+                      margin='normal'
+                      label='Exam Date'
+                      value={this.state.ieltsdate}
+                      type='month'
+                      onChange={e =>
+                        this.setState({ ieltsdate: e.target.value })
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      fullWidth
+                      name='ExamDate'
+                    />
+                    {/* <KeyboardDatePicker
                       disableFuture
                       margin="normal"
                       id="date-picker-dialog"
@@ -2774,15 +2807,15 @@ class GraduateTestResult extends Component {
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
-                    />
+                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Reading (Max Score 9)"
+                      type='number'
+                      label='Reading (Max Score 9)'
                       fullWidth
                       value={this.state.ieltsread}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 9) {
                           e.preventDefault();
                         } else {
@@ -2793,11 +2826,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Writing (Max Score 9)"
+                      type='number'
+                      label='Writing (Max Score 9)'
                       fullWidth
                       value={this.state.ieltswrite}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 9) {
                           e.preventDefault();
                         } else {
@@ -2808,11 +2841,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Speaking (Max Score 9)"
+                      type='number'
+                      label='Speaking (Max Score 9)'
                       fullWidth
                       value={this.state.ieltsspeak}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 9) {
                           e.preventDefault();
                         } else {
@@ -2823,11 +2856,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Listening (Max Score 9)"
+                      type='number'
+                      label='Listening (Max Score 9)'
                       fullWidth
                       value={this.state.ieltslis}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 9) {
                           e.preventDefault();
                         } else {
@@ -2838,11 +2871,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type="number"
-                      label="Total (Max Score 9)"
+                      type='number'
+                      label='Total (Max Score 9)'
                       fullWidth
                       value={this.state.ieltsscore}
-                      onChange={(e) => {
+                      onChange={e => {
                         if (parseInt(e.target.value) > 9) {
                           e.preventDefault();
                         } else {
@@ -2858,38 +2891,38 @@ class GraduateTestResult extends Component {
                         <section>
                           <div
                             style={{
-                              height: "100px",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              cursor: "pointer",
-                              border: "1px dashed #1093FF",
+                              height: '100px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              border: '1px dashed #1093FF',
                             }}
-                            {...getRootProps({ className: "dropzone" })}
+                            {...getRootProps({ className: 'dropzone' })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color="primary" />
+                            <PublishRoundedIcon color='primary' />
                           </div>
                           <Typography
                             style={{
-                              paddingTop: "5px",
+                              paddingTop: '5px',
                               display: this.state.ieltsfileErr
-                                ? "block"
-                                : "none",
+                                ? 'block'
+                                : 'none',
                             }}
-                            variant={"body2"}
-                            color={"secondary"}
+                            variant={'body2'}
+                            color={'secondary'}
                           >
                             Marksheet/Transcript
                           </Typography>
                           <aside>
                             <p
                               style={{
-                                color: "#686868",
-                                fontFamily: "Montserrat",
+                                color: '#686868',
+                                fontFamily: 'Montserrat',
                               }}
                             >
-                              File Size: less than 1MB | Format: PDF{" "}
+                              {'File Size: less than 1MB | Format: PDF'}
                             </p>
                             {/* <h4>Files</h4> */}
                             <ul>
@@ -2905,19 +2938,19 @@ class GraduateTestResult extends Component {
                   <Grid item md={6} sm={6} xs={6}></Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"contained"}
-                      style={{ width: "130px", textTransform: "none" }}
-                      onClick={() => this.handleSave("IELTS")}
+                      color={'primary'}
+                      variant={'contained'}
+                      style={{ width: '130px', textTransform: 'none' }}
+                      onClick={() => this.handleSave('IELTS')}
                     >
                       Save
                     </PrimaryButton>
                   </Grid>
                   <Grid item md={3}>
                     <PrimaryButton
-                      color={"primary"}
-                      variant={"outlined"}
-                      style={{ width: "130px", textTransform: "none" }}
+                      color={'primary'}
+                      variant={'outlined'}
+                      style={{ width: '130px', textTransform: 'none' }}
                       onClick={() => this.setState({ ieltsshow: false })}
                     >
                       Cancel
@@ -2942,23 +2975,23 @@ class GraduateTestResult extends Component {
 
 const style = {
   HeadStyle: {
-    paddingTop: "18px",
-    fontStyle: "Poppins",
-    fontWeight: "600",
-    fontStyle: "normal",
-    fontSize: "18px",
-    color: "#0081FF",
+    paddingTop: '18px',
+    fontStyle: 'Poppins',
+    fontWeight: '600',
+    fontStyle: 'normal',
+    fontSize: '18px',
+    color: '#0081FF',
   },
   GridStyle: {
-    fontStyle: "Montserrat",
-    fontWeight: "700",
-    fontStyle: "normal",
-    fontSize: "16px",
-    color: "#052A4E",
+    fontStyle: 'Montserrat',
+    fontWeight: '700',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    color: '#052A4E',
   },
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     getgrescoreList: state.CallReducer.getgrescore,
     getieltsscoreList: state.CallReducer.getieltsscore,

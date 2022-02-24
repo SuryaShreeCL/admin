@@ -6,8 +6,8 @@ const initialState = {
   University: [],
   deleteUniversity : [],
   Degree: [],
-  addCollege:[],
-  updateColleges:[],
+  addCollegeStatus:[],
+  updateCollegeStatus:[],
   deleteCollege : [],
   addUniversity:[],
   updateUniversity:[],
@@ -22,12 +22,12 @@ export default (state = initialState, action) => {
     case COLLEGES.addCollges:
       return {
         ...state,
-        addCollge: action.addCollege,
+        addCollegeStatus: action.payload,
       };
     case COLLEGES.updateColleges:
       return{
         ...state,
-        updateColleges:action.updateColleges,
+        updateCollegeStatus:action.payload,
       }
       case COLLEGES.deleteCollege:
       return{

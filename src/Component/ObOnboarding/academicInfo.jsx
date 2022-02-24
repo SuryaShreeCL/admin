@@ -50,7 +50,8 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
-import { ErrorMessage } from "../Validation";
+import { ErrorMessage, isNumber } from "../Validation";
+import * as moment from "moment";
 
 const theme = createMuiTheme({
   overrides: {
@@ -188,50 +189,6 @@ export class academicInfo extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.pgEndDate !== prevState.pgEndDate) {
-      if (this.state.pgStartDate === this.state.pgEndDate) {
-        this.setState({
-          pgEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.ugEndDate !== prevState.ugEndDate) {
-      if (this.state.ugStartDate === this.state.ugEndDate) {
-        this.setState({
-          ugEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.diplomoEndDate !== prevState.diplomoEndDate) {
-      if (this.state.diplomostartDate === this.state.diplomoEndDate) {
-        this.setState({
-          diplomoEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    if (this.state.twelthEndDate !== prevState.twelthEndDate) {
-      if (this.state.twelthStartDate === this.state.twelthEndDate) {
-        this.setState({
-          twelthEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
-    // if (
-    //   this.props.updateAcademicInfoList !== prevProps.updateAcademicInfoList
-    // ) {
-    //   this.setState({
-    //     snackMsg: "Updated Successfully",
-    //     snackOpen: true,
-    //     snackVariant: "success",
-    //   });
-    // }
-    if (this.state.tenthEndDate !== prevState.tenthEndDate) {
-      if (this.state.tenthStartDate === this.state.tenthEndDate) {
-        this.setState({
-          tenthEndDateErr: "Please Choose the Valid date",
-        });
-      }
-    }
     if (
       this.props.getAcademicInfoList.length > 0 &&
       this.props.getAcademicInfoList !== prevProps.getAcademicInfoList
@@ -284,7 +241,7 @@ export class academicInfo extends Component {
       });
       if (diplomaDetails) {
         const { diplomaType } = diplomaDetails;
-        console.log(diplomaDetails);
+
         var diplomoScale = diplomaDetails.scoreScale;
         this.setState({
           diplomaCollege: diplomaDetails.college,
@@ -313,7 +270,13 @@ export class academicInfo extends Component {
           tenthExamBoard: tenthDetails.examBoard,
           tenthCgpaScale: { title: tenthScale.toString(), value: tenthScale },
           tenthStartDate: tenthDetails.startDate,
+          //  moment(new Date(tenthDetails.startDate)).format(
+          //   "yyyy-MM"
+          // ),
           tenthEndDate: tenthDetails.endDate,
+          // moment(new Date(tenthDetails.endDate)).format(
+          //   "yyyy-MM"
+          // ),
           tenthCgpa: tenthDetails.score,
         });
       }
@@ -324,12 +287,18 @@ export class academicInfo extends Component {
           twelthDetails = data;
         }
       });
-      console.log(twelthDetails);
+
       if (twelthDetails) {
         var twelthScale = twelthDetails.scoreScale;
         this.setState({
           twelthSchool: twelthDetails.schoolName,
           twelthExamBoard: twelthDetails.examBoard,
+          // twelthStartDate: moment(new Date(twelthDetails.startDate)).format(
+          //   "yyyy-MM"
+          // ),
+          // twelthEndDate: moment(new Date(twelthDetails.endDate)).format(
+          //   "yyyy-MM"
+          // ),
           twelthStartDate: twelthDetails.startDate,
           twelthEndDate: twelthDetails.endDate,
           twelthCgpa: twelthDetails.score,
@@ -342,7 +311,6 @@ export class academicInfo extends Component {
     }
   }
   documentClick = (data) => {
-    console.log(data);
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
@@ -354,7 +322,6 @@ export class academicInfo extends Component {
   };
 
   handleChange = (panel) => (event, newExpanded) => {
-    console.log(panel, newExpanded);
     this.setState({ expanded: newExpanded ? panel : false });
   };
 
@@ -414,7 +381,12 @@ export class academicInfo extends Component {
   }))(MuiAccordionDetails);
 
   handleSave = () => {
-    console.log(this.state);
+    console.log(
+      "handleSave////////////////////////////",
+      this.state.pgEndDate,
+      this.state.pgStartDate
+    );
+    var error = false;
     let hlptxt = "Please fill the required field";
     // this.state.pgCollege === ""
     //   ? this.setState({ pgCollegeErr: hlptxt })
@@ -558,7 +530,7 @@ export class academicInfo extends Component {
     //   ? this.setState({ twelthCgpaScaleErr: hlptxt })
     //   : this.setState({ twelthCgpaScaleErr: "" });
     {
-      let obj = [
+      var obj = [
         {
           examBoard: {
             id: this.state.tenthExamBoard.id,
@@ -566,8 +538,10 @@ export class academicInfo extends Component {
           schoolName: this.state.tenthSchool,
           score: this.state.tenthCgpa,
           scoreScale: this.state.tenthCgpaScale.title,
-          startDate: new Date(this.state.tenthStartDate),
-          endDate: new Date(this.state.tenthEndDate),
+          // startDate: new Date(this.state.tenthStartDate),
+          strStartDate: this.state.tenthStartDate,
+          strEndDate: this.state.tenthEndDate,
+          // endDate: new Date(this.state.tenthEndDate),
           type: "ssc",
         },
         {
@@ -577,8 +551,10 @@ export class academicInfo extends Component {
           schoolName: this.state.twelthSchool,
           score: this.state.twelthCgpa,
           scoreScale: this.state.twelthCgpaScale.title,
-          startDate: new Date(this.state.twelthStartDate),
-          endDate: new Date(this.state.twelthEndDate),
+          // startDate: new Date(this.state.twelthStartDate),
+          // endDate: new Date(this.state.twelthEndDate),
+          strStartDate: this.state.twelthStartDate,
+          strEndDate: this.state.twelthEndDate,
           type: "hsc",
         },
         {
@@ -598,8 +574,10 @@ export class academicInfo extends Component {
             id: this.state.ugDegree.id,
             name: this.state.ugDegree.name,
           },
-          startDate: new Date(this.state.ugStartDate),
-          endDate: new Date(this.state.ugEndDate),
+          // startDate: new Date(this.state.ugStartDate),
+          // endDate: new Date(this.state.ugEndDate),
+          strStartDate: this.state.ugStartDate,
+          strEndDate: this.state.ugEndDate,
           score: this.state.ugCgpa,
           scoreScale: this.state.ugCgpaScale.title,
           type: "ug",
@@ -621,8 +599,10 @@ export class academicInfo extends Component {
             id: this.state.pgDegree.id,
             name: this.state.pgDegree.name,
           },
-          startDate: new Date(this.state.pgStartDate),
-          endDate: new Date(this.state.pgEndDate),
+          // startDate: new Date(this.state.pgStartDate),
+          // endDate: new Date(this.state.pgEndDate),
+          strStartDate: this.state.pgStartDate,
+          strEndDate: this.state.pgEndDate,
           score: this.state.pgCgpa,
           scoreScale: this.state.pgCgpaScale.title,
           type: "pg",
@@ -636,14 +616,173 @@ export class academicInfo extends Component {
             id: this.state.diplomoUniversity.id,
             name: this.state.diplomoUniversity.name,
           },
-          startDate: new Date(this.state.diplomostartDate),
-          endDate: new Date(this.state.diplomoEndDate),
+          // startDate: new Date(this.state.diplomostartDate),
+          // endDate: new Date(this.state.diplomoEndDate),
+          strStartDate: this.state.diplomostartDate,
+          strEndDate: this.state.diplomoEndDate,
           score: this.state.diplomoCgpa,
           scoreScale: this.state.diplomoCgpaScale.title,
           diplomaType: this.state.diplomoDepartment.title,
           type: "diploma",
         },
       ];
+      if (
+        this.state.pgStartDate !== null ||
+        this.state.pgEndDate !== null ||
+        this.state.pgStartDate !== "" ||
+        this.state.pgEndDate !== ""
+      ) {
+        if (
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") ===
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
+        ) {
+          this.setState({
+            pgEndDateErr: "Please Choose the Valid date",
+          });
+          error = true;
+        } else if (
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") >
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
+        ) {
+          this.setState({
+            pgEndDateErr: "Please Choose the Valid date",
+          });
+          error = true;
+        } else {
+          error = false;
+        }
+      } else {
+        this.setState({
+          pgEndDateErr: "",
+        });
+        error = false;
+      }
+    }
+    if (
+      this.state.ugStartDate !== null ||
+      this.state.ugEndDate !== null ||
+      this.state.ugStartDate !== "" ||
+      this.state.ugEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          ugEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          ugEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        ugEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.diplomostartDate !== null ||
+      this.state.diplomoEndDate !== null ||
+      this.state.diplomostartDate !== "" ||
+      this.state.diplomoEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          diplomoEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          diplomoEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        diplomoEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.twelthStartDate !== null ||
+      this.state.twelthEndDate !== null ||
+      this.state.twelthStartDate !== "" ||
+      this.state.twelthEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          twelthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          twelthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        twelthEndDateErr: "",
+      });
+      error = false;
+    }
+    if (
+      this.state.tenthStartDate !== null ||
+      this.state.tenthEndDate !== null ||
+      this.state.tenthStartDate !== "" ||
+      this.state.tenthEndDate !== ""
+    ) {
+      if (
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          tenthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else if (
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
+      ) {
+        this.setState({
+          tenthEndDateErr: "Please Choose the Valid date",
+        });
+        error = true;
+      } else {
+        error = false;
+      }
+    } else {
+      this.setState({
+        tenthEndDateErr: "",
+      });
+      error = false;
+    }
+    if (!error) {
       this.props.updateAcademicInfo(
         this.props.match.params.studentId,
         obj,
@@ -705,9 +844,6 @@ export class academicInfo extends Component {
   );
 
   render() {
-    console.log(this.state);
-    console.log(this.props.getAcademicInfoList);
-
     const { HeadStyle, title, ans, secondary, GridStyle } = style;
     return (
       <div>
@@ -803,6 +939,7 @@ export class academicInfo extends Component {
                                 pgCollegeErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgCollege}
@@ -824,6 +961,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgUniversity}
@@ -851,6 +989,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgDepartment}
@@ -878,6 +1017,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getPGDegreesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.pgDegree}
@@ -904,6 +1044,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -912,6 +1053,7 @@ export class academicInfo extends Component {
                               this.setState({
                                 pgCgpaScale: newValue,
                                 pgCgpaScaleErr: "",
+                                pgCgpa: "",
                               })
                             }
                             renderInput={(params) => (
@@ -928,67 +1070,100 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
-                            disabled={this.state.documentedit}
-                            label="CGPA"
-                            onChange={(e) =>
-                              this.setState({
-                                pgCgpa: e.target.value,
-                                pgCgpaErr: "",
-                              })
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.pgCgpaScale === "" ||
+                              this.state.pgCgpaScale === null
                             }
+                            label="CGPA"
+                            onChange={(e) => {
+                              if (this.state.pgCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.pgCgpaScale &&
+                                            this.state.pgCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.pgCgpaScale &&
+                                            this.state.pgCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        pgCgpa: e.target.value,
+                                        pgCgpaErr: "",
+                                      });
+                                    }
+                                  }
+                                } else {
+                                  this.setState({
+                                    pgCgpa: e.target.value,
+                                    pgCgpaErr: "",
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  pgCgpa: e.target.value,
+                                  pgCgpaErr: "",
+                                });
+                              }
+                            }}
                             value={this.state.pgCgpa}
                             error={this.state.pgCgpaErr.length > 0}
                             helperText={this.state.pgCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            disabled={this.state.documentedit}
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
                             value={this.state.pgStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                pgStartDate: newValue,
+                                pgStartDate: e.target.value,
                                 pgStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
                             error={this.state.pgStartDateErr.length > 0}
                             helperText={this.state.pgStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
-                            disabled={this.state.documentedit}
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.pgStartDate}
                             value={this.state.pgEndDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                pgEndDate: newValue,
+                                pgEndDate: e.target.value,
                                 pgEndDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            min={this.state.pgStartDate}
                             error={this.state.pgEndDateErr.length > 0}
                             helperText={this.state.pgEndDateErr}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.pgStartDate === null
+                            }
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1023,6 +1198,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
@@ -1050,6 +1226,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
@@ -1077,6 +1254,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
@@ -1104,6 +1282,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
@@ -1132,6 +1311,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -1140,12 +1320,12 @@ export class academicInfo extends Component {
                               this.setState({
                                 ugCgpaScale: newValue,
                                 ugCgpaScaleErr: "",
+                                ugCgpa: "",
                               })
                             }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.ugCgpaScaleErr.length > 0}
                                 helperText={this.state.ugCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1157,67 +1337,97 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <TextField
                             id="standard-basic"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.ugCgpaScale === "" ||
+                              this.state.ugCgpaScale === null
+                            }
                             label="CGPA"
                             value={this.state.ugCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                ugCgpa: e.target.value,
-                                ugCgpaErr: "",
-                              })
-                            }
+                            onChange={(e) => {
+                              if (this.state.ugCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(this.state.ugCgpaScale.value) <
+                                          parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.ugCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        ugCgpa: e.target.value,
+                                        ugCgpaErr: "",
+                                      });
+                                    }
+                                  }
+                                } else {
+                                  this.setState({
+                                    ugCgpa: e.target.value,
+                                    ugCgpaErr: "",
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  ugCgpa: e.target.value,
+                                  ugCgpaErr: "",
+                                });
+                              }
+                            }}
                             error={this.state.ugCgpaErr.length > 0}
                             helperText={this.state.ugCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            format="dd/MM/yyyy"
                             value={this.state.ugStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                ugStartDate: newValue,
+                                ugStartDate: e.target.value,
                                 ugStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            disabled={this.state.documentedit}
-                            inputProps={{ readOnly: true }}
                             error={this.state.ugStartDateErr.length > 0}
                             helperText={this.state.ugStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
-                            format="dd/MM/yyyy"
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.ugStartDate}
                             value={this.state.ugEndDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            minDate={this.state.ugStartDate}
+                            onChange={(e) =>
                               this.setState({
-                                ugEndDate: newValue,
+                                ugEndDate: e.target.value,
                                 ugEndDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.ugStartDate === null
+                            }
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1256,6 +1466,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.diplomaCollege}
@@ -1298,6 +1509,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             id="debug"
+                            disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.diplomoUniversity}
@@ -1326,6 +1538,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.diplomaType}
                             getOptionLabel={(option) => option.title}
@@ -1355,6 +1568,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
+                            disabled={this.state.documentedit}
                             id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
@@ -1363,6 +1577,7 @@ export class academicInfo extends Component {
                               this.setState({
                                 diplomoCgpaScale: newValue,
                                 diplomoCgpaScaleErr: "",
+                                diplomoCgpa: "",
                               })
                             }
                             renderInput={(params) => (
@@ -1374,7 +1589,6 @@ export class academicInfo extends Component {
                                 helperText={this.state.diplomoCgpaScaleErr}
                                 label="CGPA Scale"
                                 margin="normal"
-                                disabled={this.state.documentedit}
                               />
                             )}
                           />
@@ -1383,70 +1597,98 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             value={this.state.diplomoCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                diplomoCgpa: e.target.value,
-                                diplomoCgpaErr: "",
-                              })
-                            }
+                            onChange={(e) => {
+                              if (this.state.diplomoCgpaScale) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.diplomoCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.diplomoCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        diplomoCgpa: e.target.value,
+                                        diplomoCgpaErr: "",
+                                      });
+                                    }
+                                  }
+                                } else {
+                                  this.setState({
+                                    diplomoCgpa: e.target.value,
+                                    diplomoCgpaErr: "",
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  diplomoCgpa: e.target.value,
+                                  diplomoCgpaErr: "",
+                                });
+                              }
+                            }}
                             InputLabelProps={{ shrink: true }}
                             label="CGPA"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.diplomoCgpaScale === "" ||
+                              this.state.diplomoCgpaScale === null
+                            }
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
+                            label="Start Date"
                             value={this.state.diplomostartDate}
-                            onChange={(e, newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                diplomostartDate: newValue,
+                                diplomostartDate: e.target.value,
                                 diplomostartDateErr: "",
                               })
                             }
-                            label="Start Date"
                             error={this.state.diplomostartDateErr.length > 0}
                             helperText={this.state.diplomostartDateErr}
-                            format="MM/dd/yyyy"
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            inputProps={{ readOnly: true }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            format="dd/MM/yyyy"
                             disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
-                            format="dd/MM/yyyy"
+                          <TextField
                             label="End Date"
-                            inputProps={{ readOnly: true }}
-                            disabled={this.state.diplomostartDate === null}
-                            minDate={this.state.diplomostartDate}
                             value={this.state.diplomoEndDate}
-                            onChange={(e, newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                diplomoEndDate: newValue,
+                                diplomoEndDate: e.target.value,
                                 diplomoEndDateErr: "",
                               })
                             }
-                            disabled={this.state.documentedit}
+                            minDate={this.state.diplomostartDate}
                             error={this.state.diplomoEndDateErr.length > 0}
                             helperText={this.state.diplomoEndDateErr}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            disabled={
+                              this.state.diplomostartDate === null ||
+                              this.state.documentedit
+                            }
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1506,6 +1748,7 @@ export class academicInfo extends Component {
                                 twelthExamBoardErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1556,8 +1799,10 @@ export class academicInfo extends Component {
                               this.setState({
                                 twelthCgpaScale: newValue,
                                 twelthCgpaScaleErr: "",
+                                twelthCgpa: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
@@ -1574,68 +1819,97 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             label="CGPA"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.twelthCgpaScale === "" ||
+                              this.state.twelthCgpaScale === null
+                            }
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
-                            onChange={(e) =>
-                              this.setState({
-                                twelthCgpa: e.target.value,
-                                twelthCgpaErr: "",
-                              })
-                            }
+                            onChange={(e) => {
+                              if (this.state.twelthCgpaScale) {
+                                if (e.target.value) {
+                                  if (
+                                    (e.target.value.length <= 3 &&
+                                      parseInt(e.target.value) > 100 &&
+                                      parseInt(
+                                        this.state.twelthCgpaScale.value
+                                      ) < parseInt(e.target.value)) ||
+                                    parseInt(e.target.value) < 0 ||
+                                    parseFloat(
+                                      parseInt(
+                                        this.state.twelthCgpaScale.value
+                                      ).toFixed(2)
+                                    ) < parseFloat(e.target.value).toFixed(2)
+                                  ) {
+                                    e.preventDefault();
+                                  } else {
+                                    this.setState({
+                                      twelthCgpa: e.target.value,
+                                      twelthCgpaErr: "",
+                                    });
+                                  }
+                                } else {
+                                  this.setState({
+                                    twelthCgpa: e.target.value,
+                                    twelthCgpaErr: "",
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  twelthCgpa: e.target.value,
+                                  twelthCgpaErr: "",
+                                });
+                              }
+                            }}
                             InputLabelProps={{ shrink: true }}
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            format="dd/MM/yyyy"
-                            disabled={this.state.documentedit}
                             value={this.state.twelthStartDate || ""}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                twelthStartDate: newValue,
+                                twelthStartDate: e.target.value,
                                 twelthStartDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
+                            error={this.state.twelthStartDateErr.length > 0}
+                            helperText={this.state.twelthStartDateErr}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                            inputProps={{ readOnly: true }}
-                            error={this.state.twelthStartDateErr.length > 0}
-                            helperText={this.state.twelthStartDateErr}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            id="date-picker-dialog"
+                          <TextField
                             label="End Date"
-                            format="dd/MM/yyyy"
-                            label="End Date"
-                            disabled={this.state.documentedit}
-                            inputProps={{ readOnly: true }}
-                            minDate={this.state.twelthStartDate}
                             value={this.state.twelthEndDate || ""}
-                            onChange={(newValue) =>
+                            type="month"
+                            minDate={this.state.twelthStartDate}
+                            onChange={(e) =>
                               this.setState({
-                                twelthEndDate: newValue,
+                                twelthEndDate: e.target.value,
                                 twelthEndDateErr: "",
                               })
                             }
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
                             InputLabelProps={{
                               shrink: true,
                             }}
                             error={this.state.twelthEndDateErr.length > 0}
                             helperText={this.state.twelthEndDateErr}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.twelthStartDate === null
+                            }
+                            name="EndDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={12}></Grid>
@@ -1694,10 +1968,10 @@ export class academicInfo extends Component {
                                 tenthExamBoardErr: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.tenthExamBoardErr.length > 0}
                                 helperText={this.state.tenthExamBoardErr}
                                 label="Exam Board"
@@ -1719,12 +1993,13 @@ export class academicInfo extends Component {
                               this.setState({
                                 tenthCgpaScale: newValue,
                                 tenthCgpaScaleErr: "",
+                                tenthCgpa: "",
                               })
                             }
+                            disabled={this.state.documentedit}
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                disabled={this.state.documentedit}
                                 error={this.state.tenthCgpaScaleErr.length > 0}
                                 helperText={this.state.tenthCgpaScaleErr}
                                 label="CGPA Scale"
@@ -1736,49 +2011,111 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             type="number"
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthCgpaScale === "" ||
+                              this.state.tenthCgpaScale === null
+                            }
                             label="CGPA"
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
-                            onChange={(e) =>
-                              this.setState({
-                                tenthCgpa: e.target.value,
-                                tenthCgpaErr: "",
-                              })
-                            }
+                            onChange={(e) => {
+                              if (
+                                this.state.tenthCgpaScale !== null ||
+                                this.state.tenthCgpaScale !== ""
+                              ) {
+                                if (e.target.value) {
+                                  if (e.target.value.length <= 3) {
+                                    if (
+                                      (parseInt(e.target.value) > 100 &&
+                                        parseInt(
+                                          this.state.tenthCgpaScale.value
+                                        ) < parseInt(e.target.value)) ||
+                                      parseInt(e.target.value) < 0 ||
+                                      parseFloat(
+                                        parseInt(
+                                          this.state.tenthCgpaScale.value
+                                        ).toFixed(2)
+                                      ) < parseFloat(e.target.value).toFixed(2)
+                                    ) {
+                                      e.preventDefault();
+                                    } else {
+                                      this.setState({
+                                        tenthCgpa: e.target.value,
+                                        tenthCgpaErr: "",
+                                      });
+                                    }
+                                  }
+                                } else {
+                                  this.setState({
+                                    tenthCgpa: e.target.value,
+                                    tenthCgpaErr: "",
+                                  });
+                                }
+                              } else {
+                                this.setState({
+                                  tenthCgpa: e.target.value,
+                                  tenthCgpaErr: "",
+                                });
+                              }
+                            }}
                             value={this.state.tenthCgpa}
                           />
                         </Grid>
+
                         <Grid item md={3}>
-                          <KeyboardDatePicker
-                            // disableFuture
-                            id="date-picker-dialog"
+                          <TextField
                             label="Start Date"
-                            disabled={this.state.documentedit}
                             value={this.state.tenthStartDate}
-                            onChange={(newValue) =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
-                                tenthStartDate: newValue,
+                                tenthStartDate: e.target.value,
                                 tenthStartDateErr: "",
                               })
                             }
                             error={this.state.tenthStartDateErr.length > 0}
                             helperText={this.state.tenthStartDateErr}
-                            format="dd/MM/yyyy"
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            inputProps={{ readOnly: true }}
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            disabled={this.state.documentedit}
+                            name="startDate"
+                            fullWidth
                           />
                         </Grid>
                         <Grid item md={3}>
-                          <KeyboardDatePicker
+                          <TextField
+                            label="End Date"
+                            value={this.state.tenthEndDate}
+                            type="month"
+                            onChange={(e) =>
+                              this.setState({
+                                tenthEndDate: e.target.value,
+                                tenthEndDateErr: "",
+                              })
+                            }
+                            error={this.state.tenthEndDateErr.length > 0}
+                            helperText={this.state.tenthEndDateErr}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            fullWidth
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthStartDate === null
+                            }
+                            name="EndDate"
+                            minDate={this.state.tenthStartDate}
+                          />
+                          {/* <KeyboardDatePicker
                             id="date-picker-dialog"
+                            format="MMM/yyyy"
                             inputProps={{ readOnly: true }}
-                            disabled={this.state.documentedit}
+                            disabled={
+                              this.state.documentedit ||
+                              this.state.tenthStartDate === null
+                            }
                             minDate={this.state.tenthStartDate}
                             value={this.state.tenthEndDate}
                             onChange={(newValue) =>
@@ -1790,14 +2127,13 @@ export class academicInfo extends Component {
                             label="End Date"
                             error={this.state.tenthEndDateErr.length > 0}
                             helperText={this.state.tenthEndDateErr}
-                            format="dd/MM/yyyy"
                             KeyboardButtonProps={{
                               "aria-label": "change date",
                             }}
                             InputLabelProps={{
                               shrink: true,
                             }}
-                          />
+                          /> */}
                         </Grid>
                         <Grid item md={12}></Grid>
                       </Grid>
@@ -1863,6 +2199,9 @@ export class academicInfo extends Component {
                                         this.props.match.params.studentId
                                       }
                                       status={this.state.documentedit}
+                                      productId={
+                                        this.props.match.params.productId
+                                      }
                                     />
                                   </Grid>
                                 )

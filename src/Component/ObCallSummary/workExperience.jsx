@@ -48,6 +48,7 @@ import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
 import { URL } from "../../Actions/URL";
 import { getVariantStepsById } from "../../Actions/ProductAction";
+import moment from "moment";
 
 const theme = createMuiTheme({
   overrides: {
@@ -128,8 +129,8 @@ class workExperience extends Component {
       this.state.professional.map((item) =>
         this.setState({
           organization: item.organization,
-          startDate: item.startDate,
-          endDate: item.endDate,
+          startDate: item.strStartDate,
+          endDate: item.strEndDate,
           employmentType: item.employmentType,
           role: item.role,
           id: item.id,
@@ -337,27 +338,43 @@ class workExperience extends Component {
                       <Accordion>
                         <AccordionSummary expandIcon={<ExpandMore />}>
                           <div
-                            style={{ display: "flex", flexDirection: "row" }}
-                          >
-                            {item.role} ,
-                            <div style={{ fontSize: 10, paddingTop: "2%" }}>
-                              {" "}
-                              {item.organization}
-                            </div>
-                          </div>
-
-                          <div
                             style={{
                               display: "flex",
-                              flexDirection: "row",
-                              paddingLeft: "50%",
+                              width: "100%",
+                              justifyContent: "space-between",
+                              wordBreak: "break-word",
                             }}
                           >
-                            {" "}
-                            {item.month} Months ({startmonthName}{" "}
-                            {new Date(item.startDate).getFullYear()}-
-                            {endMonthName}{" "}
-                            {new Date(item.endDate).getFullYear()})
+                            <div
+                              style={{
+                                display: "flex",
+                                wordBreak: "break-word",
+                              }}
+                            >
+                              {item.role} ,
+                              <div style={{ fontSize: 10, paddingTop: "2%" }}>
+                                {" "}
+                                {item.organization}
+                              </div>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                wordBreak: "break-word",
+                                // paddingLeft: "50%",
+                              }}
+                            >
+                              {item.month} Months (
+                              {moment(new Date(item.strStartDate)).format(
+                                "MMM YYYY"
+                              )}
+                              -
+                              {moment(new Date(item.strEndDate)).format(
+                                "MMM YYYY"
+                              )}
+                              )
+                            </div>
                           </div>
                         </AccordionSummary>
 
@@ -369,6 +386,7 @@ class workExperience extends Component {
                                   <ExpandMore style={{ color: "#1093FF" }} />
                                 }
                                 id="combo-box-demo"
+                                disabled={this.state.disable}
                                 value={
                                   {
                                     title: item.employmentType,
@@ -452,21 +470,43 @@ class workExperience extends Component {
                             </Grid>
 
                             <Grid item md={3}>
-                              <KeyboardDatePicker
-                                disableFuture
-                                disabled={this.state.disable}
-                                margin="normal"
+                              {/* <KeyboardDatePicker
+                                
+                               
                                 id="date-picker-dialog"
-                                label="Start Date"
+                               
                                 format="dd/MM/yyyy"
                                 // views={["year", "month"]}
                                 inputProps={{ readOnly: true }}
                                 error={this.state.startDateErr.length > 0}
                                 helperText={this.state.startDateErr}
-                                value={item.startDate || ""}
+                                
                                 // onChange={(e, newValue) =>
                                 //   this.setState({ startDate: newValue, startDateErr:'' })
                                 // }
+                               
+                               
+                              
+                                KeyboardButtonProps={{
+                                  "aria-label": "change date",
+                                }}
+                              /> */}
+                              <TextField
+                                label="Start Date"
+                                value={item.strStartDate || ""}
+                                type="month"
+                                onChange={(e) =>
+                                  this.state.disable === false &&
+                                  this.onChange(
+                                    {
+                                      target: {
+                                        name: "strStartDate",
+                                        value: e.target.value,
+                                      },
+                                    },
+                                    index
+                                  )
+                                }
                                 error={
                                   this.state[`startDateErr${index}`] !==
                                     undefined &&
@@ -475,35 +515,33 @@ class workExperience extends Component {
                                     : false
                                 }
                                 helperText={this.state[`startDateErr${index}`]}
-                                onChange={(date) =>
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
+                                disableFuture
+                                disabled={this.state.disable}
+                                name="startDate"
+                                fullWidth
+                                margin="normal"
+                              />
+                            </Grid>
+                            <Grid item md={3}>
+                              <TextField
+                                label="End Date"
+                                value={item.strEndDate || ""}
+                                type="month"
+                                onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "startDate",
-                                        value: date,
+                                        name: "strEndDate",
+                                        value: e.target.value,
                                       },
                                     },
                                     index
                                   )
                                 }
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
-                              />
-                            </Grid>
-                            <Grid item md={3}>
-                              <KeyboardDatePicker
-                                disableFuture
-                                margin="normal"
-                                disabled={this.state.disable}
-                                id="date-picker-dialog"
-                                label="End Date"
-                                format="dd/MM/yyyy"
-                                // views={["year", "month"]}
                                 contentEditable={this.state.disable}
                                 minDate={
                                   this.state.professional[index].startDate
@@ -516,22 +554,14 @@ class workExperience extends Component {
                                     : false
                                 }
                                 helperText={this.state[`endDateErr${index}`]}
-                                value={item.endDate || ""}
-                                onChange={(date) =>
-                                  this.state.disable === false &&
-                                  this.onChange(
-                                    {
-                                      target: { name: "endDate", value: date },
-                                    },
-                                    index
-                                  )
-                                }
                                 InputLabelProps={{
                                   shrink: true,
                                 }}
-                                KeyboardButtonProps={{
-                                  "aria-label": "change date",
-                                }}
+                                disableFuture
+                                margin="normal"
+                                disabled={this.state.disable}
+                                name="EndDate"
+                                fullWidth
                               />
                             </Grid>
                             <Grid item md={4}>

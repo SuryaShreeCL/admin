@@ -19,6 +19,13 @@ const useStyles = makeStyles({
   leftAlign: {
     textAlign: "left",
   },
+
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "850px",
+  },
 });
 
 const columns = ["#Day", "Topic", "Tasks", "Time Required", ""];
@@ -36,7 +43,7 @@ export default function DataTable(props) {
 
   if (item)
     return (
-      <React.Fragment>
+      <div className={classes.container}>
         <Table>
           <Head>
             <TableRow>
@@ -75,7 +82,7 @@ export default function DataTable(props) {
           }}
           shape="rounded"
         />
-      </React.Fragment>
+      </div>
     );
 
   return <></>;

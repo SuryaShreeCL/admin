@@ -1,8 +1,8 @@
-import { STUDENTMARKDETAILS } from "../Redux/Action";
+import { STUDENTMARKDETAILS } from '../Redux/Action';
 const initialState = {
-  viewStudentMarkDetailsList:[],
-  viewReseTestList:[],
-  viewAnswersList:{}
+  viewStudentMarkDetailsList: [],
+  viewReseTestList: [],
+  viewAnswersList: [],
 };
 
 export default (state = initialState, action) => {
@@ -11,19 +11,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         viewStudentMarkDetailsList: action.viewStudentMarkDetailsList,
-      }; 
-      case STUDENTMARKDETAILS.viewResetTest:
+      };
+    case STUDENTMARKDETAILS.viewResetTest:
       return {
         ...state,
         viewReseTestList: action.viewReseTestList,
-      };   
-      case STUDENTMARKDETAILS.viewAnswers:
+      };
+    case STUDENTMARKDETAILS.viewAnswers:
       return {
         ...state,
         viewAnswersList: action.viewAnswersList,
-      };   
-      
-   
+      };
+
     default:
       break;
   }

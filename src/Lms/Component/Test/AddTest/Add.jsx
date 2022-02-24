@@ -1,8 +1,8 @@
-import { Grid } from '@material-ui/core';
-import React, { Component } from 'react';
-import DropDown from '../../../Utils/DropDown';
-import { RadioButtonsGroup } from '../../../Utils/RadioButton';
-import { InputTextField } from '../../../Utils/TextField';
+import { Grid } from "@material-ui/core";
+import React, { Component } from "react";
+import DropDown from "../../../Utils/DropDown";
+import { RadioButtonsGroup } from "../../../Utils/RadioButton";
+import { InputTextField } from "../../../Utils/TextField";
 import {
   Card,
   Box,
@@ -10,45 +10,45 @@ import {
   Cancel,
   Save,
   Divider,
-} from '../../../Assets/StyledComponents';
-import CalibrationTestCard from './CalibrationTestCard';
-import TopicTestCard from './TopicTestCard';
-import TestAddButtonCard from './TestAddButtonCard';
-import { AutocompleteText } from '../../../Utils/Autocomplete';
-import { getCourses } from '../../../Redux/Action/CourseMaterial';
+} from "../../../Assets/StyledComponents";
+import CalibrationTestCard from "./CalibrationTestCard";
+import TopicTestCard from "./TopicTestCard";
+import TestAddButtonCard from "./TestAddButtonCard";
+import { AutocompleteText } from "../../../Utils/Autocomplete";
+import { getCourses } from "../../../Redux/Action/CourseMaterial";
 import {
   createTestQuestionSet,
   getTopicByCourse,
   getTestQuestionSet,
   deleteQuestion,
   deleteSection,
-} from '../../../Redux/Action/Test';
-import { connect } from 'react-redux';
-import QueryString from 'qs';
-import { SnackBar } from '../../../Utils/SnackBar';
-import { withRouter } from 'react-router-dom';
+} from "../../../Redux/Action/Test";
+import { connect } from "react-redux";
+import QueryString from "qs";
+import { SnackBar } from "../../../Utils/SnackBar";
+import { withRouter } from "react-router-dom";
 import {
   bulk_upload,
   lmsTest,
   single_upload,
-} from '../../../../Component/RoutePaths';
-import DialogComponent from '../../../Utils/DialogComponent';
-import { DeleteRounded } from '@material-ui/icons';
+} from "../../../../Component/RoutePaths";
+import DialogComponent from "../../../Utils/DialogComponent";
+import { DeleteRounded } from "@material-ui/icons";
 
 const dialogContent = {
-  type: 'delete',
-  icon: <DeleteRounded style={{ fontSize: '48px', fill: '#1093FF' }} />,
-  title: 'Are you sure you want to delete this question ?',
-  button1: 'No',
-  button2: 'Yes',
+  type: "delete",
+  icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
+  title: "Are you sure you want to delete this question ?",
+  button1: "No",
+  button2: "Yes",
 };
 
 const sectionDialogContent = {
-  type: 'delete',
-  icon: <DeleteRounded style={{ fontSize: '48px', fill: '#1093FF' }} />,
-  title: 'Are you sure you want to delete this section ?',
-  button1: 'No',
-  button2: 'Yes',
+  type: "delete",
+  icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
+  title: "Are you sure you want to delete this section ?",
+  button1: "No",
+  button2: "Yes",
 };
 
 class Add extends Component {
@@ -56,10 +56,10 @@ class Add extends Component {
     super(props);
     this.state = {
       testQuestionSetId: null,
-      type: 'CALIBRATION',
+      type: "CALIBRATION",
       description: [],
-      descriptionTitle: '',
-      nameDescription: '',
+      descriptionTitle: "",
+      nameDescription: "",
       courseId: undefined,
       topicId: undefined,
       name: undefined,
@@ -69,8 +69,8 @@ class Add extends Component {
       calibrationSectionTabLabels: [],
       questions: [],
       snackOpen: false,
-      snackType: 'success',
-      message: '',
+      snackType: "success",
+      message: "",
       sectionId: undefined,
       topicTestSections: {
         id: null,
@@ -87,7 +87,7 @@ class Add extends Component {
 
       questions: null,
       disableAddButton: false,
-      courseIdValue: '',
+      courseIdValue: "",
     };
   }
 
@@ -104,7 +104,7 @@ class Add extends Component {
       if (response.success) {
         if (testQuestionSetId === undefined) {
           if (
-            type !== 'CALIBRATION' &&
+            type !== "CALIBRATION" &&
             response.data[0].courseId !== undefined
           ) {
             this.props.getTopicByCourse(
@@ -147,7 +147,7 @@ class Add extends Component {
       const questionSet =
         (testQuestionSet.length !== 0 && testQuestionSet.data) || false;
 
-      if (questionSet.type === 'CALIBRATION') {
+      if (questionSet.type === "CALIBRATION") {
         let tabArr = [];
         questionSet.testSection.map((i, index) => {
           tabArr.push({
@@ -170,7 +170,7 @@ class Add extends Component {
         });
       }
 
-      if (questionSet.type === 'TOPIC') {
+      if (questionSet.type === "TOPIC") {
         this.setState({
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
@@ -184,7 +184,7 @@ class Add extends Component {
         });
       }
 
-      if (questionSet.type === 'QUESTIONBANK') {
+      if (questionSet.type === "QUESTIONBANK") {
         this.setState({
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
@@ -195,7 +195,7 @@ class Add extends Component {
         });
       }
 
-      if (questionSet.type === 'QUESTIONBANK' || questionSet.type === 'TOPIC') {
+      if (questionSet.type === "QUESTIONBANK" || questionSet.type === "TOPIC") {
         if (questionSet.course !== undefined) {
           this.props.getTopicByCourse(questionSet.course, topicResponse => {
             if (topicResponse.success) {
@@ -211,7 +211,7 @@ class Add extends Component {
     const { value } = event.target;
     this.setState({ type: value });
     const { courseId } = this.state;
-    if (value !== 'CALIBRATION' && courseId !== undefined) {
+    if (value !== "CALIBRATION" && courseId !== undefined) {
       this.props.getTopicByCourse(courseId, topicResponse => {
         if (topicResponse.success) {
           this.setState({
@@ -230,7 +230,7 @@ class Add extends Component {
   handleSectionInstructionChange = (e, newValue) => {
     const calibrationTestData = [...this.state.calibrationTestData];
     calibrationTestData[this.state.calibrationActiveSectionTab - 1][
-      'description'
+      "description"
     ] = newValue;
     this.setState({
       calibrationTestData,
@@ -248,7 +248,7 @@ class Add extends Component {
     });
     testArr.push({
       id: null,
-      name: '',
+      name: "",
       duration: 0,
       noOfQuestions: null,
       description: [],
@@ -301,10 +301,10 @@ class Add extends Component {
     this.setCourseTitle();
 
     if (testQuestionSetId !== null) {
-      if (type === 'QUESTIONBANK') {
+      if (type === "QUESTIONBANK") {
         this.props.history.push(bulk_upload + `/${testQuestionSetId}`);
       } else {
-        if (type === 'CALIBRATION') {
+        if (type === "CALIBRATION") {
           if (calibrationTestData.length !== 0) {
             if (
               calibrationTestData[calibrationActiveSectionTab - 1].id !== null
@@ -312,7 +312,7 @@ class Add extends Component {
               var calibrationSectionId =
                 (calibrationTestData.length !== 0 &&
                   calibrationTestData[calibrationActiveSectionTab - 1].id) ||
-                '';
+                "";
               this.props.history.push(
                 bulk_upload +
                   `/${testQuestionSetId}/${calibrationSectionId}/${courseIdValue}`
@@ -320,22 +320,18 @@ class Add extends Component {
             } else {
               this.setState({
                 snackOpen: true,
-                snackType: 'warning',
-                message: 'Please save the test',
+                snackType: "warning",
+                message: "Please save the test",
               });
             }
           } else {
             this.setState({
               snackOpen: true,
-              snackType: 'warning',
-              message: 'Please add the section',
+              snackType: "warning",
+              message: "Please add the section",
             });
           }
         } else {
-          // var calibrationSectionId =
-          //   (calibrationTestData.length !== 0 &&
-          //     calibrationTestData[calibrationActiveSectionTab - 1].id) ||
-          //   '';
           this.props.history.push(
             bulk_upload + `/${testQuestionSetId}/${sectionId}`
           );
@@ -344,8 +340,8 @@ class Add extends Component {
     } else {
       this.setState({
         snackOpen: true,
-        snackType: 'warning',
-        message: 'Please save the test',
+        snackType: "warning",
+        message: "Please save the test",
       });
     }
   };
@@ -362,24 +358,24 @@ class Add extends Component {
   handleChange = e => {
     const { type, topicTestSections, calibrationTotalSection } = this.state;
     const { value, name } = e.target;
-    if (name === 'noOfQuestions' || name === 'duration') {
+    if (name === "noOfQuestions" || name === "duration") {
       var tempTopicTestSections = topicTestSections;
       tempTopicTestSections[name] = value;
       this.setState({
         topicTestSections: tempTopicTestSections,
       });
     } else {
-      this.setState({ [name]: value, [name + 'Name']: name });
+      this.setState({ [name]: value, [name + "Name"]: name });
     }
 
-    if (name === 'courseId' && type !== 'CALIBRATION' && value !== undefined) {
+    if (name === "courseId" && type !== "CALIBRATION" && value !== undefined) {
       this.props.getTopicByCourse(value, topicResponse => {
         if (topicResponse.success) {
           this.setState({ topicId: topicResponse.data[0].id });
         }
       });
     }
-    if (name === 'courseId' && type === 'CALIBRATION' && value !== undefined) {
+    if (name === "courseId" && type === "CALIBRATION" && value !== undefined) {
       if (calibrationTotalSection !== null) {
         this.setState({
           calibrationSectionTabLabels: [],
@@ -405,9 +401,7 @@ class Add extends Component {
       calibrationTestData,
     } = this.state;
 
-    // const courseId = this.props.testQuestionSet.data.course;
-
-    if (type === 'QUESTIONBANK') {
+    if (type === "QUESTIONBANK") {
       // QUESTIONBANK save action
       if (topicId !== undefined) {
         var questionBankSet = {
@@ -419,10 +413,10 @@ class Add extends Component {
           questionBankSet,
           questionBankResponse => {
             if (questionBankResponse.success) {
-              var message = testQuestionSetId === null ? 'ADDED' : 'UPDATED';
+              var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
               this.setState({
                 snackOpen: true,
-                snackType: 'success',
+                snackType: "success",
                 message: `${type} TEST ${message} SUCCESSFULLY`,
                 testQuestionSetId: questionBankResponse.data.id,
               });
@@ -432,13 +426,13 @@ class Add extends Component {
       } else {
         this.setState({
           snackOpen: true,
-          snackType: 'warning',
-          message: 'Please fill all the fields',
+          snackType: "warning",
+          message: "Please fill all the fields",
         });
       }
     }
 
-    if (type === 'TOPIC') {
+    if (type === "TOPIC") {
       // TOPIC Save action
       if (
         nameDescription &&
@@ -462,12 +456,12 @@ class Add extends Component {
         };
         this.props.createTestQuestionSet(topicTestSet, topicTestResponse => {
           if (topicTestResponse.success) {
-            var message = testQuestionSetId === null ? 'ADDED' : 'UPDATED';
+            var message = testQuestionSetId === null ? "ADDED" : "UPDATED";
             var tempTopicTestSections = this.state.topicTestSections;
             tempTopicTestSections.id = topicTestResponse.data.testSection[0].id;
             this.setState({
               snackOpen: true,
-              snackType: 'success',
+              snackType: "success",
               message: `${type} TEST ${message} SUCCESSFULLY`,
               testQuestionSetId: topicTestResponse.data.id,
               sectionId: topicTestResponse.data.testSection[0].id,
@@ -478,13 +472,13 @@ class Add extends Component {
       } else {
         this.setState({
           snackOpen: true,
-          snackType: 'warning',
-          message: 'Please fill all the fields',
+          snackType: "warning",
+          message: "Please fill all the fields",
         });
       }
     }
 
-    if (type === 'CALIBRATION') {
+    if (type === "CALIBRATION") {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
         item =>
@@ -525,7 +519,7 @@ class Add extends Component {
               calibrationTestResponse => {
                 if (calibrationTestResponse.success) {
                   var message =
-                    testQuestionSetId === null ? 'ADDED' : 'UPDATED';
+                    testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
                   calibrationTestResponse.data.testSection.map(
                     (item, index) => {
@@ -536,7 +530,7 @@ class Add extends Component {
                   );
                   this.setState({
                     snackOpen: true,
-                    snackType: 'success',
+                    snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: calibrationTestResponse.data.id,
                     courseIdValue: calibrationTestResponse.data.productId,
@@ -546,7 +540,7 @@ class Add extends Component {
                 } else {
                   this.setState({
                     snackOpen: true,
-                    snackType: 'warning',
+                    snackType: "warning",
                     message: calibrationTestResponse.message,
                   });
                 }
@@ -555,22 +549,22 @@ class Add extends Component {
           } else {
             this.setState({
               snackOpen: true,
-              snackType: 'warning',
-              message: 'Please fill all the section fields',
+              snackType: "warning",
+              message: "Please fill all the section fields",
             });
           }
         } else {
           this.setState({
             snackOpen: true,
-            snackType: 'warning',
-            message: 'Please add the section',
+            snackType: "warning",
+            message: "Please add the section",
           });
         }
       } else {
         this.setState({
           snackOpen: true,
-          snackType: 'warning',
-          message: 'Please fill all the fields',
+          snackType: "warning",
+          message: "Please fill all the fields",
         });
       }
     }
@@ -588,12 +582,12 @@ class Add extends Component {
   };
 
   handleDelete = type => {
-    if (type === 'Delete')
+    if (type === "Delete")
       this.setState({ dialogStatus: true, dialogContent: dialogContent });
     else {
       this.setCourseTitle();
       this.props.history.push(
-        single_upload + '?questionId=' + this.state.popUpId
+        single_upload + "?questionId=" + this.state.popUpId
       );
     }
   };
@@ -643,7 +637,7 @@ class Add extends Component {
     const { testQuestionSetId } = this.state;
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
-        calibrationTestData[calibrationActiveSectionTab - 1]['id'];
+        calibrationTestData[calibrationActiveSectionTab - 1]["id"];
       if (deleteSectionId !== null) {
         this.props.deleteSection(deleteSectionId, response => {
           if (response.success) {
@@ -685,12 +679,12 @@ class Add extends Component {
       questions,
     } = this.state;
 
-    if (type === 'CALIBRATION')
+    if (type === "CALIBRATION")
       return calibrationTestData[calibrationActiveSectionTab - 1] !== undefined
         ? calibrationTestData[calibrationActiveSectionTab - 1].questions
         : null;
-    else if (type === 'TOPIC') return topicTestSections.questions;
-    else if (type === 'QUESTIONBANK') return questions;
+    else if (type === "TOPIC") return topicTestSections.questions;
+    else if (type === "QUESTIONBANK") return questions;
   };
 
   setCourseTitle = () => {
@@ -698,11 +692,11 @@ class Add extends Component {
       item => item.id === this.state.courseIdValue
     );
     sessionStorage.setItem(
-      'courseTitle',
-      courseObj.length !== 0 ? courseObj[0]['title'] : null
+      "courseTitle",
+      courseObj.length !== 0 ? courseObj[0]["title"] : null
     );
-    sessionStorage.setItem('testType', this.state.type);
-    sessionStorage.setItem('topicId', this.state.topicId);
+    sessionStorage.setItem("testType", this.state.type);
+    sessionStorage.setItem("topicId", this.state.topicId);
   };
 
   render() {
@@ -748,13 +742,13 @@ class Add extends Component {
     } = this;
 
     return (
-      <Card padding={'12px 20px'}>
-        <Box display={'flex'} alignItems={'center'}>
+      <Card padding={"12px 20px"}>
+        <Box display={"flex"} alignItems={"center"}>
           {/* Header */}
           <TestTitle flex={1}>
-            {id !== undefined ? 'Edit Test' : 'Add New Test'}
+            {id !== undefined ? "Edit Test" : "Add New Test"}
           </TestTitle>
-          <Box display={'flex'} gridGap={'30px'} overflow={'auto'}>
+          <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
             {/* cancel */}
             <Cancel
               onClick={() => {
@@ -770,8 +764,8 @@ class Add extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <DropDown
-              label='Course'
-              name='courseId'
+              label="Course"
+              name="courseId"
               items={
                 (courses.length !== 0 &&
                   courses.data.map(item => ({
@@ -783,79 +777,78 @@ class Add extends Component {
               value={courseId ? courseId : undefined}
               onChange={this.handleChange}
               disabled={testQuestionSetId !== null ? true : false}
-              placeholder='Course'
+              placeholder="Course"
             />
           </Grid>
           <Grid item xs={12} md={8}>
             <RadioButtonsGroup
               radioData={{
-                name: 'type',
+                name: "type",
                 activeValue: type,
                 radioItemData: [
-                  { id: 'CALIBRATION', label: 'Calibration Test' },
-                  { id: 'TOPIC', label: 'Topic Test' },
-                  { id: 'QUESTIONBANK', label: 'Question Bank' },
+                  { id: "CALIBRATION", label: "Calibration Test" },
+                  { id: "TOPIC", label: "Topic Test" },
+                  { id: "QUESTIONBANK", label: "Question Bank" },
                 ],
                 handleRadioChange: this.handleTestChange,
-                groupName: 'Test Type',
-                marginRightValue: '56px',
-                disabled: testQuestionSetId !== null ? true : false,
+                groupName: "Test Type",
+                marginRightValue: "56px",
               }}
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            {type === 'CALIBRATION' ? (
+            {type === "CALIBRATION" ? (
               <div>
                 <InputTextField
-                  name='name'
+                  name="name"
                   onChange={this.handleChange}
                   value={name}
-                  label={'Test name'}
-                  height='11px'
-                  placeholder={'Test name'}
+                  label={"Test name"}
+                  height="11px"
+                  placeholder={"Test name"}
                 />
               </div>
             ) : (
               <DropDown
-                label='Topic'
-                name='topicId'
+                label="Topic"
+                name="topicId"
                 items={topics.data}
                 value={topicId}
                 onChange={this.handleChange}
-                placeholder='Topic'
+                placeholder="Topic"
                 disabled={testQuestionSetId !== null ? true : false}
               />
             )}
           </Grid>
-          {type !== 'QUESTIONBANK' ? (
+          {type !== "QUESTIONBANK" ? (
             <>
               <Grid item xs={12} md={8}>
                 <InputTextField
-                  name='nameDescription'
+                  name="nameDescription"
                   onChange={this.handleChange}
                   value={nameDescription}
-                  label='Description'
+                  label="Description"
                   multiline
                   rows={3}
-                  placeholder='Description'
+                  placeholder="Description"
                 />
               </Grid>
               <Grid item xs={12} md={4}>
                 <InputTextField
-                  name='descriptionTitle'
+                  name="descriptionTitle"
                   onChange={this.handleChange}
                   value={descriptionTitle}
-                  label='Test Instruction heading'
-                  height='11px'
-                  placeholder='Test Instruction heading'
+                  label="Test Instruction heading"
+                  height="11px"
+                  placeholder="Test Instruction heading"
                 />
               </Grid>
               <Grid item xs={12} md={8}>
                 <AutocompleteText
                   autoData={{
-                    label: 'Test Instruction Details',
-                    placeholder: 'List The Instruction',
-                    title: 'Type the content and press enter',
+                    label: "Test Instruction Details",
+                    placeholder: "List The Instruction",
+                    title: "Type the content and press enter",
                     value: description !== null ? description : [],
                     onChange: this.handleInstructionChange,
                   }}
@@ -867,7 +860,7 @@ class Add extends Component {
           )}
           {/* description */}
         </Grid>
-        {type === 'CALIBRATION' && (
+        {type === "CALIBRATION" && (
           <CalibrationTestCard
             data={{
               tabValue: calibrationActiveSectionTab,
@@ -885,7 +878,7 @@ class Add extends Component {
             }}
           />
         )}
-        {type === 'TOPIC' && (
+        {type === "TOPIC" && (
           <TopicTestCard
             data={{
               testSections: topicTestSections,

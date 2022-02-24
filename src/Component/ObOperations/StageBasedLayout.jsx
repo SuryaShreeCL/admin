@@ -190,6 +190,7 @@ class StageBasedLayout extends Component {
 
     let obj = {
       comments: this.state.comments,
+      productId: this.props.match.params.productId,
     };
 
     this.props.IncompleteStatus(
@@ -490,6 +491,9 @@ class StageBasedLayout extends Component {
       remark: "",
       status: status,
       updatedDate: new Date(),
+      product: {
+        id: this.props.match.params.productId,
+      },
     };
     this.props.updateVerificationStatus(obj, (response) => {
       this.props.StudentStepDetails(
@@ -593,7 +597,12 @@ class StageBasedLayout extends Component {
                 disabled={this.props.variantStepList.adminObComplete}
                 onClick={() => this.handleOBComplete()}
               >
-                Onboarding Complete
+                {/* Onboarding Complete */}
+                {this.props.variantStepList &&
+                this.props.variantStepList.adminObComplete &&
+                this.props.variantStepList.adminObComplete
+                  ? "Onboarding Completed"
+                  : "Onboarding Complete"}
               </PrimaryButton>
               <PrimaryButton
                 color={"primary"}
