@@ -199,9 +199,9 @@ export default function LivePost() {
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
+                    {/* <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
-                    </Controls.ActionButton>
+                    </Controls.ActionButton> */}
                     <Controls.ActionButton
                       onClick={() => {
                         setConfirmDialog({
