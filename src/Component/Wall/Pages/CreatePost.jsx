@@ -212,7 +212,7 @@ const CreatePost = () => {
     if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: 'Created Successfully',
+      message: state.isEvent ? 'Event Created, Redirecting to Test Page..' : 'Created Successfully',
       type: 'success',
     });
     setTimeout(() => {
@@ -220,7 +220,7 @@ const CreatePost = () => {
         pathname: state.isEvent ? testCreate : wallPath,
         tab: location?.postTypeTab,
       });
-    }, 1200);
+    }, 1500);
   };
 
   const onDiscard = () => {
