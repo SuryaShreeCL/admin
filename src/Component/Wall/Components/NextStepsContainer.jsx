@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { Button } from '@material-ui/core';
 import Popup from '../../Utils/Popup';
-import { FieldArray, Field } from 'formik';
+import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import AddIcon from '@material-ui/icons/Add';
 import DynamicFormContainer from './DynamicForm';
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
   spacer: {
     width: '100%',
-    marginBottom: '1.2rem',
+    marginBottom: '10px',
     padding: '0.5rem',
   },
   addStepBtn: {
@@ -40,9 +40,10 @@ const useStyles = makeStyles({
     borderRadius: '10px',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
 });
 
-const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
+const NextStepsContainer = React.memo(({ values, setFieldValue, submitForm }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
@@ -149,6 +150,10 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     >
                       <h6 className={classes.fieldlabel}>Heading</h6>
                       <Field className={classes.spacer} name={`wallSteps.${index}.heading`} />
+                      <ErrorMessage
+                        name={`wallSteps.${index}.heading`}
+                        render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                      />
                     </div>
                     <div
                       style={{
@@ -157,6 +162,10 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     >
                       <h6 className={classes.fieldlabel}>Sub Heading</h6>
                       <Field className={classes.spacer} name={`wallSteps.${index}.subText`} />
+                      <ErrorMessage
+                        name={`wallSteps.${index}.subText`}
+                        render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                      />
                     </div>
                     <div
                       style={{
@@ -165,6 +174,10 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     >
                       <h6 className={classes.fieldlabel}>Message</h6>
                       <Field className={classes.spacer} name={`wallSteps.${index}.message`} />
+                      <ErrorMessage
+                        name={`wallSteps.${index}.message`}
+                        render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                      />
                     </div>
 
                     {/* Step 1 is Mandatory */}
@@ -262,6 +275,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       formIdx={index}
                       setFieldValue={setFieldValue}
                       setOpenPopup={setOpenPopup}
+                      submitForm={submitForm}
                     />
                   </Popup>
                 </div>
