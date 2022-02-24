@@ -295,6 +295,7 @@ class Dashboard extends Component {
                 })}
               {/* post pga card details */}
               {this.state.calldetails &&
+                this.state.calldetails.postPga &&
                 this.state.calldetails.postPga.map((data) => {
                   let date = new Date(data.datetime).getDate();
                   let month = new Date(data.datetime).getMonth() + 1;
