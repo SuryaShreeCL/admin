@@ -175,7 +175,7 @@ class ProductComboForm extends Component {
             <Autocomplete
               id="combo-box-demo"
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName}
+              getOptionLabel={(option) => option.productName === "LMS" ? "Test Prep" : option.productName}
               onChange={(e, newValue) => this.setState({ family: newValue })}
               renderInput={(params) => (
                 <TextField

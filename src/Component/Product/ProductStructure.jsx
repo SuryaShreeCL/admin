@@ -262,7 +262,7 @@ handelAdd=()=>{
               id="combo-box-demo"
               fullWidth
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName}
+              getOptionLabel={(option) => option.productName === "LMS" ? "Test Prep" : option.productName}
               onChange={(e, newValue) => this.setState({ family: newValue })}
               renderInput={(params) => (
                 <TextField
