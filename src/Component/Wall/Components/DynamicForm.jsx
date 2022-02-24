@@ -45,7 +45,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
-  fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
 const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, setOpenPopup }) => {

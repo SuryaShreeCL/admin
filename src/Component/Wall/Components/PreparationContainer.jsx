@@ -34,7 +34,7 @@ const useStyles = makeStyles({
     padding: '0.5rem',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
-  fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
 const PreprationContainer = React.memo(({ values, setFieldValue }) => {

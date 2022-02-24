@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     borderRadius: '10px',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
-  fieldErr: { color: '#ff150d', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
 const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
