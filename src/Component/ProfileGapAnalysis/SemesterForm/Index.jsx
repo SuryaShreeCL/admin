@@ -403,13 +403,15 @@ class Index extends Component {
 
   // view marks - textfield handle function
   handleScoreChange = (e) => {
-    this.setState({
-      subjectDetails: {
-        ...this.state.subjectDetails,
-        [e.target.name]: e.target.value,
-      },
-      [e.target.name + "Err"]: "",
-    });
+    if (e.target.value >= 0) {
+      this.setState({
+        subjectDetails: {
+          ...this.state.subjectDetails,
+          [e.target.name]: e.target.value,
+        },
+        [e.target.name + "Err"]: "",
+      });
+    }
   };
 
   // function to handle the back button click

@@ -623,12 +623,16 @@ function TwelthForm(props) {
                 value={cumulativePercentage.name}
                 helperText={cumulativePercentage.helperText}
                 error={cumulativePercentage.helperText.length > 0}
-                onChange={(e) =>
-                  setCumulativePercentage({
-                    name: e.target.value,
-                    helperText: "",
-                  })
-                }
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    if (e.target.value.length <= 3) {
+                      setCumulativePercentage({
+                        name: e.target.value,
+                        helperText: "",
+                      });
+                    }
+                  }
+                }}
                 label={"Cumulative Percentage Score"}
               />
             </Grid>
@@ -639,9 +643,14 @@ function TwelthForm(props) {
                 value={formulaEmployed.name}
                 helperText={formulaEmployed.helperText}
                 error={formulaEmployed.helperText.length > 0}
-                onChange={(e) =>
-                  setFormulaEmployed({ name: e.target.value, helperText: "" })
-                }
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    setFormulaEmployed({
+                      name: e.target.value,
+                      helperText: "",
+                    });
+                  }
+                }}
                 label={"Formula Employed"}
               />
             </Grid>
@@ -652,9 +661,14 @@ function TwelthForm(props) {
                 value={cumulativeResult.name}
                 helperText={cumulativeResult.helperText}
                 error={cumulativeResult.helperText.length > 0}
-                onChange={(e) =>
-                  setCumulativeResult({ name: e.target.value, helperText: "" })
-                }
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    setCumulativeResult({
+                      name: e.target.value,
+                      helperText: "",
+                    });
+                  }
+                }}
                 label={"Cumulative Result"}
               />
             </Grid>

@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import Editable from '../../../Utils/EditableTable'
+import React, { useState } from "react";
+import Editable from "../../../Utils/EditableTable";
 
 function Index(props) {
-    return (
-      <Editable
-        data={props.data}
-        columns={props.columns}
-        onRowDelete={props.handleRowDelete}
-        onRowAdd={props.handleRowAdd}
-      />
-    )
+  return (
+    <Editable
+      data={props.data}
+      columns={props.columns}
+      onRowDelete={props.handleRowDelete}
+      onRowAdd={props.handleRowAdd}
+    />
+  );
 }
 
-export default Index
+export default Index;

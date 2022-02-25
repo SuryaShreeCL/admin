@@ -44,6 +44,7 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.academicTypes);
     this.props.getAllColleges();
     this.props.getBranches();
     this.props.getUniversity();
