@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
-import { FieldArray, Field } from 'formik';
+import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
@@ -25,6 +25,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-around',
   },
   inputWidth: { width: '100%' },
+  choiceWidth: { width: '100%', display: 'flex', justifyContent: 'space-between' },
   spacer: {
     width: '100%',
     marginBottom: '10px',
@@ -44,6 +45,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
 const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, setOpenPopup }) => {
@@ -72,6 +74,10 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
                           className={classes.spacer}
                           name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                         />
+                        <ErrorMessage
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
+                          render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                        />
                       </div>
                     )}
                     {option.type === 'MULTIPLECHOICE' && (
@@ -82,21 +88,54 @@ const DynamicFormContainer = React.memo(({ formValues, formIdx, setFieldValue, s
                             className={classes.spacer}
                             name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
                           />
-                        </div>
-                        <div className={classes.inputWidth}>
-                          <h6 className={classes.fieldlabel}>Choice 1</h6>
-                          <Field
-                            className={classes.spacer}
-                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[0].questionChoice`}
+                          <ErrorMessage
+                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.questionText`}
+                            render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
                           />
                         </div>
-                        <div className={classes.inputWidth}>
-                          <h6 className={classes.fieldlabel}>Choice 2</h6>
-                          <Field
-                            className={classes.spacer}
-                            name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices[1].questionChoice`}
-                          />
-                        </div>
+                        <FieldArray
+                          name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices`}
+                          render={(arrayHelpers) => (
+                            <div>
+                              {option?.formQuestionsChoices?.map((_, idx) => (
+                                <div key={idx} className={classes.choiceWidth}>
+                                  <div className={classes.inputWidth}>
+                                    <h6 className={classes.fieldlabel}>{`Choice ${idx + 1}`}</h6>
+                                    <Field
+                                      className={classes.spacer}
+                                      name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices.${idx}.questionChoice`}
+                                    />
+                                    <ErrorMessage
+                                      name={`wallSteps.${formIdx}.form.formQuestions.${index}.formQuestionsChoices.${idx}.questionChoice`}
+                                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
+                                    />
+                                  </div>
+                                  <div style={{ marginTop: '1rem' }}>
+                                    <Controls.ActionButton
+                                      onClick={() => {
+                                        arrayHelpers.remove(idx);
+                                      }}
+                                    >
+                                      <RemoveCircleIcon fontSize='large' color='secondary' />
+                                    </Controls.ActionButton>
+                                  </div>
+                                </div>
+                              ))}
+                              <Controls.Button
+                                text='Add Choice'
+                                variant='contained'
+                                color='primary'
+                                startIcon={<AddIcon />}
+                                className={classes.addStepBtn}
+                                onClick={() =>
+                                  arrayHelpers.push({
+                                    questionChoice: '',
+                                  })
+                                }
+                              />
+                            </div>
+                          )}
+                        />
                       </div>
                     )}
                     <div style={{ display: 'flex', marginTop: '10px' }}>

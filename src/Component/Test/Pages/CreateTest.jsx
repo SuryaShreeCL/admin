@@ -16,11 +16,10 @@ import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import FormControl from '@material-ui/core/FormControl';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
+import { getWallCategories, listAllWallPosts } from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import moment from 'moment';
@@ -79,7 +78,7 @@ const CreateTest = () => {
   const scrollRef = useRef(null);
 
   const [state, setState] = useState({
-    wallCategory: [],
+    // wallCategory: [],
     name: '',
     type: 'EVENT',
     description: [''],
@@ -89,8 +88,9 @@ const CreateTest = () => {
     startDateTime: new Date(),
     endDateTime: new Date(),
     score: 10,
+    eventPost: { id: '' },
     wallFiles: [],
-    cutOffScore: 5
+    cutOffScore: 5,
   });
 
   let questionID = window.sessionStorage.getItem('questionSetId');
@@ -130,6 +130,16 @@ const CreateTest = () => {
       return false;
     }
 
+    //validation of event link
+    if (values?.eventPost?.id?.length < 5) {
+      setNotify({
+        isOpen: true,
+        message: 'Please link an event',
+        type: 'error',
+      });
+      return false;
+    }
+
     if (
       moment(values.endDateTime).isSameOrBefore(values.startDateTime) ||
       moment(values.startDateTime).isBefore(moment()) ||
@@ -143,12 +153,14 @@ const CreateTest = () => {
       return false;
     }
 
-    console.log(values.cutOffScore);
-    if (values.cutOffScore===undefined || 
-      values.cutOffScore===NaN || 
-      !values.cutOffScore || 
-      values.cutOffScore>values.score || 
-      values.cutOffScore < 1) {
+    //Validation the score with cutOffScore
+    if (
+      values.cutOffScore === undefined ||
+      values.cutOffScore === NaN ||
+      !values.cutOffScore ||
+      values.cutOffScore > values.score ||
+      values.cutOffScore < 1
+    ) {
       setNotify({
         isOpen: true,
         message: 'Invalid Cutoff Score !',
@@ -170,11 +182,6 @@ const CreateTest = () => {
         /^([\w,:\s-]*)$/,
         'Only [-,_] is accepted, any other special characters are not accepted'
       ),
-    // cutOffScore: yup
-    //   .number()
-    //   .typeError('Cut off score is a required field')
-    //   .min(1, 'Negative number not allowed')
-    //   .max(state.score, `Cut off score cannot be higher than ${state.score} for the test.`),
   });
 
   const submitTestCreation = (testData, status) => {
@@ -188,7 +195,11 @@ const CreateTest = () => {
   };
 
   const draftTest = (testData, status) => {
-    if(testData.cutOffScore && testData.cutOffScore<testData.score && testData.cutOffScore >= 1){
+    if (
+      testData.cutOffScore &&
+      testData.cutOffScore < testData.score &&
+      testData.cutOffScore >= 1
+    ) {
       dispatch(createTest({ ...testData, status }));
       setNotify({
         isOpen: true,
@@ -201,7 +212,7 @@ const CreateTest = () => {
           tab: 1,
         });
       }, 1200);
-    }else{
+    } else {
       setNotify({
         isOpen: true,
         message: 'Invalid Cutoff Score!',
@@ -235,8 +246,8 @@ const CreateTest = () => {
         <Formik
           initialValues={state}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            if (validate(values)) {
+          onSubmit={(values, errors) => {
+            if (validate(values, errors)) {
               submitTestCreation(values, 'Scheduled');
             }
           }}
@@ -248,7 +259,7 @@ const CreateTest = () => {
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <h6>Question Details</h6>
                   <Grid container direction='row' justify='space-between'>
-                    <Grid item style={{ width: '30%' }}>
+                    <Grid item style={{ width: '40%' }}>
                       <Controls.Input
                         label='Test Name'
                         name='name'
@@ -259,7 +270,7 @@ const CreateTest = () => {
                         onChange={handleChange}
                       />
                     </Grid>
-                    <Grid item style={{ width: '30%' }}>
+                    {/* <Grid item style={{ width: '30%' }}>
                       <FormControl className={classes.root} style={{ width: '100%' }}>
                         <Autocomplete
                           multiple
@@ -282,13 +293,13 @@ const CreateTest = () => {
                           )}
                         />
                       </FormControl>
-                    </Grid>
-                    <Grid item style={{ width: '30%', zIndex: '77', cursor: 'no-drop' }}>
+                    </Grid> */}
+                    <Grid item style={{ width: '55%', zIndex: '77' }}>
                       <Autocomplete
                         options={posts?.content}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
-                        disabled={loading || values.wallCategory.length > 0}
+                        disabled={loading}
                         onChange={(e, value) => {
                           setFieldValue('eventPost.id', value !== null ? value.id : categories);
                         }}
@@ -365,8 +376,11 @@ const CreateTest = () => {
                         style={{ width: '100%' }}
                         value={values.cutOffScore}
                         onChange={handleChange}
-                        error={ values.cutOffScore < 1 || values.cutOffScore>values.score}
-                        helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
+                        error={values.cutOffScore < 1 || values.cutOffScore > values.score}
+                        helperText={
+                          (values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') ||
+                          (values.cutOffScore >= values.score ? 'Invalid Cutoff Score' : '')
+                        }
                         inputProps={{
                           pattern: '[0-9]*',
                         }}
@@ -395,7 +409,6 @@ const CreateTest = () => {
                         </div>
                       )}
                     />
-                    
                   </Grid>
                   <Grid
                     container

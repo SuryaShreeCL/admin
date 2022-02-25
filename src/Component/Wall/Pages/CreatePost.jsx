@@ -202,6 +202,34 @@ const CreatePost = () => {
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     jobRole: yup.string().required('job role is required'),
+    linkedSelfPrepVideos: yup
+      .array()
+      .of(
+        yup.object().shape({
+          videoName: yup.string().required('Video name is Required'),
+          videoLink: yup.string().required('Video Link is Required'),
+        })
+      )
+      .nullable(true),
+    wallSteps: yup.array().of(
+      yup.object().shape({
+        heading: yup.string().required('Heading is Required'),
+        subText: yup.string().required('Sub Heading is Required'),
+        message: yup.string().required('Message is Required'),
+        form: yup.object().shape({
+          formQuestions: yup.array().of(
+            yup.object().shape({
+              questionText: yup.string().required('Question is Required'),
+              formQuestionsChoices: yup.array().of(
+                yup.object().shape({
+                  questionChoice: yup.string().required('Choice is required'),
+                })
+              ),
+            })
+          ),
+        }),
+      })
+    ),
   });
 
   const postvalidationSchema = yup.object({
