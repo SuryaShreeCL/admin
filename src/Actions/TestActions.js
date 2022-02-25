@@ -272,3 +272,21 @@ export const scheduleIt = (id) => {
     console.log(response);
   });
 };
+
+export const updatePostTestScoreByQuestionSetId = (questionSetId) => {
+  return axios({
+    method: 'put',
+    url: `${process.env.REACT_APP_API_URL}/api/v1/testQuestionSet/${questionSetId}/score`,
+    crossDomain: true,
+    headers: {
+      admin: 'yes',
+      Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+    },
+  }).then((response) => {
+    // console.log(response);
+    return true;
+  }).catch(error=>{
+    // console.log(error);
+    return false;
+  })
+};
