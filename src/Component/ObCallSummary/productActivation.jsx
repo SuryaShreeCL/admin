@@ -17,7 +17,6 @@ import Grid from "@material-ui/core/Grid";
 // import{getsearchlist} from '../../Actions/Calldetails'
 // import button from './button';
 import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import { withStyles } from "@material-ui/core/styles";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
@@ -26,9 +25,9 @@ import { ExpandMore } from "@material-ui/icons";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import CloseIcon from "@material-ui/icons/Close";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import SearchIcon from "@material-ui/icons/Search";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
+import * as moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -46,9 +45,7 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { studentPath } from "../RoutePaths";
 import Loader from "../Utils/controls/Loader";
-import { isEmptyArray, isEmptyString } from "../Validation";
-import * as moment from "moment";
-
+import { isEmptyString } from "../Validation";
 
 const AntTabs = withStyles({
   root: {
@@ -226,6 +223,21 @@ class ProductActivation extends Component {
   }
 
   handleActivate = () => {
+    let helperText = "Please fill the required field";
+    this.state.intake === null
+      ? this.setState({
+          intakehlpTxt: helperText,
+        })
+      : this.setState({
+          intakehlpTxt: "",
+        });
+    this.state.year === null
+      ? this.setState({
+          yearhlpTxt: helperText,
+        })
+      : this.setState({
+          yearhlpTxt: "",
+        });
     this.setState({ isLoading: true });
     let obj = {
       studentId: this.state.studentId,
@@ -239,23 +251,27 @@ class ProductActivation extends Component {
         },
       ],
     };
-    console.log(obj);
-    this.props.activateStudentProduct(obj, (response) => {
-      console.log(response);
-      if (response.data === "updated") {
-        this.setState({
-          snackOpen: true,
-          snackColor: "success",
-          snackMsg: "Product activated successfully",
-          show: false,
-          isLoading: false,
-        });
-        this.props.searchProductActivationList(
-          this.props.match.params.productId,
-          this.state.keyword
-        );
-      }
-    });
+    if (this.state.intake !== null && this.state.year !== null) {
+      this.props.activateStudentProduct(obj, (response) => {
+        if (response.data === "updated") {
+          this.setState({
+            snackOpen: true,
+            snackColor: "success",
+            snackMsg: "Product activated successfully",
+            show: false,
+            isLoading: false,
+          });
+          this.props.searchProductActivationList(
+            this.props.match.params.productId,
+            this.state.keyword
+          );
+        }
+      });
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
   };
 
   // To handle search
@@ -268,7 +284,6 @@ class ProductActivation extends Component {
   };
 
   render() {
-    console.log(this.state.endServiceDate)
     return (
       <div style={{ padding: 10 }}>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -375,11 +390,11 @@ class ProductActivation extends Component {
                   this.state.listOfUsers.map((eachData, index) => {
                     let date = new Date(eachData.orderDate).getDate();
                     let month = new Date(eachData.orderDate).getMonth() + 1;
-                    let monthInWords =   moment(new Date(month)).format("MMM")
+                    let monthInWords = moment(new Date(month)).format("MMM");
                     let year = new Date(eachData.orderDate).getFullYear();
                     let newDate =
                       eachData.orderDate !== null
-                        ? monthInWords + "/"+ year
+                        ? monthInWords + "/" + year
                         : null;
                     return (
                       <TableRow>
@@ -571,6 +586,8 @@ class ProductActivation extends Component {
                           {...params}
                           value={this.state.intake}
                           label="Intake"
+                          error={this.state.intakehlpTxt}
+                          helperText={this.state.intakehlpTxt}
                         />
                       )}
                     />
@@ -590,6 +607,8 @@ class ProductActivation extends Component {
                           value={this.state.intake}
                           color="primary"
                           label="Year"
+                          error={this.state.yearhlpTxt}
+                          helperText={this.state.yearhlpTxt}
                         />
                       )}
                     />
