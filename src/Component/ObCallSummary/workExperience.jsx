@@ -129,8 +129,8 @@ class workExperience extends Component {
       this.state.professional.map((item) =>
         this.setState({
           organization: item.organization,
-          startDate: item.strStartDate,
-          endDate: item.strEndDate,
+          startDate: item.startDate,
+          endDate: item.endDate,
           employmentType: item.employmentType,
           role: item.role,
           id: item.id,
@@ -316,6 +316,7 @@ class workExperience extends Component {
             <div style={{ paddingTop: 10 }}>
               {this.state.professional.length !== 0 &&
                 this.state.professional.map((item, index) => {
+                  console.log(item);
                   var months = [
                     "January",
                     "Febuary",
@@ -366,11 +367,11 @@ class workExperience extends Component {
                               }}
                             >
                               {item.month} Months (
-                              {moment(new Date(item.strStartDate)).format(
+                              {moment(new Date(item.startDate)).format(
                                 "MMM YYYY"
                               )}
                               -
-                              {moment(new Date(item.strEndDate)).format(
+                              {moment(new Date(item.endDate)).format(
                                 "MMM YYYY"
                               )}
                               )
@@ -493,14 +494,14 @@ class workExperience extends Component {
                               /> */}
                               <TextField
                                 label="Start Date"
-                                value={item.strStartDate || ""}
+                                value={item.startDate || ""}
                                 type="month"
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "strStartDate",
+                                        name: "startDate",
                                         value: e.target.value,
                                       },
                                     },
@@ -528,14 +529,14 @@ class workExperience extends Component {
                             <Grid item md={3}>
                               <TextField
                                 label="End Date"
-                                value={item.strEndDate || ""}
+                                value={item.endDate || ""}
                                 type="month"
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
                                     {
                                       target: {
-                                        name: "strEndDate",
+                                        name: "endDate",
                                         value: e.target.value,
                                       },
                                     },
@@ -668,6 +669,7 @@ class workExperience extends Component {
                                 date={data.uploadDate}
                                 path={data.path}
                                 studentid={this.props.match.params.studentId}
+                                status={true}
                                 // category = 'cv'
                                 // id = {data.ieltsId}
                                 // status={this.state.documentedit}

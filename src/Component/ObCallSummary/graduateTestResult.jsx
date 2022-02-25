@@ -1830,13 +1830,13 @@ class GraduateTestResult extends Component {
             </TableContainer>
             <Grid item md={12} container justifyContent={'space-between'}>
               <p style={HeadStyle}>Documents Received</p>
-              <IconButton
+              {/* <IconButton
                 onClick={() =>
                   this.setState({ documentedit: !this.state.documentedit })
                 }
               >
                 <EditRoundedIcon color={'inherit'} />
-              </IconButton>
+              </IconButton> */}
             </Grid>
             {this.props.getAllDocumentList.GRE &&
               this.props.getAllDocumentList.GRE.length !== 0 && (
@@ -1860,7 +1860,8 @@ class GraduateTestResult extends Component {
                               studentid={this.props.match.params.studentId}
                               category='Gre'
                               id={data.greId}
-                              status={this.state.documentedit}
+                              // status={this.state.documentedit}
+                              status={true}
                             />
                           </Grid>
                         ))
@@ -1890,7 +1891,8 @@ class GraduateTestResult extends Component {
                               studentid={this.props.match.params.studentId}
                               category='Gmat'
                               id={data.gmatId}
-                              status={this.state.documentedit}
+                              // status={this.state.documentedit}
+                              status={true}
                             />
                           </Grid>
                         ))
@@ -1920,7 +1922,8 @@ class GraduateTestResult extends Component {
                               studentid={this.props.match.params.studentId}
                               category='Toefl'
                               id={data.tofelId}
-                              status={this.state.documentedit}
+                              // status={this.state.documentedit}
+                              status={true}
                             />
                           </Grid>
                         ))
@@ -1950,7 +1953,8 @@ class GraduateTestResult extends Component {
                               studentid={this.props.match.params.studentId}
                               category='Ielts'
                               id={data.ieltsId}
-                              status={this.state.documentedit}
+                              // status={this.state.documentedit}
+                              status={true}
                             />
                           </Grid>
                         ))
