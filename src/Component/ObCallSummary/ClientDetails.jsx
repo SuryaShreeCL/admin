@@ -270,7 +270,10 @@ class ClientDetails extends Component {
     if (
       this.props.updateclientdetailsList !== prevProps.updateclientdetailsList
     ) {
-      if (this.props.updateclientdetailsList === "updated") {
+      if (
+        this.props.updateclientdetailsList === "updated" ||
+        this.props.updateclientdetailsList === "created"
+      ) {
         this.setState({
           formSubmitted: true,
           snackmsg: "Updated Successfully",
@@ -279,7 +282,7 @@ class ClientDetails extends Component {
         });
       } else {
         this.setState({
-          snackmsg: "Error",
+          snackmsg: "Network Failed",
           snackvariant: "error",
           snackopen: true,
         });
