@@ -211,25 +211,25 @@ const CreatePost = () => {
         })
       )
       .nullable(true),
-    wallSteps: yup.array().of(
-      yup.object().shape({
-        heading: yup.string().required('Heading is Required'),
-        subText: yup.string().required('Sub Heading is Required'),
-        message: yup.string().required('Message is Required'),
-        form: yup.object().shape({
-          formQuestions: yup.array().of(
-            yup.object().shape({
-              questionText: yup.string().required('Question is Required'),
-              formQuestionsChoices: yup.array().of(
-                yup.object().shape({
-                  questionChoice: yup.string().required('Choice is required'),
-                })
-              ),
-            })
-          ),
-        }),
-      })
-    ),
+    // wallSteps: yup.array().of(
+    //   yup.object().shape({
+    //     heading: yup.string().required('Heading is Required'),
+    //     subText: yup.string().required('Sub Heading is Required'),
+    //     message: yup.string().required('Message is Required'),
+    //     form: yup.object().shape({
+    //       formQuestions: yup.array().of(
+    //         yup.object().shape({
+    //           questionText: yup.string().required('Question is Required'),
+    //           formQuestionsChoices: yup.array().of(
+    //             yup.object().shape({
+    //               questionChoice: yup.string().required('Choice is required'),
+    //             })
+    //           ),
+    //         })
+    //       ),
+    //     }),
+    //   })
+    // ),
   });
 
   const postvalidationSchema = yup.object({
@@ -898,7 +898,7 @@ const CreatePost = () => {
                 </div>
                 {values.isEvent && (
                   <>
-                    <NextStepsContainer values={values} setFieldValue={setFieldValue} />
+                    {/* <NextStepsContainer values={values} setFieldValue={setFieldValue} /> */}
                     <PreprationContainer values={values} setFieldValue={setFieldValue} />
                   </>
                 )}
