@@ -13,7 +13,7 @@ import Loader from '../Lms/Utils/Loader';
 import TextFieldComponent from './Controls/TextField';
 import { studentPath } from './RoutePaths';
 import Snack from './MySnackBar';
-import { downloadProductReport } from '../Actions/Reports';
+import { clearCustomData, downloadProductReport } from '../Actions/Reports';
 
 function ProductReport(props) {
   const classes = useStyles();
@@ -59,6 +59,7 @@ function ProductReport(props) {
           isDownloading: false,
         });
       }
+      dispatch(clearCustomData('productReport'));
     }
   }, [productReport, isDownloading]);
 

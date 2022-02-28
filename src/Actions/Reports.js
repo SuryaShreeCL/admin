@@ -240,3 +240,12 @@ export const downloadProductReport = (startDate, endDate) => {
       });
   };
 };
+
+export const clearCustomData = fieldName => {
+  return dispatch => {
+    dispatch({
+      type: REPORTS.clearCustomData,
+      fieldName: fieldName,
+    });
+  };
+};

@@ -70,6 +70,11 @@ export default (state = initialState, action) => {
         ...state,
         productReport: action.payload,
       };
+    case REPORTS.clearCustomData:
+      return {
+        ...state,
+        [action.fieldName]: null,
+      };
     default:
       break;
   }
