@@ -174,20 +174,24 @@ class workExperience extends Component {
     }
   };
   handleSave() {
+    console.log("handlesave/////////////////////////");
     var error = false;
     for (let i = 0; i < this.state.professional.length; i++) {
       for (const [key, value] of Object.entries(this.state.professional[i])) {
-        if (value === "") {
-          error = true;
-          this.setState({
-            [key.concat(`Err${i}`)]: `Please fill the required field`,
-          });
-        }
-        if (value === null) {
-          error = true;
-          this.setState({
-            [key.concat(`Err${i}`)]: `Please fill the required field`,
-          });
+        console.log(key, value);
+        if (key !== "department") {
+          if (value === "") {
+            error = true;
+            this.setState({
+              [key.concat(`Err${i}`)]: `Please fill the required field`,
+            });
+          }
+          if (value === null) {
+            error = true;
+            this.setState({
+              [key.concat(`Err${i}`)]: `Please fill the required field`,
+            });
+          }
         }
       }
     }

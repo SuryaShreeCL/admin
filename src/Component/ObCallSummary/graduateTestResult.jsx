@@ -1984,7 +1984,13 @@ class GraduateTestResult extends Component {
                         this.state.greDateList.map((eachdata) => {
                           return (
                             <Grid item md={3}>
-                              <ExamDateCard date={eachdata.expectedExamDate} />
+                              <ExamDateCard
+                                date={
+                                  eachdata.expectedExamDate
+                                    ? eachdata.expectedExamDate
+                                    : ""
+                                }
+                              />
                             </Grid>
                           );
                         })}
@@ -2003,7 +2009,13 @@ class GraduateTestResult extends Component {
                         this.state.gmatDateList.map((eachdata) => {
                           return (
                             <Grid item md={3}>
-                              <ExamDateCard date={eachdata.expectedExamDate} />
+                              <ExamDateCard
+                                date={
+                                  eachdata.expectedExamDate
+                                    ? eachdata.expectedExamDate
+                                    : ""
+                                }
+                              />
                             </Grid>
                           );
                         })}
@@ -2022,7 +2034,13 @@ class GraduateTestResult extends Component {
                         this.state.toeflDateList.map((eachdata) => {
                           return (
                             <Grid item md={3}>
-                              <ExamDateCard date={eachdata.expectedExamDate} />
+                              <ExamDateCard
+                                date={
+                                  eachdata.expectedExamDate
+                                    ? eachdata.expectedExamDate
+                                    : ""
+                                }
+                              />
                             </Grid>
                           );
                         })}
@@ -2042,7 +2060,13 @@ class GraduateTestResult extends Component {
                           console.log(eachdata);
                           return (
                             <Grid item md={3}>
-                              <ExamDateCard date={eachdata.expectedExamDate} />
+                              <ExamDateCard
+                                date={
+                                  eachdata.expectedExamDate
+                                    ? eachdata.expectedExamDate
+                                    : ""
+                                }
+                              />
                             </Grid>
                           );
                         })}
