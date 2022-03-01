@@ -41,6 +41,7 @@ import {
   updategrescore,
   updateieltsscore,
   updatetoeflscore,
+  getIeltsCompletedExamScore,
 } from "../../Actions/Calldetails";
 import {
   proofUplaod,
@@ -187,6 +188,7 @@ class GraduateTestResult extends Component {
     this.props.getieltsscore(this.props.match.params.studentId);
     this.props.gettoeflscore(this.props.match.params.studentId);
     this.props.getStudentsById(this.props.match.params.studentId);
+    this.props.getIeltsCompletedExamScore(this.props.match.params.studentId);
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getexpecteddate(
       "gre",
@@ -2050,8 +2052,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={12}>
                     <Grid container spacing={2}>
-                      {this.state.ieltsDateList &&
-                        this.state.ieltsDateList.map((eachdata) => {
+                      {this.props.ietlsCompletedScore &&
+                        this.props.ietlsCompletedScore.map((eachdata) => {
                           return (
                             <Grid item md={3}>
                               <ExamDateCard
@@ -3037,6 +3039,7 @@ const mapStateToProps = (state) => {
     fileuploadGATList: state.CallReducer.fileuploadGAT,
     studentStatus: state.AdminReducer.studentStatusResponse,
     getAllDocumentList: state.StudentReducer.getDocumentList,
+    ietlsCompletedScore: state.CallReducer.ietlsCompletedScore,
   };
 };
 
@@ -3058,4 +3061,5 @@ export default connect(mapStateToProps, {
   getDocumentList,
   getexpecteddate,
   getieltsexam,
+  getIeltsCompletedExamScore,
 })(GraduateTestResult);

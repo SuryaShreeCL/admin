@@ -319,6 +319,7 @@ export const CALL_DETAILS = {
   downloadGAT: "downloadGAT",
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
+  getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
   // getsearchlist:"getsearchlist"
 };
 
