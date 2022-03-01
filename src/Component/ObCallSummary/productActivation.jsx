@@ -254,6 +254,21 @@ class ProductActivation extends Component {
   }
 
   handleActivate = () => {
+    let helperText = "Please fill the required field";
+    this.state.intake === null
+      ? this.setState({
+          intakehlpTxt: helperText,
+        })
+      : this.setState({
+          intakehlpTxt: "",
+        });
+    this.state.year === null
+      ? this.setState({
+          yearhlpTxt: helperText,
+        })
+      : this.setState({
+          yearhlpTxt: "",
+        });
     this.setState({ isLoading: true });
     let obj = {
       studentId: this.state.studentId,
@@ -267,24 +282,27 @@ class ProductActivation extends Component {
         },
       ],
     };
-    console.log(obj);
-    this.props.activateStudentProduct(obj, response => {
-      console.log(response);
-      if (response.data === 'updated') {
-        this.setState({
-          snackOpen: true,
-          snackColor: 'success',
-          snackMsg: 'Product activated successfully',
-          show: false,
-          isLoading: false,
-        });
-        this.props.searchProductActivationList(
-          this.props.match.params.productId,
-          this.state.keyword
-        );
-        this.setState({ loading: true });
-      }
-    });
+    if (this.state.intake !== null && this.state.year !== null) {
+      this.props.activateStudentProduct(obj, (response) => {
+        if (response.data === "updated") {
+          this.setState({
+            snackOpen: true,
+            snackColor: "success",
+            snackMsg: "Product activated successfully",
+            show: false,
+            isLoading: false,
+          });
+          this.props.searchProductActivationList(
+            this.props.match.params.productId,
+            this.state.keyword
+          );
+        }
+      });
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
   };
 
   // To handle search
@@ -298,7 +316,6 @@ class ProductActivation extends Component {
   };
 
   render() {
-    console.log(this.state.endServiceDate);
     return (
       <div style={{ padding: 10 }}>
         <div style={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
@@ -600,7 +617,9 @@ class ProductActivation extends Component {
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          label='Intake'
+                          label="Intake"
+                          error={this.state.intakehlpTxt}
+                          helperText={this.state.intakehlpTxt}
                         />
                       )}
                     />
@@ -618,8 +637,10 @@ class ProductActivation extends Component {
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          color='primary'
-                          label='Year'
+                          color="primary"
+                          label="Year"
+                          error={this.state.yearhlpTxt}
+                          helperText={this.state.yearhlpTxt}
                         />
                       )}
                     />
