@@ -210,6 +210,7 @@ const CreatePost = () => {
     eventTitle: yup.string().required("title is required"),
     jobRole: yup.string().required("job role is required"),
     salary: yup.string().required("salary is required"),
+    roleDescription: yup.string().required("role description is required"),
   });
 
   const postvalidationSchema = yup.object({
@@ -470,7 +471,7 @@ const CreatePost = () => {
                       />
                     </FormControl>
                     {/* Swetha */}
-                    {!values.isEvent && !values.isWebinar && (
+                    {values.isEvent && !values.isWebinar && (
                       <FormControl
                         className={classes.root}
                         style={{ width: "80%" }}
@@ -562,7 +563,7 @@ const CreatePost = () => {
                       </Grid>
                     )}
                     {/* swetha */}
-                    {!values.isEvent && !values.isWebinar && (
+                    {values.isEvent && !values.isWebinar && (
                       <>
                         <Grid item>
                           <Controls.Input
@@ -1054,9 +1055,10 @@ const CreatePost = () => {
                       )}
                     </ButtonsContainer>
                   </Form>
+                  {/* Swetha */}
                   <div style={{ flexDirection: "column" }}>
                     {values.isWebinar ? null : <Preview state={values} />}
-                    {values.isWebinar ? null : (
+                    {values.isEvent && !values.isWebinar ? (
                       <>
                         <Divider className={classes.divider} />
                         <Grid item>
@@ -1078,7 +1080,7 @@ const CreatePost = () => {
                           />
                         </Grid>
                       </>
-                    )}
+                    ) : null}
                   </div>
                 </div>
                 {values.isEvent && (

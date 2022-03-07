@@ -393,7 +393,7 @@ const EditPost = () => {
                       </FormControl>
 
                       {/* Swetha */}
-                      {!values.isEvent && !values.isWebinar && (
+                      {values.isEvent && !values.isWebinar && (
                         <FormControl
                           className={classes.root}
                           style={{ width: "80%" }}
@@ -470,7 +470,8 @@ const EditPost = () => {
                           />
                         </Grid>
                       )}
-                      {!values.isEvent && !values.isWebinar && (
+                      {/* Swetha */}
+                      {values.isEvent && !values.isWebinar && (
                         <>
                           <Grid item>
                             <Controls.Input
@@ -955,9 +956,10 @@ const EditPost = () => {
                       )}
                     </ButtonsContainer>
                   </Form>
+                  {/* Swetha */}
                   <div style={{ flexDirection: "column" }}>
                     {values.isWebinar ? null : <Preview state={values} />}
-                    {values.isWebinar ? null : (
+                    {values.isWebinar || values.isEvent ? (
                       <>
                         <Divider className={classes.divider} />
                         <Grid item>
@@ -979,7 +981,7 @@ const EditPost = () => {
                           />
                         </Grid>
                       </>
-                    )}
+                    ) : null}
                   </div>
                 </div>
                 {values.isEvent && (
