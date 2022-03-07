@@ -19,7 +19,7 @@ import Controls from "../../Utils/controls/Controls";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import * as yup from "yup";
 import { Grid } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
@@ -31,6 +31,7 @@ import {
   getWallCategories,
   uploadImage,
   getPlatforms,
+  getWallJobList,
 } from "../../../Actions/WallActions";
 import Notification from "../../Utils/Notification";
 import { useHistory, useLocation } from "react-router-dom";
@@ -53,6 +54,18 @@ const useStyles = makeStyles({
     marginTop: 20,
     marginBottom: 15,
   },
+  roleStyle: {
+    width: "100%",
+    marginTop: 10,
+  },
+  title: {
+    fontSize: "16px",
+    color: "#052A4E",
+    marginTop: 40,
+    fontWeight: 400,
+    lineHeight: "19.5px",
+  },
+  divider: { backgroundColor: "#D8D8D8", marginTop: 40 },
   spacer: {
     width: "80%",
     marginTop: "10px",
@@ -69,8 +82,12 @@ const CreatePost = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
+    jobCategory: [],
     wallCategories: [],
     caption: "",
+    salary: "",
+    location: "",
+    roleDescription: "",
     isEvent: location.type ?? false,
     supportingMedia: location?.postType === "Webinar" ? "webinar" : "image",
     wallFiles: [],
@@ -99,6 +116,8 @@ const CreatePost = () => {
     platforms: [],
   });
 
+  console.log(state, "state");
+
   const [errorSchema, setErrorSchema] = useState({
     isVideoLink: false,
   });
@@ -116,13 +135,14 @@ const CreatePost = () => {
 
   useEffect(() => {
     dispatch(getWallCategories("Live"));
+    dispatch(getWallJobList("Live"));
     dispatch(getPlatforms());
   }, [dispatch]);
 
-  const { categories } = useSelector(state => state.getWallCategoriesReducer);
-  const { platforms } = useSelector(state => state.platformsReducer);
-
-  const validate = values => {
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const { platforms } = useSelector((state) => state.platformsReducer);
+  const { jobs } = useSelector((state) => state.getWallJobListReducer);
+  const validate = (values) => {
     if (values.supportingMedia === "image" && values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -168,7 +188,7 @@ const CreatePost = () => {
     }
 
     if (values.isVideoUrlEnabled && values.videoUrl?.length < 1) {
-      setErrorSchema(s => ({ ...s, isVideoLink: true }));
+      setErrorSchema((s) => ({ ...s, isVideoLink: true }));
       return false;
     }
 
@@ -176,7 +196,7 @@ const CreatePost = () => {
   };
 
   const handlePostType = () => {
-    setState(s => ({ ...s, isEvent: !state.isEvent }));
+    setState((s) => ({ ...s, isEvent: !state.isEvent }));
   };
 
   const webinarvalidationSchema = yup.object({
@@ -189,10 +209,14 @@ const CreatePost = () => {
     caption: yup.string().required("caption is required"),
     eventTitle: yup.string().required("title is required"),
     jobRole: yup.string().required("job role is required"),
+    salary: yup.string().required("salary is required"),
   });
 
   const postvalidationSchema = yup.object({
     caption: yup.string().required("caption is required"),
+    roleDescription: yup.string().required("role description is required"),
+    salary: yup.string().required("salary is required"),
+    location: yup.string().required("location is required"),
   });
 
   const validationSchema = yup.object({
@@ -246,7 +270,7 @@ const CreatePost = () => {
       let formData = new FormData();
       formData.append("file", e.target.files[0]);
       dispatch(
-        uploadImage(formData, response => {
+        uploadImage(formData, (response) => {
           if (type === "BANNER")
             setFieldValue("banner", response.data.imageUrl);
           else setFieldValue("hostImageUrl", response.data.imageUrl);
@@ -261,11 +285,11 @@ const CreatePost = () => {
     }
   };
 
-  const handleDeleteClick = setFieldValue => {
+  const handleDeleteClick = (setFieldValue) => {
     setFieldValue("banner", "");
   };
 
-  const handleHostDeleteClick = setFieldValue => {
+  const handleHostDeleteClick = (setFieldValue) => {
     setFieldValue("hostImageUrl", "");
   };
 
@@ -380,7 +404,7 @@ const CreatePost = () => {
                         multiple
                         id="wallCategories"
                         name="wallCategories"
-                        getOptionLabel={option => option?.name}
+                        getOptionLabel={(option) => option?.name}
                         options={categories ?? []}
                         onChange={(e, value) => {
                           setFieldValue(
@@ -390,7 +414,7 @@ const CreatePost = () => {
                         }}
                         fullWidth
                         value={values.wallCategories}
-                        renderInput={params => (
+                        renderInput={(params) => (
                           <TextField
                             {...params}
                             label="Select Category"
@@ -417,7 +441,7 @@ const CreatePost = () => {
                         multiple
                         id="platforms"
                         name="platforms"
-                        getOptionLabel={option => option?.name}
+                        getOptionLabel={(option) => option?.name}
                         options={platforms ?? []}
                         onChange={(e, value) => {
                           setFieldValue(
@@ -427,7 +451,7 @@ const CreatePost = () => {
                         }}
                         fullWidth
                         value={values.platforms}
-                        renderInput={params => (
+                        renderInput={(params) => (
                           <TextField
                             {...params}
                             label="Select Platforms"
@@ -445,7 +469,44 @@ const CreatePost = () => {
                         }}
                       />
                     </FormControl>
-
+                    {/* Swetha */}
+                    {!values.isEvent && !values.isWebinar && (
+                      <FormControl
+                        className={classes.root}
+                        style={{ width: "80%" }}
+                      >
+                        <Autocomplete
+                          id="jobCategory"
+                          name="jobCategory"
+                          getOptionLabel={(option) => option?.name}
+                          options={jobs ?? []}
+                          onChange={(e, value) => {
+                            setFieldValue(
+                              "jobCategory",
+                              value !== null ? value : jobs
+                            );
+                          }}
+                          fullWidth
+                          value={values.jobCategory}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Select Job Field"
+                              name="jobCategory"
+                              variant="outlined"
+                              error={
+                                touched.jobCategory &&
+                                Boolean(values.jobCategory.length === 0)
+                              }
+                            />
+                          )}
+                          style={{
+                            marginTop: "10px",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      </FormControl>
+                    )}
                     {values.isEvent && (
                       <Grid item>
                         <Controls.Input
@@ -488,7 +549,7 @@ const CreatePost = () => {
                     ) : (
                       <Grid item>
                         <Controls.Input
-                          label="Type caption here.."
+                          label="Enter Caption (register now etc)"
                           value={values.caption}
                           name="caption"
                           onChange={handleChange}
@@ -499,6 +560,40 @@ const CreatePost = () => {
                           fullWidth
                         />
                       </Grid>
+                    )}
+                    {/* swetha */}
+                    {!values.isEvent && !values.isWebinar && (
+                      <>
+                        <Grid item>
+                          <Controls.Input
+                            label="Enter Salary"
+                            name="salary"
+                            style={{
+                              width: "80%",
+                              marginTop: "10px",
+                              marginBottom: "10px",
+                            }}
+                            value={values.salary}
+                            error={touched.salary && Boolean(errors.salary)}
+                            type={"number"}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <Controls.Input
+                            label="Enter Location"
+                            name="location"
+                            style={{
+                              width: "80%",
+                              marginTop: "10px",
+                              marginBottom: "10px",
+                            }}
+                            error={touched.location && Boolean(errors.location)}
+                            value={values.location}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                      </>
                     )}
 
                     {(!values.isEvent || values.isWebinar) && (
@@ -533,14 +628,14 @@ const CreatePost = () => {
                             }}
                             value={values.banner}
                             type="file"
-                            onInput={e =>
+                            onInput={(e) =>
                               handleImageUpload({
                                 e,
                                 type: "BANNER",
                                 setFieldValue,
                               })
                             }
-                            onClick={e => (e.target.value = null)}
+                            onClick={(e) => (e.target.value = null)}
                           />
                         ) : (
                           <Grid container direction="column">
@@ -574,10 +669,10 @@ const CreatePost = () => {
                             }}
                             value={values.hostImage}
                             type="file"
-                            onInput={e =>
+                            onInput={(e) =>
                               handleImageUpload({ e, setFieldValue })
                             }
-                            onClick={e => (e.target.value = null)}
+                            onClick={(e) => (e.target.value = null)}
                           />
                         ) : (
                           <Grid container direction="column">
@@ -661,7 +756,7 @@ const CreatePost = () => {
                           }}
                           value={values.zoomLink}
                           onChange={handleChange}
-                          onKeyDown={evt =>
+                          onKeyDown={(evt) =>
                             AVOID_INPUT.includes(evt.key) &&
                             evt.preventDefault()
                           }
@@ -809,7 +904,7 @@ const CreatePost = () => {
                               disablePast
                               name="eventDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
                             />
@@ -831,7 +926,7 @@ const CreatePost = () => {
                               disablePast
                               name="eventEndDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventEndDate", val);
                               }}
                             />
@@ -865,7 +960,7 @@ const CreatePost = () => {
                               disablePast
                               name="eventDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
                             />
@@ -889,7 +984,7 @@ const CreatePost = () => {
                               disablePast
                               name="eventEndDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventEndDate", val);
                               }}
                             />
@@ -914,7 +1009,7 @@ const CreatePost = () => {
                             disablePast
                             name="selectedDate"
                             inputVariant="outlined"
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue("selectedDate", val);
                             }}
                             label="Schedule Data & Time"
@@ -959,7 +1054,32 @@ const CreatePost = () => {
                       )}
                     </ButtonsContainer>
                   </Form>
-                  {values.isWebinar ? null : <Preview state={values} />}
+                  <div style={{ flexDirection: "column" }}>
+                    {values.isWebinar ? null : <Preview state={values} />}
+                    {values.isWebinar ? null : (
+                      <>
+                        <Divider className={classes.divider} />
+                        <Grid item>
+                          <div className={classes.title}>Role Description </div>
+
+                          <Controls.Input
+                            // label="Role Description"
+                            value={values.roleDescription}
+                            name="roleDescription"
+                            onChange={handleChange}
+                            error={
+                              touched.roleDescription &&
+                              Boolean(errors.roleDescription)
+                            }
+                            multiline
+                            className={classes.roleStyle}
+                            rows={6}
+                            fullWidth
+                          />
+                        </Grid>
+                      </>
+                    )}
+                  </div>
                 </div>
                 {values.isEvent && (
                   <PreprationContainer

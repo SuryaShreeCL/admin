@@ -17,7 +17,7 @@ import MomentUtils from "@date-io/moment";
 import { Formik, Form } from "formik";
 import Controls from "../../Utils/controls/Controls";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import * as yup from "yup";
 import { useLocation } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -31,6 +31,7 @@ import {
   updateWallPost,
   uploadImage,
   getPlatforms,
+  getWallJobList,
 } from "../../../Actions/WallActions";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
@@ -55,6 +56,18 @@ const useStyles = makeStyles({
     marginTop: 20,
     marginBottom: 15,
   },
+  roleStyle: {
+    width: "100%",
+    marginTop: 10,
+  },
+  title: {
+    fontSize: "16px",
+    color: "#052A4E",
+    marginTop: 40,
+    fontWeight: 400,
+    lineHeight: "19.5px",
+  },
+  divider: { backgroundColor: "#D8D8D8", marginTop: 40 },
   spacer: {
     width: "80%",
     marginTop: "10px",
@@ -79,6 +92,8 @@ const EditPost = () => {
   const [records, setRecords] = useState(recordForEdit);
 
   const [state, setState] = useState({
+    jobCategory: [],
+    roleDescription: "",
     wallCategories: [],
     caption: "",
     isEvent: false,
@@ -117,11 +132,13 @@ const EditPost = () => {
     subTitle: "",
   });
 
-  const { categories } = useSelector(state => state.getWallCategoriesReducer);
-  const { platforms } = useSelector(state => state.platformsReducer);
+  const { categories } = useSelector((state) => state.getWallCategoriesReducer);
+  const { platforms } = useSelector((state) => state.platformsReducer);
+  const { jobs } = useSelector((state) => state.getWallJobListReducer);
 
   useEffect(() => {
     dispatch(getWallCategories("Live"));
+    dispatch(getWallJobList("Live"));
     dispatch(getPlatforms());
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -146,7 +163,7 @@ const EditPost = () => {
     }, 1200);
   };
 
-  const updatePost = post => {
+  const updatePost = (post) => {
     dispatch(updateWallPost(post));
     setNotify({
       isOpen: true,
@@ -175,7 +192,7 @@ const EditPost = () => {
       let formData = new FormData();
       formData.append("file", e.target.files[0]);
       dispatch(
-        uploadImage(formData, response => {
+        uploadImage(formData, (response) => {
           if (type === "BANNER")
             setFieldValue("banner", response.data.imageUrl);
           else setFieldValue("hostImageUrl", response.data.imageUrl);
@@ -190,11 +207,11 @@ const EditPost = () => {
     }
   };
 
-  const handleDeleteClick = setFieldValue => {
+  const handleDeleteClick = (setFieldValue) => {
     setFieldValue("banner", "");
   };
 
-  const handleHostDeleteClick = setFieldValue => {
+  const handleHostDeleteClick = (setFieldValue) => {
     setFieldValue("hostImageUrl", "");
   };
 
@@ -305,7 +322,7 @@ const EditPost = () => {
                           multiple
                           id="wallCategories"
                           name="wallCategories"
-                          getOptionLabel={option => option?.name}
+                          getOptionLabel={(option) => option?.name}
                           options={categories ?? []}
                           onChange={(e, value) => {
                             setFieldValue(
@@ -315,10 +332,14 @@ const EditPost = () => {
                           }}
                           value={values.wallCategories}
                           disabled={
-                            (values?.wallCategories[0]?.name == "4th Year Premium" || 
-                            values?.wallCategories[0]?.name == "4th Year Freemium")?true:false
+                            values?.wallCategories[0]?.name ==
+                              "4th Year Premium" ||
+                            values?.wallCategories[0]?.name ==
+                              "4th Year Freemium"
+                              ? true
+                              : false
                           }
-                          renderInput={params => (
+                          renderInput={(params) => (
                             <TextField
                               {...params}
                               label="Select Category"
@@ -342,7 +363,7 @@ const EditPost = () => {
                           multiple
                           id="platforms"
                           name="platforms"
-                          getOptionLabel={option => option?.name}
+                          getOptionLabel={(option) => option?.name}
                           options={platforms ?? []}
                           onChange={(e, value) => {
                             setFieldValue(
@@ -352,7 +373,7 @@ const EditPost = () => {
                           }}
                           fullWidth
                           value={values.platforms}
-                          renderInput={params => (
+                          renderInput={(params) => (
                             <TextField
                               {...params}
                               label="Select Platforms"
@@ -370,6 +391,45 @@ const EditPost = () => {
                           }}
                         />
                       </FormControl>
+
+                      {/* Swetha */}
+                      {!values.isEvent && !values.isWebinar && (
+                        <FormControl
+                          className={classes.root}
+                          style={{ width: "80%" }}
+                        >
+                          <Autocomplete
+                            id="jobCategory"
+                            name="jobCategory"
+                            getOptionLabel={(option) => option?.name}
+                            options={jobs ?? []}
+                            onChange={(e, value) => {
+                              setFieldValue(
+                                "jobCategory",
+                                value !== null ? value : jobs
+                              );
+                            }}
+                            fullWidth
+                            value={values.jobCategory}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label="Select Job Field"
+                                name="jobCategory"
+                                variant="outlined"
+                                error={
+                                  touched.jobCategory &&
+                                  Boolean(values.jobCategory.length === 0)
+                                }
+                              />
+                            )}
+                            style={{
+                              marginTop: "10px",
+                              marginBottom: "10px",
+                            }}
+                          />
+                        </FormControl>
+                      )}
 
                       {values.supportingMedia === "webinar" ? (
                         <Grid item>
@@ -399,7 +459,7 @@ const EditPost = () => {
                             }}
                           />
                           <Controls.Input
-                            label="Type caption here.."
+                            label="Enter Caption (register now etc)"
                             value={values.caption}
                             name="caption"
                             onChange={handleChange}
@@ -409,6 +469,37 @@ const EditPost = () => {
                             rows={6}
                           />
                         </Grid>
+                      )}
+                      {!values.isEvent && !values.isWebinar && (
+                        <>
+                          <Grid item>
+                            <Controls.Input
+                              label="Enter Salary"
+                              name="salary"
+                              style={{
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                              }}
+                              value={values.salary}
+                              type={"number"}
+                              onChange={handleChange}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Controls.Input
+                              label="Enter Location"
+                              name="location"
+                              style={{
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
+                              }}
+                              value={values.location}
+                              onChange={handleChange}
+                            />
+                          </Grid>
+                        </>
                       )}
 
                       {values.isWebinar && (
@@ -444,14 +535,14 @@ const EditPost = () => {
                               }}
                               value={values.banner}
                               type="file"
-                              onInput={e =>
+                              onInput={(e) =>
                                 handleImageUpload({
                                   e,
                                   type: "BANNER",
                                   setFieldValue,
                                 })
                               }
-                              onClick={e => (e.target.value = null)}
+                              onClick={(e) => (e.target.value = null)}
                             />
                           ) : (
                             <Grid container direction="column">
@@ -492,10 +583,10 @@ const EditPost = () => {
                               }}
                               value={values.hostImage}
                               type="file"
-                              onInput={e =>
+                              onInput={(e) =>
                                 handleImageUpload({ e, setFieldValue })
                               }
-                              onClick={e => (e.target.value = null)}
+                              onClick={(e) => (e.target.value = null)}
                             />
                           ) : (
                             <Grid container direction="column">
@@ -642,7 +733,7 @@ const EditPost = () => {
                         />
                       )}
                       <Grid item>
-                        {values.wallFiles?.map(media => (
+                        {values.wallFiles?.map((media) => (
                           <ExistingMedia
                             media={media}
                             wallFiles={values.wallFiles}
@@ -721,7 +812,7 @@ const EditPost = () => {
                               style={{ width: "100%", margin: "10px 0px" }}
                               name="eventDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
                             />
@@ -742,7 +833,7 @@ const EditPost = () => {
                               style={{ width: "100%", margin: "10px 0px" }}
                               name="eventEndDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventEndDate", val);
                               }}
                             />
@@ -775,7 +866,7 @@ const EditPost = () => {
                               disablePast
                               name="eventDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
                             />
@@ -799,7 +890,7 @@ const EditPost = () => {
                               disablePast
                               name="eventEndDate"
                               inputVariant="outlined"
-                              onChange={val => {
+                              onChange={(val) => {
                                 setFieldValue("eventEndDate", val);
                               }}
                             />
@@ -822,7 +913,7 @@ const EditPost = () => {
                             style={{ width: "80%", margin: "10px 0px" }}
                             name="selectedDate"
                             inputVariant="outlined"
-                            onChange={val => {
+                            onChange={(val) => {
                               setFieldValue("selectedDate", val);
                             }}
                             label="Schedule Data & Time"
@@ -864,7 +955,32 @@ const EditPost = () => {
                       )}
                     </ButtonsContainer>
                   </Form>
-                  {values.isWebinar ? null : <Preview state={values} />}
+                  <div style={{ flexDirection: "column" }}>
+                    {values.isWebinar ? null : <Preview state={values} />}
+                    {values.isWebinar ? null : (
+                      <>
+                        <Divider className={classes.divider} />
+                        <Grid item>
+                          <div className={classes.title}>Role Description </div>
+
+                          <Controls.Input
+                            // label="Role Description"
+                            value={values.roleDescription}
+                            name="roleDescription"
+                            onChange={handleChange}
+                            error={
+                              touched.roleDescription &&
+                              Boolean(errors.roleDescription)
+                            }
+                            multiline
+                            className={classes.roleStyle}
+                            rows={6}
+                            fullWidth
+                          />
+                        </Grid>
+                      </>
+                    )}
+                  </div>
                 </div>
                 {values.isEvent && (
                   <PreprationContainer
