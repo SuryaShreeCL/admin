@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
+import { Alert } from '@material-ui/lab';
 import Switch from '@material-ui/core/Switch';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -211,25 +212,25 @@ const CreatePost = () => {
         })
       )
       .nullable(true),
-    // wallSteps: yup.array().of(
-    //   yup.object().shape({
-    //     heading: yup.string().required('Heading is Required'),
-    //     subText: yup.string().required('Sub Heading is Required'),
-    //     message: yup.string().required('Message is Required'),
-    //     form: yup.object().shape({
-    //       formQuestions: yup.array().of(
-    //         yup.object().shape({
-    //           questionText: yup.string().required('Question is Required'),
-    //           formQuestionsChoices: yup.array().of(
-    //             yup.object().shape({
-    //               questionChoice: yup.string().required('Choice is required'),
-    //             })
-    //           ),
-    //         })
-    //       ),
-    //     }),
-    //   })
-    // ),
+    wallSteps: yup.array().of(
+      yup.object().shape({
+        heading: yup.string().required('Heading is Required'),
+        subText: yup.string().required('Sub Heading is Required'),
+        message: yup.string().required('Message is Required'),
+        form: yup.object().shape({
+          formQuestions: yup.array().of(
+            yup.object().shape({
+              questionText: yup.string().required('Question is Required'),
+              formQuestionsChoices: yup.array().of(
+                yup.object().shape({
+                  questionChoice: yup.string().required('Choice is required'),
+                })
+              ),
+            })
+          ),
+        }),
+      })
+    ),
   });
 
   const postvalidationSchema = yup.object({
@@ -898,9 +899,15 @@ const CreatePost = () => {
                 </div>
                 {values.isEvent && (
                   <>
-                    {/* <NextStepsContainer values={values} setFieldValue={setFieldValue} /> */}
+                    <NextStepsContainer values={values} setFieldValue={setFieldValue} />
                     <PreprationContainer values={values} setFieldValue={setFieldValue} />
                   </>
+                )}
+                {values.isEvent && errors.wallSteps && (
+                  <Alert severity='warning'>
+                    Before submitting make sure Next Steps are filled and its form fields are not
+                    empty.
+                  </Alert>
                 )}
                 <ButtonsContainer>
                   <Button
