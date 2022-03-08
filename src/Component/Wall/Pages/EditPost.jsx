@@ -649,7 +649,7 @@ const EditPost = () => {
                         </Grid>
                       </Grid>
                     )}
-                    {values.isEvent && (
+                    {/* {values.isEvent && (
                       <Grid item>
                         <h6 style={{ fontSize: '1rem' }}>
                           Resume Required?
@@ -662,7 +662,7 @@ const EditPost = () => {
                           />
                         </h6>
                       </Grid>
-                    )}
+                    )} */}
                     {values.isEvent && (
                       <Grid
                         container
