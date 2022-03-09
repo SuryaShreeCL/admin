@@ -82,7 +82,7 @@ const CreatePost = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
-    jobCategory: [],
+    jobCategory: null,
     wallCategories: [],
     caption: "",
     salary: "",

@@ -92,7 +92,7 @@ const EditPost = () => {
   const [records, setRecords] = useState(recordForEdit);
 
   const [state, setState] = useState({
-    jobCategory: [],
+    jobCategory: null,
     roleDescription: "",
     wallCategories: [],
     caption: "",
