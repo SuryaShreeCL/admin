@@ -334,6 +334,7 @@ export const updategrescore = (greid, data) => {
       });
   };
 };
+
 export const updategmatscore = (gmatid, data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -471,3 +472,27 @@ export const completecall = (studentId, productId, data) => {
 //         })
 //     }
 // }
+
+// get ielts completed score
+export const getIeltsCompletedExamScore = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/students/" + studentId + "/graduate/ielts", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          admin: "yes",
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: CALL_DETAILS.getIeltsCompletedExamScore,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

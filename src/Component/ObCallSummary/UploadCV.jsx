@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { getDocumentList } from "../../Actions/Student";
-import Grid from "@material-ui/core/Grid";
-import DoccumentCard from "../Utils/DoccumentCard";
-import { URL } from "../../Actions/URL";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getDocumentList } from '../../Actions/Student';
+import Grid from '@material-ui/core/Grid';
+import DoccumentCard from '../Utils/DoccumentCard';
+import { URL } from '../../Actions/URL';
 
 export class UploadCV extends Component {
   componentDidMount() {
@@ -13,9 +13,9 @@ export class UploadCV extends Component {
     );
   }
 
-  documentClick = (data) => {
+  documentClick = data => {
     window.open(
-      URL + "/api/v1/cv/download/cv/" + data.studentId + "/" + data.path
+      URL + '/api/v1/cv/download/cv/' + data.studentId + '/' + data.path
     );
   };
   render() {
@@ -30,16 +30,16 @@ export class UploadCV extends Component {
             {this.props.getAllDocumentList.CV &&
               this.props.getAllDocumentList.CV.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction="column">
+                  <Grid item md={12} direction='column'>
                     <p style={GridStyle}>CV</p>
                   </Grid>
                   <Grid item={12} container>
                     {this.props.getAllDocumentList.CV
-                      ? this.props.getAllDocumentList.CV.map((data) => (
+                      ? this.props.getAllDocumentList.CV.map(data => (
                           <Grid
                             item
                             md={4}
-                            direction="row"
+                            direction='row'
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -47,6 +47,7 @@ export class UploadCV extends Component {
                               date={data.uploadDate}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
+                              status={true}
                               // category = 'cv'
                               // id = {data.ieltsId}
                               // status={this.state.documentedit}
@@ -65,22 +66,22 @@ export class UploadCV extends Component {
 }
 const style = {
   HeadStyle: {
-    paddingTop: "18px",
-    fontStyle: "Poppins",
-    fontWeight: "600",
-    fontStyle: "normal",
-    fontSize: "18px",
-    color: "#0081FF",
+    paddingTop: '18px',
+    fontStyle: 'Poppins',
+    fontWeight: '600',
+    fontStyle: 'normal',
+    fontSize: '18px',
+    color: '#0081FF',
   },
   GridStyle: {
-    fontStyle: "Montserrat",
-    fontWeight: "700",
-    fontStyle: "normal",
-    fontSize: "16px",
-    color: "#052A4E",
+    fontStyle: 'Montserrat',
+    fontWeight: '700',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    color: '#052A4E',
   },
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     getAllDocumentList: state.StudentReducer.getDocumentList,
   };

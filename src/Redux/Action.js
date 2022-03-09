@@ -319,6 +319,7 @@ export const CALL_DETAILS = {
   downloadGAT: "downloadGAT",
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
+  getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
   // getsearchlist:"getsearchlist"
 };
 
@@ -337,17 +338,18 @@ export const NOTIFICATION = {
 };
 
 export const REPORTS = {
-  viewTermsAndConReport: 'viewTermsAndConReport',
-  viewCvReport: 'viewCvReport',
-  viewMarksheetReport: 'viewMarksheetReport',
-  viewMyDetailsReport: 'viewMyDetailsReport',
-  viewTechTestMechReport: 'viewTechTestMechReport',
-  viewTechTestCseReport: 'viewTechTestCseReport',
-  viewTestRating: 'viewTestRating',
-  viewTechTestElectronics: 'viewTechTestElectronics',
-  viewDiagTestReport: 'viewDiagTestReport',
-  viewCareerExpoTest: 'viewCareerExpoTest',
-  downloadProductReport: 'downloadProductReport',
+  viewTermsAndConReport: "viewTermsAndConReport",
+  viewCvReport: "viewCvReport",
+  viewMarksheetReport: "viewMarksheetReport",
+  viewMyDetailsReport: "viewMyDetailsReport",
+  viewTechTestMechReport: "viewTechTestMechReport",
+  viewTechTestCseReport: "viewTechTestCseReport",
+  viewTestRating: "viewTestRating",
+  viewTechTestElectronics: "viewTechTestElectronics",
+  viewDiagTestReport: "viewDiagTestReport",
+  viewCareerExpoTest: "viewCareerExpoTest",
+  downloadProductReport: "downloadProductReport",
+  clearCustomData: "reportClearCustomData",
 };
 
 export const STUDENTMARKDETAILS = {
@@ -472,6 +474,10 @@ export const WALL = {
   WALL_CATEGORIES_REQUEST: "WALL_CATEGORIES_REQUEST",
   WALL_CATEGORIES_SUCCESS: "WALL_CATEGORIES_SUCCESS",
   WALL_CATEGORIES_FAIL: "WALL_CATEGORIES_FAIL",
+
+  WALL_JOB_LIST_REQUEST: "WALL_JOB_LIST_REQUEST",
+  WALL_JOB_LIST_SUCCESS: "WALL_JOB_LIST_SUCCESS",
+  WALL_JOB_LIST_FAIL: "WALL_JOB_LIST_FAIL",
 
   DELETE_REQUEST: "WALL_DELETE_REQUEST",
   DELETE_SUCCESS: "WALL_DELETE_SUCCESS",

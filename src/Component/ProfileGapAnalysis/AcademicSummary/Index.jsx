@@ -11,7 +11,12 @@ import {
   getAcademicSummary,
   getFilterListForDropDown,
 } from "../../../AsyncApiCall/Ppga";
-import { isEmptyObject, isEmptyString, isNanAndEmpty } from "../../Validation";
+import {
+  isEmptyObject,
+  isEmptyString,
+  isNanAndEmpty,
+  isNumber,
+} from "../../Validation";
 import { HELPER_TEXT } from "../../../Constant/Variables";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import PrimaryButton from "../../../Utils/PrimaryButton";
@@ -25,8 +30,20 @@ function Index(props) {
       field: "semester",
       type: "numeric",
       validate: (rowData) => {
-        if (!isNanAndEmpty(rowData.semester)) {
-          return true;
+        if (
+          !isNanAndEmpty(rowData.semester) &&
+          rowData.semester?.toString()?.length <= 1
+        ) {
+          if (rowData.semester > 0) {
+            return true;
+          } else {
+            return {
+              isValid: false,
+              helperText: "It cannot be zero or negative value",
+            };
+          }
+        } else if (rowData.semester?.toString()?.length > 1) {
+          return { isValid: false, helperText: "Enter the valid data" };
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }
@@ -39,7 +56,10 @@ function Index(props) {
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.sgpa) {
-            if (!isNanAndEmpty(rowData.sgpa)) {
+            if (
+              !isNanAndEmpty(rowData.sgpa) &&
+              rowData.sgpa?.toString()?.length <= 3
+            ) {
               if (rowData.sgpa > 0) {
                 return true;
               } else {
@@ -48,8 +68,10 @@ function Index(props) {
                   helperText: "It cannot be zero or negative value",
                 };
               }
+            } else if (rowData.sgpa?.toString()?.length >= 3) {
+              return { isValid: false, helperText: "Enter the valid data" };
             } else {
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           } else {
             return { isValid: false, helperText: HELPER_TEXT.requiredField };
@@ -69,9 +91,17 @@ function Index(props) {
       field: "activeBackLog",
       type: "number",
       validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
+        if (
+          !isEmptyObject(rowData) &&
+          rowData.activeBackLog?.toString()?.length <= 2
+        ) {
           if (rowData.activeBackLog) {
-            if (!isNanAndEmpty(rowData.activeBackLog)) {
+            if (
+              !isNanAndEmpty(
+                rowData.activeBackLog &&
+                  rowData.activeBackLog?.toString()?.length <= 2
+              )
+            ) {
               console.log(rowData.activeBackLog);
               if (rowData.activeBackLog >= parseInt("0")) {
                 return true;
@@ -87,6 +117,11 @@ function Index(props) {
           } else {
             return { isValid: false, helperText: HELPER_TEXT.requiredField };
           }
+        } else if (rowData.activeBackLog?.toString()?.length >= 2) {
+          return {
+            isValid: false,
+            helperText: "Enter the valid data",
+          };
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }
@@ -113,7 +148,10 @@ function Index(props) {
       field: "clearedBackLog",
       type: "number",
       validate: (rowData) => {
-        if (!isEmptyObject(rowData)) {
+        if (
+          !isEmptyObject(rowData) &&
+          rowData.clearedBackLog?.toString()?.length <= 2
+        ) {
           if (rowData.clearedBackLog) {
             if (!isNanAndEmpty(rowData.clearedBackLog)) {
               if (rowData.clearedBackLog >= parseInt("0")) {
@@ -130,6 +168,8 @@ function Index(props) {
           } else {
             return { isValid: false, helperText: HELPER_TEXT.requiredField };
           }
+        } else if (rowData.clearedBackLog?.toString()?.length >= 2) {
+          return { isValid: false, helperText: "Enter the valid data" };
         } else {
           return { isValid: false, helperText: HELPER_TEXT.requiredField };
         }

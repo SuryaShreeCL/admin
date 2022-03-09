@@ -53,6 +53,18 @@ const useStyles = makeStyles({
     marginTop: 20,
     marginBottom: 15,
   },
+  roleStyle: {
+    width: '100%',
+    marginTop: 10,
+  },
+  title: {
+    fontSize: '16px',
+    color: '#052A4E',
+    marginTop: 40,
+    fontWeight: 400,
+    lineHeight: '19.5px',
+  },
+  divider: { backgroundColor: '#D8D8D8', marginTop: 40 },
   spacer: {
     width: '80%',
     marginTop: '10px',
@@ -69,8 +81,12 @@ const CreatePost = () => {
   const history = useHistory();
 
   const [state, setState] = useState({
+    jobCategory: null,
     wallCategories: [],
     caption: '',
+    salary: '',
+    location: '',
+    roleDescription: '',
     isEvent: location.type ?? false,
     // isEvent: true,
     supportingMedia: location?.postType === 'Webinar' ? 'webinar' : 'image',
@@ -111,6 +127,8 @@ const CreatePost = () => {
     platforms: [],
   });
 
+  console.log(state, 'state');
+
   const [errorSchema, setErrorSchema] = useState({
     isVideoLink: false,
   });
@@ -128,14 +146,14 @@ const CreatePost = () => {
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
+    dispatch(getWallJobList('Live'));
     dispatch(getPlatforms());
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { platforms } = useSelector((state) => state.platformsReducer);
-
+  const { jobs } = useSelector((state) => state.getWallJobListReducer);
   const validate = (values) => {
-    /* Validating if the media is uploaded or not */
     if (values.supportingMedia === 'image' && values.wallFiles.length === 0) {
       setNotify({
         isOpen: true,
@@ -235,6 +253,20 @@ const CreatePost = () => {
 
   const postvalidationSchema = yup.object({
     caption: yup.string().required('caption is required'),
+    eventTitle: yup.string().required('title is required'),
+    jobRole: yup.string().required('job role is required'),
+    location: yup.string().required('location is required'),
+    salary: yup.string().required('salary is required'),
+    roleDescription: yup.string().required('role description is required'),
+  });
+
+  const validationSchema = yup.object({
+    caption: yup.string().required('caption is required'),
+    eventTitle: yup.string().required('title is required'),
+    zoomLink: yup.string().required('zoom id is required'),
+    banner: yup.string().required('Upload a banner image'),
+    hostImageUrl: yup.string().required('Upload a host image'),
+    hostName: yup.string().required('Enter the host name'),
   });
 
   const createPost = (post, activeStatus) => {
@@ -446,7 +478,37 @@ const CreatePost = () => {
                         }}
                       />
                     </FormControl>
-
+                    {/* Swetha */}
+                    {values.isEvent && !values.isWebinar && (
+                      <FormControl className={classes.root} style={{ width: '80%' }}>
+                        <Autocomplete
+                          id='jobCategory'
+                          name='jobCategory'
+                          getOptionLabel={(option) => option?.name}
+                          options={jobs ?? []}
+                          onChange={(e, value) => {
+                            setFieldValue('jobCategory', value !== null ? value : jobs);
+                          }}
+                          fullWidth
+                          value={values.jobCategory}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label='Select Job Field'
+                              name='jobCategory'
+                              variant='outlined'
+                              error={
+                                touched.jobCategory && Boolean(values.jobCategory.length === 0)
+                              }
+                            />
+                          )}
+                          style={{
+                            marginTop: '10px',
+                            marginBottom: '10px',
+                          }}
+                        />
+                      </FormControl>
+                    )}
                     {values.isEvent && (
                       <Grid item>
                         <Controls.Input
@@ -485,7 +547,7 @@ const CreatePost = () => {
                     ) : (
                       <Grid item>
                         <Controls.Input
-                          label='Type caption here..'
+                          label='Enter Caption (register now etc)'
                           value={values.caption}
                           name='caption'
                           onChange={handleChange}
@@ -496,6 +558,40 @@ const CreatePost = () => {
                           fullWidth
                         />
                       </Grid>
+                    )}
+                    {/* swetha */}
+                    {values.isEvent && !values.isWebinar && (
+                      <>
+                        <Grid item>
+                          <Controls.Input
+                            label='Enter Salary'
+                            name='salary'
+                            style={{
+                              width: '80%',
+                              marginTop: '10px',
+                              marginBottom: '10px',
+                            }}
+                            value={values.salary}
+                            error={touched.salary && Boolean(errors.salary)}
+                            type={'number'}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                        <Grid item>
+                          <Controls.Input
+                            label='Enter Location'
+                            name='location'
+                            style={{
+                              width: '80%',
+                              marginTop: '10px',
+                              marginBottom: '10px',
+                            }}
+                            error={touched.location && Boolean(errors.location)}
+                            value={values.location}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                      </>
                     )}
 
                     {(!values.isEvent || values.isWebinar) && (
@@ -895,7 +991,30 @@ const CreatePost = () => {
                     </Grid>
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
-                  {values.isWebinar ? null : <Preview state={values} />}
+                  {/* Swetha */}
+                  <div style={{ flexDirection: 'column' }}>
+                    {values.isWebinar ? null : <Preview state={values} />}
+                    {values.isEvent && !values.isWebinar ? (
+                      <>
+                        <Divider className={classes.divider} />
+                        <Grid item>
+                          <div className={classes.title}>Role Description </div>
+
+                          <Controls.Input
+                            // label="Role Description"
+                            value={values.roleDescription}
+                            name='roleDescription'
+                            onChange={handleChange}
+                            error={touched.roleDescription && Boolean(errors.roleDescription)}
+                            multiline
+                            className={classes.roleStyle}
+                            rows={6}
+                            fullWidth
+                          />
+                        </Grid>
+                      </>
+                    ) : null}
+                  </div>
                 </div>
                 {values.isEvent && (
                   <>

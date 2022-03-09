@@ -32,6 +32,7 @@ import {
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  getWallJobListReducer,
   wallWebinarListReducer,
   platformsReducer,
 } from "../Reducer/WallReducer";
@@ -100,6 +101,7 @@ export default combineReducers({
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  getWallJobListReducer,
   wallWebinarListReducer,
   platformsReducer,
   //TESTS

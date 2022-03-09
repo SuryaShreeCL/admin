@@ -49,7 +49,6 @@ import Loader from "../Utils/controls/Loader";
 import { isEmptyArray, isEmptyString } from "../Validation";
 import * as moment from "moment";
 
-
 const AntTabs = withStyles({
   root: {
     borderBottom: "2px solid #A2D3FC",
@@ -145,6 +144,7 @@ class ProductActivation extends Component {
       yearhlpTxt: "",
       yearArr: [],
       currentYear: new Date().getFullYear(),
+      loading: false,
     };
   }
   handleClose = (e) => {
@@ -163,6 +163,7 @@ class ProductActivation extends Component {
       let arr = this.state.currentYear + i;
       this.state.yearArr.push({ title: arr.toString() });
     }
+    this.setState({ loading: true });
   }
   shrink() {
     this.setState({ shrink: true });
@@ -207,13 +208,39 @@ class ProductActivation extends Component {
     ) {
       this.setState({
         listOfUsers: this.props.awaitingUsersForActivationList.content,
+        loading: false,
       });
     }
 
     if (this.props.searchActivationList !== prevProps.searchActivationList) {
-      this.setState({
-        listOfUsers: this.props.searchActivationList.content,
-      });
+      const { searchActivationList } = this.props;
+      if (
+        searchActivationList &&
+        typeof searchActivationList === "object" &&
+        searchActivationList.content
+      ) {
+        if (searchActivationList.content?.length !== 0) {
+          this.setState({
+            listOfUsers: searchActivationList.content,
+            loading: false,
+          });
+        } else {
+          this.setState({
+            listOfUsers: [],
+            snackOpen: true,
+            snackColor: "error",
+            snackMsg: "No data found",
+            loading: false,
+          });
+        }
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackColor: "error",
+          snackMsg: "Exception failed",
+          loading: false,
+        });
+      }
     }
     if (this.state.keyword !== prevState.keyword) {
       if (isEmptyString(this.state.keyword)) {
@@ -221,11 +248,27 @@ class ProductActivation extends Component {
           this.props.match.params.productId,
           this.state.keyword
         );
+        this.setState({ loading: true });
       }
     }
   }
 
   handleActivate = () => {
+    let helperText = "Please fill the required field";
+    this.state.intake === null
+      ? this.setState({
+          intakehlpTxt: helperText,
+        })
+      : this.setState({
+          intakehlpTxt: "",
+        });
+    this.state.year === null
+      ? this.setState({
+          yearhlpTxt: helperText,
+        })
+      : this.setState({
+          yearhlpTxt: "",
+        });
     this.setState({ isLoading: true });
     let obj = {
       studentId: this.state.studentId,
@@ -239,23 +282,27 @@ class ProductActivation extends Component {
         },
       ],
     };
-    console.log(obj);
-    this.props.activateStudentProduct(obj, (response) => {
-      console.log(response);
-      if (response.data === "updated") {
-        this.setState({
-          snackOpen: true,
-          snackColor: "success",
-          snackMsg: "Product activated successfully",
-          show: false,
-          isLoading: false,
-        });
-        this.props.searchProductActivationList(
-          this.props.match.params.productId,
-          this.state.keyword
-        );
-      }
-    });
+    if (this.state.intake !== null && this.state.year !== null) {
+      this.props.activateStudentProduct(obj, (response) => {
+        if (response.data === "updated") {
+          this.setState({
+            snackOpen: true,
+            snackColor: "success",
+            snackMsg: "Product activated successfully",
+            show: false,
+            isLoading: false,
+          });
+          this.props.searchProductActivationList(
+            this.props.match.params.productId,
+            this.state.keyword
+          );
+        }
+      });
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
   };
 
   // To handle search
@@ -265,10 +312,10 @@ class ProductActivation extends Component {
       this.props.match.params.productId,
       this.state.keyword
     );
+    this.setState({ loading: true });
   };
 
   render() {
-    console.log(this.state.endServiceDate)
     return (
       <div style={{ padding: 10 }}>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -367,20 +414,20 @@ class ProductActivation extends Component {
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 ) : (
-                  <Loader />
+                  this.state.loading && <Loader />
                 )}
               </TableHead>
               <TableBody>
                 {this.state.listOfUsers.length !== 0 &&
                   this.state.listOfUsers.map((eachData, index) => {
-                    let date = new Date(eachData.orderDate).getDate();
-                    let month = new Date(eachData.orderDate).getMonth() + 1;
-                    let monthInWords =   moment(new Date(month)).format("MMM")
-                    let year = new Date(eachData.orderDate).getFullYear();
-                    let newDate =
-                      eachData.orderDate !== null
-                        ? monthInWords + "/"+ year
-                        : null;
+                    // let date = new Date(eachData.orderDate).getDate();
+                    // let month = new Date(eachData.orderDate).getMonth() + 1;
+                    // let monthInWords = moment(new Date(month)).format('MMM');
+                    // let year = new Date(eachData.orderDate).getFullYear();
+                    // let newDate =
+                    //   eachData.orderDate !== null
+                    //     ? monthInWords + '/' + year
+                    //     : null;
                     return (
                       <TableRow>
                         <TableCell align="center">{eachData.clsId}</TableCell>
@@ -395,7 +442,11 @@ class ProductActivation extends Component {
                         <TableCell align="center">
                           {eachData.products.name}
                         </TableCell>
-                        <TableCell align="center">{newDate}</TableCell>
+                        <TableCell align="center">
+                          {moment(new Date(eachData.orderDate)).format(
+                            "MMM yyyy"
+                          )}
+                        </TableCell>
                         <TableCell align="center">
                           {eachData.paymentProvider}
                         </TableCell>
@@ -571,6 +622,8 @@ class ProductActivation extends Component {
                           {...params}
                           value={this.state.intake}
                           label="Intake"
+                          error={this.state.intakehlpTxt}
+                          helperText={this.state.intakehlpTxt}
                         />
                       )}
                     />
@@ -590,6 +643,8 @@ class ProductActivation extends Component {
                           value={this.state.intake}
                           color="primary"
                           label="Year"
+                          error={this.state.yearhlpTxt}
+                          helperText={this.state.yearhlpTxt}
                         />
                       )}
                     />

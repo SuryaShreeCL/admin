@@ -1,19 +1,19 @@
-import { Breadcrumbs, Button, Grid, Typography } from '@material-ui/core';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import BackButton from '../Asset/Images/backbutton.svg';
+import { Breadcrumbs, Button, Grid, Typography } from "@material-ui/core";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import BackButton from "../Asset/Images/backbutton.svg";
 import {
   BreadCrumpContainer,
   typographyStyle,
   useStyles,
-} from '../Asset/StyledComponents/ReportStyles';
-import Loader from '../Lms/Utils/Loader';
-import TextFieldComponent from './Controls/TextField';
-import { studentPath } from './RoutePaths';
-import Snack from './MySnackBar';
-import { downloadProductReport } from '../Actions/Reports';
+} from "../Asset/StyledComponents/ReportStyles";
+import Loader from "../Lms/Utils/Loader";
+import TextFieldComponent from "./Controls/TextField";
+import { studentPath } from "./RoutePaths";
+import Snack from "./MySnackBar";
+import { clearCustomData, downloadProductReport } from "../Actions/Reports";
 
 function ProductReport(props) {
   const classes = useStyles();
@@ -24,7 +24,7 @@ function ProductReport(props) {
     endDateHelperText: null,
     isDisabled: true,
     snackOpen: false,
-    snackMsg: '',
+    snackMsg: "",
   });
   const {
     startDate,
@@ -36,7 +36,9 @@ function ProductReport(props) {
     snackMsg,
   } = state;
   const dispatch = useDispatch();
-  const { productReport } = useSelector(stateValue => stateValue.ReportReducer);
+  const { productReport } = useSelector(
+    (stateValue) => stateValue.ReportReducer
+  );
 
   useEffect(() => {
     if (productReport && isDownloading) {
@@ -44,9 +46,9 @@ function ProductReport(props) {
         const downloadUrl = window.URL.createObjectURL(
           new Blob([productReport.data])
         );
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = downloadUrl;
-        link.setAttribute('download', 'Report.xls');
+        link.setAttribute("download", "Report.xls");
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -59,13 +61,14 @@ function ProductReport(props) {
           isDownloading: false,
         });
       }
+      dispatch(clearCustomData("productReport"));
     }
   }, [productReport, isDownloading]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
-      var momentA = moment(new Date(dateTimeA), 'DD/MM/YYYY');
-      var momentB = moment(new Date(dateTimeB), 'DD/MM/YYYY');
+      var momentA = moment(new Date(dateTimeA), "DD/MM/YYYY");
+      var momentB = moment(new Date(dateTimeB), "DD/MM/YYYY");
       if (momentA > momentB) return true;
       else return false;
     } else return false;
@@ -76,7 +79,7 @@ function ProductReport(props) {
       if (compare(startDate, endDate)) {
         setState({
           ...state,
-          endDateHelperText: 'Please select a valid date',
+          endDateHelperText: "Please select a valid date",
           isDisabled: true,
         });
       } else {
@@ -87,7 +90,7 @@ function ProductReport(props) {
     }
   }, [startDate, endDate]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
@@ -101,7 +104,7 @@ function ProductReport(props) {
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, snackOpen: false, snackMsg: '' });
+    setState({ ...state, snackOpen: false, snackMsg: "" });
   };
 
   return isDownloading ? (
@@ -119,29 +122,29 @@ function ProductReport(props) {
             onClick={() => props.history.push(studentPath)}
             style={typographyStyle}
           >
-            {'Home'}
+            {"Home"}
           </Typography>
-          <Typography className={classes.textSTyle}>{'Report'}</Typography>
+          <Typography className={classes.textSTyle}>{"Report"}</Typography>
         </Breadcrumbs>
       </BreadCrumpContainer>
       <Grid container spacing={2}>
         <Grid xs={12} item />
         <Grid item xs={3}>
           <TextFieldComponent
-            type={'date'}
-            color={'primary'}
-            variant={'outlined'}
-            label={'Start Date'}
-            name={'startDate'}
+            type={"date"}
+            color={"primary"}
+            variant={"outlined"}
+            label={"Start Date"}
+            name={"startDate"}
             value={startDate}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
-              max: moment(new Date()).format('YYYY-MM-DD'),
+              max: moment(new Date()).format("YYYY-MM-DD"),
             }}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               event.preventDefault();
             }}
             fullWidth
@@ -149,22 +152,22 @@ function ProductReport(props) {
         </Grid>
         <Grid item xs={3}>
           <TextFieldComponent
-            type={'date'}
-            color={'primary'}
-            variant={'outlined'}
-            label={'End Date'}
-            name={'endDate'}
+            type={"date"}
+            color={"primary"}
+            variant={"outlined"}
+            label={"End Date"}
+            name={"endDate"}
             value={endDate}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
-              max: moment(new Date()).format('YYYY-MM-DD'),
+              max: moment(new Date()).format("YYYY-MM-DD"),
             }}
             error={Boolean(endDateHelperText)}
-            helperText={endDateHelperText || ' '}
-            onKeyDown={event => {
+            helperText={endDateHelperText || " "}
+            onKeyDown={(event) => {
               event.preventDefault();
             }}
             fullWidth
@@ -173,23 +176,23 @@ function ProductReport(props) {
         <Grid
           item
           xs={6}
-          justifyContent={'flex-end'}
-          alignItems={'flex-start'}
+          justifyContent={"flex-end"}
+          alignItems={"flex-start"}
           container
         >
           <Button
             disabled={isDownloading || isDisabled}
-            color={'primary'}
+            color={"primary"}
             onClick={handleDownloadClick}
-            variant={'contained'}
+            variant={"contained"}
           >
-            {'Download'}
+            {"Download"}
           </Button>
         </Grid>
       </Grid>
       <Snack
         snackOpen={snackOpen}
-        snackVariant={'error'}
+        snackVariant={"error"}
         snackMsg={snackMsg}
         onClose={handleSnackClose}
       />

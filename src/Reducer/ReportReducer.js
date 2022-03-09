@@ -1,4 +1,4 @@
-import { REPORTS } from '../Redux/Action';
+import { REPORTS } from "../Redux/Action";
 const initialState = {
   termsAndConReport: [],
   cvReport: [],
@@ -69,6 +69,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         productReport: action.payload,
+      };
+    case REPORTS.clearCustomData:
+      return {
+        ...state,
+        [action.fieldName]: null,
       };
     default:
       break;
