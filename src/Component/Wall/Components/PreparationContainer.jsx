@@ -10,7 +10,7 @@ import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { useDispatch, useSelector } from 'react-redux';
-import { listAllWallWebinars, listWallWebinars } from '../../../Actions/WallActions';
+import { listAllWallWebinars } from '../../../Actions/WallActions';
 import moment from 'moment';
 import { Alert } from '@material-ui/lab';
 

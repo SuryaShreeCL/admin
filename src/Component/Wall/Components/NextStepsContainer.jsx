@@ -293,7 +293,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     message: '',
                     url: '',
                     isStatusUploaded: '',
-                    form: {},
+                    form: null,
                   })
                 }
               />

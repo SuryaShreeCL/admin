@@ -881,7 +881,6 @@ const EditPost = () => {
                         <Divider className={classes.divider} />
                         <Grid item>
                           <div className={classes.title}>Role Description </div>
-
                           <Controls.Input
                             // label="Role Description"
                             value={values.roleDescription}
