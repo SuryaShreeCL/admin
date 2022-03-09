@@ -16,7 +16,7 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import Controls from '../../Utils/controls/Controls';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Divider, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
