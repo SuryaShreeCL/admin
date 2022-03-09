@@ -1,13 +1,13 @@
-import React from 'react';
-import iPhoneFrame from '../Assets/Images/iphone-12s.png';
-import { PreviewContainer, Frame, Post } from '../Assets/Styles/PreviewStyles';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import Empty from '../Assets/Images/empty.png';
-import sample from '../Assets/Audio/iphone.mp3';
-import ReactAudioPlayer from 'react-audio-player';
-import ReactPlayer from 'react-player/lazy';
+import React from "react";
+import iPhoneFrame from "../Assets/Images/iphone-12s.png";
+import { PreviewContainer, Frame, Post } from "../Assets/Styles/PreviewStyles";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
+import Empty from "../Assets/Images/empty.png";
+import sample from "../Assets/Audio/iphone.mp3";
+import ReactAudioPlayer from "react-audio-player";
+import ReactPlayer from "react-player/lazy";
 
 const Preview = ({ state }) => {
   const {
@@ -28,16 +28,20 @@ const Preview = ({ state }) => {
   return (
     <PreviewContainer>
       <Frame>
-        <img src={iPhoneFrame} alt='iPhone 12 Frame' />
+        <img src={iPhoneFrame} alt="iPhone 12 Frame" />
         <Post>
-          <div className='Poster'>
+          <div className="Poster">
             {/* Multiple Images Carousel */}
-            {supportingMedia === 'image' && uploadedMedia?.length > 0 && (
-              <Carousel showArrows={true} infiniteLoop={true} showThumbs={false}>
+            {supportingMedia === "image" && uploadedMedia?.length > 0 && (
+              <Carousel
+                showArrows={true}
+                infiniteLoop={true}
+                showThumbs={false}
+              >
                 {uploadedMedia.map((image) => {
                   return (
                     <img
-                      style={{ maxHeight: '250px' }}
+                      style={{ maxHeight: "250px" }}
                       src={`${process.env.REACT_APP_ASSETS}/images/wall/${image.url}`}
                     />
                   );
@@ -45,13 +49,13 @@ const Preview = ({ state }) => {
               </Carousel>
             )}
             {/* If No Image Found */}
-            {supportingMedia === 'image' && uploadedMedia.length === 0 && (
-              <img style={{ maxHeight: '250px', width: '100%' }} src={Empty} />
+            {supportingMedia === "image" && uploadedMedia.length === 0 && (
+              <img style={{ maxHeight: "250px", width: "100%" }} src={Empty} />
             )}
             {/* Audio Container */}
-            {supportingMedia === 'audio' && (
+            {supportingMedia === "audio" && (
               <ReactAudioPlayer
-                style={{ backgroundColor: '#f0f3f4' }}
+                style={{ backgroundColor: "#f0f3f4" }}
                 src={
                   wallFiles[0]?.isUploaded === true
                     ? `${process.env.REACT_APP_ASSETS}/images/wall/${wallFiles[0]?.url}`
@@ -61,7 +65,7 @@ const Preview = ({ state }) => {
               />
             )}
             {/* Video Container */}
-            {supportingMedia === 'video' && (
+            {supportingMedia === "video" && (
               <ReactPlayer
                 width={300}
                 height={200}
@@ -69,22 +73,22 @@ const Preview = ({ state }) => {
                 url={
                   wallFiles[0]?.isUploaded === true
                     ? `${process.env.REACT_APP_ASSETS}/images/wall/${wallFiles[0]?.url}`
-                    : videoUrl || 'https://www.youtube.com/watch?v=sGCXQxhAsq8'
+                    : videoUrl || "https://www.youtube.com/watch?v=sGCXQxhAsq8"
                 }
               />
             )}
           </div>
-          <div className='CaptionContainer'>
-            {eventTitle && <h6 style={{ marginTop: '7px' }}>{eventTitle}</h6>}
+          <div className="CaptionContainer">
+            {eventTitle && <h6 style={{ marginTop: "7px" }}>{eventTitle}</h6>}
             <p>
               {caption ||
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!'}
+                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis error harum maiores iusto, repellendus suscipit!"}
             </p>
           </div>
-          <div className='BottomBar'>
-            <span className='favIcon'>
-              <FavoriteIcon style={{ color: 'red' }} />
-              <span className='digits'>{totalLikes || '000'} </span>
+          <div className="BottomBar">
+            <span className="favIcon">
+              <FavoriteIcon style={{ color: "red" }} />
+              <span className="digits">{totalLikes || "000"} </span>
             </span>
             {/* <span className='commentIcon'>
               <CommentIcon />
@@ -94,8 +98,8 @@ const Preview = ({ state }) => {
               <ShareIcon />{' '}
             </span> */}
             {redirectionUrl?.length > 1 && buttonText?.length > 1 && (
-              <a href={redirectionUrl} className='redirectionBtn'>
-                {buttonText || 'Text'}
+              <a href={redirectionUrl} className="redirectionBtn">
+                {buttonText || "Text"}
               </a>
             )}
           </div>

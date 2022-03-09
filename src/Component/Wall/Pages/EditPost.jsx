@@ -16,7 +16,7 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import Controls from '../../Utils/controls/Controls';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Divider, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -29,6 +29,7 @@ import {
   updateWallPost,
   uploadImage,
   getPlatforms,
+  getWallJobList,
 } from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -53,6 +54,18 @@ const useStyles = makeStyles({
     marginTop: 20,
     marginBottom: 15,
   },
+  roleStyle: {
+    width: '100%',
+    marginTop: 10,
+  },
+  title: {
+    fontSize: '16px',
+    color: '#052A4E',
+    marginTop: 40,
+    fontWeight: 400,
+    lineHeight: '19.5px',
+  },
+  divider: { backgroundColor: '#D8D8D8', marginTop: 40 },
   spacer: {
     width: '80%',
     marginTop: '10px',
@@ -77,6 +90,8 @@ const EditPost = () => {
   const [records, setRecords] = useState(recordForEdit);
 
   const [state, setState] = useState({
+    jobCategory: null,
+    roleDescription: '',
     wallCategories: [],
     caption: '',
     isEvent: false,
@@ -117,9 +132,11 @@ const EditPost = () => {
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { platforms } = useSelector((state) => state.platformsReducer);
+  const { jobs } = useSelector((state) => state.getWallJobListReducer);
 
   useEffect(() => {
     dispatch(getWallCategories('Live'));
+    dispatch(getWallJobList('Live'));
     dispatch(getPlatforms());
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -367,6 +384,38 @@ const EditPost = () => {
                         />
                       </FormControl>
 
+                      {/* Swetha */}
+                      {values.isEvent && !values.isWebinar && (
+                        <FormControl className={classes.root} style={{ width: '80%' }}>
+                          <Autocomplete
+                            id='jobCategory'
+                            name='jobCategory'
+                            getOptionLabel={(option) => option?.name}
+                            options={jobs ?? []}
+                            onChange={(e, value) => {
+                              setFieldValue('jobCategory', value !== null ? value : jobs);
+                            }}
+                            fullWidth
+                            value={values.jobCategory}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                label='Select Job Field'
+                                name='jobCategory'
+                                variant='outlined'
+                                error={
+                                  touched.jobCategory && Boolean(values.jobCategory.length === 0)
+                                }
+                              />
+                            )}
+                            style={{
+                              marginTop: '10px',
+                              marginBottom: '10px',
+                            }}
+                          />
+                        </FormControl>
+                      )}
+
                       {values.supportingMedia === 'webinar' ? (
                         <Grid item>
                           <Controls.Input
@@ -393,7 +442,7 @@ const EditPost = () => {
                             }}
                           />
                           <Controls.Input
-                            label='Type caption here..'
+                            label='Enter Caption (register now etc)'
                             value={values.caption}
                             name='caption'
                             onChange={handleChange}
@@ -403,6 +452,38 @@ const EditPost = () => {
                             rows={6}
                           />
                         </Grid>
+                      )}
+                      {/* Swetha */}
+                      {values.isEvent && !values.isWebinar && (
+                        <>
+                          <Grid item>
+                            <Controls.Input
+                              label='Enter Salary'
+                              name='salary'
+                              style={{
+                                width: '80%',
+                                marginTop: '10px',
+                                marginBottom: '10px',
+                              }}
+                              value={values.salary}
+                              type={'number'}
+                              onChange={handleChange}
+                            />
+                          </Grid>
+                          <Grid item>
+                            <Controls.Input
+                              label='Enter Location'
+                              name='location'
+                              style={{
+                                width: '80%',
+                                marginTop: '10px',
+                                marginBottom: '10px',
+                              }}
+                              value={values.location}
+                              onChange={handleChange}
+                            />
+                          </Grid>
+                        </>
                       )}
 
                       {values.isWebinar && (
@@ -792,7 +873,30 @@ const EditPost = () => {
                     </Grid>
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
-                  {values.isWebinar ? null : <Preview state={values} />}
+                  {/* Swetha */}
+                  <div style={{ flexDirection: 'column' }}>
+                    {values.isWebinar ? null : <Preview state={values} />}
+                    {values.isWebinar || values.isEvent ? (
+                      <>
+                        <Divider className={classes.divider} />
+                        <Grid item>
+                          <div className={classes.title}>Role Description </div>
+
+                          <Controls.Input
+                            // label="Role Description"
+                            value={values.roleDescription}
+                            name='roleDescription'
+                            onChange={handleChange}
+                            error={touched.roleDescription && Boolean(errors.roleDescription)}
+                            multiline
+                            className={classes.roleStyle}
+                            rows={6}
+                            fullWidth
+                          />
+                        </Grid>
+                      </>
+                    ) : null}
+                  </div>
                 </div>
                 {values.isEvent && (
                   <>

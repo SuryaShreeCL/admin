@@ -1,4 +1,4 @@
-import { REPORTS } from '../Redux/Action';
+import { REPORTS } from "../Redux/Action";
 const initialState = {
   termsAndConReport: [],
   cvReport: [],

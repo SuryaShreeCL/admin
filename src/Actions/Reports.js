@@ -4,7 +4,7 @@ import { URL } from '../Actions/URL';
 
 export const viewTermsAndConReports = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/tnc', {
         headers: {
@@ -12,20 +12,20 @@ export const viewTermsAndConReports = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: REPORTS.viewTermsAndConReport,
           termsAndConReport: result.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 };
 export const viewCvReport = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/reports/cvratings', {
         headers: {
@@ -33,10 +33,10 @@ export const viewCvReport = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({ type: REPORTS.viewCvReport, cvReport: result.data });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -44,7 +44,7 @@ export const viewCvReport = () => {
 
 export const viewMarkSheetReport = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/marksheet', {
         headers: {
@@ -52,13 +52,13 @@ export const viewMarkSheetReport = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: REPORTS.viewMarksheetReport,
           markSheetReport: result.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -66,7 +66,7 @@ export const viewMarkSheetReport = () => {
 
 export const viewMydetailsReport = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/mydetails', {
         headers: {
@@ -74,21 +74,21 @@ export const viewMydetailsReport = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: REPORTS.viewMyDetailsReport,
           myDetailsReport: result.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 };
 
-export const viewTechTestReport = QuestionSetName => {
+export const viewTechTestReport = (QuestionSetName) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/technicaltest/' + QuestionSetName, {
         headers: {
@@ -96,7 +96,7 @@ export const viewTechTestReport = QuestionSetName => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         if (QuestionSetName === 'Technical Test Mechanical') {
           dispatch({
             type: REPORTS.viewTechTestMechReport,
@@ -116,7 +116,7 @@ export const viewTechTestReport = QuestionSetName => {
           dispatch({ type: REPORTS.viewCareerExpoTest, payload: result.data });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -124,7 +124,7 @@ export const viewTechTestReport = QuestionSetName => {
 
 export const viewTestRating = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/testRating', {
         headers: {
@@ -132,13 +132,13 @@ export const viewTestRating = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: REPORTS.viewTestRating,
           testRatingResult: result.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -146,7 +146,7 @@ export const viewTestRating = () => {
 
 export const viewDiagTestReport = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/report/diagonostictest', {
         headers: {
@@ -154,13 +154,13 @@ export const viewDiagTestReport = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: REPORTS.viewDiagTestReport,
           diagTestResult: result.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -169,7 +169,7 @@ export const viewDiagTestReport = () => {
 export const getCareerExpoReport = () => {
   let accessToken = window.sessionStorage.getItem('accessToken');
 
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(URL + '/api/v1/students/reports/cit/Career Exploration Test', {
         headers: {
@@ -177,10 +177,10 @@ export const getCareerExpoReport = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then(result => {
+      .then((result) => {
         dispatch({ type: REPORTS.viewCareerExpoTest, payload: result.data });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -188,13 +188,13 @@ export const getCareerExpoReport = () => {
 
 export const getTestList = (id, callback) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(`${URL}/api/v1/products/${id}/reportlist`)
-      .then(result => {
+      .then((result) => {
         callback(result.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -202,7 +202,7 @@ export const getTestList = (id, callback) => {
 
 export const downloadProductReport = (startDate, endDate) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(`${URL}/api/v1/sales/report`, {
         headers: {
@@ -216,19 +216,20 @@ export const downloadProductReport = (startDate, endDate) => {
         },
         responseType: 'blob',
       })
-      .then(result => {
+      .then((result) => {
+        let success = false;
+        if (result.data && result.data.size && result.data.size !== 0)
+          success = true;
         dispatch({
           type: REPORTS.downloadProductReport,
           payload: {
-            success: Boolean(result.data?.length !== 0),
+            success: success,
             data: result.data,
-            message: Boolean(result.data?.length !== 0)
-              ? 'Report Generated'
-              : 'No Results Found',
+            message: success ? 'Report Generated' : 'No Results Found',
           },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch({
           type: REPORTS.downloadProductReport,
           payload: {
@@ -241,8 +242,8 @@ export const downloadProductReport = (startDate, endDate) => {
   };
 };
 
-export const clearCustomData = fieldName => {
-  return dispatch => {
+export const clearCustomData = (fieldName) => {
+  return (dispatch) => {
     dispatch({
       type: REPORTS.clearCustomData,
       fieldName: fieldName,

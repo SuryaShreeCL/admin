@@ -71,7 +71,7 @@ import Routes from './Routes';
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -346,7 +346,7 @@ function RootContainer(props) {
         //     eachProd.variantSKU === "ACS_MBA_PB" ||
         //     eachProd.variantSKU === "ACS_MIM_PB"
         // )
-        .map(eachItem => {
+        .map((eachItem) => {
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + '/' + eachItem.id,
@@ -426,7 +426,7 @@ function RootContainer(props) {
         //     prodItems.variantSKU === "PBM" ||
         //     prodItems.variantSKU === "PBP_2023"
         // )
-        .map(eachItem => {
+        .map((eachItem) => {
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + '/' + eachItem.id,
@@ -581,7 +581,7 @@ function RootContainer(props) {
         //     prodItems.variantSKU === "PBM" ||
         //     prodItems.variantSKU === "PBP_2023"
         // )
-        .map(eachItem => {
+        .map((eachItem) => {
           myArr.push({
             title: eachItem.shortName,
             path: obOperationPath + '/' + eachItem.id,
@@ -715,7 +715,7 @@ function RootContainer(props) {
     const [menuOpen, setMenuOpen] = useState(true);
     const handleClick = () => {
       setSeletectedValue(null);
-      setMenuOpen(prev => !prev);
+      setMenuOpen((prev) => !prev);
     };
 
     return (
@@ -748,7 +748,7 @@ function RootContainer(props) {
     );
   };
 
-  const hasChildren = item => {
+  const hasChildren = (item) => {
     const { items: children } = item;
 
     if (children === undefined) {
@@ -919,7 +919,7 @@ function Copyright() {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     tokenStatus: state.AdminReducer.tokenStatus,
     adminLinkedProductDetails: state.AdminReducer.adminLinkedProductDetails,

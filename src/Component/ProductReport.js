@@ -36,7 +36,9 @@ function ProductReport(props) {
     snackMsg,
   } = state;
   const dispatch = useDispatch();
-  const { productReport } = useSelector(stateValue => stateValue.ReportReducer);
+  const { productReport } = useSelector(
+    (stateValue) => stateValue.ReportReducer
+  );
 
   useEffect(() => {
     if (productReport && isDownloading) {
@@ -88,7 +90,7 @@ function ProductReport(props) {
     }
   }, [startDate, endDate]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
   };
@@ -142,7 +144,7 @@ function ProductReport(props) {
             inputProps={{
               max: moment(new Date()).format('YYYY-MM-DD'),
             }}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               event.preventDefault();
             }}
             fullWidth
@@ -165,7 +167,7 @@ function ProductReport(props) {
             }}
             error={Boolean(endDateHelperText)}
             helperText={endDateHelperText || ' '}
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               event.preventDefault();
             }}
             fullWidth

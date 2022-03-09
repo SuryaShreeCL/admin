@@ -1,24 +1,24 @@
-import { CALL_DETAILS } from "../Redux/Action";
-import axios from "axios";
-import { URL } from "./URL";
+import { CALL_DETAILS } from '../Redux/Action';
+import axios from 'axios';
+import { URL } from './URL';
 
 export const updateclientdetails = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .put(
         URL +
-          "/api/v1/student/onboardingcallsummary/" +
+          '/api/v1/student/onboardingcallsummary/' +
           studentId +
-          "/" +
+          '/' +
           productId,
         data,
         {
           crossDomain: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -35,13 +35,13 @@ export const updateclientdetails = (studentId, productId, data) => {
 };
 
 export const getClientInfo = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/clientDetails/" + studentId + "/" + productId, {
+      .get(URL + '/api/v1/clientDetails/' + studentId + '/' + productId, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -55,22 +55,22 @@ export const getClientInfo = (studentId, productId) => {
 };
 
 export const updateQuestions = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .put(
         URL +
-          "/api/v1/student/onboardingcallQuestions/" +
+          '/api/v1/student/onboardingcallQuestions/' +
           studentId +
-          "/" +
+          '/' +
           productId,
         data,
         {
           crossDomain: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -84,22 +84,22 @@ export const updateQuestions = (studentId, productId, data) => {
 };
 
 export const updateRating = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .put(
         URL +
-          "/api/v1/student/onboardingcallRating/" +
+          '/api/v1/student/onboardingcallRating/' +
           studentId +
-          "/" +
+          '/' +
           productId,
         data,
         {
           crossDomain: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -113,15 +113,15 @@ export const updateRating = (studentId, productId, data) => {
 };
 
 export const updatePersonalInfo = (studentId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/student/personalDetails/" + studentId, data, {
+      .put(URL + '/api/v1/student/personalDetails/' + studentId, data, {
         crossDomain: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -136,15 +136,15 @@ export const updatePersonalInfo = (studentId, data) => {
   };
 };
 export const updateworkexp = (studentId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/students/" + studentId + "/experience", data, {
+      .put(URL + '/api/v1/students/' + studentId + '/experience', data, {
         crossDomain: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -156,15 +156,15 @@ export const updateworkexp = (studentId, data) => {
   };
 };
 export const getworkexp = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/student/" + studentId + "/experience", {
+      .get(URL + '/api/v1/get/student/' + studentId + '/experience', {
         crossDomain: true,
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -177,14 +177,14 @@ export const getworkexp = (studentId) => {
 };
 
 export const getPersonalInfo = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/clientDetails/" + studentId + "/" + productId, {
+      .get(URL + '/api/v1/clientDetails/' + studentId + '/' + productId, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -199,7 +199,7 @@ export const getPersonalInfo = (studentId, productId) => {
 export const getPincodeDetails = (pincode, callback) => {
   return (dispatch) => {
     axios
-      .get("https://api.postalpincode.in/pincode/" + pincode)
+      .get('https://api.postalpincode.in/pincode/' + pincode)
       .then((result) => {
         callback(result.data);
       })
@@ -210,19 +210,19 @@ export const getPincodeDetails = (pincode, callback) => {
 };
 
 export const getAspirationDetails = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .get(
         URL +
-          "/api/v1/students/" +
+          '/api/v1/students/' +
           studentId +
-          "/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey",
+          '/testExecutions?questionSetName=RecEenginePersonalityBasedSurvey',
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -238,13 +238,13 @@ export const getAspirationDetails = (studentId) => {
   };
 };
 export const getgrescore = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/gre/testComplete/" + studentId, {
+      .get(URL + '/api/v1/gre/testComplete/' + studentId, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -256,14 +256,14 @@ export const getgrescore = (studentId) => {
   };
 };
 export const getgmatscore = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/gmat/testComplete/" + studentId, {
+      .get(URL + '/api/v1/gmat/testComplete/' + studentId, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -275,14 +275,14 @@ export const getgmatscore = (studentId) => {
   };
 };
 export const gettoeflscore = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/tofel/testComplete/" + studentId, {
+      .get(URL + '/api/v1/tofel/testComplete/' + studentId, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -294,16 +294,16 @@ export const gettoeflscore = (studentId) => {
   };
 };
 export const getieltsscore = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .get(
-        URL + "/api/v1/students/" + studentId + "/testComplete/graduate/ielts",
+        URL + '/api/v1/students/' + studentId + '/testComplete/graduate/ielts',
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -316,37 +316,37 @@ export const getieltsscore = (studentId) => {
   };
 };
 // get ielts completed score
-export const getIeltsCompletedExamScore = (studentId) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+// export const getIeltsCompletedExamScore = (studentId) => {
+//   let accessToken = window.sessionStorage.getItem("accessToken");
 
-  return (dispatch) => {
-    axios
-      .get(URL + "/api/v1/students/" + studentId + "/graduate/ielts", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
-        },
-      })
-      .then((result) => {
-        dispatch({
-          type: CALL_DETAILS.getIeltsCompletedExamScore,
-          payload: result.data,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-};
+//   return (dispatch) => {
+//     axios
+//       .get(URL + "/api/v1/students/" + studentId + "/graduate/ielts", {
+//         headers: {
+//           Authorization: `Bearer ${accessToken}`,
+//           admin: "yes",
+//         },
+//       })
+//       .then((result) => {
+//         dispatch({
+//           type: CALL_DETAILS.getIeltsCompletedExamScore,
+//           payload: result.data,
+//         });
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   };
+// };
 export const updategrescore = (greid, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/gre/" + greid, data, {
+      .put(URL + '/api/v1/gre/' + greid, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -357,15 +357,16 @@ export const updategrescore = (greid, data) => {
       });
   };
 };
+
 export const updategmatscore = (gmatid, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/gmat/update/" + gmatid, data, {
+      .put(URL + '/api/v1/gmat/update/' + gmatid, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -377,14 +378,14 @@ export const updategmatscore = (gmatid, data) => {
   };
 };
 export const updatetoeflscore = (toeflid, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/tofel/" + toeflid, data, {
+      .put(URL + '/api/v1/tofel/' + toeflid, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -396,14 +397,14 @@ export const updatetoeflscore = (toeflid, data) => {
   };
 };
 export const updateieltsscore = (ieltsid, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
-      .put(URL + "/api/v1/students/" + ieltsid + "/graduate/ielts", data, {
+      .put(URL + '/api/v1/students/' + ieltsid + '/graduate/ielts', data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          admin: "yes",
+          admin: 'yes',
         },
       })
       .then((result) => {
@@ -417,7 +418,7 @@ export const updateieltsscore = (ieltsid, data) => {
 export const downloadGAT = (studentId, filename) => {
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/files/download/" + studentId + "/" + filename)
+      .get(URL + '/api/v1/files/download/' + studentId + '/' + filename)
       .then((result) => {
         dispatch({ type: CALL_DETAILS.downloadGAT, payload: result.data });
       })
@@ -427,23 +428,23 @@ export const downloadGAT = (studentId, filename) => {
   };
 };
 export const fileuploadGAT = (studentId, examtype, examid, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .post(
         URL +
-          "/api/v1/files/fileUpload/" +
+          '/api/v1/files/fileUpload/' +
           studentId +
-          "/" +
+          '/' +
           examtype +
-          "/" +
+          '/' +
           examid,
         data,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            admin: "yes",
+            admin: 'yes',
           },
         }
       )
@@ -456,20 +457,20 @@ export const fileuploadGAT = (studentId, examtype, examid, data) => {
   };
 };
 export const completecall = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
+  let accessToken = window.sessionStorage.getItem('accessToken');
 
   return (dispatch) => {
     axios
       .put(
         URL +
-          "/api/v1/student/onboardingcallsummary/status/" +
+          '/api/v1/student/onboardingcallsummary/status/' +
           studentId +
-          "/" +
+          '/' +
           productId,
         data,
         {
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${accessToken}`,
           },
         }
@@ -494,3 +495,27 @@ export const completecall = (studentId, productId, data) => {
 //         })
 //     }
 // }
+
+// get ielts completed score
+export const getIeltsCompletedExamScore = (studentId) => {
+  let accessToken = window.sessionStorage.getItem('accessToken');
+
+  return (dispatch) => {
+    axios
+      .get(URL + '/api/v1/students/' + studentId + '/graduate/ielts', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          admin: 'yes',
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: CALL_DETAILS.getIeltsCompletedExamScore,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
