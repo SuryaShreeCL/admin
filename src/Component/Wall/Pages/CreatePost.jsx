@@ -29,6 +29,7 @@ import {
   getWallCategories,
   uploadImage,
   getPlatforms,
+  getWallJobList,
 } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
