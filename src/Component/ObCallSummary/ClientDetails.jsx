@@ -58,6 +58,7 @@ const theme = createMuiTheme({
     },
   },
 });
+
 class ClientDetails extends Component {
   constructor() {
     super();
@@ -173,8 +174,8 @@ class ClientDetails extends Component {
         number: this.props.getStudentsByIdList.phoneNumber,
         email: this.props.getStudentsByIdList.emailId,
         // sem: isEmptyString(this.state.sem) && this.props.getStudentsByIdList.currentSem,
-        department: this.props.getStudentsByIdList.department,
-        collegename: this.props.getStudentsByIdList.college,
+        // department: this.props.getStudentsByIdList.department,
+        // collegename: this.props.getStudentsByIdList.college,
         // ugdegree: this.props.getStudentsByIdList.ugDegree,
         // cgpa: isEmptyString(this.state.cgpa) && this.props.getStudentsByIdList.uggpa,
         // activebacklogs: isEmptyString(this.state.activebacklogs) && this.props.getStudentsByIdList.noOfBacklogs,
@@ -194,9 +195,9 @@ class ClientDetails extends Component {
     }
     if (this.props.getClientInfoList !== prevProps.getClientInfoList) {
       const {
-        collegeId,
+        college,
         degreeId,
-        departmentId,
+        department,
         clientName,
         presentSem,
         activeBacklogs,
@@ -223,13 +224,12 @@ class ClientDetails extends Component {
         firstName,
         lastName,
       } = this.props.getClientInfoList;
-
       this.setState({
         // name: clientName,
         name: firstName + lastName,
         ugdegree: this.props.getClientInfoList.degree,
-        collegename: collegeId,
-        department: departmentId,
+        collegename: college,
+        department: department,
         sem: presentSem,
         activebacklogs: activeBacklogs,
         cgpa: cgpa,
@@ -430,13 +430,22 @@ class ClientDetails extends Component {
     ) {
       let obj = {
         ugDegree: {
-          id: this.state.ugdegree?.id,
+          name:
+            typeof this.state.ugdegree === "string"
+              ? this.state.ugdegree
+              : this.state.ugdegree?.name,
         },
         studentCollege: {
-          id: this.state.collegename?.id,
+          name:
+            typeof this.state.collegename === "string"
+              ? this.state.collegename
+              : this.state.collegename?.name,
         },
         studentDepartment: {
-          id: this.state.department?.id,
+          name:
+            typeof this.state.department === "string"
+              ? this.state.department
+              : this.state.department?.name,
         },
         studentCurrentSem: this.state.sem.toString(),
         studentCgpa: this.state.cgpa.toString(),
@@ -450,16 +459,22 @@ class ClientDetails extends Component {
         specificTime: this.state.spetime,
         clientName: this.state.name,
 
-        aspirationDegrees: [
-          {
-            id: this.state.appdegree.id,
-          },
-        ],
-        aspirationCountries: [
-          {
-            id: this.state.countries.id,
-          },
-        ],
+        aspirationDegrees:
+          window.sessionStorage.getItem("adminUserId") === "115"
+            ? [
+                {
+                  id: this.state.appdegree?.id,
+                },
+              ]
+            : [],
+        aspirationCountries:
+          window.sessionStorage.getItem("adminUserId") === "115"
+            ? [
+                {
+                  id: this.state.countries?.id,
+                },
+              ]
+            : [],
         aspirationTerms: this.state.term?.id
           ? [
               {
@@ -468,7 +483,10 @@ class ClientDetails extends Component {
             ]
           : null,
         enrollmentDate: new Date(this.state.enrolldate),
-        orderType: this.state.order?.title,
+        orderType:
+          window.sessionStorage.getItem("adminUserId") === "115"
+            ? this.state.order?.title
+            : "",
         intakeYear: this.state.intakeyear?.title,
         // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
         packages: this.state.package && this.state.package.name,
@@ -478,19 +496,29 @@ class ClientDetails extends Component {
         fieldOfExpertise: this.state.expfield,
         experienceMonths: this.state.expmonth,
         degree: {
-          id: this.state.ugdegree?.id,
+          name:
+            typeof this.state.ugdegree === "string"
+              ? this.state.ugdegree
+              : this.state.ugdegree?.name,
         },
         department: {
-          id: this.state.department?.id,
+          name:
+            typeof this.state.department === "string"
+              ? this.state.department
+              : this.state.department?.name,
         },
         college: {
-          id: this.state.collegename?.id,
+          name:
+            typeof this.state.collegename === "string"
+              ? this.state.collegename
+              : this.state.collegename?.name,
         },
         presentSem: this.state.sem.toString(),
         backlogs: this.state.activebacklogs.toString(),
         activeBacklogs: this.state.activebacklogs.toString(),
         cgpa: this.state.cgpa.toString(),
       };
+
       this.props.updateclientdetails(
         this.props.match.params.studentId,
         this.props.match.params.productId,
@@ -501,7 +529,6 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-
     const productFamilyId = window.sessionStorage.getItem("adminUserId");
 
     return (
@@ -1036,7 +1063,7 @@ class ClientDetails extends Component {
                   }}
                 />
               </Grid>
-              {productFamilyId === 115 && (
+              {productFamilyId === "115" && (
                 <Grid item md={3}>
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
@@ -1103,7 +1130,7 @@ class ClientDetails extends Component {
                   )}
                 />
               </Grid>
-              {productFamilyId === 115 && (
+              {productFamilyId === "115" && (
                 <>
                   <Grid item md={3}>
                     <Autocomplete
