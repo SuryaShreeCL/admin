@@ -16,7 +16,6 @@ import {
   KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
-import { storeItInState } from "../../Actions/HelperAction";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -27,6 +26,7 @@ import {
 } from "../../Actions/Aspiration";
 import { getClientInfo, updateclientdetails } from "../../Actions/Calldetails";
 import { getAllColleges, getBranches, getDegree } from "../../Actions/College";
+import { storeItInState } from "../../Actions/HelperAction";
 import {
   getAllProductFamily,
   getProductByFamilyId,
@@ -358,47 +358,47 @@ class ClientDetails extends Component {
     isEmptyString(this.state.pricing)
       ? this.setState({ pricingErr: hlptxt })
       : this.setState({ pricingErr: "" });
-    isEmptyString(this.state.ameyoid)
-      ? this.setState({ ameyoidErr: hlptxt })
-      : this.setState({ ameyoidErr: "" });
+    // isEmptyString(this.state.ameyoid)
+    //   ? this.setState({ ameyoidErr: hlptxt })
+    //   : this.setState({ ameyoidErr: "" });
     // this.state.calldate === null
     //   ? this.setState({ calldateErr: hlptxt })
     //   : this.setState({ calldateErr: "" });
-    this.state.calltime === null
-      ? this.setState({ calltimeErr: hlptxt })
-      : this.setState({ calltimeErr: "" });
-    isEmptyString(this.state.agent)
-      ? this.setState({ agentErr: hlptxt })
-      : this.setState({ agentErr: "" });
-    isEmptyString(this.state.callstatus)
-      ? this.setState({ callstatusErr: hlptxt })
-      : this.setState({ callstatusErr: "" });
-    this.state.callbacktime === null
-      ? this.setState({ callbacktimeErr: hlptxt })
-      : this.setState({ callbacktimeErr: "" });
-    (this.state.spedays && this.state.spedays.title === undefined) ||
-    isEmptyString(this.state.spedays)
-      ? this.setState({ speDaysErr: hlptxt })
-      : this.setState({ speDaysErr: "" });
-    this.state.spetime === null
-      ? this.setState({ speErr: hlptxt })
-      : this.setState({ speErr: "" });
-    this.state.enrolldate === "" || this.state.enrolldate === null
-      ? this.setState({ enrolldateErr: hlptxt })
-      : this.setState({ enrolldateErr: "" });
-    isEmptyString(this.state.appdegree)
-      ? this.setState({ appdegreeErr: hlptxt })
-      : this.setState({ appdegreeErr: "" });
-    (this.state.order && this.state.order.title === undefined) ||
-    isEmptyString(this.state.order)
-      ? this.setState({ orderErr: hlptxt })
-      : this.setState({ orderErr: "" });
-    isEmptyString(this.state.countries)
-      ? this.setState({ countriesErr: hlptxt })
-      : this.setState({ countriesErr: "" });
-    isEmptyString(this.state.package)
-      ? this.setState({ packageErr: hlptxt })
-      : this.setState({ packageErr: "" });
+    // this.state.calltime === null
+    //   ? this.setState({ calltimeErr: hlptxt })
+    //   : this.setState({ calltimeErr: "" });
+    // isEmptyString(this.state.agent)
+    //   ? this.setState({ agentErr: hlptxt })
+    //   : this.setState({ agentErr: "" });
+    // isEmptyString(this.state.callstatus)
+    //   ? this.setState({ callstatusErr: hlptxt })
+    //   : this.setState({ callstatusErr: "" });
+    // this.state.callbacktime === null
+    //   ? this.setState({ callbacktimeErr: hlptxt })
+    //   : this.setState({ callbacktimeErr: "" });
+    // (this.state.spedays && this.state.spedays.title === undefined) ||
+    // isEmptyString(this.state.spedays)
+    //   ? this.setState({ speDaysErr: hlptxt })
+    //   : this.setState({ speDaysErr: "" });
+    // this.state.spetime === null
+    //   ? this.setState({ speErr: hlptxt })
+    //   : this.setState({ speErr: "" });
+    // this.state.enrolldate === "" || this.state.enrolldate === null
+    //   ? this.setState({ enrolldateErr: hlptxt })
+    //   : this.setState({ enrolldateErr: "" });
+    // isEmptyString(this.state.appdegree)
+    //   ? this.setState({ appdegreeErr: hlptxt })
+    //   : this.setState({ appdegreeErr: "" });
+    // (this.state.order && this.state.order.title === undefined) ||
+    // isEmptyString(this.state.order)
+    //   ? this.setState({ orderErr: hlptxt })
+    //   : this.setState({ orderErr: "" });
+    // isEmptyString(this.state.countries)
+    //   ? this.setState({ countriesErr: hlptxt })
+    //   : this.setState({ countriesErr: "" });
+    // isEmptyString(this.state.package)
+    //   ? this.setState({ packageErr: hlptxt })
+    //   : this.setState({ packageErr: "" });
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
@@ -414,18 +414,18 @@ class ClientDetails extends Component {
       !isEmptyString(this.state.sem) &&
       !isEmptyString(this.state.activebacklogs) &&
       !isEmptyString(this.state.cgpa) &&
-      !isEmptyString(this.state.ameyoid) &&
-      this.state.calltime !== null &&
-      !isEmptyString(this.state.agent) &&
-      !isEmptyString(this.state.callstatus) &&
-      this.state.callbacktime !== null &&
-      !isEmptyString(this.state.spedays) &&
-      this.state.spetime !== null &&
-      this.state.enrolldate !== null &&
-      !isEmptyString(this.state.appdegree) &&
-      !isEmptyString(this.state.order) &&
-      !isEmptyString(this.state.countries) &&
-      !isEmptyString(this.state.package) &&
+      // !isEmptyString(this.state.ameyoid) &&
+      // this.state.calltime !== null &&
+      // !isEmptyString(this.state.agent) &&
+      // !isEmptyString(this.state.callstatus) &&
+      // this.state.callbacktime !== null &&
+      // !isEmptyString(this.state.spedays) &&
+      // this.state.spetime !== null &&
+      // this.state.enrolldate !== null &&
+      // !isEmptyString(this.state.appdegree) &&
+      // !isEmptyString(this.state.order) &&
+      // !isEmptyString(this.state.countries) &&
+      // !isEmptyString(this.state.package) &&
       !isEmptyString(this.state.workexp)
     ) {
       let obj = {
@@ -444,9 +444,9 @@ class ClientDetails extends Component {
         // obCallDate: new Date(this.state.calldate),
         obCallTime: new Date(this.state.calltime),
         onBoardingAgent: this.state.agent,
-        callStatus: this.state.callstatus.title,
+        callStatus: this.state.callstatus?.title,
         callBackTime: new Date(this.state.callbacktime),
-        weekDays: this.state.spedays.title,
+        weekDays: this.state.spedays?.title,
         specificTime: this.state.spetime,
         clientName: this.state.name,
 
@@ -468,11 +468,11 @@ class ClientDetails extends Component {
             ]
           : null,
         enrollmentDate: new Date(this.state.enrolldate),
-        orderType: this.state.order.title,
+        orderType: this.state.order?.title,
         intakeYear: this.state.intakeyear?.title,
         // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
         packages: this.state.package && this.state.package.name,
-        workExperience: this.state.workexp.title,
+        workExperience: this.state.workexp?.title,
         typeOfExperience:
           this.state.exptype !== null ? this.state.exptype.title : null,
         fieldOfExpertise: this.state.expfield,
@@ -501,7 +501,8 @@ class ClientDetails extends Component {
 
   render() {
     const filter = createFilterOptions();
-    console.log(this.props.updateclientdetailsList);
+
+    const productFamilyId = window.sessionStorage.getItem("adminUserId");
 
     return (
       <div>
@@ -556,14 +557,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        ugdegree: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        ugdegree: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        ugdegree: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getDegreeList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.ugdegree}
-                  onChange={(e, newValue) =>
-                    this.setState({ ugdegree: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ ugdegree: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -577,14 +619,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        collegename: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        collegename: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        collegename: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getCollegesList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.collegename}
-                  onChange={(e, newValue) =>
-                    this.setState({ collegename: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ collegename: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -598,14 +681,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        department: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        department: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        department: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getBranchesList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.department}
-                  onChange={(e, newValue) =>
-                    this.setState({ department: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ department: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -912,34 +1036,36 @@ class ClientDetails extends Component {
                   }}
                 />
               </Grid>
+              {productFamilyId === 115 && (
+                <Grid item md={3}>
+                  <Autocomplete
+                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                    id="combo-box-demo"
+                    // options={this.props.getDegreeList}
+                    // getOptionLabel={(option) => option.name}
+                    options={this.props.getAspDegreeList}
+                    getOptionLabel={(option) => option.name}
+                    value={this.state.appdegree}
+                    onChange={(e, newValue) => {
+                      this.setState({ appdegree: newValue });
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Applying Degree"
+                        variant="standard"
+                        error={this.state.appdegreeErr.length > 0}
+                        helperText={this.state.appdegreeErr}
+                      />
+                    )}
+                  />
+                </Grid>
+              )}
               <Grid item md={3}>
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
-                  // options={this.props.getDegreeList}
-                  // getOptionLabel={(option) => option.name}
-                  options={this.props.getAspDegreeList}
-                  getOptionLabel={(option) => option.name}
-                  value={this.state.appdegree}
-                  onChange={(e, newValue) => {
-                    this.setState({ appdegree: newValue });
-                  }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Applying Degree"
-                      variant="standard"
-                      error={this.state.appdegreeErr.length > 0}
-                      helperText={this.state.appdegreeErr}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item md={3}>
-                <Autocomplete
-                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
-                  disabled
+                  // disabled
                   options={this.state.intakeYear}
                   getOptionLabel={(option) => option.title}
                   value={this.state.intakeyear}
@@ -961,7 +1087,7 @@ class ClientDetails extends Component {
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
-                  disabled
+                  // disabled
                   options={this.props.getAspTermsList}
                   getOptionLabel={(option) => option.name}
                   value={this.state.term}
@@ -977,47 +1103,54 @@ class ClientDetails extends Component {
                   )}
                 />
               </Grid>
-              <Grid item md={3}>
-                <Autocomplete
-                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
-                  options={this.Order}
-                  getOptionLabel={(option) => option.title}
-                  value={this.state.order}
-                  onChange={(e, newValue) => this.setState({ order: newValue })}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Order Type"
-                      variant="standard"
-                      error={this.state.orderErr.length > 0}
-                      helperText={this.state.orderErr}
+              {productFamilyId === 115 && (
+                <>
+                  <Grid item md={3}>
+                    <Autocomplete
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      id="combo-box-demo"
+                      options={this.Order}
+                      getOptionLabel={(option) => option.title}
+                      value={this.state.order}
+                      onChange={(e, newValue) =>
+                        this.setState({ order: newValue })
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Order Type"
+                          variant="standard"
+                          error={this.state.orderErr.length > 0}
+                          helperText={this.state.orderErr}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </Grid>
-              <Grid item md={6}>
-                <Autocomplete
-                  // multiple
-                  popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  // id="combo-box-demo"
-                  options={this.props.getallcountryList || []}
-                  getOptionLabel={(option) => option.name}
-                  value={this.state.countries}
-                  onChange={(e, newValue) =>
-                    this.setState({ countries: newValue })
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Preferred Countries"
-                      variant="standard"
-                      error={this.state.countriesErr.length > 0}
-                      helperText={this.state.countriesErr}
+                  </Grid>
+
+                  <Grid item md={6}>
+                    <Autocomplete
+                      // multiple
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      // id="combo-box-demo"
+                      options={this.props.getallcountryList || []}
+                      getOptionLabel={(option) => option.name}
+                      value={this.state.countries}
+                      onChange={(e, newValue) =>
+                        this.setState({ countries: newValue })
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Preferred Countries"
+                          variant="standard"
+                          error={this.state.countriesErr.length > 0}
+                          helperText={this.state.countriesErr}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </Grid>
+                  </Grid>
+                </>
+              )}
               <Grid item md={3}>
                 <Autocomplete
                   id="combo-box-demo"
@@ -1051,14 +1184,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        ugdegree: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        ugdegree: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        ugdegree: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getDegreeList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.ugdegree}
-                  onChange={(e, newValue) =>
-                    this.setState({ ugdegree: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ ugdegree: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -1072,14 +1246,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        collegename: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        collegename: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        collegename: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getCollegesList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.collegename}
-                  onChange={(e, newValue) =>
-                    this.setState({ collegename: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ collegename: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -1093,14 +1308,55 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={3}>
                 <Autocomplete
+                  onChange={(event, newValue) => {
+                    if (typeof newValue === "string") {
+                      this.setState({
+                        department: newValue,
+                      });
+                    } else if (newValue && newValue.inputValue) {
+                      // Create a new value from the user input
+                      this.setState({
+                        department: newValue.inputValue,
+                      });
+                    } else {
+                      this.setState({
+                        department: newValue,
+                      });
+                    }
+                  }}
+                  filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    // Suggest the creation of a new value
+                    if (params.inputValue !== "") {
+                      filtered.push({
+                        inputValue: params.inputValue,
+                        name: `Add "${params.inputValue}"`,
+                      });
+                    }
+
+                    return filtered;
+                  }}
+                  getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === "string") {
+                      return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                      return option.inputValue;
+                    }
+                    // Regular option
+                    return option.name;
+                  }}
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   options={this.props.getBranchesList}
-                  getOptionLabel={(option) => option.name}
+                  // getOptionLabel={(option) => option.name}
                   value={this.state.department}
-                  onChange={(e, newValue) =>
-                    this.setState({ department: newValue })
-                  }
+                  // onChange={(e, newValue) =>
+                  //   this.setState({ department: newValue })
+                  // }
                   renderInput={(params) => (
                     <TextField
                       {...params}
