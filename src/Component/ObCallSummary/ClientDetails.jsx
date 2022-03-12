@@ -460,7 +460,8 @@ class ClientDetails extends Component {
         clientName: this.state.name,
 
         aspirationDegrees:
-          window.sessionStorage.getItem("adminUserId") === "115"
+          window.sessionStorage.getItem("adminUserId") === "115" &&
+          this.state.appdegree
             ? [
                 {
                   id: this.state.appdegree?.id,
@@ -468,7 +469,8 @@ class ClientDetails extends Component {
               ]
             : [],
         aspirationCountries:
-          window.sessionStorage.getItem("adminUserId") === "115"
+          window.sessionStorage.getItem("adminUserId") === "115" &&
+          this.state.countries
             ? [
                 {
                   id: this.state.countries?.id,
