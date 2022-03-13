@@ -50,6 +50,7 @@ import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import { CircularProgress } from "@material-ui/core";
 import StrategySessionLanding from "./strategy-session/StrategySessionLanding";
 import ProgramPreference from "./strategy-session/ProgramPreference";
+import PreStrategyWorkSheet from "./strategy-session/PreStrategyWorkSheet";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -800,7 +801,7 @@ class StageBasedLayout extends Component {
                     <ProfileGapRoot {...this.props} />
                   )}
                      {this.state.tabCount === 2 && (
-                    <ProgramPreference {...this.props} />
+                    <PreStrategyWorkSheet {...this.props} />
                   )}
                 </Grid>
                 {this.state.tabCount === 0 && this.renderbutton()}
