@@ -52,6 +52,8 @@ import StrategySessionLanding from "./strategy-session/StrategySessionLanding";
 import ProgramPreference from "./strategy-session/ProgramPreference";
 import GraduateExamScores from "./strategy-session/GraduateExamScores";
 import KeyHighlights from "./strategy-session/KeyHighlights";
+import PreStrategyWorkSheet from "./strategy-session/PreStrategyWorkSheet";
+
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -801,8 +803,8 @@ class StageBasedLayout extends Component {
                   {this.state.tabCount === 1 && (
                     <ProfileGapRoot {...this.props} />
                   )}
-                     {this.state.tabCount === 2 && (
-                    <KeyHighlights {...this.props} />
+                  {this.state.tabCount === 2 && (
+                    <PreStrategyWorkSheet {...this.props} />
                   )}
                 </Grid>
                 {this.state.tabCount === 0 && this.renderbutton()}
