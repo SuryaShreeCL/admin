@@ -477,7 +477,7 @@ class ClientDetails extends Component {
                 },
               ]
             : [],
-        aspirationTerms: this.state.term?.id
+        aspirationTerms: this.state.term
           ? [
               {
                 id: this.state.term?.id,
@@ -489,7 +489,7 @@ class ClientDetails extends Component {
           window.sessionStorage.getItem("adminUserId") === "115"
             ? this.state.order?.title
             : "",
-        intakeYear: this.state.intakeyear?.title,
+        intakeYear: this.state.intakeyear ? this.state.intakeyear.title : null,
         // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
         packages: this.state.package && this.state.package.name,
         workExperience: this.state.workexp?.title,
