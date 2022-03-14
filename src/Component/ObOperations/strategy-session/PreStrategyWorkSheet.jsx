@@ -4,6 +4,7 @@ import ProgramPreference from "./ProgramPreference";
 import { useStyles } from "./Styles";
 import GraduateExamScores from "./GraduateExamScores";
 import KeyHighlights from "./KeyHighlights";
+import Recommenders from "./Recommenders";
 
 function PreStrategyWorkSheet() {
   const [tabValue, setTabValue] = useState(0);
@@ -23,6 +24,9 @@ function PreStrategyWorkSheet() {
       return <GraduateExamScores />;
     } else if (tabValue == 2) {
       return <KeyHighlights />;
+    }
+    else if(tabValue == 3) {
+      return<Recommenders/>;
     }
   };
   return (

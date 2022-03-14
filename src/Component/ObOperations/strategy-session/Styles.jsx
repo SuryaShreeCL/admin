@@ -59,6 +59,33 @@ export const useStyles = makeStyles((theme) => ({
   },
   contentWrapper : {
     flex : 1,
-    overflowY : 'auto'
-  }
+    overflowY : 'auto',
+    overflowX : 'hidden'
+  },
+  mainContainer : {
+    padding: '3%'
+  },
+  root: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  cardContainer: {
+    padding: '20px',
+    border: '1px solid lightGrey',
+    borderRadius: '10px',
+    marginBottom: '10px',
+    backgroundColor: 'white'
+
+  },
+ 
 }));
