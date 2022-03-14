@@ -1,6 +1,10 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
+  Button,
   createMuiTheme,
+  Dialog,
+  DialogActions,
+  DialogContent,
   Grid,
   TextField,
   ThemeProvider,
@@ -143,6 +147,9 @@ class ClientDetails extends Component {
       snackopen: false,
       formSubmitted: false,
       intakeYear: [],
+      dialogOpen: false,
+      yearChange: false,
+      termChange: false,
     };
   }
   componentDidMount() {
@@ -165,6 +172,12 @@ class ClientDetails extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    // if(this.state.yearChange || prevState.yearChange){
+    //   this.setState({
+    //     dialogOpen  : true
+    //   })
+
+    // }
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
         this.state.family !== null ? this.state.family.id : ""
@@ -330,6 +343,7 @@ class ClientDetails extends Component {
     { title: "SelfEmployed" },
     { title: "Trainee" },
   ];
+
   handleSaved = () => {
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.name)
@@ -383,7 +397,7 @@ class ClientDetails extends Component {
     //   : this.setState({ callstatusErr: "" });
     // this.state.callbacktime === null
     //   ? this.setState({ callbacktimeErr: hlptxt })
-    //   : this.setState({ callbacktimeErr: "" });
+    //   : this.setState({ callbacktimeErr: handleSaved"" });
     // (this.state.spedays && this.state.spedays.title === undefined) ||
     // isEmptyString(this.state.spedays)
     //   ? this.setState({ speDaysErr: hlptxt })
@@ -436,115 +450,127 @@ class ClientDetails extends Component {
       // !isEmptyString(this.state.package) &&
       !isEmptyString(this.state.workexp)
     ) {
-      let obj = {
-        ugDegree: {
-          name:
-            typeof this.state.ugdegree === "string"
-              ? this.state.ugdegree
-              : this.state.ugdegree?.name,
-        },
-        studentCollege: {
-          name:
-            typeof this.state.collegename === "string"
-              ? this.state.collegename
-              : this.state.collegename?.name,
-        },
-        studentDepartment: {
-          name:
-            typeof this.state.department === "string"
-              ? this.state.department
-              : this.state.department?.name,
-        },
-        studentCurrentSem: this.state.sem.toString(),
-        studentCgpa: this.state.cgpa.toString(),
-        ameyoId: this.state.ameyoid,
-        // obCallDate: new Date(this.state.calldate),
-        obCallTime: new Date(this.state.calltime),
-        onBoardingAgent: this.state.agent,
-        callStatus: this.state.callstatus?.title,
-        callBackTime: new Date(this.state.callbacktime),
-        weekDays: this.state.spedays?.title,
-        specificTime: this.state.spetime,
-        clientName: this.state.name,
-
-        aspirationDegrees:
-          window.sessionStorage.getItem("adminUserId") === "115" &&
-          this.state.appdegree
-            ? [
-                {
-                  id: this.state.appdegree?.id,
-                },
-              ]
-            : [],
-        aspirationCountries:
-          window.sessionStorage.getItem("adminUserId") === "115" &&
-          this.state.countries
-            ? [
-                {
-                  id: this.state.countries?.id,
-                },
-              ]
-            : [],
-        term: this.state.term ? this.state.term.title : null,
-        enrollmentDate: new Date(this.state.enrolldate),
-        orderType:
-          window.sessionStorage.getItem("adminUserId") === "115"
-            ? this.state.order?.title
-            : "",
-        intakeYear: this.state.intakeyear ? this.state.intakeyear.title : null,
-        // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
-        packages: this.state.package && this.state.package.name,
-        workExperience: this.state.workexp?.title,
-        typeOfExperience:
-          this.state.exptype !== null ? this.state.exptype.title : null,
-        fieldOfExpertise: this.state.expfield,
-        experienceMonths: this.state.expmonth,
-        degree: {
-          name:
-            typeof this.state.ugdegree === "string"
-              ? this.state.ugdegree
-              : this.state.ugdegree?.name,
-        },
-        department: {
-          name:
-            typeof this.state.department === "string"
-              ? this.state.department
-              : this.state.department?.name,
-        },
-        college: {
-          name:
-            typeof this.state.collegename === "string"
-              ? this.state.collegename
-              : this.state.collegename?.name,
-        },
-        presentSem: this.state.sem.toString(),
-        backlogs: this.state.activebacklogs.toString(),
-        activeBacklogs: this.state.activebacklogs.toString(),
-        cgpa: this.state.cgpa.toString(),
-      };
-
-      this.props.updateclientdetails(
-        this.props.match.params.studentId,
-        this.props.match.params.productId,
-        obj,
-        (response) => {
-          if (response.status === 200) {
-            this.setState({
-              formSubmitted: true,
-              snackmsg: "Updated Successfully",
-              snackvariant: "success",
-              snackopen: true,
-            });
-          } else {
-            this.setState({
-              snackmsg: "Network Failed",
-              snackvariant: "error",
-              snackopen: true,
-            });
-          }
-        }
-      );
+      if (this.state.yearChange || this.state.termChange) {
+        this.setState({
+          dialogOpen: true,
+        });
+      } else {
+        this.handleAddClick();
+      }
     }
+  };
+
+  handleAddClick = () => {
+    let obj = {
+      ugDegree: {
+        name:
+          typeof this.state.ugdegree === "string"
+            ? this.state.ugdegree
+            : this.state.ugdegree?.name,
+      },
+      studentCollege: {
+        name:
+          typeof this.state.collegename === "string"
+            ? this.state.collegename
+            : this.state.collegename?.name,
+      },
+      studentDepartment: {
+        name:
+          typeof this.state.department === "string"
+            ? this.state.department
+            : this.state.department?.name,
+      },
+      studentCurrentSem: this.state.sem.toString(),
+      studentCgpa: this.state.cgpa.toString(),
+      ameyoId: this.state.ameyoid,
+      // obCallDate: new Date(this.state.calldate),
+      obCallTime: new Date(this.state.calltime),
+      onBoardingAgent: this.state.agent,
+      callStatus: this.state.callstatus?.title,
+      callBackTime: new Date(this.state.callbacktime),
+      weekDays: this.state.spedays?.title,
+      specificTime: this.state.spetime,
+      clientName: this.state.name,
+
+      aspirationDegrees:
+        window.sessionStorage.getItem("adminUserId") === "115" &&
+        this.state.appdegree
+          ? [
+              {
+                id: this.state.appdegree?.id,
+              },
+            ]
+          : [],
+      aspirationCountries:
+        window.sessionStorage.getItem("adminUserId") === "115" &&
+        this.state.countries
+          ? [
+              {
+                id: this.state.countries?.id,
+              },
+            ]
+          : [],
+      term: this.state.term ? this.state.term.title : null,
+      enrollmentDate: new Date(this.state.enrolldate),
+      orderType:
+        window.sessionStorage.getItem("adminUserId") === "115"
+          ? this.state.order?.title
+          : "",
+      intakeYear: this.state.intakeyear ? this.state.intakeyear.title : null,
+      // packages: typeof this.state.package ? this.state.package : this.state.package.name,  //Createable dropdown
+      packages: this.state.package && this.state.package.name,
+      workExperience: this.state.workexp?.title,
+      typeOfExperience:
+        this.state.exptype !== null ? this.state.exptype.title : null,
+      fieldOfExpertise: this.state.expfield,
+      experienceMonths: this.state.expmonth,
+      degree: {
+        name:
+          typeof this.state.ugdegree === "string"
+            ? this.state.ugdegree
+            : this.state.ugdegree?.name,
+      },
+      department: {
+        name:
+          typeof this.state.department === "string"
+            ? this.state.department
+            : this.state.department?.name,
+      },
+      college: {
+        name:
+          typeof this.state.collegename === "string"
+            ? this.state.collegename
+            : this.state.collegename?.name,
+      },
+      presentSem: this.state.sem.toString(),
+      backlogs: this.state.activebacklogs.toString(),
+      activeBacklogs: this.state.activebacklogs.toString(),
+      cgpa: this.state.cgpa.toString(),
+    };
+
+    this.props.updateclientdetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      obj,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            formSubmitted: true,
+            snackmsg: "Updated Successfully",
+            snackvariant: "success",
+            snackopen: true,
+            dialogOpen: false,
+          });
+        } else {
+          this.setState({
+            snackmsg: "Network Failed",
+            snackvariant: "error",
+            snackopen: true,
+            dialogOpen: false,
+          });
+        }
+      }
+    );
   };
 
   render() {
@@ -878,6 +904,9 @@ class ClientDetails extends Component {
                   value={this.state.intake}
                   onChange={(e) => this.setState({ intake: e.target.value })}
                   disabled
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item md={3}>
@@ -887,6 +916,9 @@ class ClientDetails extends Component {
                   value={this.state.year}
                   onChange={(e) => this.setState({ year: e.target.value })}
                   disabled
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item md={3}>
@@ -1117,7 +1149,7 @@ class ClientDetails extends Component {
                   getOptionLabel={(option) => option.title}
                   value={this.state.intakeyear}
                   onChange={(e, newValue) =>
-                    this.setState({ intakeyear: newValue })
+                    this.setState({ intakeyear: newValue, yearChange: true })
                   }
                   renderInput={(params) => (
                     <TextField
@@ -1138,7 +1170,9 @@ class ClientDetails extends Component {
                   options={this.intakeTermList}
                   getOptionLabel={(option) => option.title}
                   value={this.state.term}
-                  onChange={(e, newValue) => this.setState({ term: newValue })}
+                  onChange={(e, newValue) =>
+                    this.setState({ term: newValue, termChange: true })
+                  }
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -1538,6 +1572,37 @@ class ClientDetails extends Component {
           snackOpen={this.state.snackopen}
           onClose={() => this.setState({ snackopen: false })}
         />
+        <Dialog open={this.state.dialogOpen}>
+          <DialogContent
+            style={{ height: "150px", display: "flex", alignItems: "center" }}
+          >
+            <Grid container spacing={3}>
+              <Grid item md={12} align="center">
+                <Typography>
+                  Are you sure you want to change the Intake Value ?
+                </Typography>
+              </Grid>
+              <Grid item md={6} align="center">
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => this.setState({ dialogOpen: false })}
+                >
+                  No
+                </Button>
+              </Grid>
+              <Grid item md={6} align="center">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.handleAddClick()}
+                >
+                  Yes
+                </Button>
+              </Grid>
+            </Grid>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
