@@ -285,6 +285,8 @@ export const ADMIN = {
   getStudentsByStages: "getStudentsByStages",
   getAllAdminUsers: "getAllAdminUsers",
   deletementor: "deletementor",
+  getAdminUserDepartments: "getAdminUserDepartments",
+  clearCustomData: "clearAdminLoginCustomData",
 };
 
 export const MENTORSCHEDULELIST = {
