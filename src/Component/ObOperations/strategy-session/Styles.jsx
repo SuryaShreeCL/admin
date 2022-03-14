@@ -87,5 +87,8 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white'
 
   },
+  mainContainerStory: {
+    padding: '20px',
+  }
  
 }));

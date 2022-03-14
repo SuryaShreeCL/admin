@@ -5,6 +5,7 @@ import { useStyles } from "./Styles";
 import GraduateExamScores from "./GraduateExamScores";
 import KeyHighlights from "./KeyHighlights";
 import Recommenders from "./Recommenders";
+import Story from "./YourStoryForEssay"
 
 function PreStrategyWorkSheet() {
   const [tabValue, setTabValue] = useState(0);
@@ -27,6 +28,9 @@ function PreStrategyWorkSheet() {
     }
     else if(tabValue == 3) {
       return<Recommenders/>;
+    }
+    else if(tabValue == 4){
+      return<Story/>;
     }
   };
   return (
