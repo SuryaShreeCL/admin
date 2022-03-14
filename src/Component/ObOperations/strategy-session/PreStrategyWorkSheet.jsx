@@ -6,6 +6,7 @@ import GraduateExamScores from "./GraduateExamScores";
 import KeyHighlights from "./KeyHighlights";
 import Recommenders from "./Recommenders";
 import Story from "./YourStoryForEssay"
+import FitWithGraduate from "./FitWithGraduate";
 
 function PreStrategyWorkSheet() {
   const [tabValue, setTabValue] = useState(0);
@@ -31,6 +32,9 @@ function PreStrategyWorkSheet() {
     }
     else if(tabValue == 4){
       return<Story/>;
+    }
+    else if(tabValue == 5){
+      return<FitWithGraduate/>;
     }
   };
   return (

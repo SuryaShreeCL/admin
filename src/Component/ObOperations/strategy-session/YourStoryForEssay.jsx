@@ -10,7 +10,7 @@ export default function Story(){
     return(
         <div className={classes.mainWrapper}>
       <div className={classes.contentWrapper}>
-          <Grid container spacing={3} className={classes.mainContainerStory}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
                 <Typography>Your Story For Your Essay</Typography>   
                 </Grid>

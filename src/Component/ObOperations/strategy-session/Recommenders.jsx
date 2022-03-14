@@ -15,7 +15,7 @@ export default function Recommender() {
   return(
     <div className={classes.mainWrapper}>
       <div className={classes.contentWrapper}>
-        <Grid container spacing={3} className={classes.mainContainer}>
+        <Grid container spacing={3} >
           <Grid item xs={12}>
             <Typography>Recommenders</Typography>
           </Grid>

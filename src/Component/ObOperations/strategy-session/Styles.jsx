@@ -60,7 +60,8 @@ export const useStyles = makeStyles((theme) => ({
   contentWrapper : {
     flex : 1,
     overflowY : 'auto',
-    overflowX : 'hidden'
+    overflowX : 'hidden',
+    padding:'25px'
   },
   mainContainer : {
     padding: '3%'
@@ -89,6 +90,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   mainContainerStory: {
     padding: '20px',
-  }
+  },
+  UnalignedTextGraduate: {
+    marginTop: '16px'
+
+  },
+ tabMenuFitWithGraduate: {
+   marginBottom:'20px'
+ }
  
 }));
