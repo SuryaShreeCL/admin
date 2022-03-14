@@ -57,8 +57,44 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     height: "80vh",
   },
+
   contentWrapper: {
     flex: 1,
-    // overflowY : 'auto'
+    overflowY: "auto",
+    overflowX: "hidden",
+    padding: "25px",
+  },
+  mainContainer: {
+    padding: "3%",
+  },
+  root: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  cardContainer: {
+    padding: "20px",
+    border: "1px solid lightGrey",
+    borderRadius: "10px",
+    marginBottom: "10px",
+    backgroundColor: "white",
+  },
+  mainContainerStory: {
+    padding: "20px",
+  },
+  UnalignedTextGraduate: {
+    marginTop: "16px",
+  },
+  tabMenuFitWithGraduate: {
+    marginBottom: "20px",
   },
 }));
