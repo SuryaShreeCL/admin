@@ -21,6 +21,7 @@ const initialState = {
   downloadGAT: [],
   fileuploadGAT: [],
   completecall: [],
+  ietlsCompletedScore: [],
 };
 
 export default (state = initialState, action) => {
@@ -89,6 +90,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         getieltsscore: action.payload,
+      };
+    case CALL_DETAILS.getIeltsCompletedExamScore:
+      return {
+        ...state,
+        ietlsCompletedScore: action.payload,
       };
     case CALL_DETAILS.gettoeflscore:
       return {

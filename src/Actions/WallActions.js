@@ -1,7 +1,7 @@
 import { WALL } from "../Redux/Action";
 import axios from "axios";
 
-export const listWallPosts = (status, type, page = 0) => async dispatch => {
+export const listWallPosts = (status, type, page = 0) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 
@@ -35,7 +35,7 @@ export const listWallPosts = (status, type, page = 0) => async dispatch => {
   }
 };
 
-export const listAllWallPosts = (status, type) => async dispatch => {
+export const listAllWallPosts = (status, type) => async (dispatch) => {
   try {
     dispatch({ type: WALL.LIST_REQUEST });
 
@@ -65,7 +65,9 @@ export const listAllWallPosts = (status, type) => async dispatch => {
     });
   }
 };
-export const listWallWebinars = (page = 0, type) => async dispatch => {
+export const listWallWebinars = (page = 0, type) => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
+
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
@@ -83,6 +85,7 @@ export const listWallWebinars = (page = 0, type) => async dispatch => {
           page: page - 1,
           size: 6,
           activeStatus: type ? type : "",
+          department: department,
         },
       }
     );
@@ -102,12 +105,13 @@ export const listWallWebinars = (page = 0, type) => async dispatch => {
   }
 };
 
-export const listAllWallWebinars = () => async dispatch => {
+export const listAllWallWebinars = () => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=1000`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist`,
       {
         crossDomain: true,
         headers: {
@@ -115,6 +119,11 @@ export const listAllWallWebinars = () => async dispatch => {
           Authorization: `Bearer ${window.sessionStorage.getItem(
             "accessToken"
           )}`,
+        },
+        params: {
+          page: 0,
+          size: 1000,
+          department: department,
         },
       }
     );
@@ -134,12 +143,13 @@ export const listAllWallWebinars = () => async dispatch => {
   }
 };
 
-export const getWallCategories = status => async dispatch => {
+export const getWallCategories = (status) => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
   try {
     dispatch({ type: WALL.WALL_CATEGORIES_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallcategory?activeStatus=${status}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallcategory`,
       {
         crossDomain: true,
         headers: {
@@ -147,6 +157,10 @@ export const getWallCategories = status => async dispatch => {
           Authorization: `Bearer ${window.sessionStorage.getItem(
             "accessToken"
           )}`,
+        },
+        params: {
+          activeStatus: status,
+          department: department,
         },
       }
     );
@@ -166,7 +180,7 @@ export const getWallCategories = status => async dispatch => {
   }
 };
 
-export const deleteWallPost = id => async dispatch => {
+export const deleteWallPost = (id) => async (dispatch) => {
   try {
     dispatch({
       type: WALL.DELETE_REQUEST,
@@ -201,7 +215,7 @@ export const deleteWallPost = id => async dispatch => {
   }
 };
 
-export const createWallPost = post => async dispatch => {
+export const createWallPost = (post) => async (dispatch) => {
   try {
     dispatch({
       type: WALL.CREATE_REQUEST,
@@ -237,24 +251,26 @@ export const createWallPost = post => async dispatch => {
   }
 };
 
-export const updateWallPost = post => async dispatch => {
+export const updateWallPost = (post) => async (dispatch) => {
   try {
     dispatch({
       type: WALL.UPDATE_REQUEST,
     });
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
-      post,
-      {
-        crossDomain: true,
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
-          )}`,
-        },
-      }
-    ).then(res=> console.log(res));
+    const { data } = await axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/v1/wallpost/${post.id}`,
+        post,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              "accessToken"
+            )}`,
+          },
+        }
+      )
+      .then((res) => console.log(res));
     dispatch({
       type: WALL.UPDATE_SUCCESS,
       payload: data,
@@ -272,7 +288,7 @@ export const updateWallPost = post => async dispatch => {
 };
 
 export const uploadImage = (image, callback) => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/api/v1/files/upload/lms/webinar/hostImage`,
@@ -287,17 +303,17 @@ export const uploadImage = (image, callback) => {
           },
         }
       )
-      .then(response => {
+      .then((response) => {
         callback(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 };
 
 export const getPlatforms = () => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/v1/platforms`, {
         crossDomain: true,
@@ -308,13 +324,13 @@ export const getPlatforms = () => {
           )}`,
         },
       })
-      .then(response => {
+      .then((response) => {
         dispatch({
           type: WALL.PLATFORMS,
           payload: response.data.data,
         });
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 };
 
@@ -339,7 +355,7 @@ export const getPlatforms = () => {
 // };
 
 export const postRecordedVideoUrl = (webinarId, url, callback) => {
-  return dispatch => {
+  return (dispatch) => {
     axios
       .put(
         `${process.env.REACT_APP_API_URL}/api/v1/lms/webinar/${webinarId}/record/video`,
@@ -357,11 +373,11 @@ export const postRecordedVideoUrl = (webinarId, url, callback) => {
           },
         }
       )
-      .then(response => {
+      .then((response) => {
         console.log("hello");
         callback(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         callback(error.response.data);
       });

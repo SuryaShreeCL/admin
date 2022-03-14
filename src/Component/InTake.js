@@ -352,7 +352,7 @@ export class InTake extends Component {
             <Dialog
               TransitionComponent={Transition}
               open={this.state.show}
-              onClose={this.handleClose}
+              // onClose={this.handleClose}
               aria-labelledby="customized-dialog-title"
             >
               <DialogTitle id="customized-dialog-title">

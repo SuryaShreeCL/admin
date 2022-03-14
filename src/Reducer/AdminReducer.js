@@ -10,17 +10,18 @@ const initialState = {
   updateAspirationResponse: [],
   contactDataResponse: [],
   updateAccStatusResponse: [],
-  mentorList :[],
-  mentorAllocationResponse : [],
-  internAccessResponse : [],
-  updateLmsAccess : [],
-  awaitingUsersForActivationList : [],
-  productActivationResponse : [],
-  adminLinkedProductDetails : [],
-  tokenStatus : null,
-  studentsByStagesList : [],
-  adminUserList : [],
-  deletementor : [],
+  mentorList: [],
+  mentorAllocationResponse: [],
+  internAccessResponse: [],
+  updateLmsAccess: [],
+  awaitingUsersForActivationList: [],
+  productActivationResponse: [],
+  adminLinkedProductDetails: [],
+  tokenStatus: null,
+  studentsByStagesList: [],
+  adminUserList: [],
+  deletementor: [],
+  adminUserDepartments: null,
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -74,61 +75,71 @@ export default (state = initialState, action) => {
         ...state,
         updateAspirationResponse: action.payload,
       };
-      case ADMIN.getAllMentor : 
+    case ADMIN.getAllMentor:
       return {
         ...state,
-        mentorList : action.payload
+        mentorList: action.payload,
       };
-      case ADMIN.alocateMentor : 
+    case ADMIN.alocateMentor:
       return {
         ...state,
-        mentorAllocationResponse : action.payload
-      }
-      case ADMIN.giveInternAccess : 
+        mentorAllocationResponse: action.payload,
+      };
+    case ADMIN.giveInternAccess:
       return {
         ...state,
-        internAccessResponse : action.payload
-      }
-      case ADMIN.updateLmsAccess : 
+        internAccessResponse: action.payload,
+      };
+    case ADMIN.updateLmsAccess:
       return {
         ...state,
-        updateLmsAccess : action.payload
-      }
-      case ADMIN.getAwaitingUsersByAdminId : 
+        updateLmsAccess: action.payload,
+      };
+    case ADMIN.getAwaitingUsersByAdminId:
       return {
         ...state,
-        awaitingUsersForActivationList : action.payload
-      }
-      case ADMIN.activateStudentProduct : 
+        awaitingUsersForActivationList: action.payload,
+      };
+    case ADMIN.activateStudentProduct:
       return {
         ...state,
-        productActivationResponse : action.payload
-      }
-      case ADMIN.getAdminLinkedProduct : 
+        productActivationResponse: action.payload,
+      };
+    case ADMIN.getAdminLinkedProduct:
       return {
         ...state,
-        adminLinkedProductDetails : action.payload
-      }
-      case ADMIN.checkTokenStatus : 
+        adminLinkedProductDetails: action.payload,
+      };
+    case ADMIN.checkTokenStatus:
       return {
         ...state,
-        tokenStatus : action.payload
-      }
-      case ADMIN.getStudentsByStages : 
+        tokenStatus: action.payload,
+      };
+    case ADMIN.getStudentsByStages:
       return {
         ...state,
-        studentsByStagesList : action.payload
-      }
-      case ADMIN.getAllAdminUsers : 
+        studentsByStagesList: action.payload,
+      };
+    case ADMIN.getAllAdminUsers:
       return {
         ...state,
-        adminUserList : action.payload
-      }
-      case ADMIN.deletementor : 
+        adminUserList: action.payload,
+      };
+    case ADMIN.deletementor:
       return {
         ...state,
-        deletementorList : action.payload
-      }
+        deletementorList: action.payload,
+      };
+    case ADMIN.getAdminUserDepartments:
+      return {
+        ...state,
+        adminUserDepartments: action.payload,
+      };
+    case ADMIN.clearCustomData:
+      return {
+        ...state,
+        [action.fieldName]: null,
+      };
 
     default:
       break;

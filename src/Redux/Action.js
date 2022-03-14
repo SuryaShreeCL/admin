@@ -285,6 +285,8 @@ export const ADMIN = {
   getStudentsByStages: "getStudentsByStages",
   getAllAdminUsers: "getAllAdminUsers",
   deletementor: "deletementor",
+  getAdminUserDepartments: "getAdminUserDepartments",
+  clearCustomData: "clearAdminLoginCustomData",
 };
 
 export const MENTORSCHEDULELIST = {
@@ -319,6 +321,7 @@ export const CALL_DETAILS = {
   downloadGAT: "downloadGAT",
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
+  getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
   // getsearchlist:"getsearchlist"
 };
 
@@ -337,17 +340,18 @@ export const NOTIFICATION = {
 };
 
 export const REPORTS = {
-  viewTermsAndConReport: 'viewTermsAndConReport',
-  viewCvReport: 'viewCvReport',
-  viewMarksheetReport: 'viewMarksheetReport',
-  viewMyDetailsReport: 'viewMyDetailsReport',
-  viewTechTestMechReport: 'viewTechTestMechReport',
-  viewTechTestCseReport: 'viewTechTestCseReport',
-  viewTestRating: 'viewTestRating',
-  viewTechTestElectronics: 'viewTechTestElectronics',
-  viewDiagTestReport: 'viewDiagTestReport',
-  viewCareerExpoTest: 'viewCareerExpoTest',
-  downloadProductReport: 'downloadProductReport',
+  viewTermsAndConReport: "viewTermsAndConReport",
+  viewCvReport: "viewCvReport",
+  viewMarksheetReport: "viewMarksheetReport",
+  viewMyDetailsReport: "viewMyDetailsReport",
+  viewTechTestMechReport: "viewTechTestMechReport",
+  viewTechTestCseReport: "viewTechTestCseReport",
+  viewTestRating: "viewTestRating",
+  viewTechTestElectronics: "viewTechTestElectronics",
+  viewDiagTestReport: "viewDiagTestReport",
+  viewCareerExpoTest: "viewCareerExpoTest",
+  downloadProductReport: "downloadProductReport",
+  clearCustomData: "reportClearCustomData",
 };
 
 export const STUDENTMARKDETAILS = {
