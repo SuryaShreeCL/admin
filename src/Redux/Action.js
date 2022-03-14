@@ -119,6 +119,7 @@ export const STUDENT = {
   aspirationDegree: "aspirationDegree",
   aspirationBranch: "aspirationBranch",
   aspirationCountry: "aspirationCountry",
+  getRegions: "getRegions",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
 };

@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent : 'space-around'
+    justifyContent: "space-around",
   },
   selectedStrategyCard: {
     height: "98px",
@@ -30,35 +30,35 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: "rgba(0, 0, 0, 0.45) 0px 25px 20px -20px",
     display: "flex",
     flexDirection: "column",
-    justifyContent : 'space-around'
+    justifyContent: "space-around",
   },
   dateContainer: {
     display: "flex",
     alignItems: "center",
-    gap : '15px'
+    gap: "15px",
   },
-  preStrategyWorkSheetContainer : {
+  preStrategyWorkSheetContainer: {
     minHeight: "80vh",
-    width : '100%',
-    borderRadius : '10px',
-    border : '1px solid #D2D2D2',
-    opacity : 1,
-    marginTop : '15px'
+    width: "100%",
+    borderRadius: "10px",
+    border: "1px solid #D2D2D2",
+    opacity: 1,
+    marginTop: "15px",
   },
-  saveContainer : {
+  saveContainer: {
     display: "flex",
-    alignItems : 'center',
-    justifyContent : 'flex-end',
-    padding : '10px',
-    borderTop : "1px solid #D2D2D2"
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "10px",
+    borderTop: "1px solid #D2D2D2",
   },
-  mainWrapper : {
-    display : 'flex',
-    flexDirection : 'column',
-    height : '80vh'
+  mainWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    height: "80vh",
   },
-  contentWrapper : {
-    flex : 1,
-    overflowY : 'auto'
-  }
+  contentWrapper: {
+    flex: 1,
+    // overflowY : 'auto'
+  },
 }));

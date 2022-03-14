@@ -41,6 +41,7 @@ const initialState = {
   AspirationDegree: [],
   AspirationBranch: [],
   AspirationCountry: [],
+  regionList: [],
   AspirationCollege: [],
   AspirationSpecialization: [],
 };

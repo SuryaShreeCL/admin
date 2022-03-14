@@ -1,4 +1,4 @@
-import { STUDENT } from "../Redux/Action";
+import { STUDENT, STUDENTMARKDETAILS } from "../Redux/Action";
 import { URL, AUTH_URL } from "./URL";
 import axios from "axios";
 
@@ -1370,6 +1370,28 @@ export const getAspirationSpecialization = (search, callback) => {
           AspirationSpecialization: result.data,
         });
       })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const getRegions = (studentId, callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/students/" + studentId + "/school/regions", {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        callback(result);
+        dispatch({ type: STUDENT.getRegions, regionList: result.data.data });
+      })
+
       .catch((error) => {
         console.log(error);
       });
