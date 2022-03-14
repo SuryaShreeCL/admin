@@ -315,6 +315,12 @@ export default (state = initialState, action) => {
         ...state,
         AspirationSpecialization: action.AspirationSpecialization,
       };
+    case STUDENT.getRegions:
+      return {
+        ...state,
+        regionList: action.regionList,
+      };
+
     default:
       break;
   }

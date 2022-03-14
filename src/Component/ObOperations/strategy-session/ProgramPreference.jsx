@@ -10,7 +10,7 @@ import {
 } from "../../../Actions/Aspiration";
 import { getBranches } from "../../../Actions/College";
 import { getRegions } from "../../../Actions/Student";
-
+import { useParams } from "react-router-dom";
 function ProgramPreference() {
   const dispatch = useDispatch();
   const { allDegreeList } = useSelector((state) => state.AspirationReducer);
@@ -19,7 +19,7 @@ function ProgramPreference() {
   );
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { regionList } = useSelector((state) => state.StudentReducer);
-
+  const { studentId } = useParams();
   const [degree, setDegree] = useState(null);
   const [specialization, setSpecialization] = useState(null);
   const [branch, setBranch] = useState(null);
@@ -29,9 +29,9 @@ function ProgramPreference() {
     dispatch(getAllDegree());
     dispatch(getAllSpecialization());
     dispatch(getBranches());
-    dispatch(getRegions());
+    dispatch(getRegions(studentId));
   }, []);
-  console.log(specialization, "__________________");
+  console.log(region, "__________________");
   return (
     <div className={classes.mainWrapper}>
       <div className={classes.contentWrapper}>

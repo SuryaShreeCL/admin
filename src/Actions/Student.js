@@ -1376,7 +1376,7 @@ export const getAspirationSpecialization = (search, callback) => {
   };
 };
 
-export const getRegions = (studentId, callback) => {
+export const getRegions = (studentId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -1388,7 +1388,6 @@ export const getRegions = (studentId, callback) => {
         },
       })
       .then((result) => {
-        callback(result);
         dispatch({ type: STUDENT.getRegions, regionList: result.data.data });
       })
 
