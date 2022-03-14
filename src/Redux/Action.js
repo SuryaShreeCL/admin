@@ -320,6 +320,7 @@ export const CALL_DETAILS = {
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
   getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
+  getIntakeTermList: "getIntakeTermList",
   // getsearchlist:"getsearchlist"
 };
 

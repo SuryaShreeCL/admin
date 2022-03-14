@@ -2,7 +2,7 @@ import { CALL_DETAILS } from "../Redux/Action";
 import axios from "axios";
 import { URL } from "./URL";
 
-export const updateclientdetails = (studentId, productId, data) => {
+export const updateclientdetails = (studentId, productId, data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
@@ -23,17 +23,40 @@ export const updateclientdetails = (studentId, productId, data) => {
         }
       )
       .then((result) => {
+        callback(result);
         dispatch({
           type: CALL_DETAILS.updateclientdetails,
           payload: result.data,
         });
       })
       .catch((error) => {
+        callback(error);
         console.log(error);
       });
   };
 };
-
+export const getIntakeTerm = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/inTake/search?page=0&size=20&q=", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          admin: "yes",
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: CALL_DETAILS.getIntakeTermList,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 export const getClientInfo = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {

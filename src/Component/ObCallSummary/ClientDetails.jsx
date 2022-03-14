@@ -24,7 +24,11 @@ import {
   getAllTerms,
   viewCountry,
 } from "../../Actions/Aspiration";
-import { getClientInfo, updateclientdetails } from "../../Actions/Calldetails";
+import {
+  getClientInfo,
+  getIntakeTerm,
+  updateclientdetails,
+} from "../../Actions/Calldetails";
 import { getAllColleges, getBranches, getDegree } from "../../Actions/College";
 import { storeItInState } from "../../Actions/HelperAction";
 import {
@@ -143,14 +147,14 @@ class ClientDetails extends Component {
   }
   componentDidMount() {
     this.props.getBranches();
-    this.props.getDegree();
     this.props.getAllColleges();
     this.props.getAllProductFamily();
     this.props.getAllDegree();
-    this.props.getAllTerms();
+    // this.props.getAllTerms();
     this.props.getallcountry();
     this.props.getStudentsById(this.props.match.params.studentId);
     this.props.getvarientByid(this.props.match.params.productId);
+    this.props.getIntakeTerm();
     this.props.getClientInfo(
       this.props.match.params.studentId,
       this.props.match.params.productId
@@ -262,7 +266,7 @@ class ClientDetails extends Component {
             : null,
         intakeyear: year ? { title: year.toString() } : null,
         intake: aspirationTerms,
-        term: { name: aspirationTerms },
+        term: { title: aspirationTerms },
         year: year,
       });
     }
@@ -289,7 +293,11 @@ class ClientDetails extends Component {
       }
     }
   }
-
+  intakeTermList = [
+    { title: "Fall" },
+    { title: "Summer" },
+    { title: "Spring" },
+  ];
   CallStatus = [
     { title: "Completed" },
     { title: "Pending" },
@@ -477,13 +485,7 @@ class ClientDetails extends Component {
                 },
               ]
             : [],
-        aspirationTerms: this.state.term
-          ? [
-              {
-                id: this.state.term?.id,
-              },
-            ]
-          : null,
+        term: this.state.term ? this.state.term.title : null,
         enrollmentDate: new Date(this.state.enrolldate),
         orderType:
           window.sessionStorage.getItem("adminUserId") === "115"
@@ -524,7 +526,23 @@ class ClientDetails extends Component {
       this.props.updateclientdetails(
         this.props.match.params.studentId,
         this.props.match.params.productId,
-        obj
+        obj,
+        (response) => {
+          if (response.status === 200) {
+            this.setState({
+              formSubmitted: true,
+              snackmsg: "Updated Successfully",
+              snackvariant: "success",
+              snackopen: true,
+            });
+          } else {
+            this.setState({
+              snackmsg: "Network Failed",
+              snackvariant: "error",
+              snackopen: true,
+            });
+          }
+        }
       );
     }
   };
@@ -1117,8 +1135,8 @@ class ClientDetails extends Component {
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   id="combo-box-demo"
                   // disabled
-                  options={this.props.getAspTermsList}
-                  getOptionLabel={(option) => option.name}
+                  options={this.intakeTermList}
+                  getOptionLabel={(option) => option.title}
                   value={this.state.term}
                   onChange={(e, newValue) => this.setState({ term: newValue })}
                   renderInput={(params) => (
@@ -1540,6 +1558,7 @@ const mapStateToProps = (state) => {
     updateclientdetailsList: state.CallReducer.updateclientdetails,
     getClientInfoList: state.CallReducer.getClientInfo,
     tempState: state.HelperReducer.tempState,
+    getIntakeTermList: state.CallReducer.getIntakeTermList,
   };
 };
 
@@ -1558,4 +1577,5 @@ export default connect(mapStateToProps, {
   updateclientdetails,
   getClientInfo,
   storeItInState,
+  getIntakeTerm,
 })(ClientDetails);
