@@ -10,6 +10,15 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { getRegions } from "../../../Actions/Student";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  getAllDegree,
+  getAllSpecialization,
+} from "../../../Actions/Aspiration";
+import { getUniversity } from "../../../Actions/College";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,7 +55,21 @@ function a11yProps(index) {
 
 export default function FitWithGraduate() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { studentId } = useParams();
+  const { regionList } = useSelector((state) => state.StudentReducer);
+  const { allDegreeList } = useSelector((state) => state.AspirationReducer);
+  const {universityList} = useSelector((state) => state.CollegeReducer);
+  const [degree, setDegree] = useState(null);
+  const [region, setRegion] = useState(null);
   const [value, setValue] = React.useState(0);
+  const [university, setUniversity] = useState(null);
+
+  useEffect(() => {
+    dispatch(getRegions(studentId));
+    dispatch(getAllDegree());
+    dispatch(getUniversity());
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -79,18 +102,19 @@ export default function FitWithGraduate() {
                 <Grid item xs={3}>
                   <Typography>Region</Typography>
                   <Autocomplete
-                    // {...defaultProps}
-                    id="debug"
-                    debug
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Region"
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
+                  id="combo-box-demo"
+                  options={regionList}
+                  value={region}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(e, newValue) => setRegion(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Region"
+                      variant="standard"
+                    />
+                  )}
+                />
                 </Grid>
                 <Grid item xs={3}>
                   <Typography>Location</Typography>
@@ -111,18 +135,19 @@ export default function FitWithGraduate() {
                 <Grid item xs={6}>
                   <Typography>Name of University</Typography>
                   <Autocomplete
-                    // {...defaultProps}
-                    id="debug"
-                    debug
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Region"
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
+                  id="combo-box-demo"
+                  options={universityList}
+                  value={university}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(e, newValue) => setUniversity(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="University"
+                      variant="standard"
+                    />
+                  )}
+                />
                 </Grid>
                 <Grid item xs={4}>
                   <Typography>Link to the program website</Typography>
@@ -152,18 +177,17 @@ export default function FitWithGraduate() {
                 <Grid item xs={2}>
                   <Typography>Degree</Typography>
                   <Autocomplete
-                    // {...defaultProps}
-                    id="debug"
-                    debug
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Region"
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
+                  id="combo-box-demo"
+                  options={allDegreeList}
+                  value={degree}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(e, newValue) => setDegree(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder="Degree" variant="standard" />
+                  )}
+                />
+              
+              
                 </Grid>
                 <Grid item xs={4}>
                   <Typography>Field of Study</Typography>
