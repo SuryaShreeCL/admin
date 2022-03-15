@@ -22,6 +22,7 @@ const initialState = {
   fileuploadGAT: [],
   completecall: [],
   ietlsCompletedScore: [],
+  getIntakeTermList: [],
 };
 
 export default (state = initialState, action) => {
@@ -136,11 +137,11 @@ export default (state = initialState, action) => {
         ...state,
         completecall: action.payload,
       };
-    // case CALL_DETAILS.getsearchlist:
-    //   return {
-    //     ...state,
-    //     getsearchlist: action.payload,
-    //   };
+    case CALL_DETAILS.getIntakeTermList:
+      return {
+        ...state,
+        getIntakeTermList: action.payload,
+      };
     default:
       break;
   }

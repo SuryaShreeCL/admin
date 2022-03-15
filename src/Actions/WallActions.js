@@ -66,6 +66,8 @@ export const listAllWallPosts = (status, type) => async (dispatch) => {
   }
 };
 export const listWallWebinars = (page = 0, type) => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
+
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
@@ -83,6 +85,7 @@ export const listWallWebinars = (page = 0, type) => async (dispatch) => {
           page: page - 1,
           size: 6,
           activeStatus: type ? type : "",
+          department: department,
         },
       }
     );
@@ -103,11 +106,12 @@ export const listWallWebinars = (page = 0, type) => async (dispatch) => {
 };
 
 export const listAllWallWebinars = () => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist?page=0&size=1000`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/webinarlist`,
       {
         crossDomain: true,
         headers: {
@@ -115,6 +119,11 @@ export const listAllWallWebinars = () => async (dispatch) => {
           Authorization: `Bearer ${window.sessionStorage.getItem(
             "accessToken"
           )}`,
+        },
+        params: {
+          page: 0,
+          size: 1000,
+          department: department,
         },
       }
     );
@@ -135,11 +144,12 @@ export const listAllWallWebinars = () => async (dispatch) => {
 };
 
 export const getWallCategories = (status) => async (dispatch) => {
+  let department = window.sessionStorage.getItem("department");
   try {
     dispatch({ type: WALL.WALL_CATEGORIES_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallcategory?activeStatus=${status}`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallcategory`,
       {
         crossDomain: true,
         headers: {
@@ -147,6 +157,10 @@ export const getWallCategories = (status) => async (dispatch) => {
           Authorization: `Bearer ${window.sessionStorage.getItem(
             "accessToken"
           )}`,
+        },
+        params: {
+          activeStatus: status,
+          department: department,
         },
       }
     );
