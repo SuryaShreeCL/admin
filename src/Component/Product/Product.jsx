@@ -73,9 +73,9 @@ class Product extends Component {
       newFamilynameErr: "",
       tableColumns: [
         { field: "id", hide: true },
-        { field: "codeDisplayName", headerName: "Product SKU", width: 140 },
+        { field: "codeName", headerName: "Product SKU", width: 140 },
         {
-          field: "productDisplayName",
+          field: "productName",
           headerName: "Product Family Name",
           width: 150,
         },
