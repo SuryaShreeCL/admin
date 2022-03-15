@@ -131,8 +131,6 @@ const CreatePost = () => {
     platforms: [],
   });
 
-  console.log(state, 'state');
-
   const [errorSchema, setErrorSchema] = useState({
     isVideoLink: false,
   });
@@ -222,7 +220,10 @@ const CreatePost = () => {
   });
 
   const eventvalidationSchema = yup.object({
-    jobCategory: yup.object().required('job category is required'),
+    jobCategory: yup
+      .object()
+      .nullable()
+      .required('job category is required'),
     wallCategories: yup
       .array()
       .min(1)
@@ -271,7 +272,6 @@ const CreatePost = () => {
   });
 
   const postvalidationSchema = yup.object({
-    // jobCategory: yup.string().required('job category is required'),
     caption: yup.string().required('caption is required'),
     eventTitle: yup.string().required('title is required'),
     jobRole: yup.string().required('job role is required'),
@@ -374,14 +374,12 @@ const CreatePost = () => {
           }
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
-              console.log(state, '..............');
               createPost(
                 values,
                 location?.postType === 'Webinar' ? 'Scheduled' : 'Live'
               );
               resetForm();
             }
-            console.log(state, '..............');
           }}
           enableReinitialize
         >
@@ -547,10 +545,7 @@ const CreatePost = () => {
                           getOptionLabel={(option) => option?.name}
                           options={jobs ?? []}
                           onChange={(e, value) => {
-                            setFieldValue(
-                              'jobCategory',
-                              value !== null ? value : jobs
-                            );
+                            setFieldValue('jobCategory', value);
                           }}
                           fullWidth
                           value={values.jobCategory}
