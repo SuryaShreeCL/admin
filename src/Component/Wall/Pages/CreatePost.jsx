@@ -147,6 +147,7 @@ const CreatePost = () => {
   });
 
   useEffect(() => {
+    console.log(state, 'state');
     dispatch(getWallCategories('Live'));
     dispatch(getWallJobList('Live'));
     dispatch(getPlatforms());
@@ -272,12 +273,20 @@ const CreatePost = () => {
   });
 
   const postvalidationSchema = yup.object({
+    wallCategories: yup
+      .array()
+      .min(1)
+      .required('category is required'),
     caption: yup.string().required('caption is required'),
-    eventTitle: yup.string().required('title is required'),
-    jobRole: yup.string().required('job role is required'),
-    location: yup.string().required('location is required'),
-    salary: yup.string().required('salary is required'),
-    roleDescription: yup.string().required('role description is required'),
+    // eventTitle: yup.string().required('title is required'),
+    platforms: yup
+      .array()
+      .min(1)
+      .required('platform is required'),
+    // jobRole: yup.string().required('job role is required'),
+    // location: yup.string().required('location is required'),
+    // salary: yup.string().required('salary is required'),
+    // roleDescription: yup.string().required('role description is required'),
   });
 
   const validationSchema = yup.object({
@@ -290,6 +299,7 @@ const CreatePost = () => {
   });
 
   const createPost = (post, activeStatus) => {
+    console.log(post, 'posghugvjubkvb ');
     if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
@@ -363,6 +373,13 @@ const CreatePost = () => {
         tab={location?.postTypeTab}
       />
       <CreatePostContainer>
+        {console.log(
+          state.isWebinar
+            ? webinarvalidationSchema
+            : state.isEvent
+            ? eventvalidationSchema
+            : postvalidationSchema
+        )}
         <Formik
           initialValues={state || []}
           validationSchema={
@@ -373,6 +390,7 @@ const CreatePost = () => {
               : postvalidationSchema
           }
           onSubmit={(values, { resetForm }) => {
+            console.log(values, 'valuesss', validate(values));
             if (validate(values)) {
               createPost(
                 values,
