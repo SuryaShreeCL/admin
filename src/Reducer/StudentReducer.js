@@ -305,8 +305,8 @@ export default (state = initialState, action) => {
         ...state,
         AspirationCountry: action.AspirationCountry,
       };
-    case STUDENT.aspirationCollege:
-      return {
+    case STUDENT.AspirationCollege:
+       return {
         ...state,
         AspirationCollege: action.AspirationCollege,
       };

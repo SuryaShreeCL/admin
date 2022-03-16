@@ -10,7 +10,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { getRegions } from "../../../Actions/Student";
+import { getAspirationLocation, getRegions } from "../../../Actions/Student";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -19,7 +19,7 @@ import {
   getAllSpecialization,
 } from "../../../Actions/Aspiration";
 import { getUniversity } from "../../../Actions/College";
-
+import { getAspirationCollege } from "../../../Actions/Student";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -56,21 +56,27 @@ function a11yProps(index) {
 export default function FitWithGraduate() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { studentId } = useParams();
+  const { studentId, productId } = useParams();
   const { regionList } = useSelector((state) => state.StudentReducer);
   const { allDegreeList } = useSelector((state) => state.AspirationReducer);
-  const {universityList} = useSelector((state) => state.CollegeReducer);
+  const {University} = useSelector((state) => state.CollegeReducer);
+  const {aspirationLocation, AspirationCollege} = useSelector((state) => state.StudentReducer);  
   const [degree, setDegree] = useState(null);
   const [region, setRegion] = useState(null);
   const [value, setValue] = React.useState(0);
   const [university, setUniversity] = useState(null);
+  const [location,setLocation] = useState(null);
+  const [college,setCollege] = useState(null);
 
   useEffect(() => {
     dispatch(getRegions(studentId));
     dispatch(getAllDegree());
     dispatch(getUniversity());
+    dispatch(getAspirationLocation());
+    dispatch(getAspirationCollege(studentId, productId,()=> {}));
+    
   }, []);
-
+  console.log(AspirationCollege,"________________");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -119,24 +125,25 @@ export default function FitWithGraduate() {
                 <Grid item xs={3}>
                   <Typography>Location</Typography>
                   <Autocomplete
-                    // {...defaultProps}
-                    id="debug"
-                    debug
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Region"
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
+                  id="combo-box-demo"
+                  options={aspirationLocation?.data}
+                  value={location}
+                  getOptionLabel={(option) => option.jobLocation}
+                  onChange={(e, newValue) => setLocation(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Location"
+                      variant="standard"
+                    />
+                  )}
+                />
                 </Grid>
                 <Grid item xs={6}>
                   <Typography>Name of University</Typography>
                   <Autocomplete
                   id="combo-box-demo"
-                  options={universityList}
+                  options={University}
                   value={university}
                   getOptionLabel={(option) => option.name}
                   onChange={(e, newValue) => setUniversity(newValue)}
@@ -161,18 +168,19 @@ export default function FitWithGraduate() {
                 <Grid item xs={2}>
                   <Typography>Program</Typography>
                   <Autocomplete
-                    // {...defaultProps}
-                    id="debug"
-                    debug
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Region"
-                        fullWidth
-                        margin="normal"
-                      />
-                    )}
-                  />
+                  id="combo-box-demo"
+                  options={AspirationCollege}
+                  value={college}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(e, newValue) => setCollege(newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Program"
+                      variant="standard"
+                    />
+                  )}
+                />
                 </Grid>
                 <Grid item xs={2}>
                   <Typography>Degree</Typography>
