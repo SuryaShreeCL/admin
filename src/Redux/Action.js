@@ -252,8 +252,8 @@ export const PRODUCT = {
   publishvarient: "publishvarient",
   comboexcel: "comboexcel",
   varientexcel: "varientexcel",
-  getpunchingdata: "getpunchingdata",
-  postpunchingdata: "postpunchingdata",
+  getPunchingData: "getPunchingData",
+  postPunchingData: "postPunchingData",
   putproductstructure: "putproductstructure",
   getproductstructure: "getproductstructure",
   postproductstructure: "postproductstructure",
@@ -261,6 +261,7 @@ export const PRODUCT = {
   getproductsteps: "getproductsteps",
   searchProductActivationList: "searchProductActivationList",
   getVariantStepsById: "getVariantStepsById",
+  getReferProductVariantByProductId: "getReferProductVariantByProductId",
 };
 
 export const ADMIN = {
@@ -322,6 +323,7 @@ export const CALL_DETAILS = {
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
   getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
+  getIntakeTermList: "getIntakeTermList",
   // getsearchlist:"getsearchlist"
 };
 
