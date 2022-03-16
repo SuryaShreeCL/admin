@@ -546,6 +546,7 @@ const EditPost = () => {
                                 marginBottom: '10px',
                               }}
                               value={values.salary}
+                              error={touched.salary && Boolean(errors.salary)}
                               type={'number'}
                               onChange={handleChange}
                             />
@@ -560,6 +561,9 @@ const EditPost = () => {
                                 marginBottom: '10px',
                               }}
                               value={values.location}
+                              error={
+                                touched.location && Boolean(errors.location)
+                              }
                               onChange={handleChange}
                             />
                           </Grid>
