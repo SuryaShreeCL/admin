@@ -95,9 +95,9 @@ class Product extends Component {
                 this.setState({
                   show: true,
                   id: params.row.id,
-                  codeName: params.row.codeName,
+                  codeName: params.row.codeDisplayName,
                   // shortName:thisRow.shortName,
-                  productName: params.row.productName,
+                  productName: params.row.productDisplayName,
                   createdby: params.row.createdBy,
                   createdon: params.row.dateOfCreation,
                   updatedby: params.row.updatedBy,
