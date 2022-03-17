@@ -1199,7 +1199,6 @@ export const getVariantStepsById = (variantId, callback) => {
 export const getReferProductVariantByProductId = (productId, studentId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   let queryParams = studentId && { studentId };
-  console.log(queryParams);
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/product/${productId}/referProduct`, {

@@ -1,16 +1,16 @@
 import {
   Box,
-  createTheme,
   Grid,
   IconButton,
   TextField,
   ThemeProvider,
   Typography,
+  createTheme,
 } from "@material-ui/core";
 import { AddCircleOutline, DeleteOutline } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import moment from "moment";
-import React, { Component, Fragment } from "react";
+import React, { Component, createRef, Fragment } from "react";
 import { connect } from "react-redux";
 import {
   getAllProductFamily,
@@ -21,6 +21,7 @@ import {
 } from "../../Actions/ProductAction";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
+import { helperText, PROVIDERS } from "./Constant";
 
 const theme = createTheme({
   overrides: {
@@ -42,31 +43,9 @@ const theme = createTheme({
     },
   },
 });
-
-const providerValue = [
-  "Razorpay",
-  "Cheque",
-  "Cash Deposit",
-  "NEFT/RTGS",
-  "PDC",
-  "G-Pay/Phonepe",
-  "Online Transfer",
-  "Bajaj Finserv",
-  "POS",
-  "Cash",
-  "PinLabs",
-  "Propelled",
-  "Website",
-  "Loan2Grow",
-  "EarlySalary",
-  "Scholfe",
-];
-
-const helperText = "Please fill the required field";
 class ProductPunching extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       family: null,
       product: null,
@@ -296,13 +275,14 @@ class ProductPunching extends Component {
           let isDeleteOption = punching.paymentDetails.length - 1 !== 0;
           let isAddOption = punching.paymentDetails.length - 1 === index;
           return (
-            <Grid item xs={12} lg={12} key={index}>
-              <Fragment key={`paymentDetails${index}`}>
+            <Fragment key={`paymentDetails${index}`}>
+              <Grid item xs={12} lg={12} key={index}>
                 <Grid container spacing={2} alignItems={"center"}>
                   <Grid item xs={12} sm={4}>
                     <Autocomplete
                       id={`provider-combo-box-${index}`}
-                      options={providerValue}
+                      key={`provider-combo-box-${index}`}
+                      options={PROVIDERS}
                       getOptionLabel={(option) => option}
                       value={paymentProvider}
                       onChange={(e, newVal) =>
@@ -317,7 +297,8 @@ class ProductPunching extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label={"Select Product Variant"}
+                          key={`paymentMode${index}`}
+                          label={"Payment Mode"}
                           variant={"standard"}
                           error={Boolean(paymentProviderErr)}
                           helperText={paymentProviderErr || " "}
@@ -328,9 +309,10 @@ class ProductPunching extends Component {
                   <Grid item xs={12} sm={4}>
                     <TextField
                       id={index}
+                      key={`paymentId${index}`}
                       label={"Payment ID"}
                       name={"paymentId"}
-                      value={paymentId}
+                      value={paymentId || ""}
                       onChange={this.handleChange}
                       error={Boolean(paymentIdErr)}
                       helperText={paymentIdErr || " "}
@@ -350,8 +332,8 @@ class ProductPunching extends Component {
                     )}
                   </Grid>
                 </Grid>
-              </Fragment>
-            </Grid>
+              </Grid>
+            </Fragment>
           );
         }
       );
@@ -360,60 +342,67 @@ class ProductPunching extends Component {
 
   renderPunchedList = () => {
     const { getPunchingDataList } = this.props;
-    return getPunchingDataList && getPunchingDataList.length !== 0
-      ? getPunchingDataList.map(
+    let punchedList = getPunchingDataList
+      ? [...getPunchingDataList].reverse()
+      : [];
+    return punchedList.length !== 0
+      ? punchedList.map(
           ({ products, studentId, paymentDetailsModelList }, index) => (
-            <Grid container spacing={2}>
-              <Grid item md={12}>
-                <Typography style={{ fontWeight: "bold" }}>
-                  {`Product ${index + 1}`}
-                </Typography>
+            <Fragment key={`punchedList${index}`}>
+              <Grid container spacing={2}>
+                <Grid item md={12}>
+                  <Typography style={{ fontWeight: "bold" }}>
+                    {`Product ${index + 1}`}
+                  </Typography>
+                </Grid>
+                <Grid item md={6}>
+                  <TextField
+                    label='Student ID'
+                    value={studentId}
+                    disabled
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item md={6}>
+                  <TextField
+                    label='Product Name'
+                    value={products.name}
+                    disabled
+                    fullWidth
+                  />
+                </Grid>
+                {paymentDetailsModelList &&
+                  paymentDetailsModelList.length !== 0 &&
+                  paymentDetailsModelList.map(
+                    ({ id, paymentProvider, paymentId }, index) => (
+                      <Fragment key={`paymentDetailsModelList${index}`}>
+                        <Grid item md={6}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Payment ID'
+                            name={"paymentId"}
+                            value={paymentId}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Payment Provider'
+                            name={"paymentProvider"}
+                            value={paymentProvider}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                      </Fragment>
+                    )
+                  )}
               </Grid>
-              <Grid item md={6}>
-                <TextField
-                  label='Student ID'
-                  value={studentId}
-                  disabled
-                  fullWidth
-                />
-              </Grid>
-              <Grid item md={6}>
-                <TextField
-                  label='Product Name'
-                  value={products.name}
-                  disabled
-                  fullWidth
-                />
-              </Grid>
-              {paymentDetailsModelList &&
-                paymentDetailsModelList.length !== 0 &&
-                paymentDetailsModelList.map(
-                  ({ id, paymentProvider, paymentId }) => (
-                    <>
-                      <Grid item md={6}>
-                        <TextField
-                          id={id}
-                          label='Payment ID'
-                          name={"paymentId"}
-                          value={paymentId}
-                          disabled
-                          fullWidth
-                        />
-                      </Grid>
-                      <Grid item md={6}>
-                        <TextField
-                          id={id}
-                          label='Payment Provider'
-                          name={"paymentProvider"}
-                          value={paymentProvider}
-                          disabled
-                          fullWidth
-                        />
-                      </Grid>
-                    </>
-                  )
-                )}
-            </Grid>
+            </Fragment>
           )
         )
       : null;
@@ -470,7 +459,7 @@ class ProductPunching extends Component {
               <Autocomplete
                 id={"combo-box-product"}
                 options={(getProductByFamilyIdList || []).filter(
-                  ({ isProduct }) => isProduct
+                  ({ isProduct }) => !isProduct
                 )}
                 getOptionLabel={(option) => option.name}
                 onChange={(e, newValue) =>
