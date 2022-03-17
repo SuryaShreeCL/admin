@@ -575,7 +575,7 @@ export const CV_REVIEW = {
   clearCustomData: "cvClearCustomData",
 };
 
-export const PROGRAM_PREFERENCE = {
+export const STRATEGY_SESSION = {
   putProgramPreference: "putProgramPreference",
   getProgramPreference: "getProgramPrefence",
 };

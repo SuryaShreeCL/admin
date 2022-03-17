@@ -11,7 +11,7 @@ import {
 import { getBranches } from "../../../Actions/College";
 import { getRegions } from "../../../Actions/Student";
 import { useParams } from "react-router-dom";
-import { putProgramPrefernce } from "../../../Actions/ProgramPreference";
+import { putProgramPrefernce } from "../../../Actions/StrategySession";
 function ProgramPreference() {
   const dispatch = useDispatch();
   const { allDegreeList } = useSelector((state) => state.AspirationReducer);

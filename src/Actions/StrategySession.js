@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "./URL";
-import { PROGRAM_PREFERENCE } from "../Redux/Action";
+import { STRATEGY_SESSION } from "../Redux/Action";
 
 export const putProgramPrefernce = (data, studentId, productId) => {
   return (dispatch) => {
@@ -26,7 +26,7 @@ export const putProgramPrefernce = (data, studentId, productId) => {
       .then((result) => {
         console.log(result);
         dispatch({
-          type: PROGRAM_PREFERENCE.putProgramPrefernce,
+          type: STRATEGY_SESSION.putProgramPrefernce,
           putProgramPrefernce: result.data,
         });
       })
@@ -55,7 +55,7 @@ export const getProgramPrefence = (studentId, productId) => {
       )
       .then((result) => {
         dispatch({
-          type: PROGRAM_PREFERENCE.getProgramPrefence,
+          type: STRATEGY_SESSION.getProgramPrefence,
           payload: result.data,
         });
       })
