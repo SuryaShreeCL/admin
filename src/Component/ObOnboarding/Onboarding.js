@@ -73,6 +73,7 @@ export class Onboarding extends Component {
       this.props.match.params.productId,
       this.props.stageDetails.stepName,
       "",
+      "",
       (response) => {
         if (response.status === 200) {
           this.setState({
@@ -158,6 +159,7 @@ export class Onboarding extends Component {
           this.props.match.params.productId,
           this.props.stageDetails.stepName,
           "",
+          "",
           (response) => {
             if (response.status === 200) {
               this.setState({
@@ -210,6 +212,7 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(
       this.props.match.params.productId,
       this.props.stageDetails.stepName,
+      "",
       ""
     );
   };
@@ -327,6 +330,7 @@ export class Onboarding extends Component {
         this.props.match.params.productId,
         this.props.stageDetails.stepName,
         this.state.search,
+        "",
         (response) => {
           this.setState({
             listOfusers: response.data.content,
@@ -354,7 +358,7 @@ export class Onboarding extends Component {
                       Search by Email ID / Mobile / Full Name / CLS ID
                     </Typography>
                   }
-                  variant="outlined"
+                  variant='outlined'
                   value={this.state.search}
                   onChange={(e) => {
                     this.setState({ search: e.target.value });
@@ -381,9 +385,9 @@ export class Onboarding extends Component {
                 <IconButton
                   style={{ marginLeft: "8px" }}
                   onClick={this.handleSearch}
-                  color="primary"
+                  color='primary'
                   id={"search"}
-                  aria-label="search"
+                  aria-label='search'
                 >
                   <SearchRoundedIcon />
                 </IconButton>
@@ -508,7 +512,7 @@ export class Onboarding extends Component {
         <ThemeProvider theme={theme}>
           <Drawer
             anchor={"right"}
-            color="white"
+            color='white'
             open={this.state.draweropen}
             onClose={() => this.setState({ draweropen: false })}
           >
@@ -532,7 +536,7 @@ export class Onboarding extends Component {
                 /> */}
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={this.props.getCollegesList}
                     getOptionLabel={(option) => option.name}
                     value={this.state.college}
@@ -541,8 +545,8 @@ export class Onboarding extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="College"
-                        variant="outlined"
+                        label='College'
+                        variant='outlined'
                       />
                     )}
                   />
@@ -554,7 +558,7 @@ export class Onboarding extends Component {
                 /> */}
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={this.props.getBranchesList}
                     getOptionLabel={(option) => option.name}
                     onChange={(e, value) =>
@@ -565,8 +569,8 @@ export class Onboarding extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Department"
-                        variant="outlined"
+                        label='Department'
+                        variant='outlined'
                       />
                     )}
                   />
@@ -578,7 +582,7 @@ export class Onboarding extends Component {
                 /> */}
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={this.props.getAspTermsList}
                     getOptionLabel={(option) => option.name}
                     onChange={(e, value) => this.setState({ intake: value })}
@@ -587,8 +591,8 @@ export class Onboarding extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Intake"
-                        variant="outlined"
+                        label='Intake'
+                        variant='outlined'
                       />
                     )}
                   />
@@ -596,21 +600,21 @@ export class Onboarding extends Component {
                 <ListItem>
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={this.props.cityList}
                     getOptionLabel={(option) => option.name}
                     style={{ width: 300 }}
                     value={this.state.city}
                     onChange={(e, value) => this.setState({ city: value })}
                     renderInput={(params) => (
-                      <TextField {...params} label="City" variant="outlined" />
+                      <TextField {...params} label='City' variant='outlined' />
                     )}
                   />
                 </ListItem>
                 <ListItem>
                   <Autocomplete
                     popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id="combo-box-demo"
+                    id='combo-box-demo'
                     options={this.props.adminUserList}
                     onChange={(e, value) => this.setState({ bda: value })}
                     value={this.state.bda}
@@ -619,8 +623,8 @@ export class Onboarding extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="BDA Name"
-                        variant="outlined"
+                        label='BDA Name'
+                        variant='outlined'
                       />
                     )}
                   />

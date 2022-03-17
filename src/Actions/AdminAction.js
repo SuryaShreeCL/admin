@@ -419,26 +419,31 @@ export const checkTokenStatus = () => {
 
 // To get students by stages
 
-export const getStudentByStages = (productId, stageName, keyword, callback) => {
+export const getStudentByStages = (
+  productId,
+  stageName,
+  keyword,
+  intake,
+  callback
+) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   let adminId = window.sessionStorage.getItem("adminUserId");
   return (dispatch) => {
     axios
       .get(
-        URL +
-          "/api/v1/product/" +
-          productId +
-          "/admin/" +
-          adminId +
-          "/searchbystage?stage=" +
-          stageName +
-          "&page=0&size=200&q=" +
-          keyword,
+        `${URL}/api/v1/product/${productId}/admin/${adminId}/searchbystage`,
         {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: stageName,
+            page: 0,
+            size: 200,
+            q: keyword ? keyword : "",
+            intake: intake ? intake : "",
           },
         }
       )

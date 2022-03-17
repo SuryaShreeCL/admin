@@ -459,7 +459,7 @@ class ProductPunching extends Component {
               <Autocomplete
                 id={"combo-box-product"}
                 options={(getProductByFamilyIdList || []).filter(
-                  ({ isProduct }) => !isProduct
+                  ({ isProduct }) => isProduct
                 )}
                 getOptionLabel={(option) => option.name}
                 onChange={(e, newValue) =>
