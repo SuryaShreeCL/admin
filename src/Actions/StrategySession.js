@@ -45,7 +45,9 @@ export const getProgramPrefence = (studentId, productId) => {
         URL +
           "/students/" +
           studentId +
-          "/strategySession/programPreference/{programPreferenceId}",
+          "/products/" +
+          productId +
+          "/strategySession/programPreference",
         {
           headers: {
             admin: "yes",
@@ -55,7 +57,7 @@ export const getProgramPrefence = (studentId, productId) => {
       )
       .then((result) => {
         dispatch({
-          type: STRATEGY_SESSION.getProgramPrefence,
+          type: STRATEGY_SESSION.getProgramPreference,
           payload: result.data,
         });
       })

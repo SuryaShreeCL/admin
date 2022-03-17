@@ -120,6 +120,7 @@ export const STUDENT = {
   aspirationBranch: "aspirationBranch",
   aspirationCountry: "aspirationCountry",
   getRegions: "getRegions",
+  getDegree: "getDegree",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
 };
@@ -577,5 +578,5 @@ export const CV_REVIEW = {
 
 export const STRATEGY_SESSION = {
   putProgramPreference: "putProgramPreference",
-  getProgramPreference: "getProgramPrefence",
+  getProgramPreference: "getProgramPreference",
 };

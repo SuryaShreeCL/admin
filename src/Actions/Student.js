@@ -1396,3 +1396,30 @@ export const getRegions = (studentId) => {
       });
   };
 };
+
+export const getDegree = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        URL +
+          "/api/v1/aspiration/students/" +
+          studentId +
+          "/degree/search?name=",
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({ type: STUDENT.getDegree, degreeList: result.data.data });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};

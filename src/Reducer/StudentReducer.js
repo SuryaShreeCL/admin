@@ -42,6 +42,7 @@ const initialState = {
   AspirationBranch: [],
   AspirationCountry: [],
   regionList: [],
+  degreeList: [],
   AspirationCollege: [],
   AspirationSpecialization: [],
 };
@@ -306,7 +307,7 @@ export default (state = initialState, action) => {
         AspirationCountry: action.AspirationCountry,
       };
     case STUDENT.AspirationCollege:
-       return {
+      return {
         ...state,
         AspirationCollege: action.AspirationCollege,
       };
@@ -319,6 +320,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         regionList: action.regionList,
+      };
+    case STUDENT.getDegree:
+      return {
+        ...state,
+        degreeList: action.degreeList,
       };
 
     default:

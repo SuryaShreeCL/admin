@@ -4,21 +4,22 @@ import { useStyles } from "./Styles";
 import { Autocomplete } from "@material-ui/lab";
 import { TextField, Typography, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllDegree,
-  getAllSpecialization,
-} from "../../../Actions/Aspiration";
-import { getBranches } from "../../../Actions/College";
+import { getDegree } from "../../../Actions/Student";
+import { getAspirationSpecialization } from "../../../Actions/Student";
+import { getAspirationBranch } from "../../../Actions/Student";
 import { getRegions } from "../../../Actions/Student";
 import { useParams } from "react-router-dom";
-import { putProgramPrefernce } from "../../../Actions/StrategySession";
+import {
+  getProgramPrefence,
+  putProgramPrefernce,
+} from "../../../Actions/StrategySession";
 function ProgramPreference() {
   const dispatch = useDispatch();
-  const { allDegreeList } = useSelector((state) => state.AspirationReducer);
-  const { allSpeciaizationList } = useSelector(
-    (state) => state.AspirationReducer
+  const { degreeList } = useSelector((state) => state.StudentReducer);
+  const { AspirationSpecialization } = useSelector(
+    (state) => state.StudentReducer
   );
-  const { BranchList } = useSelector((state) => state.CollegeReducer);
+  const { AspirationBranch } = useSelector((state) => state.StudentReducer);
   const { regionList } = useSelector((state) => state.StudentReducer);
   const { studentId } = useParams();
   const { productId } = useParams();
@@ -29,10 +30,11 @@ function ProgramPreference() {
   const [cgpa, setCgpa] = useState(null);
   const classes = useStyles();
   useEffect(() => {
-    dispatch(getAllDegree());
-    dispatch(getAllSpecialization());
-    dispatch(getBranches());
+    dispatch(getDegree(studentId));
+    dispatch(getAspirationSpecialization("", () => {}));
+    dispatch(getAspirationBranch("", ""));
     dispatch(getRegions(studentId));
+    dispatch(getProgramPrefence(studentId, productId));
   }, []);
   console.log(region, "__________________");
   const handleSave = () => {
@@ -68,7 +70,7 @@ function ProgramPreference() {
               <Grid item md={3}>
                 <Autocomplete
                   id="combo-box-demo"
-                  options={allDegreeList}
+                  options={degreeList}
                   value={degree}
                   getOptionLabel={(option) => option.name}
                   onChange={(e, newValue) => setDegree(newValue)}
@@ -80,7 +82,7 @@ function ProgramPreference() {
               <Grid item md={9}>
                 <Autocomplete
                   id="combo-box-demo"
-                  options={BranchList}
+                  options={AspirationBranch}
                   value={branch}
                   getOptionLabel={(option) => option.name}
                   onChange={(e, newValue) => setBranch(newValue)}
@@ -96,7 +98,7 @@ function ProgramPreference() {
               <Grid item md={6}>
                 <Autocomplete
                   id="combo-box-demo"
-                  options={allSpeciaizationList}
+                  options={AspirationSpecialization}
                   value={specialization}
                   getOptionLabel={(option) => option.name}
                   onChange={(e, newValue) => setSpecialization(newValue)}
@@ -131,6 +133,7 @@ function ProgramPreference() {
                   label="Current CGPA"
                   variant="standard"
                   value={cgpa}
+                  onChange={(e, newValue) => setCgpa(e.target.value)}
                 />
               </Grid>
             </Grid>
