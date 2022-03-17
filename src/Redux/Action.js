@@ -574,3 +574,8 @@ export const CV_REVIEW = {
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
 };
+
+export const STRATEGY_SESSION = {
+  putProgramPreference: "putProgramPreference",
+  getProgramPreference: "getProgramPrefence",
+};

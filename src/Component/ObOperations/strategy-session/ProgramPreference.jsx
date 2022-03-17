@@ -11,6 +11,7 @@ import {
 import { getBranches } from "../../../Actions/College";
 import { getRegions } from "../../../Actions/Student";
 import { useParams } from "react-router-dom";
+import { putProgramPrefernce } from "../../../Actions/StrategySession";
 function ProgramPreference() {
   const dispatch = useDispatch();
   const { allDegreeList } = useSelector((state) => state.AspirationReducer);
@@ -20,10 +21,12 @@ function ProgramPreference() {
   const { BranchList } = useSelector((state) => state.CollegeReducer);
   const { regionList } = useSelector((state) => state.StudentReducer);
   const { studentId } = useParams();
+  const { productId } = useParams();
   const [degree, setDegree] = useState(null);
   const [specialization, setSpecialization] = useState(null);
   const [branch, setBranch] = useState(null);
   const [region, setRegion] = useState(null);
+  const [cgpa, setCgpa] = useState(null);
   const classes = useStyles();
   useEffect(() => {
     dispatch(getAllDegree());
@@ -32,6 +35,25 @@ function ProgramPreference() {
     dispatch(getRegions(studentId));
   }, []);
   console.log(region, "__________________");
+  const handleSave = () => {
+    let data = {
+      cgpa: cgpa,
+      degree: {
+        id: degree.id,
+      },
+      fieldOfStudy: {
+        id: branch.id,
+      },
+      areaOfSpecialization: {
+        id: specialization.id,
+      },
+      region: {
+        id: region.id,
+      },
+    };
+
+    dispatch(putProgramPrefernce(data, studentId, productId));
+  };
   return (
     <div className={classes.mainWrapper}>
       <div className={classes.contentWrapper}>
@@ -108,6 +130,7 @@ function ProgramPreference() {
                   inputMode="numeric"
                   label="Current CGPA"
                   variant="standard"
+                  value={cgpa}
                 />
               </Grid>
             </Grid>
@@ -115,7 +138,7 @@ function ProgramPreference() {
           <Grid item md={6}></Grid>
         </Grid>
       </div>
-      <SaveContainer />
+      <SaveContainer handleClick={handleSave} />
     </div>
   );
 }
