@@ -339,7 +339,7 @@ function RootContainer(props) {
       let myArr = [];
       if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
         getProductByFamilyIdList.map((eachItem) => {
-          if (!eachItem.isProduct) {
+          if (eachItem.isProduct) {
             myArr.push({
               title: eachItem.shortName,
               path: `${obOperationPath}/${eachItem.id}`,

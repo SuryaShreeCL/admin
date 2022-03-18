@@ -22,6 +22,7 @@ export const QUESTIONS = {
   getQuestions: "getQuestions",
 };
 export const PROFILE_GAP_ANALYSIS = {
+  loader: "profileGapAnalysisLoader",
   getgeneraldetails: "getgeneraldetails",
   getstatus: "getstatus",
   getcommenthistory: "getcommenthistory",
@@ -33,7 +34,7 @@ export const PROFILE_GAP_ANALYSIS = {
   deletecvresult: "deletecvresult",
   updatecvresult: "updatecvresult",
   getdashboarddetails: "getdashboarddetails",
-  getpgalist: "getpgalist",
+  getPgaList: "getPgaList",
   getReportPreview: "getReportPreview",
   getReportStatus: "getReportStatus",
   saveSemesterDetails: "saveSemesterDetails",

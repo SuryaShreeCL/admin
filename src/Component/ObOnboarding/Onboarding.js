@@ -1,11 +1,4 @@
-import {
-  Box,
-  Chip,
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Box, Chip, Grid, IconButton, TextField } from "@material-ui/core";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
@@ -52,7 +45,7 @@ export class Onboarding extends Component {
     this.props.getStudentByStages(
       productId,
       stageDetails.stepName,
-      size || 200,
+      size || 20,
       page || 0,
       intake?.year,
       keyword || search
@@ -260,19 +253,19 @@ export class Onboarding extends Component {
       product,
     } = this.state;
     const { HeadStyle, HeadDisplay } = style;
-    console.log(intakeList);
+
     return (
       <div>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item md={12}>
             <div style={HeadDisplay}>
               <Grid container spacing={3} alignItems={"center"}>
-                <Grid item md={5}>
+                <Grid item md={4}>
                   <p style={HeadStyle}>
                     {"List of Users in On Boarding Stage"}
                   </p>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={3}>
                   <Autocomplete
                     id={"combo-box-product-variant"}
                     options={productVariantList}
@@ -285,7 +278,7 @@ export class Onboarding extends Component {
                       <TextField
                         {...params}
                         label={"Product variant"}
-                        variant={"standard"}
+                        variant={"outlined"}
                       />
                     )}
                   />
@@ -303,7 +296,7 @@ export class Onboarding extends Component {
                       <TextField
                         {...params}
                         label={"Intake Year"}
-                        variant={"standard"}
+                        variant={"outlined"}
                       />
                     )}
                   />
@@ -312,11 +305,11 @@ export class Onboarding extends Component {
                   <Box display={"flex"}>
                     <TextField
                       label={
-                        <Typography
-                          style={{ fontSize: "13px", marginLeft: 30 }}
+                        <span
+                          style={{ fontSize: "13px", marginRight: "-20px" }}
                         >
-                          {"Search by Email ID / Mobile / Full Name / CLS ID"}
-                        </Typography>
+                          {`Search by Email ID / Mobile / Full Name / CLS ID `}
+                        </span>
                       }
                       variant='outlined'
                       value={this.state.search}
@@ -386,7 +379,7 @@ const style = {
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
-    padding: 20,
+    padding: "20px 20px 15px",
   },
 };
 
