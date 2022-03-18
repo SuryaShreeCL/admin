@@ -419,7 +419,14 @@ export const checkTokenStatus = () => {
 
 // To get students by stages
 
-export const getStudentByStages = (productId, stageName, keyword, intake) => {
+export const getStudentByStages = (
+  productId,
+  stageName,
+  size,
+  page,
+  intake,
+  keyword
+) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   let adminId = window.sessionStorage.getItem("adminUserId");
   return (dispatch) => {
@@ -434,10 +441,10 @@ export const getStudentByStages = (productId, stageName, keyword, intake) => {
           },
           params: {
             stage: stageName,
-            page: 0,
-            size: 200,
-            q: keyword ? keyword : "",
+            size: size,
+            page: page,
             intake: intake ? intake : "",
+            q: keyword ? keyword : "",
           },
         }
       )

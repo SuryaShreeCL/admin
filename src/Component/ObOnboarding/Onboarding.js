@@ -1,4 +1,5 @@
 import {
+  Box,
   Chip,
   Grid,
   IconButton,
@@ -9,19 +10,9 @@ import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  getAllAdminUsers,
-  getStudentByStages,
-} from "../../Actions/AdminAction";
-import { getAllTerms } from "../../Actions/Aspiration";
-import { getBranches } from "../../Actions/College";
+import { getStudentByStages } from "../../Actions/AdminAction";
 import { getReferProductVariantByProductId } from "../../Actions/ProductAction";
-import {
-  filterStageBaseUsers,
-  getAllIntakeList,
-  searchStudentInStages,
-  StudentStepDetails,
-} from "../../Actions/Student";
+import { getAllIntakeList, StudentStepDetails } from "../../Actions/Student";
 import Call from "../../Asset/Images/callImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
@@ -54,50 +45,34 @@ export class Onboarding extends Component {
     };
   }
 
-  componentDidMount() {
+  filterStudentList = (keyword, size, page) => {
     const { match, stageDetails } = this.props;
-    // To get the users based on stages
+    const { intake, product, search } = this.state;
+    const productId = product?.id || match.params.productId;
     this.props.getStudentByStages(
-      match.params.productId,
+      productId,
       stageDetails.stepName,
-      "",
-      null
-    );
-    if (match.params.productId) {
-      this.props.getReferProductVariantByProductId(match.params.productId);
-    }
-    this.props.getBranches();
-    this.props.getAllTerms();
-    this.props.getAllAdminUsers();
-    this.props.getAllIntakeList();
-  }
-
-  handleManage = (eachItem) => {
-    this.props.StudentStepDetails(
-      eachItem.studentId,
-      this.props.match.params.productId
-    );
-    this.props.getVariantStepsById(
-      this.props.match.params.productId + `?studentId=${eachItem.studentId}`
-    );
-    this.props.history.push(
-      stagedTabsPath +
-        eachItem.studentId +
-        "/" +
-        this.props.match.params.productId +
-        `?stage=OnBoarding`
+      size || 200,
+      page || 0,
+      intake?.year,
+      keyword || search
     );
   };
 
+  componentDidMount() {
+    const { match } = this.props;
+
+    // To get the users based on stages
+    this.filterStudentList();
+    if (match.params.productId) {
+      this.props.getReferProductVariantByProductId(match.params.productId);
+    }
+    this.props.getAllIntakeList();
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    const {
-      allIntakeList,
-      studentsByStagesList,
-      match,
-      stageDetails,
-      productVariant,
-    } = this.props;
-    const { search, intake } = this.state;
+    const { allIntakeList, studentsByStagesList, productVariant } = this.props;
+    const { search, intake, product } = this.state;
 
     // Setting the users in state
     if (
@@ -127,65 +102,14 @@ export class Onboarding extends Component {
       }
     }
 
-    //Setting the filtered users in state
-    if (
-      this.props.filteredStageBasedUsers !== prevProps.filteredStageBasedUsers
-    ) {
-      let listOfUsersArr = [];
-      this.props.filteredStageBasedUsers.map((eachUser, index) => {
-        listOfUsersArr.push({
-          activatedBy: eachUser.adminUser,
-          allocatedAt: eachUser.allocatedAt,
-          allocatedBy: eachUser.allocatedBy,
-          amountPaid: eachUser.product.sellingPrice,
-          clsId: eachUser.student.studentID,
-          college:
-            eachUser.student.college !== null && eachUser.student.college.name,
-          degree:
-            eachUser.student.ugDegree !== null &&
-            eachUser.student.ugDegree.name,
-          department:
-            eachUser.student.department !== null &&
-            eachUser.student.department.name,
-          emailId: eachUser.student.emailId,
-          firstName: eachUser.student.firstName,
-          fullName: eachUser.student.fullName,
-          lastName: eachUser.student.lastName,
-          obCallStatus: null,
-          orderDate: eachUser.enrollmentDate,
-          paymentId: eachUser.paymentId,
-          paymentProvider: eachUser.paymentProvider,
-          percentage: null,
-          phoneNumber: eachUser.student.phoneNumber,
-          products: null,
-          punchedBy: eachUser.adminUsers,
-          stage: eachUser.stage,
-          studentId: eachUser.student.id,
-        });
-      });
-      this.setState({
-        listOfUsers: listOfUsersArr,
-      });
-    }
-
     if (search !== prevState.search) {
       if (isEmptyString(search)) {
-        this.props.getStudentByStages(
-          match.params.productId,
-          stageDetails.stepName,
-          "",
-          ""
-        );
+        this.filterStudentList("");
       }
     }
 
-    if (intake !== prevState.intake) {
-      this.props.getStudentByStages(
-        match.params.productId,
-        stageDetails.stepName,
-        "",
-        intake?.year
-      );
+    if (intake !== prevState.intake || product !== prevState.product) {
+      this.filterStudentList();
     }
 
     if (allIntakeList && allIntakeList !== prevProps.allIntakeList) {
@@ -216,6 +140,19 @@ export class Onboarding extends Component {
     }
   }
 
+  handleManage = (eachItem) => {
+    const { product } = this.state;
+    const { match } = this.props;
+    const productId = product?.id || match.params.productId;
+    this.props.StudentStepDetails(eachItem.studentId, productId);
+    this.props.getVariantStepsById(
+      `${productId}?studentId=${eachItem.studentId}`
+    );
+    this.props.history.push(
+      `${stagedTabsPath}${eachItem.studentId}/${productId}?stage=OnBoarding`
+    );
+  };
+
   shrink() {
     this.setState({ shrink: true });
   }
@@ -225,7 +162,7 @@ export class Onboarding extends Component {
     const { match } = this.props;
     const productId = product?.id || match.params.productId;
 
-    if (obCallStatus.obCallStatus === "Completed") {
+    if (obCallStatus.obCallStatus) {
       return (
         <Chip
           onClick={() => {
@@ -237,18 +174,6 @@ export class Onboarding extends Component {
           color={"primary"}
         />
       );
-    } else if (obCallStatus.obCallStatus === null) {
-      return (
-        <Chip
-          onClick={() => {
-            this.props.history.push(
-              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
-            );
-          }}
-          label={"Pending"}
-          color={"secondary"}
-        />
-      );
     } else {
       return (
         <Chip
@@ -257,7 +182,7 @@ export class Onboarding extends Component {
               `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
             );
           }}
-          label={obCallStatus.obCallStatus}
+          label={"Pending"}
           color={"secondary"}
         />
       );
@@ -303,15 +228,10 @@ export class Onboarding extends Component {
   };
 
   // To handle search
-
   handleSearch = () => {
-    if (!isEmptyString(this.state.search)) {
-      this.props.getStudentByStages(
-        this.props.match.params.productId,
-        this.props.stageDetails.stepName,
-        this.state.search,
-        ""
-      );
+    const { search } = this.state;
+    if (!isEmptyString(search)) {
+      this.filterStudentList(search);
     }
   };
 
@@ -340,78 +260,96 @@ export class Onboarding extends Component {
       product,
     } = this.state;
     const { HeadStyle, HeadDisplay } = style;
+    console.log(intakeList);
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item md={12}>
             <div style={HeadDisplay}>
-              <p style={HeadStyle}>{"List of Users in On Boarding Stage"}</p>
-              <Autocomplete
-                id={"combo-box-product-variant"}
-                options={productVariantList}
-                getOptionLabel={(option) => option.name}
-                onChange={(e, newValue) =>
-                  this.handleDropdownValueChange(newValue, "product")
-                }
-                value={product}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={"Product variant"}
-                    variant={"standard"}
-                  />
-                )}
-              />
-              <Autocomplete
-                id={"combo-box-intake"}
-                options={intakeList}
-                getOptionLabel={(option) => option.name}
-                onChange={(e, newValue) =>
-                  this.handleDropdownValueChange(newValue, "intake")
-                }
-                value={intake}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={"Intake"}
-                    variant={"standard"}
-                  />
-                )}
-              />
-              <div>
-                <TextField
-                  label={
-                    <Typography style={{ fontSize: "13px", marginLeft: 30 }}>
-                      {"Search by Email ID / Mobile / Full Name / CLS ID"}
-                    </Typography>
-                  }
-                  variant='outlined'
-                  value={this.state.search}
-                  onChange={(e) => {
-                    this.setState({ search: e.target.value });
-                  }}
-                  InputLabelProps={{
-                    shrink: this.state.shrink,
-                  }}
-                  onFocus={() => this.shrink()}
-                  onKeyUp={(e) => {
-                    if (e.keyCode === 13) {
-                      e.preventDefault();
-                      document.getElementById("search").click();
+              <Grid container spacing={3} alignItems={"center"}>
+                <Grid item md={5}>
+                  <p style={HeadStyle}>
+                    {"List of Users in On Boarding Stage"}
+                  </p>
+                </Grid>
+                <Grid item md={2}>
+                  <Autocomplete
+                    id={"combo-box-product-variant"}
+                    options={productVariantList}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(e, newValue) =>
+                      this.handleDropdownValueChange(newValue, "product")
                     }
-                  }}
-                />
-                <IconButton
-                  style={{ marginLeft: "8px" }}
-                  onClick={this.handleSearch}
-                  color='primary'
-                  id={"search"}
-                  aria-label='search'
-                >
-                  <SearchRoundedIcon />
-                </IconButton>
-              </div>
+                    value={product}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={"Product variant"}
+                        variant={"standard"}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item md={2}>
+                  <Autocomplete
+                    id={"combo-box-intake"}
+                    options={intakeList}
+                    getOptionLabel={(option) => option.year.toString()}
+                    onChange={(e, newValue) =>
+                      this.handleDropdownValueChange(newValue, "intake")
+                    }
+                    value={intake}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={"Intake Year"}
+                        variant={"standard"}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Box display={"flex"}>
+                    <TextField
+                      label={
+                        <Typography
+                          style={{ fontSize: "13px", marginLeft: 30 }}
+                        >
+                          {"Search by Email ID / Mobile / Full Name / CLS ID"}
+                        </Typography>
+                      }
+                      variant='outlined'
+                      value={this.state.search}
+                      onChange={(e) => {
+                        this.setState({ search: e.target.value });
+                      }}
+                      InputLabelProps={{
+                        shrink: this.state.shrink,
+                      }}
+                      onFocus={() => this.shrink()}
+                      onKeyUp={(e) => {
+                        if (e.keyCode === 13) {
+                          e.preventDefault();
+                          document.getElementById("search").click();
+                        }
+                      }}
+                      fullWidth
+                    />
+                    <IconButton
+                      style={{ marginLeft: "8px" }}
+                      onClick={this.handleSearch}
+                      color='primary'
+                      id={"search"}
+                      aria-label='search'
+                    >
+                      <SearchRoundedIcon />
+                    </IconButton>
+                  </Box>
+                </Grid>
+              </Grid>
             </div>
+          </Grid>
+          <Grid item md={12}>
             {listOfUsers.length !== 0 ? (
               <DataGrid
                 data={listOfUsers}
@@ -433,6 +371,7 @@ export class Onboarding extends Component {
     );
   }
 }
+
 const style = {
   HeadStyle: {
     fontStyle: "Poppins",
@@ -454,12 +393,6 @@ const style = {
 const mapStateToProps = (state) => {
   return {
     studentsByStagesList: state.AdminReducer.studentsByStagesList,
-    getBranchesList: state.CollegeReducer.BranchList,
-    getAspTermsList: state.AspirationReducer.allTermList,
-    adminUserList: state.AdminReducer.adminUserList,
-    filteredStageBasedUsers: state.StudentReducer.filteredStageBasedUsers,
-    searchedList: state.StudentReducer.searchedList,
-    StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
     allIntakeList: state.StudentReducer.allIntakeList,
     loading: state.AdminReducer.loading,
     productVariant: state.ProductReducer.productVariant,
@@ -468,11 +401,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getStudentByStages,
-  getBranches,
-  getAllTerms,
-  getAllAdminUsers,
-  filterStageBaseUsers,
-  searchStudentInStages,
   StudentStepDetails,
   getAllIntakeList,
   getReferProductVariantByProductId,
