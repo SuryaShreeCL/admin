@@ -14,7 +14,6 @@ const initialState = {
   deletecvresult: [],
   updatecvresult: [],
   getdashboarddetails: [],
-  getpgalist: [],
   academicView: [],
   semesterDetails: [],
   updateSemesterDetails: [],
@@ -24,11 +23,18 @@ const initialState = {
   preview: [],
   reportStatus: [],
   ppgaNotesStatus: false,
+  getPgaList: null,
+  loading: false,
   // download : []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case PROFILE_GAP_ANALYSIS.loader:
+      return {
+        ...state,
+        loading: true,
+      };
     case PROFILE_GAP_ANALYSIS.getgeneraldetails:
       return {
         ...state,
@@ -91,10 +97,11 @@ export default (state = initialState, action) => {
         ...state,
         getdashboarddetails: action.payload,
       };
-    case PROFILE_GAP_ANALYSIS.getpgalist:
+    case PROFILE_GAP_ANALYSIS.getPgaList:
       return {
         ...state,
-        getpgalist: action.payload,
+        getPgaList: action.payload,
+        loading: action.loading,
       };
     case PROFILE_GAP_ANALYSIS.viewAcademicDetails:
       return {

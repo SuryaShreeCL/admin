@@ -18,13 +18,19 @@ const initialState = {
   productActivationResponse: [],
   adminLinkedProductDetails: [],
   tokenStatus: null,
-  studentsByStagesList: [],
   adminUserList: [],
   deletementor: [],
+  studentsByStagesList: null,
   adminUserDepartments: null,
+  loading: false,
 };
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ADMIN.loader:
+      return {
+        ...state,
+        loading: true,
+      };
     case ADMIN.adminLogin:
       return {
         ...state,
@@ -119,6 +125,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         studentsByStagesList: action.payload,
+        loading: action.loading,
       };
     case ADMIN.getAllAdminUsers:
       return {

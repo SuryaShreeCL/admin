@@ -1,53 +1,142 @@
-import React, { Component } from "react";
-import Loader from "../Utils/controls/Loader";
-import {
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-  Chip,
-} from "@material-ui/core";
+import { Box, Chip, Grid, IconButton, TextField } from "@material-ui/core";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import DataGrid from "./DataGrid";
-import { callSummaryLayoutPath, stagedTabsPath } from "../RoutePaths";
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import { getReferProductVariantByProductId } from "../../Actions/ProductAction";
+import { getPgaList } from "../../Actions/ProfileGapAction";
+import { getAllIntakeList, StudentStepDetails } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { getpgalist } from "../../Actions/ProfileGapAction";
-import { isEmptyString } from "../Validation";
-import {  StudentStepDetails } from "../../Actions/Student";
 import MySnackBar from "../MySnackBar";
+import { stagedTabsPath } from "../RoutePaths";
+import Loader from "../Utils/controls/Loader";
+import { isEmptyString } from "../Validation";
+import DataGrid from "./DataGrid";
+
+const NO_RESULT_FOUND = "No Result Found";
 class PgaStudentList extends Component {
   constructor() {
     super();
     this.state = {
       shrink: false,
-      listOfusers: [],
-      search : "",
-      noResultpopup : false,
-      status : {
-        pending : "Pending",
-        completed : "Completed"
-      }
+      listOfUsers: [],
+      search: "",
+      status: {
+        pending: "Pending",
+        completed: "Completed",
+      },
+      intake: null,
+      intakeList: [],
+      snackOpen: false,
+      snackVariant: "",
+      snackMsg: "",
+      productVariantList: [],
+      product: null,
     };
   }
+
+  filterStudentList = (keyword, size, page) => {
+    const { match } = this.props;
+    const { intake, product, search } = this.state;
+    const productId = product?.id || match.params.productId;
+    this.props.getPgaList(
+      productId,
+      size || 20,
+      page || 0,
+      intake?.year,
+      keyword || search
+    );
+  };
+
+  componentDidMount() {
+    const { match } = this.props;
+
+    // To get the users based on stages
+    this.filterStudentList();
+    if (match.params.productId) {
+      this.props.getReferProductVariantByProductId(match.params.productId);
+    }
+    this.props.getAllIntakeList();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { allIntakeList, pgaList, productVariant } = this.props;
+    const { search, intake, product } = this.state;
+
+    // Setting the users in state
+    if (pgaList && pgaList !== prevProps.pgaList) {
+      if (pgaList.success) {
+        if (pgaList.data?.totalElements === 0) {
+          this.setState({
+            snackOpen: true,
+            snackVariant: "error",
+            snackMsg: NO_RESULT_FOUND,
+            listOfUsers: [],
+          });
+        } else {
+          this.setState({
+            listOfUsers: pgaList.data.content || [],
+          });
+        }
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: pgaList.message,
+          listOfUsers: [],
+        });
+      }
+    }
+
+    if (search !== prevState.search) {
+      if (isEmptyString(search)) {
+        this.filterStudentList("");
+      }
+    }
+
+    if (intake !== prevState.intake || product !== prevState.product) {
+      this.filterStudentList();
+    }
+
+    if (allIntakeList && allIntakeList !== prevProps.allIntakeList) {
+      if (allIntakeList.success) {
+        this.setState({ intakeList: allIntakeList.data || [] });
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: allIntakeList.message,
+        });
+      }
+    }
+
+    if (productVariant && productVariant !== prevProps.productVariant) {
+      if (productVariant.success) {
+        this.setState({
+          productVariantList: productVariant.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: productVariant.message,
+          snackOpen: true,
+          snackVariant: "error",
+          productVariantList: [],
+        });
+      }
+    }
+  }
+
   renderPgaChip = (pgaCallStatus) => {
-     if (pgaCallStatus.pgaCallStatus === "Completed") {
+    if (pgaCallStatus.pgaCallStatus === "Completed") {
       return (
         <Chip
           label={this.state.status[pgaCallStatus.pgaCallStatus]}
           color={"primary"}
         />
       );
-    }
-     else if (pgaCallStatus.pgaCallStatus === null) {
-      return (
-        <Chip
-          label={"Pending"}
-          color={"secondary"}
-        />
-      );
-    } 
-    else {
+    } else if (pgaCallStatus.pgaCallStatus === null) {
+      return <Chip label={"Pending"} color={"secondary"} />;
+    } else {
       return (
         <Chip
           label={this.state.status[pgaCallStatus.pgaCallStatus]}
@@ -56,131 +145,179 @@ class PgaStudentList extends Component {
       );
     }
   };
+
   renderPpgaChip = (ppgaCallStatus) => {
     return <Chip label={"Pending"} color={"secondary"} />;
   };
+
   handleManage = (eachItem) => {
-    this.props.StudentStepDetails(eachItem.studentId,this.props.match.params.productId)
+    const { product } = this.state;
+    const { match } = this.props;
+    const productId = product?.id || match.params.productId;
+
+    this.props.StudentStepDetails(eachItem.studentId, productId);
     this.props.history.push(
-      stagedTabsPath +
-        eachItem.studentId +
-        "/" +
-        this.props.match.params.productId +
-        "?stage=pga"
-    )
-  }
-  componentDidMount() {
-    this.props.getpgalist(this.props.match.params.productId, "", (response) => {
-      console.log(response);
-      if(response.status === 200){
-        this.setState({
-          listOfusers : response.data.content,
-          noResultpopup : response.data.totalElements === 0 ? true : false
-        })
-      }
-    });
-  }
+      `${stagedTabsPath}${eachItem.studentId}/${productId}/?stage=pga`
+    );
+  };
+
   renderManageButton = (eachItem) => {
     return (
       <PrimaryButton
-      onClick={() =>
-        this.handleManage(eachItem)
-      }
+        onClick={() => this.handleManage(eachItem)}
         variant={"contained"}
         color={"primary"}
         style={{ textTransform: "none", width: "100px" }}
       >
-        Manage
+        {"Manage"}
       </PrimaryButton>
     );
   };
+
   shrink() {
     this.setState({ shrink: true });
   }
-  handleSearch = () =>{
 
-    if (!isEmptyString(this.state.search)) {
-      this.props.getpgalist(
-        this.props.match.params.productId,
-        this.state.search,(response=>{
-          this.setState({
-            listOfusers : response.data.content,
-            noResultpopup : response.data.totalElements === 0 ? true : false
-          })
-        })
-      );
+  // To handle search
+  handleSearch = () => {
+    const { search } = this.state;
+    if (!isEmptyString(search)) {
+      this.filterStudentList(search);
     }
-     
-  }
+  };
+
+  handleDropdownValueChange = (value, name) => {
+    this.setState({ [name]: value });
+  };
+
+  handleSnackClose = () => {
+    this.setState({
+      snackOpen: false,
+      snackVariant: "",
+      snackMsg: "",
+    });
+  };
+
   render() {
+    const { loading } = this.props;
+    const {
+      snackOpen,
+      snackVariant,
+      snackMsg,
+      listOfUsers,
+      intakeList,
+      intake,
+      productVariantList,
+      product,
+    } = this.state;
     const { HeadStyle, HeadDisplay } = style;
-    console.log(this.props.stageDetails, "----------")
     return (
       <div>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item md={12}>
             <div style={HeadDisplay}>
-              <p style={HeadStyle}>
-                {" "}
-                List of Users in Profile Gap Analysis Stage{" "}
-              </p>
-              <div>
-                <TextField
-                  label={
-                    <Typography style={{ fontSize: "13px", marginLeft: 5 }}>
-                      Search by Email ID / Mobile / Full Name / CLS ID
-                    </Typography>
-                  }
-                  variant="outlined"
-                  value={this.state.search}
-                  onChange={(e) => {
-                    if(e.target.value.length === 0){
-                        this.props.getpgalist(
-                          this.props.match.params.productId,
-                          "",(response=>{
-                            this.setState({
-                              listOfusers : response.data.content
-                            })
-                          })
-                        )
+              <Grid container spacing={3} alignItems={"center"}>
+                <Grid item md={4}>
+                  <p style={HeadStyle}>
+                    {"List of Users in Profile Gap Analysis Stage"}
+                  </p>
+                </Grid>
+                <Grid item md={3}>
+                  <Autocomplete
+                    id={"combo-box-product-variant"}
+                    options={productVariantList}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(e, newValue) =>
+                      this.handleDropdownValueChange(newValue, "product")
                     }
-                    this.setState({ search: e.target.value });
-                  }}
-                  InputLabelProps={{
-                    shrink: this.state.shrink,
-                  }}
-                  onFocus={() => this.shrink()}
-                  onKeyUp={(e) => {
-                    if (e.keyCode === 13) {
-                      e.preventDefault();
-                      document.getElementById("search").click();
+                    value={product}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={"Product variant"}
+                        variant={"outlined"}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item md={2}>
+                  <Autocomplete
+                    id={"combo-box-intake"}
+                    options={intakeList}
+                    getOptionLabel={(option) => option.year.toString()}
+                    onChange={(e, newValue) =>
+                      this.handleDropdownValueChange(newValue, "intake")
                     }
-                  }}
-                />
-                <IconButton
-                  style={{ marginLeft: "8px" }}
-                  onClick={this.handleSearch}
-                  color="primary"
-                  id={"search"}
-                  aria-label="search"
-                >
-                  <SearchRoundedIcon />
-                </IconButton>
-              </div>
+                    value={intake}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label={"Intake Year"}
+                        variant={"outlined"}
+                      />
+                    )}
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <Box display={"flex"}>
+                    <TextField
+                      label={
+                        <span
+                          style={{ fontSize: "13px", marginRight: "-20px" }}
+                        >
+                          {`Search by Email ID / Mobile / Full Name / CLS ID`}
+                        </span>
+                      }
+                      variant='outlined'
+                      value={this.state.search}
+                      onChange={(e) => {
+                        this.setState({ search: e.target.value });
+                      }}
+                      InputLabelProps={{
+                        shrink: this.state.shrink,
+                      }}
+                      onFocus={() => this.shrink()}
+                      onKeyUp={(e) => {
+                        if (e.keyCode === 13) {
+                          e.preventDefault();
+                          document.getElementById("search").click();
+                        }
+                      }}
+                      fullWidth
+                    />
+                    <IconButton
+                      style={{ marginLeft: "8px" }}
+                      onClick={this.handleSearch}
+                      color='primary'
+                      id={"search"}
+                      aria-label='search'
+                    >
+                      <SearchRoundedIcon />
+                    </IconButton>
+                  </Box>
+                </Grid>
+              </Grid>
             </div>
-            {this.state.listOfusers && this.state.listOfusers.length !== 0 ? (
+          </Grid>
+          <Grid item md={12}>
+            {listOfUsers && listOfUsers.length !== 0 ? (
               <DataGrid
-                data={this.state.listOfusers}
+                data={this.state.listOfUsers}
                 pgaCallStatus={this.renderPgaChip}
                 ppgaCallStatus={this.renderPpgaChip}
                 action={this.renderManageButton}
               />
-            ) : (
+            ) : loading ? (
               <Loader />
-            )}
+            ) : null}
           </Grid>
         </Grid>
-        <MySnackBar snackMsg={"No Result Found"} snackOpen={this.state.noResultpopup} snackVariant={"error"} onClose={()=>this.setState({noResultpopup : false})}/>
+        <MySnackBar
+          snackOpen={snackOpen}
+          snackMsg={snackMsg}
+          snackVariant={snackVariant}
+          onClose={this.handleSnackClose}
+        />
       </div>
     );
   }
@@ -204,10 +341,16 @@ const style = {
 };
 const mapStateToProps = (state) => {
   return {
-    StudentStepDetailsList : state.StudentReducer.StudentStepDetails
+    allIntakeList: state.StudentReducer.allIntakeList,
+    loading: state.ProfileGapAnalysisReducer.loading,
+    productVariant: state.ProductReducer.productVariant,
+    pgaList: state.ProfileGapAnalysisReducer.getPgaList,
   };
 };
 
 export default connect(mapStateToProps, {
-  getpgalist,StudentStepDetails
+  getPgaList,
+  StudentStepDetails,
+  getAllIntakeList,
+  getReferProductVariantByProductId,
 })(PgaStudentList);
