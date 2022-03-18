@@ -1,17 +1,11 @@
 import {
   Chip,
-  createMuiTheme,
-  Drawer,
   Grid,
   IconButton,
-  List,
-  ListItem,
   TextField,
-  ThemeProvider,
   Typography,
 } from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
-import CloseIcon from "@material-ui/icons/Close";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -20,39 +14,26 @@ import {
   getStudentByStages,
 } from "../../Actions/AdminAction";
 import { getAllTerms } from "../../Actions/Aspiration";
-import { getAllColleges, getBranches } from "../../Actions/College";
+import { getBranches } from "../../Actions/College";
+import { getReferProductVariantByProductId } from "../../Actions/ProductAction";
 import {
   filterStageBaseUsers,
+  getAllIntakeList,
   searchStudentInStages,
-  viewAllCities,
   StudentStepDetails,
 } from "../../Actions/Student";
-import PrimaryButton from "../../Utils/PrimaryButton";
 import Call from "../../Asset/Images/callImg.png";
-import { callSummaryLayoutPath, stagedTabsPath } from "../RoutePaths";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import MySnackBar from "../MySnackBar";
+import { stagedTabsPath } from "../RoutePaths";
+import Loader from "../Utils/controls/Loader";
 import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
-import SearchIcon from "@material-ui/icons/Search";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Loader from "../Utils/controls/Loader";
 
-import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
-import MySnackBar from "../MySnackBar";
-
-const theme = createMuiTheme({
-  overrides: {
-    MuiDrawer: {
-      paper: {
-        backgroundColor: "white",
-      },
-    },
-  },
-});
-
+const NO_RESULT_FOUND = "No Result Found";
 export class Onboarding extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       shrink: false,
       draweropen: false,
@@ -62,33 +43,35 @@ export class Onboarding extends Component {
       city: null,
       bda: null,
       search: null,
-      listOfusers: [],
-      noResultPopup: false,
+      listOfUsers: [],
+      intake: null,
+      intakeList: [],
+      snackOpen: false,
+      snackVariant: "",
+      snackMsg: "",
+      productVariantList: [],
+      product: null,
     };
   }
 
   componentDidMount() {
+    const { match, stageDetails } = this.props;
     // To get the users based on stages
     this.props.getStudentByStages(
-      this.props.match.params.productId,
-      this.props.stageDetails.stepName,
+      match.params.productId,
+      stageDetails.stepName,
       "",
-      "",
-      (response) => {
-        if (response.status === 200) {
-          this.setState({
-            listOfusers: response.data.content,
-            noResultPopup: response.data.totalElements === 0 ? true : false,
-          });
-        }
-      }
+      null
     );
+    if (match.params.productId) {
+      this.props.getReferProductVariantByProductId(match.params.productId);
+    }
     this.props.getBranches();
-    this.props.getAllColleges();
     this.props.getAllTerms();
-    this.props.viewAllCities();
     this.props.getAllAdminUsers();
+    this.props.getAllIntakeList();
   }
+
   handleManage = (eachItem) => {
     this.props.StudentStepDetails(
       eachItem.studentId,
@@ -105,12 +88,43 @@ export class Onboarding extends Component {
         `?stage=OnBoarding`
     );
   };
+
   componentDidUpdate(prevProps, prevState) {
+    const {
+      allIntakeList,
+      studentsByStagesList,
+      match,
+      stageDetails,
+      productVariant,
+    } = this.props;
+    const { search, intake } = this.state;
+
     // Setting the users in state
-    if (this.props.studentsByStagesList !== prevProps.studentsByStagesList) {
-      this.setState({
-        listOfusers: this.props.studentsByStagesList.content,
-      });
+    if (
+      studentsByStagesList &&
+      studentsByStagesList !== prevProps.studentsByStagesList
+    ) {
+      if (studentsByStagesList.success) {
+        if (studentsByStagesList.data?.totalElements === 0) {
+          this.setState({
+            snackOpen: true,
+            snackVariant: "error",
+            snackMsg: NO_RESULT_FOUND,
+            listOfUsers: [],
+          });
+        } else {
+          this.setState({
+            listOfUsers: studentsByStagesList.data.content || [],
+          });
+        }
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: studentsByStagesList.message,
+          listOfUsers: [],
+        });
+      }
     }
 
     //Setting the filtered users in state
@@ -150,83 +164,73 @@ export class Onboarding extends Component {
         });
       });
       this.setState({
-        listOfusers: listOfUsersArr,
+        listOfUsers: listOfUsersArr,
       });
     }
-    if (this.state.search !== prevState.search) {
-      if (isEmptyString(this.state.search)) {
+
+    if (search !== prevState.search) {
+      if (isEmptyString(search)) {
         this.props.getStudentByStages(
-          this.props.match.params.productId,
-          this.props.stageDetails.stepName,
+          match.params.productId,
+          stageDetails.stepName,
           "",
-          "",
-          (response) => {
-            if (response.status === 200) {
-              this.setState({
-                listOfusers: response.data.content,
-                noResultPopup: response.data.totalElements === 0 ? true : false,
-              });
-            }
-          }
+          ""
         );
       }
     }
+
+    if (intake !== prevState.intake) {
+      this.props.getStudentByStages(
+        match.params.productId,
+        stageDetails.stepName,
+        "",
+        intake?.year
+      );
+    }
+
+    if (allIntakeList && allIntakeList !== prevProps.allIntakeList) {
+      if (allIntakeList.success) {
+        this.setState({ intakeList: allIntakeList.data || [] });
+      } else {
+        this.setState({
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: allIntakeList.message,
+        });
+      }
+    }
+
+    if (productVariant && productVariant !== prevProps.productVariant) {
+      if (productVariant.success) {
+        this.setState({
+          productVariantList: productVariant.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: productVariant.message,
+          snackOpen: true,
+          snackVariant: "error",
+          productVariantList: [],
+        });
+      }
+    }
   }
+
   shrink() {
     this.setState({ shrink: true });
   }
 
-  // To open the filter drawer
-  filterfunction = () => {
-    this.setState({
-      draweropen: true,
-    });
-  };
-
-  // Apply filter function
-
-  applyFilter = () => {
-    console.log(this.state);
-    let collegeId = this.state.college !== null ? this.state.college.id : "";
-    let departmentId =
-      this.state.department !== null ? this.state.department.id : "";
-    let cityId = this.state.city !== null ? this.state.city.id : "";
-    let bdaName = this.state.bda !== null ? this.state.bda.name : "";
-    let intake = this.state.intake !== null ? this.state.intake.name : "";
-    this.props.filterStageBaseUsers(
-      collegeId,
-      departmentId,
-      cityId,
-      bdaName,
-      intake
-    );
-  };
-  handleReset = () => {
-    this.setState({
-      college: null,
-      department: null,
-      intake: null,
-      city: null,
-      bda: null,
-    });
-    this.props.getStudentByStages(
-      this.props.match.params.productId,
-      this.props.stageDetails.stepName,
-      "",
-      ""
-    );
-  };
   renderChip = (obCallStatus) => {
+    const { product } = this.state;
+    const { match } = this.props;
+    const productId = product?.id || match.params.productId;
+
     if (obCallStatus.obCallStatus === "Completed") {
       return (
         <Chip
           onClick={() => {
             this.props.history.push(
-              stagedTabsPath +
-                obCallStatus.studentId +
-                "/" +
-                this.props.match.params.productId +
-                "?render=pga"
+              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -238,11 +242,7 @@ export class Onboarding extends Component {
         <Chip
           onClick={() => {
             this.props.history.push(
-              stagedTabsPath +
-                obCallStatus.studentId +
-                "/" +
-                this.props.match.params.productId +
-                "?render=pga"
+              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
             );
           }}
           label={"Pending"}
@@ -254,11 +254,7 @@ export class Onboarding extends Component {
         <Chip
           onClick={() => {
             this.props.history.push(
-              stagedTabsPath +
-                obCallStatus.studentId +
-                "/" +
-                this.props.match.params.productId +
-                "?render=pga"
+              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
             );
           }}
           label={obCallStatus.obCallStatus}
@@ -269,6 +265,9 @@ export class Onboarding extends Component {
   };
 
   renderManageButton = (eachItem) => {
+    const { product } = this.state;
+    const { match } = this.props;
+    const productId = product?.id || match.params.productId;
     return (
       <div
         style={{
@@ -280,11 +279,7 @@ export class Onboarding extends Component {
         <img
           onClick={() =>
             this.props.history.push(
-              stagedTabsPath +
-                eachItem.studentId +
-                "/" +
-                this.props.match.params.productId +
-                "?render=pga"
+              `${stagedTabsPath}${eachItem.studentId}/${productId}?render=pga`
             )
           }
           src={Call}
@@ -301,26 +296,11 @@ export class Onboarding extends Component {
           size={"small"}
           style={{ textTransform: "none" }}
         >
-          Manage
+          {"Manage"}
         </PrimaryButton>
       </div>
     );
   };
-
-  chipTheme = createMuiTheme({
-    overrides: {
-      MuiChip: {
-        colorPrimary: {
-          color: "#fff",
-          backgroundColor: "#0DBC5D",
-        },
-        colorSecondary: {
-          color: "#fff",
-          backgroundColor: "#FF0000",
-        },
-      },
-    },
-  });
 
   // To handle search
 
@@ -330,32 +310,79 @@ export class Onboarding extends Component {
         this.props.match.params.productId,
         this.props.stageDetails.stepName,
         this.state.search,
-        "",
-        (response) => {
-          this.setState({
-            listOfusers: response.data.content,
-            noResultPopup: response.data.totalElements === 0 ? true : false,
-          });
-        }
+        ""
       );
     }
   };
 
+  handleDropdownValueChange = (value, name) => {
+    this.setState({ [name]: value });
+  };
+
+  handleSnackClose = () => {
+    this.setState({
+      snackOpen: false,
+      snackVariant: "",
+      snackMsg: "",
+    });
+  };
+
   render() {
-    console.log(this.props.stageDetails, "-----------");
+    const { loading } = this.props;
+    const {
+      snackOpen,
+      snackVariant,
+      snackMsg,
+      listOfUsers,
+      intakeList,
+      intake,
+      productVariantList,
+      product,
+    } = this.state;
     const { HeadStyle, HeadDisplay } = style;
     return (
       <div>
         <Grid container spacing={3}>
           <Grid item md={12}>
-            {/* <TableContainer component={Paper}> */}
             <div style={HeadDisplay}>
-              <p style={HeadStyle}> List of Users in On Boarding Stage </p>
+              <p style={HeadStyle}>{"List of Users in On Boarding Stage"}</p>
+              <Autocomplete
+                id={"combo-box-product-variant"}
+                options={productVariantList}
+                getOptionLabel={(option) => option.name}
+                onChange={(e, newValue) =>
+                  this.handleDropdownValueChange(newValue, "product")
+                }
+                value={product}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Product variant"}
+                    variant={"standard"}
+                  />
+                )}
+              />
+              <Autocomplete
+                id={"combo-box-intake"}
+                options={intakeList}
+                getOptionLabel={(option) => option.name}
+                onChange={(e, newValue) =>
+                  this.handleDropdownValueChange(newValue, "intake")
+                }
+                value={intake}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Intake"}
+                    variant={"standard"}
+                  />
+                )}
+              />
               <div>
                 <TextField
                   label={
                     <Typography style={{ fontSize: "13px", marginLeft: 30 }}>
-                      Search by Email ID / Mobile / Full Name / CLS ID
+                      {"Search by Email ID / Mobile / Full Name / CLS ID"}
                     </Typography>
                   }
                   variant='outlined'
@@ -367,14 +394,6 @@ export class Onboarding extends Component {
                     shrink: this.state.shrink,
                   }}
                   onFocus={() => this.shrink()}
-                  // type="search"
-                  // InputProps={{
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <SearchIcon />
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
                   onKeyUp={(e) => {
                     if (e.keyCode === 13) {
                       e.preventDefault();
@@ -391,282 +410,28 @@ export class Onboarding extends Component {
                 >
                   <SearchRoundedIcon />
                 </IconButton>
-                {/*  
-                <PrimaryButton
-                  style={{
-                    height: 30,
-                    width: 107,
-                    marginRight: 70,
-                    marginTop: 10,
-                    textTransform: "none",
-                  }}
-                  variant={"contained"}
-                  color={"primary"}
-                  size={"small"}
-                  onClick={() => this.filterfunction()}
-                >
-                  Filter
-                </PrimaryButton> */}
               </div>
             </div>
-            {/* <ThemeProvider theme={this.chipTheme}>
-                <Table aria-label="caption table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="left">CLS ID</TableCell>
-                      <TableCell align="left">Client Name</TableCell>
-                      <TableCell align="left">Email Address</TableCell>
-                      <TableCell align="left">Phone Number</TableCell>
-                      <TableCell align="left">OB Call Status</TableCell>
-                      <TableCell align="left">Stage Completion</TableCell>
-                      <TableCell align="center">Action</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.state.listOfusers.length !== 0 &&
-                      this.state.listOfusers.map((eachItem, index) => {
-                        console.log(eachItem.percentage);
-                        return (
-                          <TableRow>
-                            <TableCell>{eachItem.clsId}</TableCell>
-                            <TableCell>
-                              {eachItem.fullName !== null
-                                ? eachItem.fullName
-                                : eachItem.firstName + " " + eachItem.lastName}
-                            </TableCell>
-                            <TableCell>{eachItem.emailId}</TableCell>
-                            <TableCell>{eachItem.phoneNumber}</TableCell>
-                            <TableCell>{this.renderChip(eachItem)}</TableCell>
-                            <TableCell align="center">
-                              {eachItem.percentage !== null
-                                ? eachItem.percentage + "%"
-                                : null}
-                            </TableCell>
-                            <TableCell> */}
-            {/* <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-between",
-                                marginLeft: 50,
-                              }}
-                            >
-                              <img
-                                onClick={() =>
-                                  this.props.history.push(
-                                    callSummaryLayoutPath +
-                                      eachItem.studentId +
-                                      "/product/" +
-                                      this.props.productId
-                                  )
-                                }
-                                src={Call}
-                                style={{
-                                  height: 30,
-                                  width: 30,
-                                  marginRight: 10,
-                                }}
-                              /> */}
-            {/* <PrimaryButton
-                                onClick={() =>
-                                  this.props.history.push(
-                                    stagedTabsPath + eachItem.studentId + "/" + this.props.match.params.productId
-                                  )
-                                }
-                                variant={"contained"}
-                                color={"primary"}
-                                size={"small"}
-                                style={{ textTransform: "none" }}
-                              >
-                                Manage
-                              </PrimaryButton>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                  </TableBody>
-                </Table>
-              </ThemeProvider>
-            </TableContainer> */}
-
-            {/* DATA GRID TABLE */}
-            {/* <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                checkboxSelection
-                disableSelectionOnClick                                
-              /> */}
-            {this.state.listOfusers && this.state.listOfusers.length !== 0 ? (
+            {listOfUsers.length !== 0 ? (
               <DataGrid
-                data={this.state.listOfusers}
+                data={listOfUsers}
                 obCallStatus={this.renderChip}
                 action={this.renderManageButton}
               />
-            ) : (
+            ) : loading ? (
               <Loader />
-            )}
+            ) : null}
           </Grid>
         </Grid>
-
-        <ThemeProvider theme={theme}>
-          <Drawer
-            anchor={"right"}
-            color='white'
-            open={this.state.draweropen}
-            onClose={() => this.setState({ draweropen: false })}
-          >
-            <div>
-              <List>
-                <ListItem>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
-                    <Typography>Filter</Typography>
-                    <IconButton
-                      style={{ marginLeft: "230px", marginTop: "-10px" }}
-                      onClick={() => this.setState({ draweropen: false })}
-                    >
-                      <CloseIcon style={{ color: "#1093FF" }} />
-                    </IconButton>
-                  </div>
-                </ListItem>
-                <ListItem>
-                  {/* <TextField
-                label = "College"
-                variant="outlined"
-                /> */}
-                  <Autocomplete
-                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id='combo-box-demo'
-                    options={this.props.getCollegesList}
-                    getOptionLabel={(option) => option.name}
-                    value={this.state.college}
-                    style={{ width: 300 }}
-                    onChange={(e, value) => this.setState({ college: value })}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='College'
-                        variant='outlined'
-                      />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  {/* <TextField
-                label = "Department"
-                variant="outlined"
-                /> */}
-                  <Autocomplete
-                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id='combo-box-demo'
-                    options={this.props.getBranchesList}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(e, value) =>
-                      this.setState({ department: value })
-                    }
-                    value={this.state.department}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='Department'
-                        variant='outlined'
-                      />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  {/* <TextField
-                label = "Intake"
-                variant="outlined"
-                /> */}
-                  <Autocomplete
-                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id='combo-box-demo'
-                    options={this.props.getAspTermsList}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(e, value) => this.setState({ intake: value })}
-                    value={this.state.intake}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='Intake'
-                        variant='outlined'
-                      />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Autocomplete
-                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id='combo-box-demo'
-                    options={this.props.cityList}
-                    getOptionLabel={(option) => option.name}
-                    style={{ width: 300 }}
-                    value={this.state.city}
-                    onChange={(e, value) => this.setState({ city: value })}
-                    renderInput={(params) => (
-                      <TextField {...params} label='City' variant='outlined' />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  <Autocomplete
-                    popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                    id='combo-box-demo'
-                    options={this.props.adminUserList}
-                    onChange={(e, value) => this.setState({ bda: value })}
-                    value={this.state.bda}
-                    getOptionLabel={(option) => option.name}
-                    style={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='BDA Name'
-                        variant='outlined'
-                      />
-                    )}
-                  />
-                </ListItem>
-                <ListItem>
-                  <PrimaryButton
-                    color={"primary"}
-                    variant={"contained"}
-                    onClick={this.applyFilter}
-                    style={{ textTransform: "none", width: "300px" }}
-                  >
-                    Apply Filter
-                  </PrimaryButton>
-                </ListItem>
-                <ListItem>
-                  <PrimaryButton
-                    color={"primary"}
-                    variant={"outlined"}
-                    onClick={this.handleReset}
-                    style={{ textTransform: "none", width: "300px" }}
-                  >
-                    Reset Filter
-                  </PrimaryButton>
-                </ListItem>
-              </List>
-            </div>
-          </Drawer>
-        </ThemeProvider>
         <MySnackBar
-          snackOpen={this.state.noResultPopup}
-          snackMsg={"No Result Found"}
-          snackVariant={"error"}
-          onClose={() =>
-            this.setState({
-              noResultPopup: false,
-            })
-          }
+          snackOpen={snackOpen}
+          snackMsg={snackMsg}
+          snackVariant={snackVariant}
+          onClose={this.handleSnackClose}
         />
       </div>
     );
   }
-  title;
 }
 const style = {
   HeadStyle: {
@@ -690,14 +455,14 @@ const mapStateToProps = (state) => {
   return {
     studentsByStagesList: state.AdminReducer.studentsByStagesList,
     getBranchesList: state.CollegeReducer.BranchList,
-    getCollegesList: state.CollegeReducer.allCollegeList,
     getAspTermsList: state.AspirationReducer.allTermList,
-    cityList: state.StudentReducer.cityList,
     adminUserList: state.AdminReducer.adminUserList,
     filteredStageBasedUsers: state.StudentReducer.filteredStageBasedUsers,
     searchedList: state.StudentReducer.searchedList,
-    // getsearchlistresponse : state.CallReducer.getsearchlist
     StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
+    allIntakeList: state.StudentReducer.allIntakeList,
+    loading: state.AdminReducer.loading,
+    productVariant: state.ProductReducer.productVariant,
   };
 };
 
@@ -705,10 +470,10 @@ export default connect(mapStateToProps, {
   getStudentByStages,
   getBranches,
   getAllTerms,
-  getAllColleges,
-  viewAllCities,
   getAllAdminUsers,
   filterStageBaseUsers,
   searchStudentInStages,
   StudentStepDetails,
+  getAllIntakeList,
+  getReferProductVariantByProductId,
 })(Onboarding);

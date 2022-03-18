@@ -121,6 +121,7 @@ export const STUDENT = {
   aspirationCountry: "aspirationCountry",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
+  getAllIntakeList: "getAllIntakeList",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -265,6 +266,7 @@ export const PRODUCT = {
 };
 
 export const ADMIN = {
+  loader: "adminLoader",
   adminLogin: "adminLogin",
   refreshToken: "refreshToken",
   studentAccess: "studentAccess",
