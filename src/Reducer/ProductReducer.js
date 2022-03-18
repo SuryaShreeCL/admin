@@ -42,14 +42,15 @@ const initialState = {
   publishvarient: [],
   comboexcel: [],
   varientexcel: [],
-  getpunchingdata: [],
-  postpunchingdata: [],
+  getPunchingData: [],
   getproductstructure: [],
   postproductstructure: [],
   putproductstructure: [],
   getproductsteps: [],
   searchActivationList: [],
   variantStepList: [],
+  postPunchingStatus: null,
+  productVariant: null,
 };
 
 export default (state = initialState, action) => {
@@ -245,15 +246,15 @@ export default (state = initialState, action) => {
         ...state,
         varientexcel: action.payload,
       };
-    case PRODUCT.getpunchingdata:
+    case PRODUCT.getPunchingData:
       return {
         ...state,
-        getpunchingdata: action.payload,
+        getPunchingData: action.payload,
       };
-    case PRODUCT.postpunchingdata:
+    case PRODUCT.postPunchingData:
       return {
         ...state,
-        postpunchingdata: action.payload,
+        postPunchingStatus: action.payload,
       };
     case PRODUCT.getproductstructure:
       return {
@@ -284,6 +285,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         variantStepList: action.payload,
+      };
+    case PRODUCT.getReferProductVariantByProductId:
+      return {
+        ...state,
+        productVariant: action.payload,
       };
     default:
       break;

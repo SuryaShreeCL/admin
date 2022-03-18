@@ -419,34 +419,44 @@ export const checkTokenStatus = () => {
 
 // To get students by stages
 
-export const getStudentByStages = (productId, stageName, keyword, callback) => {
+export const getStudentByStages = (
+  productId,
+  stageName,
+  size,
+  page,
+  intake,
+  keyword
+) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
-
   let adminId = window.sessionStorage.getItem("adminUserId");
   return (dispatch) => {
+    dispatch({ type: ADMIN.loader });
     axios
       .get(
-        URL +
-          "/api/v1/product/" +
-          productId +
-          "/admin/" +
-          adminId +
-          "/searchbystage?stage=" +
-          stageName +
-          "&page=0&size=200&q=" +
-          keyword,
+        `${URL}/api/v1/product/${productId}/admin/${adminId}/searchbystage`,
         {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
+          params: {
+            stage: stageName,
+            size: size,
+            page: page,
+            intake: intake ? intake : "",
+            q: keyword ? keyword : "",
+          },
         }
       )
       .then((result) => {
-        callback(result);
-        dispatch({ type: ADMIN.getStudentsByStages, payload: result.data });
+        dispatch({
+          type: ADMIN.getStudentsByStages,
+          payload: { success: true, data: result.data, loading: false },
+        });
       })
-      .catch((error) => {});
+      .catch((error) => {
+        dispatch(errorHandler(ADMIN.getStudentsByStages, error, false));
+      });
   };
 };
 
