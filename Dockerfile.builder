@@ -7,8 +7,8 @@ USER 0
 RUN dnf -y update && dnf -y install git
 USER 1001
 
-COPY package.json ./package.json
-COPY ckeditor5 ./ckeditor5
+ADD --chown=1001 package.json ./package.json
+ADD --chown=1001 ckeditor5 ./ckeditor5
 
 # Install dependencies
 RUN npm install --force --silent
@@ -16,9 +16,9 @@ RUN npm install --force --silent
 RUN npm install pdfjs-dist@2.6.347 --silent
 
 # Copy the app
-COPY public ./public
-COPY src ./src
-COPY .env.${BUILD_ENV} ./.env.${BUILD_ENV}
-COPY .build.sh ./.build.sh
+ADD --chown=1001 public ./public
+ADD --chown=1001 src ./src
+ADD --chown=1001 .env.${BUILD_ENV} ./.env.${BUILD_ENV}
+ADD --chown=1001 .build.sh ./.build.sh
 
 CMD ["sh", "./.build.sh"]
