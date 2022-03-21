@@ -1,6 +1,8 @@
 FROM registry.access.redhat.com/ubi8/nginx-120 as production
 
+USER 0
 RUN dnf -y update && dnf clean all
+USER 1001
 
 ADD nginx.conf "${NGINX_CONFIGURATION_PATH}"
 ADD build/ /usr/share/nginx/html
