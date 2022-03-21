@@ -1,223 +1,279 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Button,
-    Dialog,
-    DialogTitle,
-    IconButton,
-    DialogContent,
-    TextField,
-    DialogActions,
-    Slide,
-    Typography,
-    Grid
-  } from "@material-ui/core";
-  import DateFnsUtils from '@date-io/date-fns';
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Dialog,
+  DialogTitle,
+  IconButton,
+  DialogContent,
+  TextField,
+  DialogActions,
+  Slide,
+  Typography,
+  Grid,
+} from "@material-ui/core";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from "@material-ui/pickers";
 
-  import AddIcon from "@material-ui/icons/Add";
-  import RemoveIcon from '@material-ui/icons/Remove';
-  import EditIcon from '@material-ui/icons/Edit';
-  import DeleteIcon from '@material-ui/icons/Delete';
-  import CloseIcon from "@material-ui/icons/Close";
-  import { isEmptyString } from "../Validation";
-  import {getProductVarient, postProductVarient,deleteproductvarient, updateProductVarient, getAllProductImages, getAllProductVideos, getAllProductQuesAns, getAllProductFamily,comboexcel,varientexcel} from "../../Actions/ProductAction"
-  import { connect } from "react-redux";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import CloseIcon from "@material-ui/icons/Close";
+import { isEmptyString } from "../Validation";
+import {
+  getProductVarient,
+  postProductVarient,
+  deleteproductvarient,
+  updateProductVarient,
+  getAllProductImages,
+  getAllProductVideos,
+  getAllProductQuesAns,
+  getAllProductFamily,
+  comboexcel,
+  varientexcel,
+} from "../../Actions/ProductAction";
+import { connect } from "react-redux";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Snackbar from "@material-ui/core/Snackbar";
-import Alert from '@material-ui/lab/Alert';
-import { productVariantPath } from '../RoutePaths';
+import Alert from "@material-ui/lab/Alert";
+import { productVariantPath } from "../RoutePaths";
 import ReactExport from "react-export-excel";
 import DataGridTable from "../Utils/DataGridTable";
-import PrimaryButton from '../../Utils/PrimaryButton'
-import VariantGeneralData from './VariantGeneralData';
+import PrimaryButton from "../../Utils/PrimaryButton";
+import VariantGeneralData from "./VariantGeneralData";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 export class ProductVarient extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            open: false,
-            show: false,
-            id : "",
-            name: "",
-            nameErr: "",
-            shortName:"",
-            shortNameErr:"",
-            codeName:"",
-            codeNameErr:"",
-            oneliner:"",
-            onelinerErr:"",
-            description:"",
-            descriptionErr:"",
-            images: [],
-            imagesErr:"",
-            videos: [],
-            videosErr:"",
-            productFamily : null,
-            productFamilyErr : "",
-            tnc:"",
-            tncErr:"",
-            question: [],
-            questionErr:"",
-            answer:"",
-            answerErr:"",
-            productImageArray: [1],
-            productVideoArray: [1],
-            snackOpen: false,
-            snackMessage: null,
-            snackVariant: null,
-            endOfServiceDate : new Date(),
-            endOfEnrollmentDate : new Date(),
-            intake : null,
-            year : null,
-            pricing : null,
-            endOfEnrollmentDateErr : "",
-            endOfServiceDateErr:"",
-            intakeErr : "",
-            yearErr:"",
-            pricingErr:"",
-            newvarient : "",
-            newVarientErr : "",
-            tableColumns : [
-              {field : "id", hide : true},
-              {field : "variant_SKU", headerName : "SKU", width : 150},
-              {field : "productFamilyName", headerName : "Product Family", width : 150},
-              // console.log(params.row.productFamily !== null ? params.row.productFamily.productName : null)},
-              {field : "name", headerName : "Variant Name", width : 150},
-              {field : "standaloneSellable", headerName : "Standalone", width : 150},
-              {field : "sellingPrice", headerName : "Pricing", width : 150},
-              {field : "validity", headerName : "Validity", width : 150},
-              {field : "endOfServiceDate", type: 'date', headerName : "End of Service", width : 150},
-              {
-                field : "action", headerName : "Action",  width : 300,
-                renderCell: (params) => (
-                  <PrimaryButton
-                  onClick={()=>{
-                    this.props.history.push(productVariantPath+"/"+params.row.id)
-                  }}
-                  variant={"contained"}
-                  color={"primary"}
-                  size={"small"}
-                >
-                  Manage
-                </PrimaryButton>
-                ),
-              },
-              // {field : "action", headerName : "Action",  width : 300, renderCell: (params) => { 
-              //   const onClick = () => {
-              //     const api: GridApi = params.api;
-              //     const fields = api
-              //       .getAllColumns()
-              //       .map((c) => c.field)
-              //       .filter((c) => c !== "__check__" && !!c);
-              //     const thisRow: Record<string, GridCellValue> = {};
-    
-              //     fields.forEach((f) => {
-              //       thisRow[f] = params.getValue(f);
-              //     });
-              //     return (
-              //       this.props.history.push(productVariantPath+"/"+thisRow.id) 
-              //     );
-              //     // alert(JSON.stringify(thisRow, null, 4));
-              //   };
-    
-              //   return (
-              //     <>
-              //       <PrimaryButton
-              //         onClick={onClick}
-              //         variant={"contained"}
-              //         color={"primary"}
-              //         size={"small"}
-              //         style={{ marginLeft: 16 }}
-              //       >
-              //         Manage
-              //       </PrimaryButton>
-                    
-              //     </>
-              //   )
-              //   },
-              // },
-            ],
+  constructor(props) {
+    super(props);
 
-        }
-    }
-    componentDidMount(){
-      this.props.getProductVarient()
-      this.props.getAllProductImages()
-      this.props.getAllProductVideos()
-      this.props.getAllProductQuesAns()
-      this.props.getAllProductFamily()
-      this.props.varientexcel()
+    this.state = {
+      open: false,
+      show: false,
+      id: "",
+      name: "",
+      nameErr: "",
+      shortName: "",
+      shortNameErr: "",
+      codeName: "",
+      codeNameErr: "",
+      oneliner: "",
+      onelinerErr: "",
+      description: "",
+      descriptionErr: "",
+      images: [],
+      imagesErr: "",
+      videos: [],
+      videosErr: "",
+      productFamily: null,
+      productFamilyErr: "",
+      tnc: "",
+      tncErr: "",
+      question: [],
+      questionErr: "",
+      answer: "",
+      answerErr: "",
+      productImageArray: [1],
+      productVideoArray: [1],
+      snackOpen: false,
+      snackMessage: null,
+      snackVariant: null,
+      endOfServiceDate: new Date(),
+      endOfEnrollmentDate: new Date(),
+      intake: null,
+      year: null,
+      pricing: null,
+      endOfEnrollmentDateErr: "",
+      endOfServiceDateErr: "",
+      intakeErr: "",
+      yearErr: "",
+      pricingErr: "",
+      newvarient: "",
+      newVarientErr: "",
+      tableColumns: [
+        { field: "id", hide: true },
+        { field: "variant_SKU", headerName: "SKU", width: 150 },
+        {
+          field: "productDisplayName",
+          headerName: "Product Family",
+          width: 150,
+        },
+        // console.log(params.row.productFamily !== null ? params.row.productFamily.productName : null)},
+        { field: "name", headerName: "Variant Name", width: 150 },
+        { field: "standaloneSellable", headerName: "Standalone", width: 150 },
+        { field: "sellingPrice", headerName: "Pricing", width: 150 },
+        { field: "validity", headerName: "Validity", width: 150 },
+        {
+          field: "endOfServiceDate",
+          type: "date",
+          headerName: "End of Service",
+          width: 150,
+        },
+        {
+          field: "action",
+          headerName: "Action",
+          width: 300,
+          renderCell: (params) => (
+            <PrimaryButton
+              onClick={() => {
+                this.props.history.push(
+                  productVariantPath + "/" + params.row.id
+                );
+              }}
+              variant={"contained"}
+              color={"primary"}
+              size={"small"}
+            >
+              Manage
+            </PrimaryButton>
+          ),
+        },
+        // {field : "action", headerName : "Action",  width : 300, renderCell: (params) => {
+        //   const onClick = () => {
+        //     const api: GridApi = params.api;
+        //     const fields = api
+        //       .getAllColumns()
+        //       .map((c) => c.field)
+        //       .filter((c) => c !== "__check__" && !!c);
+        //     const thisRow: Record<string, GridCellValue> = {};
+
+        //     fields.forEach((f) => {
+        //       thisRow[f] = params.getValue(f);
+        //     });
+        //     return (
+        //       this.props.history.push(productVariantPath+"/"+thisRow.id)
+        //     );
+        //     // alert(JSON.stringify(thisRow, null, 4));
+        //   };
+
+        //   return (
+        //     <>
+        //       <PrimaryButton
+        //         onClick={onClick}
+        //         variant={"contained"}
+        //         color={"primary"}
+        //         size={"small"}
+        //         style={{ marginLeft: 16 }}
+        //       >
+        //         Manage
+        //       </PrimaryButton>
+
+        //     </>
+        //   )
+        //   },
+        // },
+      ],
+    };
   }
-  componentDidUpdate(prevProps,prevState){
-    if(prevProps.postProductVarientList !== this.props.postProductVarientList){
-      this.props.getProductVarient()
-      this.props.getAllProductFamily()
+  componentDidMount() {
+    this.props.getProductVarient();
+    this.props.getAllProductImages();
+    this.props.getAllProductVideos();
+    this.props.getAllProductQuesAns();
+    this.props.getAllProductFamily();
+    this.props.varientexcel();
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.postProductVarientList !== this.props.postProductVarientList
+    ) {
+      this.props.getProductVarient();
+      this.props.getAllProductFamily();
     }
-    if(prevProps.updateProductVarientList !== this.props.updateProductVarientList){
-      this.props.getProductVarient()
-      this.props.getAllProductFamily()
+    if (
+      prevProps.updateProductVarientList !== this.props.updateProductVarientList
+    ) {
+      this.props.getProductVarient();
+      this.props.getAllProductFamily();
     }
   }
 
-    handleSave = (event) => {
-      console.log(this.state)
-     
-      let hlpTxt = "Please Fill The Required Feild"
+  handleSave = (event) => {
+    console.log(this.state);
 
-      isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
-      isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
-      isEmptyString(this.state.oneliner) ? this.setState({ onelinerErr : hlpTxt }) : this.setState({ onelinerErr : "" })
-      isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
-      this.state.question.length === 0 ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
-      isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
-      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
-      this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
-      this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
-      isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
-      this.state.year === null ? this.setState({yearErr : hlpTxt}) : this.setState({yearErr : ""})
-      this.state.intake === null ? this.setState({intakeErr : hlpTxt}) : this.setState({intakeErr : ""})
-      this.state.pricing === null ? this.setState ({pricingErr : hlpTxt }) : this.setState({pricingErr : ""})
-      this.state.endOfEnrollmentDate === null ? this.setState ({endOfEnrollmentDateErr : hlpTxt }) : this.setState ({endOfEnrollmentDateErr : ""})
-      this.state.endOfServiceDate === null ? this.setState ({ endOfServiceDateErr : hlpTxt}) : this.setState({ endOfServiceDateErr : ""})
-      
-      if(
-        !isEmptyString(this.state.shortName) &&
-        !isEmptyString(this.state.codeName) &&
-        !isEmptyString(this.state.oneliner) &&
-        !isEmptyString(this.state.description) &&
-        !isEmptyString(this.state.tnc) &&
-        this.state.images.length !== 0 &&
-        this.state.videos.length !== 0 &&
-        !isEmptyString(this.state.name) &&
-        this.state.endOfServiceDate !== null &&
-        this.state.endOfEnrollmentDate !== null &&
-        this.state.intake !== null &&
-        this.state.year !== null &&
-        this.state.pricing !== null
-        // && this.state.question.length !== 0
-       
-      ){
-        let postVideoArr = this.state.videos.map((eachVideo)=>{
-          return {id : eachVideo.id}
-        })
-        let postImageArr = this.state.images.map((eachImage)=>{
-          return {id : eachImage.id}
-        })
-        let postQuesArr = this.state.question.map((eachQues)=>{
-          return {id : eachQues.id}
-        })
-        
+    let hlpTxt = "Please Fill The Required Feild";
+
+    isEmptyString(this.state.shortName)
+      ? this.setState({ shortNameErr: hlpTxt })
+      : this.setState({ shortNameErr: "" });
+    isEmptyString(this.state.codeName)
+      ? this.setState({ codeNameErr: hlpTxt })
+      : this.setState({ codeNameErr: "" });
+    isEmptyString(this.state.oneliner)
+      ? this.setState({ onelinerErr: hlpTxt })
+      : this.setState({ onelinerErr: "" });
+    isEmptyString(this.state.description)
+      ? this.setState({ descriptionErr: hlpTxt })
+      : this.setState({ descriptionErr: "" });
+    this.state.question.length === 0
+      ? this.setState({ questionErr: hlpTxt })
+      : this.setState({ questionErr: "" });
+    isEmptyString(this.state.tnc)
+      ? this.setState({ tncErr: hlpTxt })
+      : this.setState({ tncErr: "" });
+    isEmptyString(this.state.answer)
+      ? this.setState({ answerErr: hlpTxt })
+      : this.setState({ answerErr: "" });
+    this.state.images.length === 0
+      ? this.setState({ imagesErr: hlpTxt })
+      : this.setState({ imagesErr: "" });
+    this.state.videos.length === 0
+      ? this.setState({ videosErr: hlpTxt })
+      : this.setState({ videosErr: "" });
+    isEmptyString(this.state.name)
+      ? this.setState({ nameErr: hlpTxt })
+      : this.setState({ nameErr: "" });
+    this.state.year === null
+      ? this.setState({ yearErr: hlpTxt })
+      : this.setState({ yearErr: "" });
+    this.state.intake === null
+      ? this.setState({ intakeErr: hlpTxt })
+      : this.setState({ intakeErr: "" });
+    this.state.pricing === null
+      ? this.setState({ pricingErr: hlpTxt })
+      : this.setState({ pricingErr: "" });
+    this.state.endOfEnrollmentDate === null
+      ? this.setState({ endOfEnrollmentDateErr: hlpTxt })
+      : this.setState({ endOfEnrollmentDateErr: "" });
+    this.state.endOfServiceDate === null
+      ? this.setState({ endOfServiceDateErr: hlpTxt })
+      : this.setState({ endOfServiceDateErr: "" });
+
+    if (
+      !isEmptyString(this.state.shortName) &&
+      !isEmptyString(this.state.codeName) &&
+      !isEmptyString(this.state.oneliner) &&
+      !isEmptyString(this.state.description) &&
+      !isEmptyString(this.state.tnc) &&
+      this.state.images.length !== 0 &&
+      this.state.videos.length !== 0 &&
+      !isEmptyString(this.state.name) &&
+      this.state.endOfServiceDate !== null &&
+      this.state.endOfEnrollmentDate !== null &&
+      this.state.intake !== null &&
+      this.state.year !== null &&
+      this.state.pricing !== null
+      // && this.state.question.length !== 0
+    ) {
+      let postVideoArr = this.state.videos.map((eachVideo) => {
+        return { id: eachVideo.id };
+      });
+      let postImageArr = this.state.images.map((eachImage) => {
+        return { id: eachImage.id };
+      });
+      let postQuesArr = this.state.question.map((eachQues) => {
+        return { id: eachQues.id };
+      });
+
       //   let obj = {
       //     "name":this.state.name,
       //     "codeName":this.state.codeName,
@@ -234,231 +290,270 @@ export class ProductVarient extends Component {
       //     "productQuestionAnswers": postQuesArr
       // }
       let obj = {
-        "name": this.state.name,
-        "codeName": this.state.codeName,
-        "shortName": this.state.shortName,
-        "validity": "365",
-        "productTnc": this.state.tnc,
-        "productDescription": this.state.description,
-        "productOneliner": this.state.oneliner,
-        "productVideos": postVideoArr,
-        "productImages": postImageArr,
-        "endOfServiceDate":this.state.endOfServiceDate,
-        "endOfEnrollmentDate":this.state.endOfEnrollmentDate,
-        "year":this.state.year,
-        "pricing":this.state.pricing,
-        "intake":this.state.intake,
-        "productFamily": {
-            "id": this.state.productFamily.id
+        name: this.state.name,
+        codeName: this.state.codeName,
+        shortName: this.state.shortName,
+        validity: "365",
+        productTnc: this.state.tnc,
+        productDescription: this.state.description,
+        productOneliner: this.state.oneliner,
+        productVideos: postVideoArr,
+        productImages: postImageArr,
+        endOfServiceDate: this.state.endOfServiceDate,
+        endOfEnrollmentDate: this.state.endOfEnrollmentDate,
+        year: this.state.year,
+        pricing: this.state.pricing,
+        intake: this.state.intake,
+        productFamily: {
+          id: this.state.productFamily.id,
         },
-        "productQuestionAnswers": postQuesArr
-    }
-      console.log(obj)
-      this.props.postProductVarient(obj)
+        productQuestionAnswers: postQuesArr,
+      };
+      console.log(obj);
+      this.props.postProductVarient(obj);
       this.setState({
-        snackMessage : "Data Saved Successfully",
-        snackVariant : "success",
-        snackOpen : true
-      })
-      this.setState({ show: false});
-      }
-      
-     
-
-      };
-      handleChange = (e, name) => {
-        this.setState({
-          [e.target.name]: e.target.value,
-        });
-      };
-      handleClickOpen = (e) => {
-        this.setState({ 
-          show: true,
-          id : "",
-          name:"",
-          shortName:"",
-          codeName:"",
-          oneliner:"",
-          description:"",
-          images:[],
-          videos:[],
-          tnc:"",
-          question:[],
-          productFamily : null,
-
-        });
-        
-      };
-      handleDataDelete=()=>{
-        console.log("hello")
-        let hlptxt = "PLease Fill the Required Field"
-        this.state.newVarient === "" ? this.setState({ newVarientErr : hlptxt }) : this.setState({ newVarientErr : ""})
-        if(this.state.newvarient !== "" ){
-          console.log("validate success")
-          // this.props.deleteproductvarient()
-        }
-      }
-      handleEdit = (data) => {
-        console.log(data)
-        this.setState({
-          show : true,
-          id : data.id,
-          name : data.name,
-          shortName: data.shortName,
-          codeName: data.codeName,
-          oneliner: data.productOneliner,
-          description: data.productDescription,
-          images: data.productImages,
-          videos: data.productVideos,
-          tnc: data.productTnc,
-          question: data.productQuestionAnswers,
-          productFamily : data.productFamily
-        })
-    };
-  
-    handleUpdate = () =>{
-      let hlpTxt = "Please Fill The Required Field"
-
-      isEmptyString(this.state.shortName) ? this.setState({ shortNameErr : hlpTxt }) : this.setState({ shortNameErr : "" })
-      isEmptyString(this.state.codeName) ? this.setState({ codeNameErr : hlpTxt }) : this.setState({ codeNameErr : "" })
-      isEmptyString(this.state.oneliner) ? this.setState({ onelinerErr : hlpTxt }) : this.setState({ onelinerErr : "" })
-      isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlpTxt }) : this.setState({ descriptionErr : "" })
-      this.state.question.length === 0 ? this.setState({ questionErr : hlpTxt }) : this.setState({ questionErr : "" })
-      isEmptyString(this.state.tnc) ? this.setState({ tncErr : hlpTxt }) : this.setState({ tncErr : "" })
-      isEmptyString(this.state.answer) ? this.setState({ answerErr : hlpTxt }) : this.setState({ answerErr : "" })
-      this.state.images.length === 0 ? this.setState({ imagesErr : hlpTxt }) : this.setState({ imagesErr: "" })
-      this.state.videos.length === 0 ? this.setState({ videosErr : hlpTxt }) : this.setState({ videosErr : "" })
-      isEmptyString(this.state.name) ? this.setState({ nameErr : hlpTxt }) : this.setState({ nameErr : "" })
-      this.state.year === null ? this.setState({yearErr : hlpTxt}) : this.setState({yearErr : ""})
-      this.state.intake === null ? this.setState({intakeErr : hlpTxt}) : this.setState({intakeErr : ""})
-      this.state.pricing === null ? this.setState ({pricingErr : hlpTxt }) : this.setState({pricingErr : ""})
-      this.state.endOfEnrollmentDate === null ? this.setState ({endOfEnrollmentDateErr : hlpTxt }) : this.setState ({endOfEnrollmentDateErr : ""})
-      this.state.endOfServiceDate === null ? this.setState ({ endOfServiceDateErr : hlpTxt}) : this.setState({ endOfServiceDateErr : ""})
-      if(
-        !isEmptyString(this.state.shortName) &&
-        !isEmptyString(this.state.codeName) &&
-        !isEmptyString(this.state.oneliner) &&
-        !isEmptyString(this.state.description) &&
-        !isEmptyString(this.state.tnc) &&
-        this.state.images.length !== 0 &&
-        this.state.videos.length !== 0 &&
-        !isEmptyString(this.state.name) &&
-        this.state.question.length !== 0 &&
-        this.state.endOfServiceDate !== null &&
-        this.state.endOfEnrollmentDate !== null &&
-        this.state.intake !== null &&
-        this.state.year !== null &&
-        this.state.pricing !== null
-       
-      ){
-        let postVideoArr = this.state.videos.map((eachVideo)=>{
-          return {id : eachVideo.id}
-        })
-        let postImageArr = this.state.images.map((eachImage)=>{
-          return {id : eachImage.id}
-        })
-        let postQuesArr = this.state.question.map((eachQues)=>{
-          return {id : eachQues.id}
-        })
-        
-        let obj = {
-          "id" : this.state.id,
-          "name":this.state.name,
-          "codeName":this.state.codeName,
-          "shortName":this.state.shortName,
-          "validity":"365",
-          "productTnc":this.state.tnc,
-          "productDescription":this.state.description,
-          "productOneliner": this.state.oneliner,
-          "productVideos": postVideoArr,
-          "productImages": postImageArr,
-          "productFamily":{
-              id : this.state.productFamily.id
-          },
-          "productQuestionAnswers": postQuesArr
-      }
-      console.log(obj)
-      this.props.updateProductVarient(obj)
-      this.setState({
-        snackMessage : "Data Updated Successfully",
-        snackVariant : "success",
-        snackOpen : true
-      })
-      this.setState({ show: false});
-      }
-     
-      
+        snackMessage: "Data Saved Successfully",
+        snackVariant: "success",
+        snackOpen: true,
+      });
+      this.setState({ show: false });
     }
-   
-    render() {
-      console.log(this.props.varientexcelList)
-      // if(this.props.getProductVarientList.length !== 0 ){
-      //   let prodname = this.props.getProductVarientList.map(item => item.productFamily !== null ? item.productFamily.productName : "null")
-      //   console.log(prodname)
-      // }
-      // console.log(name)
-      console.log(this.state)
-        return (
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div>
-                <div style={{display:'flex',flexDirection:"row", justifyContent:'space-between', margin:"2%" }}>
-                <h4>Product Variant</h4>
-                <div style={{display:'flex', flexDirection: "row",justifyContent:"space-around"}}>
-                <Button 
-                style={{marginRight:"2%"}}
-                startIcon={<AddIcon/>} 
-                variant="contained"
-                color="primary" 
-                size="medium"
+  };
+  handleChange = (e, name) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+  handleClickOpen = (e) => {
+    this.setState({
+      show: true,
+      id: "",
+      name: "",
+      shortName: "",
+      codeName: "",
+      oneliner: "",
+      description: "",
+      images: [],
+      videos: [],
+      tnc: "",
+      question: [],
+      productFamily: null,
+    });
+  };
+  handleDataDelete = () => {
+    console.log("hello");
+    let hlptxt = "PLease Fill the Required Field";
+    this.state.newVarient === ""
+      ? this.setState({ newVarientErr: hlptxt })
+      : this.setState({ newVarientErr: "" });
+    if (this.state.newvarient !== "") {
+      console.log("validate success");
+      // this.props.deleteproductvarient()
+    }
+  };
+  handleEdit = (data) => {
+    console.log(data);
+    this.setState({
+      show: true,
+      id: data.id,
+      name: data.name,
+      shortName: data.shortName,
+      codeName: data.codeName,
+      oneliner: data.productOneliner,
+      description: data.productDescription,
+      images: data.productImages,
+      videos: data.productVideos,
+      tnc: data.productTnc,
+      question: data.productQuestionAnswers,
+      productFamily: data.productFamily,
+    });
+  };
+
+  handleUpdate = () => {
+    let hlpTxt = "Please Fill The Required Field";
+
+    isEmptyString(this.state.shortName)
+      ? this.setState({ shortNameErr: hlpTxt })
+      : this.setState({ shortNameErr: "" });
+    isEmptyString(this.state.codeName)
+      ? this.setState({ codeNameErr: hlpTxt })
+      : this.setState({ codeNameErr: "" });
+    isEmptyString(this.state.oneliner)
+      ? this.setState({ onelinerErr: hlpTxt })
+      : this.setState({ onelinerErr: "" });
+    isEmptyString(this.state.description)
+      ? this.setState({ descriptionErr: hlpTxt })
+      : this.setState({ descriptionErr: "" });
+    this.state.question.length === 0
+      ? this.setState({ questionErr: hlpTxt })
+      : this.setState({ questionErr: "" });
+    isEmptyString(this.state.tnc)
+      ? this.setState({ tncErr: hlpTxt })
+      : this.setState({ tncErr: "" });
+    isEmptyString(this.state.answer)
+      ? this.setState({ answerErr: hlpTxt })
+      : this.setState({ answerErr: "" });
+    this.state.images.length === 0
+      ? this.setState({ imagesErr: hlpTxt })
+      : this.setState({ imagesErr: "" });
+    this.state.videos.length === 0
+      ? this.setState({ videosErr: hlpTxt })
+      : this.setState({ videosErr: "" });
+    isEmptyString(this.state.name)
+      ? this.setState({ nameErr: hlpTxt })
+      : this.setState({ nameErr: "" });
+    this.state.year === null
+      ? this.setState({ yearErr: hlpTxt })
+      : this.setState({ yearErr: "" });
+    this.state.intake === null
+      ? this.setState({ intakeErr: hlpTxt })
+      : this.setState({ intakeErr: "" });
+    this.state.pricing === null
+      ? this.setState({ pricingErr: hlpTxt })
+      : this.setState({ pricingErr: "" });
+    this.state.endOfEnrollmentDate === null
+      ? this.setState({ endOfEnrollmentDateErr: hlpTxt })
+      : this.setState({ endOfEnrollmentDateErr: "" });
+    this.state.endOfServiceDate === null
+      ? this.setState({ endOfServiceDateErr: hlpTxt })
+      : this.setState({ endOfServiceDateErr: "" });
+    if (
+      !isEmptyString(this.state.shortName) &&
+      !isEmptyString(this.state.codeName) &&
+      !isEmptyString(this.state.oneliner) &&
+      !isEmptyString(this.state.description) &&
+      !isEmptyString(this.state.tnc) &&
+      this.state.images.length !== 0 &&
+      this.state.videos.length !== 0 &&
+      !isEmptyString(this.state.name) &&
+      this.state.question.length !== 0 &&
+      this.state.endOfServiceDate !== null &&
+      this.state.endOfEnrollmentDate !== null &&
+      this.state.intake !== null &&
+      this.state.year !== null &&
+      this.state.pricing !== null
+    ) {
+      let postVideoArr = this.state.videos.map((eachVideo) => {
+        return { id: eachVideo.id };
+      });
+      let postImageArr = this.state.images.map((eachImage) => {
+        return { id: eachImage.id };
+      });
+      let postQuesArr = this.state.question.map((eachQues) => {
+        return { id: eachQues.id };
+      });
+
+      let obj = {
+        id: this.state.id,
+        name: this.state.name,
+        codeName: this.state.codeName,
+        shortName: this.state.shortName,
+        validity: "365",
+        productTnc: this.state.tnc,
+        productDescription: this.state.description,
+        productOneliner: this.state.oneliner,
+        productVideos: postVideoArr,
+        productImages: postImageArr,
+        productFamily: {
+          id: this.state.productFamily.id,
+        },
+        productQuestionAnswers: postQuesArr,
+      };
+      console.log(obj);
+      this.props.updateProductVarient(obj);
+      this.setState({
+        snackMessage: "Data Updated Successfully",
+        snackVariant: "success",
+        snackOpen: true,
+      });
+      this.setState({ show: false });
+    }
+  };
+
+  render() {
+    console.log(this.props.varientexcelList);
+    // if(this.props.getProductVarientList.length !== 0 ){
+    //   let prodname = this.props.getProductVarientList.map(item => item.productFamily !== null ? item.productFamily.productName : "null")
+    //   console.log(prodname)
+    // }
+    // console.log(name)
+    console.log(this.state);
+    return (
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              margin: "2%",
+            }}
+          >
+            <h4>Product Variant</h4>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
+              <Button
+                style={{ marginRight: "2%" }}
+                startIcon={<AddIcon />}
+                variant='contained'
+                color='primary'
+                size='medium'
                 onClick={
                   // this.handleClickOpen
-                  ()=>this.props.history.push(productVariantPath)
+                  () => this.props.history.push(productVariantPath)
                 }
-                >
-                  Add
+              >
+                Add
+              </Button>
+              <ExcelFile
+                // filename={"Product Family"}
+                element={
+                  <Button variant='contained' size='small' color='primary'>
+                    Export Excel
                   </Button>
-                  <ExcelFile
-              // filename={"Product Family"}
-              element={
-                <Button
-                  variant="contained"
-                  size="small"
-                  color="primary"
+                }
+              >
+                <ExcelSheet
+                  data={this.props.varientexcelList}
+                  name='Product Family'
                 >
-                  Export Excel
-            </Button>
-              }
-            >
-              <ExcelSheet data={this.props.varientexcelList} name="Product Family">
-                <ExcelColumn label="SKU" value="variant_SKU" />
-                <ExcelColumn label="Varient Name" value="name" />
-                <ExcelColumn label="Varient ShortName" value="shortName" />
-                <ExcelColumn label="code Name" value="codeName" />
-                <ExcelColumn label="Standalone" value="standaloneSellable" />
-                <ExcelColumn label="Cost Pricing" value="costPrice" />
-                <ExcelColumn label="Sell Pricing" value="sellingPrice" />
-                <ExcelColumn label="Created At" value="dateOfCreation" />
-                <ExcelColumn label="Created By" value="createdBy" />
-                <ExcelColumn label="Updated At" value="dateOfUpdate" />
-                <ExcelColumn label="Updated By" value="updatedBy" />
-                <ExcelColumn label="EOS" value="endOfServiceDate" />
-                <ExcelColumn label="Validity" value="validity" />
-                <ExcelColumn label="End of Enrollment" value="endOfEnrollmentDate" />       
-              </ExcelSheet>
-            </ExcelFile>
-                </div>
-                </div>
+                  <ExcelColumn label='SKU' value='variant_SKU' />
+                  <ExcelColumn label='Varient Name' value='name' />
+                  <ExcelColumn label='Varient ShortName' value='shortName' />
+                  <ExcelColumn label='code Name' value='codeName' />
+                  <ExcelColumn label='Standalone' value='standaloneSellable' />
+                  <ExcelColumn label='Cost Pricing' value='costPrice' />
+                  <ExcelColumn label='Sell Pricing' value='sellingPrice' />
+                  <ExcelColumn label='Created At' value='dateOfCreation' />
+                  <ExcelColumn label='Created By' value='createdBy' />
+                  <ExcelColumn label='Updated At' value='dateOfUpdate' />
+                  <ExcelColumn label='Updated By' value='updatedBy' />
+                  <ExcelColumn label='EOS' value='endOfServiceDate' />
+                  <ExcelColumn label='Validity' value='validity' />
+                  <ExcelColumn
+                    label='End of Enrollment'
+                    value='endOfEnrollmentDate'
+                  />
+                </ExcelSheet>
+              </ExcelFile>
+            </div>
+          </div>
 
-            {/*  */}
-            <Grid container>
-          <Grid item md={12} style={{height : "500px"}}>
-            <DataGridTable
-            columns={this.state.tableColumns}
-            rows={this.props.varientexcelList}
-            filterItems={[]}
-             />
-             </Grid>
-             </Grid>
+          {/*  */}
+          <Grid container>
+            <Grid item md={12} style={{ height: "500px" }}>
+              <DataGridTable
+                columns={this.state.tableColumns}
+                rows={this.props.varientexcelList}
+                filterItems={[]}
+              />
+            </Grid>
+          </Grid>
           {/* <Dialog fullScreen
               // open={this.state.show}
               onClose={(e) => this.setState({ show: false })}
@@ -715,66 +810,86 @@ export class ProductVarient extends Component {
                 </Button>
               </DialogActions>
             </Dialog> */}
-            <Snackbar
-          open={this.state.snackOpen}
-          autoHideDuration={3000}
-          onClose={() => this.setState({ snackOpen: false })}
-        >
-          <Alert
-            variant="filled"
+          <Snackbar
+            open={this.state.snackOpen}
+            autoHideDuration={3000}
             onClose={() => this.setState({ snackOpen: false })}
-            severity={this.state.snackVariant}
           >
-            {this.state.snackMessage}
-          </Alert>
-        </Snackbar>
-        <Dialog maxWidth={"md"} open={this.state.show} onClose={()=>this.setState({show:false})}>
-          <DialogContent>
-             <h5>Choose the Another Product Varient</h5>
-             <Autocomplete
-                    id="combo-box-demo"
-                    options={this.props.getProductVarientList}
-                    getOptionLabel={(options) => options.name}
-                    value={this.state.newvarient}
-                    onChange={(e, newValue) =>
-                      this.setState({ newvarient: newValue })
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Product Varient"
-                        variant="standard"
-                        error={this.state.newVarientErr.length > 0}
-                        helperText={this.state.newVarientErr}
-                      />
-                    )}
+            <Alert
+              variant='filled'
+              onClose={() => this.setState({ snackOpen: false })}
+              severity={this.state.snackVariant}
+            >
+              {this.state.snackMessage}
+            </Alert>
+          </Snackbar>
+          <Dialog
+            maxWidth={"md"}
+            open={this.state.show}
+            onClose={() => this.setState({ show: false })}
+          >
+            <DialogContent>
+              <h5>Choose the Another Product Varient</h5>
+              <Autocomplete
+                id='combo-box-demo'
+                options={this.props.getProductVarientList}
+                getOptionLabel={(options) => options.name}
+                value={this.state.newvarient}
+                onChange={(e, newValue) =>
+                  this.setState({ newvarient: newValue })
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='Product Varient'
+                    variant='standard'
+                    error={this.state.newVarientErr.length > 0}
+                    helperText={this.state.newVarientErr}
                   />
-             <PrimaryButton color={"secondary"} variant={"contained"} onClick={()=>this.handleDataDelete()}>Delete</PrimaryButton>
-          </DialogContent>
-        </Dialog>
-            </div>
-            </MuiPickersUtilsProvider>
-        )
-    }
+                )}
+              />
+              <PrimaryButton
+                color={"secondary"}
+                variant={"contained"}
+                onClick={() => this.handleDataDelete()}
+              >
+                Delete
+              </PrimaryButton>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </MuiPickersUtilsProvider>
+    );
+  }
 }
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-const mapStateToProps=(state)=>{
+const mapStateToProps = (state) => {
   return {
     getProductVarientList: state.ProductReducer.getProductVarient,
-    postProductVarientList:  state.ProductReducer.postProductVarient,
+    postProductVarientList: state.ProductReducer.postProductVarient,
     updateProductVarientList: state.ProductReducer.updateProductVarient,
-    allProductImages : state.ProductReducer.allProductImages,
-    allProductVideos : state.ProductReducer.allProductVideos,
-    allProductQuesAns : state.ProductReducer.allProductQuesAns,
-    productFamilyList : state.ProductReducer.productFamilyList,
-    deleteproductvarientList : state.ProductReducer.deleteproductvarient,
-    comboexcelList : state.ProductReducer.comboexcel,
-    varientexcelList : state.ProductReducer.varientexcel
-    
-  }
-}
-export default connect(mapStateToProps,{getProductVarient,deleteproductvarient,postProductVarient, updateProductVarient, getAllProductImages,varientexcel, getAllProductVideos, getAllProductQuesAns, getAllProductFamily,comboexcel})(ProductVarient)
+    allProductImages: state.ProductReducer.allProductImages,
+    allProductVideos: state.ProductReducer.allProductVideos,
+    allProductQuesAns: state.ProductReducer.allProductQuesAns,
+    productFamilyList: state.ProductReducer.productFamilyList,
+    deleteproductvarientList: state.ProductReducer.deleteproductvarient,
+    comboexcelList: state.ProductReducer.comboexcel,
+    varientexcelList: state.ProductReducer.varientexcel,
+  };
+};
+export default connect(mapStateToProps, {
+  getProductVarient,
+  deleteproductvarient,
+  postProductVarient,
+  updateProductVarient,
+  getAllProductImages,
+  varientexcel,
+  getAllProductVideos,
+  getAllProductQuesAns,
+  getAllProductFamily,
+  comboexcel,
+})(ProductVarient);

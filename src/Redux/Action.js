@@ -22,6 +22,7 @@ export const QUESTIONS = {
   getQuestions: "getQuestions",
 };
 export const PROFILE_GAP_ANALYSIS = {
+  loader: "profileGapAnalysisLoader",
   getgeneraldetails: "getgeneraldetails",
   getstatus: "getstatus",
   getcommenthistory: "getcommenthistory",
@@ -33,7 +34,7 @@ export const PROFILE_GAP_ANALYSIS = {
   deletecvresult: "deletecvresult",
   updatecvresult: "updatecvresult",
   getdashboarddetails: "getdashboarddetails",
-  getpgalist: "getpgalist",
+  getPgaList: "getPgaList",
   getReportPreview: "getReportPreview",
   getReportStatus: "getReportStatus",
   saveSemesterDetails: "saveSemesterDetails",
@@ -121,6 +122,7 @@ export const STUDENT = {
   aspirationCountry: "aspirationCountry",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
+  getAllIntakeList: "getAllIntakeList",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -252,8 +254,8 @@ export const PRODUCT = {
   publishvarient: "publishvarient",
   comboexcel: "comboexcel",
   varientexcel: "varientexcel",
-  getpunchingdata: "getpunchingdata",
-  postpunchingdata: "postpunchingdata",
+  getPunchingData: "getPunchingData",
+  postPunchingData: "postPunchingData",
   putproductstructure: "putproductstructure",
   getproductstructure: "getproductstructure",
   postproductstructure: "postproductstructure",
@@ -261,9 +263,11 @@ export const PRODUCT = {
   getproductsteps: "getproductsteps",
   searchProductActivationList: "searchProductActivationList",
   getVariantStepsById: "getVariantStepsById",
+  getReferProductVariantByProductId: "getReferProductVariantByProductId",
 };
 
 export const ADMIN = {
+  loader: "adminLoader",
   adminLogin: "adminLogin",
   refreshToken: "refreshToken",
   studentAccess: "studentAccess",

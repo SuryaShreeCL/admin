@@ -335,22 +335,18 @@ function RootContainer(props) {
     // }])
 
     if (props.adminLinkedProductDetails.department === "Acsoperations") {
+      const { getProductByFamilyIdList } = props;
       let myArr = [];
-      props.adminLinkedProductDetails.products
-        // .filter(
-        //   eachProd =>
-        //     eachProd.variantSKU === "ACS_MS" ||
-        //     eachProd.variantSKU === "ACS_MBA" ||
-        //     eachProd.variantSKU === "ACS_MIM" ||
-        //     eachProd.variantSKU === "ACS_MBA_PB" ||
-        //     eachProd.variantSKU === "ACS_MIM_PB"
-        // )
-        .map((eachItem) => {
-          myArr.push({
-            title: eachItem.shortName,
-            path: obOperationPath + "/" + eachItem.id,
-          });
+      if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
+        getProductByFamilyIdList.map((eachItem) => {
+          if (eachItem.isProduct) {
+            myArr.push({
+              title: eachItem.shortName,
+              path: `${obOperationPath}/${eachItem.id}`,
+            });
+          }
         });
+      }
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,

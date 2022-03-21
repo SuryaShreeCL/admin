@@ -1,6 +1,7 @@
 import { STUDENT } from "../Redux/Action";
 import { URL, AUTH_URL } from "./URL";
 import axios from "axios";
+import { errorHandler } from "../Component/Utils/Helpers";
 
 export const getStudents = () => {
   let accessToken = window.sessionStorage.getItem("accessToken");
@@ -1372,6 +1373,29 @@ export const getAspirationSpecialization = (search, callback) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+};
+
+export const getAllIntakeList = () => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/intake`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: STUDENT.getAllIntakeList,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getAllIntakeList, error, false));
       });
   };
 };
