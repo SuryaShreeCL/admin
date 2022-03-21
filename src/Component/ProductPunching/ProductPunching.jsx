@@ -401,6 +401,7 @@ class ProductPunching extends Component {
                       </Fragment>
                     )
                   )}
+                <Grid item md={12}></Grid>
               </Grid>
             </Fragment>
           )
@@ -515,7 +516,7 @@ class ProductPunching extends Component {
           {punching && (
             <Grid container spacing={2}>
               <Grid item md={12}>
-                <Box pt={3}>
+                <Box pt={1}>
                   <Typography
                     variant={"h6"}
                     style={{ color: "#1093FF", fontWeight: "bold" }}

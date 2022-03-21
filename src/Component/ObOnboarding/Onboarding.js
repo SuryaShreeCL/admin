@@ -107,7 +107,11 @@ export class Onboarding extends Component {
 
     if (allIntakeList && allIntakeList !== prevProps.allIntakeList) {
       if (allIntakeList.success) {
-        this.setState({ intakeList: allIntakeList.data || [] });
+        let arr = allIntakeList.data || [];
+        let uniqueYearArr = arr.filter(
+          (a, i) => arr.findIndex((s) => a.year === s.year) === i
+        );
+        this.setState({ intakeList: uniqueYearArr });
       } else {
         this.setState({
           snackOpen: true,
