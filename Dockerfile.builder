@@ -1,14 +1,14 @@
-FROM node:lts-alpine as build
+FROM registry.access.redhat.com/ubi8/nodejs-16:latest as build
 
-# "app" will be the current working directory
-WORKDIR /app
 ARG BUILD_ENV
 
 # Install app dependencies
-RUN apk add git -q
+USER 0
+RUN dnf -y update && dnf -y install git
+USER 1001
 
-COPY package.json /app/package.json
-COPY ckeditor5 /app/ckeditor5
+COPY package.json ./package.json
+COPY ckeditor5 ./ckeditor5
 
 # Install dependencies
 RUN npm install --force --silent
@@ -16,9 +16,9 @@ RUN npm install --force --silent
 RUN npm install pdfjs-dist@2.6.347 --silent
 
 # Copy the app
-COPY public /app/public
-COPY src /app/src
-COPY .env.${BUILD_ENV} /app/.env.${BUILD_ENV}
-COPY .build.sh /app/.build.sh
+COPY public ./public
+COPY src ./src
+COPY .env.${BUILD_ENV} ./.env.${BUILD_ENV}
+COPY .build.sh ./.build.sh
 
 CMD ["sh", "./.build.sh"]
