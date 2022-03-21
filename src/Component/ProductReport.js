@@ -189,7 +189,7 @@ function ProductReport(props) {
                       <TableRow key={index} style={{ border: "0 0 0 0" }}>
                         <BodyCell>
                           {createdTime
-                            ? moment(new Date(createdTime)).format("DD-MM-YYYY")
+                            ? moment(new Date(createdTime)).format("YYYY-MM-DD")
                             : "NA"}
                         </BodyCell>
                         <BodyCell>{userSelectedDate || "NA"}</BodyCell>
