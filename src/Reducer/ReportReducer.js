@@ -10,6 +10,7 @@ const initialState = {
   techTestElectronics: [],
   diagTestResult: [],
   careerReportResult: [],
+  generateReportStatus: null,
   productReport: null,
 };
 
@@ -65,7 +66,12 @@ export default (state = initialState, action) => {
         ...state,
         careerReportResult: action.payload,
       };
-    case REPORTS.downloadProductReport:
+    case REPORTS.generateProductReport:
+      return {
+        ...state,
+        generateReportStatus: action.payload,
+      };
+    case REPORTS.viewProductReport:
       return {
         ...state,
         productReport: action.payload,
