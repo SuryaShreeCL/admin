@@ -29,6 +29,7 @@ import {
   getAllSpecialization,
   getAllUniversity,
 } from "../../Actions/Aspiration";
+import { StudentStepDetails } from "../../Actions/Student";
 import {
   getcommenthistory,
   getgeneraldetails,
@@ -275,6 +276,10 @@ class GeneralDetails extends Component {
     this.props.getUniversity();
     this.props.getAllBranch();
     this.props.getAllDegree();
+    this.props.StudentStepDetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
     this.props.getAllSpecialization((response) => {
       if (response.status === 200) {
         this.setState({
@@ -1303,7 +1308,8 @@ class GeneralDetails extends Component {
   };
   render() {
     const { classes } = this.props;
-
+    console.log(this.props);
+    console.log(this.props.variantStepList, this.props.StudentStepDetailsList);
     return (
       <div>
         <Grid container className={classes.root}>
@@ -2064,6 +2070,7 @@ const useStyles = (theme) => ({
   },
 });
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     getAllCollegesList: state.CollegeReducer.allCollegeList,
     getDegreeList: state.CollegeReducer.Degree,
@@ -2080,6 +2087,7 @@ const mapStateToProps = (state) => {
       state.ProfileGapAnalysisReducer.updategeneraldetails,
     getAllBranchList: state.AspirationReducer.allBranchList,
     getAllDegreeList: state.AspirationReducer.allDegreeList,
+    StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
   };
 };
 export default connect(mapStateToProps, {
@@ -2097,4 +2105,5 @@ export default connect(mapStateToProps, {
   updategeneraldetails,
   getAllBranch,
   getAllDegree,
+  StudentStepDetails,
 })(withStyles(useStyles)(GeneralDetails));
