@@ -3,8 +3,10 @@ import {
   Breadcrumbs,
   Button,
   Grid,
+  IconButton,
   Table,
   TableBody,
+  TableContainer,
   TableRow,
   Typography,
 } from "@material-ui/core";
@@ -29,15 +31,16 @@ import {
   useStyles,
 } from "../Asset/StyledComponents/ReportStyles";
 import PaginationComponent from "../Component/Utils/CustomPaginationComponent";
-import Loader from "../Lms/Utils/Loader";
 import TextFieldComponent from "./Controls/TextField";
 import Snack from "./MySnackBar";
 import { studentPath } from "./RoutePaths";
+import { ReactComponent as RefreshIcon } from "../Asset/icons/refresh.svg";
+
+const SIZE = 20;
 
 function ProductReport(props) {
   const classes = useStyles();
   const [state, setState] = useState({
-    isGenerating: false,
     startDate: null,
     endDate: null,
     endDateHelperText: null,
@@ -53,28 +56,21 @@ function ProductReport(props) {
     endDate,
     endDateHelperText,
     isDisabled,
-    isGenerating,
     snackOpen,
     snackMsg,
     page,
     totalPage,
     productReportList,
   } = state;
+
   const dispatch = useDispatch();
-  const { productReport, generateReportStatus } = useSelector(
+  const { productReport } = useSelector(
     (stateValue) => stateValue.ReportReducer
   );
 
   useEffect(() => {
-    if (generateReportStatus && isGenerating) {
-      setState({
-        ...state,
-        isGenerating: false,
-      });
-      dispatch(getProductReport(0, 10));
-      dispatch(clearCustomData("generateReportStatus"));
-    }
-  }, [generateReportStatus, isGenerating]);
+    dispatch(getProductReport(0, SIZE));
+  }, []);
 
   useEffect(() => {
     if (productReport) {
@@ -90,6 +86,7 @@ function ProductReport(props) {
             ...state,
             productReportList: [],
             totalPage: 0,
+            page: 0,
             snackOpen: true,
             snackMsg: "No results found",
           });
@@ -97,6 +94,9 @@ function ProductReport(props) {
       } else {
         setState({
           ...state,
+          productReportList: [],
+          totalPage: 0,
+          page: 0,
           snackOpen: true,
           snackMsg: productReport.message,
         });
@@ -144,12 +144,22 @@ function ProductReport(props) {
   const handleGenerateClick = () => {
     setState({
       ...state,
-      isGenerating: true,
       page: 0,
       totalPage: 0,
       productReportList: [],
     });
     dispatch(generateProductReport(startDate, endDate));
+    dispatch(getProductReport(0, SIZE));
+  };
+
+  const handleRefresh = () => {
+    setState({
+      ...state,
+      page: 0,
+      totalPage: 0,
+      productReportList: [],
+    });
+    dispatch(getProductReport(0, SIZE));
   };
 
   const handleSnackClose = () => {
@@ -158,59 +168,69 @@ function ProductReport(props) {
 
   const handlePageChange = (event, value) => {
     setState({ ...state, page: value - 1 });
-    dispatch(getProductReport(value - 1, 10));
+    dispatch(getProductReport(value - 1, SIZE));
+  };
+
+  const renderButtonText = (value) => {
+    let text = "Inprogress";
+    if (value) {
+      text = "Download";
+    }
+    return text;
   };
 
   const renderTable = () => {
     const columns = ["Created date", "Selection range", "Created by", ""];
 
     return (
-      <Box overflow='auto' width='100%'>
-        <Fragment>
-          <Table>
-            <Head>
-              <TableRow>
-                {columns.map((item, index) => (
-                  <HeadCell key={index}>
-                    <HeadInline>{item}</HeadInline>
-                  </HeadCell>
-                ))}
-              </TableRow>
-            </Head>
-            <TableBody>
-              {productReportList &&
-                productReportList.length !== 0 &&
-                productReportList.map(
-                  (
-                    { createdTime, userSelectedDate, downloadLink, userRole },
-                    index
-                  ) => {
-                    return (
-                      <TableRow key={index} style={{ border: "0 0 0 0" }}>
-                        <BodyCell>
-                          {createdTime
-                            ? moment(new Date(createdTime)).format("YYYY-MM-DD")
-                            : "NA"}
-                        </BodyCell>
-                        <BodyCell>{userSelectedDate || "NA"}</BodyCell>
-                        <BlueCell>{userRole?.username || "NA"}</BlueCell>
-                        <BodyCell align={"right"}>
-                          <Button
-                            disabled={!Boolean(downloadLink)}
-                            color={"primary"}
-                            onClick={() => handleDownloadClick(downloadLink)}
-                            variant={"contained"}
-                          >
-                            {"Download"}
-                          </Button>
-                        </BodyCell>
-                      </TableRow>
-                    );
-                  }
-                )}
-            </TableBody>
-          </Table>
-        </Fragment>
+      <Box>
+        <Box>
+          <Fragment>
+            <TableContainer style={{ maxHeight: 596 }}>
+              <Table stickyHeader>
+                <Head>
+                  <TableRow>
+                    {columns.map((item, index) => (
+                      <HeadCell key={index}>
+                        <HeadInline>{item}</HeadInline>
+                      </HeadCell>
+                    ))}
+                  </TableRow>
+                </Head>
+                <TableBody>
+                  {productReportList &&
+                    productReportList.length !== 0 &&
+                    productReportList.map(
+                      (
+                        { createdAt, userSelectedDate, downloadLink, userRole },
+                        index
+                      ) => {
+                        return (
+                          <TableRow key={index} style={{ border: "0 0 0 0" }}>
+                            <BodyCell>{createdAt || "NA"}</BodyCell>
+                            <BodyCell>{userSelectedDate || "NA"}</BodyCell>
+                            <BlueCell>{userRole?.username || "NA"}</BlueCell>
+                            <BodyCell align={"right"}>
+                              <Button
+                                disabled={!Boolean(downloadLink)}
+                                color={"primary"}
+                                onClick={() =>
+                                  handleDownloadClick(downloadLink)
+                                }
+                                variant={"contained"}
+                              >
+                                {renderButtonText(downloadLink)}
+                              </Button>
+                            </BodyCell>
+                          </TableRow>
+                        );
+                      }
+                    )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Fragment>
+        </Box>
         {totalPage > 1 && (
           <PaginationComponent
             page={page + 1}
@@ -222,9 +242,7 @@ function ProductReport(props) {
     );
   };
 
-  return isGenerating ? (
-    <Loader />
-  ) : (
+  return (
     <div>
       <BreadCrumpContainer>
         <img
@@ -292,17 +310,22 @@ function ProductReport(props) {
           item
           xs={6}
           justifyContent={"flex-end"}
-          alignItems={"flex-start"}
+          alignItems={"center"}
           container
         >
           <Button
-            disabled={isGenerating || isDisabled}
+            disabled={isDisabled}
             color={"primary"}
             onClick={handleGenerateClick}
             variant={"contained"}
           >
             {"Generate"}
           </Button>
+          <Box margin={"0px 10px 0px 30px"}>
+            <IconButton onClick={handleRefresh} title={"Refresh"}>
+              <RefreshIcon color={"#009be5"} width={"26px"} height={"26px"} />
+            </IconButton>
+          </Box>
         </Grid>
         <Grid item xs={12}>
           {productReportList && productReportList.length !== 0 && renderTable()}
