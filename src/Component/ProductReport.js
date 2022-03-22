@@ -275,7 +275,9 @@ function ProductReport(props) {
               shrink: true,
             }}
             inputProps={{
-              max: moment(new Date()).format("YYYY-MM-DD"),
+              max: moment()
+                .subtract(1, "days")
+                .format("YYYY-MM-DD"),
             }}
             onKeyDown={(event) => {
               event.preventDefault();
