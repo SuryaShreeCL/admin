@@ -249,7 +249,6 @@ const CreatePost = () => {
       yup.object().shape({
         heading: yup.string().required('Heading is Required'),
         subText: yup.string().required('Sub Heading is Required'),
-        message: yup.string().required('Message is Required'),
         form: yup
           .object()
           .shape({
