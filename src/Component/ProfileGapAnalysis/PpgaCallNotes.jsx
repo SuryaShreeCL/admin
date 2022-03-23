@@ -1,16 +1,23 @@
-import React, { Component } from "react";
-import { TextField, Grid, Typography, withStyles } from "@material-ui/core";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import "./InterestDetail.css";
 import {
-  getPpgaCallNotes,
-  updatePpgaCallNotes,
-  ppgaCallNotesStatus,
-} from "../../Actions/ProfileGapAction";
+  Box,
+  Grid,
+  TextField,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import {
+  getCommentHistory,
+  getPpgaCallNotes,
+  ppgaCallNotesStatus,
+  updatePpgaCallNotes,
+} from "../../Actions/ProfileGapAction";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
+import Loader from "../Utils/controls/Loader";
 import CommentDialog from "./CommentDialog";
-import { getcommenthistory } from "../../Actions/ProfileGapAction";
+import "./InterestDetail.css";
 
 class PpgaCallNotes extends Component {
   constructor(props) {
@@ -39,7 +46,7 @@ class PpgaCallNotes extends Component {
         currentSem: "Current Semester",
         workexp: "Work Experience",
       },
-      commentupdatelist: [],
+      commentUpdateList: [],
     };
   }
 
@@ -58,25 +65,37 @@ class PpgaCallNotes extends Component {
   componentDidMount() {
     this.props.getPpgaCallNotes(
       this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        console.log(response);
-        this.setState({
-          data: response.data.body,
-        });
-      }
+      this.props.match.params.productId
     );
-    this.props.getcommenthistory(
+
+    this.props.getCommentHistory(
       this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        console.log(response);
-        this.setState({
-          commentlist: response.data,
-        });
+      this.props.match.params.productId
+    );
+
+    this.props.ppgaCallNotesStatus(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      match,
+      commentHistory,
+      ppgaCallNotesList,
+      ppgaCallStatus,
+      ppgaNotesStatus,
+    } = this.props;
+
+    if (commentHistory && commentHistory !== prevProps.commentHistory) {
+      if (commentHistory.success) {
         let arr = [];
-        response.data &&
-          response.data.map((eachdata) => {
+        if (commentHistory.data && commentHistory.data.length !== 0) {
+          this.setState({
+            buttonStatus: true,
+          });
+          commentHistory.data.map((eachdata) => {
             if (eachdata.fieldName === "college") {
               arr.push({
                 fieldName: eachdata.fieldName,
@@ -86,7 +105,6 @@ class PpgaCallNotes extends Component {
                 updatedAt: eachdata.updatedAt,
                 updatedBy: eachdata.updatedBy,
               });
-              console.log(arr);
             } else if (eachdata.fieldName === "degree") {
               arr.push({
                 fieldName: eachdata.fieldName,
@@ -158,24 +176,73 @@ class PpgaCallNotes extends Component {
               });
             }
           });
-        console.log(arr);
+        }
         this.setState({
-          commentupdatelist: arr,
+          commentList: commentHistory.data || [],
+          commentUpdateList: arr,
+        });
+      } else {
+        this.setState({
+          snackMsg: commentHistory.message,
+          snackOpen: true,
+          snackVariant: "error",
         });
       }
-    );
-    this.props.ppgaCallNotesStatus(
-      this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        console.log(response);
+    }
+
+    if (
+      ppgaCallNotesList &&
+      ppgaCallNotesList !== prevProps.ppgaCallNotesList
+    ) {
+      if (ppgaCallNotesList.success) {
         this.setState({
-          prePpgaCallNotes: response.data.data.ppga,
-          postPpgaCallNotes: response.data.data.postPga,
-          mentorCallNotes: response.data.data.mentorNotes,
+          data: ppgaCallNotesList.data?.body || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: ppgaCallNotesList.message,
+          snackOpen: true,
+          snackVariant: "error",
         });
       }
-    );
+    }
+
+    if (ppgaCallStatus && ppgaCallStatus !== prevProps.ppgaCallStatus) {
+      if (ppgaCallStatus.success) {
+        this.props.getPpgaCallNotes(
+          match.params.studentId,
+          match.params.productId
+        );
+        this.setState({
+          data: ppgaCallStatus.data?.body || [],
+          snackColor: "success",
+          snackOpen: true,
+          snackMsg: "Saved Successfully",
+        });
+      } else {
+        this.setState({
+          snackMsg: ppgaCallStatus.message,
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
+    }
+
+    if (ppgaNotesStatus && ppgaNotesStatus !== prevProps.ppgaNotesStatus) {
+      if (ppgaNotesStatus.success) {
+        this.setState({
+          prePpgaCallNotes: ppgaNotesStatus.data?.ppga,
+          postPpgaCallNotes: ppgaNotesStatus.data?.postPga,
+          mentorCallNotes: ppgaNotesStatus.data?.mentorNotes,
+        });
+      } else {
+        this.setState({
+          snackMsg: ppgaNotesStatus.message,
+          snackOpen: true,
+          snackVariant: "error",
+        });
+      }
+    }
   }
 
   handleClick = () => {
@@ -218,64 +285,30 @@ class PpgaCallNotes extends Component {
         };
       }
     });
-    console.log(requestBody);
+
     this.props.updatePpgaCallNotes(
       this.props.match.params.studentId,
       this.props.match.params.productId,
-      requestBody,
-      (response) => {
-        console.log(response);
-        if (response.status === 200) {
-          this.props.getPpgaCallNotes(
-            this.props.match.params.studentId,
-            this.props.match.params.productId,
-            (response) => {
-              console.log(response);
-              this.setState({
-                data: response.data.body,
-
-                snackColor: "success",
-                snackOpen: true,
-                snackMsg: "Saved Successfully",
-              });
-            }
-          );
-        }
-      }
+      requestBody
     );
 
     this.props.ppgaCallNotesStatus(
       this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        console.log(response);
-        this.setState({
-          prePpgaCallNotes: response.data.data.ppga,
-          postPpgaCallNotes: response.data.data.postPga,
-          mentorCallNotes: response.data.data.mentorNotes,
-        });
-      }
+      this.props.match.params.productId
     );
   };
 
   render() {
-    const { classes } = this.props;
-    // console.log(this.props.getcommenthistoryList);
-    console.log(this.state);
+    const { classes, loading } = this.props;
 
     return (
       <div>
-        <Grid container spacing={3} className={classes.container}>
-          <Grid
-            item
-            md={12}
-            xs={12}
-            sm={12}
-            xl={12}
-            lg={12}
-            className={classes.topGrid}
-          >
-            {this.state.data &&
+        <Box height={"90vh"} padding={"15px"}>
+          <Box className={classes.topGrid}>
+            {loading ? (
+              <Loader />
+            ) : (
+              this.state.data &&
               this.state.data.map((item, index) => (
                 <Grid container spacing={3}>
                   <Grid item md={12} xs={12} sm={12} xl={12} lg={12}>
@@ -284,43 +317,43 @@ class PpgaCallNotes extends Component {
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
-                      label="PPGA Notes"
-                      name="ppgaNotes"
+                      label='PPGA Notes'
+                      name='ppgaNotes'
                       InputLabelProps={{ shrink: true }}
                       value={item.ppgaNotes}
                       onChange={(e) => this.handleChange(e, index)}
-                      className="ppgaTextField_align"
+                      className='ppgaTextField_align'
                       disabled={!this.state.prePpgaCallNotes}
                     ></TextField>
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
-                      className="ppgaTextField_align"
-                      name="postPpgaNotes"
+                      className='ppgaTextField_align'
+                      name='postPpgaNotes'
                       value={item.postPpgaNotes}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => this.handleChange(e, index)}
-                      label="Post PPGA Notes"
+                      label='Post PPGA Notes'
                       disabled={!this.state.postPpgaCallNotes}
                     ></TextField>
                   </Grid>
                   <Grid item md={4} xs={4} sm={4} xl={4} lg={4}>
                     <TextField
-                      className="ppgaTextField_align"
-                      name="mentorNotes"
+                      className='ppgaTextField_align'
+                      name='mentorNotes'
                       onChange={(e) => this.handleChange(e, index)}
                       value={item.mentorNotes}
                       InputLabelProps={{ shrink: true }}
-                      label="Mentor Notes"
+                      label='Mentor Notes'
                       disabled={!this.state.mentorCallNotes}
                     ></TextField>
                   </Grid>
                 </Grid>
-              ))}
-          </Grid>
-
-          {/* button */}
-          <Grid container>
+              ))
+            )}
+          </Box>
+          <Grid container spacing={2} className={classes.container}>
+            {/* button */}
             <Grid
               item
               md={12}
@@ -332,7 +365,6 @@ class PpgaCallNotes extends Component {
             >
               <hr className={"divider"} />
             </Grid>
-            {/* button and text main div */}
             <Grid
               item
               md={12}
@@ -351,7 +383,7 @@ class PpgaCallNotes extends Component {
                 </Typography>
                 <CommentDialog
                   open={this.state.commentDialogOpen}
-                  data={this.state.commentupdatelist}
+                  data={this.state.commentUpdateList}
                   onClose={() => this.setState({ commentDialogOpen: false })}
                   fieldname={this.state.fieldname}
                 />
@@ -359,7 +391,9 @@ class PpgaCallNotes extends Component {
               <div className={"button_div"}>
                 <PrimaryButton
                   disabled={
-                    !this.state.prePpgaCallNotes || !this.state.mentorCallNotes
+                    !this.state.prePpgaCallNotes ||
+                    !this.state.mentorCallNotes ||
+                    loading
                     // !this.state.postPpgaCallNotes
                   }
                   variant={"contained"}
@@ -367,12 +401,12 @@ class PpgaCallNotes extends Component {
                   onClick={this.handleSave}
                   className={classes.button}
                 >
-                  Save
+                  {"Save"}
                 </PrimaryButton>
               </div>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
         <MySnackBar
           onClose={() => this.setState({ snackOpen: false })}
           snackOpen={this.state.snackOpen}
@@ -393,12 +427,12 @@ const useStyles = (theme) => ({
     marginBottom: "25px",
   },
   container: {
-    height: "100vh",
-    padding: "15px",
+    padding: "10px",
   },
   topGrid: {
-    maxHeight: "85%",
-    overflowY: "scroll",
+    overflowY: "auto",
+    height: "76vh",
+    padding: "15px !important",
   },
   buttonGrid: {
     display: "flex",
@@ -415,23 +449,24 @@ const useStyles = (theme) => ({
     color: "#1093FF",
   },
   dividerDiv: {
-    marginLeft: "0px",
-    marginRight: "0px",
-    marginTop: "27px",
+    margin: "20px 0px 0px 0px",
   },
 });
 
 const mapStateToProps = (state) => {
   console.log(state);
   return {
-    ppgaResponse: state.ProfileGapAnalysisReducer.ppgaCallNotes,
-    updateResponse: state.ProfileGapAnalysisReducer.ppgaCall,
-    getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
+    ppgaCallNotesList: state.ProfileGapAnalysisReducer.ppgaCallNotes,
+    ppgaCallStatus: state.ProfileGapAnalysisReducer.ppgaCallStatus,
+    commentHistory: state.ProfileGapAnalysisReducer.commentHistory,
+    ppgaNotesStatus: state.ProfileGapAnalysisReducer.ppgaNotesStatus,
+    loading: state.ProfileGapAnalysisReducer.loading,
   };
 };
+
 export default connect(mapStateToProps, {
   getPpgaCallNotes,
   updatePpgaCallNotes,
-  getcommenthistory,
+  getCommentHistory,
   ppgaCallNotesStatus,
 })(withStyles(useStyles)(PpgaCallNotes));

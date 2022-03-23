@@ -3,11 +3,8 @@ import { PROFILE_GAP_ANALYSIS } from "../Redux/Action";
 const initialState = {
   getgeneraldetails: [],
   getstatus: [],
-  getcommenthistory: [],
   updatestatus: [],
   updategeneraldetails: [],
-  ppgaCallNotes: [],
-  ppgaCall: [],
   testResults: [],
   testResults: [],
   getcvresult: [],
@@ -22,10 +19,12 @@ const initialState = {
   calculation: [],
   preview: [],
   reportStatus: [],
-  ppgaNotesStatus: false,
   getPgaList: null,
   loading: false,
-  // download : []
+  ppgaNotesStatus: null,
+  ppgaCallNotes: null,
+  commentHistory: null,
+  ppgaCallStatus: null,
 };
 
 export default (state = initialState, action) => {
@@ -45,10 +44,10 @@ export default (state = initialState, action) => {
         ...state,
         getstatus: action.payload,
       };
-    case PROFILE_GAP_ANALYSIS.getcommenthistory:
+    case PROFILE_GAP_ANALYSIS.getCommentHistory:
       return {
         ...state,
-        getcommenthistory: action.payload,
+        commentHistory: action.payload,
       };
     case PROFILE_GAP_ANALYSIS.updatestatus:
       return {
@@ -64,6 +63,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ppgaCallNotes: action.payload,
+        loading: action.loading,
       };
     case PROFILE_GAP_ANALYSIS.getTestResults:
       return {
@@ -74,7 +74,8 @@ export default (state = initialState, action) => {
     case PROFILE_GAP_ANALYSIS.updatePpgaCallNotes:
       return {
         ...state,
-        ppgaCall: action.payload,
+        ppgaCallStatus: action.payload,
+        loading: action.loading,
       };
 
     case PROFILE_GAP_ANALYSIS.getcvresult:
@@ -149,7 +150,7 @@ export default (state = initialState, action) => {
         ppgaNotesStatus: action.payload,
       };
     default:
-      return state;
+      break;
   }
   return state;
 };
