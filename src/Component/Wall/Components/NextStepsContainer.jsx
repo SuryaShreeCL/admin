@@ -13,7 +13,6 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
-import CheckCircle from '@material-ui/icons/CheckCircle';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { uploadPostTestStatusByStepId } from '../../../Actions/TestActions';
@@ -43,7 +42,7 @@ const useStyles = makeStyles({
   fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
-const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
+const NextStepsContainer = React.memo(({ values, setFieldValue, setNotify }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
@@ -70,9 +69,8 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
   };
 
   const handlePremiumUsersSheetUpload = async (e, stepId) => {
-    // if(formFieldsData?.premiumUsersCategories[0]?.name == "4th Year Premium"){
-    const file = e.currentTarget.files[0];
     const fileType = e.currentTarget.files[0].name;
+
     setStatusFileUploadDisabled(true);
     // File type must be sheet, .xlsx, .xls
     if (fileType.includes('.xlsx') || fileType.includes('.xls')) {
@@ -193,33 +191,34 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                     )}
                   </div>
                   <div>
-                    <Button
-                      variant='contained'
-                      component='label'
-                      disabled={statusFileUploadDisabled}
-                      style={{
-                        backgroundColor: '#fff',
-                        textTransform: 'none',
-                      }}
-                    >
-                      {
-                        <CloudUploadIcon
-                          fontSize='small'
-                          style={{
-                            color: 'green',
-                          }}
+                    {val?.id && (
+                      <Button
+                        variant='contained'
+                        component='label'
+                        disabled={statusFileUploadDisabled}
+                        style={{
+                          backgroundColor: '#fff',
+                          textTransform: 'none',
+                        }}
+                      >
+                        {
+                          <CloudUploadIcon
+                            fontSize='small'
+                            style={{
+                              color: 'green',
+                            }}
+                          />
+                        }
+                        &nbsp;&nbsp;&nbsp;
+                        {!statusFileUploadDisabled ? 'Upload Status File' : 'Uploading...'}
+                        <input
+                          hidden
+                          type='file'
+                          onChange={(e) => handlePremiumUsersSheetUpload(e, val.id, values)}
+                          onClick={(e) => (e.currentTarget = null)}
                         />
-                      }
-                      &nbsp;&nbsp;&nbsp;
-                      {!statusFileUploadDisabled ? 'Upload Status File' : 'Uploading...'}
-                      <input
-                        hidden
-                        type='file'
-                        onChange={(e) => handlePremiumUsersSheetUpload(e, index, values)}
-                        onClick={(e) => (e.currentTarget = null)}
-                      />
-                    </Button>
-
+                      </Button>
+                    )}
                     {!val?.form?.id ? (
                       <Controls.ActionButton
                         disabled={false}
@@ -231,25 +230,14 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                         <AddBoxIcon fontSize='small' color='primary' /> &nbsp; Add Form
                       </Controls.ActionButton>
                     ) : (
-                      <>
-                        <Controls.ActionButton>
-                          <CheckCircle
-                            fontSize='small'
-                            style={{
-                              color: 'green',
-                            }}
-                          />
-                          &nbsp; Form Created
-                        </Controls.ActionButton>
-                        <Controls.ActionButton
-                          onClick={() => {
-                            setFormPopIdx(index);
-                            setOpenPopup(true);
-                          }}
-                        >
-                          <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
-                        </Controls.ActionButton>
-                      </>
+                      <Controls.ActionButton
+                        onClick={() => {
+                          setFormPopIdx(index);
+                          setOpenPopup(true);
+                        }}
+                      >
+                        <EditOutlinedIcon fontSize='small' color='primary' /> &nbsp;Edit Form
+                      </Controls.ActionButton>
                     )}
                     <Controls.ActionButton
                       disabled={!val?.form?.id}
@@ -275,6 +263,7 @@ const NextStepsContainer = React.memo(({ values, setFieldValue }) => {
                       formIdx={index}
                       setFieldValue={setFieldValue}
                       setOpenPopup={setOpenPopup}
+                      setNotify={setNotify}
                     />
                   </Popup>
                 </div>

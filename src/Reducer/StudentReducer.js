@@ -43,6 +43,7 @@ const initialState = {
   AspirationCountry: [],
   AspirationCollege: [],
   AspirationSpecialization: [],
+  allIntakeList: null,
 };
 
 export default (state = initialState, action) => {
@@ -313,6 +314,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         AspirationSpecialization: action.AspirationSpecialization,
+      };
+    case STUDENT.getAllIntakeList:
+      return {
+        ...state,
+        allIntakeList: action.payload,
       };
     default:
       break;

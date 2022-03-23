@@ -1,29 +1,28 @@
-import React, { Component } from "react";
 import {
-  Divider,
-  Grid,
   Box,
-  Typography,
+  createTheme,
+  Grid,
+  IconButton,
   TextField,
-  createMuiTheme,
   ThemeProvider,
+  Typography,
 } from "@material-ui/core";
-import PrimaryButton from "../../Utils/PrimaryButton";
+import { AddCircleOutline, DeleteOutline } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import moment from "moment";
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
 import {
   getAllProductFamily,
   getProductByFamilyId,
-  updateProductPunching,
-  getpunchingdata,
-  postpunchingdata,
+  getPunchingData,
+  getReferProductVariantByProductId,
+  postPunchingData,
 } from "../../Actions/ProductAction";
-import { connect } from "react-redux";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
-import { createTheme } from "@material-ui/core";
+import { helperText, PROVIDERS } from "./Constant";
+
 const theme = createTheme({
   overrides: {
     MuiFormLabel: {
@@ -36,413 +35,572 @@ const theme = createTheme({
         maxHeight: "240px",
       },
     },
+    MuiIconButton: {
+      root: {
+        padding: "8px",
+        margin: "0px 5px 5px 0px",
+      },
+    },
   },
 });
 class ProductPunching extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       family: null,
-      varient: null,
+      product: null,
+      variant: null,
       familyErr: "",
-      varientErr: "",
-      id: "",
-      punching: [],
-      idarr: [],
+      productErr: "",
+      variantErr: "",
+      punching: null,
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      productVariantList: [],
     };
   }
 
   componentDidMount() {
     this.props.getAllProductFamily();
-    this.props.getpunchingdata(this.props.match.params.id);
+    this.props.getPunchingData(this.props.match.params.id);
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.family !== prevState.family) {
-      this.props.getProductByFamilyId(
-        this.state.family !== null ? this.state.family.id : ""
-      );
+    const { postPunchingStatus, match, productVariant } = this.props;
+    const { family, product } = this.state;
+
+    if (family !== prevState.family) {
+      this.setState({ product: null, variant: null });
+      if (family?.id) this.props.getProductByFamilyId(family?.id);
     }
+    if (product !== prevState.product) {
+      this.setState({ variant: null, productVariantList: [] });
+      if (product?.id)
+        this.props.getReferProductVariantByProductId(
+          product?.id,
+          match.params.id
+        );
+    }
+
     if (
-      this.props.updateProductPunchingList !==
-      prevProps.updateProductPunchingList
+      postPunchingStatus &&
+      postPunchingStatus !== prevProps.postPunchingStatus
     ) {
-      this.props.getpunchingdata(this.props.match.params.id);
-    }
-    if (this.props.postpunchingdataList !== prevProps.postpunchingdataList) {
-      this.props.getpunchingdata(this.props.match.params.id);
-    }
-  }
-  handleAdd = () => {
-    let hlptxt = " Please fill the required field";
-    this.state.varient === null
-      ? this.setState({ varientErr: hlptxt })
-      : this.setState({ varientErr: "" });
-    this.state.family === null
-      ? this.setState({ familyErr: hlptxt })
-      : this.setState({ familyErr: "" });
-    if (this.state.varient !== null) {
-      let arr = this.state.punching;
-      arr.push({
-        id: this.state.varient.id,
-        familyName: this.state.varient.productFamily.productName,
-        productVarient: this.state.varient.name,
-        varientSku: this.state.varient.variantSKU,
-        standalone: this.state.varient.standaloneSellable,
-        productPriceStandalone: this.state.varient.sellingPrice,
-        productPriceCombo: this.state.varient.costPrice,
-        productSku: this.state.varient.codeName,
-        validity: this.state.varient.validity,
-        endofservice: this.state.varient.endOfServiceDate,
-        // paymentProvider:
-        // paymentId :
-      });
-      this.setState({ punching: arr });
-    }
-  };
-
-  handleUpdate = () => {
-    let arr = [];
-    let req = [];
-    for (const [key, value] of Object.entries(this.state)) {
-      if (key.startsWith("pay")) {
-        let a = key.substring(key.lastIndexOf("_") + 1, key.length);
-        let obj = {
-          [key.substring(0, key.lastIndexOf("_"))]: value,
-          productId: a,
-        };
-        let payarr = arr.findIndex((item) => item.productId === obj.productId);
-
-        if (payarr !== -1) {
-          arr[payarr] = {
-            ...arr[payarr],
-            ...obj,
-          };
-        } else {
-          arr.push(obj);
-        }
-
-      }
-    }
-    console.log(req)
-    arr.map((data) =>
-      req.push({
-        paymentProvider: data.payment_provider,
-        paymentId: data.payment_id,
-        productId: data.productId,
-        mentor: window.sessionStorage.getItem("adminUserId"),
-        stage: "NotActivated",
-        punchedBy: window.sessionStorage.getItem("adminUserId"),
-      })
-    );
-
-
-    if (req.length !== 0 && req.length === this.state.punching.length) {
-      var throwError = false
-      req.map((eachObj,index)=>{
-        if(eachObj.paymentId === undefined || eachObj.paymentId.length ===0 || eachObj.paymentProvider === undefined || eachObj.paymentProvider.length ===0){
-          throwError = true
-        }
-      })
-      console.log(req)
-      if(!throwError){
-        let obj = {
-          studentId: this.props.match.params.id,
-          productPaymentModels: req,
-        };
-        this.props.updateProductPunching(obj);
-        let postdata = {
-          studentId: this.props.match.params.id,
-          productPaymentModels: req,
-        };
-        this.props.postpunchingdata(postdata);
-          this.setState({
-            snackMsg: "Updated Successfully",
-            snackOpen: true,
-            snackVariant: "success",
-          });
-      }else{
+      if (postPunchingStatus.success) {
         this.setState({
-          snackMsg: "Please fill the required fields",
+          snackMsg: "Updated Successfully",
+          snackOpen: true,
+          snackVariant: "success",
+          punching: null,
+          family: null,
+          product: null,
+          variant: null,
+        });
+        this.props.getPunchingData(match.params.id);
+      } else {
+        this.setState({
+          snackMsg: postPunchingStatus.message,
           snackOpen: true,
           snackVariant: "error",
         });
       }
-      
-    }else{
-      this.setState({
-        snackMsg: "Please fill the required fields",
-        snackOpen: true,
-        snackVariant: "error",
-      })
+    }
+    if (productVariant && productVariant !== prevProps.productVariant) {
+      if (productVariant.success) {
+        this.setState({
+          productVariantList: productVariant.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: productVariant.message,
+          snackOpen: true,
+          snackVariant: "error",
+          productVariantList: [],
+        });
+      }
+    }
+  }
+
+  handleAdd = () => {
+    const { variant, family, product } = this.state;
+
+    if (variant) this.setState({ variantErr: "" });
+    else this.setState({ variantErr: helperText });
+
+    if (family) this.setState({ familyErr: "" });
+    else this.setState({ familyErr: helperText });
+
+    if (product) this.setState({ productErr: "" });
+    else this.setState({ productErr: helperText });
+
+    if (family && variant && product) {
+      let serviceDate = variant.endOfServiceDate
+        ? moment(new Date(variant.endOfServiceDate)).format("DD-MM-YYYY")
+        : null;
+      let obj = {
+        id: variant.id,
+        familyName: variant.productFamily.productName,
+        productVariant: variant.name,
+        variantSku: variant.variant_SKU,
+        standalone: variant.standaloneSellable,
+        productPriceStandalone: variant.sellingPrice,
+        productPriceCombo: variant.costPrice,
+        productSku: variant.codeName,
+        validity: variant.validity,
+        endOfServiceDate: serviceDate,
+        paymentDetails: [
+          {
+            paymentId: null,
+            paymentProvider: null,
+            paymentIdErr: null,
+            paymentProviderErr: null,
+          },
+        ],
+      };
+      this.setState({ punching: obj });
+    }
+  };
+
+  handlePaymentAdd = () => {
+    const { punching } = this.state;
+    let paymentModel = {
+      paymentId: null,
+      paymentProvider: null,
+      paymentIdErr: null,
+      paymentProviderErr: null,
+    };
+    let arr = [...punching.paymentDetails];
+    arr.push(paymentModel);
+    let obj = {
+      ...punching,
+      paymentDetails: arr,
+    };
+    this.setState({ punching: obj });
+  };
+
+  handleRemovePayment = (e) => {
+    const { id } = e.currentTarget;
+    const { punching } = this.state;
+    let arr = [...punching.paymentDetails];
+    arr.splice(parseInt(id), 1);
+    let obj = {
+      ...punching,
+      paymentDetails: arr,
+    };
+    this.setState({ punching: obj });
+  };
+
+  getValidation = () => {
+    const { punching } = this.state;
+    let arr = punching.paymentDetails;
+    punching.paymentDetails.map(({ paymentId, paymentProvider }, index) => {
+      let paymentIdError = null;
+      let paymentProviderError = null;
+      if (!(paymentId && paymentId.trim().length !== 0))
+        paymentIdError = helperText;
+      if (!paymentProvider) paymentProviderError = helperText;
+      arr[index]["paymentIdErr"] = paymentIdError;
+      arr[index]["paymentProviderErr"] = paymentProviderError;
+    });
+    let obj = {
+      ...punching,
+      paymentDetails: arr,
+    };
+    let validArray = arr.filter(
+      ({ paymentIdErr, paymentProviderErr }) =>
+        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr)
+    );
+    this.setState({ punching: obj });
+    return arr.length === validArray.length;
+  };
+
+  handleUpdate = () => {
+    const { punching } = this.state;
+    const { match } = this.props;
+
+    if (punching && this.getValidation()) {
+      let paymentModel = punching.paymentDetails.map(
+        ({ paymentId, paymentProvider }) => ({ paymentId, paymentProvider })
+      );
+      let requestBody = {
+        studentId: match.params.id,
+        productPaymentModels: [
+          {
+            paymentDetailsModelList: paymentModel,
+            productId: punching.id,
+            mentor: window.sessionStorage.getItem("adminUserId"),
+            stage: "NotActivated",
+            punchedBy: window.sessionStorage.getItem("adminUserId"),
+          },
+        ],
+      };
+      this.props.postPunchingData(requestBody);
     }
   };
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { value, name, id } = e.target;
+    const { punching } = this.state;
+    let arr = punching.paymentDetails;
+    arr[id][name] = value;
+    arr[id][`${name}Err`] = null;
+    let obj = {
+      ...punching,
+      paymentDetails: arr,
+    };
+    this.setState({ punching: obj });
   };
-  providervalue = [
-    "Razorpay",
-    "Cheque",
-    "Cash Deposit",
-    "NEFT/RTGS",
-    "PDC",
-    "G-Pay/Phonepe",
-    "Online Transfer",
-    "Bajaj Finserv",
-    "POS",
-    "Cash",
-    "PinLabs",
-    "Propelled",
-    "Website",
-    "Loan2Grow",
-    "EarlySalary",
-    "Scholfe",
-  ];
-  render() {
-    return (
-      <div>
-        <ThemeProvider theme={theme}>
-          <Grid container spacing={2}>
-            <Grid item md={4}>
-              <Autocomplete
-                id="combo-box-demo"
-                options={this.props.getAllProductFamilyList}
-                getOptionLabel={(option) =>
-                  option.productName === "LMS"
-                    ? "Test Prep"
-                    : option.productName
-                }                onChange={(e, newValue) => this.setState({ family: newValue })}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select Product Family"
-                    variant="standard"
-                    error={this.state.familyErr.length > 0}
-                    helperText={this.state.familyErr}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item md={4}>
-              <Autocomplete
-                id="combo-box-demo"
-                options={this.props.getProductByFamilyIdList}
-                getOptionLabel={(option) => option.name}
-                onChange={(e, newValue) => this.setState({ varient: newValue })}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Select Product Variant"
-                    variant="standard"
-                    error={this.state.varientErr.length > 0}
-                    helperText={this.state.varientErr}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item md={4}>
-              <PrimaryButton
-                color={"primary"}
-                variant={"contained"}
-                onClick={() => this.handleAdd()}
-              >
-                Add
-              </PrimaryButton>
-            </Grid>
-          </Grid>
-          {this.props.getpunchingdataList.length !== 0 &&
-            this.props.getpunchingdataList.map((data, index) => (
+
+  renderProductText = (array) => {
+    let count = 1;
+    if (array && array.length !== 0) {
+      count = array.length + 1;
+    }
+    return `Product ${count}`;
+  };
+
+  renderPayment = () => {
+    const { punching } = this.state;
+    if (
+      punching &&
+      punching.paymentDetails &&
+      punching.paymentDetails.length !== 0
+    ) {
+      return punching.paymentDetails.map(
+        (
+          { paymentId, paymentProvider, paymentIdErr, paymentProviderErr },
+          index
+        ) => {
+          let isDeleteOption = punching.paymentDetails.length - 1 !== 0;
+          let isAddOption = punching.paymentDetails.length - 1 === index;
+          return (
+            <Fragment key={`paymentDetails${index}`}>
+              <Grid item xs={12} lg={12} key={index}>
+                <Grid container spacing={2} alignItems={"center"}>
+                  <Grid item xs={12} sm={4}>
+                    <Autocomplete
+                      id={`provider-combo-box-${index}`}
+                      key={`provider-combo-box-${index}`}
+                      options={PROVIDERS}
+                      getOptionLabel={(option) => option}
+                      value={paymentProvider}
+                      onChange={(e, newVal) =>
+                        this.handleChange({
+                          target: {
+                            id: index,
+                            name: "paymentProvider",
+                            value: newVal,
+                          },
+                        })
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          key={`paymentMode${index}`}
+                          label={"Payment Mode"}
+                          variant={"standard"}
+                          error={Boolean(paymentProviderErr)}
+                          helperText={paymentProviderErr || " "}
+                        />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4}>
+                    <TextField
+                      id={index}
+                      key={`paymentId${index}`}
+                      label={"Payment ID"}
+                      name={"paymentId"}
+                      value={paymentId || ""}
+                      onChange={this.handleChange}
+                      error={Boolean(paymentIdErr)}
+                      helperText={paymentIdErr || " "}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs>
+                    {isDeleteOption && (
+                      <IconButton id={index} onClick={this.handleRemovePayment}>
+                        <DeleteOutline color={"secondary"} />
+                      </IconButton>
+                    )}
+                    {isAddOption && (
+                      <IconButton id={index} onClick={this.handlePaymentAdd}>
+                        <AddCircleOutline color={"primary"} />
+                      </IconButton>
+                    )}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Fragment>
+          );
+        }
+      );
+    } else return null;
+  };
+
+  renderPunchedList = () => {
+    const { getPunchingDataList } = this.props;
+    let punchedList = getPunchingDataList
+      ? [...getPunchingDataList].reverse()
+      : [];
+    return punchedList.length !== 0
+      ? punchedList.map(
+          ({ products, studentId, paymentDetailsModelList }, index) => (
+            <Fragment key={`punchedList${index}`}>
               <Grid container spacing={2}>
                 <Grid item md={12}>
                   <Typography style={{ fontWeight: "bold" }}>
-                    Product
+                    {`Product ${index + 1}`}
                   </Typography>
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    label='Student ID'
+                    value={studentId}
                     disabled
-                    label="Student ID"
-                    value={data.studentId}
                     fullWidth
                   />
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    label='Product Name'
+                    value={products.name}
                     disabled
                     fullWidth
-                    label="Product Name"
-                    value={data.products.name}
                   />
                 </Grid>
-                <Grid item md={6}>
-                  <TextField
-                    disabled
-                    fullWidth
-                    label="Payment ID"
-                    // name={"payment_id_" + data.id}
-                    onChange={(e) => this.handleChange(e)}
-                    value={data.paymentId}
-                  />
-                </Grid>
-                <Grid item md={6}>
-                  <TextField
-                    disabled
-                    fullWidth
-                    label="Payment Provider"
-                    // name={"payment_provider_" + data.id}
-                    onChange={(e) => this.handleChange(e)}
-                    value={data.paymentProvider}
-                  />
-                </Grid>
+                {paymentDetailsModelList &&
+                  paymentDetailsModelList.length !== 0 &&
+                  paymentDetailsModelList.map(
+                    ({ id, paymentProvider, paymentId }, index) => (
+                      <Fragment key={`paymentDetailsModelList${index}`}>
+                        <Grid item md={6}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Payment ID'
+                            name={"paymentId"}
+                            value={paymentId}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item md={6}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Payment Provider'
+                            name={"paymentProvider"}
+                            value={paymentProvider}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                      </Fragment>
+                    )
+                  )}
+                <Grid item md={12}></Grid>
               </Grid>
-            ))}
-          {this.state.punching.map((data, index) => {
-            let servicedate = new Date(data.endofservice).getDate();
-            let servicemonth = new Date(data.endofservice).getMonth();
-            let serviceyear = new Date(data.endofservice).getFullYear();
-            let endofservicedate = data.endofservice ?
-              servicedate + "-" + servicemonth + "-" + serviceyear : ""
-            return (
-              <Grid container spacing={2}>
-                <Grid item md={12}>
-                  <Box pt={3}>
-                    {/* <div style={{display:"flex"}}> */}
-                    <Typography
-                      variant={"h6"}
-                      style={{ color: "#1093FF", fontWeight: "bold" }}
-                    >
-                      Product {index + 1}
-                    </Typography>
-                    {/* <Typography
-                    // variant={"h6"}
-                    style={{ color: "red", fontWeight: "bold",margin:"7px" }}
+            </Fragment>
+          )
+        )
+      : null;
+  };
+
+  handleDropdownValueChange = (value, name) => {
+    this.setState({ [name]: value, [`${name}Err`]: "" });
+  };
+
+  render() {
+    const {
+      family,
+      familyErr,
+      variant,
+      variantErr,
+      punching,
+      productVariantList,
+      product,
+      productErr,
+    } = this.state;
+    const {
+      getAllProductFamilyList,
+      getProductByFamilyIdList,
+      getPunchingDataList,
+    } = this.props;
+    return (
+      <Box padding={"15px 0px !important"}>
+        <ThemeProvider theme={theme}>
+          <Grid container spacing={2}>
+            <Grid item md={3}>
+              <Autocomplete
+                id={"combo-box-product-family"}
+                options={getAllProductFamilyList || []}
+                getOptionLabel={(option) =>
+                  option.productDisplayName || option.productName
+                }
+                value={family}
+                onChange={(e, newValue) =>
+                  this.handleDropdownValueChange(newValue, "family")
+                }
+                disabled={Boolean(punching)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Select Product Family"}
+                    variant={"standard"}
+                    error={familyErr.length > 0}
+                    helperText={familyErr || " "}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md={3}>
+              <Autocomplete
+                id={"combo-box-product"}
+                options={(getProductByFamilyIdList || []).filter(
+                  ({ isProduct }) => isProduct
+                )}
+                getOptionLabel={(option) => option.name}
+                onChange={(e, newValue) =>
+                  this.handleDropdownValueChange(newValue, "product")
+                }
+                value={product}
+                disabled={!Boolean(family) || Boolean(punching)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Select Product"}
+                    variant={"standard"}
+                    error={productErr.length > 0}
+                    helperText={productErr || " "}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md={3}>
+              <Autocomplete
+                id={"combo-box-variant"}
+                options={productVariantList}
+                getOptionLabel={(option) => option.name}
+                getOptionDisabled={(option) => option.isPunched}
+                onChange={(e, newValue) =>
+                  this.handleDropdownValueChange(newValue, "variant")
+                }
+                value={variant}
+                disabled={!Boolean(product) || Boolean(punching)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Select Product Variant"}
+                    variant={"standard"}
+                    error={variantErr.length > 0}
+                    helperText={variantErr || " "}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item md={3}>
+              <PrimaryButton
+                disabled={Boolean(punching)}
+                color={"primary"}
+                variant={"contained"}
+                onClick={() => this.handleAdd()}
+              >
+                {"Add"}
+              </PrimaryButton>
+            </Grid>
+          </Grid>
+          {this.renderPunchedList()}
+          {punching && (
+            <Grid container spacing={2}>
+              <Grid item md={12}>
+                <Box pt={1}>
+                  <Typography
+                    variant={"h6"}
+                    style={{ color: "#1093FF", fontWeight: "bold" }}
                   >
-                    Delete
-                  </Typography> */}
-                    {/* </div> */}
-                  </Box>
-                </Grid>
-                <Grid item md={2}>
-                  <TextField
-                    disabled
-                    label="Product Family"
-                    value={data.familyName}
-                  />
-                </Grid>
-                <Grid item md={2}>
-                  <TextField
-                    disabled
-                    label="Product Varient"
-                    value={data.productVarient}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="Varient SKU (Standalone)"
-                    value={data.varientSku}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="Standalone Sellable?"
-                    value={data.standalone}
-                  />
-                </Grid>
-                <Grid item md={2}>
-                  <TextField
-                    disabled
-                    label="Product Pricing (Standane)"
-                    value={data.productPriceStandalone}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="Product Pricing (Combo)"
-                    value={data.productPriceCombo}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="Product SKU (Combo)"
-                    value={data.productSku}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="Product Validity"
-                    value={data.validity}
-                  />
-                </Grid>
-                <Grid item md={3}>
-                  <TextField
-                    disabled
-                    label="End of Service"
-                    value={endofservicedate}
-                  />
-                </Grid>
-                <Grid item md={4}>
-                  <ThemeProvider theme={theme}>
-                    <FormControl style={{ width: "100%" }}>
-                      <InputLabel id="demo-simple-select-label">
-                        Payment Mode
-                      </InputLabel>
-                      <Select
-                        style={{ minHeight: "20px" }}
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        // value={age}
-                        name={"payment_provider_" + data.id}
-                        onChange={(e) => this.handleChange(e)}
-                      >
-                        {this.providervalue.map((data) => (
-                          <MenuItem key={data} value={data}>
-                            {data}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </ThemeProvider>
-                </Grid>
-                <Grid item md={4}>
-                  <TextField
-                    // disabled
-                    label="Payment ID"
-                    name={"payment_id_" + data.id}
-                    // type="number"
-                    // value={this.state.payment_id}
-                    onChange={(e) => this.handleChange(e)}
-                  />
-                </Grid>
-                <Grid item md={2}></Grid>
+                    {this.renderProductText(getPunchingDataList)}
+                  </Typography>
+                </Box>
               </Grid>
-            );
-          })}
-          <Grid
-            item
-            md={12}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Box pt={3}>
-              {this.state.punching.length > 0 && (
+              <Grid item md={2}>
+                <TextField
+                  disabled
+                  label='Product Family'
+                  value={punching.familyName}
+                />
+              </Grid>
+              <Grid item md={2}>
+                <TextField
+                  disabled
+                  label='Product Variant'
+                  value={punching.productVariant}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='Variant SKU (Standalone)'
+                  value={punching.variantSku}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='Standalone Sellable?'
+                  value={punching.standalone}
+                />
+              </Grid>
+              <Grid item md={2}>
+                <TextField
+                  disabled
+                  label='Product Pricing (Standalone)'
+                  value={punching.productPriceStandalone}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='Product Pricing (Combo)'
+                  value={punching.productPriceCombo}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='Product SKU (Combo)'
+                  value={punching.productSku}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='Product Validity'
+                  value={punching.validity}
+                />
+              </Grid>
+              <Grid item md={3}>
+                <TextField
+                  disabled
+                  label='End of Service'
+                  value={punching.endOfServiceDate}
+                />
+              </Grid>
+              {this.renderPayment()}
+            </Grid>
+          )}
+
+          <Grid item md={12}>
+            <Box pt={3} textAlign={"center"}>
+              {punching && (
                 <PrimaryButton
                   color={"primary"}
                   variant={"contained"}
                   onClick={() => this.handleUpdate()}
                 >
-                  Update Details
+                  {"Update Details"}
                 </PrimaryButton>
               )}
             </Box>
@@ -454,25 +612,25 @@ class ProductPunching extends Component {
             onClose={() => this.setState({ snackOpen: false })}
           />
         </ThemeProvider>
-      </div>
+      </Box>
     );
   }
 }
 
-const mapStateToprops = (state) => {
+const mapStateToProps = (state) => {
   return {
     getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
     getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
-    updateProductPunchingList: state.ProductReducer.updateProductPunching,
-    getpunchingdataList: state.ProductReducer.getpunchingdata,
-    postpunchingdataList: state.ProductReducer.postpunchingdata,
+    getPunchingDataList: state.ProductReducer.getPunchingData,
+    postPunchingStatus: state.ProductReducer.postPunchingStatus,
+    productVariant: state.ProductReducer.productVariant,
   };
 };
 
-export default connect(mapStateToprops, {
+export default connect(mapStateToProps, {
   getAllProductFamily,
   getProductByFamilyId,
-  updateProductPunching,
-  getpunchingdata,
-  postpunchingdata,
+  getPunchingData,
+  postPunchingData,
+  getReferProductVariantByProductId,
 })(ProductPunching);

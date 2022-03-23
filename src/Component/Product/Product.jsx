@@ -73,9 +73,9 @@ class Product extends Component {
       newFamilynameErr: "",
       tableColumns: [
         { field: "id", hide: true },
-        { field: "codeName", headerName: "Product SKU", width: 140 },
+        { field: "codeDisplayName", headerName: "Product SKU", width: 140 },
         {
-          field: "productName",
+          field: "productDisplayName",
           headerName: "Product Family Name",
           width: 150,
         },
@@ -95,9 +95,9 @@ class Product extends Component {
                 this.setState({
                   show: true,
                   id: params.row.id,
-                  codeName: params.row.codeName,
+                  codeName: params.row.codeDisplayName,
                   // shortName:thisRow.shortName,
-                  productName: params.row.productName,
+                  productName: params.row.productDisplayName,
                   createdby: params.row.createdBy,
                   createdon: params.row.dateOfCreation,
                   updatedby: params.row.updatedBy,

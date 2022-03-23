@@ -1,6 +1,7 @@
+import axios from "axios";
+import { errorHandler } from "../Component/Utils/Helpers";
 import { PROFILE_GAP_ANALYSIS } from "../Redux/Action";
 import { URL } from "./URL";
-import axios from "axios";
 
 export const getgeneraldetails = (studentId, productId, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
@@ -399,37 +400,37 @@ export const getdashboarddetails = (studentId, productId, callback) => {
   };
 };
 
-export const getpgalist = (productId, data, callback) => {
+export const getPgaList = (productId, size, page, intake, keyword) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
-  let adminuserId = window.sessionStorage.getItem("adminUserId");
+  let adminUserId = window.sessionStorage.getItem("adminUserId");
   return (dispatch) => {
+    dispatch({ type: PROFILE_GAP_ANALYSIS.loader });
     axios
       .get(
-        URL +
-          "/api/v1/pga/product/" +
-          productId +
-          "/admin/" +
-          adminuserId +
-          "/searchbystage?stage=PGA&page=0&size=20&q=" +
-          data,
+        `${URL}/api/v1/pga/product/${productId}/admin/${adminUserId}/searchbystage`,
         {
           crossDomain: true,
           headers: {
             Authorization: `Bearer ${accessToken}`,
             admin: "yes",
           },
+          params: {
+            stage: "PGA",
+            size: size,
+            page: page,
+            intake: intake ? intake : "",
+            q: keyword ? keyword : "",
+          },
         }
       )
       .then((result) => {
-        callback(result);
         dispatch({
-          type: PROFILE_GAP_ANALYSIS.getpgalist,
-          payload: result.data,
+          type: PROFILE_GAP_ANALYSIS.getPgaList,
+          payload: { success: true, data: result.data, loading: false },
         });
       })
       .catch((error) => {
-        callback(error);
-        console.log(error);
+        dispatch(errorHandler(PROFILE_GAP_ANALYSIS.getPgaList, error, false));
       });
   };
 };

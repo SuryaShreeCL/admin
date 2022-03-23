@@ -1,4 +1,11 @@
-FROM nginx:alpine as production
+FROM registry.access.redhat.com/ubi8/nginx-120 as production
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY build/ /usr/share/nginx/html/
+USER 0
+RUN dnf -y update && dnf clean all
+USER 1001
+
+ADD nginx.conf "${NGINX_CONFIGURATION_PATH}"
+ADD build/ /usr/share/nginx/html
+
+CMD [ "nginx", "-g", "daemon off;" ]
+
