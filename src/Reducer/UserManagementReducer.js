@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
     case USERMANAGEMENT.editAdmin:
       return {
         ...state,
-        editAdmin: action.editAdmin,
+        editAdmin: action.payload,
       };
     default:
       break;

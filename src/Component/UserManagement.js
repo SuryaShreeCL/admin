@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Autocomplete } from "@material-ui/lab";
+import { Link } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -31,6 +32,7 @@ import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
+import MySnackBar from "./MySnackBar";
 export class UserManagement extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +47,7 @@ export class UserManagement extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
+      passwordEnable: true,
     };
   }
   // Component Theme
@@ -142,7 +145,7 @@ export class UserManagement extends Component {
   rowClick = (rowData) => {};
   // Pagination
   paginate = (page, size, keyword) => {
-    this.props.viewTerm(page, size, keyword);
+    this.props.getUserDetails(page, size, keyword);
   };
   // Edit Handler
   handleEdit = (data) => {
@@ -150,6 +153,7 @@ export class UserManagement extends Component {
     this.setState({
       id: data.id,
       username: data.username,
+      department: data.departments,
       password: null,
       show: true,
     });
@@ -159,7 +163,9 @@ export class UserManagement extends Component {
     this.setState({
       show: true,
       id: "",
-      name: "",
+      username: "",
+      password: "",
+      department: [],
     });
   };
   deleteHandler = (data) => {
@@ -168,21 +174,32 @@ export class UserManagement extends Component {
   componentDidMount() {
     this.props.getUserDepartment();
     this.props.getUserDetails();
+    this.props.getUserDetails(0, 20, null);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.AdminList !== prevProps.AdminList) {
-      console.log(this.props.AdminList, prevProps.AdminList);
+      // console.log(this.props.AdminList, prevProps.AdminList);
       this.props.getUserDetails();
+      this.setState({
+        snackMsg: "Saved sucessfully",
+        snackOpen: true,
+        snackVariant: "success",
+      });
     }
   }
 
   handleSave = () => {
     let reqBody = {
-      Id: null, // if updating the user details mean pass the id
+      Id: this.state.id, // if updating the user details mean pass the id
       username: this.state.username,
       password: this.state.password,
       userDetails: this.state.department,
     };
+    this.setState({
+      snackMsg: "Update sucessfully",
+      snackOpen: true,
+      snackVariant: "success",
+    });
     this.props.editAdmin(reqBody);
     console.log(reqBody);
   };
@@ -203,6 +220,8 @@ export class UserManagement extends Component {
                       : null
                   }
                   cols={this.col}
+                  onSearch={this.paginate}
+                  paginate={this.paginate}
                   onDelete={true}
                   onDeleteClick={this.deleteHandler}
                   title={"User Management"}
@@ -258,7 +277,7 @@ export class UserManagement extends Component {
                 </div>
               </DialogTitle>
               <DialogContent>
-                <Grid container spacing={2}>
+                <Grid container spacing={3}>
                   <Grid item md={12}>
                     <TextField
                       variant="outlined"
@@ -276,6 +295,7 @@ export class UserManagement extends Component {
                   </Grid>
                   <Grid item md={12}>
                     <TextField
+                      disabled={this.state.passwordEnable}
                       variant="outlined"
                       color="primary"
                       label="Enter Password"
@@ -285,6 +305,16 @@ export class UserManagement extends Component {
                       }
                       fullWidth
                     />
+                    <Link
+                      href="#"
+                      onClick={() =>
+                        this.setState({
+                          passwordEnable: !this.state.passwordEnable,
+                        })
+                      }
+                    >
+                      Edit Password
+                    </Link>
                   </Grid>
                   <Grid md={12}>
                     <Autocomplete
@@ -321,6 +351,12 @@ export class UserManagement extends Component {
               </DialogActions>
             </Dialog>
           </ThemeProvider>
+          <MySnackBar
+            snackMsg={this.state.snackMsg}
+            snackVariant={this.state.snackVariant}
+            snackOpen={this.state.snackOpen}
+            onClose={() => this.setState({ snackOpen: false })}
+          />
         </ThemeProvider>
       </div>
     );
