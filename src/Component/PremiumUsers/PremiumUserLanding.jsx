@@ -71,7 +71,9 @@ const PremiumUserLanding = () => {
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const handlePremiumUsersSheetUpload = async (e, formFieldsData) => {
+    console.log('first');
     if (formFieldsData?.premiumUsersCategories[0]?.name == '4th Year Premium') {
+      console.log('2');
       const file = e.currentTarget.files[0];
       const fileType = e.currentTarget.files[0].name;
       setUploadDisabled(true);
