@@ -168,9 +168,9 @@ export class UserManagement extends Component {
       department: [],
     });
   };
-  deleteHandler = (data) => {
-    // this.props.deleteTerm(data.id);
-  };
+  // deleteHandler = (data) => {
+  //   // this.props.deleteTerm(data.id);
+  // };
   componentDidMount() {
     this.props.getUserDepartment();
     this.props.getUserDetails();
@@ -222,8 +222,8 @@ export class UserManagement extends Component {
                   cols={this.col}
                   onSearch={this.paginate}
                   paginate={this.paginate}
-                  onDelete={true}
-                  onDeleteClick={this.deleteHandler}
+                  onDelete={false}
+                  // onDeleteClick={this.deleteHandler}
                   title={"User Management"}
                   action={true}
                   onEdit={true}
