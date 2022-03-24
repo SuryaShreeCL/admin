@@ -52,19 +52,18 @@ export const getUserDetails = () => {
   };
 };
 
-export const editAdmin = (callback) => {
+export const editAdmin = (data) => {
   return (dispatch) => {
     let accessToken = window.sessionStorage.getItem("accessToken");
 
     axios
-      .post(URL + "/api/v1/user", {
+      .post(URL + "/api/v1/user", data, {
         headers: {
           admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((result) => {
-        callback(result);
         dispatch({
           type: USERMANAGEMENT.editAdmin,
           payload: result.data,

@@ -24,7 +24,7 @@ import {
   getUserDetails,
   editAdmin,
 } from "../Actions/UserManagement";
-
+import { isEmptyString } from "../Component/Validation";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
@@ -169,62 +169,27 @@ export class UserManagement extends Component {
     this.props.getUserDepartment();
     this.props.getUserDetails();
   }
-  //   componentDidUpdate(prevProps, prevState) {
-  //     if (
-  //       this.props.addTermList !== prevProps.addTermList ||
-  //       this.props.updateTermList !== prevProps.updateTermList
-  //     ) {
-  //       this.props.viewTerm(0, 20, null);
-  //     }
-  //   }
-  //   // Add term
-  // //   addTerm() {
-  //     // this.setState({ show: false });
-  //     let hlptxt = "please fill the required field";
-  //     isEmptyString(this.state.name)
-  //       ? this.setState({ nameErr: hlptxt })
-  //       : this.setState({ nameErr: "" });
-  //     let newTermObj = {
-  //       name: this.state.name,
-  //     };
-  //     if (this.state.name.length !== 0) {
-  //       this.props.addTerm(newTermObj);
-  //       this.setState({
-  //         id: "",
-  //         name: "",
-  //         snackMsg: "Added Successfully",
-  //         snackOpen: true,
-  //         snackVariant: "success",
-  //       });
-  //     }
-  //     this.props.viewTerm(0, 20, null);
-  //   }
-  //   // Update Term
-  //   updateTerm() {
-  //     // this.setState({ show: false });
-  //     let hlptxt = "please fill the required field";
-  //     isEmptyString(this.state.name)
-  //       ? this.setState({ nameErr: hlptxt })
-  //       : this.setState({ nameErr: "" });
-  //     let newTermObj = {
-  //       id: this.state.id,
-  //       name: this.state.name,
-  //     };
-  //     if (this.state.name.length !== 0) {
-  //       this.props.updateTerm(newTermObj);
-  //       this.setState({
-  //         id: "",
-  //         name: "",
-  //         update: true,
-  //         snackMsg: "Updated Successfully",
-  //         snackOpen: true,
-  //         snackVariant: "success",
-  //       });
-  //     }
-  //     this.props.viewTerm(0, 20, null);
-  //   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.AdminList !== prevProps.AdminList) {
+      console.log(this.props.AdminList, prevProps.AdminList);
+      this.props.getUserDetails();
+    }
+  }
+
+  handleSave = () => {
+    let reqBody = {
+      Id: null, // if updating the user details mean pass the id
+      username: this.state.username,
+      password: this.state.password,
+      userDetails: this.state.department,
+    };
+    this.props.editAdmin(reqBody);
+    console.log(reqBody);
+  };
+
   render() {
     console.log(this.state, "++++++++++++++++");
+    console.log(this.props.AdminList);
     return (
       <div>
         <ThemeProvider>
@@ -240,7 +205,7 @@ export class UserManagement extends Component {
                   cols={this.col}
                   onDelete={true}
                   onDeleteClick={this.deleteHandler}
-                  title={""}
+                  title={"User Management"}
                   action={true}
                   onEdit={true}
                   onEditClick={this.handleEdit}
@@ -303,7 +268,9 @@ export class UserManagement extends Component {
                       error={this.state.usernameErr.length > 0}
                       helperText={this.state.usernameErr}
                       value={this.state.username}
-                      onChange={(e) => this.setState({ name: e.target.value })}
+                      onChange={(e) =>
+                        this.setState({ username: e.target.value })
+                      }
                       multiline
                     />
                   </Grid>
@@ -312,6 +279,10 @@ export class UserManagement extends Component {
                       variant="outlined"
                       color="primary"
                       label="Enter Password"
+                      value={this.state.password}
+                      onChange={(e) =>
+                        this.setState({ password: e.target.value })
+                      }
                       fullWidth
                     />
                   </Grid>
@@ -340,11 +311,7 @@ export class UserManagement extends Component {
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={
-                    this.state.id.length === 0
-                      ? this.addTerm.bind(this)
-                      : this.updateTerm.bind(this)
-                  }
+                  onClick={this.handleSave}
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}
@@ -367,6 +334,7 @@ const mapStateToProps = (state) => {
   return {
     getList: state.UserManagementReducer.getUserDetails,
     departmentList: state.UserManagementReducer.getUserDepartment,
+    AdminList: state.UserManagementReducer.editAdmin,
   };
 };
 export default connect(mapStateToProps, {
