@@ -1,4 +1,4 @@
-import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from "@date-io/date-fns";
 import {
   Accordion,
   AccordionDetails,
@@ -10,59 +10,59 @@ import {
   TextField,
   ThemeProvider,
   withStyles,
-} from '@material-ui/core';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import { ExpandMore } from '@material-ui/icons';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import DoccumentCard from '../Utils/DoccumentCard';
+} from "@material-ui/core";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import { ExpandMore } from "@material-ui/icons";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import DoccumentCard from "../Utils/DoccumentCard";
 import {
   viewStudentStatus,
   updateVerificationStatus,
-} from '../../Actions/AdminAction';
-import Status from '../Utils/Status';
-import { SECTION } from '../../Constant/Variables';
-import Model from '../Utils/SectionModel';
+} from "../../Actions/AdminAction";
+import Status from "../Utils/Status";
+import { SECTION } from "../../Constant/Variables";
+import Model from "../Utils/SectionModel";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+} from "@material-ui/pickers";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   getAllColleges,
   getBranches,
   getDegree,
   getPGDegree,
   getUniversity,
-} from '../../Actions/College';
+} from "../../Actions/College";
 import {
   getAcademicInfo,
   updateAcademicInfo,
   getStudentsById,
   sscexamboard,
   getDocumentList,
-} from '../../Actions/Student';
-import { getVariantStepsById } from '../../Actions/ProductAction';
-import Pencil from '../../Asset/Images/pencil.png';
-import Warning from '../../Asset/Images/warningImg.png';
-import PrimaryButton from '../../Utils/PrimaryButton';
-import { URL } from '../../Actions/URL';
-import MySnackBar from '../MySnackBar';
-import { ErrorMessage, isNumber } from '../Validation';
-import * as moment from 'moment';
+} from "../../Actions/Student";
+import { getVariantStepsById } from "../../Actions/ProductAction";
+import Pencil from "../../Asset/Images/pencil.png";
+import Warning from "../../Asset/Images/warningImg.png";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import { URL } from "../../Actions/URL";
+import MySnackBar from "../MySnackBar";
+import { ErrorMessage, isNumber } from "../Validation";
+import * as moment from "moment";
 
 const theme = createMuiTheme({
   overrides: {
     MuiIconButton: {
       root: {
-        color: '#1093FF',
+        color: "#1093FF",
       },
     },
     MuiFormHelperText: {
       root: {
-        color: 'red',
+        color: "red",
       },
     },
   },
@@ -72,101 +72,101 @@ export class academicInfo extends Component {
     super(props);
 
     this.state = {
-      snackMsg: '',
+      snackMsg: "",
       snackOpen: false,
-      snackVariant: '',
-      expanded: 'panel1',
+      snackVariant: "",
+      expanded: "panel1",
       open: false,
-      ugCollege: '',
-      ugCollegeErr: '',
-      ugUniversity: '',
-      ugUniversityErr: '',
-      ugDepartment: '',
-      ugDepartmentErr: '',
-      ugDegree: '',
-      ugDegreeErr: '',
-      ugSemester: '',
-      ugSemesterErr: '',
-      ugCgpaScale: '',
-      ugCgpaScaleErr: '',
+      ugCollege: "",
+      ugCollegeErr: "",
+      ugUniversity: "",
+      ugUniversityErr: "",
+      ugDepartment: "",
+      ugDepartmentErr: "",
+      ugDegree: "",
+      ugDegreeErr: "",
+      ugSemester: "",
+      ugSemesterErr: "",
+      ugCgpaScale: "",
+      ugCgpaScaleErr: "",
       ugStartDate: null,
-      ugStartDateErr: '',
+      ugStartDateErr: "",
       ugEndDate: null,
-      ugEndDateErr: '',
-      ugCgpaErr: '',
-      ugCgpa: '',
+      ugEndDateErr: "",
+      ugCgpaErr: "",
+      ugCgpa: "",
 
-      pgCollege: '',
-      pgCollegeErr: '',
-      pgUniversity: '',
-      pgUniversityErr: '',
-      pgDepartment: '',
-      pgDepartmentErr: '',
-      pgDegree: '',
-      pgDegreeErr: '',
-      pgSemester: '',
-      pgSemesterErr: '',
-      pgYear: '',
-      pgYearErr: '',
+      pgCollege: "",
+      pgCollegeErr: "",
+      pgUniversity: "",
+      pgUniversityErr: "",
+      pgDepartment: "",
+      pgDepartmentErr: "",
+      pgDegree: "",
+      pgDegreeErr: "",
+      pgSemester: "",
+      pgSemesterErr: "",
+      pgYear: "",
+      pgYearErr: "",
       pgStartDate: null,
-      pgStartDateErr: '',
+      pgStartDateErr: "",
       pgEndDate: null,
-      pgEndDateErr: '',
-      pgCgpa: '',
-      pgCgpaErr: '',
-      pgCgpaScale: '',
-      pgCgpaScaleErr: '',
+      pgEndDateErr: "",
+      pgCgpa: "",
+      pgCgpaErr: "",
+      pgCgpaScale: "",
+      pgCgpaScaleErr: "",
 
-      diplomaCollege: '',
-      diplomaCollegeErr: '',
-      diplomoUniversity: '',
-      diplomoUniversityErr: '',
-      diplomoDepartment: '',
-      diplomoDepartmentErr: '',
-      diplomoDegree: '',
-      diplomoDegreeErr: '',
+      diplomaCollege: "",
+      diplomaCollegeErr: "",
+      diplomoUniversity: "",
+      diplomoUniversityErr: "",
+      diplomoDepartment: "",
+      diplomoDepartmentErr: "",
+      diplomoDegree: "",
+      diplomoDegreeErr: "",
       diplomoEndDate: null,
-      diplomoEndDateErr: '',
+      diplomoEndDateErr: "",
       diplomostartDate: null,
-      diplomostartDateErr: '',
-      diplomoCgpaScale: '',
-      diplomoCgpaScaleErr: '',
-      diplomoCgpa: '',
-      diplomoCgpaErr: '',
+      diplomostartDateErr: "",
+      diplomoCgpaScale: "",
+      diplomoCgpaScaleErr: "",
+      diplomoCgpa: "",
+      diplomoCgpaErr: "",
 
-      tenthSchool: '',
-      tenthSchoolErr: '',
-      tenthExamBoard: '',
-      tenthExamBoardErr: '',
-      tenthType: '',
-      tenthTypeErr: '',
+      tenthSchool: "",
+      tenthSchoolErr: "",
+      tenthExamBoard: "",
+      tenthExamBoardErr: "",
+      tenthType: "",
+      tenthTypeErr: "",
       tenthStartDate: null,
-      tenthStartDateErr: '',
+      tenthStartDateErr: "",
       tenthEndDate: null,
-      tenthEndDateErr: '',
-      tenthCgpa: '',
-      tenthCgpaErr: '',
-      tenthCgpaScaleErr: '',
-      tenthCgpaScale: '',
+      tenthEndDateErr: "",
+      tenthCgpa: "",
+      tenthCgpaErr: "",
+      tenthCgpaScaleErr: "",
+      tenthCgpaScale: "",
 
-      twelthSchool: '',
-      twelthSchoolErr: '',
-      twelthExamBoard: '',
-      twelthExamBoardErr: '',
-      twelthType: '',
-      twelthTypeErr: '',
+      twelthSchool: "",
+      twelthSchoolErr: "",
+      twelthExamBoard: "",
+      twelthExamBoardErr: "",
+      twelthType: "",
+      twelthTypeErr: "",
       twelthStartDate: null,
-      twelthStartDateErr: '',
+      twelthStartDateErr: "",
       twelthEndDate: null,
-      twelthEndDateErr: '',
-      twelthCgpa: '',
-      twelthCgpaErr: '',
-      twelthCgpaScaleErr: '',
-      twelthCgpaScale: '',
+      twelthEndDateErr: "",
+      twelthCgpa: "",
+      twelthCgpaErr: "",
+      twelthCgpaScaleErr: "",
+      twelthCgpaScale: "",
       sectionStatus: {
         model: false,
         data: null,
-        sectionName: '',
+        sectionName: "",
       },
       documentedit: true,
     };
@@ -195,8 +195,8 @@ export class academicInfo extends Component {
     ) {
       const { scoreScale } = this.props.getAcademicInfoList;
       let ugDetails = null;
-      this.props.getAcademicInfoList.map(data => {
-        if (data.type === 'ug') {
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "ug") {
           ugDetails = data;
         }
       });
@@ -215,8 +215,8 @@ export class academicInfo extends Component {
         });
       }
       let pgDetails = null;
-      this.props.getAcademicInfoList.map(data => {
-        if (data.type === 'pg') {
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "pg") {
           pgDetails = data;
         }
       });
@@ -234,8 +234,8 @@ export class academicInfo extends Component {
         });
       }
       let diplomaDetails = null;
-      this.props.getAcademicInfoList.map(data => {
-        if (data.type === 'diploma') {
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "diploma") {
           diplomaDetails = data;
         }
       });
@@ -258,8 +258,8 @@ export class academicInfo extends Component {
         });
       }
       let tenthDetails = null;
-      this.props.getAcademicInfoList.map(data => {
-        if (data.type === 'ssc') {
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "ssc") {
           tenthDetails = data;
         }
       });
@@ -282,8 +282,8 @@ export class academicInfo extends Component {
       }
 
       let twelthDetails = null;
-      this.props.getAcademicInfoList.map(data => {
-        if (data.type === 'hsc') {
+      this.props.getAcademicInfoList.map((data) => {
+        if (data.type === "hsc") {
           twelthDetails = data;
         }
       });
@@ -310,45 +310,45 @@ export class academicInfo extends Component {
       }
     }
   }
-  documentClick = data => {
+  documentClick = (data) => {
     // this.props.downloadGAT(this.props.match.params.studentId,data.type)
     window.open(
       URL +
-        '/api/v1/files/download/' +
+        "/api/v1/files/download/" +
         this.props.match.params.studentId +
-        '/' +
+        "/" +
         data.path
     );
   };
 
-  handleChange = panel => (event, newExpanded) => {
+  handleChange = (panel) => (event, newExpanded) => {
     this.setState({ expanded: newExpanded ? panel : false });
   };
 
   Accordion = withStyles({
     root: {
-      border: '1px solid rgba(0, 0, 0, .125)',
+      border: "1px solid rgba(0, 0, 0, .125)",
       borderRadius: 20,
-      boxShadow: 'none',
-      '&:not(:last-child)': {
+      boxShadow: "none",
+      "&:not(:last-child)": {
         borderBottom: 0,
       },
-      '&:before': {
-        display: 'none',
+      "&:before": {
+        display: "none",
       },
-      '&$expanded': {
-        margin: 'auto',
+      "&$expanded": {
+        margin: "auto",
       },
       MuiInputLabel: {
         root: {
-          whiteSpace: 'nowrap',
-          fontSize: 'inherit',
+          whiteSpace: "nowrap",
+          fontSize: "inherit",
         },
       },
       MuiFormControl: {
         marginNormal: {
-          marginTop: '0px',
-          marginBottom: '0px',
+          marginTop: "0px",
+          marginBottom: "0px",
         },
       },
     },
@@ -357,24 +357,24 @@ export class academicInfo extends Component {
 
   AccordionSummary = withStyles({
     root: {
-      backgroundColor: 'rgba(0, 0, 0, .03)',
-      borderBottom: '1px solid rgba(0, 0, 0, .125)',
+      backgroundColor: "rgba(0, 0, 0, .03)",
+      borderBottom: "1px solid rgba(0, 0, 0, .125)",
       marginBottom: -1,
       marginTop: 15,
       minHeight: 56,
-      '&$expanded': {
+      "&$expanded": {
         minHeight: 56,
       },
     },
     content: {
-      '&$expanded': {
-        margin: '20px 0',
+      "&$expanded": {
+        margin: "20px 0",
       },
     },
     expanded: {},
   })(MuiAccordionSummary);
 
-  AccordionDetails = withStyles(theme => ({
+  AccordionDetails = withStyles((theme) => ({
     root: {
       padding: theme.spacing(2),
     },
@@ -382,12 +382,12 @@ export class academicInfo extends Component {
 
   handleSave = () => {
     console.log(
-      'handleSave////////////////////////////',
+      "handleSave////////////////////////////",
       this.state.pgEndDate,
       this.state.pgStartDate
     );
     var error = false;
-    let hlptxt = 'Please fill the required field';
+    let hlptxt = "Please fill the required field";
     // this.state.pgCollege === ""
     //   ? this.setState({ pgCollegeErr: hlptxt })
     //   : this.setState({ pgCollegeErr: "" });
@@ -542,7 +542,7 @@ export class academicInfo extends Component {
           strStartDate: this.state.tenthStartDate,
           strEndDate: this.state.tenthEndDate,
           // endDate: new Date(this.state.tenthEndDate),
-          type: 'ssc',
+          type: "ssc",
         },
         {
           examBoard: {
@@ -555,7 +555,7 @@ export class academicInfo extends Component {
           // endDate: new Date(this.state.twelthEndDate),
           strStartDate: this.state.twelthStartDate,
           strEndDate: this.state.twelthEndDate,
-          type: 'hsc',
+          type: "hsc",
         },
         {
           college: {
@@ -580,7 +580,7 @@ export class academicInfo extends Component {
           strEndDate: this.state.ugEndDate,
           score: this.state.ugCgpa,
           scoreScale: this.state.ugCgpaScale.title,
-          type: 'ug',
+          type: "ug",
         },
         {
           college: {
@@ -605,7 +605,7 @@ export class academicInfo extends Component {
           strEndDate: this.state.pgEndDate,
           score: this.state.pgCgpa,
           scoreScale: this.state.pgCgpaScale.title,
-          type: 'pg',
+          type: "pg",
         },
         {
           college: {
@@ -623,29 +623,29 @@ export class academicInfo extends Component {
           score: this.state.diplomoCgpa,
           scoreScale: this.state.diplomoCgpaScale.title,
           diplomaType: this.state.diplomoDepartment.title,
-          type: 'diploma',
+          type: "diploma",
         },
       ];
       if (
         this.state.pgStartDate !== null ||
         this.state.pgEndDate !== null ||
-        this.state.pgStartDate !== '' ||
-        this.state.pgEndDate !== ''
+        this.state.pgStartDate !== "" ||
+        this.state.pgEndDate !== ""
       ) {
         if (
-          moment(new Date(this.state.pgStartDate)).format('YYYY-MM') ===
-          moment(new Date(this.state.pgEndDate)).format('YYYY-MM')
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") ===
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
         ) {
           this.setState({
-            pgEndDateErr: 'Please Choose the Valid date',
+            pgEndDateErr: "Please Choose the Valid date",
           });
           error = true;
         } else if (
-          moment(new Date(this.state.pgStartDate)).format('YYYY-MM') >
-          moment(new Date(this.state.pgEndDate)).format('YYYY-MM')
+          moment(new Date(this.state.pgStartDate)).format("YYYY-MM") >
+          moment(new Date(this.state.pgEndDate)).format("YYYY-MM")
         ) {
           this.setState({
-            pgEndDateErr: 'Please Choose the Valid date',
+            pgEndDateErr: "Please Choose the Valid date",
           });
           error = true;
         } else {
@@ -653,7 +653,7 @@ export class academicInfo extends Component {
         }
       } else {
         this.setState({
-          pgEndDateErr: '',
+          pgEndDateErr: "",
         });
         error = false;
       }
@@ -661,23 +661,23 @@ export class academicInfo extends Component {
     if (
       this.state.ugStartDate !== null ||
       this.state.ugEndDate !== null ||
-      this.state.ugStartDate !== '' ||
-      this.state.ugEndDate !== ''
+      this.state.ugStartDate !== "" ||
+      this.state.ugEndDate !== ""
     ) {
       if (
-        moment(new Date(this.state.ugStartDate)).format('YYYY-MM') ===
-        moment(new Date(this.state.ugEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          ugEndDateErr: 'Please Choose the Valid date',
+          ugEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else if (
-        moment(new Date(this.state.ugStartDate)).format('YYYY-MM') >
-        moment(new Date(this.state.ugEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.ugStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.ugEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          ugEndDateErr: 'Please Choose the Valid date',
+          ugEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else {
@@ -685,30 +685,30 @@ export class academicInfo extends Component {
       }
     } else {
       this.setState({
-        ugEndDateErr: '',
+        ugEndDateErr: "",
       });
       error = false;
     }
     if (
       this.state.diplomostartDate !== null ||
       this.state.diplomoEndDate !== null ||
-      this.state.diplomostartDate !== '' ||
-      this.state.diplomoEndDate !== ''
+      this.state.diplomostartDate !== "" ||
+      this.state.diplomoEndDate !== ""
     ) {
       if (
-        moment(new Date(this.state.diplomostartDate)).format('YYYY-MM') ===
-        moment(new Date(this.state.diplomoEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          diplomoEndDateErr: 'Please Choose the Valid date',
+          diplomoEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else if (
-        moment(new Date(this.state.diplomostartDate)).format('YYYY-MM') >
-        moment(new Date(this.state.diplomoEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.diplomostartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.diplomoEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          diplomoEndDateErr: 'Please Choose the Valid date',
+          diplomoEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else {
@@ -716,30 +716,30 @@ export class academicInfo extends Component {
       }
     } else {
       this.setState({
-        diplomoEndDateErr: '',
+        diplomoEndDateErr: "",
       });
       error = false;
     }
     if (
       this.state.twelthStartDate !== null ||
       this.state.twelthEndDate !== null ||
-      this.state.twelthStartDate !== '' ||
-      this.state.twelthEndDate !== ''
+      this.state.twelthStartDate !== "" ||
+      this.state.twelthEndDate !== ""
     ) {
       if (
-        moment(new Date(this.state.twelthStartDate)).format('YYYY-MM') ===
-        moment(new Date(this.state.twelthEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          twelthEndDateErr: 'Please Choose the Valid date',
+          twelthEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else if (
-        moment(new Date(this.state.twelthStartDate)).format('YYYY-MM') >
-        moment(new Date(this.state.twelthEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.twelthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.twelthEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          twelthEndDateErr: 'Please Choose the Valid date',
+          twelthEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else {
@@ -747,30 +747,30 @@ export class academicInfo extends Component {
       }
     } else {
       this.setState({
-        twelthEndDateErr: '',
+        twelthEndDateErr: "",
       });
       error = false;
     }
     if (
       this.state.tenthStartDate !== null ||
       this.state.tenthEndDate !== null ||
-      this.state.tenthStartDate !== '' ||
-      this.state.tenthEndDate !== ''
+      this.state.tenthStartDate !== "" ||
+      this.state.tenthEndDate !== ""
     ) {
       if (
-        moment(new Date(this.state.tenthStartDate)).format('YYYY-MM') ===
-        moment(new Date(this.state.tenthEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") ===
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          tenthEndDateErr: 'Please Choose the Valid date',
+          tenthEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else if (
-        moment(new Date(this.state.tenthStartDate)).format('YYYY-MM') >
-        moment(new Date(this.state.tenthEndDate)).format('YYYY-MM')
+        moment(new Date(this.state.tenthStartDate)).format("YYYY-MM") >
+        moment(new Date(this.state.tenthEndDate)).format("YYYY-MM")
       ) {
         this.setState({
-          tenthEndDateErr: 'Please Choose the Valid date',
+          tenthEndDateErr: "Please Choose the Valid date",
         });
         error = true;
       } else {
@@ -778,7 +778,7 @@ export class academicInfo extends Component {
       }
     } else {
       this.setState({
-        tenthEndDateErr: '',
+        tenthEndDateErr: "",
       });
       error = false;
     }
@@ -786,12 +786,12 @@ export class academicInfo extends Component {
       this.props.updateAcademicInfo(
         this.props.match.params.studentId,
         obj,
-        response => {
+        (response) => {
           if (response.status === 200) {
             this.setState({
-              snackMsg: 'Updated Successfully',
+              snackMsg: "Updated Successfully",
               snackOpen: true,
-              snackVariant: 'success',
+              snackVariant: "success",
             });
           }
         }
@@ -800,30 +800,30 @@ export class academicInfo extends Component {
   };
 
   gpascale = [
-    { title: '10', value: 10 },
-    { title: '7', value: 7 },
-    { title: '4', value: 4 },
-    { title: '%', value: 100 },
+    { title: "10", value: 10 },
+    { title: "7", value: 7 },
+    { title: "4", value: 4 },
+    { title: "%", value: 100 },
   ];
   stream = [
-    { title: 'PCB', value: 'PCB' },
-    { title: 'PCM', value: 'PCM' },
-    { title: 'PCBM', value: 'PCBM' },
-    { title: 'PCMB', value: 'PCBM' },
-    { title: 'PCMC', value: 'PCMC' },
-    { title: 'Vocational', value: 'Vocational' },
-    { title: 'others', value: 'others' },
+    { title: "PCB", value: "PCB" },
+    { title: "PCM", value: "PCM" },
+    { title: "PCBM", value: "PCBM" },
+    { title: "PCMB", value: "PCBM" },
+    { title: "PCMC", value: "PCMC" },
+    { title: "Vocational", value: "Vocational" },
+    { title: "others", value: "others" },
   ];
 
   diplomaType = [
-    { title: 'Diploma', value: 'Diploma' },
-    { title: 'Post Graduate Diploma', value: 'Post Graduate Diploma' },
+    { title: "Diploma", value: "Diploma" },
+    { title: "Post Graduate Diploma", value: "Post Graduate Diploma" },
   ];
 
-  getStatus = sectionName => {
+  getStatus = (sectionName) => {
     if (this.props.studentStatus && this.props.studentStatus.length !== 0) {
       const { studentStatus } = this.props;
-      return studentStatus.find(item => item.sectionName === sectionName);
+      return studentStatus.find((item) => item.sectionName === sectionName);
     }
   };
 
@@ -854,17 +854,17 @@ export class academicInfo extends Component {
                 <Grid item md={12}>
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
                   >
                     <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '22%',
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        width: "22%",
                       }}
                     >
                       <p style={HeadStyle}>Academic Information</p>
@@ -909,18 +909,18 @@ export class academicInfo extends Component {
                   <Accordion style={{ borderRadius: 15 }}>
                     <AccordionSummary
                       style={{ height: 49 }}
-                      expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
-                          flexDirection: 'row',
-                          display: 'flex',
-                          width: '100%',
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Postgraduate Degree</p>
                         </Grid>
                       </div>
@@ -930,27 +930,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgCollege: newValue,
-                                pgCollegeErr: '',
+                                pgCollegeErr: "",
                               })
                             }
                             disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.pgCollege}
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgCollegeErr.length > 0}
                                 helperText={this.state.pgCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -958,27 +958,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.pgUniversity}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgUniversity: newValue,
-                                pgUniversityErr: '',
+                                pgUniversityErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgUniversityErr.length > 0}
                                 helperText={this.state.pgUniversityErr}
-                                label='University Name'
-                                margin='normal'
+                                label="University Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -986,27 +986,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getBranchesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.pgDepartment}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgDepartment: newValue,
-                                pgDepartmentErr: '',
+                                pgDepartmentErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgDepartmentErr.length > 0}
                                 helperText={this.state.pgDepartmentErr}
-                                label='Department'
-                                margin='normal'
+                                label="Department"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1014,26 +1014,26 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getPGDegreesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.pgDegree}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgDegree: newValue,
-                                pgDegreeErr: '',
+                                pgDegreeErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgDegreeErr.length > 0}
-                                label='Degree'
-                                margin='normal'
+                                label="Degree"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1042,41 +1042,41 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.pgCgpaScale}
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgCgpaScale: newValue,
-                                pgCgpaScaleErr: '',
-                                pgCgpa: '',
+                                pgCgpaScaleErr: "",
+                                pgCgpa: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgCgpaScaleErr.length > 0}
                                 helperText={this.state.pgCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
-                              this.state.pgCgpaScale === '' ||
+                              this.state.pgCgpaScale === "" ||
                               this.state.pgCgpaScale === null
                             }
-                            label='CGPA'
-                            onChange={e => {
+                            label="CGPA"
+                            onChange={(e) => {
                               if (this.state.pgCgpaScale) {
                                 if (e.target.value) {
                                   if (e.target.value.length <= 3) {
@@ -1097,21 +1097,24 @@ export class academicInfo extends Component {
                                       e.preventDefault();
                                     } else {
                                       this.setState({
-                                        pgCgpa: e.target.value,
-                                        pgCgpaErr: '',
+                                        pgCgpa:
+                                          e.target.value >= 0
+                                            ? e.target.value
+                                            : "",
+                                        pgCgpaErr: "",
                                       });
                                     }
                                   }
                                 } else {
                                   this.setState({
                                     pgCgpa: e.target.value,
-                                    pgCgpaErr: '',
+                                    pgCgpaErr: "",
                                   });
                                 }
                               } else {
                                 this.setState({
                                   pgCgpa: e.target.value,
-                                  pgCgpaErr: '',
+                                  pgCgpaErr: "",
                                 });
                               }
                             }}
@@ -1122,13 +1125,13 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.pgStartDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 pgStartDate: e.target.value,
-                                pgStartDateErr: '',
+                                pgStartDateErr: "",
                               })
                             }
                             InputLabelProps={{
@@ -1137,19 +1140,22 @@ export class academicInfo extends Component {
                             error={this.state.pgStartDateErr.length > 0}
                             helperText={this.state.pgStartDateErr}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
+                            inputProps={{
+                              max: moment(new Date()).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.pgEndDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 pgEndDate: e.target.value,
-                                pgEndDateErr: '',
+                                pgEndDateErr: "",
                               })
                             }
                             InputLabelProps={{
@@ -1162,8 +1168,13 @@ export class academicInfo extends Component {
                               this.state.documentedit ||
                               this.state.pgStartDate === null
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
+                            inputProps={{
+                              min: moment(
+                                new Date(this.state.pgStartDate)
+                              ).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1175,18 +1186,18 @@ export class academicInfo extends Component {
                   <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
                     <AccordionSummary
                       style={{ height: 49 }}
-                      expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
-                          flexDirection: 'row',
-                          display: 'flex',
-                          width: '100%',
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Undergraduate Degree</p>
                         </Grid>
                       </div>
@@ -1196,27 +1207,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getCollegesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.ugCollege}
                             onChange={(e, newValue) =>
                               this.setState({
                                 ugCollege: newValue,
-                                ugCollegeErr: '',
+                                ugCollegeErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.ugCollegeErr.length > 0}
                                 helperText={this.state.ugCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1224,27 +1235,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getUniversityList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.ugUniversity}
                             onChange={(e, newValue) =>
                               this.setState({
                                 ugUniversity: newValue,
-                                ugUniversityErr: '',
+                                ugUniversityErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.ugUniversityErr.length > 0}
                                 helperText={this.state.ugUniversityErr}
-                                label='University Name'
-                                margin='normal'
+                                label="University Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1252,27 +1263,27 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getBranchesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.ugDepartment}
                             onChange={(e, newValue) =>
                               this.setState({
                                 ugDepartment: newValue,
-                                ugDepartmentErr: '',
+                                ugDepartmentErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.ugDepartmentErr.length > 0}
                                 helperText={this.state.ugDepartmentErr}
-                                label='Department'
-                                margin='normal'
+                                label="Department"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1280,26 +1291,26 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getDegreeList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.ugDegree}
                             onChange={(e, newValue) =>
                               this.setState({
                                 ugDegree: newValue,
-                                ugDegreeErr: '',
+                                ugDegreeErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 error={this.state.ugDegreeErr.length > 0}
                                 helperText={this.state.ugDegreeErr}
                                 {...params}
-                                label='Degree'
-                                margin='normal'
+                                label="Degree"
+                                margin="normal"
                                 disabled={this.state.documentedit}
                               />
                             )}
@@ -1309,26 +1320,26 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.ugCgpaScale}
                             onChange={(e, newValue) =>
                               this.setState({
                                 ugCgpaScale: newValue,
-                                ugCgpaScaleErr: '',
-                                ugCgpa: '',
+                                ugCgpaScaleErr: "",
+                                ugCgpa: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 error={this.state.ugCgpaScaleErr.length > 0}
                                 helperText={this.state.ugCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                                 InputLabelProps={{ shrink: true }}
                               />
                             )}
@@ -1336,15 +1347,15 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
-                              this.state.ugCgpaScale === '' ||
+                              this.state.ugCgpaScale === "" ||
                               this.state.ugCgpaScale === null
                             }
-                            label='CGPA'
+                            label="CGPA"
                             value={this.state.ugCgpa}
-                            onChange={e => {
+                            onChange={(e) => {
                               if (this.state.ugCgpaScale) {
                                 if (e.target.value) {
                                   if (e.target.value.length <= 3) {
@@ -1362,21 +1373,24 @@ export class academicInfo extends Component {
                                       e.preventDefault();
                                     } else {
                                       this.setState({
-                                        ugCgpa: e.target.value,
-                                        ugCgpaErr: '',
+                                        ugCgpa:
+                                          e.target.value >= 0
+                                            ? e.target.value
+                                            : "",
+                                        ugCgpaErr: "",
                                       });
                                     }
                                   }
                                 } else {
                                   this.setState({
                                     ugCgpa: e.target.value,
-                                    ugCgpaErr: '',
+                                    ugCgpaErr: "",
                                   });
                                 }
                               } else {
                                 this.setState({
                                   ugCgpa: e.target.value,
-                                  ugCgpaErr: '',
+                                  ugCgpaErr: "",
                                 });
                               }
                             }}
@@ -1386,13 +1400,13 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.ugStartDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 ugStartDate: e.target.value,
-                                ugStartDateErr: '',
+                                ugStartDateErr: "",
                               })
                             }
                             InputLabelProps={{
@@ -1401,20 +1415,23 @@ export class academicInfo extends Component {
                             error={this.state.ugStartDateErr.length > 0}
                             helperText={this.state.ugStartDateErr}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
+                            inputProps={{
+                              max: moment(new Date()).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.ugEndDate}
-                            type='month'
+                            type="month"
                             minDate={this.state.ugStartDate}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.setState({
                                 ugEndDate: e.target.value,
-                                ugEndDateErr: '',
+                                ugEndDateErr: "",
                               })
                             }
                             InputLabelProps={{
@@ -1426,8 +1443,13 @@ export class academicInfo extends Component {
                             }
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
+                            inputProps={{
+                              min: moment(
+                                new Date(this.state.ugStartDate)
+                              ).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1438,22 +1460,22 @@ export class academicInfo extends Component {
 
                   <Accordion
                     style={{ borderRadius: 15, marginTop: 15 }}
-                    expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                    expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                   >
                     <AccordionSummary
                       style={{ height: 49 }}
-                      expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
-                          flexDirection: 'row',
-                          display: 'flex',
-                          width: '100%',
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Diploma Course</p>
                         </Grid>
                       </div>
@@ -1463,63 +1485,48 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.diplomaCollege}
                             onChange={(e, newValue) =>
                               this.setState({
                                 diplomaCollege: newValue,
-                                diplomaCollegeErr: '',
+                                diplomaCollegeErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.diplomaCollegeErr.length > 0}
                                 helperText={this.state.diplomaCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
-                          {/* <TextField
-                           options={this.props.getCollegesList}
-                           getOptionLabel={(option) => option.name}
-                            error={this.state.diplomaCollegeErr.length > 0}
-                            helperText={this.state.diplomaCollegeErr}
-                            label="College Name"
-                            margin="normal"
-                            value={this.state.diplomaCollege}
-                            onChange={(e) =>
-                              this.setState({
-                                diplomaCollege: e.target.value,
-                                diplomaCollegeErr: "",
-                              })
-                            }
-                          /> */}
                         </Grid>
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.diplomoUniversity}
                             onChange={(e, newValue) =>
                               this.setState({
                                 diplomoUniversity: newValue,
-                                diplomoUniversityErr: '',
+                                diplomoUniversityErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
@@ -1527,8 +1534,8 @@ export class academicInfo extends Component {
                                   this.state.diplomoUniversityErr.length > 0
                                 }
                                 helperText={this.state.diplomoUniversityErr}
-                                label='ExamBoard Name'
-                                margin='normal'
+                                label="ExamBoard Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1536,20 +1543,20 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.diplomaType}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.diplomoDepartment}
                             onChange={(e, newValue) =>
                               this.setState({
                                 diplomoDepartment: newValue,
-                                diplomoDepartmentErr: '',
+                                diplomoDepartmentErr: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
@@ -1557,8 +1564,8 @@ export class academicInfo extends Component {
                                   this.state.diplomoDepartmentErr.length > 0
                                 }
                                 helperText={this.state.diplomoDepartmentErr}
-                                label='Diploma Type'
-                                margin='normal'
+                                label="Diploma Type"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1566,38 +1573,38 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.diplomoCgpaScale}
                             onChange={(e, newValue) =>
                               this.setState({
                                 diplomoCgpaScale: newValue,
-                                diplomoCgpaScaleErr: '',
-                                diplomoCgpa: '',
+                                diplomoCgpaScaleErr: "",
+                                diplomoCgpa: "",
                               })
                             }
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 error={
                                   this.state.diplomoCgpaScaleErr.length > 0
                                 }
                                 helperText={this.state.diplomoCgpaScaleErr}
-                                label='CGPA Scale'
-                                margin='normal'
+                                label="CGPA Scale"
+                                margin="normal"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             value={this.state.diplomoCgpa}
-                            onChange={e => {
+                            onChange={(e) => {
                               if (this.state.diplomoCgpaScale) {
                                 if (e.target.value) {
                                   if (e.target.value.length <= 3) {
@@ -1616,29 +1623,32 @@ export class academicInfo extends Component {
                                       e.preventDefault();
                                     } else {
                                       this.setState({
-                                        diplomoCgpa: e.target.value,
-                                        diplomoCgpaErr: '',
+                                        diplomoCgpa:
+                                          e.target.value >= 0
+                                            ? e.target.value
+                                            : "",
+                                        diplomoCgpaErr: "",
                                       });
                                     }
                                   }
                                 } else {
                                   this.setState({
                                     diplomoCgpa: e.target.value,
-                                    diplomoCgpaErr: '',
+                                    diplomoCgpaErr: "",
                                   });
                                 }
                               } else {
                                 this.setState({
                                   diplomoCgpa: e.target.value,
-                                  diplomoCgpaErr: '',
+                                  diplomoCgpaErr: "",
                                 });
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
-                            label='CGPA'
+                            label="CGPA"
                             disabled={
                               this.state.documentedit ||
-                              this.state.diplomoCgpaScale === '' ||
+                              this.state.diplomoCgpaScale === "" ||
                               this.state.diplomoCgpaScale === null
                             }
                             error={this.state.diplomoCgpaErr.length > 0}
@@ -1647,13 +1657,13 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.diplomostartDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 diplomostartDate: e.target.value,
-                                diplomostartDateErr: '',
+                                diplomostartDateErr: "",
                               })
                             }
                             error={this.state.diplomostartDateErr.length > 0}
@@ -1662,22 +1672,24 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
+                            inputProps={{
+                              max: moment(new Date()).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.diplomoEndDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 diplomoEndDate: e.target.value,
-                                diplomoEndDateErr: '',
+                                diplomoEndDateErr: "",
                               })
                             }
-                            minDate={this.state.diplomostartDate}
                             error={this.state.diplomoEndDateErr.length > 0}
                             helperText={this.state.diplomoEndDateErr}
                             InputLabelProps={{
@@ -1687,8 +1699,13 @@ export class academicInfo extends Component {
                               this.state.diplomostartDate === null ||
                               this.state.documentedit
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
+                            inputProps={{
+                              min: moment(
+                                new Date(this.state.diplomostartDate)
+                              ).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={1}></Grid>
@@ -1700,18 +1717,18 @@ export class academicInfo extends Component {
                   <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
                     <AccordionSummary
                       style={{ height: 49 }}
-                      expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
-                          flexDirection: 'row',
-                          display: 'flex',
-                          width: '100%',
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>12th Grade</p>
                         </Grid>
                       </div>
@@ -1723,12 +1740,12 @@ export class academicInfo extends Component {
                             error={this.state.twelthSchoolErr.length > 0}
                             helperText={this.state.twelthSchoolErr}
                             value={this.state.twelthSchool}
-                            label='School Name'
+                            label="School Name"
                             // margin="normal"
-                            onChange={e =>
+                            onChange={(e) =>
                               this.setState({
                                 twelthSchool: e.target.value,
-                                twelthSchoolErr: '',
+                                twelthSchoolErr: "",
                               })
                             }
                             disabled={this.state.documentedit}
@@ -1737,79 +1754,52 @@ export class academicInfo extends Component {
                         <Grid item md={4}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             options={this.props.sscexamboardList || []}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.twelthExamBoard}
                             onChange={(e, newValue) =>
                               this.setState({
                                 twelthExamBoard: newValue,
-                                twelthExamBoardErr: '',
+                                twelthExamBoardErr: "",
                               })
                             }
                             disabled={this.state.documentedit}
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.twelthExamBoardErr.length > 0}
                                 helperText={this.state.twelthExamBoardErr}
-                                label='Exam Board'
-                                // margin="normal"
+                                label="Exam Board"
                               />
                             )}
                           />
                         </Grid>
-                        {/* <Grid item md={4}>
+                        <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id="debug"
-                            options={this.stream}
-                            getOptionLabel={(option) => option.title}
-                            value={this.state.twelthType}
-                            onChange={(e, newValue) =>
-                              this.setState({
-                                twelthType: newValue,
-                                twelthTypeErr: "",
-                              })
-                            }
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                error={this.state.twelthTypeErr.length > 0}
-                                helperText={this.state.twelthTypeErr}
-                                label="Stream"
-                                margin="normal"
-                              />
-                            )}
-                          /> */}
-                        {/* </Grid> */}
-                        <Grid item md={3}>
-                          <Autocomplete
-                            popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
-                            }
                             options={this.gpascale}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.twelthCgpaScale}
                             onChange={(e, newValue) =>
                               this.setState({
                                 twelthCgpaScale: newValue,
-                                twelthCgpaScaleErr: '',
-                                twelthCgpa: '',
+                                twelthCgpaScaleErr: "",
+                                twelthCgpa: "",
                               })
                             }
                             disabled={this.state.documentedit}
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.twelthCgpaScaleErr.length > 0}
                                 helperText={this.state.twelthCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
@@ -1817,17 +1807,17 @@ export class academicInfo extends Component {
 
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
-                            label='CGPA'
+                            id="standard-basic"
+                            label="CGPA"
                             disabled={
                               this.state.documentedit ||
-                              this.state.twelthCgpaScale === '' ||
+                              this.state.twelthCgpaScale === "" ||
                               this.state.twelthCgpaScale === null
                             }
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
-                            onChange={e => {
+                            onChange={(e) => {
                               if (this.state.twelthCgpaScale) {
                                 if (e.target.value) {
                                   if (
@@ -1846,20 +1836,23 @@ export class academicInfo extends Component {
                                     e.preventDefault();
                                   } else {
                                     this.setState({
-                                      twelthCgpa: e.target.value,
-                                      twelthCgpaErr: '',
+                                      twelthCgpa:
+                                        e.target.value >= 0
+                                          ? e.target.value
+                                          : "",
+                                      twelthCgpaErr: "",
                                     });
                                   }
                                 } else {
                                   this.setState({
                                     twelthCgpa: e.target.value,
-                                    twelthCgpaErr: '',
+                                    twelthCgpaErr: "",
                                   });
                                 }
                               } else {
                                 this.setState({
                                   twelthCgpa: e.target.value,
-                                  twelthCgpaErr: '',
+                                  twelthCgpaErr: "",
                                 });
                               }
                             }}
@@ -1868,13 +1861,13 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
-                            value={this.state.twelthStartDate || ''}
-                            type='month'
-                            onChange={e =>
+                            label="Start Date"
+                            value={this.state.twelthStartDate || ""}
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 twelthStartDate: e.target.value,
-                                twelthStartDateErr: '',
+                                twelthStartDateErr: "",
                               })
                             }
                             error={this.state.twelthStartDateErr.length > 0}
@@ -1883,20 +1876,22 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
+                            inputProps={{
+                              max: moment(new Date()).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
-                            value={this.state.twelthEndDate || ''}
-                            type='month'
-                            minDate={this.state.twelthStartDate}
-                            onChange={e =>
+                            label="End Date"
+                            value={this.state.twelthEndDate || ""}
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 twelthEndDate: e.target.value,
-                                twelthEndDateErr: '',
+                                twelthEndDateErr: "",
                               })
                             }
                             InputLabelProps={{
@@ -1908,8 +1903,13 @@ export class academicInfo extends Component {
                               this.state.documentedit ||
                               this.state.twelthStartDate === null
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
+                            inputProps={{
+                              min: moment(
+                                new Date(this.state.twelthStartDate)
+                              ).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={12}></Grid>
@@ -1920,18 +1920,18 @@ export class academicInfo extends Component {
                   <Accordion style={{ borderRadius: 15, marginTop: 15 }}>
                     <AccordionSummary
                       style={{ height: 49 }}
-                      expandIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
-                          flexDirection: 'row',
-                          display: 'flex',
-                          width: '100%',
+                          flexDirection: "row",
+                          display: "flex",
+                          width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>10th Grade</p>
                         </Grid>
                       </div>
@@ -1942,14 +1942,14 @@ export class academicInfo extends Component {
                           <TextField
                             error={this.state.tenthSchoolErr.length > 0}
                             helperText={this.state.tenthSchoolErr}
-                            label='School Name'
+                            label="School Name"
                             disabled={this.state.documentedit}
-                            margin='normal'
+                            margin="normal"
                             value={this.state.tenthSchool}
-                            onChange={e =>
+                            onChange={(e) =>
                               this.setState({
                                 tenthSchool: e.target.value,
-                                tenthSchoolErr: '',
+                                tenthSchoolErr: "",
                               })
                             }
                           />
@@ -1957,25 +1957,25 @@ export class academicInfo extends Component {
                         <Grid item md={6}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             options={this.props.sscexamboardList || []}
-                            getOptionLabel={option => option.name}
+                            getOptionLabel={(option) => option.name}
                             value={this.state.tenthExamBoard}
                             onChange={(e, newValue) =>
                               this.setState({
                                 tenthExamBoard: newValue,
-                                tenthExamBoardErr: '',
+                                tenthExamBoardErr: "",
                               })
                             }
                             disabled={this.state.documentedit}
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 error={this.state.tenthExamBoardErr.length > 0}
                                 helperText={this.state.tenthExamBoardErr}
-                                label='Exam Board'
-                                margin='normal'
+                                label="Exam Board"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1984,45 +1984,44 @@ export class academicInfo extends Component {
                         <Grid item md={3}>
                           <Autocomplete
                             popupIcon={
-                              <ExpandMore style={{ color: '#1093FF' }} />
+                              <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             options={this.gpascale}
-                            getOptionLabel={option => option.title}
+                            getOptionLabel={(option) => option.title}
                             value={this.state.tenthCgpaScale}
                             onChange={(e, newValue) =>
                               this.setState({
                                 tenthCgpaScale: newValue,
-                                tenthCgpaScaleErr: '',
-                                tenthCgpa: '',
+                                tenthCgpaScaleErr: "",
+                                tenthCgpa: "",
                               })
                             }
                             disabled={this.state.documentedit}
-                            renderInput={params => (
+                            renderInput={(params) => (
                               <TextField
                                 {...params}
                                 error={this.state.tenthCgpaScaleErr.length > 0}
                                 helperText={this.state.tenthCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
-                            type='number'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
-                              this.state.tenthCgpaScale === '' ||
+                              this.state.tenthCgpaScale === "" ||
                               this.state.tenthCgpaScale === null
                             }
-                            label='CGPA'
+                            label="CGPA"
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
-                            onChange={e => {
+                            onChange={(e) => {
                               if (
                                 this.state.tenthCgpaScale !== null ||
-                                this.state.tenthCgpaScale !== ''
+                                this.state.tenthCgpaScale !== ""
                               ) {
                                 if (e.target.value) {
                                   if (e.target.value.length <= 3) {
@@ -2041,21 +2040,24 @@ export class academicInfo extends Component {
                                       e.preventDefault();
                                     } else {
                                       this.setState({
-                                        tenthCgpa: e.target.value,
-                                        tenthCgpaErr: '',
+                                        tenthCgpa:
+                                          e.target.value >= 0
+                                            ? e.target.value
+                                            : "",
+                                        tenthCgpaErr: "",
                                       });
                                     }
                                   }
                                 } else {
                                   this.setState({
                                     tenthCgpa: e.target.value,
-                                    tenthCgpaErr: '',
+                                    tenthCgpaErr: "",
                                   });
                                 }
                               } else {
                                 this.setState({
                                   tenthCgpa: e.target.value,
-                                  tenthCgpaErr: '',
+                                  tenthCgpaErr: "",
                                 });
                               }
                             }}
@@ -2065,13 +2067,13 @@ export class academicInfo extends Component {
 
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.tenthStartDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 tenthStartDate: e.target.value,
-                                tenthStartDateErr: '',
+                                tenthStartDateErr: "",
                               })
                             }
                             error={this.state.tenthStartDateErr.length > 0}
@@ -2080,19 +2082,22 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
+                            inputProps={{
+                              max: moment(new Date()).format("yyyy-MM"),
+                            }}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.tenthEndDate}
-                            type='month'
-                            onChange={e =>
+                            type="month"
+                            onChange={(e) =>
                               this.setState({
                                 tenthEndDate: e.target.value,
-                                tenthEndDateErr: '',
+                                tenthEndDateErr: "",
                               })
                             }
                             error={this.state.tenthEndDateErr.length > 0}
@@ -2105,35 +2110,14 @@ export class academicInfo extends Component {
                               this.state.documentedit ||
                               this.state.tenthStartDate === null
                             }
-                            name='EndDate'
+                            inputProps={{
+                              min: moment(
+                                new Date(this.state.tenthStartDate)
+                              ).format("yyyy-MM"),
+                            }}
+                            name="EndDate"
                             minDate={this.state.tenthStartDate}
                           />
-                          {/* <KeyboardDatePicker
-                            id="date-picker-dialog"
-                            format="MMM/yyyy"
-                            inputProps={{ readOnly: true }}
-                            disabled={
-                              this.state.documentedit ||
-                              this.state.tenthStartDate === null
-                            }
-                            minDate={this.state.tenthStartDate}
-                            value={this.state.tenthEndDate}
-                            onChange={(newValue) =>
-                              this.setState({
-                                tenthEndDate: newValue,
-                                tenthEndDateErr: "",
-                              })
-                            }
-                            label="End Date"
-                            error={this.state.tenthEndDateErr.length > 0}
-                            helperText={this.state.tenthEndDateErr}
-                            KeyboardButtonProps={{
-                              "aria-label": "change date",
-                            }}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          /> */}
                         </Grid>
                         <Grid item md={12}></Grid>
                       </Grid>
@@ -2142,20 +2126,20 @@ export class academicInfo extends Component {
                   <Grid item md={12}>
                     <p style={HeadStyle}>Documents Received</p>
                   </Grid>
-                  {this.props.getAllDocumentList['PG Degree'] &&
-                    this.props.getAllDocumentList['PG Degree'].length !== 0 && (
+                  {this.props.getAllDocumentList["PG Degree"] &&
+                    this.props.getAllDocumentList["PG Degree"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>PG Degree</p>
                         </Grid>
                         <Grid item={12} container>
-                          {this.props.getAllDocumentList['PG Degree']
-                            ? this.props.getAllDocumentList['PG Degree'].map(
-                                data => (
+                          {this.props.getAllDocumentList["PG Degree"]
+                            ? this.props.getAllDocumentList["PG Degree"].map(
+                                (data) => (
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2165,8 +2149,8 @@ export class academicInfo extends Component {
                                       studentid={
                                         this.props.match.params.studentId
                                       }
-                                      // status={this.state.documentedit}
-                                      status={true}
+                                      status={this.state.documentedit}
+                                      // status={true}
                                     />
                                   </Grid>
                                 )
@@ -2176,20 +2160,20 @@ export class academicInfo extends Component {
                       </Grid>
                     )}
 
-                  {this.props.getAllDocumentList['UG Degree'] &&
-                    this.props.getAllDocumentList['UG Degree'].length !== 0 && (
+                  {this.props.getAllDocumentList["UG Degree"] &&
+                    this.props.getAllDocumentList["UG Degree"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>UG Degree</p>
                         </Grid>
                         <Grid item={12} container>
-                          {this.props.getAllDocumentList['UG Degree']
-                            ? this.props.getAllDocumentList['UG Degree'].map(
-                                data => (
+                          {this.props.getAllDocumentList["UG Degree"]
+                            ? this.props.getAllDocumentList["UG Degree"].map(
+                                (data) => (
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2199,8 +2183,8 @@ export class academicInfo extends Component {
                                       studentid={
                                         this.props.match.params.studentId
                                       }
-                                      // status={this.state.documentedit}
-                                      status={true}
+                                      status={this.state.documentedit}
+                                      // status={true}
                                       productId={
                                         this.props.match.params.productId
                                       }
@@ -2216,17 +2200,17 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList.Diploma &&
                     this.props.getAllDocumentList.Diploma.length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>Diploma</p>
                         </Grid>
                         <Grid item={12} container>
                           {this.props.getAllDocumentList.Diploma
                             ? this.props.getAllDocumentList.Diploma.map(
-                                data => (
+                                (data) => (
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2236,8 +2220,8 @@ export class academicInfo extends Component {
                                       studentid={
                                         this.props.match.params.studentId
                                       }
-                                      // status={this.state.documentedit}
-                                      status={true}
+                                      status={this.state.documentedit}
+                                      // status={true}
                                     />
                                   </Grid>
                                 )
@@ -2247,28 +2231,28 @@ export class academicInfo extends Component {
                       </Grid>
                     )}
 
-                  {this.props.getAllDocumentList['XII Grade'] &&
-                    this.props.getAllDocumentList['XII Grade'].length !== 0 && (
+                  {this.props.getAllDocumentList["XII Grade"] &&
+                    this.props.getAllDocumentList["XII Grade"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>XII Grade</p>
                         </Grid>
                         <Grid item={12} container>
-                          {this.props.getAllDocumentList['XII Grade']
-                            ? this.props.getAllDocumentList['XII Grade'].map(
-                                data => (
+                          {this.props.getAllDocumentList["XII Grade"]
+                            ? this.props.getAllDocumentList["XII Grade"].map(
+                                (data) => (
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
                                       certificate={data.name}
                                       date={data.date}
                                       path={data.path}
-                                      // status={this.state.documentedit}
-                                      status={true}
+                                      status={this.state.documentedit}
+                                      // status={true}
                                       studentid={
                                         this.props.match.params.studentId
                                       }
@@ -2280,20 +2264,20 @@ export class academicInfo extends Component {
                         </Grid>
                       </Grid>
                     )}
-                  {this.props.getAllDocumentList['X Grade'] &&
-                    this.props.getAllDocumentList['X Grade'].length !== 0 && (
+                  {this.props.getAllDocumentList["X Grade"] &&
+                    this.props.getAllDocumentList["X Grade"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>X Grade</p>
                         </Grid>
                         <Grid item={12} container>
-                          {this.props.getAllDocumentList['X Grade']
-                            ? this.props.getAllDocumentList['X Grade'].map(
-                                data => (
+                          {this.props.getAllDocumentList["X Grade"]
+                            ? this.props.getAllDocumentList["X Grade"].map(
+                                (data) => (
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2303,8 +2287,8 @@ export class academicInfo extends Component {
                                       studentid={
                                         this.props.match.params.studentId
                                       }
-                                      // status={this.state.documentedit}
-                                      status={true}
+                                      status={this.state.documentedit}
+                                      // status={true}
                                     />
                                   </Grid>
                                 )
@@ -2318,20 +2302,20 @@ export class academicInfo extends Component {
                     item
                     md={12}
                     style={{
-                      alignSelf: 'center',
-                      alignItems: 'center',
-                      width: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
+                      alignSelf: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
                       marginTop: 50,
                     }}
                   >
                     <PrimaryButton
                       onClick={() => this.handleSave()}
-                      style={{ textTransform: 'none' }}
-                      variant={'contained'}
-                      color={'primary'}
-                      size={'small'}
+                      style={{ textTransform: "none" }}
+                      variant={"contained"}
+                      color={"primary"}
+                      size={"small"}
                       disabled={this.props.variantStepList.adminObComplete}
                     >
                       Save Changes
@@ -2356,51 +2340,51 @@ export class academicInfo extends Component {
 
 const style = {
   HeadStyle: {
-    paddingTop: '18px',
-    fontStyle: 'Poppins',
-    fontWeight: '600',
-    fontStyle: 'normal',
-    fontSize: '18px',
-    color: '#0081FF',
+    paddingTop: "18px",
+    fontStyle: "Poppins",
+    fontWeight: "600",
+    fontStyle: "normal",
+    fontSize: "18px",
+    color: "#0081FF",
   },
   HeadDisplay: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
     padding: 20,
   },
   title: {
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: '17px',
-    alignSelf: 'flex-start',
-    color: '#052A4E',
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "17px",
+    alignSelf: "flex-start",
+    color: "#052A4E",
   },
   ans: {
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontSize: '12px',
-    color: '#686868',
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontSize: "12px",
+    color: "#686868",
   },
   secondary: {
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '16px',
-    color: '#052A4E',
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontWeight: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
   },
   GridStyle: {
-    fontStyle: 'Montserrat',
-    fontWeight: '700',
-    fontStyle: 'normal',
-    fontSize: '16px',
-    color: '#052A4E',
+    fontStyle: "Montserrat",
+    fontWeight: "700",
+    fontStyle: "normal",
+    fontSize: "16px",
+    color: "#052A4E",
   },
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     getBranchesList: state.CollegeReducer.BranchList,
     getCollegesList: state.CollegeReducer.allCollegeList,

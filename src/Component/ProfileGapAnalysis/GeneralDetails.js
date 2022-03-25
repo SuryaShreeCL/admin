@@ -17,10 +17,7 @@ import {
 import { ExpandMore } from "@material-ui/icons";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { Autocomplete } from "@material-ui/lab";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -31,12 +28,13 @@ import {
 } from "../../Actions/Aspiration";
 import { StudentStepDetails } from "../../Actions/Student";
 import {
-  getcommenthistory,
+  getCommentHistory,
   getgeneraldetails,
   getstatus,
   updategeneraldetails,
   updatestatus,
 } from "../../Actions/ProfileGapAction";
+import { StudentStepDetails } from "../../Actions/Student";
 import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -121,19 +119,19 @@ class GeneralDetails extends Component {
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      commentlist: [],
+      commentList: [],
       emailErr: "",
       aspdegree: "",
       aspfieldofstudy: "",
       buttonStatus: false,
 
-      commentupdatelist: [],
+      commentUpdateList: [],
       fieldname: {
         fieldOfStudy: "Field Of Study",
         college: "College",
         degree: "Degree",
         postGraduateDegree: "PostGraduate Degree",
-        postGraduateUniversity: "PostGraduate Univeristy",
+        postGraduateUniversity: "PostGraduate University",
         postGraduateCollege: "PostGraduate College",
         firstName: "First Name",
         lastName: "Last Name",
@@ -161,21 +159,144 @@ class GeneralDetails extends Component {
   }
 
   fetchCommentHistory() {
-    this.props.getcommenthistory(
+    this.props.getCommentHistory(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+    this.props.getgeneraldetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {}
+    );
+  }
+
+  componentDidMount() {
+    this.props.getAllColleges();
+    this.props.getDegree();
+    this.props.getBranches();
+    this.props.getPGDegree();
+    this.props.getUniversity();
+    this.props.getAllBranch();
+    this.props.getAllDegree();
+    this.props.StudentStepDetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+    this.props.getAllSpecialization((response) => {
+      if (response.status === 200) {
+        this.setState({
+          specialisation: response.data,
+        });
+      }
+    });
+    this.props.getAllUniversity((response) => {
+      if (response.status === 200) {
+        this.setState({
+          university: response.data,
+        });
+      }
+    });
+    this.props.getstatus(
       this.props.match.params.studentId,
       this.props.match.params.productId,
       (response) => {
-        if (response.data && response.data.length > 0) {
+        if (response.status === 200) {
+          this.setState({ verificationstatus: response.data });
+        }
+      }
+    );
+
+    this.fetchCommentHistory();
+
+    this.props.getgeneraldetails(
+      this.props.match.params.studentId,
+      this.props.match.params.productId,
+      (response) => {
+        if (response.status === 200) {
+          this.setState({
+            clsid: response.data.studentDetails.clsId,
+            firstname: response.data.studentDetails.firstName,
+            lastname: response.data.studentDetails.lastName,
+            phone: response.data.studentDetails.phoneNumber,
+            email: response.data.studentDetails.emailId,
+            workexp: response.data.studentDetails.workExperience,
+            pgcollege: response.data.studentDetails.postGraduateCollege,
+            pgdegree: response.data.studentDetails.postGraduateDegree,
+            pguniversity: response.data.studentDetails.postGraduateUniversity,
+            college: response.data.studentDetails.college,
+            degree: response.data.studentDetails.degree,
+            fieldofstudy: response.data.studentDetails.fieldOfStudy,
+            sem: response.data.studentDetails.currentSem,
+            areaofspecialisation:
+              response.data.aspirationDetails.aspirationAreaOfSpecializations,
+            package: response.data.packageDetails.packagedPurchased,
+            product: response.data.packageDetails.pgaProduct,
+            intake: response.data.packageDetails.pgaIntake && {
+              title: response.data.packageDetails.pgaIntake,
+            },
+            enrollmentdate: response.data.packageDetails.enrollmentDate,
+            prefschool: response.data.aspirationDetails.aspirationUniversities,
+            round: response.data.packageDetails.round,
+            aspdegree: response.data.aspirationDetails.aspirationDegrees,
+            aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
+          });
+        }
+      }
+    );
+  }
+
+  componentDidUpdate(prevProps) {
+    const { commentHistory } = this.props;
+
+    if (prevProps.getgeneraldetailsList !== this.props.getgeneraldetailsList) {
+      this.setState({
+        clsid: this.props.getgeneraldetailsList.studentDetails?.clsId,
+        firstname: this.props.getgeneraldetailsList.studentDetails?.firstName,
+        lastname: this.props.getgeneraldetailsList.studentDetails?.lastName,
+        phone: this.props.getgeneraldetailsList.studentDetails?.phoneNumber,
+        email: this.props.getgeneraldetailsList.studentDetails?.emailId,
+        workexp: this.props.getgeneraldetailsList.studentDetails
+          ?.workExperience,
+        pgcollege: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateCollege,
+        pgdegree: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateDegree,
+        pguniversity: this.props.getgeneraldetailsList.studentDetails
+          ?.postGraduateUniversity,
+        college: this.props.getgeneraldetailsList.studentDetails?.college,
+        degree: this.props.getgeneraldetailsList.studentDetails?.degree,
+        fieldofstudy: this.props.getgeneraldetailsList.studentDetails
+          ?.fieldOfStudy,
+        sem: this.props.getgeneraldetailsList.studentDetails?.currentSem,
+        areaofspecialisation: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationAreaOfSpecializations,
+        package: this.props.getgeneraldetailsList.packageDetails
+          ?.packagedPurchased,
+        product: this.props.getgeneraldetailsList.packageDetails?.pgaProduct,
+        intake: this.props.getgeneraldetailsList.packageDetails?.pgaIntake && {
+          title: this.props.getgeneraldetailsList.packageDetails?.pgaIntake,
+        },
+        enrollmentdate: this.props.getgeneraldetailsList.packageDetails
+          ?.enrollmentDate,
+        prefschool: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationUniversities,
+        round: this.props.getgeneraldetailsList.packageDetails?.round,
+        aspdegree: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationDegrees,
+        aspfieldofstudy: this.props.getgeneraldetailsList.aspirationDetails
+          ?.aspirationBranches,
+      });
+    }
+
+    if (commentHistory && commentHistory !== prevProps.commentHistory) {
+      if (commentHistory.success) {
+        let arr = [];
+        if (commentHistory.data && commentHistory.data.length !== 0) {
           this.setState({
             buttonStatus: true,
           });
-        }
-        this.setState({
-          commentlist: response.data,
-        });
-        let arr = [];
-        response.data &&
-          response.data.map((eachdata) => {
+
+          commentHistory.data.map((eachdata) => {
             if (eachdata.fieldName === "college") {
               arr.push({
                 fieldName: eachdata.fieldName,
@@ -256,133 +377,21 @@ class GeneralDetails extends Component {
               });
             }
           });
-
-        this.setState({
-          commentupdatelist: arr,
-        });
-      }
-    );
-    this.props.getgeneraldetails(
-      this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {}
-    );
-  }
-  componentDidMount() {
-    this.props.getAllColleges();
-    this.props.getDegree();
-    this.props.getBranches();
-    this.props.getPGDegree();
-    this.props.getUniversity();
-    this.props.getAllBranch();
-    this.props.getAllDegree();
-    this.props.StudentStepDetails(
-      this.props.match.params.studentId,
-      this.props.match.params.productId
-    );
-    this.props.getAllSpecialization((response) => {
-      if (response.status === 200) {
-        this.setState({
-          specialisation: response.data,
-        });
-      }
-    });
-    this.props.getAllUniversity((response) => {
-      if (response.status === 200) {
-        this.setState({
-          university: response.data,
-        });
-      }
-    });
-    this.props.getstatus(
-      this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        if (response.status === 200) {
-          this.setState({ verificationstatus: response.data });
         }
+        this.setState({
+          commentList: commentHistory.data || [],
+          commentUpdateList: arr,
+        });
+      } else {
+        this.setState({
+          snackMsg: commentHistory.message,
+          snackOpen: true,
+          snackVariant: "error",
+        });
       }
-    );
-
-    this.fetchCommentHistory();
-
-    this.props.getgeneraldetails(
-      this.props.match.params.studentId,
-      this.props.match.params.productId,
-      (response) => {
-        if (response.status === 200) {
-          this.setState({
-            clsid: response.data.studentDetails.clsId,
-            firstname: response.data.studentDetails.firstName,
-            lastname: response.data.studentDetails.lastName,
-            phone: response.data.studentDetails.phoneNumber,
-            email: response.data.studentDetails.emailId,
-            workexp: response.data.studentDetails.workExperience,
-            pgcollege: response.data.studentDetails.postGraduateCollege,
-            pgdegree: response.data.studentDetails.postGraduateDegree,
-            pguniversity: response.data.studentDetails.postGraduateUniversity,
-            college: response.data.studentDetails.college,
-            degree: response.data.studentDetails.degree,
-            fieldofstudy: response.data.studentDetails.fieldOfStudy,
-            sem: response.data.studentDetails.currentSem,
-            areaofspecialisation:
-              response.data.aspirationDetails.aspirationAreaOfSpecializations,
-            package: response.data.packageDetails.packagedPurchased,
-            product: response.data.packageDetails.pgaProduct,
-            intake: response.data.packageDetails.pgaIntake && {
-              title: response.data.packageDetails.pgaIntake,
-            },
-            enrollmentdate: response.data.packageDetails.enrollmentDate,
-            prefschool: response.data.aspirationDetails.aspirationUniversities,
-            round: response.data.packageDetails.round,
-            aspdegree: response.data.aspirationDetails.aspirationDegrees,
-            aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
-          });
-        }
-      }
-    );
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps.getgeneraldetailsList !== this.props.getgeneraldetailsList) {
-      this.setState({
-        clsid: this.props.getgeneraldetailsList.studentDetails?.clsId,
-        firstname: this.props.getgeneraldetailsList.studentDetails?.firstName,
-        lastname: this.props.getgeneraldetailsList.studentDetails?.lastName,
-        phone: this.props.getgeneraldetailsList.studentDetails?.phoneNumber,
-        email: this.props.getgeneraldetailsList.studentDetails?.emailId,
-        workexp: this.props.getgeneraldetailsList.studentDetails
-          ?.workExperience,
-        pgcollege: this.props.getgeneraldetailsList.studentDetails
-          ?.postGraduateCollege,
-        pgdegree: this.props.getgeneraldetailsList.studentDetails
-          ?.postGraduateDegree,
-        pguniversity: this.props.getgeneraldetailsList.studentDetails
-          ?.postGraduateUniversity,
-        college: this.props.getgeneraldetailsList.studentDetails?.college,
-        degree: this.props.getgeneraldetailsList.studentDetails?.degree,
-        fieldofstudy: this.props.getgeneraldetailsList.studentDetails
-          ?.fieldOfStudy,
-        sem: this.props.getgeneraldetailsList.studentDetails?.currentSem,
-        areaofspecialisation: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationAreaOfSpecializations,
-        package: this.props.getgeneraldetailsList.packageDetails
-          ?.packagedPurchased,
-        product: this.props.getgeneraldetailsList.packageDetails?.pgaProduct,
-        intake: this.props.getgeneraldetailsList.packageDetails?.pgaIntake && {
-          title: this.props.getgeneraldetailsList.packageDetails?.pgaIntake,
-        },
-        enrollmentdate: this.props.getgeneraldetailsList.packageDetails
-          ?.enrollmentDate,
-        prefschool: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationUniversities,
-        round: this.props.getgeneraldetailsList.packageDetails?.round,
-        aspdegree: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationDegrees,
-        aspfieldofstudy: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationBranches,
-      });
     }
   }
+
   handlestatus = (status) => {
     let obj = {
       fieldName: this.state.field,
@@ -555,9 +564,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name="pgdegree"
+                        name='pgdegree'
                         className={"field_style"}
-                        label="Post Graduate Degree"
+                        label='Post Graduate Degree'
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -604,9 +613,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name="pgcollege"
+                        name='pgcollege'
                         className={"field_style"}
-                        label="Post Graduate College"
+                        label='Post Graduate College'
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -654,9 +663,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name="pguniversity"
+                        name='pguniversity'
                         className={"field_style"}
-                        label="Post Graduate University"
+                        label='Post Graduate University'
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -692,8 +701,8 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <TextField
-                    name="workexp"
-                    label="Work Experience"
+                    name='workexp'
+                    label='Work Experience'
                     className={"work_style"}
                     value={this.state.workexp}
                     onChange={(e) => {
@@ -751,9 +760,9 @@ class GeneralDetails extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      name="college"
+                      name='college'
                       className={"field_style"}
-                      label="College Name"
+                      label='College Name'
                       InputLabelProps={{ shrink: true }}
                     />
                   )}
@@ -790,8 +799,8 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px" }}>
                 <TextField
-                  name="sem"
-                  label="Current Semester"
+                  name='sem'
+                  label='Current Semester'
                   className={"sem_style"}
                   value={this.state.sem}
                   onChange={(e) => {
@@ -818,8 +827,8 @@ class GeneralDetails extends Component {
           <Grid item md={4}>
             <TextField
               disabled
-              label="Round"
-              name="round"
+              label='Round'
+              name='round'
               value={this.state.round}
               onChange={(e) => this.handlechange(e)}
             />
@@ -829,7 +838,7 @@ class GeneralDetails extends Component {
               multiple
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               disabled
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -843,7 +852,7 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Degree"
+                  label='Degree'
                   className={"field_style"}
                 />
               )}
@@ -856,7 +865,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -869,7 +878,7 @@ class GeneralDetails extends Component {
               }}
               value={this.state.aspfieldofstudy || []}
               renderInput={(params) => (
-                <TextField {...params} label="Field of Study" />
+                <TextField {...params} label='Field of Study' />
               )}
               onChange={(e, newValue) => this.setState({ e, newValue })}
               InputLabelProps={{ shrink: true }}
@@ -893,9 +902,9 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name="areaofspecialisation"
+                  name='areaofspecialisation'
                   className={"package_style"}
-                  label="Area of specialization"
+                  label='Area of Specialization'
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -909,7 +918,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -924,7 +933,7 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name="prefschool"
+                  name='prefschool'
                   // label="Preferred Grad School"
                   label={this.showSchoolLabel()}
                   className={"package_style"}
@@ -946,7 +955,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -961,8 +970,8 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name="aspdegree"
-                  label="Degree Type"
+                  name='aspdegree'
+                  label='Degree'
                   className={"degree_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -993,7 +1002,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -1008,9 +1017,9 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name="fieldofstudy"
+                  name='fieldofstudy'
                   className={"package_style"}
-                  label="Field Of Study"
+                  label='Field Of Study'
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -1036,8 +1045,8 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   className={"package_style"}
-                  name="areaofspecialisation"
-                  label="Area of specialization"
+                  name='areaofspecialisation'
+                  label='Area of Specialization'
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -1051,7 +1060,7 @@ class GeneralDetails extends Component {
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               multiple
               disabled
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -1080,6 +1089,7 @@ class GeneralDetails extends Component {
       );
     }
   }
+
   handlesaved = () => {
     if (
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
@@ -1149,16 +1159,6 @@ class GeneralDetails extends Component {
           obj,
           (response) => {
             if (response.status === 200) {
-              // this.props.getcommenthistory(
-              //   this.props.match.params.studentId,
-              //   this.props.match.params.productId,
-              //   (response) => {
-              //
-              //     this.setState({
-              //       commentlist: response.data,
-              //     });
-              //   }
-              // );
               this.fetchCommentHistory();
               this.setState({
                 snackMsg: "Saved Successfully",
@@ -1238,16 +1238,6 @@ class GeneralDetails extends Component {
             obj,
             (response) => {
               if (response.status === 200) {
-                // this.props.getcommenthistory(
-                //   this.props.match.params.studentId,
-                //   this.props.match.params.productId,
-                //   (response) => {
-                //
-                //     this.setState({
-                //       commentlist: response.data,
-                //     });
-                //   }
-                // );
                 this.fetchCommentHistory();
                 this.setState({
                   snackMsg: "Saved Successfully",
@@ -1289,23 +1279,25 @@ class GeneralDetails extends Component {
   ];
 
   showSchoolLabel = () => {
+    const { getgeneraldetailsList } = this.props;
     if (
-      this.props.getgeneraldetailsList &&
-      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_GRAD"
+      getgeneraldetailsList &&
+      getgeneraldetailsList.schoolType === "ASPIRATION_GRAD"
     ) {
       return "Preferred Grad-Schools";
     } else if (
-      this.props.getgeneraldetailsList &&
-      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS"
+      getgeneraldetailsList &&
+      getgeneraldetailsList.schoolType === "ASPIRATION_BS"
     ) {
       return "Preferred B-schools";
     } else if (
-      this.props.getgeneraldetailsList &&
-      this.props.getgeneraldetailsList.schoolType === "ASPIRATION_BS_GRAD"
+      getgeneraldetailsList &&
+      getgeneraldetailsList.schoolType === "ASPIRATION_BS_GRAD"
     ) {
       return "Preferred B-schools / Grad Schools";
-    }
+    } else return "Preferred B-schools / Grad Schools";
   };
+
   render() {
     const { classes } = this.props;
     console.log(this.props);
@@ -1365,8 +1357,8 @@ class GeneralDetails extends Component {
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
                           disabled
-                          name="clsid"
-                          label="CLS ID"
+                          name='clsid'
+                          label='CLS ID'
                           value={this.state.clsid}
                           InputLabelProps={{ shrink: true }}
                           className={"clsid_style"}
@@ -1407,10 +1399,10 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name="firstname"
-                          type="text"
+                          name='firstname'
+                          type='text'
                           InputLabelProps={{ shrink: true }}
-                          label="First Name"
+                          label='First Name'
                           className={"field_style"}
                           value={this.state.firstname}
                           onChange={(e) => {
@@ -1455,9 +1447,9 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name="lastname"
-                          type="text"
-                          label="Last Name"
+                          name='lastname'
+                          type='text'
+                          label='Last Name'
                           value={this.state.lastname}
                           InputLabelProps={{ shrink: true }}
                           className={"field_style"}
@@ -1503,10 +1495,10 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name="phone"
+                          name='phone'
                           disabled
                           InputLabelProps={{ shrink: true }}
-                          label="Phone Number"
+                          label='Phone Number'
                           className={"field_style"}
                           value={this.state.phone}
                           onChange={(e) => {
@@ -1549,9 +1541,9 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px", paddingRight: "5px" }}>
                         <TextField
-                          name="email"
+                          name='email'
                           disabled
-                          label="Email Address"
+                          label='Email Address'
                           InputLabelProps={{ shrink: true }}
                           value={this.state.email}
                           className={"field_style"}
@@ -1604,9 +1596,9 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name="degree"
+                              name='degree'
                               className={"degree_style"}
-                              label="Degree Type"
+                              label='Degree'
                               InputLabelProps={{ shrink: true }}
                             />
                           )}
@@ -1654,9 +1646,9 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name="fieldofstudy"
+                              name='fieldofstudy'
                               className={"field_style"}
-                              label="Field Of Study"
+                              label='Field Of Study'
                               InputLabelProps={{ shrink: true }}
                             />
                           )}
@@ -1708,8 +1700,8 @@ class GeneralDetails extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                name="college"
-                                label="College Name"
+                                name='college'
+                                label='College Name'
                                 className={"field_style"}
                                 InputLabelProps={{ shrink: true }}
                               />
@@ -1750,8 +1742,8 @@ class GeneralDetails extends Component {
                       <Grid item md={4}>
                         <TextField
                           disabled
-                          name="package"
-                          label="Package Purchased"
+                          name='package'
+                          label='Package Purchased'
                           className={"package_style"}
                           InputLabelProps={{ shrink: true }}
                           value={this.state.package}
@@ -1761,12 +1753,12 @@ class GeneralDetails extends Component {
                       <Grid item md={4}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <TextField
-                            label="Enrollment Period"
+                            label='Enrollment Period'
                             value={this.state.enrollmentdate}
-                            type="month"
+                            type='month'
                             disabled
-                            name="enrollmentdate"
-                            margin="normal"
+                            name='enrollmentdate'
+                            margin='normal'
                             InputLabelProps={{ shrink: true }}
                             onChange={(newValue) =>
                               this.setState({ enrollmentdate: newValue })
@@ -1781,8 +1773,8 @@ class GeneralDetails extends Component {
                           disabled
                           value={this.state.product}
                           onChange={(e) => this.handlechange(e)}
-                          name="product"
-                          label="Product"
+                          name='product'
+                          label='Product'
                           className={"package_style"}
                           InputLabelProps={{ shrink: true }}
                         />
@@ -1793,7 +1785,7 @@ class GeneralDetails extends Component {
                           options={this.intakevalue}
                           disabled
                           getOptionLabel={(option) => option.title}
-                          name="intake"
+                          name='intake'
                           value={this.state.intake}
                           InputLabelProps={{ shrink: true }}
                           onChange={(e, newValue) => {
@@ -1804,8 +1796,8 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name="intake"
-                              label="Intake"
+                              name='intake'
+                              label='Intake'
                               className={"work_style"}
                             />
                           )}
@@ -1861,7 +1853,7 @@ class GeneralDetails extends Component {
               <Dialog open={this.state.dialog} maxWidth={"sm"}>
                 <DialogTitle>
                   <Grid container>
-                    <Grid item md={12} align="left">
+                    <Grid item md={12} align='left'>
                       <Typography style={{ fontSize: "19px" }}>
                         Change Verification
                       </Typography>
@@ -1914,8 +1906,8 @@ class GeneralDetails extends Component {
                           <Grid item md={12} style={{ marginTop: "12px" }}>
                             <TextField
                               fullWidth
-                              label="Comments"
-                              name="comment"
+                              label='Comments'
+                              name='comment'
                               value={this.state.comments}
                               InputLabelProps={{ shrink: true }}
                               onChange={(e) => {
@@ -1947,8 +1939,8 @@ class GeneralDetails extends Component {
                         <div>
                           <PrimaryButton
                             style={{ width: "100px" }}
-                            color="primary"
-                            variant="contained"
+                            color='primary'
+                            variant='contained'
                             onClick={() => this.handlesaved()}
                           >
                             Add
@@ -1958,8 +1950,8 @@ class GeneralDetails extends Component {
                         <div>
                           <PrimaryButton
                             style={{ width: "100px" }}
-                            color="primary"
-                            variant="outlined"
+                            color='primary'
+                            variant='outlined'
                             onClick={() => this.setState({ dialog: false })}
                           >
                             Cancel
@@ -1972,14 +1964,14 @@ class GeneralDetails extends Component {
               </Dialog>
               <CommentDialog
                 open={this.state.commentdialogopen}
-                data={this.state.commentupdatelist}
+                data={this.state.commentUpdateList}
                 onClose={() => this.setState({ commentdialogopen: false })}
                 fieldname={this.state.fieldname}
               />
 
               <Menu
                 style={{ top: "25px" }}
-                id="basic-menu"
+                id='basic-menu'
                 anchorEl={this.state.anchorEl}
                 open={this.state.popOpen}
                 onClose={this.handleClose}
@@ -2081,7 +2073,7 @@ const mapStateToProps = (state) => {
     getPGDegreeList: state.CollegeReducer.getPGDegrees,
     getpguniversity: state.CollegeReducer.University,
     getstatusList: state.ProfileGapAnalysisReducer.getstatus,
-    getcommenthistoryList: state.ProfileGapAnalysisReducer.getcommenthistory,
+    commentHistory: state.ProfileGapAnalysisReducer.commentHistory,
     updatestatusList: state.ProfileGapAnalysisReducer.updatestatus,
     updategeneraldetailsList:
       state.ProfileGapAnalysisReducer.updategeneraldetails,
@@ -2101,7 +2093,7 @@ export default connect(mapStateToProps, {
   getUniversity,
   getstatus,
   updatestatus,
-  getcommenthistory,
+  getCommentHistory,
   updategeneraldetails,
   getAllBranch,
   getAllDegree,
