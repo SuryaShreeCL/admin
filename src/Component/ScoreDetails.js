@@ -18,7 +18,7 @@ class ScoreDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      scoreDetails : []
+      scoreDetails: [],
     };
   }
 
@@ -27,20 +27,19 @@ class ScoreDetails extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.props.viewScoreDetailsList !== prevProps.viewScoreDetailsList){
-      this.setState({scoreDetails : this.props.viewScoreDetailsList})
+    if (this.props.viewScoreDetailsList !== prevProps.viewScoreDetailsList) {
+      this.setState({ scoreDetails: this.props.viewScoreDetailsList });
     }
-    if(this.state.scoreDetails !== prevState.scoreDetails){
-      let initialId = 1
-      this.state.scoreDetails.map((scoreDet)=>{
-        scoreDet.id = initialId++
-      })
+    if (this.state.scoreDetails !== prevState.scoreDetails) {
+      let initialId = 1;
+      this.state.scoreDetails.map((scoreDet) => {
+        scoreDet.id = initialId++;
+      });
     }
   }
-  
 
   render() {
-    console.log(this.state.scoreDetails)
+    console.log(this.state.scoreDetails);
     const columns = [
       { field: "id", headerName: "ID", width: 200 },
       { field: "questionSetName", headerName: "Question Set Name", width: 350 },
@@ -56,10 +55,14 @@ class ScoreDetails extends Component {
         <Grid container>
           <Grid item md={12} style={{ height: "100vh" }}>
             <DataGrid
-            autoHeight
-            autoPageSize
-            loading={this.state.scoreDetails.length === 0}
-              rows={this.state.scoreDetails.length !== 0 ? this.state.scoreDetails : []}
+              autoHeight
+              autoPageSize
+              loading={this.state.scoreDetails.length === 0}
+              rows={
+                this.state.scoreDetails.length !== 0
+                  ? this.state.scoreDetails
+                  : []
+              }
               columns={columns}
             />
           </Grid>
