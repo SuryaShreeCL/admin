@@ -26,6 +26,7 @@ import {
   editAdmin,
 } from "../Actions/UserManagement";
 import { isEmptyString } from "../Component/Validation";
+import { isEmptyArray } from "../Component/Validation";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
@@ -43,11 +44,14 @@ export class UserManagement extends Component {
       password: "",
       department: [],
       usernameErr: "",
+      passwordErr: "",
+      departmentErr: "",
       update: false,
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
       passwordEnable: true,
+      // modalClose: true,
     };
   }
   // Component Theme
@@ -156,6 +160,10 @@ export class UserManagement extends Component {
       department: data.departments,
       password: null,
       show: true,
+      passwordEnable: true,
+      passwordErr: "",
+      usernameErr: "",
+      departmentErr: "",
     });
   };
   // Dialog Open
@@ -166,6 +174,10 @@ export class UserManagement extends Component {
       username: "",
       password: "",
       department: [],
+      passwordEnable: false,
+      passwordErr: "",
+      usernameErr: "",
+      departmentErr: "",
     });
   };
   // deleteHandler = (data) => {
@@ -180,36 +192,83 @@ export class UserManagement extends Component {
     if (this.props.AdminList !== prevProps.AdminList) {
       // console.log(this.props.AdminList, prevProps.AdminList);
       this.props.getUserDetails();
-      this.setState({
-        snackMsg: "Saved sucessfully",
-        snackOpen: true,
-        snackVariant: "success",
-      });
     }
   }
 
+  handleUpdate = () => {
+    let helperTxt = "Please fill the Required Field";
+    isEmptyString(this.state.username)
+      ? this.setState({ usernameErr: helperTxt })
+      : this.setState({ usernameErr: "" });
+
+    isEmptyArray(this.state.department)
+      ? this.setState({ departmentErr: helperTxt })
+      : this.setState({ departmentErr: "" });
+
+    if (
+      !isEmptyString(this.state.username) &&
+      !isEmptyArray(this.state.department)
+    ) {
+      let reqBody = {
+        Id: this.state.id, // if updating the user details mean pass the id
+        username: this.state.username,
+        password: this.state.password,
+        userDetails: this.state.department,
+      };
+      this.setState({
+        snackMsg: "Update sucessfully",
+        snackOpen: true,
+        snackVariant: "success",
+        show: false,
+      });
+      this.props.editAdmin(reqBody);
+
+      console.log(reqBody);
+    }
+  };
+
   handleSave = () => {
-    let reqBody = {
-      Id: this.state.id, // if updating the user details mean pass the id
-      username: this.state.username,
-      password: this.state.password,
-      userDetails: this.state.department,
-    };
-    this.setState({
-      snackMsg: "Update sucessfully",
-      snackOpen: true,
-      snackVariant: "success",
-    });
-    this.props.editAdmin(reqBody);
-    console.log(reqBody);
+    let helperTxt = "Please fill the Required Field";
+    isEmptyString(this.state.username)
+      ? this.setState({ usernameErr: helperTxt })
+      : this.setState({ usernameErr: "" });
+
+    isEmptyString(this.state.password)
+      ? this.setState({ passwordErr: helperTxt })
+      : this.setState({ passwordErr: "" });
+
+    isEmptyArray(this.state.department)
+      ? this.setState({ departmentErr: helperTxt })
+      : this.setState({ departmentErr: "" });
+
+    if (
+      !isEmptyString(this.state.username) &&
+      !isEmptyString(this.state.password) &&
+      !isEmptyArray(this.state.department)
+    ) {
+      let reqBody = {
+        Id: this.state.id, // if updating the user details mean pass the id
+        username: this.state.username,
+        password: this.state.password,
+        userDetails: this.state.department,
+      };
+      this.setState({
+        snackMsg: "Add sucessfully",
+        snackOpen: true,
+        snackVariant: "success",
+        show: false,
+      });
+      this.props.editAdmin(reqBody);
+      console.log(reqBody);
+    }
   };
 
   render() {
     console.log(this.state, "++++++++++++++++");
-    console.log(this.props.AdminList);
+    console.log(this.props.AdminList, "++++++++++++++++++++");
     return (
       <div>
-        <ThemeProvider>
+        <ThemeProvider theme={this.getmuitheme()}>
           <Grid container>
             <Grid item md={12}>
               {this.props.getList && this.props.getList.length !== 0 ? (
@@ -254,11 +313,10 @@ export class UserManagement extends Component {
             </Grid>
           </Grid>
           {/* Add and Edit Aspiration Term */}
-          <ThemeProvider>
+          <ThemeProvider theme={this.modeltheme()}>
             <Dialog
               TransitionComponent={Transition}
               open={this.state.show}
-              onClose={(e) => this.setState({ show: false })}
               aria-labelledby="customized-dialog-title"
             >
               <DialogTitle id="customized-dialog-title">
@@ -296,7 +354,10 @@ export class UserManagement extends Component {
                       helperText={this.state.usernameErr}
                       value={this.state.username}
                       onChange={(e) =>
-                        this.setState({ username: e.target.value })
+                        this.setState({
+                          username: e.target.value,
+                          usernameErr: "",
+                        })
                       }
                       multiline
                     />
@@ -308,8 +369,13 @@ export class UserManagement extends Component {
                       color="primary"
                       label="Enter Password"
                       value={this.state.password}
+                      error={this.state.passwordErr.length > 0}
+                      helperText={this.state.passwordErr}
                       onChange={(e) =>
-                        this.setState({ password: e.target.value })
+                        this.setState({
+                          password: e.target.value,
+                          passwordErr: "",
+                        })
                       }
                       fullWidth
                     />
@@ -332,7 +398,10 @@ export class UserManagement extends Component {
                       options={this.props.departmentList?.data}
                       getOptionLabel={(option) => option.name}
                       onChange={(e, newValue) =>
-                        this.setState({ department: newValue })
+                        this.setState({
+                          department: newValue,
+                          departmentErr: "",
+                        })
                       }
                       filterSelectedOptions
                       renderInput={(params) => (
@@ -341,6 +410,8 @@ export class UserManagement extends Component {
                           label="Enter Role"
                           variant="outlined"
                           placeholder="Role"
+                          error={this.state.departmentErr.length > 0}
+                          helperText={this.state.departmentErr}
                         />
                       )}
                     />
@@ -349,7 +420,11 @@ export class UserManagement extends Component {
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={this.handleSave}
+                  onClick={
+                    this.state.id.length !== 0
+                      ? this.handleUpdate
+                      : this.handleSave
+                  }
                   variant="contained"
                   color="primary"
                   startIcon={<AddIcon />}

@@ -22,7 +22,8 @@ export const getUserDepartment = () => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, "++++++++");
+        dispatch(error);
       });
   };
 };
