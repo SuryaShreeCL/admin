@@ -266,14 +266,22 @@ export class UserManagement extends Component {
                   {this.state.id.length !== 0
                     ? "Edit Username"
                     : "Add Username"}
-                </div>
-                <div className="model-close-button">
-                  <IconButton
-                    aria-label="close"
-                    onClick={(e) => this.setState({ show: false })}
+
+                  <div
+                    className="model-close-button"
+                    style={{
+                      position: "relative",
+                      marginLeft: "90%",
+                      marginTop: "-7%",
+                    }}
                   >
-                    <CloseIcon />
-                  </IconButton>
+                    <IconButton
+                      aria-label="close"
+                      onClick={(e) => this.setState({ show: false })}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </div>
                 </div>
               </DialogTitle>
               <DialogContent>
