@@ -25,7 +25,7 @@ export const PROFILE_GAP_ANALYSIS = {
   loader: "profileGapAnalysisLoader",
   getgeneraldetails: "getgeneraldetails",
   getstatus: "getstatus",
-  getcommenthistory: "getcommenthistory",
+  getCommentHistory: "getCommentHistory",
   updatestatus: "updatestatus",
   getTestResults: "getTestResults",
   getPpgaCallNotes: "getPpgaCallNotes",
