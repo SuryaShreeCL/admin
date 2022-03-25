@@ -1,34 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ButtonsContainer,
-  CreatePostContainer,
-} from '../Wall/Assets/Styles/CreatePostStyles';
-import BackHandler from '../Wall/Components/BackHandler';
-import Preview from '../Wall/Components/Preview';
-import Switch from '@material-ui/core/Switch';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { DateTimePicker } from '@material-ui/pickers';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import EventIcon from '@material-ui/icons/Event';
-import MomentUtils from '@date-io/moment';
-import { Formik, Form } from 'formik';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Typography } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import * as yup from 'yup';
-import { Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
-import { useSelector, useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import Notification from '../Utils/Notification';
-import ConfirmDialog from '../Utils/ConfirmDialog';
-import Controls from '../Utils/controls/Controls';
-import { getWallCategories } from '../../Actions/WallActions';
 import { uploadPremiumUsers } from '../../Actions/PremiumUsersActions';
+import { getWallCategories } from '../../Actions/WallActions';
+import ConfirmDialog from '../Utils/ConfirmDialog';
+import Notification from '../Utils/Notification';
+import BackHandler from '../Wall/Components/BackHandler';
 
 const useStyles = makeStyles({
   root: {
@@ -56,70 +37,69 @@ const PremiumUserLanding = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
 
   const [state, setState] = useState({
     premiumUsersCategories: [],
   });
   const [uploadDisabled, setUploadDisabled] = useState(false);
+  const [data, setData] = useState('');
+  const [key, setKey] = useState('');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
+    console.log(data);
     dispatch(getWallCategories('Live'));
-    // dispatch(getPlatforms());
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
 
   const handlePremiumUsersSheetUpload = async (e, formFieldsData) => {
-    console.log('first');
-    if (formFieldsData?.premiumUsersCategories[0]?.name == '4th Year Premium') {
-      console.log('2');
-      const file = e.currentTarget.files[0];
-      const fileType = e.currentTarget.files[0].name;
-      setUploadDisabled(true);
-      // File type must be sheet, .xlsx, .xls
-      if (fileType.includes('.csv')) {
-        let formData = new FormData();
-        formData.append('file', e.currentTarget.files[0]);
-        dispatch(
-          uploadPremiumUsers(formData, (response) => {
-            if (response.message == 'Upload Success') {
-              setUploadDisabled(false);
-              setNotify({
-                isOpen: true,
-                message: 'File Upload Successfully Done',
-                type: 'success',
+    const fileType = e.currentTarget.files[0].name;
+    setUploadDisabled(true);
+    // File type must be sheet, .xlsx, .xls
+    if (fileType.includes('.csv')) {
+      let formData = new FormData();
+      formData.append('file', e.currentTarget.files[0]);
+      dispatch(
+        uploadPremiumUsers(formData, (response) => {
+          if (response.message == 'Upload Success') {
+            setUploadDisabled(false);
+            setNotify({
+              isOpen: true,
+              message: 'File Upload Successfully Done',
+              type: 'success',
+            });
+          } else if (response.message == 'Invalid Details Found') {
+            function getErrorToast(response) {
+              let errMsg = '';
+              let msg = 'Operation Failed';
+              Object.entries(response).map(([key, value]) => {
+                if (Array.isArray(value))
+                  errMsg += key + ':' + ' ' + value.join(',') + '\n';
               });
-            } else if (response.message == 'Invalid Details Found') {
-              setUploadDisabled(false);
-              setNotify({
-                isOpen: true,
-                message: response.message,
-                type: 'error',
-              });
-            } else {
-              setUploadDisabled(false);
-              setNotify({
-                isOpen: true,
-                message: 'Please try later! Not able to upload file',
-                type: 'error',
-              });
+              return msg + '\n' + errMsg;
             }
-          })
-        );
-      } else {
-        setUploadDisabled(false);
-        setNotify({
-          isOpen: true,
-          message: 'Please upload an csv file',
-          type: 'error',
-        });
-      }
+            setUploadDisabled(false);
+            setNotify({
+              isOpen: true,
+              message: getErrorToast(response),
+              type: 'error',
+            });
+          } else {
+            setUploadDisabled(false);
+            setNotify({
+              isOpen: true,
+              message: 'Please try later! Not able to upload file',
+              type: 'error',
+            });
+          }
+        })
+      );
     } else {
       setUploadDisabled(false);
       setNotify({
         isOpen: true,
-        message: "Please select '4th Year Premium' category",
+        message: 'Please upload an csv file',
         type: 'error',
       });
     }
@@ -140,32 +120,11 @@ const PremiumUserLanding = () => {
     subTitle: '',
   });
 
-  const onDiscard = () => {
-    // setConfirmDialog({
-    //   ...confirmDialog,
-    //   isOpen: false,
-    // });
-    // setTimeout(() => {
-    //   history.push({
-    //     pathname: wallPath,
-    //     tab: location?.postTypeTab,
-    //   });
-    // }, 1200);
-    // setNotify({
-    //   isOpen: true,
-    //   message: "Discarded",
-    //   type: "warning",
-    // });
-  };
-
   return (
     <div>
       <BackHandler title={`Upload Premium Users`} tab={location?.postTypeTab} />
       <Formik
         initialValues={state || []}
-        // validationSchema={
-
-        // }
         onSubmit={(values, { resetForm }) => {
           let data = new FormData();
           values.premiumUsersSheet.forEach((premiumUserSheet, index) => {
@@ -191,66 +150,30 @@ const PremiumUserLanding = () => {
                 <Form onSubmit={handleSubmit} autoComplete='off'>
                   <FormControl
                     className={classes.root}
-                    style={{ width: '80%' }}
+                    style={{ width: '30%' }}
                   >
-                    <Grid container direction='row'>
-                      <Autocomplete
-                        multiple
-                        id='premiumUsersCategories'
-                        name='premiumUsersCategories'
-                        getOptionLabel={(option) => option?.name}
-                        options={categories ?? []}
-                        onChange={(e, value) => {
-                          setFieldValue(
-                            'premiumUsersCategories',
-                            value !== null ? value : categories
-                          );
-                        }}
-                        value={values.premiumUsersCategories}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label='Select Category'
-                            name='premiumUsersCategories'
-                            variant='outlined'
-                            error={
-                              touched.premiumUsersCategories &&
-                              Boolean(
-                                values.premiumUsersCategories.length === 0
-                              )
-                            }
-                          />
-                        )}
-                        style={{
-                          marginTop: '10px',
-                          marginBottom: '10px',
-                          marginLeft: '10px',
-                          width: '70%',
-                        }}
+                    <Button
+                      variant='contained'
+                      component='label'
+                      disabled={uploadDisabled}
+                      color={!uploadDisabled ? 'primary' : 'default'}
+                      style={{
+                        margin: 'auto',
+                        borderRadius: '26px',
+                        width: '200px',
+                        height: '50px',
+                      }}
+                    >
+                      {!uploadDisabled ? '+ Upload Sheet' : 'Uploading ...'}
+                      <input
+                        hidden
+                        type='file'
+                        onChange={(e) =>
+                          handlePremiumUsersSheetUpload(e, values)
+                        }
+                        onClick={(e) => (e.currentTarget = null)}
                       />
-                      <Button
-                        variant='contained'
-                        component='label'
-                        disabled={uploadDisabled}
-                        color={!uploadDisabled ? 'primary' : 'default'}
-                        style={{
-                          margin: 'auto',
-                          borderRadius: '26px',
-                          width: '200px',
-                          height: '50px',
-                        }}
-                      >
-                        {!uploadDisabled ? '+ Upload Sheet' : 'Uploading ...'}
-                        <input
-                          hidden
-                          type='file'
-                          onChange={(e) =>
-                            handlePremiumUsersSheetUpload(e, values)
-                          }
-                          onClick={(e) => (e.currentTarget = null)}
-                        />
-                      </Button>
-                    </Grid>
+                    </Button>
                   </FormControl>
                 </Form>
               </div>
