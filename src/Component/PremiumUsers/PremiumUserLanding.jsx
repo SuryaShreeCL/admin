@@ -72,10 +72,14 @@ const PremiumUserLanding = () => {
           } else if (response.message == 'Invalid Details Found') {
             function getErrorToast(response) {
               let errMsg = '';
-              let msg = 'Operation Failed';
+              let msg = 'Operation Failed!';
               Object.entries(response).map(([key, value]) => {
                 if (Array.isArray(value))
-                  errMsg += key + ':' + ' ' + value.join(',') + '\n';
+                  errMsg +=
+                    (errMsg.length > 0 ? '\n' : '') +
+                    key +
+                    ': ' +
+                    value.join(',');
               });
               return msg + '\n' + errMsg;
             }
