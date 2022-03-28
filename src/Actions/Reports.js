@@ -1,6 +1,7 @@
 import { REPORTS } from "../Redux/Action";
 import axios from "axios";
 import { URL } from "../Actions/URL";
+import { errorHandler } from "../Component/Utils/Helpers";
 
 export const viewTermsAndConReports = () => {
   let accessToken = window.sessionStorage.getItem("accessToken");
@@ -200,8 +201,48 @@ export const getTestList = (id, callback) => {
   };
 };
 
-export const downloadProductReport = (startDate, endDate) => {
+export const generateMasterReport = (reportName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
+  let adminUserId = window.sessionStorage.getItem("adminUserId");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/students/reports/master`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          adminUserId: adminUserId,
+          export: true,
+          reportName: reportName,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: REPORTS.generateMasterReport,
+          payload: {
+            success: true,
+            data: result.data,
+          },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: REPORTS.generateMasterReport,
+          payload: {
+            success: false,
+            data: error,
+            message: error?.message || "Exception Failed",
+          },
+        });
+      });
+  };
+};
+
+export const generateSalesReport = (startDate, endDate) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/sales/report`, {
@@ -214,24 +255,19 @@ export const downloadProductReport = (startDate, endDate) => {
           startDate: startDate,
           endDate: endDate,
         },
-        responseType: "blob",
       })
       .then((result) => {
-        let success = false;
-        if (result.data && result.data.size && result.data.size !== 0)
-          success = true;
         dispatch({
-          type: REPORTS.downloadProductReport,
+          type: REPORTS.generateSalesReport,
           payload: {
-            success: success,
+            success: true,
             data: result.data,
-            message: success ? "Report Generated" : "No Results Found",
           },
         });
       })
       .catch((error) => {
         dispatch({
-          type: REPORTS.downloadProductReport,
+          type: REPORTS.generateSalesReport,
           payload: {
             success: false,
             data: error,
@@ -248,5 +284,61 @@ export const clearCustomData = (fieldName) => {
       type: REPORTS.clearCustomData,
       fieldName: fieldName,
     });
+  };
+};
+
+export const getSalesReport = (page, size, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/sales/report/all`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: page,
+          size: size,
+          reportName: reportName,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.viewSalesReport,
+          payload: { success: true, ...response.data },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.viewSalesReport, error, false));
+      });
+  };
+};
+
+export const getMasterReport = (page, size, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/sales/report/all`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: page,
+          size: size,
+          reportName: reportName,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.viewMasterReport,
+          payload: { success: true, ...response.data },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.viewMasterReport, error, false));
+      });
   };
 };
