@@ -30,7 +30,7 @@ function Index(props) {
             value={item}
             label={item}
             id={`${item}${index}`}
-            minWidth={"135px"}
+            minHeight={"72px"}
           />
         ))
       : null;

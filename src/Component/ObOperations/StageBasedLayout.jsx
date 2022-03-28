@@ -703,7 +703,7 @@ class StageBasedLayout extends Component {
             </Grid>
             <Grid item md={12}>
               <Grid container>
-                <Grid item md={12} className={"component_grid"}>
+                <Grid item md={12}>
                   {Page !== undefined &&
                     this.state.tabCount === 0 &&
                     this.state.selectedItem !== "Others" && (
@@ -807,7 +807,7 @@ class StageBasedLayout extends Component {
             </Grid>
             <Grid item md={12}>
               <Grid container>
-                <Grid item md={12} className={"component_grid"}>
+                <Grid item md={12}>
                   {Page !== undefined &&
                     this.state.tabCount === 0 &&
                     this.state.selectedItem !== "Others" && (

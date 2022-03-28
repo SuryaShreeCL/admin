@@ -25,13 +25,14 @@ function CustomTabs({
   );
 }
 
-function CustomTab({ label, value, id, minWidth, ...props }) {
+function CustomTab({ label, value, id, minWidth, minHeight, ...props }) {
   return (
     <StyledTab
       label={label}
       value={value}
       id={id}
       minWidth={minWidth}
+      minHeight={minHeight}
       {...props}
     />
   );

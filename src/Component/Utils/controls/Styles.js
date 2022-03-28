@@ -86,4 +86,6 @@ export const UploadIcon = styled.img`
 export const StyledTab = styled(Tab)`
   text-transform: none;
   min-width: ${({ minWidth }) => minWidth};
+  min-height: ${({ minHeight }) => minHeight};
+  max-width: unset;
 `;
