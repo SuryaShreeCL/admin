@@ -51,7 +51,7 @@ const STAGES = [
   {
     name: "Onboarding",
     value: 0,
-    stageName: "Onboarding",
+    stageName: "OnBoarding",
     component: null,
   },
   {

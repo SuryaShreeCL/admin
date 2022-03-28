@@ -56,7 +56,7 @@ function Index(props) {
               {renderTabs()}
             </CustomTabs>
           </Box>
-          <Divider style={{ backgroundColor: "#D2D2D2" }} />
+          {/* <Divider style={{ backgroundColor: "#D2D2D2" }} /> */}
           {renderComponent()}
         </Grid>
       </Grid>
