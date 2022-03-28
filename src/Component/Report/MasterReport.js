@@ -150,7 +150,7 @@ function MasterReport(props) {
       totalPage: 0,
       masterReportList: [],
     });
-    dispatch(generateMasterReport(reportName));
+    dispatch(generateMasterReport(startDate, endDate, reportName));
     setTimeout(() => {
       dispatch(getMasterReport(0, SIZE, reportName));
     }, 200);

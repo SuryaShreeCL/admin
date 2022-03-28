@@ -201,7 +201,7 @@ export const getTestList = (id, callback) => {
   };
 };
 
-export const generateMasterReport = (reportName) => {
+export const generateMasterReport = (startDate, endDate, reportName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   let adminUserId = window.sessionStorage.getItem("adminUserId");
 
@@ -216,6 +216,8 @@ export const generateMasterReport = (reportName) => {
           adminUserId: adminUserId,
           export: true,
           reportName: reportName,
+          startDate: startDate,
+          endDate: endDate,
         },
       })
       .then((result) => {
