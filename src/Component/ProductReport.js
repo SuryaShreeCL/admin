@@ -29,14 +29,12 @@ import {
   HeadInline,
   typographyStyle,
   useStyles,
-} from "../Asset/StyledComponents/ReportStyles";
-import PaginationComponent from "../Component/Utils/CustomPaginationComponent";
-import TextFieldComponent from "./Controls/TextField";
-import Snack from "./MySnackBar";
-import { studentPath } from "./RoutePaths";
-import { ReactComponent as RefreshIcon } from "../Asset/icons/refresh.svg";
-
-const SIZE = 20;
+} from '../Asset/StyledComponents/ReportStyles';
+import Loader from '../Lms/Utils/Loader';
+import TextFieldComponent from './Controls/TextField';
+import { studentPath } from './RoutePaths';
+import Snack from './MySnackBar';
+import { clearCustomData, downloadProductReport } from '../Actions/Reports';
 
 function ProductReport(props) {
   const classes = useStyles();
@@ -101,14 +99,14 @@ function ProductReport(props) {
           snackMsg: productReport.message,
         });
       }
-      dispatch(clearCustomData("productReport"));
+      dispatch(clearCustomData('productReport'));
     }
   }, [productReport]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
-      var momentA = moment(new Date(dateTimeA), "DD/MM/YYYY");
-      var momentB = moment(new Date(dateTimeB), "DD/MM/YYYY");
+      var momentA = moment(new Date(dateTimeA), 'DD/MM/YYYY');
+      var momentB = moment(new Date(dateTimeB), 'DD/MM/YYYY');
       if (momentA > momentB) return true;
       else return false;
     } else return false;
@@ -119,7 +117,7 @@ function ProductReport(props) {
       if (compare(startDate, endDate)) {
         setState({
           ...state,
-          endDateHelperText: "Please select a valid date",
+          endDateHelperText: 'Please select a valid date',
           isDisabled: true,
         });
       } else {
@@ -163,7 +161,7 @@ function ProductReport(props) {
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, snackOpen: false, snackMsg: "" });
+    setState({ ...state, snackOpen: false, snackMsg: '' });
   };
 
   const handlePageChange = (event, value) => {
@@ -255,20 +253,20 @@ function ProductReport(props) {
             onClick={() => props.history.push(studentPath)}
             style={typographyStyle}
           >
-            {"Home"}
+            {'Home'}
           </Typography>
-          <Typography className={classes.textSTyle}>{"Report"}</Typography>
+          <Typography className={classes.textSTyle}>{'Report'}</Typography>
         </Breadcrumbs>
       </BreadCrumpContainer>
       <Grid container spacing={2}>
         <Grid xs={12} item />
         <Grid item xs={3}>
           <TextFieldComponent
-            type={"date"}
-            color={"primary"}
-            variant={"outlined"}
-            label={"Start Date"}
-            name={"startDate"}
+            type={'date'}
+            color={'primary'}
+            variant={'outlined'}
+            label={'Start Date'}
+            name={'startDate'}
             value={startDate}
             onChange={handleChange}
             InputLabelProps={{
@@ -287,21 +285,21 @@ function ProductReport(props) {
         </Grid>
         <Grid item xs={3}>
           <TextFieldComponent
-            type={"date"}
-            color={"primary"}
-            variant={"outlined"}
-            label={"End Date"}
-            name={"endDate"}
+            type={'date'}
+            color={'primary'}
+            variant={'outlined'}
+            label={'End Date'}
+            name={'endDate'}
             value={endDate}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
-              max: moment(new Date()).format("YYYY-MM-DD"),
+              max: moment(new Date()).format('YYYY-MM-DD'),
             }}
             error={Boolean(endDateHelperText)}
-            helperText={endDateHelperText || " "}
+            helperText={endDateHelperText || ' '}
             onKeyDown={(event) => {
               event.preventDefault();
             }}
@@ -335,7 +333,7 @@ function ProductReport(props) {
       </Grid>
       <Snack
         snackOpen={snackOpen}
-        snackVariant={"error"}
+        snackVariant={'error'}
         snackMsg={snackMsg}
         onClose={handleSnackClose}
       />

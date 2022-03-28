@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
   },
   dialogTitle: {
-    paddingRight: '0px',
+    padding: '2px 30px',
   },
 }));
 
