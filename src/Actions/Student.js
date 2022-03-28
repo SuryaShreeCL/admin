@@ -1,4 +1,4 @@
-import { STUDENT } from "../Redux/Action";
+import { STUDENT, STUDENTMARKDETAILS } from "../Redux/Action";
 import { URL, AUTH_URL } from "./URL";
 import axios from "axios";
 import { errorHandler } from "../Component/Utils/Helpers";

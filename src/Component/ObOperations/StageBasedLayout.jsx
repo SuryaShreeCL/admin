@@ -48,6 +48,12 @@ import "../../Asset/All.css";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import { CircularProgress } from "@material-ui/core";
+import StrategySessionLanding from "./strategy-session/StrategySessionLanding";
+import ProgramPreference from "./strategy-session/PreStrategyWorksheetTab";
+
+
+import PreStrategyWorkSheet from "./strategy-session/PreStrategyWorkSheet";
+
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -538,7 +544,7 @@ class StageBasedLayout extends Component {
         ? componentList[this.state.selectedItem.stepName]
         : componentList[this.state.selectedItem];
     var Page = obj[selectedComponent];
-
+    console.log(this.state.tabCount, "++++++++++++++++");
     return (
       <div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -709,7 +715,7 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        disabled={item.disabled}
+                        // disabled={item.disabled}
                         icon={
                           item.disabled ? (
                             <LockIcon className={"icon_style"} />
@@ -796,6 +802,9 @@ class StageBasedLayout extends Component {
                   {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
                   {this.state.tabCount === 1 && (
                     <ProfileGapRoot {...this.props} />
+                  )}
+                  {this.state.tabCount === 2 && (
+                    <PreStrategyWorkSheet {...this.props} />
                   )}
                 </Grid>
                 {this.state.tabCount === 0 && this.renderbutton()}

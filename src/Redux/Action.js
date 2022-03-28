@@ -120,6 +120,8 @@ export const STUDENT = {
   aspirationDegree: "aspirationDegree",
   aspirationBranch: "aspirationBranch",
   aspirationCountry: "aspirationCountry",
+  getRegions: "getRegions",
+  getDegree: "getDegree",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
   getAllIntakeList: "getAllIntakeList",
@@ -580,4 +582,9 @@ export const CV_REVIEW = {
   getStudentCvList: "getStudentCvList",
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
+};
+
+export const STRATEGY_SESSION = {
+  putProgramPreference: "putProgramPreference",
+  getProgramPreference: "getProgramPreference",
 };
