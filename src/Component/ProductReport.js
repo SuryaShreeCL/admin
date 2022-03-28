@@ -9,17 +9,13 @@ import {
   TableContainer,
   TableRow,
   Typography,
-} from "@material-ui/core";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import moment from "moment";
-import React, { Fragment, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  clearCustomData,
-  generateProductReport,
-  getProductReport,
-} from "../Actions/Reports";
-import BackButton from "../Asset/Images/backbutton.svg";
+} from '@material-ui/core';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import moment from 'moment';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCustomData, generateProductReport, getProductReport } from '../Actions/Reports';
+import BackButton from '../Asset/Images/backbutton.svg';
 import {
   BlueCell,
   BodyCell,
@@ -34,7 +30,10 @@ import Loader from '../Lms/Utils/Loader';
 import TextFieldComponent from './Controls/TextField';
 import { studentPath } from './RoutePaths';
 import Snack from './MySnackBar';
-import { clearCustomData, downloadProductReport } from '../Actions/Reports';
+import { ReactComponent as RefreshIcon } from '../Asset/icons/refresh.svg';
+import PaginationComponent from '../Component/Utils/CustomPaginationComponent';
+
+const SIZE = 20;
 
 function ProductReport(props) {
   const classes = useStyles();
@@ -44,7 +43,7 @@ function ProductReport(props) {
     endDateHelperText: null,
     isDisabled: true,
     snackOpen: false,
-    snackMsg: "",
+    snackMsg: '',
     productReportList: [],
     page: 0,
     totalPage: 0,
@@ -62,9 +61,7 @@ function ProductReport(props) {
   } = state;
 
   const dispatch = useDispatch();
-  const { productReport } = useSelector(
-    (stateValue) => stateValue.ReportReducer
-  );
+  const { productReport } = useSelector((stateValue) => stateValue.ReportReducer);
 
   useEffect(() => {
     dispatch(getProductReport(0, SIZE));
@@ -86,7 +83,7 @@ function ProductReport(props) {
             totalPage: 0,
             page: 0,
             snackOpen: true,
-            snackMsg: "No results found",
+            snackMsg: 'No results found',
           });
         }
       } else {
@@ -170,15 +167,15 @@ function ProductReport(props) {
   };
 
   const renderButtonText = (value) => {
-    let text = "Inprogress";
+    let text = 'Inprogress';
     if (value) {
-      text = "Download";
+      text = 'Download';
     }
     return text;
   };
 
   const renderTable = () => {
-    const columns = ["Created date", "Selection range", "Created by", ""];
+    const columns = ['Created date', 'Selection range', 'Created by', ''];
 
     return (
       <Box>
@@ -199,23 +196,18 @@ function ProductReport(props) {
                   {productReportList &&
                     productReportList.length !== 0 &&
                     productReportList.map(
-                      (
-                        { createdAt, userSelectedDate, downloadLink, userRole },
-                        index
-                      ) => {
+                      ({ createdAt, userSelectedDate, downloadLink, userRole }, index) => {
                         return (
-                          <TableRow key={index} style={{ border: "0 0 0 0" }}>
-                            <BodyCell>{createdAt || "NA"}</BodyCell>
-                            <BodyCell>{userSelectedDate || "NA"}</BodyCell>
-                            <BlueCell>{userRole?.username || "NA"}</BlueCell>
-                            <BodyCell align={"right"}>
+                          <TableRow key={index} style={{ border: '0 0 0 0' }}>
+                            <BodyCell>{createdAt || 'NA'}</BodyCell>
+                            <BodyCell>{userSelectedDate || 'NA'}</BodyCell>
+                            <BlueCell>{userRole?.username || 'NA'}</BlueCell>
+                            <BodyCell align={'right'}>
                               <Button
                                 disabled={!Boolean(downloadLink)}
-                                color={"primary"}
-                                onClick={() =>
-                                  handleDownloadClick(downloadLink)
-                                }
-                                variant={"contained"}
+                                color={'primary'}
+                                onClick={() => handleDownloadClick(downloadLink)}
+                                variant={'contained'}
                               >
                                 {renderButtonText(downloadLink)}
                               </Button>
@@ -243,16 +235,9 @@ function ProductReport(props) {
   return (
     <div>
       <BreadCrumpContainer>
-        <img
-          src={BackButton}
-          className={classes.imgStyle}
-          onClick={() => props.history.goBack()}
-        />
+        <img src={BackButton} className={classes.imgStyle} onClick={() => props.history.goBack()} />
         <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
-          <Typography
-            onClick={() => props.history.push(studentPath)}
-            style={typographyStyle}
-          >
+          <Typography onClick={() => props.history.push(studentPath)} style={typographyStyle}>
             {'Home'}
           </Typography>
           <Typography className={classes.textSTyle}>{'Report'}</Typography>
@@ -274,8 +259,8 @@ function ProductReport(props) {
             }}
             inputProps={{
               max: moment()
-                .subtract(1, "days")
-                .format("YYYY-MM-DD"),
+                .subtract(1, 'days')
+                .format('YYYY-MM-DD'),
             }}
             onKeyDown={(event) => {
               event.preventDefault();
@@ -306,24 +291,18 @@ function ProductReport(props) {
             fullWidth
           />
         </Grid>
-        <Grid
-          item
-          xs={6}
-          justifyContent={"flex-end"}
-          alignItems={"center"}
-          container
-        >
+        <Grid item xs={6} justifyContent={'flex-end'} alignItems={'center'} container>
           <Button
             disabled={isDisabled}
-            color={"primary"}
+            color={'primary'}
             onClick={handleGenerateClick}
-            variant={"contained"}
+            variant={'contained'}
           >
-            {"Generate"}
+            {'Generate'}
           </Button>
-          <Box margin={"0px 10px 0px 30px"}>
-            <IconButton onClick={handleRefresh} title={"Refresh"}>
-              <RefreshIcon color={"#009be5"} width={"26px"} height={"26px"} />
+          <Box margin={'0px 10px 0px 30px'}>
+            <IconButton onClick={handleRefresh} title={'Refresh'}>
+              <RefreshIcon color={'#009be5'} width={'26px'} height={'26px'} />
             </IconButton>
           </Box>
         </Grid>
