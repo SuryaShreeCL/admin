@@ -34,7 +34,6 @@ import {
   updategeneraldetails,
   updatestatus,
 } from "../../Actions/ProfileGapAction";
-import { StudentStepDetails } from "../../Actions/Student";
 import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
