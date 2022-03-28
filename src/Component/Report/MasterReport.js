@@ -14,12 +14,14 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import moment from "moment";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   clearCustomData,
-  generateProductReport,
-  getProductReport,
-} from "../Actions/Reports";
-import BackButton from "../Asset/Images/backbutton.svg";
+  generateMasterReport,
+  getMasterReport,
+} from "../../Actions/Reports";
+import { ReactComponent as RefreshIcon } from "../../Asset/icons/refresh.svg";
+import BackButton from "../../Asset/Images/backbutton.svg";
 import {
   BlueCell,
   BodyCell,
@@ -29,17 +31,17 @@ import {
   HeadInline,
   typographyStyle,
   useStyles,
-} from "../Asset/StyledComponents/ReportStyles";
-import PaginationComponent from "../Component/Utils/CustomPaginationComponent";
-import TextFieldComponent from "./Controls/TextField";
-import Snack from "./MySnackBar";
-import { studentPath } from "./RoutePaths";
-import { ReactComponent as RefreshIcon } from "../Asset/icons/refresh.svg";
+} from "../../Asset/StyledComponents/ReportStyles";
+import PaginationComponent from "../../Component/Utils/CustomPaginationComponent";
+import TextFieldComponent from "./../Controls/TextField";
+import Snack from "./../MySnackBar";
+import { studentPath } from "./../RoutePaths";
 
 const SIZE = 20;
 
-function ProductReport(props) {
+function MasterReport(props) {
   const classes = useStyles();
+  const { reportName } = useParams();
   const [state, setState] = useState({
     startDate: null,
     endDate: null,
@@ -47,7 +49,7 @@ function ProductReport(props) {
     isDisabled: true,
     snackOpen: false,
     snackMsg: "",
-    productReportList: [],
+    masterReportList: [],
     page: 0,
     totalPage: 0,
   });
@@ -60,31 +62,31 @@ function ProductReport(props) {
     snackMsg,
     page,
     totalPage,
-    productReportList,
+    masterReportList,
   } = state;
 
   const dispatch = useDispatch();
-  const { productReport } = useSelector(
+  const { masterReport } = useSelector(
     (stateValue) => stateValue.ReportReducer
   );
 
   useEffect(() => {
-    dispatch(getProductReport(0, SIZE));
+    dispatch(getMasterReport(0, SIZE, reportName));
   }, []);
 
   useEffect(() => {
-    if (productReport) {
-      if (productReport.success) {
-        if (productReport.content && productReport.content.length !== 0) {
+    if (masterReport) {
+      if (masterReport.success) {
+        if (masterReport.content && masterReport.content.length !== 0) {
           setState({
             ...state,
-            productReportList: productReport.content || [],
-            totalPage: productReport.totalPages || 0,
+            masterReportList: masterReport.content || [],
+            totalPage: masterReport.totalPages || 0,
           });
         } else {
           setState({
             ...state,
-            productReportList: [],
+            masterReportList: [],
             totalPage: 0,
             page: 0,
             snackOpen: true,
@@ -94,16 +96,16 @@ function ProductReport(props) {
       } else {
         setState({
           ...state,
-          productReportList: [],
+          masterReportList: [],
           totalPage: 0,
           page: 0,
           snackOpen: true,
-          snackMsg: productReport.message,
+          snackMsg: masterReport.message,
         });
       }
-      dispatch(clearCustomData("productReport"));
+      dispatch(clearCustomData("masterReport"));
     }
-  }, [productReport]);
+  }, [masterReport]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
@@ -146,10 +148,12 @@ function ProductReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      productReportList: [],
+      masterReportList: [],
     });
-    dispatch(generateProductReport(startDate, endDate));
-    dispatch(getProductReport(0, SIZE));
+    dispatch(generateMasterReport(reportName));
+    setTimeout(() => {
+      dispatch(getMasterReport(0, SIZE, reportName));
+    }, 200);
   };
 
   const handleRefresh = () => {
@@ -157,9 +161,9 @@ function ProductReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      productReportList: [],
+      masterReportList: [],
     });
-    dispatch(getProductReport(0, SIZE));
+    dispatch(getMasterReport(0, SIZE, reportName));
   };
 
   const handleSnackClose = () => {
@@ -168,7 +172,7 @@ function ProductReport(props) {
 
   const handlePageChange = (event, value) => {
     setState({ ...state, page: value - 1 });
-    dispatch(getProductReport(value - 1, SIZE));
+    dispatch(getMasterReport(value - 1, SIZE, reportName));
   };
 
   const renderButtonText = (value) => {
@@ -198,9 +202,9 @@ function ProductReport(props) {
                   </TableRow>
                 </Head>
                 <TableBody>
-                  {productReportList &&
-                    productReportList.length !== 0 &&
-                    productReportList.map(
+                  {masterReportList &&
+                    masterReportList.length !== 0 &&
+                    masterReportList.map(
                       (
                         { createdAt, userSelectedDate, downloadLink, userRole },
                         index
@@ -330,7 +334,7 @@ function ProductReport(props) {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          {productReportList && productReportList.length !== 0 && renderTable()}
+          {masterReportList && masterReportList.length !== 0 && renderTable()}
         </Grid>
       </Grid>
       <Snack
@@ -343,4 +347,4 @@ function ProductReport(props) {
   );
 }
 
-export default ProductReport;
+export default MasterReport;

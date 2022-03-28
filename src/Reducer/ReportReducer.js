@@ -10,8 +10,10 @@ const initialState = {
   techTestElectronics: [],
   diagTestResult: [],
   careerReportResult: [],
-  generateReportStatus: null,
-  productReport: null,
+  generateSalesReportStatus: null,
+  generateMasterReportStatus: null,
+  salesReport: null,
+  masterReport: null,
 };
 
 export default (state = initialState, action) => {
@@ -66,15 +68,25 @@ export default (state = initialState, action) => {
         ...state,
         careerReportResult: action.payload,
       };
-    case REPORTS.generateProductReport:
+    case REPORTS.generateSalesReport:
       return {
         ...state,
-        generateReportStatus: action.payload,
+        generateSalesReportStatus: action.payload,
       };
-    case REPORTS.viewProductReport:
+    case REPORTS.viewSalesReport:
       return {
         ...state,
-        productReport: action.payload,
+        salesReport: action.payload,
+      };
+    case REPORTS.generateMasterReport:
+      return {
+        ...state,
+        generateMasterReportStatus: action.payload,
+      };
+    case REPORTS.viewMasterReport:
+      return {
+        ...state,
+        masterReport: action.payload,
       };
     case REPORTS.clearCustomData:
       return {

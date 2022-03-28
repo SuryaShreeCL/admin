@@ -51,12 +51,12 @@ import {
   lmsTest,
   lms_course_landing,
   lms_study_plans,
+  NAVIGATE_TO,
   notificationPath,
   obOperationPath,
   premiumUsersPath,
   productPath,
   productPunchingPath,
-  productReportPath,
   reportsPath,
   rootLoginPath,
   studentPath,
@@ -383,6 +383,12 @@ function RootContainer(props) {
         },
         {
           icon: <HomeOutlinedIcon />,
+          title: "Master Reports",
+          path: NAVIGATE_TO.reportContentPath("masterReport"),
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
           title: "Notification",
           path: notificationPath,
           items: [],
@@ -448,6 +454,12 @@ function RootContainer(props) {
         },
         {
           icon: <HomeOutlinedIcon />,
+          title: "Master Reports",
+          path: NAVIGATE_TO.reportContentPath("masterReport"),
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
           title: "Notification",
           path: notificationPath,
           items: [],
@@ -505,7 +517,7 @@ function RootContainer(props) {
         {
           icon: <HomeOutlinedIcon />,
           title: "Reports",
-          path: productReportPath,
+          path: NAVIGATE_TO.reportContentPath("salesReport"),
           items: [],
         },
       ]);
