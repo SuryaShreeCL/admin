@@ -4,10 +4,6 @@ import { useStyles } from "./Styles";
 import { createTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { green, purple , blue } from '@material-ui/core/colors';
-import { isEmptyObject } from '../../Validation';
-import { getLatestCv } from '../../../AsyncApiCall/Student';
-import PdfViewer from '../../../Utils/PdfViewer'   
-import { useParams } from "react-router-dom";
 import CvViewer from "../../ProfileGapAnalysis/CvViewer";
 import Grid from "@material-ui/core/Grid";
 

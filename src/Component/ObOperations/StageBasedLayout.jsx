@@ -48,11 +48,10 @@ import "../../Asset/All.css";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import { CircularProgress } from "@material-ui/core";
-import StrategySessionLanding from "./strategy-session/StrategySessionLanding";
 import ProgramPreference from "./strategy-session/PreStrategyWorksheetTab";
 
 
-import PreStrategyWorkSheet from "./strategy-session/PreStrategyWorkSheet";
+import PreStrategyWorkSheet from "./strategy-session/Index";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
