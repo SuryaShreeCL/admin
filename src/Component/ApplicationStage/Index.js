@@ -1,10 +1,13 @@
 import { Box, Divider, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
+import {} from "../../Asset/StyledComponents/ApplicationStage";
+import { useStyles } from "../../Asset/StyledComponents/Styles";
 
 function Index(props) {
+  const classes = useStyles();
   const [state, setState] = useState({
-    activeMainTabValue: "1",
+    activeMainTabValue: "LOR Frameworks",
     mainTabList: [
       "LOR Frameworks",
       "Essay Frameworks",
@@ -41,26 +44,21 @@ function Index(props) {
   };
 
   return (
-    <div>
-      <Grid container style={{ marginTop: "10px" }}>
-        <Grid
-          item
-          md={12}
-          style={{
-            borderStyle: "groove",
-            borderRadius: "10px",
-          }}
-        >
+    <Box className={classes.stageBoxLayoutStyle}>
+      <Grid container>
+        <Grid item lg={12}>
           <Box>
             <CustomTabs value={activeMainTabValue} onChange={handleTabChange}>
               {renderTabs()}
             </CustomTabs>
           </Box>
-          {/* <Divider style={{ backgroundColor: "#D2D2D2" }} /> */}
+          <Divider className={classes.dividerStyle} />
+        </Grid>
+        <Grid item lg={12}>
           {renderComponent()}
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 
