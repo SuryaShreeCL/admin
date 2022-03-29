@@ -4,11 +4,8 @@ import { useStyles } from "./Styles";
 import { createTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { green, purple , blue } from '@material-ui/core/colors';
-import { isEmptyObject } from '../../Validation';
-import { getLatestCv } from '../../../AsyncApiCall/Student';
-import PdfViewer from '../../../Utils/PdfViewer'   
-import { useParams } from "react-router-dom";
 import CvViewer from "../../ProfileGapAnalysis/CvViewer";
+import Grid from "@material-ui/core/Grid";
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -38,13 +35,23 @@ console.log(props,'hellosadooasd')
 
  
   return (
-     <><div className={classes.buttonPosition}>
+     <>
+ <Grid container>
+   <Grid item xs={7}></Grid>
+   <Grid item xs={1}>
+   <div className={classes.buttonPosition}>
     <ColorButton variant="contained" color="primary" className={classes.margin}>
       upload
     </ColorButton>
     </div>
-
- <CvViewer doctype={"cv"} {...props} />
+   </Grid>
+   <Grid item xs={4}>
+   <CvViewer doctype={"cv"} {...props} />
+   </Grid>
+ 
+ </Grid>
+ 
+ 
     
     </>
   )

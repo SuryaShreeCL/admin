@@ -113,8 +113,5 @@ export const useStyles = makeStyles((theme) => ({
    buttonPosition: {
      top:"100px",
    },
-   margin: {
-    marginTop:"200px",
-    marginLeft:"500px"
-  },
+  
 }));

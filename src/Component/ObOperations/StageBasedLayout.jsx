@@ -43,7 +43,7 @@ import PersonalInfo from "../ObOnboarding/personalInfo";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import { stagedTabsPath, studentPath } from "../RoutePaths";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
-import StrategySession from "./strategy-session/PreStrategyWorkSheet";
+import StrategySession from "../ObOperations/strategy-session/Index";
 import ApplicationStage from "../ApplicationStage/Index";
 import SubLayoutTab from "./SubLayoutTab";
 

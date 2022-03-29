@@ -2,18 +2,20 @@ import { Tabs, Tab, Divider } from "@material-ui/core";
 import React, { useState } from "react";
 import ProgramPreference from "./PreStrategyWorksheetTab";
 import { useStyles } from "./Styles";
-
+import Grid from "@material-ui/core/Grid";
 
 
 function PreStrategyWorkSheet(props) {
   const [tabValue, setTabValue] = useState(0);
   const classes = useStyles();
   const tabList = [
+    
     "Pre Strategy Worksheet",
     "School Research Worksheet",
     "Essay Questionaire",
     "LOR Questionaire",
-    "Miscellaneous/Handouts"
+    "Miscellaneous/Handouts",
+    
   ];
   const renderComponent = () => {
     if (tabValue === 0) {
