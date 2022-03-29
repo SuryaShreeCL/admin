@@ -1,6 +1,5 @@
 import React from "react";
-import PrimaryButton from "../../../../Utils/PrimaryButton";
-import CvViewer from "../../../ProfileGapAnalysis/CvViewer";
+import PrimaryButton from "../../../Utils/PrimaryButton";
 import { useStyles } from "../Styles";
 
 function SaveContainer({ handleClick }) {
@@ -15,7 +14,6 @@ function SaveContainer({ handleClick }) {
         Save
       </PrimaryButton>
     </div>
-    
   );
 }
 

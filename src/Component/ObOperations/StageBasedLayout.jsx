@@ -1,5 +1,4 @@
 import { CircularProgress } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -30,6 +29,7 @@ import BackButton from "../../Asset/Images/backbutton.svg";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
+import ApplicationStage from "../ApplicationStage/Index";
 import MySnackBar from "../MySnackBar";
 import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
@@ -42,9 +42,8 @@ import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import { stagedTabsPath, studentPath } from "../RoutePaths";
+import StrategySession from "../StrategySession/Index";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
-import StrategySession from "../ObOperations/strategy-session/Index";
-import ApplicationStage from "../ApplicationStage/Index";
 import SubLayoutTab from "./SubLayoutTab";
 
 const STAGES = [

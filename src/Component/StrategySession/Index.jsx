@@ -1,26 +1,21 @@
-import { Tabs, Tab, Divider } from "@material-ui/core";
+import { Divider, Tab, Tabs } from "@material-ui/core";
 import React, { useState } from "react";
 import ProgramPreference from "./PreStrategyWorksheetTab";
 import { useStyles } from "./Styles";
-import Grid from "@material-ui/core/Grid";
-
 
 function PreStrategyWorkSheet(props) {
   const [tabValue, setTabValue] = useState(0);
   const classes = useStyles();
   const tabList = [
-    
     "Pre Strategy Worksheet",
     "School Research Worksheet",
     "Essay Questionaire",
     "LOR Questionaire",
     "Miscellaneous/Handouts",
-    
   ];
   const renderComponent = () => {
     if (tabValue === 0) {
-      return <ProgramPreference
-      {...props}/>;
+      return <ProgramPreference {...props} />;
     }
   };
   return (
@@ -33,7 +28,7 @@ function PreStrategyWorkSheet(props) {
         }}
         value={tabValue}
         onChange={(e, value) => setTabValue(value)}
-        aria-label="basic tabs example"
+        aria-label='basic tabs example'
       >
         {tabList.map((el, ind) => (
           <Tab style={{ color: ind === tabValue && "#18AAE7" }} label={el} />

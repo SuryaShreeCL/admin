@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import {blue} from '@material-ui/core/colors';
+import { blue } from "@material-ui/core/colors";
 
 export const useStyles = makeStyles((theme) => ({
   sessionContainer: {
@@ -98,20 +98,19 @@ export const useStyles = makeStyles((theme) => ({
   tabMenuFitWithGraduate: {
     marginBottom: "20px",
   },
-  Button:{
-    marginTop:"30px",
+  Button: {
+    marginTop: "30px",
   },
-   root: {
+  root: {
     color: theme.palette.getContrastText(blue[500]),
-    backgroundColor:blue[500],
-    borderRadius:"20px",
-    
-    '&:hover': {
+    backgroundColor: blue[500],
+    borderRadius: "20px",
+
+    "&:hover": {
       backgroundColor: blue[700],
     },
   },
-   buttonPosition: {
-     top:"100px",
-   },
-  
+  buttonPosition: {
+    top: "100px",
+  },
 }));
