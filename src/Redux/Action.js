@@ -355,7 +355,10 @@ export const REPORTS = {
   viewTechTestElectronics: "viewTechTestElectronics",
   viewDiagTestReport: "viewDiagTestReport",
   viewCareerExpoTest: "viewCareerExpoTest",
-  downloadProductReport: "downloadProductReport",
+  generateSalesReport: "generateSalesReport",
+  viewSalesReport: "viewSalesReport",
+  generateMasterReport: "generateMasterReport",
+  viewMasterReport: "viewMasterReport",
   clearCustomData: "reportClearCustomData",
 };
 

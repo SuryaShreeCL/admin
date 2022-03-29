@@ -1,14 +1,15 @@
-import { REPORTS } from '../Redux/Action';
-import axios from 'axios';
-import { URL } from '../Actions/URL';
+import { REPORTS } from "../Redux/Action";
+import axios from "axios";
+import { URL } from "../Actions/URL";
+import { errorHandler } from "../Component/Utils/Helpers";
 
 export const viewTermsAndConReports = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/tnc', {
+      .get(URL + "/api/v1/students/report/tnc", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -24,12 +25,12 @@ export const viewTermsAndConReports = () => {
   };
 };
 export const viewCvReport = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/reports/cvratings', {
+      .get(URL + "/api/v1/students/reports/cvratings", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -43,12 +44,12 @@ export const viewCvReport = () => {
 };
 
 export const viewMarkSheetReport = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/marksheet', {
+      .get(URL + "/api/v1/students/report/marksheet", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -65,12 +66,12 @@ export const viewMarkSheetReport = () => {
 };
 
 export const viewMydetailsReport = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/mydetails', {
+      .get(URL + "/api/v1/students/report/mydetails", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -87,32 +88,32 @@ export const viewMydetailsReport = () => {
 };
 
 export const viewTechTestReport = (QuestionSetName) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/technicaltest/' + QuestionSetName, {
+      .get(URL + "/api/v1/students/report/technicaltest/" + QuestionSetName, {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((result) => {
-        if (QuestionSetName === 'Technical Test Mechanical') {
+        if (QuestionSetName === "Technical Test Mechanical") {
           dispatch({
             type: REPORTS.viewTechTestMechReport,
             techTestMechReport: result.data,
           });
-        } else if (QuestionSetName === 'Technical Test Computer') {
+        } else if (QuestionSetName === "Technical Test Computer") {
           dispatch({
             type: REPORTS.viewTechTestCseReport,
             techTestCseReport: result.data,
           });
-        } else if (QuestionSetName === 'Technical Test Electronics') {
+        } else if (QuestionSetName === "Technical Test Electronics") {
           dispatch({
             type: REPORTS.viewTechTestElectronics,
             techTestElectronics: result.data,
           });
-        } else if (QuestionSetName === 'Career Exploration Test') {
+        } else if (QuestionSetName === "Career Exploration Test") {
           dispatch({ type: REPORTS.viewCareerExpoTest, payload: result.data });
         }
       })
@@ -123,12 +124,12 @@ export const viewTechTestReport = (QuestionSetName) => {
 };
 
 export const viewTestRating = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/testRating', {
+      .get(URL + "/api/v1/students/report/testRating", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -145,12 +146,12 @@ export const viewTestRating = () => {
 };
 
 export const viewDiagTestReport = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/report/diagonostictest', {
+      .get(URL + "/api/v1/students/report/diagonostictest", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -167,13 +168,13 @@ export const viewDiagTestReport = () => {
 };
 
 export const getCareerExpoReport = () => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
     axios
-      .get(URL + '/api/v1/students/reports/cit/Career Exploration Test', {
+      .get(URL + "/api/v1/students/reports/cit/Career Exploration Test", {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
@@ -187,7 +188,7 @@ export const getCareerExpoReport = () => {
 };
 
 export const getTestList = (id, callback) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+  let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/products/${id}/reportlist`)
@@ -200,42 +201,80 @@ export const getTestList = (id, callback) => {
   };
 };
 
-export const downloadProductReport = (startDate, endDate) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
+export const generateMasterReport = (startDate, endDate, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  let adminUserId = window.sessionStorage.getItem("adminUserId");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/students/reports/master`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          adminUserId: adminUserId,
+          export: true,
+          reportName: reportName,
+          startDate: startDate,
+          endDate: endDate,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: REPORTS.generateMasterReport,
+          payload: {
+            success: true,
+            data: result.data,
+          },
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: REPORTS.generateMasterReport,
+          payload: {
+            success: false,
+            data: error,
+            message: error?.message || "Exception Failed",
+          },
+        });
+      });
+  };
+};
+
+export const generateSalesReport = (startDate, endDate, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/sales/report`, {
         headers: {
-          admin: 'yes',
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
           export: true,
           startDate: startDate,
           endDate: endDate,
+          reportName: reportName,
         },
-        responseType: 'blob',
       })
       .then((result) => {
-        let success = false;
-        if (result.data && result.data.size && result.data.size !== 0)
-          success = true;
         dispatch({
-          type: REPORTS.downloadProductReport,
+          type: REPORTS.generateSalesReport,
           payload: {
-            success: success,
+            success: true,
             data: result.data,
-            message: success ? 'Report Generated' : 'No Results Found',
           },
         });
       })
       .catch((error) => {
         dispatch({
-          type: REPORTS.downloadProductReport,
+          type: REPORTS.generateSalesReport,
           payload: {
             success: false,
             data: error,
-            message: error?.message || 'Exception Failed',
+            message: error?.message || "Exception Failed",
           },
         });
       });
@@ -248,5 +287,61 @@ export const clearCustomData = (fieldName) => {
       type: REPORTS.clearCustomData,
       fieldName: fieldName,
     });
+  };
+};
+
+export const getSalesReport = (page, size, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/sales/report/all`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: page,
+          size: size,
+          reportName: reportName,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.viewSalesReport,
+          payload: { success: true, ...response.data },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.viewSalesReport, error, false));
+      });
+  };
+};
+
+export const getMasterReport = (page, size, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/sales/report/all`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: page,
+          size: size,
+          reportName: reportName,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.viewMasterReport,
+          payload: { success: true, ...response.data },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.viewMasterReport, error, false));
+      });
   };
 };
