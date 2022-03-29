@@ -1,73 +1,90 @@
-import Button from "@material-ui/core/Button";
+import { CircularProgress } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import {
-  createTheme,
-  ThemeProvider,
-  withStyles,
-} from "@material-ui/core/styles";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import LockIcon from "@material-ui/icons/Lock";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import qs from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAdminLinkedProduct,
   updateVerificationStatus,
 } from "../../Actions/AdminAction";
-import { getvarientByid } from "../../Actions/ProductAction";
+import {
+  getVariantStepsById,
+  getvarientByid,
+} from "../../Actions/ProductAction";
+import {
+  IncompleteStatus,
+  ObComplete,
+  ObIncomplete,
+  StudentStepDetails,
+} from "../../Actions/Student";
+import "../../Asset/All.css";
+import BackButton from "../../Asset/Images/backbutton.svg";
+import RevampDialog from "../../OnboardingRevamp/RevampDialog";
+import Dot from "../../Utils/Dot";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import MySnackBar from "../MySnackBar";
 import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
+import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
 import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 import TestAndSurvey from "../ObCallSummary/testEngineResult";
+import UploadCV from "../ObCallSummary/UploadCV";
 import WorkExperience from "../ObCallSummary/workExperience";
 import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
-import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
-import SubLayoutTab from "./SubLayoutTab";
-import { getVariantStepsById } from "../../Actions/ProductAction";
-import ProfileGapAnalysisTab from "../ProfileGapAnalysisTab";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import UploadCV from "../ObCallSummary/UploadCV";
-import BackButton from "../../Asset/Images/backbutton.svg";
-import { stagedTabsPath, studentPath } from "../RoutePaths";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
-import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
-import {
-  StudentStepDetails,
-  ObComplete,
-  ObIncomplete,
-  IncompleteStatus,
-} from "../../Actions/Student";
-import LockIcon from "@material-ui/icons/Lock";
-import QueryString from "querystring";
-import qs from "qs";
-import MySnackBar from "../MySnackBar";
-import Dot from "../../Utils/Dot";
-import "../../Asset/All.css";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import RevampDialog from "../../OnboardingRevamp/RevampDialog";
-import { CircularProgress } from "@material-ui/core";
-import ProgramPreference from "./strategy-session/PreStrategyWorksheetTab";
+import { stagedTabsPath, studentPath } from "../RoutePaths";
+import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
+import StrategySession from "../ObOperations/strategy-session/Index";
+import ApplicationStage from "../ApplicationStage/Index";
+import SubLayoutTab from "./SubLayoutTab";
 
-
-import PreStrategyWorkSheet from "./strategy-session/Index";
-
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box p={3}>{children}</Box>}
-    </div>
-  );
-};
+const STAGES = [
+  {
+    name: "Onboarding",
+    value: 0,
+    stageName: "OnBoarding",
+    component: null,
+  },
+  {
+    name: "Profile Gap Analysis",
+    value: 1,
+    stageName: "pga",
+    component: (props) => <ProfileGapRoot {...props} />,
+  },
+  {
+    name: "Profile Mentoring",
+    value: 2,
+    stageName: "profile_mentoring",
+    component: (props) => <StrategySession {...props} />,
+  },
+  {
+    name: "Strategy Session",
+    value: 3,
+    stageName: "strategy_session",
+    component: (props) => <StrategySession {...props} />,
+  },
+  {
+    name: "Application Stage",
+    value: 4,
+    stageName: "application_stage",
+    component: (props) => <ApplicationStage {...props} />,
+  },
+  {
+    name: "Post Admit Services",
+    value: 5,
+    stageName: "pas",
+    component: () => null,
+  },
+];
 
 class StageBasedLayout extends Component {
   constructor(props) {
@@ -107,6 +124,7 @@ class StageBasedLayout extends Component {
       }
     } catch (error) {}
   };
+
   renderdialogcontent() {
     if (this.state.othersstatus === "NotVerified") {
       return (
@@ -159,7 +177,7 @@ class StageBasedLayout extends Component {
           </Grid>
           <Grid item md={12}>
             <TextField
-              label="Add Comments"
+              label='Add Comments'
               fullWidth
               value={this.state.comments}
               onChange={(e) => this.setState({ comments: e.target.value })}
@@ -183,11 +201,13 @@ class StageBasedLayout extends Component {
       );
     }
   }
+
   handletext() {
     return (
       <Typography className={"incomplete_text"}>{" incomplete"}</Typography>
     );
   }
+
   handleIncomplete = () => {
     this.setState({
       isLoading: true,
@@ -235,6 +255,7 @@ class StageBasedLayout extends Component {
       }
     );
   };
+
   OnboardingComplete = () => {
     this.setState({
       isLoading: true,
@@ -260,6 +281,7 @@ class StageBasedLayout extends Component {
       }
     );
   };
+
   renderdialogaction() {
     if (this.state.othersstatus !== "NotVerified") {
       if (this.state.othersstatus === "Mismatched") {
@@ -309,25 +331,23 @@ class StageBasedLayout extends Component {
       }
     }
   }
+
   componentDidMount() {
     this.props.getVariantStepsById(
       this.props.match.params.productId +
         `?studentId=${this.props.match.params.studentId}`
     );
-    // this.props.StudentStepDetails(
-    //   this.props.match.params.studentId,
-    //   this.props.match.params.productId
-    // );
+
     const { stage } = qs.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     });
 
-    if (stage === "pga") {
-      this.setState({
-        tabCount: 1,
-      });
-    }
+    let activeTab = STAGES.findIndex(({ stageName }) => stageName === stage);
+    this.setState({
+      tabCount: activeTab,
+    });
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.tabCount !== prevState.tabCount) {
       if (this.state.tabCount === 0) {
@@ -349,6 +369,7 @@ class StageBasedLayout extends Component {
         );
       }
     }
+
     if (this.props.variantStepList !== prevProps.variantStepList) {
       let stage = this.props.variantStepList.steps.find(
         (el) => el.stepName === "Onboarding"
@@ -432,11 +453,13 @@ class StageBasedLayout extends Component {
       );
     }
   }
+
   handleOBComplete = () => {
     this.setState({
       open: true,
     });
   };
+
   renderbutton() {
     if (
       this.state.tabCount === 0 &&
@@ -473,6 +496,7 @@ class StageBasedLayout extends Component {
       );
     }
   }
+
   handleStatus(data) {
     if (data.verificationStatus === "NotVerified") {
       return "orange";
@@ -514,6 +538,12 @@ class StageBasedLayout extends Component {
       }
     });
   };
+
+  renderComponent = () => {
+    const { tabCount } = this.state;
+    return tabCount > 0 ? STAGES[tabCount].component(this.props) : null;
+  };
+
   render() {
     var componentList = {
       "Personal Information": "PersonalInfo",
@@ -552,7 +582,7 @@ class StageBasedLayout extends Component {
             style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
             <Typography
               style={{
                 cursor: "pointer",
@@ -576,8 +606,8 @@ class StageBasedLayout extends Component {
                 value={this.state.tabCount}
                 textColor={"inherit"}
                 onChange={(e, value) => this.setState({ tabCount: value })}
-                aria-label="ant example"
-                variant="scrollable"
+                aria-label='ant example'
+                variant='scrollable'
               >
                 {this.state.productDetails !== null &&
                   this.state.productDetails.map((item, index) => {
@@ -595,7 +625,7 @@ class StageBasedLayout extends Component {
                   })}
               </ThemedTabs>
             </Grid>
-            <Grid item md={4} align="right" className={"button_grid"}>
+            <Grid item md={4} align='right' className={"button_grid"}>
               <PrimaryButton
                 color={"primary"}
                 variant={"contained"}
@@ -621,12 +651,12 @@ class StageBasedLayout extends Component {
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant="scrollable"
+                  variant='scrollable'
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label="ant example"
+                  aria-label='ant example'
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -648,13 +678,13 @@ class StageBasedLayout extends Component {
                         });
                       })}
                   <ThemedTab
-                    textColor="primary"
+                    textColor='primary'
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor="primary"
+                    textColor='primary'
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
@@ -673,7 +703,7 @@ class StageBasedLayout extends Component {
             </Grid>
             <Grid item md={12}>
               <Grid container>
-                <Grid item md={12} className={"component_grid"}>
+                <Grid item md={12}>
                   {Page !== undefined &&
                     this.state.tabCount === 0 &&
                     this.state.selectedItem !== "Others" && (
@@ -690,10 +720,6 @@ class StageBasedLayout extends Component {
                         {...this.props}
                       />
                     )}
-                  {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
-                  {this.state.tabCount === 1 && (
-                    <ProfileGapRoot {...this.props} />
-                  )}
                 </Grid>
                 {this.state.tabCount === 0 && this.renderbutton()}
               </Grid>
@@ -706,8 +732,8 @@ class StageBasedLayout extends Component {
                 value={this.state.tabCount}
                 textColor={"inherit"}
                 onChange={(e, value) => this.setState({ tabCount: value })}
-                aria-label="ant example"
-                variant="scrollable"
+                aria-label='ant example'
+                variant='scrollable'
               >
                 {this.state.productDetails !== null &&
                   this.state.productDetails.map((item, index) => {
@@ -729,12 +755,12 @@ class StageBasedLayout extends Component {
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant="scrollable"
+                  variant='scrollable'
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label="ant example"
+                  aria-label='ant example'
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -756,13 +782,13 @@ class StageBasedLayout extends Component {
                         });
                       })}
                   <ThemedTab
-                    textColor="primary"
+                    textColor='primary'
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor="primary"
+                    textColor='primary'
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
@@ -781,7 +807,7 @@ class StageBasedLayout extends Component {
             </Grid>
             <Grid item md={12}>
               <Grid container>
-                <Grid item md={12} className={"component_grid"}>
+                <Grid item md={12}>
                   {Page !== undefined &&
                     this.state.tabCount === 0 &&
                     this.state.selectedItem !== "Others" && (
@@ -798,13 +824,7 @@ class StageBasedLayout extends Component {
                         {...this.props}
                       />
                     )}
-                  {/* {this.state.tabCount === 1 && <ProfileGapAnalysisTab {...this.props}/> }     */}
-                  {this.state.tabCount === 1 && (
-                    <ProfileGapRoot {...this.props} />
-                  )}
-                  {this.state.tabCount === 2 && (
-                    <PreStrategyWorkSheet {...this.props} />
-                  )}
+                  {this.renderComponent()}
                 </Grid>
                 {this.state.tabCount === 0 && this.renderbutton()}
               </Grid>
