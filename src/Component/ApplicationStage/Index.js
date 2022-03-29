@@ -1,8 +1,12 @@
-import { Box, Divider, Grid } from "@material-ui/core";
+import { Box, Button, Divider, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import {} from "../../Asset/StyledComponents/ApplicationStage";
-import { useStyles } from "../../Asset/StyledComponents/Styles";
+import {
+  customTheme,
+  StyledStaticButton,
+  useStyles,
+} from "../../Asset/StyledComponents/Styles";
 
 function Index(props) {
   const classes = useStyles();
@@ -47,10 +51,15 @@ function Index(props) {
     <Box className={classes.stageBoxLayoutStyle}>
       <Grid container>
         <Grid item lg={12}>
-          <Box>
-            <CustomTabs value={activeMainTabValue} onChange={handleTabChange}>
-              {renderTabs()}
-            </CustomTabs>
+          <Box display={"flex"} alignItems={"center"}>
+            <Box flex={1}>
+              <CustomTabs value={activeMainTabValue} onChange={handleTabChange}>
+                {renderTabs()}
+              </CustomTabs>
+            </Box>
+            <StyledStaticButton active={true} color={"primary"}>
+              {"Miscellaneous / Handouts"}
+            </StyledStaticButton>
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>

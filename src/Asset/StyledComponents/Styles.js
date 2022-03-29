@@ -1,4 +1,5 @@
-import { createTheme, makeStyles } from "@material-ui/core";
+import { Button, createTheme, makeStyles } from "@material-ui/core";
+import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
   stageBoxLayoutStyle: {
@@ -26,3 +27,11 @@ export const customTheme = createTheme({
     },
   },
 });
+
+export const StyledStaticButton = styled(Button)`
+  min-height: 72px;
+  padding: 20px;
+  & .MuiButton-label {
+    color: ${({ active }) => (active ? "#18AAE7" : "#333333")};
+  }
+`;
