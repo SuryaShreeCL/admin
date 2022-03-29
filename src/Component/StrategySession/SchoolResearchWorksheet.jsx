@@ -37,7 +37,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function ProgramPreference(props) {
+function SchoolResearchWorksheet(props) {
   console.log(props, "hellosadooasd");
 
   const classes = useStyles();
@@ -133,4 +133,4 @@ function ProgramPreference(props) {
   );
 }
 
-export default ProgramPreference;
+export default SchoolResearchWorksheet;
