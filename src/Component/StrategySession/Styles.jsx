@@ -113,4 +113,11 @@ export const useStyles = makeStyles((theme) => ({
   buttonPosition: {
     top: "100px",
   },
+  popUpUpload:{
+    border:"1px dotted blue"
+  },
+  documentDetails:{
+    paddingTop:"10px",
+    paddingBottom:"10px"
+  }
 }));

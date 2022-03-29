@@ -1,6 +1,7 @@
 import { Divider, Tab, Tabs } from "@material-ui/core";
 import React, { useState } from "react";
 import ProgramPreference from "./PreStrategyWorksheetTab";
+import SchoolResearchWorksheet from "./SchoolResearchWorksheet";
 import { useStyles } from "./Styles";
 
 function PreStrategyWorkSheet(props) {
@@ -17,6 +18,11 @@ function PreStrategyWorkSheet(props) {
     if (tabValue === 0) {
       return <ProgramPreference {...props} />;
     }
+    if(tabValue === 1) {
+      return<SchoolResearchWorksheet {...props} />
+    }
+    
+
   };
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
