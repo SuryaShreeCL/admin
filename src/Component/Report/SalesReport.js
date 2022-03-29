@@ -148,7 +148,7 @@ function SalesReport(props) {
       totalPage: 0,
       salesReportList: [],
     });
-    dispatch(generateSalesReport(startDate, endDate));
+    dispatch(generateSalesReport(startDate, endDate, reportName));
     setTimeout(() => {
       dispatch(getSalesReport(0, SIZE, reportName));
     }, 200);
