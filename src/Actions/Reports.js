@@ -242,7 +242,7 @@ export const generateMasterReport = (startDate, endDate, reportName) => {
   };
 };
 
-export const generateSalesReport = (startDate, endDate) => {
+export const generateSalesReport = (startDate, endDate, reportName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
@@ -256,6 +256,7 @@ export const generateSalesReport = (startDate, endDate) => {
           export: true,
           startDate: startDate,
           endDate: endDate,
+          reportName: reportName,
         },
       })
       .then((result) => {
