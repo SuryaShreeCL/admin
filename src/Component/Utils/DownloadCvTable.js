@@ -28,32 +28,46 @@ function DownloadCvTable({
       <tbody>
         {body &&
           body.length !== 0 &&
-          body.map(({ comment, createdBy, id, path }, index) => (
+          body.map(({ comment, createdBy, id, path, isDownload }, index) => (
             <tr id={`row${index}`}>
               <td>{path}</td>
               <td>{createdBy}</td>
               <td>
-                <Box display={"flex"} justifyContent={"flex-end"}>
-                  {comment && comment.trim().length !== 0 && (
-                    <IconButton
-                      id={"command_icon"}
-                      className={classes.iconButtonStyle}
-                      onClick={(e) => handleComment(comment, e)}
-                    >
-                      <CommentIcon />
-                    </IconButton>
-                  )}
-                </Box>
+                {comment && comment.trim().length !== 0 && (
+                  <IconButton
+                    id={"command_icon"}
+                    className={classes.iconButtonStyle}
+                    onClick={(e) => handleComment(comment, e)}
+                  >
+                    <CommentIcon />
+                  </IconButton>
+                )}
               </td>
               <td>
-                <StyledButton
-                  height={"25px"}
-                  variant={"outlined"}
-                  style={customTheme.palette.outlined}
-                  onClick={() => handleDownload(id, path)}
+                <Box
+                  display={"flex"}
+                  gridGap={"10px"}
+                  justifyContent={"flex-end"}
                 >
-                  {"Download"}
-                </StyledButton>
+                  {isDownload && (
+                    <StyledButton
+                      height={"25px"}
+                      variant={"outlined"}
+                      style={customTheme.palette.delete}
+                      onClick={() => handleDelete(id, path)}
+                    >
+                      {"Delete"}
+                    </StyledButton>
+                  )}
+                  <StyledButton
+                    height={"25px"}
+                    variant={"outlined"}
+                    style={customTheme.palette.outlined}
+                    onClick={() => handleDownload(id, path)}
+                  >
+                    {"Download"}
+                  </StyledButton>
+                </Box>
               </td>
             </tr>
           ))}

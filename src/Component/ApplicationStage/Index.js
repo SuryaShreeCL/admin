@@ -29,7 +29,15 @@ function Index(props) {
           <Box>
             <DownloadCvTable
               headers={["Version", "Uploaded date", "Comment", ""]}
-              body={[{ comment: "hii", createdBy: "", id: 1, path: "vvvv1" }]}
+              body={[
+                {
+                  comment: "hii",
+                  createdBy: "",
+                  id: 1,
+                  path: "vvvv1",
+                  isDownload: true,
+                },
+              ]}
               handleComment={() => {}}
               handleDownload={() => {}}
               handleDelete={() => {}}

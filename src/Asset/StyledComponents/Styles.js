@@ -28,6 +28,10 @@ export const customTheme = createTheme({
     iconButtonStyle: {
       padding: "2px !important",
     },
+    delete: {
+      color: "#FD413C",
+      borderColor: "#FD413C",
+    },
   },
 });
 
@@ -58,39 +62,34 @@ export const StyledCustomStaticTable = styled.table`
     color: #333333;
     font-size: 14px;
     font-weight: normal !important;
-    padding: 12px;
+    padding: 10px;
     width: 25%;
   }
 
   th {
-    padding: 5px 10px;
+    padding: 20px 10px;
   }
 
   tr:hover {
     background-color: #ffffff !important;
   }
 
-  tr:nth-child(even) {
+  tr:nth-child(odd) {
     background-color: #efefef;
   }
 
-  tr:nth-child(even):hover {
+  tr:nth-child(odd):hover {
     background-color: #efefef !important;
   }
 
   tr th:last-child,
   tr td:last-child {
-    width: 20% !important;
     text-align: right;
     padding-right: 20px;
   }
 
+  tr td:first-child,
   tr th:first-child {
-    text-align: left;
-    padding-left: 44px;
-  }
-
-  tr td:first-child {
     text-align: left;
     padding-left: 38px;
   }
