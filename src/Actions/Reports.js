@@ -213,31 +213,21 @@ export const generateMasterReport = (startDate, endDate, reportName) => {
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
-          adminUserId: adminUserId,
           export: true,
-          reportName: reportName,
           startDate: startDate,
           endDate: endDate,
+          reportName: reportName,
+          adminUserId: adminUserId,
         },
       })
-      .then((result) => {
+      .then((response) => {
         dispatch({
           type: REPORTS.generateMasterReport,
-          payload: {
-            success: true,
-            data: result.data,
-          },
+          payload: response.data,
         });
       })
       .catch((error) => {
-        dispatch({
-          type: REPORTS.generateMasterReport,
-          payload: {
-            success: false,
-            data: error,
-            message: error?.message || "Exception Failed",
-          },
-        });
+        dispatch(errorHandler(REPORTS.generateMasterReport, error, false));
       });
   };
 };
@@ -259,24 +249,14 @@ export const generateSalesReport = (startDate, endDate, reportName) => {
           reportName: reportName,
         },
       })
-      .then((result) => {
+      .then((response) => {
         dispatch({
           type: REPORTS.generateSalesReport,
-          payload: {
-            success: true,
-            data: result.data,
-          },
+          payload: response.data,
         });
       })
       .catch((error) => {
-        dispatch({
-          type: REPORTS.generateSalesReport,
-          payload: {
-            success: false,
-            data: error,
-            message: error?.message || "Exception Failed",
-          },
-        });
+        dispatch(errorHandler(REPORTS.generateSalesReport, error, false));
       });
   };
 };

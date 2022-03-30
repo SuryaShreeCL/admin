@@ -66,13 +66,26 @@ function MasterReport(props) {
   } = state;
 
   const dispatch = useDispatch();
-  const { masterReport } = useSelector(
+  const { masterReport, generateMasterReportStatus } = useSelector(
     (stateValue) => stateValue.ReportReducer
   );
 
   useEffect(() => {
     dispatch(getMasterReport(0, SIZE, reportName));
   }, []);
+
+  useEffect(() => {
+    if (generateMasterReportStatus) {
+      if (!generateMasterReportStatus.success) {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackMsg: generateMasterReportStatus.message,
+        });
+      }
+      dispatch(clearCustomData("generateMasterReportStatus"));
+    }
+  }, [generateMasterReportStatus]);
 
   useEffect(() => {
     if (masterReport) {
@@ -152,7 +165,11 @@ function MasterReport(props) {
     });
     dispatch(generateMasterReport(startDate, endDate, reportName));
     setTimeout(() => {
-      dispatch(getMasterReport(0, SIZE, reportName));
+      if (
+        (generateMasterReportStatus && generateMasterReportStatus.success) ||
+        !generateMasterReportStatus
+      )
+        dispatch(getMasterReport(0, SIZE, reportName));
     }, 200);
   };
 
