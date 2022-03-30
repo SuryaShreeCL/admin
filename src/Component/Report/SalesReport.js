@@ -66,11 +66,26 @@ function SalesReport(props) {
   } = state;
 
   const dispatch = useDispatch();
-  const { salesReport } = useSelector((stateValue) => stateValue.ReportReducer);
+  const { salesReport, generateSalesReportStatus } = useSelector(
+    (stateValue) => stateValue.ReportReducer
+  );
 
   useEffect(() => {
     dispatch(getSalesReport(0, SIZE, reportName));
   }, []);
+
+  useEffect(() => {
+    if (generateSalesReportStatus) {
+      if (!generateSalesReportStatus.success) {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackMsg: generateSalesReportStatus.message,
+        });
+      }
+      dispatch(clearCustomData("generateSalesReportStatus"));
+    }
+  }, [generateSalesReportStatus]);
 
   useEffect(() => {
     if (salesReport) {
@@ -150,7 +165,11 @@ function SalesReport(props) {
     });
     dispatch(generateSalesReport(startDate, endDate, reportName));
     setTimeout(() => {
-      dispatch(getSalesReport(0, SIZE, reportName));
+      if (
+        (generateSalesReportStatus && generateSalesReportStatus.success) ||
+        !generateSalesReportStatus
+      )
+        dispatch(getSalesReport(0, SIZE, reportName));
     }, 200);
   };
 
