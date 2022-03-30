@@ -7,6 +7,7 @@ import {
   StyledStaticButton,
   useStyles,
 } from "../../Asset/StyledComponents/Styles";
+import { DownloadCvTable } from "../Utils/DownloadCvTable";
 
 function Index(props) {
   const classes = useStyles();
@@ -24,7 +25,17 @@ function Index(props) {
     const { activeMainTabValue } = state;
     switch (activeMainTabValue) {
       case "LOR Frameworks":
-        return <>{"LOR Frameworks"}</>;
+        return (
+          <Box>
+            <DownloadCvTable
+              headers={["Version", "Uploaded date", "Comment", ""]}
+              body={[{ comment: "hii", createdBy: "", id: 1, path: "vvvv1" }]}
+              handleComment={() => {}}
+              handleDownload={() => {}}
+              handleDelete={() => {}}
+            />
+          </Box>
+        );
       default:
         return null;
     }
