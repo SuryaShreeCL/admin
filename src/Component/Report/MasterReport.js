@@ -9,13 +9,19 @@ import {
   TableContainer,
   TableRow,
   Typography,
-} from '@material-ui/core';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import moment from 'moment';
-import React, { Fragment, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearCustomData, generateProductReport, getProductReport } from '../Actions/Reports';
-import BackButton from '../Asset/Images/backbutton.svg';
+} from "@material-ui/core";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import moment from "moment";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  clearCustomData,
+  generateMasterReport,
+  getMasterReport,
+} from "../../Actions/Reports";
+import { ReactComponent as RefreshIcon } from "../../Asset/icons/refresh.svg";
+import BackButton from "../../Asset/Images/backbutton.svg";
 import {
   BlueCell,
   BodyCell,
@@ -25,26 +31,25 @@ import {
   HeadInline,
   typographyStyle,
   useStyles,
-} from '../Asset/StyledComponents/ReportStyles';
-import Loader from '../Lms/Utils/Loader';
-import TextFieldComponent from './Controls/TextField';
-import { studentPath } from './RoutePaths';
-import Snack from './MySnackBar';
-import { ReactComponent as RefreshIcon } from '../Asset/icons/refresh.svg';
-import PaginationComponent from '../Component/Utils/CustomPaginationComponent';
+} from "../../Asset/StyledComponents/ReportStyles";
+import PaginationComponent from "../../Component/Utils/CustomPaginationComponent";
+import TextFieldComponent from "./../Controls/TextField";
+import Snack from "./../MySnackBar";
+import { studentPath } from "./../RoutePaths";
 
 const SIZE = 20;
 
-function ProductReport(props) {
+function MasterReport(props) {
   const classes = useStyles();
+  const { reportName } = useParams();
   const [state, setState] = useState({
     startDate: null,
     endDate: null,
     endDateHelperText: null,
     isDisabled: true,
     snackOpen: false,
-    snackMsg: '',
-    productReportList: [],
+    snackMsg: "",
+    masterReportList: [],
     page: 0,
     totalPage: 0,
   });
@@ -57,53 +62,68 @@ function ProductReport(props) {
     snackMsg,
     page,
     totalPage,
-    productReportList,
+    masterReportList,
   } = state;
 
   const dispatch = useDispatch();
-  const { productReport } = useSelector((stateValue) => stateValue.ReportReducer);
+  const { masterReport, generateMasterReportStatus } = useSelector(
+    (stateValue) => stateValue.ReportReducer
+  );
 
   useEffect(() => {
-    dispatch(getProductReport(0, SIZE));
+    dispatch(getMasterReport(0, SIZE, reportName));
   }, []);
 
   useEffect(() => {
-    if (productReport) {
-      if (productReport.success) {
-        if (productReport.content && productReport.content.length !== 0) {
+    if (generateMasterReportStatus) {
+      if (!generateMasterReportStatus.success) {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackMsg: generateMasterReportStatus.message,
+        });
+      }
+      dispatch(clearCustomData("generateMasterReportStatus"));
+    }
+  }, [generateMasterReportStatus]);
+
+  useEffect(() => {
+    if (masterReport) {
+      if (masterReport.success) {
+        if (masterReport.content && masterReport.content.length !== 0) {
           setState({
             ...state,
-            productReportList: productReport.content || [],
-            totalPage: productReport.totalPages || 0,
+            masterReportList: masterReport.content || [],
+            totalPage: masterReport.totalPages || 0,
           });
         } else {
           setState({
             ...state,
-            productReportList: [],
+            masterReportList: [],
             totalPage: 0,
             page: 0,
             snackOpen: true,
-            snackMsg: 'No results found',
+            snackMsg: "No results found",
           });
         }
       } else {
         setState({
           ...state,
-          productReportList: [],
+          masterReportList: [],
           totalPage: 0,
           page: 0,
           snackOpen: true,
-          snackMsg: productReport.message,
+          snackMsg: masterReport.message,
         });
       }
-      dispatch(clearCustomData('productReport'));
+      dispatch(clearCustomData("masterReport"));
     }
-  }, [productReport]);
+  }, [masterReport]);
 
   const compare = (dateTimeA, dateTimeB) => {
     if (dateTimeA && dateTimeB) {
-      var momentA = moment(new Date(dateTimeA), 'DD/MM/YYYY');
-      var momentB = moment(new Date(dateTimeB), 'DD/MM/YYYY');
+      var momentA = moment(new Date(dateTimeA), "DD/MM/YYYY");
+      var momentB = moment(new Date(dateTimeB), "DD/MM/YYYY");
       if (momentA > momentB) return true;
       else return false;
     } else return false;
@@ -114,7 +134,7 @@ function ProductReport(props) {
       if (compare(startDate, endDate)) {
         setState({
           ...state,
-          endDateHelperText: 'Please select a valid date',
+          endDateHelperText: "Please select a valid date",
           isDisabled: true,
         });
       } else {
@@ -141,10 +161,16 @@ function ProductReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      productReportList: [],
+      masterReportList: [],
     });
-    dispatch(generateProductReport(startDate, endDate));
-    dispatch(getProductReport(0, SIZE));
+    dispatch(generateMasterReport(startDate, endDate, reportName));
+    setTimeout(() => {
+      if (
+        (generateMasterReportStatus && generateMasterReportStatus.success) ||
+        !generateMasterReportStatus
+      )
+        dispatch(getMasterReport(0, SIZE, reportName));
+    }, 200);
   };
 
   const handleRefresh = () => {
@@ -152,30 +178,30 @@ function ProductReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      productReportList: [],
+      masterReportList: [],
     });
-    dispatch(getProductReport(0, SIZE));
+    dispatch(getMasterReport(0, SIZE, reportName));
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, snackOpen: false, snackMsg: '' });
+    setState({ ...state, snackOpen: false, snackMsg: "" });
   };
 
   const handlePageChange = (event, value) => {
     setState({ ...state, page: value - 1 });
-    dispatch(getProductReport(value - 1, SIZE));
+    dispatch(getMasterReport(value - 1, SIZE, reportName));
   };
 
   const renderButtonText = (value) => {
-    let text = 'Inprogress';
+    let text = "Inprogress";
     if (value) {
-      text = 'Download';
+      text = "Download";
     }
     return text;
   };
 
   const renderTable = () => {
-    const columns = ['Created date', 'Selection range', 'Created by', ''];
+    const columns = ["Created date", "Selection range", "Created by", ""];
 
     return (
       <Box>
@@ -193,21 +219,26 @@ function ProductReport(props) {
                   </TableRow>
                 </Head>
                 <TableBody>
-                  {productReportList &&
-                    productReportList.length !== 0 &&
-                    productReportList.map(
-                      ({ createdAt, userSelectedDate, downloadLink, userRole }, index) => {
+                  {masterReportList &&
+                    masterReportList.length !== 0 &&
+                    masterReportList.map(
+                      (
+                        { createdAt, userSelectedDate, downloadLink, userRole },
+                        index
+                      ) => {
                         return (
-                          <TableRow key={index} style={{ border: '0 0 0 0' }}>
-                            <BodyCell>{createdAt || 'NA'}</BodyCell>
-                            <BodyCell>{userSelectedDate || 'NA'}</BodyCell>
-                            <BlueCell>{userRole?.username || 'NA'}</BlueCell>
-                            <BodyCell align={'right'}>
+                          <TableRow key={index} style={{ border: "0 0 0 0" }}>
+                            <BodyCell>{createdAt || "NA"}</BodyCell>
+                            <BodyCell>{userSelectedDate || "NA"}</BodyCell>
+                            <BlueCell>{userRole?.username || "NA"}</BlueCell>
+                            <BodyCell align={"right"}>
                               <Button
                                 disabled={!Boolean(downloadLink)}
-                                color={'primary'}
-                                onClick={() => handleDownloadClick(downloadLink)}
-                                variant={'contained'}
+                                color={"primary"}
+                                onClick={() =>
+                                  handleDownloadClick(downloadLink)
+                                }
+                                variant={"contained"}
                               >
                                 {renderButtonText(downloadLink)}
                               </Button>
@@ -235,23 +266,30 @@ function ProductReport(props) {
   return (
     <div>
       <BreadCrumpContainer>
-        <img src={BackButton} className={classes.imgStyle} onClick={() => props.history.goBack()} />
+        <img
+          src={BackButton}
+          className={classes.imgStyle}
+          onClick={() => props.history.goBack()}
+        />
         <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
-          <Typography onClick={() => props.history.push(studentPath)} style={typographyStyle}>
-            {'Home'}
+          <Typography
+            onClick={() => props.history.push(studentPath)}
+            style={typographyStyle}
+          >
+            {"Home"}
           </Typography>
-          <Typography className={classes.textSTyle}>{'Report'}</Typography>
+          <Typography className={classes.textSTyle}>{"Report"}</Typography>
         </Breadcrumbs>
       </BreadCrumpContainer>
       <Grid container spacing={2}>
         <Grid xs={12} item />
         <Grid item xs={3}>
           <TextFieldComponent
-            type={'date'}
-            color={'primary'}
-            variant={'outlined'}
-            label={'Start Date'}
-            name={'startDate'}
+            type={"date"}
+            color={"primary"}
+            variant={"outlined"}
+            label={"Start Date"}
+            name={"startDate"}
             value={startDate}
             onChange={handleChange}
             InputLabelProps={{
@@ -259,8 +297,8 @@ function ProductReport(props) {
             }}
             inputProps={{
               max: moment()
-                .subtract(1, 'days')
-                .format('YYYY-MM-DD'),
+                .subtract(1, "days")
+                .format("YYYY-MM-DD"),
             }}
             onKeyDown={(event) => {
               event.preventDefault();
@@ -270,49 +308,55 @@ function ProductReport(props) {
         </Grid>
         <Grid item xs={3}>
           <TextFieldComponent
-            type={'date'}
-            color={'primary'}
-            variant={'outlined'}
-            label={'End Date'}
-            name={'endDate'}
+            type={"date"}
+            color={"primary"}
+            variant={"outlined"}
+            label={"End Date"}
+            name={"endDate"}
             value={endDate}
             onChange={handleChange}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
-              max: moment(new Date()).format('YYYY-MM-DD'),
+              max: moment(new Date()).format("YYYY-MM-DD"),
             }}
             error={Boolean(endDateHelperText)}
-            helperText={endDateHelperText || ' '}
+            helperText={endDateHelperText || " "}
             onKeyDown={(event) => {
               event.preventDefault();
             }}
             fullWidth
           />
         </Grid>
-        <Grid item xs={6} justifyContent={'flex-end'} alignItems={'center'} container>
+        <Grid
+          item
+          xs={6}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+          container
+        >
           <Button
             disabled={isDisabled}
-            color={'primary'}
+            color={"primary"}
             onClick={handleGenerateClick}
-            variant={'contained'}
+            variant={"contained"}
           >
-            {'Generate'}
+            {"Generate"}
           </Button>
-          <Box margin={'0px 10px 0px 30px'}>
-            <IconButton onClick={handleRefresh} title={'Refresh'}>
-              <RefreshIcon color={'#009be5'} width={'26px'} height={'26px'} />
+          <Box margin={"0px 10px 0px 30px"}>
+            <IconButton onClick={handleRefresh} title={"Refresh"}>
+              <RefreshIcon color={"#009be5"} width={"26px"} height={"26px"} />
             </IconButton>
           </Box>
         </Grid>
         <Grid item xs={12}>
-          {productReportList && productReportList.length !== 0 && renderTable()}
+          {masterReportList && masterReportList.length !== 0 && renderTable()}
         </Grid>
       </Grid>
       <Snack
         snackOpen={snackOpen}
-        snackVariant={'error'}
+        snackVariant={"error"}
         snackMsg={snackMsg}
         onClose={handleSnackClose}
       />
@@ -320,4 +364,4 @@ function ProductReport(props) {
   );
 }
 
-export default ProductReport;
+export default MasterReport;
