@@ -420,20 +420,21 @@ function RootContainer(props) {
         },
       ]);
     } else if (props.adminLinkedProductDetails.department === "Pboperations") {
+      const {
+        adminLinkedProductDetails: { products: productList },
+      } = props;
       let myArr = [];
-      props.adminLinkedProductDetails.products
-        // .filter(
-        //   (prodItems) =>
-        //     prodItems.variantSKU === "PBP" ||
-        //     prodItems.variantSKU === "PBM" ||
-        //     prodItems.variantSKU === "PBP_2023"
-        // )
-        .map((eachItem) => {
-          myArr.push({
-            title: eachItem.shortName,
-            path: obOperationPath + "/" + eachItem.id,
-          });
+      if (productList && productList.length !== 0) {
+        productList.map((eachItem) => {
+          if (eachItem.isProduct) {
+            myArr.push({
+              title: eachItem.shortName,
+              path: `${obOperationPath}/${eachItem.id}`,
+            });
+          }
         });
+      }
+
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,
