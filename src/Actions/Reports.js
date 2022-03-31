@@ -223,7 +223,7 @@ export const generateMasterReport = (startDate, endDate, reportName) => {
       .then((response) => {
         dispatch({
           type: REPORTS.generateMasterReport,
-          payload: response.data,
+          payload: { success: true, data: response.data, ...response },
         });
       })
       .catch((error) => {
@@ -252,7 +252,7 @@ export const generateSalesReport = (startDate, endDate, reportName) => {
       .then((response) => {
         dispatch({
           type: REPORTS.generateSalesReport,
-          payload: response.data,
+          payload: { success: true, data: response.data, ...response },
         });
       })
       .catch((error) => {

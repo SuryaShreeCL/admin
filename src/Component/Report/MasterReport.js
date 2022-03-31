@@ -76,12 +76,19 @@ function MasterReport(props) {
 
   useEffect(() => {
     if (generateMasterReportStatus) {
-      if (!generateMasterReportStatus.success) {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackMsg: generateMasterReportStatus.message,
-        });
+      if (
+        generateMasterReportStatus.status &&
+        generateMasterReportStatus.status <= 500
+      ) {
+        if (generateMasterReportStatus.success)
+          dispatch(getMasterReport(0, SIZE, reportName));
+        else {
+          setState({
+            ...state,
+            snackOpen: true,
+            snackMsg: generateMasterReportStatus.message,
+          });
+        }
       }
       dispatch(clearCustomData("generateMasterReportStatus"));
     }
@@ -161,15 +168,10 @@ function MasterReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      masterReportList: [],
     });
     dispatch(generateMasterReport(startDate, endDate, reportName));
     setTimeout(() => {
-      if (
-        (generateMasterReportStatus && generateMasterReportStatus.success) ||
-        !generateMasterReportStatus
-      )
-        dispatch(getMasterReport(0, SIZE, reportName));
+      dispatch(getMasterReport(0, SIZE, reportName));
     }, 200);
   };
 
