@@ -168,6 +168,7 @@ function MasterReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
+      masterReportList: [],
     });
     dispatch(generateMasterReport(startDate, endDate, reportName));
     setTimeout(() => {
