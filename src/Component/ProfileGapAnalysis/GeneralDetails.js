@@ -34,7 +34,6 @@ import {
   updategeneraldetails,
   updatestatus,
 } from "../../Actions/ProfileGapAction";
-import { StudentStepDetails } from "../../Actions/Student";
 import "../../Asset/ProfileGapAnalysis.css";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -564,9 +563,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name='pgdegree'
+                        name="pgdegree"
                         className={"field_style"}
-                        label='Post Graduate Degree'
+                        label="Post Graduate Degree"
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -613,9 +612,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name='pgcollege'
+                        name="pgcollege"
                         className={"field_style"}
-                        label='Post Graduate College'
+                        label="Post Graduate College"
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -663,9 +662,9 @@ class GeneralDetails extends Component {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        name='pguniversity'
+                        name="pguniversity"
                         className={"field_style"}
-                        label='Post Graduate University'
+                        label="Post Graduate University"
                         InputLabelProps={{ shrink: true }}
                       />
                     )}
@@ -701,8 +700,8 @@ class GeneralDetails extends Component {
                 </div>
                 <div style={{ paddingLeft: "10px", width: "100%" }}>
                   <TextField
-                    name='workexp'
-                    label='Work Experience'
+                    name="workexp"
+                    label="Work Experience"
                     className={"work_style"}
                     value={this.state.workexp}
                     onChange={(e) => {
@@ -760,9 +759,9 @@ class GeneralDetails extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      name='college'
+                      name="college"
                       className={"field_style"}
-                      label='College Name'
+                      label="College Name"
                       InputLabelProps={{ shrink: true }}
                     />
                   )}
@@ -799,8 +798,8 @@ class GeneralDetails extends Component {
               </div>
               <div style={{ paddingLeft: "10px" }}>
                 <TextField
-                  name='sem'
-                  label='Current Semester'
+                  name="sem"
+                  label="Current Semester"
                   className={"sem_style"}
                   value={this.state.sem}
                   onChange={(e) => {
@@ -827,8 +826,8 @@ class GeneralDetails extends Component {
           <Grid item md={4}>
             <TextField
               disabled
-              label='Round'
-              name='round'
+              label="Round"
+              name="round"
               value={this.state.round}
               onChange={(e) => this.handlechange(e)}
             />
@@ -838,7 +837,7 @@ class GeneralDetails extends Component {
               multiple
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               disabled
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -852,7 +851,7 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Degree'
+                  label="Degree"
                   className={"field_style"}
                 />
               )}
@@ -865,7 +864,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -878,7 +877,7 @@ class GeneralDetails extends Component {
               }}
               value={this.state.aspfieldofstudy || []}
               renderInput={(params) => (
-                <TextField {...params} label='Field of Study' />
+                <TextField {...params} label="Field of Study" />
               )}
               onChange={(e, newValue) => this.setState({ e, newValue })}
               InputLabelProps={{ shrink: true }}
@@ -902,9 +901,9 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name='areaofspecialisation'
+                  name="areaofspecialisation"
                   className={"package_style"}
-                  label='Area of Specialization'
+                  label="Area of Specialization"
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -918,7 +917,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -933,7 +932,7 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name='prefschool'
+                  name="prefschool"
                   // label="Preferred Grad School"
                   label={this.showSchoolLabel()}
                   className={"package_style"}
@@ -955,7 +954,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.aspdegree || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -970,8 +969,8 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name='aspdegree'
-                  label='Degree'
+                  name="aspdegree"
+                  label="Degree"
                   className={"degree_style"}
                   InputLabelProps={{ shrink: true }}
                 />
@@ -1002,7 +1001,7 @@ class GeneralDetails extends Component {
               multiple
               disabled
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.aspfieldofstudy || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -1017,9 +1016,9 @@ class GeneralDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  name='fieldofstudy'
+                  name="fieldofstudy"
                   className={"package_style"}
-                  label='Field Of Study'
+                  label="Field Of Study"
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -1045,8 +1044,8 @@ class GeneralDetails extends Component {
                 <TextField
                   {...params}
                   className={"package_style"}
-                  name='areaofspecialisation'
-                  label='Area of Specialization'
+                  name="areaofspecialisation"
+                  label="Area of Specialization"
                   InputLabelProps={{ shrink: true }}
                 />
               )}
@@ -1060,7 +1059,7 @@ class GeneralDetails extends Component {
               popupIcon={<ExpandMore style={{ color: "black" }} />}
               multiple
               disabled
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.state.university || []}
               getOptionLabel={(option) => option.name}
               groupBy={(option) => option.name}
@@ -1357,8 +1356,8 @@ class GeneralDetails extends Component {
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
                           disabled
-                          name='clsid'
-                          label='CLS ID'
+                          name="clsid"
+                          label="CLS ID"
                           value={this.state.clsid}
                           InputLabelProps={{ shrink: true }}
                           className={"clsid_style"}
@@ -1399,10 +1398,10 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name='firstname'
-                          type='text'
+                          name="firstname"
+                          type="text"
                           InputLabelProps={{ shrink: true }}
-                          label='First Name'
+                          label="First Name"
                           className={"field_style"}
                           value={this.state.firstname}
                           onChange={(e) => {
@@ -1447,9 +1446,9 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name='lastname'
-                          type='text'
-                          label='Last Name'
+                          name="lastname"
+                          type="text"
+                          label="Last Name"
                           value={this.state.lastname}
                           InputLabelProps={{ shrink: true }}
                           className={"field_style"}
@@ -1495,10 +1494,10 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px" }}>
                         <TextField
-                          name='phone'
+                          name="phone"
                           disabled
                           InputLabelProps={{ shrink: true }}
-                          label='Phone Number'
+                          label="Phone Number"
                           className={"field_style"}
                           value={this.state.phone}
                           onChange={(e) => {
@@ -1541,9 +1540,9 @@ class GeneralDetails extends Component {
                       </div>
                       <div style={{ paddingLeft: "10px", paddingRight: "5px" }}>
                         <TextField
-                          name='email'
+                          name="email"
                           disabled
-                          label='Email Address'
+                          label="Email Address"
                           InputLabelProps={{ shrink: true }}
                           value={this.state.email}
                           className={"field_style"}
@@ -1596,9 +1595,9 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name='degree'
+                              name="degree"
                               className={"degree_style"}
-                              label='Degree'
+                              label="Degree"
                               InputLabelProps={{ shrink: true }}
                             />
                           )}
@@ -1646,9 +1645,9 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name='fieldofstudy'
+                              name="fieldofstudy"
                               className={"field_style"}
-                              label='Field Of Study'
+                              label="Field Of Study"
                               InputLabelProps={{ shrink: true }}
                             />
                           )}
@@ -1700,8 +1699,8 @@ class GeneralDetails extends Component {
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                name='college'
-                                label='College Name'
+                                name="college"
+                                label="College Name"
                                 className={"field_style"}
                                 InputLabelProps={{ shrink: true }}
                               />
@@ -1742,8 +1741,8 @@ class GeneralDetails extends Component {
                       <Grid item md={4}>
                         <TextField
                           disabled
-                          name='package'
-                          label='Package Purchased'
+                          name="package"
+                          label="Package Purchased"
                           className={"package_style"}
                           InputLabelProps={{ shrink: true }}
                           value={this.state.package}
@@ -1753,12 +1752,12 @@ class GeneralDetails extends Component {
                       <Grid item md={4}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <TextField
-                            label='Enrollment Period'
+                            label="Enrollment Period"
                             value={this.state.enrollmentdate}
-                            type='month'
+                            type="month"
                             disabled
-                            name='enrollmentdate'
-                            margin='normal'
+                            name="enrollmentdate"
+                            margin="normal"
                             InputLabelProps={{ shrink: true }}
                             onChange={(newValue) =>
                               this.setState({ enrollmentdate: newValue })
@@ -1773,8 +1772,8 @@ class GeneralDetails extends Component {
                           disabled
                           value={this.state.product}
                           onChange={(e) => this.handlechange(e)}
-                          name='product'
-                          label='Product'
+                          name="product"
+                          label="Product"
                           className={"package_style"}
                           InputLabelProps={{ shrink: true }}
                         />
@@ -1785,7 +1784,7 @@ class GeneralDetails extends Component {
                           options={this.intakevalue}
                           disabled
                           getOptionLabel={(option) => option.title}
-                          name='intake'
+                          name="intake"
                           value={this.state.intake}
                           InputLabelProps={{ shrink: true }}
                           onChange={(e, newValue) => {
@@ -1796,8 +1795,8 @@ class GeneralDetails extends Component {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              name='intake'
-                              label='Intake'
+                              name="intake"
+                              label="Intake"
                               className={"work_style"}
                             />
                           )}
@@ -1853,7 +1852,7 @@ class GeneralDetails extends Component {
               <Dialog open={this.state.dialog} maxWidth={"sm"}>
                 <DialogTitle>
                   <Grid container>
-                    <Grid item md={12} align='left'>
+                    <Grid item md={12} align="left">
                       <Typography style={{ fontSize: "19px" }}>
                         Change Verification
                       </Typography>
@@ -1906,8 +1905,8 @@ class GeneralDetails extends Component {
                           <Grid item md={12} style={{ marginTop: "12px" }}>
                             <TextField
                               fullWidth
-                              label='Comments'
-                              name='comment'
+                              label="Comments"
+                              name="comment"
                               value={this.state.comments}
                               InputLabelProps={{ shrink: true }}
                               onChange={(e) => {
@@ -1939,8 +1938,8 @@ class GeneralDetails extends Component {
                         <div>
                           <PrimaryButton
                             style={{ width: "100px" }}
-                            color='primary'
-                            variant='contained'
+                            color="primary"
+                            variant="contained"
                             onClick={() => this.handlesaved()}
                           >
                             Add
@@ -1950,8 +1949,8 @@ class GeneralDetails extends Component {
                         <div>
                           <PrimaryButton
                             style={{ width: "100px" }}
-                            color='primary'
-                            variant='outlined'
+                            color="primary"
+                            variant="outlined"
                             onClick={() => this.setState({ dialog: false })}
                           >
                             Cancel
@@ -1971,7 +1970,7 @@ class GeneralDetails extends Component {
 
               <Menu
                 style={{ top: "25px" }}
-                id='basic-menu'
+                id="basic-menu"
                 anchorEl={this.state.anchorEl}
                 open={this.state.popOpen}
                 onClose={this.handleClose}
