@@ -168,6 +168,7 @@ function SalesReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
+      salesReportList: [],
     });
     dispatch(generateSalesReport(startDate, endDate, reportName));
     setTimeout(() => {
