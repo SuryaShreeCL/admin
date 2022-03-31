@@ -76,12 +76,19 @@ function SalesReport(props) {
 
   useEffect(() => {
     if (generateSalesReportStatus) {
-      if (!generateSalesReportStatus.success) {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackMsg: generateSalesReportStatus.message,
-        });
+      if (
+        generateSalesReportStatus.status &&
+        generateSalesReportStatus.status <= 500
+      ) {
+        if (generateSalesReportStatus.success)
+          dispatch(getSalesReport(0, SIZE, reportName));
+        else {
+          setState({
+            ...state,
+            snackOpen: true,
+            snackMsg: generateSalesReportStatus.message,
+          });
+        }
       }
       dispatch(clearCustomData("generateSalesReportStatus"));
     }
@@ -161,15 +168,10 @@ function SalesReport(props) {
       ...state,
       page: 0,
       totalPage: 0,
-      salesReportList: [],
     });
     dispatch(generateSalesReport(startDate, endDate, reportName));
     setTimeout(() => {
-      if (
-        (generateSalesReportStatus && generateSalesReportStatus.success) ||
-        !generateSalesReportStatus
-      )
-        dispatch(getSalesReport(0, SIZE, reportName));
+      dispatch(getSalesReport(0, SIZE, reportName));
     }, 200);
   };
 
