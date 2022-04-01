@@ -288,12 +288,14 @@ class ProductStages extends Component {
         href: this.state.href,
         image: this.state.image,
         lockImg: this.state.lockimage,
-        isChild: false,
-        isParent: true,
+        isChild: true,
+        isParent: false,
         max_tat: this.state.maxtat,
         min_tat: this.state.mintat,
         orderNo: this.state.rank,
-
+        parent: {
+          id: this.state.id,
+        },
         product: {
           id: this.props.match.params.id,
         },
