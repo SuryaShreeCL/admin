@@ -10,6 +10,9 @@ export const useStyles = makeStyles((theme) => ({
   dividerStyle: {
     backgroundColor: "#D2D2D2",
   },
+  iconButtonStyle: {
+    padding: "2px !important",
+  },
 }));
 
 export const customTheme = createTheme({
@@ -25,9 +28,7 @@ export const customTheme = createTheme({
       color: "#18AAE7",
       borderColor: "#18AAE7",
     },
-    iconButtonStyle: {
-      padding: "2px !important",
-    },
+    
     delete: {
       color: "#FD413C",
       borderColor: "#FD413C",
