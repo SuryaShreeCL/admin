@@ -14,6 +14,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import DropzoneComponent from "../Utils/controls/CustomDropZone";
 import { Box } from "@material-ui/core";
+import { DownloadCvTable } from "../Utils/DownloadCvTable";
+
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -55,8 +57,8 @@ function ProgramPreference(props) {
   return (
     <>
       <Grid container>
-        <Grid item xs={7}></Grid>
-        <Grid item xs={1}>
+        <Grid item xs={8}>
+      <Grid item xs={12} align="right">
           <div className={classes.buttonPosition}>
             {/* <ColorButton
               variant='contained'
@@ -125,6 +127,27 @@ function ProgramPreference(props) {
             </div>
           </div>
         </Grid>
+        <Grid item xs={12}>
+        <Box>
+            <DownloadCvTable
+              headers={["Version", "Uploaded date", "Comment", ""]}
+              body={[
+                {
+                  comment: "hii",
+                  createdBy: "",
+                  id: 1,
+                  path: "vvvv1",
+                  isDownload: true,
+                },
+              ]}
+              handleComment={() => {}}
+              handleDownload={() => {}}
+              handleDelete={() => {}}
+            />
+          </Box>
+        </Grid>
+        </Grid>
+       
         <Grid item xs={4}>
           <CvViewer doctype={"cv"} {...props} />
         </Grid>
