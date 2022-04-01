@@ -67,12 +67,10 @@ class TestEngineResult extends Component {
     this.setState({ disable: !this.state.disable });
   }
   componentDidMount() {
-    // this.props.viewscoredetails(this.props.match.params.id);
     this.props.viewStudentStatus(this.props.match.params.studentId);
 
     this.props.viewscoredetails(
       this.props.match.params.studentId,
-      this.props.match.params.productId,
       (response) => {
         if (response.status === 200) {
           this.setState({
@@ -133,7 +131,6 @@ class TestEngineResult extends Component {
         if (response.status === 200) {
           this.props.viewscoredetails(
             this.props.match.params.studentId,
-            this.props.match.params.productId,
             (response) => {
               if (response.status === 200) {
                 this.setState({
@@ -244,7 +241,7 @@ class TestEngineResult extends Component {
             <TableHead>
               <TableRow>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -255,7 +252,7 @@ class TestEngineResult extends Component {
                   No
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -266,7 +263,7 @@ class TestEngineResult extends Component {
                   Exam Date
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -277,7 +274,7 @@ class TestEngineResult extends Component {
                   TestSetName
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -288,7 +285,7 @@ class TestEngineResult extends Component {
                   Questions Attempted
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -299,7 +296,7 @@ class TestEngineResult extends Component {
                   Test Score
                 </TableCell>
                 <TableCell
-                  align="center"
+                  align='center'
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -326,7 +323,7 @@ class TestEngineResult extends Component {
                   return (
                     <TableRow>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -339,7 +336,7 @@ class TestEngineResult extends Component {
                         {index + 1}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -355,7 +352,7 @@ class TestEngineResult extends Component {
                       </TableCell>
 
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -368,7 +365,7 @@ class TestEngineResult extends Component {
                         {eachItem.questionSetName}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -381,7 +378,7 @@ class TestEngineResult extends Component {
                         {eachItem.noOfQuestionAttempt}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -396,7 +393,7 @@ class TestEngineResult extends Component {
                           : 0 + "/" + eachItem.total}
                       </TableCell>
                       <TableCell
-                        align="center"
+                        align='center'
                         style={{ borderBottom: "none" }}
                       >
                         <IconButton
@@ -433,11 +430,11 @@ class TestEngineResult extends Component {
           </Table>
         </TableContainer>
         <Dialog
-          maxWidth="xs"
+          maxWidth='xs'
           fullWidth={true}
           open={this.state.show}
           onClose={() => this.setState({ show: false })}
-          aria-labelledby="customized-dialog-title"
+          aria-labelledby='customized-dialog-title'
         >
           <DialogContent>
             <Typography
@@ -465,8 +462,8 @@ class TestEngineResult extends Component {
             >
               <Button
                 style={{ width: 150, borderRadius: 20 }}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 onClick={this.handleResetTest}
               >
                 Reset
@@ -475,9 +472,9 @@ class TestEngineResult extends Component {
           </DialogContent>
         </Dialog>
         <Dialog
-          maxWidth="md"
+          maxWidth='md'
           open={this.state.showEye}
-          aria-labelledby="customized-dialog-title"
+          aria-labelledby='customized-dialog-title'
         >
           <DialogTitle>
             {/* <div
