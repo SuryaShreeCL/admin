@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Grid } from "@material-ui/core";
+import { Box, Button, Divider, Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import {} from "../../Asset/StyledComponents/ApplicationStage";
@@ -8,6 +8,8 @@ import {
   useStyles,
 } from "../../Asset/StyledComponents/Styles";
 import { DownloadCvTable } from "../Utils/DownloadCvTable";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
 function Index(props) {
   const classes = useStyles();
@@ -26,6 +28,30 @@ function Index(props) {
     switch (activeMainTabValue) {
       case "LOR Frameworks":
         return (
+          <>
+          <Grid item xs={12}>
+          <Tabs className={classes.tabMenuFitWithGraduate}
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            aria-label="simple tabs example"
+          >
+            <Tab label="Graduate School 1" />
+            <Tab label="Graduate School 2" />
+            <Tab label="Graduate School 3" />
+          </Tabs>
+          </Grid>
+          
+          <Grid item xs={6}>
+            <Typography display="inline">Program Link:<a href="#">Program Link</a></Typography>
+          </Grid>
+          
+
+          
+          <Grid item xs={6}>
+            <p>hi</p>
+          </Grid>
+          
           <Box>
             <DownloadCvTable
               headers={["Version", "Uploaded date", "Comment", ""]}
@@ -43,6 +69,7 @@ function Index(props) {
               handleDelete={() => {}}
             />
           </Box>
+          </>
         );
       default:
         return null;
@@ -65,10 +92,15 @@ function Index(props) {
   const handleTabChange = (e, newValue) => {
     setState({ ...state, activeMainTabValue: newValue });
   };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const [value, setValue] = React.useState(0);
 
   return (
     <Box className={classes.stageBoxLayoutStyle}>
       <Grid container>
+      
         <Grid item lg={12}>
           <Box display={"flex"} alignItems={"center"}>
             <Box flex={1}>
