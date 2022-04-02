@@ -1176,7 +1176,7 @@ export const getVariantStepsById = (variantId, callback) => {
         URL +
           "/api/v1/get/product/varient/steps/" +
           variantId +
-          "?platform=old",
+          "&platform=old",
         {
           headers: {
             admin: "yes",
