@@ -1172,12 +1172,18 @@ export const getVariantStepsById = (variantId, callback) => {
 
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/product/varient/steps/" + variantId, {
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        URL +
+          "/api/v1/get/product/varient/steps/" +
+          variantId +
+          "?platform=old",
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((result) => {
         dispatch({ type: PRODUCT.getVariantStepsById, payload: result.data });
         callback(result.data);
