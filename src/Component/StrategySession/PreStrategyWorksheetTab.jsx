@@ -45,6 +45,7 @@ function ProgramPreference(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+  const [upload,setUpload] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,6 +54,10 @@ function ProgramPreference(props) {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleUpload = () => {
+    setUpload(true)
+    this.props.postStudentDocumentUsingStageId();
+  }
 
   return (
     <>
@@ -113,7 +118,7 @@ function ProgramPreference(props) {
                 </DialogContent>
                 <DialogActions>
                   <Button
-                    onClick={handleClose}
+                    onClick={handleUpload}
                     variant="contained"
                     color="primary"
                   >

@@ -585,6 +585,9 @@ export const CV_REVIEW = {
 };
 
 export const STRATEGY_SESSION = {
-  putProgramPreference: "putProgramPreference",
-  getProgramPreference: "getProgramPreference",
+  getStageId:"getStageId",
+  getTemplateUsingStageId: "getTemplateUsingStageId",
+  getDownloadFileUsingStageId:"getDownloadFileUsingStageId" ,
+  postStudentDocumentUsingStageId: "postStudentDocumentUsingStageId",
+  putSaveFileDetailsUsingStageId: "putSaveFileDetailsUsingStageId",
 };

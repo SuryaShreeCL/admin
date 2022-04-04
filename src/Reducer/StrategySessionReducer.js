@@ -1,19 +1,38 @@
 import { STRATEGY_SESSION } from "../Redux/Action";
 const initialState = {
-  putProgramPreference: [],
-  getProgramPreference: [],
+  getStageId: [],
+  getTemplateUsingStageId: [],
+  getDownloadFileUsingStageId: [],
+  postStudentDocumentUsingStageId: [],
+  putSaveFileDetailsUsingStageId: [],
+  
 };
 const STRATEGY_SESSION = (state, action) => {
   switch (action.type) {
-    case STRATEGY_SESSION.putProgramPreference:
+    case STRATEGY_SESSION.getStageId:
       return {
         ...state,
-        isLoading: true,
+        StageId: action.getStageId,
       };
-    case STRATEGY_SESSION.getProgramPreference:
+    case STRATEGY_SESSION.getTemplateUsingStageId:
       return {
         ...state,
-        ProgramPreference: action.ProgramPreference,
+        TemplateUsingStageId: action.getTemplateUsingStageId,
+      };
+      case STRATEGY_SESSION.postStudentDocumentUsingStageId:
+      return {
+        ...state,
+        TemplateUsingStageId: action.postStudentDocumentUsingStageId,
+      };
+      case STRATEGY_SESSION.putSaveFileDetailsUsingStageId:
+      return {
+        ...state,
+        TemplateUsingStageId: action.putSaveFileDetailsUsingStageId,
+      };
+      case STRATEGY_SESSION.getDownloadFileUsingStageId:
+      return {
+        ...state,
+        TemplateUsingStageId: action.getDownloadFileUsingStageId,
       };
   }
 };
