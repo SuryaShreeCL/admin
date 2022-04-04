@@ -23,7 +23,13 @@ import { getVariantStepsById } from "../../Actions/ProductAction";
 import GreenTick from "../../Asset/Images/greenTick.png";
 import Pencil from "../../Asset/Images/pencil.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import { isEmptyString, isEmail, isNumber, isAlpha, isOnlyNumber } from "../../Component/Validation";
+import {
+  isEmptyString,
+  isEmail,
+  isNumber,
+  isAlpha,
+  isOnlyNumber,
+} from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
@@ -122,7 +128,7 @@ export class personalInfo extends Component {
     );
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
+        `?studentId=${this.props.match.params.studentId}&platform=old`
     );
   }
 
@@ -460,7 +466,7 @@ export class personalInfo extends Component {
                   label="Alternate Contact Number"
                   disabled={this.state.personalDisable}
                   value={this.state.altPhone}
-                  onKeyDown={evt=> isNumber(evt) && evt.preventDefault()}
+                  onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
                   onChange={(e) =>
                     this.setState({ altPhone: e.target.value, altPhoneErr: "" })
                   }
@@ -588,7 +594,7 @@ export class personalInfo extends Component {
                   inputMode="numeric"
                   id="standard-basic"
                   label="Pincode"
-                  onKeyDown={evt=>isNumber(evt) && evt.preventDefault()}
+                  onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
                   value={this.state.pincode}
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
@@ -604,7 +610,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="State"
                   value={this.state.state}
-                  onKeyDown={(evt)=>isOnlyNumber(evt) && evt.preventDefault()}
+                  onKeyDown={(evt) => isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ state: e.target.value, stateErr: "" })
@@ -618,7 +624,7 @@ export class personalInfo extends Component {
                   id="standard-basic"
                   label="Current city"
                   value={this.state.city}
-                  onKeyDown={(evt)=>isOnlyNumber(evt) && evt.preventDefault()}
+                  onKeyDown={(evt) => isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
                   onChange={(e) =>
                     this.setState({ city: e.target.value, cityErr: "" })

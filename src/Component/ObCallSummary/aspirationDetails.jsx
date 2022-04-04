@@ -232,7 +232,7 @@ class AspirationDetails extends Component {
     );
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
+        `?studentId=${this.props.match.params.studentId}&platform=old`
     );
   }
 

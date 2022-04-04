@@ -200,7 +200,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}`
+              `?studentId=${this.props.match.params.studentId}&platform=old`
           );
           this.setState({
             open: false,
@@ -217,7 +217,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}`
+              `?studentId=${this.props.match.params.studentId}&platform=old`
           );
           this.setState({
             snackOpen: true,
@@ -242,7 +242,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}`
+              `?studentId=${this.props.match.params.studentId}&platform=old`
           );
           this.setState({
             snackOpen: true,
@@ -307,7 +307,7 @@ class StageBasedLayout extends Component {
   componentDidMount() {
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
+        `?studentId=${this.props.match.params.studentId}&platform=old`
     );
     // this.props.StudentStepDetails(
     //   this.props.match.params.studentId,
@@ -423,7 +423,7 @@ class StageBasedLayout extends Component {
     ) {
       this.props.getVariantStepsById(
         this.props.match.params.productId +
-          `?studentId=${this.props.match.params.studentId}`
+          `?studentId=${this.props.match.params.studentId}&platform=old`
       );
     }
   }

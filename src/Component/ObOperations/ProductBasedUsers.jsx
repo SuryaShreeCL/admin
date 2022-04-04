@@ -34,7 +34,9 @@ class ProductBasedUsers extends Component {
 
   componentDidMount() {
     // this.props.getAdminLinkedProduct()
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(
+      `${this.props.match.params.productId}?platform=old`
+    );
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -47,10 +49,8 @@ class ProductBasedUsers extends Component {
     // }
     if (this.props.variantStepList !== prevProps.variantStepList) {
       var sortedArr =
-        this.props.variantStepList?.data?.steps?.length > 0 &&
-        this.props.variantStepList?.data?.steps?.sort(
-          (a, b) => a.rank - b.rank
-        );
+        this.props.variantStepList?.steps?.length > 0 &&
+        this.props.variantStepList?.steps?.sort((a, b) => a.rank - b.rank);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
           it.steps.sort((c, d) => c.rank - d.rank);

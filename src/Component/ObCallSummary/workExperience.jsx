@@ -116,7 +116,7 @@ class workExperience extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
+        `?studentId=${this.props.match.params.studentId}&platform=old`
     );
   }
   componentDidUpdate(prevProps, prevState) {
@@ -442,8 +442,8 @@ class workExperience extends Component {
                                 disabled={this.state.disable}
                                 label="Organisation"
                                 value={item.organization || ""}
-                                error={this.state.organizationErr.length > 0}
-                                helperText={this.state.organizationErr}
+                                // error={this.state.organizationErr.length > 0}
+                                // helperText={this.state.organizationErr}
                                 contentEditable={this.state.disable}
                                 error={
                                   this.state[`organizationErr${index}`] !==
@@ -586,8 +586,8 @@ class workExperience extends Component {
                                     index
                                   )
                                 }
-                                error={this.state.roleErr.length > 0}
-                                helperText={this.state.roleErr}
+                                // error={this.state.roleErr.length > 0}
+                                // helperText={this.state.roleErr}
                                 error={
                                   this.state[`roleErr${index}`] !== undefined &&
                                   this.state[`roleErr${index}`] !== ""
