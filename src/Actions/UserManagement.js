@@ -54,6 +54,7 @@ export const getUserDetails = () => {
 };
 
 export const editAdmin = (data) => {
+  console.log(data);
   return (dispatch) => {
     let accessToken = window.sessionStorage.getItem("accessToken");
 
