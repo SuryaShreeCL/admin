@@ -775,6 +775,8 @@ function RootContainer(props) {
     return true;
   };
 
+  console.log(props.adminLinkedProductDetails, "++++++++++++++");
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>

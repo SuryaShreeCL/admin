@@ -210,7 +210,7 @@ export class UserManagement extends Component {
       !isEmptyArray(this.state.department)
     ) {
       let reqBody = {
-        Id: this.state.id, // if updating the user details mean pass the id
+        id: this.state.id, // if updating the user details mean pass the id
         username: this.state.username,
         password: this.state.password,
         userDetails: this.state.department,
@@ -247,7 +247,7 @@ export class UserManagement extends Component {
       !isEmptyArray(this.state.department)
     ) {
       let reqBody = {
-        Id: this.state.id, // if updating the user details mean pass the id
+        id: null, // if updating the user details mean pass the id
         username: this.state.username,
         password: this.state.password,
         userDetails: this.state.department,

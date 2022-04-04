@@ -463,12 +463,7 @@ export default function Routes(props) {
         component={BulkUpload}
       />
       <Route export exact path={single_upload} component={SingleUpload} />
-      <Route
-        export
-        exact
-        path={userManagementPath}
-        component={UserManagement}
-      />
+      <Route exact path={userManagementPath} component={UserManagement} />
     </Switch>
   );
 }
