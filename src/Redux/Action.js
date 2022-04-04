@@ -591,3 +591,9 @@ export const CV_REVIEW = {
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
 };
+
+export const USERMANAGEMENT = {
+  getUserDepartment: "getUserDepartment",
+  getUserDetails: "getUserDetails",
+  editAdmin: "editAdmin",
+};

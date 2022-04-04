@@ -58,6 +58,7 @@ import CourseMaterialReducer from "../Lms/Redux/Reducer/CourseMaterialReducer";
 import TestReducer from "../Lms/Redux/Reducer/TestReducer";
 import LmsStudentReducer from "../Lms/Redux/Reducer/LmsStudentReducer";
 import PgaReportReducer from "../Reducer/PgaReportReducer";
+import UserManagementReducer from "../Reducer/UserManagementReducer";
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -115,4 +116,5 @@ export default combineReducers({
   CourseMaterialReducer: CourseMaterialReducer,
   TestReducer: TestReducer,
   LmsStudentReducer: LmsStudentReducer,
+  UserManagementReducer: UserManagementReducer,
 });
