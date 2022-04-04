@@ -17,6 +17,7 @@ import {
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Track from "@material-ui/icons/ArtTrack";
+import ContactMail from "@material-ui/icons/ContactMail";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -51,12 +52,12 @@ import {
   lmsTest,
   lms_course_landing,
   lms_study_plans,
+  NAVIGATE_TO,
   notificationPath,
   obOperationPath,
   premiumUsersPath,
   productPath,
   productPunchingPath,
-  productReportPath,
   reportsPath,
   rootLoginPath,
   studentPath,
@@ -383,6 +384,12 @@ function RootContainer(props) {
         },
         {
           icon: <HomeOutlinedIcon />,
+          title: "Master Reports",
+          path: NAVIGATE_TO.reportContentPath("masterReport"),
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
           title: "Notification",
           path: notificationPath,
           items: [],
@@ -413,20 +420,21 @@ function RootContainer(props) {
         },
       ]);
     } else if (props.adminLinkedProductDetails.department === "Pboperations") {
+      const {
+        adminLinkedProductDetails: { products: productList },
+      } = props;
       let myArr = [];
-      props.adminLinkedProductDetails.products
-        // .filter(
-        //   (prodItems) =>
-        //     prodItems.variantSKU === "PBP" ||
-        //     prodItems.variantSKU === "PBM" ||
-        //     prodItems.variantSKU === "PBP_2023"
-        // )
-        .map((eachItem) => {
-          myArr.push({
-            title: eachItem.shortName,
-            path: obOperationPath + "/" + eachItem.id,
-          });
+      if (productList && productList.length !== 0) {
+        productList.map((eachItem) => {
+          if (eachItem.isProduct) {
+            myArr.push({
+              title: eachItem.shortName,
+              path: `${obOperationPath}/${eachItem.id}`,
+            });
+          }
         });
+      }
+
       setSideNav([
         {
           icon: <HomeOutlinedIcon />,
@@ -444,6 +452,12 @@ function RootContainer(props) {
           icon: <HomeOutlinedIcon />,
           title: "Reports",
           path: reportsPath,
+          items: [],
+        },
+        {
+          icon: <HomeOutlinedIcon />,
+          title: "Master Reports",
+          path: NAVIGATE_TO.reportContentPath("masterReport"),
           items: [],
         },
         {
@@ -505,7 +519,7 @@ function RootContainer(props) {
         {
           icon: <HomeOutlinedIcon />,
           title: "Reports",
-          path: productReportPath,
+          path: NAVIGATE_TO.reportContentPath("salesReport"),
           items: [],
         },
       ]);
@@ -530,7 +544,7 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <Track />,
+          icon: <ContactMail />,
           title: "Premium Users Data",
           path: premiumUsersPath,
           items: [],

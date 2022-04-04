@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 0,
     margin: theme.spacing(0.5),
   },
   secondary: {
-    backgroundColor: theme.palette.secondary.light,
+    // backgroundColor: theme.palette.secondary.main,
     '& .MuiButton-label': {
       color: theme.palette.secondary.main,
     },
@@ -25,11 +25,7 @@ export default function ActionButton(props) {
   const classes = useStyles();
 
   return (
-    <Button
-      className={`${classes.root} ${classes[color]}`}
-      {...other}
-      onClick={onClick}
-    >
+    <Button className={`${classes.root} ${classes[color]}`} {...other} onClick={onClick}>
       {children}
     </Button>
   );

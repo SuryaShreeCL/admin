@@ -27,9 +27,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import { DrawerContainer } from '../Assets/Styles/WallStyles';
 import MuiAlert from '@material-ui/lab/Alert';
 import { ButtonsContainerTwo } from '../Assets/Styles/CreateTestStyles';
-import { listTests, deleteTest } from '../../../Actions/TestActions';
+import { listTests, deleteTest, updatePostTestScoreByQuestionSetId } from '../../../Actions/TestActions';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import SetCutOff from '../Components/SetCutOff';
+
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -82,6 +83,7 @@ export default function PreviousTest() {
   let totalPages = tests.totalPages;
 
   const [viewData, setViewData] = useState([]);
+  const [postTestUploadScore, setPostTestUploadScore] = useState(true);
   const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
@@ -103,6 +105,25 @@ export default function PreviousTest() {
   const onSetCutOff = (item) => {
     setOpenCutOff(true);
     setData(item);
+  };
+
+  const onUpdateTestScore = async (questionSetId) => {
+    setPostTestUploadScore(false);
+    if(await updatePostTestScoreByQuestionSetId(questionSetId)){
+      setPostTestUploadScore(true);
+      setNotify({
+        isOpen: true,
+        message: 'Score Updated Successfully',
+        type: 'success',
+      });
+    }else{
+      setPostTestUploadScore(true);
+      setNotify({
+        isOpen: true,
+        message: 'Unable To Update The Score',
+        type: 'error',
+      });
+    }
   };
 
   const openInPage = (item) => {
@@ -189,8 +210,8 @@ export default function PreviousTest() {
                       />
                     </Controls.ActionButton>
                     <Controls.ActionButton
-                      onClick={() => onSetCutOff(item)}
-                      disabled={!item.attemptedStudents}
+                      onClick={() => onUpdateTestScore(item.id)}
+                      disabled={postTestUploadScore?!item.attemptedStudents:true}
                     >
                       <AssignmentTurnedIn fontSize='small' />
                     </Controls.ActionButton>

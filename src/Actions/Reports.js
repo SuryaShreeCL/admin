@@ -201,8 +201,40 @@ export const getTestList = (id, callback) => {
   };
 };
 
-export const generateProductReport = (startDate, endDate) => {
+export const generateMasterReport = (startDate, endDate, reportName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
+  let adminUserId = window.sessionStorage.getItem("adminUserId");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/students/reports/master`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          export: true,
+          startDate: startDate,
+          endDate: endDate,
+          reportName: reportName,
+          adminUserId: adminUserId,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.generateMasterReport,
+          payload: { success: true, data: response.data, ...response },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.generateMasterReport, error, false));
+      });
+  };
+};
+
+export const generateSalesReport = (startDate, endDate, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/sales/report`, {
@@ -214,26 +246,17 @@ export const generateProductReport = (startDate, endDate) => {
           export: true,
           startDate: startDate,
           endDate: endDate,
+          reportName: reportName,
         },
       })
-      .then((result) => {
+      .then((response) => {
         dispatch({
-          type: REPORTS.generateProductReport,
-          payload: {
-            success: true,
-            data: result.data,
-          },
+          type: REPORTS.generateSalesReport,
+          payload: { success: true, data: response.data, ...response },
         });
       })
       .catch((error) => {
-        dispatch({
-          type: REPORTS.generateProductReport,
-          payload: {
-            success: false,
-            data: error,
-            message: error?.message || "Exception Failed",
-          },
-        });
+        dispatch(errorHandler(REPORTS.generateSalesReport, error, false));
       });
   };
 };
@@ -247,8 +270,9 @@ export const clearCustomData = (fieldName) => {
   };
 };
 
-export const getProductReport = (page, size) => {
+export const getSalesReport = (page, size, reportName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
+
   return (dispatch) => {
     axios
       .get(`${URL}/api/v1/sales/report/all`, {
@@ -259,16 +283,45 @@ export const getProductReport = (page, size) => {
         params: {
           page: page,
           size: size,
+          reportName: reportName,
         },
       })
       .then((response) => {
         dispatch({
-          type: REPORTS.viewProductReport,
+          type: REPORTS.viewSalesReport,
           payload: { success: true, ...response.data },
         });
       })
       .catch((error) => {
-        dispatch(errorHandler(REPORTS.viewProductReport, error, false));
+        dispatch(errorHandler(REPORTS.viewSalesReport, error, false));
+      });
+  };
+};
+
+export const getMasterReport = (page, size, reportName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/sales/report/all`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: page,
+          size: size,
+          reportName: reportName,
+        },
+      })
+      .then((response) => {
+        dispatch({
+          type: REPORTS.viewMasterReport,
+          payload: { success: true, ...response.data },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(REPORTS.viewMasterReport, error, false));
       });
   };
 };

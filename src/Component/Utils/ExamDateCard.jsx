@@ -24,7 +24,7 @@ function ExamDateCard({ date }) {
               </div>
               <div>
                 <Typography>
-                  {moment(new Date(date)).format("MMM yyyy")}
+                  {date && moment(new Date(date)).format("MMM yyyy")}
                 </Typography>
               </div>
             </div>

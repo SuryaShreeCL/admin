@@ -25,7 +25,7 @@ export const PROFILE_GAP_ANALYSIS = {
   loader: "profileGapAnalysisLoader",
   getgeneraldetails: "getgeneraldetails",
   getstatus: "getstatus",
-  getcommenthistory: "getcommenthistory",
+  getCommentHistory: "getCommentHistory",
   updatestatus: "updatestatus",
   getTestResults: "getTestResults",
   getPpgaCallNotes: "getPpgaCallNotes",
@@ -357,9 +357,11 @@ export const REPORTS = {
   viewTechTestElectronics: "viewTechTestElectronics",
   viewDiagTestReport: "viewDiagTestReport",
   viewCareerExpoTest: "viewCareerExpoTest",
-  generateProductReport: "generateProductReport",
+  generateSalesReport: "generateSalesReport",
+  viewSalesReport: "viewSalesReport",
+  generateMasterReport: "generateMasterReport",
+  viewMasterReport: "viewMasterReport",
   clearCustomData: "reportClearCustomData",
-  viewProductReport: "viewProductReport",
 };
 
 export const STUDENTMARKDETAILS = {
@@ -485,6 +487,10 @@ export const WALL = {
   WALL_CATEGORIES_SUCCESS: "WALL_CATEGORIES_SUCCESS",
   WALL_CATEGORIES_FAIL: "WALL_CATEGORIES_FAIL",
 
+  WALL_JOB_LIST_REQUEST: "WALL_JOB_LIST_REQUEST",
+  WALL_JOB_LIST_SUCCESS: "WALL_JOB_LIST_SUCCESS",
+  WALL_JOB_LIST_FAIL: "WALL_JOB_LIST_FAIL",
+
   DELETE_REQUEST: "WALL_DELETE_REQUEST",
   DELETE_SUCCESS: "WALL_DELETE_SUCCESS",
   DELETE_FAIL: "WALL_DELETE_FAIL",
@@ -542,6 +548,10 @@ export const TEST = {
   CUTOFF_REQUEST: "CUTOFF_REQUEST",
   CUTOFF_SUCCESS: "CUTOFF_SUCCESS",
   CUTOFF_FAIL: "CUTOFF_FAIL",
+
+  POST_TEST_UPLOAD_STATUS_REQUEST: "POST_TEST_UPLOAD_STATUS_REQUEST",
+  POST_TEST_UPLOAD_STATUS_SUCCESS: "POST_TEST_UPLOAD_STATUS_SUCCESS",
+  POST_TEST_UPLOAD_STATUS_FAIL: "POST_TEST_UPLOAD_STATUS_FAIL",
 };
 
 export const PGA_REPORT = {

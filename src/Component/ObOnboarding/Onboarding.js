@@ -138,9 +138,7 @@ export class Onboarding extends Component {
   }
 
   handleManage = (eachItem) => {
-    const { product } = this.state;
-    const { match } = this.props;
-    const productId = product?.id || match.params.productId;
+    const productId = eachItem.productId;
     this.props.StudentStepDetails(eachItem.studentId, productId);
     this.props.getVariantStepsById(
       `${productId}?studentId=${eachItem.studentId}`

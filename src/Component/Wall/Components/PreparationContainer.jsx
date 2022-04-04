@@ -6,11 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import Controls from '../../Utils/controls/Controls';
-import { FieldArray, Field } from 'formik';
+import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { useDispatch, useSelector } from 'react-redux';
-import { listAllWallWebinars, listWallWebinars } from '../../../Actions/WallActions';
+import { listAllWallWebinars } from '../../../Actions/WallActions';
 import moment from 'moment';
 import { Alert } from '@material-ui/lab';
 
@@ -30,9 +30,11 @@ const useStyles = makeStyles({
   },
   spacer: {
     width: '100%',
-    marginBottom: '1.2rem',
+    marginBottom: '10px',
     padding: '0.5rem',
   },
+  fieldlabel: { color: '#052A4E', fontSize: '0.8rem' },
+  fieldErr: { color: '#ff150d', fontSize: '0.8rem', marginBottom: '10px' },
 });
 
 const PreprationContainer = React.memo(({ values, setFieldValue }) => {
@@ -56,7 +58,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
   let storeWebinarIds = values.linkedWebinars?.map((webinar) => webinar.webinarId);
 
   // Combining the availableWebinars with linkedWebinarsLists for ease
-  // of access to both the arrays& for validation
+  // of access to both the arrays & for validation
   let combinedWebinars = [...availableWebinars, ...(values?.linkedWebinarsLists || [])];
   // Removing duplicates by ids if any.
   let uniqueCombinedWebinars = [
@@ -211,16 +213,14 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       width: '100%',
                     }}
                   >
-                    <h6
-                      style={{
-                        color: '#052A4E',
-                      }}
-                    >
-                      Video Name
-                    </h6>
+                    <h6 className={classes.fieldlabel}>Video Name</h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoName`}
+                    />
+                    <ErrorMessage
+                      name={`linkedSelfPrepVideos.${index}.videoName`}
+                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
                     />
                   </div>
                   <div
@@ -228,16 +228,14 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
                       width: '100%',
                     }}
                   >
-                    <h6
-                      style={{
-                        color: '#052A4E',
-                      }}
-                    >
-                      Video Link
-                    </h6>
+                    <h6 className={classes.fieldlabel}>Video Link</h6>
                     <Field
                       className={classes.spacer}
                       name={`linkedSelfPrepVideos.${index}.videoLink`}
+                    />
+                    <ErrorMessage
+                      name={`linkedSelfPrepVideos.${index}.videoLink`}
+                      render={(msg) => <p className={classes.fieldErr}>{msg}</p>}
                     />
                   </div>
                   <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
@@ -248,8 +246,8 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
               <Controls.ActionButton
                 onClick={() =>
                   arrayHelpers.push({
-                    videoName: null,
-                    videoLink: null,
+                    videoName: '',
+                    videoLink: '',
                   })
                 }
               >
@@ -283,6 +281,7 @@ const PreprationContainer = React.memo(({ values, setFieldValue }) => {
         <h6
           style={{
             marginBottom: '1rem',
+            fontWeight: 'bold',
           }}
         >
           Add Preparation Content
