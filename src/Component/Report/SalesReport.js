@@ -14,11 +14,13 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import moment from "moment";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   clearCustomData,
   generateSalesReport,
   getSalesReport,
 } from "../../Actions/Reports";
+import { ReactComponent as RefreshIcon } from "../../Asset/icons/refresh.svg";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import {
   BlueCell,
@@ -34,8 +36,6 @@ import PaginationComponent from "../../Component/Utils/CustomPaginationComponent
 import TextFieldComponent from "./../Controls/TextField";
 import Snack from "./../MySnackBar";
 import { studentPath } from "./../RoutePaths";
-import { ReactComponent as RefreshIcon } from "../../Asset/icons/refresh.svg";
-import { useParams } from "react-router-dom";
 
 const SIZE = 20;
 

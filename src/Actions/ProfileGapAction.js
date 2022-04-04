@@ -69,18 +69,14 @@ export const getstatus = (studentId, productId, callback) => {
       });
   };
 };
-export const getcommenthistory = (studentId, productId, callback) => {
+
+export const getCommentHistory = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
     axios
       .get(
-        URL +
-          "/api/v1/pga/students/" +
-          studentId +
-          "/product/" +
-          productId +
-          "/datachangelog",
+        `${URL}/api/v1/pga/students/${studentId}/product/${productId}/datachangelog`,
         {
           crossDomain: true,
           headers: {
@@ -90,18 +86,19 @@ export const getcommenthistory = (studentId, productId, callback) => {
         }
       )
       .then((result) => {
-        callback(result);
         dispatch({
-          type: PROFILE_GAP_ANALYSIS.getstatus,
-          payload: result.data,
+          type: PROFILE_GAP_ANALYSIS.getCommentHistory,
+          payload: { success: true, data: result.data },
         });
       })
       .catch((error) => {
-        callback(error);
-        console.log(error);
+        dispatch(
+          errorHandler(PROFILE_GAP_ANALYSIS.getCommentHistory, error, false)
+        );
       });
   };
 };
+
 export const updatestatus = (studentId, productId, data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -170,19 +167,16 @@ export const updategeneraldetails = (studentId, productId, data, callback) => {
       });
   };
 };
+
 // ppgaCallNotes
-export const getPpgaCallNotes = (studentId, productId, callback) => {
+export const getPpgaCallNotes = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
+    dispatch({ type: PROFILE_GAP_ANALYSIS.loader });
     axios
       .get(
-        URL +
-          "/api/v1/pga/students/" +
-          studentId +
-          "/product/" +
-          productId +
-          "/ppgacallnotes",
+        `${URL}/api/v1/pga/students/${studentId}/product/${productId}/ppgacallnotes`,
         {
           crossDomain: true,
           headers: {
@@ -192,31 +186,28 @@ export const getPpgaCallNotes = (studentId, productId, callback) => {
         }
       )
       .then((result) => {
-        callback(result);
         dispatch({
           type: PROFILE_GAP_ANALYSIS.getPpgaCallNotes,
-          payload: result.data,
+          payload: { success: true, data: result.data },
+          loading: false,
         });
       })
       .catch((error) => {
-        // callback(error.message)
-        console.log(error);
+        dispatch(
+          errorHandler(PROFILE_GAP_ANALYSIS.getPpgaCallNotes, error, false)
+        );
       });
   };
 };
 
-export const updatePpgaCallNotes = (studentId, productId, data, callback) => {
+export const updatePpgaCallNotes = (studentId, productId, data) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
+    dispatch({ type: PROFILE_GAP_ANALYSIS.loader });
     axios
       .put(
-        URL +
-          "/api/v1/pga/students/" +
-          studentId +
-          "/product/" +
-          productId +
-          "/ppgacallnotes",
+        `${URL}/api/v1/pga/students/${studentId}/product/${productId}/ppgacallnotes`,
         data,
         {
           crossDomain: true,
@@ -227,14 +218,16 @@ export const updatePpgaCallNotes = (studentId, productId, data, callback) => {
         }
       )
       .then((result) => {
-        callback(result);
         dispatch({
           type: PROFILE_GAP_ANALYSIS.updatePpgaCallNotes,
-          payload: result.data,
+          payload: { success: true, data: result.data },
+          loading: false,
         });
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(
+          errorHandler(PROFILE_GAP_ANALYSIS.updatePpgaCallNotes, error, false)
+        );
       });
   };
 };
@@ -716,18 +709,13 @@ export const getReportPreview = (studentId, productId, callback) => {
 };
 
 // to check whether the ppga call notes is saved for the call scheduling in client pga
-export const ppgaCallNotesStatus = (studentId, productId, callback) => {
+export const ppgaCallNotesStatus = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
     axios
       .get(
-        URL +
-          "/api/v1/students/" +
-          studentId +
-          "/product/" +
-          productId +
-          "/checkPpgaCallNotes",
+        `${URL}/api/v1/students/${studentId}/product/${productId}/checkPpgaCallNotes`,
         {
           crossDomain: true,
           headers: {
@@ -737,15 +725,15 @@ export const ppgaCallNotesStatus = (studentId, productId, callback) => {
         }
       )
       .then((result) => {
-        callback(result);
         dispatch({
           type: PROFILE_GAP_ANALYSIS.ppgaCallNotesStatus,
           payload: result.data,
         });
       })
       .catch((error) => {
-        callback(error);
-        console.log(error);
+        dispatch(
+          errorHandler(PROFILE_GAP_ANALYSIS.ppgaCallNotesStatus, error, false)
+        );
       });
   };
 };
