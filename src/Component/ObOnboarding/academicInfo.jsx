@@ -184,7 +184,7 @@ export class academicInfo extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}`
+        `?studentId=${this.props.match.params.studentId}&platform=old`
     );
   }
 

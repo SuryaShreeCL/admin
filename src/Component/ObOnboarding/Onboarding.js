@@ -141,7 +141,7 @@ export class Onboarding extends Component {
     const productId = eachItem.productId;
     this.props.StudentStepDetails(eachItem.studentId, productId);
     this.props.getVariantStepsById(
-      `${productId}?studentId=${eachItem.studentId}`
+      `${productId}?studentId=${eachItem.studentId}&platform=old`
     );
     this.props.history.push(
       `${stagedTabsPath}${eachItem.studentId}/${productId}?stage=OnBoarding`
@@ -313,7 +313,7 @@ export class Onboarding extends Component {
                           {`Search by Email ID / Mobile / Full Name / CLS ID `}
                         </span>
                       }
-                      variant='outlined'
+                      variant="outlined"
                       value={this.state.search}
                       onChange={(e) => {
                         this.setState({ search: e.target.value });
@@ -333,9 +333,9 @@ export class Onboarding extends Component {
                     <IconButton
                       style={{ marginLeft: "8px" }}
                       onClick={this.handleSearch}
-                      color='primary'
+                      color="primary"
                       id={"search"}
-                      aria-label='search'
+                      aria-label="search"
                     >
                       <SearchRoundedIcon />
                     </IconButton>

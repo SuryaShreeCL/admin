@@ -1041,7 +1041,7 @@ export const getproductstructure = () => {
   };
 };
 
-export const postproductstructure = (data) => {
+export const postproductstructure = (data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -1053,6 +1053,7 @@ export const postproductstructure = (data) => {
         },
       })
       .then((result) => {
+        callback(result);
         dispatch({
           type: PRODUCT.postproductstructure,
           payload: result.data,
@@ -1060,12 +1061,13 @@ export const postproductstructure = (data) => {
         console.log(result);
       })
       .catch((error) => {
+        callback(error);
         console.log(error);
       });
   };
 };
 
-export const putproductstructure = (data) => {
+export const putproductstructure = (data, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -1077,6 +1079,7 @@ export const putproductstructure = (data) => {
         },
       })
       .then((result) => {
+        callback(result);
         dispatch({
           type: PRODUCT.putproductstructure,
           payload: result.data,
@@ -1084,6 +1087,7 @@ export const putproductstructure = (data) => {
         console.log(result);
       })
       .catch((error) => {
+        callback(error);
         console.log(error);
       });
   };
@@ -1175,7 +1179,10 @@ export const getVariantStepsById = (variantId, callback) => {
         },
       })
       .then((result) => {
-        dispatch({ type: PRODUCT.getVariantStepsById, payload: result.data });
+        dispatch({
+          type: PRODUCT.getVariantStepsById,
+          payload: result.data.data,
+        });
         callback(result.data);
       })
       .catch((error) => {
