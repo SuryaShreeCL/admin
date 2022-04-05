@@ -21,6 +21,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import DropzoneComponent from "../Utils/controls/CustomDropZone";
+import { Popover } from "bootstrap";
+import SimplePopover from "./Miscellaneouspopover";
+import ClickAway from "./Miscellaneouspopover";
+
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -67,9 +71,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
           <>
           <Grid item xs={12}>
           <Tabs className={classes.tabMenuFitWithGraduate}
+          TabIndicatorProps={{
+            style: {
+              width:"10%" ,
+              
+             marginLeft:"2%"
+            }
+          }}
             value={value}
             onChange={handleChange}
             indicatorColor="primary"
+            
+            textColor="primary"
+            
             aria-label="simple tabs example"
           >
             <Tab label="Graduate School 1" />
@@ -97,7 +111,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
               </ColorButton>
               <Dialog
                 open={open}
-                TransitionComponent={Transition}
+                
                 keepMounted
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
@@ -201,9 +215,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
                 {renderTabs()}
               </CustomTabs>
             </Box>
-            <StyledStaticButton active={true} color={"primary"}>
-              {"Miscellaneous / Handouts"}
-            </StyledStaticButton>
+            <ClickAway/>
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>
