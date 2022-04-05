@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonsContainer, CreatePostContainer } from '../Assets/Styles/CreatePostStyles';
+import {
+  ButtonsContainer,
+  CreatePostContainer,
+} from '../Assets/Styles/CreatePostStyles';
 import BackHandler from '../Components/BackHandler';
 import Preview from '../Components/Preview';
 import { Alert } from '@material-ui/lab';
@@ -299,7 +302,9 @@ const CreatePost = () => {
     if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: state.isEvent ? 'Event Created, Redirecting to Test Page..' : 'Created Successfully',
+      message: state.isEvent
+        ? 'Event Created, Redirecting to Test Page..'
+        : 'Created Successfully',
       type: 'success',
     });
     setTimeout(() => {
@@ -338,7 +343,8 @@ const CreatePost = () => {
       formData.append('file', e.target.files[0]);
       dispatch(
         uploadImage(formData, (response) => {
-          if (type === 'BANNER') setFieldValue('banner', response.data.imageUrl);
+          if (type === 'BANNER')
+            setFieldValue('banner', response.data.imageUrl);
           else setFieldValue('hostImageUrl', response.data.imageUrl);
         })
       );
@@ -385,19 +391,35 @@ const CreatePost = () => {
           onSubmit={(values, { resetForm }) => {
             console.log(values, 'valuesss', validate(values));
             if (validate(values)) {
-              createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
+              createPost(
+                values,
+                location?.postType === 'Webinar' ? 'Scheduled' : 'Live'
+              );
               resetForm();
             }
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue, submitForm }) => {
+          {({
+            handleSubmit,
+            errors,
+            handleChange,
+            values,
+            touched,
+            setFieldValue,
+            submitForm,
+          }) => {
             return (
               <>
                 <div className='CreatePost'>
                   <Form onSubmit={handleSubmit} autoComplete='off'>
                     <h6>Post Type</h6>
-                    <Grid component='label' container alignItems='center' spacing={3}>
+                    <Grid
+                      component='label'
+                      container
+                      alignItems='center'
+                      spacing={3}
+                    >
                       <Grid item>Wall Post</Grid>
                       <Grid item>
                         <Switch
@@ -455,7 +477,10 @@ const CreatePost = () => {
                         />
                       )}
                     </RadioGroup>
-                    <FormControl className={classes.root} style={{ width: '80%' }}>
+                    <FormControl
+                      className={classes.root}
+                      style={{ width: '80%' }}
+                    >
                       <Autocomplete
                         multiple
                         id='wallCategories'
@@ -463,7 +488,10 @@ const CreatePost = () => {
                         getOptionLabel={(option) => option?.name}
                         options={categories ?? []}
                         onChange={(e, value) => {
-                          setFieldValue('wallCategories', value !== null ? value : categories);
+                          setFieldValue(
+                            'wallCategories',
+                            value !== null ? value : categories
+                          );
                         }}
                         fullWidth
                         value={values.wallCategories}
@@ -474,7 +502,8 @@ const CreatePost = () => {
                             name='wallCategories'
                             variant='outlined'
                             error={
-                              touched.wallCategories && Boolean(values.wallCategories.length === 0)
+                              touched.wallCategories &&
+                              Boolean(values.wallCategories.length === 0)
                             }
                           />
                         )}
@@ -485,7 +514,10 @@ const CreatePost = () => {
                       />
                     </FormControl>
                     {/* Platforms Dropdown */}
-                    <FormControl className={classes.root} style={{ width: '80%' }}>
+                    <FormControl
+                      className={classes.root}
+                      style={{ width: '80%' }}
+                    >
                       <Autocomplete
                         multiple
                         id='platforms'
@@ -493,7 +525,10 @@ const CreatePost = () => {
                         getOptionLabel={(option) => option?.name}
                         options={platforms ?? []}
                         onChange={(e, value) => {
-                          setFieldValue('platforms', value !== null ? value : categories);
+                          setFieldValue(
+                            'platforms',
+                            value !== null ? value : categories
+                          );
                         }}
                         fullWidth
                         value={values.platforms}
@@ -503,7 +538,10 @@ const CreatePost = () => {
                             label='Select Platforms'
                             name='platforms'
                             variant='outlined'
-                            error={touched.platforms && Boolean(values.platforms.length === 0)}
+                            error={
+                              touched.platforms &&
+                              Boolean(values.platforms.length === 0)
+                            }
                           />
                         )}
                         style={{
@@ -514,7 +552,10 @@ const CreatePost = () => {
                     </FormControl>
                     {/* Swetha */}
                     {values.isEvent && !values.isWebinar && (
-                      <FormControl className={classes.root} style={{ width: '80%' }}>
+                      <FormControl
+                        className={classes.root}
+                        style={{ width: '80%' }}
+                      >
                         <Autocomplete
                           id='jobCategory'
                           name='jobCategory'
@@ -531,7 +572,10 @@ const CreatePost = () => {
                               label='Select Job Field'
                               name='jobCategory'
                               variant='outlined'
-                              error={touched.jobCategory && Boolean(values.jobCategory === null)}
+                              error={
+                                touched.jobCategory &&
+                                Boolean(values.jobCategory === null)
+                              }
                             />
                           )}
                           style={{
@@ -548,7 +592,9 @@ const CreatePost = () => {
                           name='eventTitle'
                           style={{ width: '80%', marginTop: '18px' }}
                           value={values.eventTitle}
-                          error={touched.eventTitle && Boolean(errors.eventTitle)}
+                          error={
+                            touched.eventTitle && Boolean(errors.eventTitle)
+                          }
                           onChange={handleChange}
                         />
                         <Controls.Input
@@ -570,7 +616,9 @@ const CreatePost = () => {
                         <Controls.Input
                           label='Enter Webinar Title'
                           name='eventTitle'
-                          error={touched.eventTitle && Boolean(errors.eventTitle)}
+                          error={
+                            touched.eventTitle && Boolean(errors.eventTitle)
+                          }
                           style={{ width: '80%' }}
                           value={values.eventTitle}
                           onChange={handleChange}
@@ -605,7 +653,7 @@ const CreatePost = () => {
                             }}
                             value={values.salary}
                             error={touched.salary && Boolean(errors.salary)}
-                            type={'number'}
+                            // type={'number'}
                             onChange={handleChange}
                           />
                         </Grid>
@@ -672,7 +720,9 @@ const CreatePost = () => {
                             <Typography>Banner image</Typography>
 
                             <img src={values.banner} height={225} width={400} />
-                            <Controls.ActionButton onClick={() => handleDeleteClick(setFieldValue)}>
+                            <Controls.ActionButton
+                              onClick={() => handleDeleteClick(setFieldValue)}
+                            >
                               <DeleteIcon fontSize='small' color='secondary' />
                             </Controls.ActionButton>
                           </Grid>
@@ -697,7 +747,9 @@ const CreatePost = () => {
                             }}
                             value={values.hostImage}
                             type='file'
-                            onInput={(e) => handleImageUpload({ e, setFieldValue })}
+                            onInput={(e) =>
+                              handleImageUpload({ e, setFieldValue })
+                            }
                             onClick={(e) => (e.target.value = null)}
                           />
                         ) : (
@@ -710,7 +762,9 @@ const CreatePost = () => {
                               className={classes.hostImage}
                             />
                             <Controls.ActionButton
-                              onClick={() => handleHostDeleteClick(setFieldValue)}
+                              onClick={() =>
+                                handleHostDeleteClick(setFieldValue)
+                              }
                             >
                               <DeleteIcon fontSize='small' color='secondary' />
                             </Controls.ActionButton>
@@ -748,22 +802,23 @@ const CreatePost = () => {
                       </Grid>
                     )}
 
-                    {values.supportingMedia === 'video' && values.isVideoUrlEnabled && (
-                      <Grid item>
-                        <Controls.Input
-                          label='Paste Video URL'
-                          name='videoUrl'
-                          style={{
-                            width: '80%',
-                            marginTop: '10px',
-                            marginBottom: '10px',
-                          }}
-                          value={values.videoUrl}
-                          error={errorSchema.isVideoLink}
-                          onChange={handleChange}
-                        />
-                      </Grid>
-                    )}
+                    {values.supportingMedia === 'video' &&
+                      values.isVideoUrlEnabled && (
+                        <Grid item>
+                          <Controls.Input
+                            label='Paste Video URL'
+                            name='videoUrl'
+                            style={{
+                              width: '80%',
+                              marginTop: '10px',
+                              marginBottom: '10px',
+                            }}
+                            value={values.videoUrl}
+                            error={errorSchema.isVideoLink}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                      )}
 
                     {values.isWebinar && (
                       <Grid item>
@@ -779,7 +834,10 @@ const CreatePost = () => {
                           }}
                           value={values.zoomLink}
                           onChange={handleChange}
-                          onKeyDown={(evt) => AVOID_INPUT.includes(evt.key) && evt.preventDefault()}
+                          onKeyDown={(evt) =>
+                            AVOID_INPUT.includes(evt.key) &&
+                            evt.preventDefault()
+                          }
                         />
                       </Grid>
                     )}
@@ -827,13 +885,23 @@ const CreatePost = () => {
 
                     <Grid container direction='column' style={{ width: '80%' }}>
                       {values.supportingMedia === 'image' && (
-                        <MultipleFileUploadField name='wallFiles' fileType='image' />
+                        <MultipleFileUploadField
+                          name='wallFiles'
+                          fileType='image'
+                        />
                       )}
-                      {values.supportingMedia === 'video' && !values.isVideoUrlEnabled && (
-                        <MultipleFileUploadField name='wallFiles' fileType='video' />
-                      )}
+                      {values.supportingMedia === 'video' &&
+                        !values.isVideoUrlEnabled && (
+                          <MultipleFileUploadField
+                            name='wallFiles'
+                            fileType='video'
+                          />
+                        )}
                       {values.supportingMedia === 'audio' && (
-                        <MultipleFileUploadField name='wallFiles' fileType='audio' />
+                        <MultipleFileUploadField
+                          name='wallFiles'
+                          fileType='audio'
+                        />
                       )}
                     </Grid>
                     {!values.isEvent && !values.isWebinar && (
@@ -897,7 +965,9 @@ const CreatePost = () => {
                         className={classes.spacer}
                       >
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>Event Start Date </h6>
+                          <h6 style={{ fontSize: '1rem' }}>
+                            Event Start Date{' '}
+                          </h6>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
@@ -951,7 +1021,9 @@ const CreatePost = () => {
                         className={classes.spacer}
                       >
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>Webinar Start Date </h6>
+                          <h6 style={{ fontSize: '1rem' }}>
+                            Webinar Start Date{' '}
+                          </h6>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
@@ -973,7 +1045,9 @@ const CreatePost = () => {
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>Webinar End Date </h6>
+                          <h6 style={{ fontSize: '1rem' }}>
+                            Webinar End Date{' '}
+                          </h6>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
@@ -1036,7 +1110,10 @@ const CreatePost = () => {
                             value={values.roleDescription}
                             name='roleDescription'
                             onChange={handleChange}
-                            error={touched.roleDescription && Boolean(errors.roleDescription)}
+                            error={
+                              touched.roleDescription &&
+                              Boolean(errors.roleDescription)
+                            }
                             multiline
                             className={classes.roleStyle}
                             rows={6}
@@ -1054,13 +1131,16 @@ const CreatePost = () => {
                       setFieldValue={setFieldValue}
                       setNotify={setNotify}
                     />
-                    <PreprationContainer values={values} setFieldValue={setFieldValue} />
+                    <PreprationContainer
+                      values={values}
+                      setFieldValue={setFieldValue}
+                    />
                   </>
                 )}
                 {values.isEvent && errors.wallSteps && (
                   <Alert severity='warning'>
-                    Before submitting make sure Next Steps are filled and its form fields are not
-                    empty.
+                    Before submitting make sure Next Steps are filled and its
+                    form fields are not empty.
                   </Alert>
                 )}
                 <ButtonsContainer>
@@ -1104,7 +1184,10 @@ const CreatePost = () => {
         </Formik>
       </CreatePostContainer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };
