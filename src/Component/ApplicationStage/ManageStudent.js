@@ -16,6 +16,7 @@ import { stagedTabsPath } from "../RoutePaths";
 import Loader from "../Utils/controls/Loader";
 import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
+import SimplePopover from "./Miscellaneouspopover";
 
 const NO_RESULT_FOUND = "No Result Found";
 export class ApplicationStageManageStudent extends Component {

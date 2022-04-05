@@ -26,8 +26,9 @@ const ColorButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(blue[500]),
     backgroundColor: blue[500],
+    right: "20px",
 
-    marginTop: "20px",
+    marginTop: "30px",
     "&:hover": {
       backgroundColor: blue[700],
     },
@@ -47,6 +48,15 @@ function Index(props) {
   const { activeMainTabValue, mainTabList } = state;
 
   const [open, setOpen] = React.useState(false);
+  const [upload, setUpload] = React.useState(false);
+  const [files, setFiles] = React.useState(false);
+
+  const onDrop = (acceptedFiles) => {
+    console.log(acceptedFiles);
+    const allFiles = [...files, ...acceptedFiles];
+    console.log(allFiles);
+    setFiles(allFiles);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -55,8 +65,13 @@ function Index(props) {
     setOpen(false);
   };
 
+  const handleUpload = () => {
+    setUpload(true);
+    this.props.postStudentDocumentUsingStageId();
+  };
+
   const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction='up' ref={ref} {...props} />;
+    return <Slide direction="up" ref={ref} {...props} />;
   });
 
   const renderComponent = () => {
@@ -65,119 +80,118 @@ function Index(props) {
       case "LOR Frameworks":
         return (
           <>
-            <Grid item xs={12}>
-              <Tabs
-                className={classes.tabMenuFitWithGraduate}
-                value={value}
-                onChange={handleChange}
-                indicatorColor='primary'
-                aria-label='simple tabs example'
-              >
-                <Tab label='Graduate School 1' />
-                <Tab label='Graduate School 2' />
-                <Tab label='Graduate School 3' />
-              </Tabs>
-            </Grid>
             <Grid container>
-              <Grid item xs={6}>
-                <Typography>
-                  <br />
-                  &nbsp;&nbsp;Program Link:<a href='#'>Program Link</a>
-                  &nbsp;&nbsp;&nbsp;Deadline:<a href='#'>Deadline</a>
-                </Typography>
-              </Grid>
-              <Grid item xs={2}></Grid>
-              <Grid item xs={3}></Grid>
-              <Grid item xs={1}>
-                <ColorButton
-                  variant='contained'
-                  color='primary'
-                  className={classes.margin}
-                  onClick={handleClickOpen}
-                >
-                  Upload
-                </ColorButton>
-                <Dialog
-                  open={open}
-                  TransitionComponent={Transition}
-                  keepMounted
-                  onClose={handleClose}
-                  aria-labelledby='alert-dialog-slide-title'
-                  aria-describedby='alert-dialog-slide-description'
-                  maxWidth='md'
-                >
-                  <DialogTitle id='alert-dialog-slide-title'>
-                    {"Upload Document | Pre Strategy Worksheet"}
-                  </DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id='alert-dialog-slide-description'>
-                      <Box width={"500px"}>
-                        <Grid container>
-                          <Grid item xs={12}>
-                            <DropzoneComponent
-                              acceptTypes={".pdf, .doc, .docx"}
-                            />
-                          </Grid>
-                          <Grid
-                            item
-                            xs={12}
-                            className={classes.documentDetails}
+              <Grid item xs={8}>
+                <Grid item xs={12} align="right">
+                  <div className={classes.buttonPosition}>
+                    {/* <ColorButton
+              variant='contained'
+              color='primary'
+              className={classes.margin}
+            >
+              upload
+            </ColorButton> */}
+
+                    <div>
+                      <ColorButton
+                        variant="contained"
+                        color="primary"
+                        className={classes.margin}
+                        onClick={handleClickOpen}
+                      >
+                        Upload
+                      </ColorButton>
+                      <Dialog
+                        open={open}
+                        TransitionComponent={Transition}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-slide-title"
+                        aria-describedby="alert-dialog-slide-description"
+                        maxWidth="md"
+                      >
+                        <DialogTitle id="alert-dialog-slide-title">
+                          {"Upload Document | Pre Strategy Worksheet"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-slide-description">
+                            <Box width={"500px"}>
+                              <Grid container>
+                                <Grid item xs={12}>
+                                  <DropzoneComponent
+                                    acceptTypes={".pdf, .doc, .docx"}
+                                    onDrop={onDrop}
+                                  />
+                                </Grid>
+                                <Grid
+                                  item
+                                  xs={12}
+                                  className={classes.documentDetails}
+                                >
+                                  Document Details
+                                </Grid>
+                                <Grid item xs={12}>
+                                  <TextField
+                                    id="standard-basic"
+                                    placeholder="file name"
+                                    fullWidth
+                                  />
+                                  <br />
+                                  <br />
+                                </Grid>
+                                <br />
+                                <Grid item xs={12}>
+                                  <TextField
+                                    id="standard-basic"
+                                    placeholder="comment"
+                                    fullWidth
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Box>
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={handleUpload}
+                            variant="contained"
+                            color="primary"
                           >
-                            Document Details
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              id='standard-basic'
-                              placeholder='file name'
-                              fullWidth
-                            />
-                            <br />
-                            <br />
-                          </Grid>
-                          <br />
-                          <Grid item xs={12}>
-                            <TextField
-                              id='standard-basic'
-                              placeholder='comment'
-                              fullWidth
-                            />
-                          </Grid>
-                        </Grid>
-                      </Box>
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button
-                      onClick={handleClose}
-                      variant='contained'
-                      color='primary'
-                    >
-                      Upload
-                    </Button>
-                    <Button onClick={handleClose} color='primary'>
-                      Cancel
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                            Upload
+                          </Button>
+                          <Button onClick={handleClose} color="primary">
+                            Cancel
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                  </div>
+                </Grid>
+                <Grid item xs={12}>
+                  <Box>
+                    <DownloadCvTable
+                      headers={["Version", "Uploaded date", "Comment", ""]}
+                      body={[
+                        {
+                          comment: "hii",
+                          createdBy: "",
+                          id: 1,
+                          path: "vvvv1",
+                          isDownload: true,
+                        },
+                      ]}
+                      handleComment={() => {}}
+                      handleDownload={() => {}}
+                      handleDelete={() => {}}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={4}>
+                <CvViewer doctype={"cv"} {...props} />
               </Grid>
             </Grid>
-            <Box>
-              <DownloadCvTable
-                headers={["Version", "Uploaded date", "Comment", ""]}
-                body={[
-                  {
-                    comment: "hii",
-                    createdBy: "",
-                    id: 1,
-                    path: "vvvv1",
-                    isDownload: true,
-                  },
-                ]}
-                handleComment={() => {}}
-                handleDownload={() => {}}
-                handleDelete={() => {}}
-              />
-            </Box>
           </>
         );
       default:
