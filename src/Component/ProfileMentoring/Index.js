@@ -135,9 +135,6 @@ function Index(props) {
                                     id="standard-basic"
                                     placeholder="file name"
                                     fullWidth
-                                    fieldContent={files.map((file) => (
-                                      <li>{file.path}</li>
-                                    ))}
                                   />
                                   <br />
                                   <br />
