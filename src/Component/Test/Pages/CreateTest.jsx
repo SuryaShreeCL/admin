@@ -317,7 +317,7 @@ const CreateTest = () => {
                     </Grid> */}
                     <Grid item style={{ width: '55%', zIndex: '77' }}>
                       <Autocomplete
-                        options={posts}
+                        options={posts?.content}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading}
