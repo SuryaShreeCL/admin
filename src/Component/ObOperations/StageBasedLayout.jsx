@@ -42,46 +42,42 @@ import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
 import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import { stagedTabsPath, studentPath } from "../RoutePaths";
-import StrategySession from "../StrategySession/Index";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import SubLayoutTab from "./SubLayoutTab";
+import StrategySession from "../StrategySession/Index";
+import ProfileMentoring from "../ProfileMentoring/Index";
 
 const STAGES = [
   {
     name: "Onboarding",
-    value: 0,
     stageName: "OnBoarding",
     component: null,
   },
   {
     name: "Profile Gap Analysis",
-    value: 1,
     stageName: "pga",
     component: (props) => <ProfileGapRoot {...props} />,
   },
   {
     name: "Profile Mentoring",
-    value: 2,
-    stageName: "profile_mentoring",
-    component: (props) => <StrategySession {...props} />,
+    stageName: "ProfileMentoring",
+    component: (props) => <ProfileMentoring {...props} />,
   },
   {
     name: "Strategy Session",
-    value: 3,
-    stageName: "strategy_session",
+    stageName: "StrategySession",
     component: (props) => <StrategySession {...props} />,
   },
   {
     name: "Application Stage",
-    value: 4,
-    stageName: "application_stage",
+    stageName: "ApplicationStage",
     component: (props) => <ApplicationStage {...props} />,
   },
   {
     name: "Post Admit Services",
-    value: 5,
-    stageName: "pas",
-    component: () => null,
+    stageName: "PostAdmitServices",
+    // component: () => null,
+    component: (props) => <ProfileMentoring {...props} />,
   },
 ];
 
@@ -90,15 +86,14 @@ class StageBasedLayout extends Component {
     super(props);
     this.state = {
       tabCount: 0,
-      stepTabCount: 0,
       productDetails: null,
       selectedItem: null,
       open: false,
       snackMsg: "",
       snackVariant: "",
       snackOpen: false,
-      othersstatus: "",
-      stagelist: [],
+      othersStatus: "",
+      stageList: [],
       comments: "",
       tabIndex: "",
       isLoading: false,
@@ -124,23 +119,23 @@ class StageBasedLayout extends Component {
     } catch (error) {}
   };
 
-  renderdialogcontent() {
-    if (this.state.othersstatus === "NotVerified") {
+  renderDialogContent() {
+    if (this.state.othersStatus === "NotVerified") {
       return (
         <Grid container spacing={1}>
           <Grid item md={12}>
-            <Typography className={"dialog_title"}>Not Updated</Typography>
+            <Typography className={"dialog_title"}>{"Not Updated"}</Typography>
           </Grid>
           <Grid item md={12}>
             <hr />
           </Grid>
           <Grid item md={12}>
             <Typography className={"incomplete_text"}>
-              Below Mentioned sections status are not updated
+              {"Below Mentioned sections status are not updated"}
             </Typography>
           </Grid>
           <Grid item md={12}>
-            {this.state.stagelist.map((data) => {
+            {this.state.stageList.map((data) => {
               return (
                 <ul>
                   <li>{data.stepName}</li>
@@ -150,23 +145,24 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else if (this.state.othersstatus === "Mismatched") {
+    } else if (this.state.othersStatus === "Mismatched") {
       return (
         <Grid container spacing={1}>
           <Grid item md={12}>
-            <Typography className={"dialog_title"}>Incomplete</Typography>
+            <Typography className={"dialog_title"}>{"Incomplete"}</Typography>
           </Grid>
           <Grid item md={12}>
             <hr />
           </Grid>
           <Grid item md={12}>
             <Typography style={{ display: "flex" }}>
-              Below Mentioned sections status are marked{this.handletext()}
+              {"Below Mentioned sections status are marked"}
+              {this.handleText()}
             </Typography>
           </Grid>
           <Grid item md={12}></Grid>
           <Grid item md={12}>
-            {this.state.stagelist.map((data) => {
+            {this.state.stageList.map((data) => {
               return (
                 <ul>
                   <li>{data.stepName}</li>
@@ -188,20 +184,20 @@ class StageBasedLayout extends Component {
       return (
         <Grid container>
           <Grid item md={12}>
-            <Typography className={"dialog_title"}>Confirmation</Typography>
+            <Typography className={"dialog_title"}>{"Confirmation"}</Typography>
           </Grid>
           <Grid item md={12}>
             <hr />
           </Grid>
           <Grid item md={12}>
-            <Typography>Your marking Onboarding complete</Typography>
+            <Typography>{"Your marking Onboarding complete"}</Typography>
           </Grid>
         </Grid>
       );
     }
   }
 
-  handletext() {
+  handleText() {
     return (
       <Typography className={"incomplete_text"}>{" incomplete"}</Typography>
     );
@@ -281,9 +277,9 @@ class StageBasedLayout extends Component {
     );
   };
 
-  renderdialogaction() {
-    if (this.state.othersstatus !== "NotVerified") {
-      if (this.state.othersstatus === "Mismatched") {
+  renderDialogAction() {
+    if (this.state.othersStatus !== "NotVerified") {
+      if (this.state.othersStatus === "Mismatched") {
         return (
           <Button
             color={"primary"}
@@ -302,7 +298,7 @@ class StageBasedLayout extends Component {
                 }}
               />
             )}
-            Onboarding Incomplete
+            {"Onboarding Incomplete"}
           </Button>
         );
       } else {
@@ -324,7 +320,7 @@ class StageBasedLayout extends Component {
                 }}
               />
             )}
-            Onboarding Complete
+            {"Onboarding Complete"}
           </PrimaryButton>
         );
       }
@@ -336,37 +332,18 @@ class StageBasedLayout extends Component {
       this.props.match.params.productId +
         `?studentId=${this.props.match.params.studentId}`
     );
-
-    const { stage } = qs.parse(this.props.location.search, {
-      ignoreQueryPrefix: true,
-    });
-
-    let activeTab = STAGES.findIndex(({ stageName }) => stageName === stage);
-    this.setState({
-      tabCount: activeTab,
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.tabCount !== prevState.tabCount) {
-      if (this.state.tabCount === 0) {
-        this.props.history.push(
-          stagedTabsPath +
-            this.props.match.params.studentId +
-            "/" +
-            this.props.match.params.productId +
-            `?stage=OnBoarding`
-        );
-      }
-      if (this.state.tabCount === 1) {
-        this.props.history.push(
-          stagedTabsPath +
-            this.props.match.params.studentId +
-            "/" +
-            this.props.match.params.productId +
-            `?stage=pga`
-        );
-      }
+      const { match } = this.props;
+      const { tabCount, productDetails } = this.state;
+      let index = STAGES.findIndex(
+        ({ name }) => name === productDetails?.[tabCount]?.["stepName"]
+      );
+      this.props.history.push(
+        `${stagedTabsPath}${match.params.studentId}/${match.params.productId}?stage=${STAGES[index]?.["stageName"]}`
+      );
     }
 
     if (this.props.variantStepList !== prevProps.variantStepList) {
@@ -392,8 +369,20 @@ class StageBasedLayout extends Component {
         this.state.selectedItem !== undefined
           ? this.state.selectedItem.rank - 1
           : 0;
+
+      const { stage: newStageName } = qs.parse(this.props.location.search, {
+        ignoreQueryPrefix: true,
+      });
+      let index =
+        STAGES.findIndex(({ stageName }) => stageName === newStageName) || 0;
+      let activeTab =
+        sortedArr.findIndex(
+          ({ stepName }) => stepName === STAGES[index]["name"]
+        ) || 0;
+
       this.setState({
         productDetails: sortedArr,
+        tabCount: activeTab,
         selectedItem: render
           ? "CallSummaryLayout"
           : this.state.selectedItem !== null &&
@@ -406,7 +395,7 @@ class StageBasedLayout extends Component {
         (el) => el.verificationStatus === "Mismatched"
       );
       this.setState({
-        stagelist: incompletearr,
+        stageList: incompletearr,
       });
       let nvArr = stage.steps.filter(
         (nvData) => nvData.verificationStatus === "NotVerified"
@@ -423,13 +412,13 @@ class StageBasedLayout extends Component {
         mismatchArr.length === 0
       ) {
         return this.setState({
-          othersstatus: "Verified",
+          othersStatus: "Verified",
         });
       }
       if (nvArr.length > 0) {
         return this.setState({
-          othersstatus: "NotVerified",
-          stagelist: nvArr,
+          othersStatus: "NotVerified",
+          stageList: nvArr,
         });
       }
       if (
@@ -438,8 +427,8 @@ class StageBasedLayout extends Component {
         mismatchArr.length > 0
       ) {
         return this.setState({
-          othersstatus: "Mismatched",
-          stagelist: mismatchArr,
+          othersStatus: "Mismatched",
+          stageList: mismatchArr,
         });
       }
     }
@@ -539,8 +528,11 @@ class StageBasedLayout extends Component {
   };
 
   renderComponent = () => {
-    const { tabCount } = this.state;
-    return tabCount > 0 ? STAGES[tabCount].component(this.props) : null;
+    const { tabCount, productDetails } = this.state;
+    let index = STAGES.findIndex(
+      ({ name }) => name === productDetails?.[tabCount]?.["stepName"]
+    );
+    return index > 0 ? STAGES[index].component(this.props) : null;
   };
 
   render() {
@@ -613,7 +605,7 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        disabled={item.disabled}
+                        // disabled={item.disabled}
                         icon={
                           item.disabled ? (
                             <LockIcon className={"icon_style"} />
@@ -791,12 +783,12 @@ class StageBasedLayout extends Component {
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
-                      this.state.othersstatus === "NotVerified" ||
-                      this.state.othersstatus === "Mismatched"
+                      this.state.othersStatus === "NotVerified" ||
+                      this.state.othersStatus === "Mismatched"
                     }
                     icon={
-                      this.state.othersstatus === "NotVerified" ||
-                      this.state.othersstatus === "Mismatched" ? (
+                      this.state.othersStatus === "NotVerified" ||
+                      this.state.othersStatus === "Mismatched" ? (
                         <LockIcon className={"icon_style"} />
                       ) : null
                     }
@@ -833,10 +825,10 @@ class StageBasedLayout extends Component {
         <RevampDialog
           open={this.state.open}
           onClose={() => this.setState({ open: false, isLoading: false })}
-          action={this.renderdialogaction()}
+          action={this.renderDialogAction()}
           {...this.props}
         >
-          {this.renderdialogcontent()}
+          {this.renderDialogContent()}
         </RevampDialog>
         <MySnackBar
           snackMsg={this.state.snackMsg}
