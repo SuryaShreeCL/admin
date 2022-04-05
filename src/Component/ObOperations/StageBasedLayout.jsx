@@ -52,32 +52,43 @@ const STAGES = [
     name: "Onboarding",
     stageName: "OnBoarding",
     component: null,
+    isCompleteButton: true,
+    buttonText: "Onboarding Complete",
   },
   {
     name: "Profile Gap Analysis",
     stageName: "pga",
     component: (props) => <ProfileGapRoot {...props} />,
+    isCompleteButton: false,
+    buttonText: "Profile Gap Analysis Complete",
   },
   {
     name: "Profile Mentoring",
     stageName: "ProfileMentoring",
     component: (props) => <ProfileMentoring {...props} />,
+    isCompleteButton: true,
+    buttonText: "Profile Mentoring Complete",
   },
   {
     name: "Strategy Session",
     stageName: "StrategySession",
     component: (props) => <StrategySession {...props} />,
+    isCompleteButton: true,
+    buttonText: "Strategy Session Complete",
   },
   {
     name: "Application Stage",
     stageName: "ApplicationStage",
     component: (props) => <ApplicationStage {...props} />,
+    isCompleteButton: true,
+    buttonText: "Application Stage Complete",
   },
   {
     name: "Post Admit Services",
     stageName: "PostAdmitServices",
-    // component: () => null,
-    component: (props) => <ProfileMentoring {...props} />,
+    component: () => null,
+    isCompleteButton: false,
+    buttonText: "Post Admit Services Complete",
   },
 ];
 
@@ -96,6 +107,7 @@ class StageBasedLayout extends Component {
       stageList: [],
       comments: "",
       tabIndex: "",
+      customStageIndex: 0,
       isLoading: false,
       componentList: {
         "Personal Information": "PersonalInfo",
@@ -220,7 +232,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}&platform=old`
+              `?studentId=${this.props.match.params.studentId}`
           );
           this.setState({
             open: false,
@@ -237,7 +249,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}&platform=old`
+              `?studentId=${this.props.match.params.studentId}`
           );
           this.setState({
             snackOpen: true,
@@ -263,7 +275,7 @@ class StageBasedLayout extends Component {
         if (response.status === 200) {
           this.props.getVariantStepsById(
             this.props.match.params.productId +
-              `?studentId=${this.props.match.params.studentId}&platform=old`
+              `?studentId=${this.props.match.params.studentId}`
           );
           this.setState({
             snackOpen: true,
@@ -330,7 +342,7 @@ class StageBasedLayout extends Component {
   componentDidMount() {
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}&platform=old`
+        `?studentId=${this.props.match.params.studentId}`
     );
   }
 
@@ -341,6 +353,7 @@ class StageBasedLayout extends Component {
       let index = STAGES.findIndex(
         ({ name }) => name === productDetails?.[tabCount]?.["stepName"]
       );
+      this.setState({ customStageIndex: index });
       this.props.history.push(
         `${stagedTabsPath}${match.params.studentId}/${match.params.productId}?stage=${STAGES[index]?.["stageName"]}`
       );
@@ -437,7 +450,7 @@ class StageBasedLayout extends Component {
     ) {
       this.props.getVariantStepsById(
         this.props.match.params.productId +
-          `?studentId=${this.props.match.params.studentId}&platform=old`
+          `?studentId=${this.props.match.params.studentId}`
       );
     }
   }
@@ -497,7 +510,7 @@ class StageBasedLayout extends Component {
     }
   }
 
-  handleCompleted = (event, status) => {
+  handleComplete = (event, status) => {
     let obj = {
       student: {
         id: this.props.match.params.studentId,
@@ -528,11 +541,92 @@ class StageBasedLayout extends Component {
   };
 
   renderComponent = () => {
-    const { tabCount, productDetails } = this.state;
-    let index = STAGES.findIndex(
-      ({ name }) => name === productDetails?.[tabCount]?.["stepName"]
-    );
-    return index > 0 ? STAGES[index].component(this.props) : null;
+    const { customStageIndex } = this.state;
+    return customStageIndex > 0
+      ? STAGES[customStageIndex].component(this.props)
+      : null;
+  };
+
+  handleStageComplete = () => {
+    const { customStageIndex } = this.state;
+    switch (STAGES[customStageIndex]["stageName"]) {
+      case STAGES[0]["stageName"]: {
+        break;
+      }
+      case STAGES[1]["stageName"]: {
+        break;
+      }
+      case STAGES[2]["stageName"]: {
+        break;
+      }
+      case STAGES[3]["stageName"]: {
+        break;
+      }
+      case STAGES[4]["stageName"]: {
+        break;
+      }
+      case STAGES[5]["stageName"]: {
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  renderHeaderTabsAndButtonContainer = () => {
+    const { customStageIndex, productDetails, tabCount } = this.state;
+    const isCompleteButtonContainer =
+      customStageIndex > 0
+        ? STAGES[customStageIndex]["isCompleteButton"]
+        : false;
+    return customStageIndex > 0 ? (
+      <>
+        <Grid item md={isCompleteButtonContainer ? 8 : 12}>
+          <ThemedTabs
+            value={tabCount}
+            textColor={"inherit"}
+            onChange={(e, value) => this.setState({ tabCount: value })}
+            aria-label={"ant example"}
+            variant={"scrollable"}
+          >
+            {productDetails &&
+              productDetails.map((item, index) => {
+                return (
+                  <ThemedTab
+                    key={index}
+                    label={item.stepName}
+                    // disabled={item.disabled}
+                    icon={
+                      item.disabled ? (
+                        <LockIcon className={"icon_style"} />
+                      ) : null
+                    }
+                  />
+                );
+              })}
+          </ThemedTabs>
+        </Grid>
+        {isCompleteButtonContainer && (
+          <Grid item md={4} align='right' className={"button_grid"}>
+            <PrimaryButton
+              color={"primary"}
+              variant={"contained"}
+              disabled={false}
+              onClick={this.handleStageComplete()}
+            >
+              {STAGES[customStageIndex]["buttonText"]}
+            </PrimaryButton>
+            <PrimaryButton
+              color={"primary"}
+              variant={"outlined"}
+              className={"flex_button"}
+            >
+              {"Audit Trail"}
+            </PrimaryButton>
+          </Grid>
+        )}
+      </>
+    ) : null;
   };
 
   render() {
@@ -718,30 +812,7 @@ class StageBasedLayout extends Component {
           </Grid>
         ) : (
           <Grid container>
-            <Grid item md={12}>
-              <ThemedTabs
-                value={this.state.tabCount}
-                textColor={"inherit"}
-                onChange={(e, value) => this.setState({ tabCount: value })}
-                aria-label='ant example'
-                variant='scrollable'
-              >
-                {this.state.productDetails !== null &&
-                  this.state.productDetails.map((item, index) => {
-                    return (
-                      <ThemedTab
-                        label={item.stepName}
-                        // disabled={item.disabled}
-                        icon={
-                          item.disabled ? (
-                            <LockIcon className={"icon_style"} />
-                          ) : null
-                        }
-                      />
-                    );
-                  })}
-              </ThemedTabs>
-            </Grid>
+            {this.renderHeaderTabsAndButtonContainer()}
             <Grid item md={12}>
               {this.state.tabCount === 0 && (
                 <ThemedTabs

@@ -95,7 +95,7 @@ class workExperience extends Component {
     this.props.viewStudentStatus(this.props.match.params.studentId);
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}&platform=old`
+        `?studentId=${this.props.match.params.studentId}`
     );
   }
   componentDidUpdate(prevProps, prevState) {

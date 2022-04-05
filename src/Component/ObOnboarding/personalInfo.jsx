@@ -128,7 +128,7 @@ export class personalInfo extends Component {
     );
     this.props.getVariantStepsById(
       this.props.match.params.productId +
-        `?studentId=${this.props.match.params.studentId}&platform=old`
+        `?studentId=${this.props.match.params.studentId}`
     );
   }
 
@@ -387,8 +387,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="CLS ID(Order ID/Student ID)"
+                  id='standard-basic'
+                  label='CLS ID(Order ID/Student ID)'
                   disabled={true}
                   value={this.state.clsid}
                 />
@@ -401,8 +401,8 @@ export class personalInfo extends Component {
                     fontWeight: "700",
                     fontStyle: "normal",
                   }}
-                  id="standard-basic"
-                  label="Client First Name"
+                  id='standard-basic'
+                  label='Client First Name'
                   disabled={this.state.personalDisable}
                   value={this.state.firstName}
                   onChange={(e) =>
@@ -417,8 +417,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="Client Last Name"
+                  id='standard-basic'
+                  label='Client Last Name'
                   disabled={this.state.personalDisable}
                   value={this.state.lastName}
                   onChange={(e) =>
@@ -430,8 +430,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="Full Name"
+                  id='standard-basic'
+                  label='Full Name'
                   disabled={this.state.personalDisable}
                   value={this.state.fullName}
                   onChange={(e) =>
@@ -443,17 +443,17 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  inputMode="numeric"
-                  id="standard-basic"
-                  label="Contact Number"
+                  inputMode='numeric'
+                  id='standard-basic'
+                  label='Contact Number'
                   disabled={true}
                   value={this.state.number}
                 />
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="Email Address"
+                  id='standard-basic'
+                  label='Email Address'
                   disabled={true}
                   value={this.state.email}
                 />
@@ -462,8 +462,8 @@ export class personalInfo extends Component {
               <Grid item md={3}>
                 <TextField
                   type={"text"}
-                  id="standard-basic"
-                  label="Alternate Contact Number"
+                  id='standard-basic'
+                  label='Alternate Contact Number'
                   disabled={this.state.personalDisable}
                   value={this.state.altPhone}
                   onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
@@ -477,8 +477,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
-                  id="standard-basic"
-                  label="Alternate Email Address"
+                  id='standard-basic'
+                  label='Alternate Email Address'
                   disabled={this.state.personalDisable}
                   value={this.state.altEmail}
                   onChange={(e) =>
@@ -532,8 +532,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  id="standard-basic"
-                  label="Suit No, Apartment Name"
+                  id='standard-basic'
+                  label='Suit No, Apartment Name'
                   disabled={this.state.addressDisable}
                   value={this.state.apartmentName}
                   onChange={(e) =>
@@ -548,8 +548,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  id="standard-basic"
-                  label="Street Address 1"
+                  id='standard-basic'
+                  label='Street Address 1'
                   disabled={this.state.addressDisable}
                   value={this.state.address1}
                   // value={this.state.address1}
@@ -562,8 +562,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={4}>
                 <TextField
-                  id="standard-basic"
-                  label="Street Address 2"
+                  id='standard-basic'
+                  label='Street Address 2'
                   disabled={this.state.addressDisable}
                   value={this.state.address2}
                   onChange={(e) =>
@@ -578,8 +578,8 @@ export class personalInfo extends Component {
 
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="Landmark"
+                  id='standard-basic'
+                  label='Landmark'
                   disabled={this.state.addressDisable}
                   value={this.state.landmark}
                   onChange={(e) =>
@@ -591,9 +591,9 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  inputMode="numeric"
-                  id="standard-basic"
-                  label="Pincode"
+                  inputMode='numeric'
+                  id='standard-basic'
+                  label='Pincode'
                   onKeyDown={(evt) => isNumber(evt) && evt.preventDefault()}
                   value={this.state.pincode}
                   disabled={this.state.addressDisable}
@@ -607,8 +607,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="State"
+                  id='standard-basic'
+                  label='State'
                   value={this.state.state}
                   onKeyDown={(evt) => isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
@@ -621,8 +621,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={2}>
                 <TextField
-                  id="standard-basic"
-                  label="Current city"
+                  id='standard-basic'
+                  label='Current city'
                   value={this.state.city}
                   onKeyDown={(evt) => isOnlyNumber(evt) && evt.preventDefault()}
                   disabled={this.state.addressDisable}
@@ -676,8 +676,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
-                  id="standard-basic"
-                  label="LinkedIn"
+                  id='standard-basic'
+                  label='LinkedIn'
                   disabled={this.state.mediaDisable}
                   value={this.state.linkedIn}
                   onChange={(e) =>
@@ -689,8 +689,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
-                  id="standard-basic"
-                  label="Facebook"
+                  id='standard-basic'
+                  label='Facebook'
                   disabled={this.state.mediaDisable}
                   value={this.state.facebook}
                   onChange={(e) =>
@@ -702,8 +702,8 @@ export class personalInfo extends Component {
               </Grid>
               <Grid item md={3}>
                 <TextField
-                  id="standard-basic"
-                  label="Twitter"
+                  id='standard-basic'
+                  label='Twitter'
                   disabled={this.state.mediaDisable}
                   value={this.state.twitter}
                   onChange={(e) =>

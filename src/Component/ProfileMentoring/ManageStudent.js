@@ -4,7 +4,10 @@ import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getStudentByStages } from "../../Actions/AdminAction";
-import { getReferProductVariantByProductId } from "../../Actions/ProductAction";
+import {
+  getReferProductVariantByProductId,
+  getVariantStepsById,
+} from "../../Actions/ProductAction";
 import { getAllIntakeList, StudentStepDetails } from "../../Actions/Student";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
@@ -331,4 +334,5 @@ export default connect(mapStateToProps, {
   StudentStepDetails,
   getAllIntakeList,
   getReferProductVariantByProductId,
+  getVariantStepsById,
 })(ProfileMentorManageStudent);

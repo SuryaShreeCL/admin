@@ -1177,6 +1177,9 @@ export const getVariantStepsById = (variantId, callback) => {
           admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
+        params: {
+          platform: "old",
+        },
       })
       .then((result) => {
         dispatch({
