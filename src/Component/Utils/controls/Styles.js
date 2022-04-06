@@ -4,42 +4,43 @@ import {
   Dialog,
   makeStyles,
   Typography,
-} from '@material-ui/core';
-import styled from 'styled-components';
+  Tab,
+} from "@material-ui/core";
+import styled from "styled-components";
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
   dialogContent: {
-    padding: theme.spacing('15px', '20px'),
-    msOverflowStyle: 'none',
-    scrollbarWidth: 'none',
-    '&::-webkit-scrollbar': {
-      display: 'none',
+    padding: theme.spacing("15px", "20px"),
+    msOverflowStyle: "none",
+    scrollbarWidth: "none",
+    "&::-webkit-scrollbar": {
+      display: "none",
     },
   },
   dialogBottomContainer: {
-    padding: '14px 30px !important',
-    gap: '18px',
-    borderTop: '1px solid #E6E6E6 !important',
+    padding: "14px 30px !important",
+    gap: "18px",
+    borderTop: "1px solid #E6E6E6 !important",
   },
   dialogModelBottomContainer: {
-    padding: '14px 30px !important',
-    gap: '15px',
-    borderTop: '1px solid #E6E6E6 !important',
+    padding: "14px 30px !important",
+    gap: "15px",
+    borderTop: "1px solid #E6E6E6 !important",
   },
 }));
 
 export const customTheme = createTheme({
   palette: {
     contained: {
-      backgroundColor: '#18AAE7',
-      color: '#FFFFFF',
+      backgroundColor: "#18AAE7",
+      color: "#FFFFFF",
     },
     text: {
-      color: '#18AAE7',
+      color: "#18AAE7",
     },
     outlined: {
-      color: '#18AAE7',
-      borderColor: '#18AAE7',
+      color: "#18AAE7",
+      borderColor: "#18AAE7",
     },
   },
 });
@@ -68,11 +69,14 @@ export const StyledButton = styled(Button)`
 `;
 
 export const Typo = styled(Typography)`
-  color: ${props => props.color};
-  opacity: ${props => props.opacity};
-  z-index: ${props => props.zIndex};
-  text-align: ${props => props.textAlign};
-  font-weight: ${props => props.fontWeight};
+  color: ${(props) => props.color};
+  opacity: ${(props) => props.opacity};
+  z-index: ${(props) => props.zIndex};
+  text-align: ${(props) => props.textAlign};
+  font-weight: ${(props) => props.fontWeight};
+  padding-bottom: ${({ paddingBottom }) => paddingBottom};
+  padding: ${({ padding }) => padding};
+  font-size: ${({ fontSize }) => fontSize};
 `;
 
 export const UploadIcon = styled.img`
@@ -80,4 +84,11 @@ export const UploadIcon = styled.img`
   width: 58px;
   height: 48px;
   object-fit: cover;
+`;
+
+export const StyledTab = styled(Tab)`
+  text-transform: none;
+  min-width: ${({ minWidth }) => minWidth};
+  min-height: ${({ minHeight }) => minHeight};
+  max-width: unset;
 `;

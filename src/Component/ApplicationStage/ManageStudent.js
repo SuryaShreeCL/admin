@@ -1,4 +1,4 @@
-import { Box, Chip, Grid, IconButton, TextField } from "@material-ui/core";
+import { Box, Grid, IconButton, TextField } from "@material-ui/core";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
@@ -9,7 +9,6 @@ import {
   getVariantStepsById,
 } from "../../Actions/ProductAction";
 import { getAllIntakeList, StudentStepDetails } from "../../Actions/Student";
-import Call from "../../Asset/Images/callImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
 import { stagedTabsPath } from "../RoutePaths";
@@ -18,17 +17,11 @@ import { isEmptyString } from "../Validation";
 import DataGrid from "./DataGrid";
 
 const NO_RESULT_FOUND = "No Result Found";
-export class Onboarding extends Component {
+export class ApplicationStageManageStudent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       shrink: false,
-      draweropen: false,
-      college: null,
-      department: null,
-      intake: null,
-      city: null,
-      bda: null,
       search: null,
       listOfUsers: [],
       intake: null,
@@ -42,12 +35,12 @@ export class Onboarding extends Component {
   }
 
   filterStudentList = (keyword, size, page) => {
-    const { match, stageDetails } = this.props;
+    const { match } = this.props;
     const { intake, product, search } = this.state;
     const productId = product?.id || match.params.productId;
     this.props.getStudentByStages(
       productId,
-      stageDetails.stepName,
+      "ApplicationStage",
       size || 20,
       page || 0,
       intake?.year,
@@ -57,7 +50,6 @@ export class Onboarding extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-
     // To get the users based on stages
     this.filterStudentList();
     if (match.params.productId) {
@@ -70,7 +62,6 @@ export class Onboarding extends Component {
     const { allIntakeList, studentsByStagesList, productVariant } = this.props;
     const { search, intake, product } = this.state;
 
-    // Setting the users in state
     if (
       studentsByStagesList &&
       studentsByStagesList !== prevProps.studentsByStagesList
@@ -141,13 +132,13 @@ export class Onboarding extends Component {
   }
 
   handleManage = (eachItem) => {
-    const productId = eachItem.productId;
+    const productId = eachItem?.productId;
     this.props.StudentStepDetails(eachItem.studentId, productId);
     this.props.getVariantStepsById(
       `${productId}?studentId=${eachItem.studentId}`
     );
     this.props.history.push(
-      `${stagedTabsPath}${eachItem.studentId}/${productId}?stage=OnBoarding`
+      `${stagedTabsPath}${eachItem.studentId}/${productId}?stage=ApplicationStage`
     );
   };
 
@@ -155,63 +146,9 @@ export class Onboarding extends Component {
     this.setState({ shrink: true });
   }
 
-  renderChip = (obCallStatus) => {
-    const { product } = this.state;
-    const { match } = this.props;
-    const productId = product?.id || match.params.productId;
-
-    if (obCallStatus.obCallStatus) {
-      return (
-        <Chip
-          onClick={() => {
-            this.props.history.push(
-              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
-            );
-          }}
-          label={obCallStatus.obCallStatus}
-          color={"primary"}
-        />
-      );
-    } else {
-      return (
-        <Chip
-          onClick={() => {
-            this.props.history.push(
-              `${stagedTabsPath}${obCallStatus.studentId}/${productId}?render=pga`
-            );
-          }}
-          label={"Pending"}
-          color={"secondary"}
-        />
-      );
-    }
-  };
-
   renderManageButton = (eachItem) => {
-    const { product } = this.state;
-    const { match } = this.props;
-    const productId = product?.id || match.params.productId;
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <img
-          onClick={() =>
-            this.props.history.push(
-              `${stagedTabsPath}${eachItem.studentId}/${productId}?render=pga`
-            )
-          }
-          src={Call}
-          style={{
-            height: 30,
-            width: 30,
-            marginRight: 10,
-          }}
-        />
+      <Box textAlign={"center"}>
         <PrimaryButton
           onClick={() => this.handleManage(eachItem)}
           variant={"contained"}
@@ -221,7 +158,7 @@ export class Onboarding extends Component {
         >
           {"Manage"}
         </PrimaryButton>
-      </div>
+      </Box>
     );
   };
 
@@ -267,7 +204,7 @@ export class Onboarding extends Component {
               <Grid container spacing={3} alignItems={"center"}>
                 <Grid item md={4}>
                   <p style={HeadStyle}>
-                    {"List of Users in On Boarding Stage"}
+                    {"List of Users in Application Stage"}
                   </p>
                 </Grid>
                 <Grid item md={3}>
@@ -349,11 +286,7 @@ export class Onboarding extends Component {
           </Grid>
           <Grid item md={12}>
             {listOfUsers.length !== 0 ? (
-              <DataGrid
-                data={listOfUsers}
-                obCallStatus={this.renderChip}
-                action={this.renderManageButton}
-              />
+              <DataGrid data={listOfUsers} action={this.renderManageButton} />
             ) : loading ? (
               <Loader />
             ) : null}
@@ -377,7 +310,6 @@ const style = {
     fontStyle: "normal",
     fontSize: "18px",
     color: "#052A4E",
-    // padding:15
   },
   HeadDisplay: {
     display: "flex",
@@ -403,4 +335,4 @@ export default connect(mapStateToProps, {
   getAllIntakeList,
   getReferProductVariantByProductId,
   getVariantStepsById,
-})(Onboarding);
+})(ApplicationStageManageStudent);
