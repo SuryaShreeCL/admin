@@ -51,6 +51,22 @@ export const getWallCategoriesReducer = (
   }
 };
 
+export const getWallJobListReducer = (state = { categories: [] }, action) => {
+  switch (action.type) {
+    case WALL.WALL_JOB_LIST_REQUEST:
+      return { loading: true, posts: [] };
+    case WALL.WALL_JOB_LIST_SUCCESS:
+      return {
+        loading: false,
+        jobs: action.payload,
+      };
+    case WALL.WALL_JOB_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const wallPostDetailsReducer = (state = { post: [] }, action) => {
   switch (action.type) {
     case WALL.DETAILS_REQUEST:

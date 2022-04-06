@@ -66,7 +66,7 @@ function SelectSchool(props) {
         renderType === "row" ? rowData.category.name : "",
     },
     {
-      title: "University Name",
+      title: "College Name",
       field: "university.name",
       render: (rowData, renderType) =>
         renderType === "row"

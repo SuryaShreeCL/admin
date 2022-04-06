@@ -32,6 +32,7 @@ import {
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  getWallJobListReducer,
   wallWebinarListReducer,
   platformsReducer,
 } from "../Reducer/WallReducer";
@@ -57,6 +58,9 @@ import CourseMaterialReducer from "../Lms/Redux/Reducer/CourseMaterialReducer";
 import TestReducer from "../Lms/Redux/Reducer/TestReducer";
 import LmsStudentReducer from "../Lms/Redux/Reducer/LmsStudentReducer";
 import PgaReportReducer from "../Reducer/PgaReportReducer";
+import StrategySessionReducer from "../Reducer/StrategySessionReducer";
+import ProfileMentoringReducer from "../Reducer/ProfileMentoringReducer";
+import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -85,6 +89,9 @@ export default combineReducers({
   PgaReportReducer: PgaReportReducer,
   ProfileFitSpiderGraphReducer: ProfileFitSpiderGraphReducer,
   CvReviewReducer: CvReviewReducer,
+  StrategySessionReducer: StrategySessionReducer,
+  ProfileMentoringReducer: ProfileMentoringReducer,
+  ApplicationStageReducer: ApplicationStageReducer,
 
   //TESTIMONIAL
   testimonialCreateReducer,
@@ -100,6 +107,7 @@ export default combineReducers({
   wallPostUpdateReducer,
   wallPostListReducer,
   getWallCategoriesReducer,
+  getWallJobListReducer,
   wallWebinarListReducer,
   platformsReducer,
   //TESTS

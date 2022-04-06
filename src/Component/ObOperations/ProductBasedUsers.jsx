@@ -9,6 +9,9 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import { studentPath } from "../RoutePaths";
 import PgaStudentList from "../ProfileGapAnalysis/PgaStudentList";
+import StrategySessionStudentList from "../StrategySession/ManageStudent";
+import ApplicationStageStudentList from "../ApplicationStage/ManageStudent";
+import ProfileMentoringStudentList from "../ProfileMentoring/ManageStudent";
 import LockIcon from "@material-ui/icons/Lock";
 import "../../Asset/All.css";
 class ProductBasedUsers extends Component {
@@ -34,7 +37,7 @@ class ProductBasedUsers extends Component {
 
   componentDidMount() {
     // this.props.getAdminLinkedProduct()
-    this.props.getVariantStepsById(this.props.match.params.productId);
+    this.props.getVariantStepsById(`${this.props.match.params.productId}`);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -45,10 +48,11 @@ class ProductBasedUsers extends Component {
     //     }
 
     // }
+
     if (this.props.variantStepList !== prevProps.variantStepList) {
       var sortedArr =
-        this.props.variantStepList.steps.length > 0 &&
-        this.props.variantStepList.steps.sort((a, b) => a.rank - b.rank);
+        this.props.variantStepList?.steps?.length > 0 &&
+        this.props.variantStepList?.steps?.sort((a, b) => a.rank - b.rank);
       sortedArr !== false &&
         sortedArr.map((it, ix) => {
           it.steps.sort((c, d) => c.rank - d.rank);
@@ -62,19 +66,26 @@ class ProductBasedUsers extends Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
     const { classes } = this.props;
+
     var componentList = {
       Onboarding: "Onboarding",
       "Profile Gap Analysis": "Profile Gap Analysis",
+      "Strategy Session": "StrategySession",
+      "Application Stage": "ApplicationStage",
+      "Profile Mentoring": "ProfileMentoring",
     };
+
     var obj = {
       Onboarding: Onboarding,
       ["Profile Gap Analysis"]: PgaStudentList,
+      StrategySession: StrategySessionStudentList,
+      ApplicationStage: ApplicationStageStudentList,
+      ProfileMentoring: ProfileMentoringStudentList,
     };
+
     var selectedComponent =
-      this.state.selectedItem  &&
+      this.state.selectedItem &&
       componentList[this.state.selectedItem.stepName];
     var Page = obj[selectedComponent];
     return (
@@ -85,7 +96,7 @@ class ProductBasedUsers extends Component {
             style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
             <Typography
               style={{
                 cursor: "pointer",
@@ -94,10 +105,10 @@ class ProductBasedUsers extends Component {
               }}
               onClick={() => this.props.history.push(studentPath)}
             >
-              Home
+              {"Home"}
             </Typography>
             <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
-              Manage Student
+              {"Manage Student"}
             </Typography>
           </Breadcrumbs>
         </div>
@@ -107,7 +118,7 @@ class ProductBasedUsers extends Component {
               value={this.state.selectedItem}
               textColor={"inherit"}
               onChange={(e, value) => this.setState({ selectedItem: value })}
-              aria-label="ant example"
+              aria-label='ant example'
             >
               {this.state.productDetails &&
                 this.state.productDetails.map((item, index) => {

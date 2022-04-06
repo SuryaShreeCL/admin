@@ -1,54 +1,33 @@
-import React, { Component } from "react";
-import Paper from "@material-ui/core/Paper";
-import RoomIcon from "@material-ui/icons/Room";
-import DeleteOutlineOutlinedIcon from "@material-ui/icons/DeleteOutlineOutlined";
-import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-import { ExpandMore } from "@material-ui/icons";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
+import DateFnsUtils from "@date-io/date-fns";
 import {
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-  Grid,
-  TextField,
   Accordion,
-  AccordionSummary,
   AccordionDetails,
-  IconButton,
+  AccordionSummary,
   createMuiTheme,
+  Grid,
+  IconButton,
+  TextField,
   ThemeProvider,
 } from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import WarningIcon from "@material-ui/icons/Warning";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import Warning from "../../Asset/Images/warningImg.png";
-import Pencil from "../../Asset/Images/pencil.png";
-import DateFnsUtils from "@date-io/date-fns";
+import { ExpandMore } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import { getDocumentList } from "../../Actions/Student";
-import { getworkexp, updateworkexp } from "../../Actions/Calldetails";
-import { connect } from "react-redux";
-import Mysnack from "../MySnackBar";
-import {
-  viewStudentStatus,
-  updateVerificationStatus,
-} from "../../Actions/AdminAction";
-import Status from "../Utils/Status";
-import { SECTION } from "../../Constant/Variables";
-import Model from "../Utils/SectionModel";
-import DoccumentCard from "../Utils/DoccumentCard";
-import { URL } from "../../Actions/URL";
-import { getVariantStepsById } from "../../Actions/ProductAction";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import moment from "moment";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  updateVerificationStatus,
+  viewStudentStatus,
+} from "../../Actions/AdminAction";
+import { getworkexp, updateworkexp } from "../../Actions/Calldetails";
+import { getVariantStepsById } from "../../Actions/ProductAction";
+import { getDocumentList } from "../../Actions/Student";
+import { URL } from "../../Actions/URL";
+import Pencil from "../../Asset/Images/pencil.png";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import Mysnack from "../MySnackBar";
+import DoccumentCard from "../Utils/DoccumentCard";
+import Model from "../Utils/SectionModel";
 
 const theme = createMuiTheme({
   overrides: {
@@ -174,6 +153,7 @@ class workExperience extends Component {
     }
   };
   handleSave() {
+    console.log("handlesave/////////////////////////");
     var error = false;
 
     for (let i = 0; i < this.state.professional.length; i++) {
@@ -389,7 +369,7 @@ class workExperience extends Component {
                                 popupIcon={
                                   <ExpandMore style={{ color: "#1093FF" }} />
                                 }
-                                id="combo-box-demo"
+                                id='combo-box-demo'
                                 disabled={this.state.disable}
                                 value={
                                   {
@@ -412,9 +392,9 @@ class workExperience extends Component {
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
-                                    label="Employment Type"
+                                    label='Employment Type'
                                     disabled={this.state.disable}
-                                    variant="standard"
+                                    variant='standard'
                                     contentEditable={
                                       this.state.disable === false
                                     }
@@ -438,12 +418,12 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                id="standard-basic"
+                                id='standard-basic'
                                 disabled={this.state.disable}
-                                label="Organisation"
+                                label='Organisation'
                                 value={item.organization || ""}
-                                error={this.state.organizationErr.length > 0}
-                                helperText={this.state.organizationErr}
+                                // error={this.state.organizationErr.length > 0}
+                                // helperText={this.state.organizationErr}
                                 contentEditable={this.state.disable}
                                 error={
                                   this.state[`organizationErr${index}`] !==
@@ -496,9 +476,9 @@ class workExperience extends Component {
                                 }}
                               /> */}
                               <TextField
-                                label="Start Date"
+                                label='Start Date'
                                 value={item.startDate || ""}
-                                type="month"
+                                type='month'
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
@@ -524,16 +504,16 @@ class workExperience extends Component {
                                 }}
                                 disableFuture
                                 disabled={this.state.disable}
-                                name="startDate"
+                                name='startDate'
                                 fullWidth
-                                margin="normal"
+                                margin='normal'
                               />
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                label="End Date"
+                                label='End Date'
                                 value={item.endDate || ""}
-                                type="month"
+                                type='month'
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
@@ -562,16 +542,16 @@ class workExperience extends Component {
                                   shrink: true,
                                 }}
                                 disableFuture
-                                margin="normal"
+                                margin='normal'
                                 disabled={this.state.disable}
-                                name="EndDate"
+                                name='EndDate'
                                 fullWidth
                               />
                             </Grid>
                             <Grid item md={4}>
                               <TextField
-                                id="standard-multiline-static"
-                                label="Designation"
+                                id='standard-multiline-static'
+                                label='Designation'
                                 disabled={this.state.disable}
                                 value={item.role || ""}
                                 onChange={(e) =>
@@ -586,8 +566,8 @@ class workExperience extends Component {
                                     index
                                   )
                                 }
-                                error={this.state.roleErr.length > 0}
-                                helperText={this.state.roleErr}
+                                // error={this.state.roleErr.length > 0}
+                                // helperText={this.state.roleErr}
                                 error={
                                   this.state[`roleErr${index}`] !== undefined &&
                                   this.state[`roleErr${index}`] !== ""
@@ -604,8 +584,8 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={8}>
                               <TextField
-                                id="standard-multiline-static"
-                                label="Job Description"
+                                id='standard-multiline-static'
+                                label='Job Description'
                                 multiline
                                 disabled={this.state.disable}
                                 value={item.description || ""}
@@ -655,7 +635,7 @@ class workExperience extends Component {
               {this.props.getAllDocumentList.CV &&
                 this.props.getAllDocumentList.CV.length !== 0 && (
                   <Grid item md={12}>
-                    <Grid item md={12} direction="column">
+                    <Grid item md={12} direction='column'>
                       <p style={GridStyle}>CV</p>
                     </Grid>
                     <Grid item={12} container>
@@ -664,7 +644,7 @@ class workExperience extends Component {
                             <Grid
                               item
                               md={4}
-                              direction="row"
+                              direction='row'
                               onClick={() => this.documentClick(data)}
                             >
                               <DoccumentCard

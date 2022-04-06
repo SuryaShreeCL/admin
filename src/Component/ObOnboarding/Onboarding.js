@@ -4,7 +4,10 @@ import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getStudentByStages } from "../../Actions/AdminAction";
-import { getReferProductVariantByProductId } from "../../Actions/ProductAction";
+import {
+  getReferProductVariantByProductId,
+  getVariantStepsById,
+} from "../../Actions/ProductAction";
 import { getAllIntakeList, StudentStepDetails } from "../../Actions/Student";
 import Call from "../../Asset/Images/callImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -138,9 +141,7 @@ export class Onboarding extends Component {
   }
 
   handleManage = (eachItem) => {
-    const { product } = this.state;
-    const { match } = this.props;
-    const productId = product?.id || match.params.productId;
+    const productId = eachItem.productId;
     this.props.StudentStepDetails(eachItem.studentId, productId);
     this.props.getVariantStepsById(
       `${productId}?studentId=${eachItem.studentId}`
@@ -401,4 +402,5 @@ export default connect(mapStateToProps, {
   StudentStepDetails,
   getAllIntakeList,
   getReferProductVariantByProductId,
+  getVariantStepsById,
 })(Onboarding);

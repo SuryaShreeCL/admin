@@ -22,7 +22,7 @@ function SchoolListTable(props) {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>University Name</TableCell>
+              <TableCell>College Name</TableCell>
               <TableCell align="center">Program Name</TableCell>
               <TableCell></TableCell>
              

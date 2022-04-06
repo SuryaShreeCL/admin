@@ -25,7 +25,7 @@ export const PROFILE_GAP_ANALYSIS = {
   loader: "profileGapAnalysisLoader",
   getgeneraldetails: "getgeneraldetails",
   getstatus: "getstatus",
-  getcommenthistory: "getcommenthistory",
+  getCommentHistory: "getCommentHistory",
   updatestatus: "updatestatus",
   getTestResults: "getTestResults",
   getPpgaCallNotes: "getPpgaCallNotes",
@@ -120,9 +120,14 @@ export const STUDENT = {
   aspirationDegree: "aspirationDegree",
   aspirationBranch: "aspirationBranch",
   aspirationCountry: "aspirationCountry",
+  getRegions: "getRegions",
+  getDegree: "getDegree",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
   getAllIntakeList: "getAllIntakeList",
+  opsStageComplete: "opsStageComplete",
+  getStudentStageByProductId: "getStudentStageByProductId",
+  getStepsBySubStageId: "getStepsBySubStageId",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -485,6 +490,10 @@ export const WALL = {
   WALL_CATEGORIES_SUCCESS: "WALL_CATEGORIES_SUCCESS",
   WALL_CATEGORIES_FAIL: "WALL_CATEGORIES_FAIL",
 
+  WALL_JOB_LIST_REQUEST: "WALL_JOB_LIST_REQUEST",
+  WALL_JOB_LIST_SUCCESS: "WALL_JOB_LIST_SUCCESS",
+  WALL_JOB_LIST_FAIL: "WALL_JOB_LIST_FAIL",
+
   DELETE_REQUEST: "WALL_DELETE_REQUEST",
   DELETE_SUCCESS: "WALL_DELETE_SUCCESS",
   DELETE_FAIL: "WALL_DELETE_FAIL",
@@ -542,6 +551,10 @@ export const TEST = {
   CUTOFF_REQUEST: "CUTOFF_REQUEST",
   CUTOFF_SUCCESS: "CUTOFF_SUCCESS",
   CUTOFF_FAIL: "CUTOFF_FAIL",
+
+  POST_TEST_UPLOAD_STATUS_REQUEST: "POST_TEST_UPLOAD_STATUS_REQUEST",
+  POST_TEST_UPLOAD_STATUS_SUCCESS: "POST_TEST_UPLOAD_STATUS_SUCCESS",
+  POST_TEST_UPLOAD_STATUS_FAIL: "POST_TEST_UPLOAD_STATUS_FAIL",
 };
 
 export const PGA_REPORT = {
@@ -582,4 +595,37 @@ export const CV_REVIEW = {
   getStudentCvList: "getStudentCvList",
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
+};
+
+export const STRATEGY_SESSION = {
+  loader: "strategySessionLoader",
+  clearData: "strategySessionClearData",
+  clearCustomData: "strategySessionClearCustomData",
+  getDocumentModelBySubStageId: "getDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postFileUploadBySubStageId",
+  putDocumentBySubStageId: "putDocumentBySubStageId",
+  getDownloadByDocumentId: "getDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteDocumentByDocumentId",
+};
+
+export const PROFILE_MENTORING = {
+  loader: "profileMentoringLoader",
+  clearData: "profileMentoringClearData",
+  clearCustomData: "profileMentoringClearCustomData",
+  getDocumentModelBySubStageId: "getProfileMentoringDocumentModelBySubStageId",
+  postFileUpload: "postProfileMentoringFileUpload",
+  putDocumentBySubStageId: "putProfileMentoringDocumentBySubStageId",
+  getDownloadByDocumentId: "getProfileMentoringDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteProfileMentoringDocumentByDocumentId",
+};
+
+export const APPLICATION_STAGE = {
+  loader: "applicationStageLoader",
+  clearData: "applicationStageClearData",
+  clearCustomData: "applicationStageClearCustomData",
+  getDocumentModelBySubStageId: "getApplicationStageDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postApplicationStageFileUploadBySubStageId",
+  putDocumentBySubStageId: "putApplicationStageDocumentBySubStageId",
+  getDownloadByDocumentId: "getApplicationStageDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteApplicationStageDocumentByDocumentId",
 };

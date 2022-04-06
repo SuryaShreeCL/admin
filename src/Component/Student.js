@@ -229,7 +229,7 @@ export class Student extends Component {
     }
   }
 
-  rowClick = rowData => {
+  rowClick = (rowData) => {
     if (
       ["LMSEDITOR", "LMSCHECKER"].indexOf(sessionStorage.getItem("role")) === -1
     ) {
@@ -284,16 +284,16 @@ export class Student extends Component {
     }
   };
 
-  isEmail = email => {
+  isEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
 
-  isTime = date => {
+  isTime = (date) => {
     return new Date(date).getTime() ? true : false;
   };
 
-  lmsProductSetState = lmsProduct => {
+  lmsProductSetState = (lmsProduct) => {
     var errorMessage = "Please fill the required field";
     lmsProduct.map((item, index) => {
       let arr = lmsProduct;
@@ -307,10 +307,10 @@ export class Student extends Component {
     });
   };
 
-  lmsProductValidation = lmsProduct => {
+  lmsProductValidation = (lmsProduct) => {
     if (this.hasLmsAccess() && lmsProduct && lmsProduct.length !== 0) {
       var productValidation = lmsProduct.map(
-        item => this.isTime(item.expirationDate) && item.product.id !== null
+        (item) => this.isTime(item.expirationDate) && item.product.id !== null
       );
       if (productValidation.includes(false))
         this.setState({ isLoading: false });
@@ -318,7 +318,7 @@ export class Student extends Component {
     } else return true;
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     this.setState({ isLoading: true });
     this.state.firstName === null || this.state.firstName.length === 0
       ? this.setState({
@@ -428,7 +428,7 @@ export class Student extends Component {
         internshipAccess: this.state.internAccess === false ? "no" : "yes",
         origin: "ADMIN Portal",
       };
-      this.props.mernStudentSignUp(studentObj, response => {
+      this.props.mernStudentSignUp(studentObj, (response) => {
         if (response.auth) {
           if (
             this.hasLmsAccess() &&
@@ -438,7 +438,7 @@ export class Student extends Component {
             this.props.postStudentLmsProduct(
               response.studentInfo.id,
               {
-                products: this.state.product.map(item => ({
+                products: this.state.product.map((item) => ({
                   productId: item.product.id,
                   expirationDate: item.expirationDate,
                   stage: item.stage ? "Active" : "NotActive",
@@ -581,7 +581,7 @@ export class Student extends Component {
           {
             products:
               this.state.product &&
-              this.state.product.map(item => ({
+              this.state.product.map((item) => ({
                 productId: item.product.id,
                 expirationDate: item.expirationDate,
                 stage: item.stage ? "Active" : "NotActive",
@@ -597,7 +597,7 @@ export class Student extends Component {
       };
       this.props.updateLmsAccess(this.state.id, lmsobj);
 
-      this.props.mernStudentEdit(this.state.id, studentObj, response => {
+      this.props.mernStudentEdit(this.state.id, studentObj, (response) => {
         this.setState({
           dialogOpen: false,
           isLoading: false,
@@ -617,6 +617,7 @@ export class Student extends Component {
           studentId: null,
           lmsAccess: false,
           editing: false,
+          oldStudentId: null,
         });
       });
       this.setState({
@@ -647,7 +648,7 @@ export class Student extends Component {
     }
   };
 
-  removeProduct = index => {
+  removeProduct = (index) => {
     if (this.state.product.length > 0) {
       let items = this.state.product;
       items.splice(index, 1);
@@ -657,9 +658,9 @@ export class Student extends Component {
     }
   };
 
-  removeSelectedItem = id => {
+  removeSelectedItem = (id) => {
     this.setState({
-      selectedProduct: this.state.selectedProduct.filter(el => el.id !== id),
+      selectedProduct: this.state.selectedProduct.filter((el) => el.id !== id),
     });
   };
 
@@ -685,16 +686,16 @@ export class Student extends Component {
                 options={
                   Object.keys(this.props.lmsProducts).length !== 0
                     ? this.props.lmsProducts.data.filter(
-                        item =>
+                        (item) =>
                           this.state.selectedProduct
-                            .map(el => el.id)
+                            .map((el) => el.id)
                             .indexOf(item.id) === -1
                       )
                     : []
                 }
                 value={item.product || null}
                 disabled={item.product_Id === null ? false : true}
-                getOptionLabel={option => option.title}
+                getOptionLabel={(option) => option.title}
                 onChange={(e, newValue) => {
                   if (newValue) {
                     this.onChange("product", newValue, idx);
@@ -707,11 +708,11 @@ export class Student extends Component {
                     this.setState({ selectedProduct: arr });
                   }
                 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Product Name"
-                    variant="outlined"
+                    label='Product Name'
+                    variant='outlined'
                     error={item.productNameHelperText.length !== 0}
                     helperText={item.productNameHelperText}
                   />
@@ -724,7 +725,7 @@ export class Student extends Component {
                 type={"date"}
                 color={"primary"}
                 variant={"outlined"}
-                onChange={e => {
+                onChange={(e) => {
                   this.onChange(
                     "expirationDate",
                     new Date(e.target.value),
@@ -760,7 +761,7 @@ export class Student extends Component {
                 helperText={item.expirationDateHelperText}
                 fullWidth
                 disablePast
-                onKeyDown={event => {
+                onKeyDown={(event) => {
                   event.preventDefault();
                 }}
               />
@@ -792,14 +793,14 @@ export class Student extends Component {
                   control={
                     <Switch
                       checked={item.stage}
-                      onChange={e => {
+                      onChange={(e) => {
                         this.onChange("stage", e.target.checked, idx);
                       }}
-                      name="stage"
-                      color="primary"
+                      name='stage'
+                      color='primary'
                     />
                   }
-                  label="isActive"
+                  label='isActive'
                 />
               )}
             </Grid>
@@ -830,6 +831,7 @@ export class Student extends Component {
       phoneHelperText: "",
       studentIdHelperText: "",
       editing: false,
+      oldStudentId: null,
     });
     this.hasLmsAccess() &&
       this.setState({
@@ -868,14 +870,14 @@ export class Student extends Component {
                   : true
               }
               needSearch
-              onKeyUp={e => {
+              onKeyUp={(e) => {
                 if (e.keyCode === 13) {
                   e.preventDefault();
                   document.getElementById("search").click();
                 }
               }}
               onSearchClick={this.handleSearch}
-              onAddClick={e =>
+              onAddClick={(e) =>
                 this.setState({
                   dialogOpen: true,
                   firstName: null,
@@ -910,13 +912,13 @@ export class Student extends Component {
                   : true
               }
               onEdit={true}
-              onEditClick={rowdata => {
+              onEditClick={(rowdata) => {
                 this.hasLmsAccess() &&
-                  this.props.getStudentProducts(rowdata.id, response => {
+                  this.props.getStudentProducts(rowdata.id, (response) => {
                     // expiryDate
                     let arr = [];
                     let selectedProductArr = [];
-                    response.data.map(item => {
+                    response.data.map((item) => {
                       let product = {
                         courseId: "",
                         id: item.id,
@@ -976,7 +978,7 @@ export class Student extends Component {
                 });
               }}
               cols={this.stu_header}
-              onRowClick={rowData => this.rowClick(rowData)}
+              onRowClick={(rowData) => this.rowClick(rowData)}
               onSearch={this.paginate}
               paginate={this.paginate}
               totalCount={this.props.StudentFilterList.totalElements}
@@ -1001,74 +1003,74 @@ export class Student extends Component {
         <Dialog
           open={this.state.dialogOpen}
           onClose={this.handleDialogClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id="alert-dialog-title">
+          <DialogTitle id='alert-dialog-title'>
             {this.state.id === null ? "Add New Student" : "Edit Student"}
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   fullWidth
                   error={this.state.firstNameHelperText.length !== 0}
                   helperText={this.state.firstNameHelperText}
-                  onKeyPress={evt => {
+                  onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
                   }}
                   value={this.state.firstName || null}
-                  onChange={e => this.setState({ firstName: e.target.value })}
-                  label="First Name"
+                  onChange={(e) => this.setState({ firstName: e.target.value })}
+                  label='First Name'
                 />
               </Grid>
 
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   fullWidth
                   error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
-                  onKeyPress={evt => {
+                  onKeyPress={(evt) => {
                     if (isAlpha(evt)) evt.preventDefault();
                   }}
                   value={this.state.lastName || null}
-                  onChange={e => this.setState({ lastName: e.target.value })}
-                  label="Last Name"
+                  onChange={(e) => this.setState({ lastName: e.target.value })}
+                  label='Last Name'
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.emailHelperText.length !== 0}
                   helperText={this.state.emailHelperText}
                   value={this.state.eMail || null}
-                  onChange={e => this.setState({ eMail: e.target.value })}
+                  onChange={(e) => this.setState({ eMail: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label="E-Mail"
+                  label='E-Mail'
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   disabled
                   value={this.state.eMail || ""}
                   InputLabelProps={{
                     shrink: this.state.eMail !== null ? true : false,
                   }}
                   fullWidth
-                  label="UserName"
+                  label='UserName'
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   value={this.state.college}
                   options={this.props.allCollegeList}
                   onChange={(e, newValue) =>
@@ -1079,22 +1081,22 @@ export class Student extends Component {
                       },
                     })
                   }
-                  getOptionLabel={option => option.name}
-                  renderInput={params => (
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
                     <TextField
                       helperText={this.state.collegeHelperText}
                       error={this.state.collegeHelperText.length !== 0}
                       {...params}
-                      size="small"
-                      label="College"
-                      variant="outlined"
+                      size='small'
+                      label='College'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   value={this.state.department}
                   options={this.props.BranchList}
                   onChange={(e, newValue) =>
@@ -1105,33 +1107,33 @@ export class Student extends Component {
                       },
                     })
                   }
-                  getOptionLabel={option => option.name}
-                  renderInput={params => (
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
                     <TextField
                       helperText={this.state.departmentHelperText}
                       error={this.state.departmentHelperText.length !== 0}
                       {...params}
-                      size="small"
-                      label="Department"
-                      variant="outlined"
+                      size='small'
+                      label='Department'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.phoneHelperText.length !== 0}
                   helperText={this.state.phoneHelperText}
-                  onKeyPress={evt => {
+                  onKeyPress={(evt) => {
                     if (isNumber(evt)) evt.preventDefault();
                   }}
                   value={this.state.phone || null}
-                  onChange={e => this.setState({ phone: e.target.value })}
+                  onChange={(e) => this.setState({ phone: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label="Phone Number"
+                  label='Phone Number'
                   inputProps={{
                     maxLength: 10,
                   }}
@@ -1140,47 +1142,51 @@ export class Student extends Component {
 
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.studentIdHelperText.length !== 0}
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId || null}
-                  onChange={e => this.setState({ studentId: e.target.value })}
-                  disabled={this.state.editing}
+                  onChange={(e) => this.setState({ studentId: e.target.value })}
+                  disabled={
+                    this.state.editing &&
+                    this.state.oldStudentId &&
+                    this.state.oldStudentId.trim().length !== 0
+                  }
                   fullWidth
-                  label="Student ID"
+                  label='Student ID'
                 />
               </Grid>
 
-              <Grid item md={3} align="center">
+              <Grid item md={3} align='center'>
                 <FormControlLabel
                   control={
                     <Checkbox
                       checked={this.state.toogleButton}
                       disabled={this.state.provider === null ? true : false}
-                      onChange={e =>
+                      onChange={(e) =>
                         this.setState({ toogleButton: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
                   label={this.state.provider === null ? "App User" : "Google"}
                 />
               </Grid>
-              <Grid item md={3} align="center">
+              <Grid item md={3} align='center'>
                 <FormControlLabel
                   control={
                     <Checkbox
                       checked={this.state.isActive}
-                      onChange={e =>
+                      onChange={(e) =>
                         this.setState({ isActive: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="Is Active"
+                  label='Is Active'
                 />
               </Grid>
               <Grid item md={3}>
@@ -1188,14 +1194,14 @@ export class Student extends Component {
                   control={
                     <Checkbox
                       checked={this.state.internAccess}
-                      onChange={e =>
+                      onChange={(e) =>
                         this.setState({ internAccess: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="Internship Access"
+                  label='Internship Access'
                 />
               </Grid>
               <Grid item md={3}>
@@ -1203,24 +1209,24 @@ export class Student extends Component {
                   control={
                     <Checkbox
                       checked={this.state.lmsAccess}
-                      onChange={e =>
+                      onChange={(e) =>
                         this.setState({ lmsAccess: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="LMS Access"
+                  label='LMS Access'
                 />
               </Grid>
               <Grid item md={12}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   disabled
                   value={this.state.phone || ""}
                   fullWidth
-                  label="Password"
+                  label='Password'
                 />
               </Grid>
               {["LMSEDITOR", "LMSCHECKER"].includes(
@@ -1242,12 +1248,12 @@ export class Student extends Component {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={e =>
+              onClick={(e) =>
                 this.state.id === null
                   ? this.handleSubmit(e)
                   : this.handleEdit(e)
               }
-              color="primary"
+              color='primary'
               disabled={this.state.isLoading}
               autoFocus
             >
@@ -1277,7 +1283,7 @@ export class Student extends Component {
   }
 }
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const LinkButton = styled.button`
@@ -1289,7 +1295,7 @@ const LinkButton = styled.button`
   text-align: end;
 `;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     StudentsList: state.StudentReducer.StudentsList,
     StudentFilterList: state.StudentReducer.StudentFilterList,

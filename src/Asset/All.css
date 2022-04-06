@@ -433,8 +433,8 @@ input[type="checkbox"]:checked + label {
   margin-top: 7px !important;
 }
 .component_grid {
-  height: "106vh" !important;
-  overflow-y: "scroll" !important;
+  height: 106vh !important;
+  overflow-y: scroll !important;
 }
 .completed_button {
   width: 150px !important;

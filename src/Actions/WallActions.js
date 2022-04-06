@@ -180,6 +180,37 @@ export const getWallCategories = (status) => async (dispatch) => {
   }
 };
 
+export const getWallJobList = (status) => async (dispatch) => {
+  try {
+    dispatch({ type: WALL.WALL_JOB_LIST_REQUEST });
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/v1/jobcategories?activeStatus=${status}`,
+      {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${window.sessionStorage.getItem(
+            "accessToken"
+          )}`,
+        },
+      }
+    );
+    dispatch({
+      type: WALL.WALL_JOB_LIST_SUCCESS,
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: WALL.WALL_JOB_LIST_FAIL,
+      payload:
+        error.response && error.response.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
 export const deleteWallPost = (id) => async (dispatch) => {
   try {
     dispatch({

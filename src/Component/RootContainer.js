@@ -17,6 +17,7 @@ import {
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Track from "@material-ui/icons/ArtTrack";
+import ContactMail from "@material-ui/icons/ContactMail";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -543,7 +544,7 @@ function RootContainer(props) {
           items: [],
         },
         {
-          icon: <Track />,
+          icon: <ContactMail />,
           title: "Premium Users Data",
           path: premiumUsersPath,
           items: [],

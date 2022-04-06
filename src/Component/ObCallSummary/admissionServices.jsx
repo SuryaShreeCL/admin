@@ -256,7 +256,7 @@ class AdmissionServices extends Component {
                 this.props.getproductdetailsList.studentMapping.length > 0 && (
                   <TableRow>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -267,7 +267,7 @@ class AdmissionServices extends Component {
                       No
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -278,7 +278,7 @@ class AdmissionServices extends Component {
                       Role
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -289,7 +289,7 @@ class AdmissionServices extends Component {
                       Employee Name
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -300,7 +300,7 @@ class AdmissionServices extends Component {
                       Allocated By
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -311,7 +311,7 @@ class AdmissionServices extends Component {
                       Allocated At
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -320,7 +320,7 @@ class AdmissionServices extends Component {
                       }}
                     ></TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -329,7 +329,7 @@ class AdmissionServices extends Component {
                       }}
                     ></TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -338,7 +338,7 @@ class AdmissionServices extends Component {
                       }}
                     ></TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -391,7 +391,7 @@ class AdmissionServices extends Component {
                     return (
                       <TableRow>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -403,7 +403,7 @@ class AdmissionServices extends Component {
                           {index + 1}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -416,7 +416,7 @@ class AdmissionServices extends Component {
                         </TableCell>
 
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -428,7 +428,7 @@ class AdmissionServices extends Component {
                           {eachdata.Name}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -440,7 +440,7 @@ class AdmissionServices extends Component {
                           {eachdata.allocatedBy}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -475,7 +475,7 @@ class AdmissionServices extends Component {
                 this.props.getproductdetailsList.product.length !== 0 && (
                   <TableRow>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -486,7 +486,7 @@ class AdmissionServices extends Component {
                       No
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -497,7 +497,7 @@ class AdmissionServices extends Component {
                       Order ID
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -508,7 +508,7 @@ class AdmissionServices extends Component {
                       Product Family
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -519,7 +519,7 @@ class AdmissionServices extends Component {
                       Product Variant
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -530,7 +530,7 @@ class AdmissionServices extends Component {
                       Enrollment Date
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -541,7 +541,7 @@ class AdmissionServices extends Component {
                       Expiry Date
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -552,7 +552,7 @@ class AdmissionServices extends Component {
                       End of Service
                     </TableCell>
                     <TableCell
-                      align="center"
+                      align='center'
                       style={{
                         color: "#000000",
                         fontWeight: 400,
@@ -575,7 +575,7 @@ class AdmissionServices extends Component {
                     return (
                       <TableRow>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -587,7 +587,7 @@ class AdmissionServices extends Component {
                           {index + 1}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -600,7 +600,7 @@ class AdmissionServices extends Component {
                         </TableCell>
 
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -612,7 +612,7 @@ class AdmissionServices extends Component {
                           {eachdata.ProductFamily}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -624,7 +624,7 @@ class AdmissionServices extends Component {
                           {eachdata.ProductVariant}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -638,7 +638,7 @@ class AdmissionServices extends Component {
                           )}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -653,7 +653,7 @@ class AdmissionServices extends Component {
                           )}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -667,7 +667,7 @@ class AdmissionServices extends Component {
                           )}
                         </TableCell>
                         <TableCell
-                          align="center"
+                          align='center'
                           style={{
                             color: "#000000",
                             fontWeight: 400,
@@ -692,8 +692,8 @@ class AdmissionServices extends Component {
           isEmptyObject(this.state.mentor) ? (
             <PrimaryButton
               disabled={this.state.buttonstatus}
-              variant="outlined"
-              color="primary"
+              variant='outlined'
+              color='primary'
               onClick={() => this.handleallocate()}
               className={"mentorbutton"}
             >
@@ -733,16 +733,16 @@ class AdmissionServices extends Component {
           }}
         >
           <Dialog
-            maxWidth="xs"
+            maxWidth='xs'
             fullWidth={true}
             open={this.state.show}
             // onClose={() => this.setState({ show: false })}
-            aria-labelledby="customized-dialog-title"
+            aria-labelledby='customized-dialog-title'
           >
-            <DialogTitle id="customized-dialog-title">
-              <div className="flex-1 text-center"></div>
+            <DialogTitle id='customized-dialog-title'>
+              <div className='flex-1 text-center'></div>
               <div
-                className="model-close-button"
+                className='model-close-button'
                 style={{ display: "flex", justifyContent: "flex-end" }}
               ></div>
             </DialogTitle>
@@ -761,7 +761,7 @@ class AdmissionServices extends Component {
               <div style={{ paddingBottom: "5%" }}>
                 <Autocomplete
                   popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   value={this.state.mentor}
                   onChange={(e, newValue) => {
                     this.setState({ selectedMentor: newValue });
@@ -773,8 +773,8 @@ class AdmissionServices extends Component {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Select Mentor From Dropdown"
-                      variant="standard"
+                      label='Select Mentor From Dropdown'
+                      variant='standard'
                       error={this.state.mentorErr.length > 0}
                       helperText={this.state.mentorErr}
                     />

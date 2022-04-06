@@ -45,6 +45,7 @@ const getProducts = () => [
   { id: '5', title: 'MS Admissions' },
   { id: '6', title: 'Placed' },
   { id: '7', title: 'Assured Placement' },
+  { id: '8', title: 'SkillAssure' },
 ];
 
 const useStyles = makeStyles((theme) => ({
