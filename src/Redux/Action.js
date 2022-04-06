@@ -125,6 +125,9 @@ export const STUDENT = {
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
   getAllIntakeList: "getAllIntakeList",
+  opsStageComplete: "opsStageComplete",
+  getStudentStageByProductId: "getStudentStageByProductId",
+  getStepsBySubStageId: "getStepsBySubStageId",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -595,9 +598,34 @@ export const CV_REVIEW = {
 };
 
 export const STRATEGY_SESSION = {
-  getStageId:"getStageId",
-  getTemplateUsingStageId: "getTemplateUsingStageId",
-  getDownloadFileUsingStageId:"getDownloadFileUsingStageId" ,
-  postStudentDocumentUsingStageId: "postStudentDocumentUsingStageId",
-  putSaveFileDetailsUsingStageId: "putSaveFileDetailsUsingStageId",
+  loader: "strategySessionLoader",
+  clearData: "strategySessionClearData",
+  clearCustomData: "strategySessionClearCustomData",
+  getDocumentModelBySubStageId: "getDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postFileUploadBySubStageId",
+  putDocumentBySubStageId: "putDocumentBySubStageId",
+  getDownloadByDocumentId: "getDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteDocumentByDocumentId",
+};
+
+export const PROFILE_MENTORING = {
+  loader: "profileMentoringLoader",
+  clearData: "profileMentoringClearData",
+  clearCustomData: "profileMentoringClearCustomData",
+  getDocumentModelBySubStageId: "getProfileMentoringDocumentModelBySubStageId",
+  postFileUpload: "postProfileMentoringFileUpload",
+  putDocumentBySubStageId: "putProfileMentoringDocumentBySubStageId",
+  getDownloadByDocumentId: "getProfileMentoringDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteProfileMentoringDocumentByDocumentId",
+};
+
+export const APPLICATION_STAGE = {
+  loader: "applicationStageLoader",
+  clearData: "applicationStageClearData",
+  clearCustomData: "applicationStageClearCustomData",
+  getDocumentModelBySubStageId: "getApplicationStageDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postApplicationStageFileUploadBySubStageId",
+  putDocumentBySubStageId: "putApplicationStageDocumentBySubStageId",
+  getDownloadByDocumentId: "getApplicationStageDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteApplicationStageDocumentByDocumentId",
 };

@@ -1399,3 +1399,89 @@ export const getAllIntakeList = () => {
       });
   };
 };
+
+export const opsStageComplete = (studentId, productId, stageName) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        `${URL}/api/v1/students/${studentId}/product/${productId}/opsComplete`,
+        null,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: stageName,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({
+          type: STUDENT.opsStageComplete,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.opsStageComplete, error, false));
+      });
+  };
+};
+
+export const getStudentStageByProductId = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/students/${studentId}/products/${productId}/stages`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: STUDENT.getStudentStageByProductId,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(
+          errorHandler(STUDENT.getStudentStageByProductId, error, false)
+        );
+      });
+  };
+};
+
+export const getStepsBySubStageId = (
+  studentId,
+  productId,
+  subStageId,
+  stageShortName
+) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${URL}/api/v1/students/${studentId}/products/${productId}/subStage/${subStageId}/${stageShortName}`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({
+          type: STUDENT.getStepsBySubStageId,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getStepsBySubStageId, error, false));
+      });
+  };
+};

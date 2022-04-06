@@ -74,6 +74,9 @@ export const Typo = styled(Typography)`
   z-index: ${(props) => props.zIndex};
   text-align: ${(props) => props.textAlign};
   font-weight: ${(props) => props.fontWeight};
+  padding-bottom: ${({ paddingBottom }) => paddingBottom};
+  padding: ${({ padding }) => padding};
+  font-size: ${({ fontSize }) => fontSize};
 `;
 
 export const UploadIcon = styled.img`

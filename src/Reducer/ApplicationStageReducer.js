@@ -1,4 +1,4 @@
-import { STRATEGY_SESSION } from "../Redux/Action";
+import { APPLICATION_STAGE } from "../Redux/Action";
 
 const initialState = {
   loading: false,
@@ -9,42 +9,42 @@ const initialState = {
   fileDeleteStatus: null,
 };
 
-const StrategySessionReducer = (state = initialState, action) => {
+const ApplicationStageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case STRATEGY_SESSION.loader:
+    case APPLICATION_STAGE.loader:
       return { ...state, loading: true };
-    case STRATEGY_SESSION.clearData:
+    case APPLICATION_STAGE.clearData:
       return {};
-    case STRATEGY_SESSION.clearCustomData:
+    case APPLICATION_STAGE.clearCustomData:
       return {
         ...state,
         [action.fieldName]: null,
       };
-    case STRATEGY_SESSION.getDocumentModelBySubStageId:
+    case APPLICATION_STAGE.getDocumentModelBySubStageId:
       return {
         ...state,
         documentModel: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.postFileUploadBySubStageId:
+    case APPLICATION_STAGE.postFileUploadBySubStageId:
       return {
         ...state,
         fileUploadStatus: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.putDocumentBySubStageId:
+    case APPLICATION_STAGE.putDocumentBySubStageId:
       return {
         ...state,
         documentUpdateStatus: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.getDownloadByDocumentId:
+    case APPLICATION_STAGE.getDownloadByDocumentId:
       return {
         ...state,
         downloadFileResponse: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.deleteDocumentByDocumentId:
+    case APPLICATION_STAGE.deleteDocumentByDocumentId:
       return {
         ...state,
         fileDeleteStatus: action.payload,
@@ -55,4 +55,4 @@ const StrategySessionReducer = (state = initialState, action) => {
   }
 };
 
-export default StrategySessionReducer;
+export default ApplicationStageReducer;

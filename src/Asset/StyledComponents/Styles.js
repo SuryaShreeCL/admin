@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     borderStyle: "groove",
     borderRadius: "10px",
     marginTop: "10px",
+    minHeight: "100vh",
   },
   dividerStyle: {
     backgroundColor: "#D2D2D2",
@@ -28,7 +29,7 @@ export const customTheme = createTheme({
       color: "#18AAE7",
       borderColor: "#18AAE7",
     },
-    
+
     delete: {
       color: "#FD413C",
       borderColor: "#FD413C",

@@ -6,8 +6,9 @@ import {
   clearCustomData,
   getDocumentModelBySubStageId,
   getDownloadByDocumentId,
-  uploadFile,
-} from "../../Actions/ProfileMentoring";
+  uploadDocumentBySubStageId,
+  uploadFileBySubStageId,
+} from "../../Actions/StrategySession";
 import {
   getStepsBySubStageId,
   getStudentStageByProductId,
@@ -22,6 +23,7 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { useStyles } from "./Styles";
+import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -75,6 +77,7 @@ function Index(props) {
     loading,
     documentModel,
     fileUploadStatus,
+    documentUpdateStatus,
     downloadFileResponse,
   } = useSelector((state) => state.StrategySessionReducer);
 
@@ -92,8 +95,8 @@ function Index(props) {
         const { data } = studentStages;
         let subStage = getSubStageByStage(
           data,
-          "Profile Mentoring",
-          "Complete Cv"
+          "Strategy Session",
+          "Upload Document"
         );
         if (subStage.length !== 0) {
           dispatch(
@@ -101,7 +104,7 @@ function Index(props) {
               studentId,
               productId,
               subStage[0]["id"],
-              "profileMentoring"
+              "stageSS"
             )
           );
         }
@@ -178,14 +181,22 @@ function Index(props) {
           snackOpen: true,
           snackVariant: "success",
           snackMsg: UPLOADED_SUCCESS,
-          file: null,
-          fileName: null,
-          comment: null,
-          fileNameHelperText: "",
-          commentHelperText: "",
-          open: false,
         });
-        dispatch(getStudentStageByProductId(studentId, productId));
+        let requestBody = {
+          id: fileUploadStatus.data?.id,
+          uploadedBy: "admin",
+          status: "Review Completed",
+          comment: comment,
+          fileName: fileName,
+        };
+        dispatch(
+          uploadDocumentBySubStageId(
+            studentId,
+            productId,
+            sectionId,
+            requestBody
+          )
+        );
       } else {
         setState({
           ...state,
@@ -197,6 +208,31 @@ function Index(props) {
       dispatch(clearCustomData("fileUploadStatus"));
     }
   }, [fileUploadStatus]);
+
+  useEffect(() => {
+    if (documentUpdateStatus) {
+      if (documentUpdateStatus.success) {
+        setState({
+          ...state,
+          file: null,
+          fileName: null,
+          comment: null,
+          fileNameHelperText: "",
+          commentHelperText: "",
+          open: false,
+        });
+        dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: documentUpdateStatus.message,
+        });
+      }
+      dispatch(clearCustomData("documentUpdateStatus"));
+    }
+  }, [documentUpdateStatus]);
 
   useEffect(() => {
     if (downloadFileResponse) {
@@ -241,6 +277,9 @@ function Index(props) {
         snackMsg: FILE_UPLOAD_ERROR,
         snackVariant: "error",
       });
+    } else if (!(fileName && fileName.trim().length !== 0)) {
+      error = true;
+      setState({ ...state, fileNameHelperText: REQUIRED_ERROR });
     } else if (!(comment && comment.trim().length !== 0)) {
       error = true;
       setState({ ...state, commentHelperText: REQUIRED_ERROR });
@@ -255,7 +294,9 @@ function Index(props) {
       });
       let uploadFormData = new FormData();
       uploadFormData.append("file", newFile);
-      dispatch(uploadFile(studentId, productId, uploadFormData, comment));
+      dispatch(
+        uploadFileBySubStageId(studentId, productId, sectionId, uploadFormData)
+      );
     }
   };
 
@@ -298,7 +339,7 @@ function Index(props) {
   };
 
   const handleDownload = (path, e) => {
-    dispatch(getDownloadByDocumentId(studentId, path));
+    dispatch(getDownloadByDocumentId(studentId, sectionId, path));
   };
 
   const handleDelete = (id, path, e) => {};
@@ -327,10 +368,15 @@ function Index(props) {
       commentHelperText: commentHelperText,
       file: file,
       disabledUploadButton: false,
-      isDisabledFileName: true,
+      isDisabledFileName: false,
       ...props,
     };
-    return <DocumentComponent {...renderProps} />;
+    switch (activeTabValue) {
+      case "Test Transcripts":
+        return <GraduateTestResult {...props} />;
+      default:
+        return <DocumentComponent {...renderProps} />;
+    }
   };
 
   const handleTabChange = (e, newValue) => {

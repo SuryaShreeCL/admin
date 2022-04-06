@@ -1,4 +1,4 @@
-import { STRATEGY_SESSION } from "../Redux/Action";
+import { PROFILE_MENTORING } from "../Redux/Action";
 
 const initialState = {
   loading: false,
@@ -9,42 +9,42 @@ const initialState = {
   fileDeleteStatus: null,
 };
 
-const StrategySessionReducer = (state = initialState, action) => {
+const ProfileMentoringReducer = (state = initialState, action) => {
   switch (action.type) {
-    case STRATEGY_SESSION.loader:
+    case PROFILE_MENTORING.loader:
       return { ...state, loading: true };
-    case STRATEGY_SESSION.clearData:
+    case PROFILE_MENTORING.clearData:
       return {};
-    case STRATEGY_SESSION.clearCustomData:
+    case PROFILE_MENTORING.clearCustomData:
       return {
         ...state,
         [action.fieldName]: null,
       };
-    case STRATEGY_SESSION.getDocumentModelBySubStageId:
+    case PROFILE_MENTORING.getDocumentModelBySubStageId:
       return {
         ...state,
         documentModel: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.postFileUploadBySubStageId:
+    case PROFILE_MENTORING.postFileUpload:
       return {
         ...state,
         fileUploadStatus: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.putDocumentBySubStageId:
+    case PROFILE_MENTORING.putDocumentBySubStageId:
       return {
         ...state,
         documentUpdateStatus: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.getDownloadByDocumentId:
+    case PROFILE_MENTORING.getDownloadByDocumentId:
       return {
         ...state,
         downloadFileResponse: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.deleteDocumentByDocumentId:
+    case PROFILE_MENTORING.deleteDocumentByDocumentId:
       return {
         ...state,
         fileDeleteStatus: action.payload,
@@ -55,4 +55,4 @@ const StrategySessionReducer = (state = initialState, action) => {
   }
 };
 
-export default StrategySessionReducer;
+export default ProfileMentoringReducer;

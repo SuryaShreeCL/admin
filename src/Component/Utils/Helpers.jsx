@@ -50,3 +50,49 @@ export const errorHandler = (type, error, loading) => {
     loading: loading,
   };
 };
+
+/** Unified Portal */
+export const getSubStageSteps = (variantStepList, stageName, subStageName) => {
+  let arr = [];
+  if (variantStepList && variantStepList.steps) {
+    const stageSteps = variantStepList.steps;
+    if (stageSteps && Array.isArray(stageSteps)) {
+      let subStageArr = [];
+      stageSteps.map(({ stepName, steps }) => {
+        if (stepName === stageName) subStageArr.push(...steps);
+      });
+      if (subStageArr.length !== 0) {
+        subStageArr.map(({ stepName, steps }) => {
+          if (stepName === subStageName) arr.push(...steps);
+        });
+      }
+    }
+  }
+  return arr;
+};
+
+export const getSubStageByStage = (stageArr, stageName, subStageName) => {
+  let arr = [];
+  if (stageArr && Array.isArray(stageArr) && stageArr.length !== 0) {
+    let subStageArr = [];
+    stageArr.map(({ stepName, steps }) => {
+      if (stepName === stageName) subStageArr.push(...steps);
+    });
+    if (subStageArr.length !== 0) {
+      arr = subStageArr.filter(({ stepName }) => stepName === subStageName);
+    }
+  }
+  return arr;
+};
+
+export const bytesToMegaBytes = (bytes) => (bytes ? bytes / 1024 ** 2 : 0);
+
+export const textToDownloadFile = (text, fileName, format) => {
+  const downloadUrl = window.URL.createObjectURL(new Blob([text]));
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.setAttribute("download", `${fileName}.${format || "docx"}`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};

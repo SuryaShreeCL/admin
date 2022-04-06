@@ -39,12 +39,11 @@ export const useStyles = makeStyles((theme) => ({
     gap: "15px",
   },
   preStrategyWorkSheetContainer: {
-    minHeight: "80vh",
-    width: "100%",
-    borderRadius: "10px",
-    border: "1px solid #D2D2D2",
-    opacity: 1,
+    minHeight: "100vh",
     marginTop: "15px",
+    borderStyle: "groove",
+    borderRadius: "10px",
+    marginTop: "10px",
   },
   saveContainer: {
     display: "flex",
@@ -112,13 +111,23 @@ export const useStyles = makeStyles((theme) => ({
   },
   buttonPosition: {
     top: "100px",
-    padding:"20px"
+    padding: "20px",
   },
-  popUpUpload:{
-    border:"1px dotted blue"
+  popUpUpload: {
+    border: "1px dotted blue",
   },
-  documentDetails:{
-    paddingTop:"10px",
-    paddingBottom:"10px"
-  }
+  documentDetails: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
+  },
+  dividerStyle: {
+    backgroundColor: "#D2D2D2",
+  },
+  iconButtonStyle: {
+    padding: "2px !important",
+  },
+  backdrop: {
+    zIndex: theme.zIndex.modal + 1,
+    background: "none",
+  },
 }));

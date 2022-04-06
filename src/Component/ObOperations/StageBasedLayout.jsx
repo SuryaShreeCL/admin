@@ -23,6 +23,7 @@ import {
   ObComplete,
   ObIncomplete,
   StudentStepDetails,
+  opsStageComplete,
 } from "../../Actions/Student";
 import "../../Asset/All.css";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -549,6 +550,9 @@ class StageBasedLayout extends Component {
 
   handleStageComplete = () => {
     const { customStageIndex } = this.state;
+    const { match } = this.props;
+    const studentId = match.params.studentId;
+    const productId = match.params.productId;
     switch (STAGES[customStageIndex]["stageName"]) {
       case STAGES[0]["stageName"]: {
         break;
@@ -557,12 +561,27 @@ class StageBasedLayout extends Component {
         break;
       }
       case STAGES[2]["stageName"]: {
+        this.props.opsStageComplete(
+          studentId,
+          productId,
+          STAGES[2]["stageName"]
+        );
         break;
       }
       case STAGES[3]["stageName"]: {
+        this.props.opsStageComplete(
+          studentId,
+          productId,
+          STAGES[3]["stageName"]
+        );
         break;
       }
       case STAGES[4]["stageName"]: {
+        this.props.opsStageComplete(
+          studentId,
+          productId,
+          STAGES[4]["stageName"]
+        );
         break;
       }
       case STAGES[5]["stageName"]: {
@@ -612,7 +631,7 @@ class StageBasedLayout extends Component {
               color={"primary"}
               variant={"contained"}
               disabled={false}
-              onClick={this.handleStageComplete()}
+              onClick={() => this.handleStageComplete()}
             >
               {STAGES[customStageIndex]["buttonText"]}
             </PrimaryButton>
@@ -918,6 +937,7 @@ const mapStateToProps = (state) => ({
   variantStepList: state.ProductReducer.variantStepList,
   updateVerificationStatus: state.AdminReducer.updateVerificationResponse,
   StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
+  opsStageCompleteStatus: state.StudentReducer.opsStageCompleteStatus,
 });
 
 const useStyles = (theme) => ({});
@@ -931,4 +951,5 @@ export default connect(mapStateToProps, {
   ObComplete,
   ObIncomplete,
   IncompleteStatus,
+  opsStageComplete,
 })(withStyles(useStyles)(StageBasedLayout));

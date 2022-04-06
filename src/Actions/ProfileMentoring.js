@@ -1,18 +1,18 @@
 import axios from "axios";
 import { errorHandler } from "../Component/Utils/Helpers";
-import { STRATEGY_SESSION } from "../Redux/Action";
+import { PROFILE_MENTORING } from "../Redux/Action";
 import { URL } from "./URL";
 
 export const clearData = () => {
   return (dispatch) => {
-    dispatch({ type: STRATEGY_SESSION.clearData });
+    dispatch({ type: PROFILE_MENTORING.clearData });
   };
 };
 
 export const clearCustomData = (fieldName) => {
   return (dispatch) => {
     dispatch({
-      type: STRATEGY_SESSION.clearCustomData,
+      type: PROFILE_MENTORING.clearCustomData,
       fieldName: fieldName,
     });
   };
@@ -27,10 +27,10 @@ export const getDocumentModelBySubStageId = (
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: PROFILE_MENTORING.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/cvList`,
           {
             headers: {
               admin: "yes",
@@ -40,7 +40,7 @@ export const getDocumentModelBySubStageId = (
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.getDocumentModelBySubStageId,
+            type: PROFILE_MENTORING.getDocumentModelBySubStageId,
             payload: response.data,
             loading: false,
           });
@@ -48,7 +48,7 @@ export const getDocumentModelBySubStageId = (
     } catch (error) {
       dispatch(
         errorHandler(
-          STRATEGY_SESSION.getDocumentModelBySubStageId,
+          PROFILE_MENTORING.getDocumentModelBySubStageId,
           error,
           false
         )
@@ -57,39 +57,31 @@ export const getDocumentModelBySubStageId = (
   };
 };
 
-export const uploadFileBySubStageId = (
-  studentId,
-  productId,
-  subStageId,
-  data
-) => {
+export const uploadFile = (studentId, productId, data, comment) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: PROFILE_MENTORING.loader });
       await axios
-        .post(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUpload`,
-          data,
-          {
-            headers: {
-              admin: "yes",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .post(`${URL}/api/v1/cv/${studentId}/${productId}`, data, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            comment: comment,
+          },
+        })
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.postFileUploadBySubStageId,
-            payload: response.data,
+            type: PROFILE_MENTORING.postFileUpload,
+            payload: { success: true, data: response.data },
             loading: false,
           });
         });
     } catch (error) {
-      dispatch(
-        errorHandler(STRATEGY_SESSION.postFileUploadBySubStageId, error, false)
-      );
+      dispatch(errorHandler(PROFILE_MENTORING.postFileUpload, error, false));
     }
   };
 };
@@ -104,7 +96,7 @@ export const uploadDocumentBySubStageId = (
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: PROFILE_MENTORING.loader });
       await axios
         .put(
           `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
@@ -118,46 +110,43 @@ export const uploadDocumentBySubStageId = (
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.putDocumentBySubStageId,
+            type: PROFILE_MENTORING.putDocumentBySubStageId,
             payload: response.data,
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.putDocumentBySubStageId, error, false)
+        errorHandler(PROFILE_MENTORING.putDocumentBySubStageId, error, false)
       );
     }
   };
 };
 
-export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
+export const getDownloadByDocumentId = (studentId, fileName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: PROFILE_MENTORING.loader });
       await axios
-        .get(
-          `/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
-          {
-            headers: {
-              admin: "yes",
-              Authorization: `Bearer ${accessToken}`,
-            },
-            responseType: "blob",
-          }
-        )
+        .get(`/api/v1/cv/download/cv/${studentId}/${fileName}`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "blob",
+        })
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.getDownloadByDocumentId,
+            type: PROFILE_MENTORING.getDownloadByDocumentId,
             payload: { success: true, data: response.data, fileName: fileName },
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.getDownloadByDocumentId, error, false)
+        errorHandler(PROFILE_MENTORING.getDownloadByDocumentId, error, false)
       );
     }
   };
@@ -168,7 +157,7 @@ export const deleteDocumentByDocumentId = (studentId, documentId) => {
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: PROFILE_MENTORING.loader });
       await axios
         .delete(`${URL}/api/v1/students/${studentId}/documents/${documentId}`, {
           headers: {
@@ -178,14 +167,14 @@ export const deleteDocumentByDocumentId = (studentId, documentId) => {
         })
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.deleteDocumentByDocumentId,
+            type: PROFILE_MENTORING.deleteDocumentByDocumentId,
             payload: response.data,
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.deleteDocumentByDocumentId, error, false)
+        errorHandler(PROFILE_MENTORING.deleteDocumentByDocumentId, error, false)
       );
     }
   };
