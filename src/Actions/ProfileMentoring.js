@@ -130,7 +130,7 @@ export const getDownloadByDocumentId = (studentId, fileName) => {
     try {
       dispatch({ type: PROFILE_MENTORING.loader });
       await axios
-        .get(`/api/v1/cv/download/cv/${studentId}/${fileName}`, {
+        .get(`${URL}/api/v1/cv/download/cv/${studentId}/${fileName}`, {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,

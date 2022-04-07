@@ -244,7 +244,6 @@ function Index(props) {
     if (downloadFileResponse) {
       if (downloadFileResponse.success) {
         textToDownloadFile(
-          studentId,
           downloadFileResponse.data,
           downloadFileResponse.fileName,
           downloadFileResponse.fileName.split(".").pop()
@@ -373,7 +372,7 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: false,
+      disabledUploadButton: Boolean(status),
       isDisabledFileName: false,
       ...props,
     };

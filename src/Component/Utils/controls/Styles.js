@@ -48,6 +48,7 @@ export const customTheme = createTheme({
       color: "#18AAE7",
       borderColor: "#18AAE7",
     },
+    disabled: {},
   },
 });
 

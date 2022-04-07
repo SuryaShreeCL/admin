@@ -15,7 +15,12 @@ import {
   getStepsBySubStageId,
   getStudentStageByProductId,
 } from "../../Actions/Student";
-import { useStyles } from "../../Asset/StyledComponents/Styles";
+import {
+  customTheme,
+  StyledStaticButton,
+  useStyles,
+} from "../../Asset/StyledComponents/Styles";
+import PdfViewer from "../../Utils/PdfViewer";
 import MySnackBar from "../MySnackBar";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
@@ -23,9 +28,14 @@ import Loader from "../Utils/controls/Loader";
 import {
   bytesToMegaBytes,
   getSubStageByStage,
+  isImageURL,
   textToDownloadFile,
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
+import { PopperMenu } from "./MiscellaneousPopover";
+import { ReactComponent as EmptySchool } from "../../Asset/icons/empty-school.svg";
+import { StyledButton, Typo } from "../Utils/controls/Styles";
+import moment from "moment";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -60,6 +70,11 @@ function Index(props) {
     miscellaneousSteps: [],
     schoolId: null,
     schoolType: null,
+    schoolName: null,
+    miscellaneousAnchorEl: null,
+    miscellaneousSelectedValue: null,
+    programLink: null,
+    deadline: null,
   });
 
   const {
@@ -84,6 +99,11 @@ function Index(props) {
     miscellaneousSteps,
     schoolId,
     schoolType,
+    schoolName,
+    miscellaneousAnchorEl,
+    miscellaneousSelectedValue,
+    programLink,
+    deadline,
   } = state;
   const {
     loading,
@@ -167,25 +187,54 @@ function Index(props) {
   }, [sectionId]);
 
   useEffect(() => {
+    if (schoolId) {
+      dispatch(
+        getDocumentModelBySubStageId(
+          studentId,
+          productId,
+          sectionId,
+          schoolId,
+          schoolType
+        )
+      );
+    }
+  }, [schoolId]);
+
+  useEffect(() => {
     if (schoolList) {
       if (schoolList.success) {
-        const { data } = data;
-        setState({ ...state, schoolSteps: data });
-        // dispatch(
-        //   getDocumentModelBySubStageId(
-        //     studentId,
-        //     productId,
-        //     sectionId,
-        //     schoolId,
-        //     type
-        //   )
-        // );
+        const { data } = schoolList;
+        let schoolObj = data.length !== 0 ? { ...data[0] } : null;
+        if (schoolObj) {
+          setState({
+            ...state,
+            schoolSteps: data,
+            schoolId: schoolObj.id,
+            schoolType: schoolObj.type,
+            schoolName: schoolObj.name,
+          });
+          dispatch(
+            getDocumentModelBySubStageId(
+              studentId,
+              productId,
+              sectionId,
+              schoolObj.id,
+              schoolObj.type
+            )
+          );
+        } else {
+          setState({ ...state, schoolSteps: [] });
+        }
       } else {
         setState({
           ...state,
           snackOpen: true,
           snackVariant: "error",
           snackMsg: schoolList.message,
+          schoolSteps: [],
+          schoolId: null,
+          schoolType: null,
+          schoolName: null,
         });
       }
       dispatch(clearCustomData("schoolList"));
@@ -195,7 +244,7 @@ function Index(props) {
   useEffect(() => {
     if (miscellaneousList) {
       if (miscellaneousList.success) {
-        const { data } = data;
+        const { data } = miscellaneousList;
         setState({ ...state, miscellaneousSteps: data });
       } else {
         setState({
@@ -218,6 +267,14 @@ function Index(props) {
           upcomingFileName: data.fileName,
           status: data.stepStatus,
           documentList: data.content || [],
+          deadline:
+            data.content.length !== 0
+              ? data.content[0]["schoolDetails"]["deadline"]
+              : null,
+          programLink:
+            data.content.length !== 0
+              ? data.content[0]["schoolDetails"]["programLink"]
+              : null,
         });
       } else {
         setState({
@@ -282,15 +339,15 @@ function Index(props) {
           commentHelperText: "",
           open: false,
         });
-        // dispatch(
-        //   getDocumentModelBySubStageId(
-        //     studentId,
-        //     productId,
-        //     sectionId,
-        //     schoolId,
-        //     type
-        //   )
-        // );
+        dispatch(
+          getDocumentModelBySubStageId(
+            studentId,
+            productId,
+            sectionId,
+            schoolId,
+            schoolType
+          )
+        );
       } else {
         setState({
           ...state,
@@ -307,7 +364,6 @@ function Index(props) {
     if (downloadFileResponse) {
       if (downloadFileResponse.success) {
         textToDownloadFile(
-          studentId,
           downloadFileResponse.data,
           downloadFileResponse.fileName,
           downloadFileResponse.fileName.split(".").pop()
@@ -369,6 +425,7 @@ function Index(props) {
           productId,
           sectionId,
           schoolId,
+          schoolType,
           uploadFormData
         )
       );
@@ -427,7 +484,7 @@ function Index(props) {
   const renderComponent = () => {
     const renderProps = {
       open: open,
-      stepName: activeTabValue,
+      stepName: schoolName,
       handleCancel: handleCancel,
       handleUpload: handleUpload,
       handleUploadClick: handleUploadClick,
@@ -442,17 +499,72 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: false,
       isDisabledFileName: false,
       ...props,
     };
-    return <DocumentComponent {...renderProps} />;
+    if (miscellaneousSelectedValue) {
+      let arr = miscellaneousSteps.filter(
+        ({ name }) => name === miscellaneousSelectedValue
+      );
+      let newUrl = arr.length !== 0 ? arr[0]["url"] : null;
+
+      if (isImageURL(newUrl)) {
+        return (
+          <Box height={"100vh"} overflow={"auto"}>
+            <img
+              width={"100%"}
+              src={newUrl}
+              className={classes.fullImageStyle}
+              alt={"Not Supported"}
+            />
+          </Box>
+        );
+      } else {
+        return (
+          <Box>
+            <PdfViewer cvUrl={newUrl} />
+          </Box>
+        );
+      }
+    } else
+      return schoolSteps.length === 0 ? (
+        <Box
+          margin={"150px 0px"}
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"center"}
+        >
+          <EmptySchool />
+          <Typo padding={"10px 0px"} variant={"h6"}>
+            {"No School added"}
+          </Typo>
+        </Box>
+      ) : (
+        <DocumentComponent {...renderProps} />
+      );
   };
 
   const handleTabChange = (e, newValue) => {
     let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
-    setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    setState({
+      ...state,
+      activeTabValue: newValue,
+      sectionId: newSectionId,
+      miscellaneousSelectedValue: null,
+    });
+  };
+
+  const handleSchoolTabChange = (e, newValue) => {
+    let arr = schoolSteps.filter(({ id }) => id === newValue);
+    let newSchoolType = arr.length !== 0 ? arr[0]["type"] : null;
+    let newSchoolName = arr.length !== 0 ? arr[0]["name"] : null;
+    setState({
+      ...state,
+      schoolId: newValue,
+      schoolType: newSchoolType,
+      schoolName: newSchoolName,
+    });
   };
 
   const renderTabs = () => {
@@ -468,14 +580,56 @@ function Index(props) {
       : null;
   };
 
+  const renderSchoolTab = () => {
+    return schoolSteps.length !== 0
+      ? schoolSteps.map(({ name, id }, index) => (
+          <CustomTab
+            value={id}
+            label={name}
+            id={`${id}${index}`}
+            minHeight={"32px"}
+            style={{ fontSize: "18px" }}
+          />
+        ))
+      : null;
+  };
+
   const handleSnackClose = () => {
     setState({ ...state, snackOpen: false, snackVariant: "", snackMsg: "" });
   };
 
   const handleClickAway = () => {
-    setState({ ...state, anchorEl: null, popoverComment: null });
+    setState({
+      ...state,
+      anchorEl: null,
+      popoverComment: null,
+      miscellaneousAnchorEl: null,
+    });
   };
 
+  const handleMiscellaneous = (e) => {
+    setState({ ...state, miscellaneousAnchorEl: e.currentTarget });
+  };
+
+  const handleListItemClick = (val) => {
+    setState({
+      ...state,
+      miscellaneousSelectedValue: val,
+      activeTabValue: null,
+      miscellaneousAnchorEl: null,
+    });
+  };
+
+  const popperMenuProps = {
+    anchorEl: miscellaneousAnchorEl,
+    handleClickAway: handleClickAway,
+    placement: "bottom-end",
+    lists: miscellaneousSteps,
+    handleListItemClick: handleListItemClick,
+    selectedValue: miscellaneousSelectedValue,
+  };
+
+  const isMiscellaneous = Boolean(miscellaneousSelectedValue);
   return (
     <div className={classes.stageBoxLayoutStyle}>
       <Grid container>
@@ -486,13 +640,89 @@ function Index(props) {
                 {renderTabs()}
               </CustomTabs>
             </Box>
+            <StyledStaticButton
+              active={isMiscellaneous}
+              color={"primary"}
+              onClick={handleMiscellaneous}
+              disabled={miscellaneousSteps.length === 0}
+            >
+              {"Miscellaneous / Handouts"}
+            </StyledStaticButton>
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>
         <Grid item lg={12}>
+          {schoolSteps.length !== 0 && !isMiscellaneous && (
+            <Box>
+              <Box margin={"30px 15px 0px 15px"}>
+                <CustomTabs
+                  indicatorColor={"primary"}
+                  value={schoolId}
+                  variant={"scrollable"}
+                  onChange={handleSchoolTabChange}
+                  TabIndicatorProps={{
+                    style: {
+                      backgroundColor: "#18AAE7",
+                      height: "3px",
+                    },
+                  }}
+                >
+                  {renderSchoolTab()}
+                </CustomTabs>
+              </Box>
+              <Box
+                display={"flex"}
+                alignItems={"center"}
+                margin={"36px 20px 0px 30px"}
+              >
+                <Box flex={1}>
+                  <Typo color={"#999999"}>
+                    <Box marginRight={"8px"} component={"span"}>
+                      {"Program Link:"}
+                    </Box>
+                    <Typo color={"#004CFE"} component={"span"} fontWeight={500}>
+                      {programLink ? (
+                        <a href={programLink}>{"Program Link"}</a>
+                      ) : (
+                        "NA"
+                      )}
+                    </Typo>
+                    <Box margin={"0px 15px 0px 40px"} component={"span"}>
+                      {"Deadline:"}
+                    </Box>
+                    <Typo component={"span"} fontWeight={500} color={"#333333"}>
+                      {deadline ? (
+                        <u>
+                          {moment(new Date(deadline)).format("DD MMMM YYYY")}
+                        </u>
+                      ) : (
+                        "NA"
+                      )}
+                    </Typo>
+                  </Typo>
+                </Box>
+                <Box>
+                  <StyledButton
+                    variant={"contained"}
+                    style={
+                      customTheme["palette"][
+                        Boolean(status) ? "disabled" : "contained"
+                      ]
+                    }
+                    onClick={handleUploadClick}
+                    // disabled={Boolean(status)}
+                  >
+                    {"Upload"}
+                  </StyledButton>
+                </Box>
+              </Box>
+            </Box>
+          )}
+
           {renderComponent()}
         </Grid>
       </Grid>
+      <PopperMenu {...popperMenuProps} />
       <CommentBoxPopper
         handleClickAway={handleClickAway}
         anchorEl={anchorEl}

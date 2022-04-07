@@ -23,7 +23,7 @@ export const getDocumentModelBySubStageId = (
   productId,
   subStageId,
   schoolId,
-  type
+  schoolType
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -40,7 +40,7 @@ export const getDocumentModelBySubStageId = (
             },
             params: {
               schoolId: schoolId,
-              type: type,
+              type: schoolType,
             },
           }
         )
@@ -68,6 +68,7 @@ export const uploadFileBySubStageId = (
   productId,
   subStageId,
   schoolId,
+  schoolType,
   data
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
@@ -85,7 +86,7 @@ export const uploadFileBySubStageId = (
               Authorization: `Bearer ${accessToken}`,
             },
             params: {
-              type: "grad",
+              type: schoolType,
             },
           }
         )
@@ -149,7 +150,7 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
+          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
           {
             headers: {
               admin: "yes",
@@ -181,7 +182,7 @@ export const getSchoolList = (studentId, productId, subStagesId) => {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/schoolList`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/schoolList`,
           {
             headers: {
               admin: "yes",
@@ -210,7 +211,7 @@ export const getMiscellaneousList = (studentId, productId, subStagesId) => {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/miscellaneous`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/miscellaneous`,
           {
             headers: {
               admin: "yes",

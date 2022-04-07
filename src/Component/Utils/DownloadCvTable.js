@@ -37,7 +37,7 @@ function DownloadCvTable({
               index
             ) => (
               <tr id={`row${index}`}>
-                <td>{versionName}</td>
+                <td>{versionName || "NA"}</td>
                 <td>
                   {uploadedDate
                     ? moment(new Date(uploadedDate)).format("DD MMMM YYYY")
@@ -74,7 +74,11 @@ function DownloadCvTable({
                     <StyledButton
                       height={"25px"}
                       variant={"outlined"}
-                      style={customTheme.palette.outlined}
+                      style={
+                        customTheme["palette"][
+                          Boolean(!path) ? "disabled" : "outlined"
+                        ]
+                      }
                       onClick={(e) => handleDownload(path, e)}
                       disabled={Boolean(!path)}
                     >

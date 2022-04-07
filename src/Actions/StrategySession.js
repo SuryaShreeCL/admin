@@ -139,7 +139,7 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
         .get(
-          `/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
+          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
           {
             headers: {
               admin: "yes",

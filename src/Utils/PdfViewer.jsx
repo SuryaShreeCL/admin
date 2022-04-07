@@ -12,39 +12,35 @@ import "@react-pdf-viewer/zoom/lib/styles/index.css";
 import SamplePdf from "../Asset/Images/samplePdf.pdf";
 import { makeStyles } from "@material-ui/core";
 function PdfViewer(props) {
-  const useStyles = makeStyles((theme)=>({
-    pdfWrapper : {
+  const useStyles = makeStyles((theme) => ({
+    pdfWrapper: {
       border: "1px solid rgba(0, 0, 0, 0.3)",
       display: "flex",
       flexDirection: "column",
       height: "82vh",
-      [theme.breakpoints.down("lg")] : {
+      [theme.breakpoints.down("lg")]: {
         height: "106vh",
-      }
+      },
     },
-    pdfViewer : {
+    pdfViewer: {
       alignItems: "center",
       backgroundColor: "#eeeeee",
       borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
       display: "flex",
       justifyContent: "center",
       padding: "4px",
-    }
-  }))
-  const classes = useStyles()
+    },
+  }));
+  const classes = useStyles();
   const zoomPluginInstance = zoomPlugin();
   const selectionModePluginInstance = selectionModePlugin();
   const { SwitchSelectionModeButton } = selectionModePluginInstance;
 
   const { ZoomInButton, ZoomOutButton, ZoomPopover } = zoomPluginInstance;
   return (
-    <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js">
-      <div
-        className={classes.pdfWrapper}
-      >
-        <div
-          className={classes.pdfViewer}
-        >
+    <Worker workerUrl='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js'>
+      <div className={classes.pdfWrapper}>
+        <div className={classes.pdfViewer}>
           <ZoomOutButton />
           <ZoomPopover />
           <ZoomInButton />
@@ -58,7 +54,6 @@ function PdfViewer(props) {
         >
           <Viewer
             {...props}
-            
             fileUrl={
               // SamplePdf
               props.cvUrl ? props.cvUrl : SamplePdf
