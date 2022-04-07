@@ -597,6 +597,12 @@ export const CV_REVIEW = {
   clearCustomData: "cvClearCustomData",
 };
 
+export const USERMANAGEMENT = {
+  getUserDepartment: "getUserDepartment",
+  getUserDetails: "getUserDetails",
+  editAdmin: "editAdmin",
+};
+
 export const STRATEGY_SESSION = {
   loader: "strategySessionLoader",
   clearData: "strategySessionClearData",
@@ -627,5 +633,6 @@ export const APPLICATION_STAGE = {
   postFileUploadBySubStageId: "postApplicationStageFileUploadBySubStageId",
   putDocumentBySubStageId: "putApplicationStageDocumentBySubStageId",
   getDownloadByDocumentId: "getApplicationStageDownloadByDocumentId",
-  deleteDocumentByDocumentId: "deleteApplicationStageDocumentByDocumentId",
+  getSchoolList: "getApplicationStageSchoolList",
+  getMiscellaneousList: "getApplicationStageMiscellaneousList",
 };

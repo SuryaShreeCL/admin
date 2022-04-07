@@ -88,11 +88,17 @@ export const getSubStageByStage = (stageArr, stageName, subStageName) => {
 export const bytesToMegaBytes = (bytes) => (bytes ? bytes / 1024 ** 2 : 0);
 
 export const textToDownloadFile = (text, fileName, format) => {
+  let existType = fileName.split(".").pop() === format;
+  let newPath = existType ? fileName : `${fileName}.${format || "docx"}`;
   const downloadUrl = window.URL.createObjectURL(new Blob([text]));
   const link = document.createElement("a");
   link.href = downloadUrl;
-  link.setAttribute("download", `${fileName}.${format || "docx"}`);
+  link.setAttribute("download", newPath);
   document.body.appendChild(link);
   link.click();
   link.remove();
+};
+
+export const isImageURL = (url) => {
+  return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 };

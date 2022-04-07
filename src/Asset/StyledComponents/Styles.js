@@ -1,4 +1,10 @@
-import { Button, createTheme, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  createTheme,
+  List,
+  ListItem,
+  makeStyles,
+} from "@material-ui/core";
 import styled from "styled-components";
 
 export const useStyles = makeStyles((theme) => ({
@@ -13,6 +19,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   iconButtonStyle: {
     padding: "2px !important",
+  },
+  backdrop: {
+    zIndex: theme.zIndex.modal + 1,
+    background: "none",
   },
 }));
 
@@ -29,11 +39,11 @@ export const customTheme = createTheme({
       color: "#18AAE7",
       borderColor: "#18AAE7",
     },
-
     delete: {
       color: "#FD413C",
       borderColor: "#FD413C",
     },
+    disabled: {},
   },
 });
 
@@ -121,4 +131,29 @@ export const StyledCustomStaticTable = styled.table`
     overflow: hidden;
     align-items: center;
   }
+`;
+
+export const StyledList = styled(List)`
+  padding: 0;
+  display: grid;
+  gap: 6px;
+`;
+
+export const StyledListItem = styled(ListItem)`
+  padding: 12px 16px;
+  border-radius: 4px;
+
+  &.MuiListItem-root.Mui-selected {
+    background-color: rgb(24, 170, 231);
+    color: #ffffff;
+  }
+`;
+
+export const StyledMenuPaper = styled.div`
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(24, 170, 231, 0.3);
+  background: #ffffff;
+  right: 3px;
+  position: relative;
 `;

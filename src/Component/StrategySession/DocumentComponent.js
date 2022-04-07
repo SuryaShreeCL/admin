@@ -34,7 +34,11 @@ function DocumentComponent({
           <Box textAlign={"right"}>
             <StyledButton
               variant={"contained"}
-              style={customTheme.palette.contained}
+              style={
+                customTheme["palette"][
+                  disabledUploadButton ? "disabled" : "contained"
+                ]
+              }
               onClick={handleUploadClick}
               disabled={disabledUploadButton}
             >

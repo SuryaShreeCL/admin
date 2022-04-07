@@ -8,6 +8,7 @@ function CustomTabs({
   textColor,
   onChange,
   variant,
+  TabIndicatorProps,
   children,
   ...props
 }) {
@@ -18,6 +19,7 @@ function CustomTabs({
       textColor={textColor ? textColor : "primary"}
       onChange={onChange}
       variant={variant ? variant : "standard"}
+      TabIndicatorProps={TabIndicatorProps}
       {...props}
     >
       {children}

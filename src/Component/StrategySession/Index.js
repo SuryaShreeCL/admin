@@ -14,6 +14,8 @@ import {
   getStudentStageByProductId,
 } from "../../Actions/Student";
 import MySnackBar from "../MySnackBar";
+import GraduateTestResult from "../ObCallSummary/graduateTestResult";
+import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
 import {
@@ -23,7 +25,6 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { useStyles } from "./Styles";
-import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -72,6 +73,8 @@ function Index(props) {
     snackVariant,
     upcomingFileName,
     status,
+    anchorEl,
+    popoverComment,
   } = state;
   const {
     loading,
@@ -167,6 +170,9 @@ function Index(props) {
           snackOpen: true,
           snackVariant: "error",
           snackMsg: documentModel.message,
+          documentList: [],
+          status: null,
+          upcomingFileName: null,
         });
       }
       dispatch(clearCustomData("documentModel"));
@@ -238,7 +244,6 @@ function Index(props) {
     if (downloadFileResponse) {
       if (downloadFileResponse.success) {
         textToDownloadFile(
-          studentId,
           downloadFileResponse.data,
           downloadFileResponse.fileName,
           downloadFileResponse.fileName.split(".").pop()
@@ -367,7 +372,7 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: false,
+      disabledUploadButton: Boolean(status),
       isDisabledFileName: false,
       ...props,
     };
@@ -380,7 +385,7 @@ function Index(props) {
   };
 
   const handleTabChange = (e, newValue) => {
-    let arr = steps.filter(({ stepName }) => stepName === newValue);
+    let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
     setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
   };
@@ -402,6 +407,10 @@ function Index(props) {
     setState({ ...state, snackOpen: false, snackVariant: "", snackMsg: "" });
   };
 
+  const handleClickAway = () => {
+    setState({ ...state, anchorEl: null, popoverComment: null });
+  };
+
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
       <Grid container>
@@ -419,6 +428,11 @@ function Index(props) {
           {renderComponent()}
         </Grid>
       </Grid>
+      <CommentBoxPopper
+        handleClickAway={handleClickAway}
+        anchorEl={anchorEl}
+        popperComment={popoverComment}
+      />
       <MySnackBar
         onClose={handleSnackClose}
         snackOpen={snackOpen}

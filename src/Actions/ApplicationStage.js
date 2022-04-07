@@ -1,18 +1,18 @@
 import axios from "axios";
 import { errorHandler } from "../Component/Utils/Helpers";
-import { STRATEGY_SESSION } from "../Redux/Action";
+import { APPLICATION_STAGE } from "../Redux/Action";
 import { URL } from "./URL";
 
 export const clearData = () => {
   return (dispatch) => {
-    dispatch({ type: STRATEGY_SESSION.clearData });
+    dispatch({ type: APPLICATION_STAGE.clearData });
   };
 };
 
 export const clearCustomData = (fieldName) => {
   return (dispatch) => {
     dispatch({
-      type: STRATEGY_SESSION.clearCustomData,
+      type: APPLICATION_STAGE.clearCustomData,
       fieldName: fieldName,
     });
   };
@@ -21,26 +21,32 @@ export const clearCustomData = (fieldName) => {
 export const getDocumentModelBySubStageId = (
   studentId,
   productId,
-  subStageId
+  subStageId,
+  schoolId,
+  schoolType
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/applicationStage`,
           {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
+            params: {
+              schoolId: schoolId,
+              type: schoolType,
+            },
           }
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.getDocumentModelBySubStageId,
+            type: APPLICATION_STAGE.getDocumentModelBySubStageId,
             payload: response.data,
             loading: false,
           });
@@ -48,7 +54,7 @@ export const getDocumentModelBySubStageId = (
     } catch (error) {
       dispatch(
         errorHandler(
-          STRATEGY_SESSION.getDocumentModelBySubStageId,
+          APPLICATION_STAGE.getDocumentModelBySubStageId,
           error,
           false
         )
@@ -61,34 +67,39 @@ export const uploadFileBySubStageId = (
   studentId,
   productId,
   subStageId,
+  schoolId,
+  schoolType,
   data
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .post(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUpload`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/${schoolId}/fileUpload`,
           data,
           {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
+            params: {
+              type: schoolType,
+            },
           }
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.postFileUploadBySubStageId,
+            type: APPLICATION_STAGE.postFileUploadBySubStageId,
             payload: response.data,
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.postFileUploadBySubStageId, error, false)
+        errorHandler(APPLICATION_STAGE.postFileUploadBySubStageId, error, false)
       );
     }
   };
@@ -104,7 +115,7 @@ export const uploadDocumentBySubStageId = (
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .put(
           `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
@@ -118,14 +129,14 @@ export const uploadDocumentBySubStageId = (
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.putDocumentBySubStageId,
+            type: APPLICATION_STAGE.putDocumentBySubStageId,
             payload: response.data,
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.putDocumentBySubStageId, error, false)
+        errorHandler(APPLICATION_STAGE.putDocumentBySubStageId, error, false)
       );
     }
   };
@@ -136,7 +147,7 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
           `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
@@ -150,42 +161,74 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
         )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.getDownloadByDocumentId,
+            type: APPLICATION_STAGE.getDownloadByDocumentId,
             payload: { success: true, data: response.data, fileName: fileName },
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.getDownloadByDocumentId, error, false)
+        errorHandler(APPLICATION_STAGE.getDownloadByDocumentId, error, false)
       );
     }
   };
 };
 
-export const deleteDocumentByDocumentId = (studentId, documentId) => {
+export const getSchoolList = (studentId, productId, subStagesId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
-      dispatch({ type: STRATEGY_SESSION.loader });
+      dispatch({ type: APPLICATION_STAGE.loader });
       await axios
-        .delete(`${URL}/api/v1/students/${studentId}/documents/${documentId}`, {
-          headers: {
-            admin: "yes",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        .get(
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/schoolList`,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
         .then((response) => {
           dispatch({
-            type: STRATEGY_SESSION.deleteDocumentByDocumentId,
+            type: APPLICATION_STAGE.getSchoolList,
+            payload: response.data,
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(APPLICATION_STAGE.getSchoolList, error, false));
+    }
+  };
+};
+
+export const getMiscellaneousList = (studentId, productId, subStagesId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: APPLICATION_STAGE.loader });
+      await axios
+        .get(
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStagesId}/miscellaneous`,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          dispatch({
+            type: APPLICATION_STAGE.getMiscellaneousList,
             payload: response.data,
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.deleteDocumentByDocumentId, error, false)
+        errorHandler(APPLICATION_STAGE.getMiscellaneousList, error, false)
       );
     }
   };
