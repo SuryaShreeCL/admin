@@ -6,7 +6,8 @@ const initialState = {
   fileUploadStatus: null,
   documentUpdateStatus: null,
   downloadFileResponse: null,
-  fileDeleteStatus: null,
+  schoolList: null,
+  miscellaneousList: null,
 };
 
 const ApplicationStageReducer = (state = initialState, action) => {
@@ -44,10 +45,16 @@ const ApplicationStageReducer = (state = initialState, action) => {
         downloadFileResponse: action.payload,
         loading: action.loading,
       };
-    case APPLICATION_STAGE.deleteDocumentByDocumentId:
+    case APPLICATION_STAGE.getSchoolList:
       return {
         ...state,
-        fileDeleteStatus: action.payload,
+        schoolList: action.payload,
+        loading: action.loading,
+      };
+    case APPLICATION_STAGE.getMiscellaneousList:
+      return {
+        ...state,
+        miscellaneousList: action.payload,
         loading: action.loading,
       };
     default:

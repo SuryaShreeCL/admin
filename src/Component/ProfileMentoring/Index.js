@@ -13,6 +13,7 @@ import {
   getStudentStageByProductId,
 } from "../../Actions/Student";
 import MySnackBar from "../MySnackBar";
+import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
 import {
@@ -70,13 +71,15 @@ function Index(props) {
     snackVariant,
     upcomingFileName,
     status,
+    anchorEl,
+    popoverComment,
   } = state;
   const {
     loading,
     documentModel,
     fileUploadStatus,
     downloadFileResponse,
-  } = useSelector((state) => state.StrategySessionReducer);
+  } = useSelector((state) => state.ProfileMentoringReducer);
 
   const { studentStages, subStageSteps } = useSelector(
     (state) => state.StudentReducer
@@ -164,6 +167,9 @@ function Index(props) {
           snackOpen: true,
           snackVariant: "error",
           snackMsg: documentModel.message,
+          upcomingFileName: null,
+          status: null,
+          documentList: [],
         });
       }
       dispatch(clearCustomData("documentModel"));
@@ -185,7 +191,7 @@ function Index(props) {
           commentHelperText: "",
           open: false,
         });
-        dispatch(getStudentStageByProductId(studentId, productId));
+        dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
       } else {
         setState({
           ...state,
@@ -334,7 +340,7 @@ function Index(props) {
   };
 
   const handleTabChange = (e, newValue) => {
-    let arr = steps.filter(({ stepName }) => stepName === newValue);
+    let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
     setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
   };
@@ -356,6 +362,10 @@ function Index(props) {
     setState({ ...state, snackOpen: false, snackVariant: "", snackMsg: "" });
   };
 
+  const handleClickAway = () => {
+    setState({ ...state, anchorEl: null, popoverComment: null });
+  };
+
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
       <Grid container>
@@ -373,6 +383,11 @@ function Index(props) {
           {renderComponent()}
         </Grid>
       </Grid>
+      <CommentBoxPopper
+        anchorEl={anchorEl}
+        handleClickAway={handleClickAway}
+        popperComment={popoverComment}
+      />
       <MySnackBar
         onClose={handleSnackClose}
         snackOpen={snackOpen}

@@ -633,5 +633,6 @@ export const APPLICATION_STAGE = {
   postFileUploadBySubStageId: "postApplicationStageFileUploadBySubStageId",
   putDocumentBySubStageId: "putApplicationStageDocumentBySubStageId",
   getDownloadByDocumentId: "getApplicationStageDownloadByDocumentId",
-  deleteDocumentByDocumentId: "deleteApplicationStageDocumentByDocumentId",
+  getSchoolList: "getApplicationStageSchoolList",
+  getMiscellaneousList: "getApplicationStageMiscellaneousList",
 };

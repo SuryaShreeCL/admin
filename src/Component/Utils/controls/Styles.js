@@ -27,6 +27,12 @@ export const useStyles = makeStyles((theme) => ({
     gap: "15px",
     borderTop: "1px solid #E6E6E6 !important",
   },
+  popperContent: {
+    paddingTop: "10px !important",
+  },
+  popperContentStyle: {
+    maxHeight: "220px !important",
+  },
 }));
 
 export const customTheme = createTheme({
@@ -91,4 +97,49 @@ export const StyledTab = styled(Tab)`
   min-width: ${({ minWidth }) => minWidth};
   min-height: ${({ minHeight }) => minHeight};
   max-width: unset;
+`;
+
+export const Paper = styled.div`
+  width: 440px;
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e7e7e7;
+  padding: 20px 15px;
+  top: 5px;
+  left: 4px;
+  border-radius: 4px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -21px;
+    z-index: 1;
+    border: solid 10px transparent;
+    border-bottom-color: #e7e7e7;
+    left: 8px;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: -19px;
+    z-index: 1;
+    border: solid 10px transparent;
+    border-bottom-color: #ffffff;
+    left: 8px;
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+export const ContentWrapper = styled.div`
+  flex-grow: 1;
+  overflow-y: scroll;
+  padding: ${(props) => props.padding};
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
