@@ -190,3 +190,269 @@ export const deleteDocumentByDocumentId = (studentId, documentId) => {
     }
   };
 };
+
+export const fileUpload = (studentId, gatType, gatInfoId, data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .post(
+          `${URL}/api/v1/files/fileupload/students/${studentId}/${gatType}/${gatInfoId}`,
+          data,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.uploadFile,
+            payload: { ...result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.uploadFile, error, false));
+    }
+  };
+};
+
+export const updateIeltsData = (studentId, data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .put(
+          `${URL}/api/v1/students/${studentId}/testTranscripts/ielts`,
+          data,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.updateIeltsData,
+            payload: {
+              ...result.data,
+              success: result.data?.length !== 0,
+              message:
+                result.data?.length === 0 ? "Attempt already exists" : "",
+            },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.updateIeltsData, error, false));
+    }
+  };
+};
+
+export const getIeltsData = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`${URL}/api/v1/students/${studentId}/testTranscripts/ielts`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            exam: "ielts",
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.getIeltsData,
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getIeltsData, error, false));
+    }
+  };
+};
+
+export const updateToeflData = (studentId, data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .put(
+          `${URL}/api/v1/students/${studentId}/testTranscripts/toefl`,
+          data,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.updateToeflData,
+            payload: {
+              ...result.data,
+              success: result.data?.length !== 0,
+              message:
+                result.data?.length === 0 ? "Attempt already exists" : "",
+            },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.updateToeflData, error, false));
+    }
+  };
+};
+
+export const getToeflData = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`${URL}/api/v1/students/${studentId}/testTranscripts/toefl`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.getToeflData,
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getToeflData, error, false));
+    }
+  };
+};
+
+export const updateGmatData = (studentId, data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .put(`${URL}/api/v1/students/${studentId}/testTranscripts/gmat`, data, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.updateGmatData,
+            payload: {
+              ...result.data,
+              success: result.data?.length !== 0,
+              message:
+                result.data?.length === 0 ? "Attempt already exists" : "",
+            },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.updateGmatData, error, false));
+    }
+  };
+};
+
+export const getGmatData = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`/api/v1/students/${studentId}/testTranscripts/gmat`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.getGmatData,
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getGmatData, error, false));
+    }
+  };
+};
+
+export const updateGreData = (studentId, data) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .put(`${URL}/api/v1/students/${studentId}/testTranscripts/gre`, data, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.updateGreData,
+            payload: {
+              ...result.data,
+              success: result.data?.length !== 0,
+              message:
+                result.data?.length === 0 ? "Attempt already exists" : "",
+            },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.updateGreData, error, false));
+    }
+  };
+};
+
+export const getGreData = (studentId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`${URL}/api/v1/students/${studentId}/testTranscripts/gre`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.getGreData,
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getGreData, error, false));
+    }
+  };
+};

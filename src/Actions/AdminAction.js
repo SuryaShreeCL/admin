@@ -460,6 +460,46 @@ export const getStudentByStages = (
   };
 };
 
+// To get manage student by stages
+
+export const getManageStudentByStages = (
+  productId,
+  stageName,
+  size,
+  page,
+  intake,
+  keyword
+) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  let adminId = window.sessionStorage.getItem("adminUserId");
+  return (dispatch) => {
+    dispatch({ type: ADMIN.loader });
+    axios
+      .get(`${URL}/api/v1/product/${productId}/admin/${adminId}/section`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          stage: stageName,
+          size: size,
+          page: page,
+          intake: intake ? intake : "",
+          q: keyword ? keyword : "",
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: ADMIN.getManageStudentsByStages,
+          payload: { success: true, data: result.data, loading: false },
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(ADMIN.getManageStudentsByStages, error, false));
+      });
+  };
+};
+
 // To get all admin users
 
 export const getAllAdminUsers = () => {
