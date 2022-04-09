@@ -340,10 +340,12 @@ function RootContainer(props) {
       props.adminLinkedProductDetails.department === "Acsoperations" ||
       props.adminLinkedProductDetails.department === "mentor"
     ) {
-      const { getProductByFamilyIdList } = props;
+      const {
+        adminLinkedProductDetails: { products: productList },
+      } = props;
       let myArr = [];
-      if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
-        getProductByFamilyIdList.map((eachItem) => {
+      if (productList && productList.length !== 0) {
+        productList.map((eachItem) => {
           if (eachItem.isProduct) {
             myArr.push({
               title: eachItem.shortName,
