@@ -90,6 +90,37 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  documentCardLayout: {
+    height: "80px",
+    maxWidth: "330px",
+    width: "100%",
+    boxShadow: " 0px 8px 7px rgba(183, 222, 255, 0.5)",
+    borderRadius: 8,
+    display: "flex",
+    flexDirection: "row",
+    cursor: "pointer",
+  },
+  documentCardWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    padding: "10px",
+  },
+  documentContent: {
+    fontStyle: "Montserrat",
+    fontWeight: "400",
+    fontStyle: "normal",
+    fontSize: "14px",
+    color: "#052A4E",
+    marginTop: "10px",
+  },
+  documentDateTextStyle: {
+    fontStyle: "Montserrat",
+    fontWeight: "400",
+    fontStyle: "normal",
+    fontSize: "14px",
+    color: "#686868",
+  },
 }));
 
 export const theme = createMuiTheme({

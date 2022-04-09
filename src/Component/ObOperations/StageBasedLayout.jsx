@@ -614,7 +614,7 @@ class StageBasedLayout extends Component {
                   <ThemedTab
                     key={index}
                     label={item.stepName}
-                    disabled={item.disabled}
+                    // disabled={item.disabled}
                     icon={
                       item.disabled ? (
                         <LockIcon className={"icon_style"} />
@@ -718,7 +718,7 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        disabled={item.disabled}
+                        // disabled={item.disabled}
                         icon={
                           item.disabled ? (
                             <LockIcon className={"icon_style"} />

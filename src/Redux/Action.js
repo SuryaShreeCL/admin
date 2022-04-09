@@ -622,6 +622,10 @@ export const STRATEGY_SESSION = {
   updateToeflData: "updateTestTranscriptsToeflData",
   getIeltsData: "getTestTranscriptsIeltsData",
   updateIeltsData: "updateTestTranscriptsIeltsData",
+  getGreExpectedDate: "getTestTranscriptsGreExpectedDate",
+  getGmatExpectedDate: "getTestTranscriptsGmatExpectedDate",
+  getIeltsExpectedDate: "getTestTranscriptsIeltsExpectedDate",
+  getToelfExpectedDate: "getTestTranscriptsToelfExpectedDate",
 };
 
 export const PROFILE_MENTORING = {

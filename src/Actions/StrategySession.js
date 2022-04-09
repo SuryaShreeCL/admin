@@ -456,3 +456,62 @@ export const getGreData = (studentId) => {
     }
   };
 };
+
+export const getExpectedDate = (type, id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  const types = {
+    gre: STRATEGY_SESSION.getGreExpectedDate,
+    gmat: STRATEGY_SESSION.getGmatExpectedDate,
+    tofel: STRATEGY_SESSION.getToelfExpectedDate,
+    toefl: STRATEGY_SESSION.getToelfExpectedDate,
+  };
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`${URL}/api/v1/${type}/${id}`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: types[type],
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(types[type], error, false));
+    }
+  };
+};
+
+export const getIeltsExpectedDate = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      dispatch({ type: STRATEGY_SESSION.loader });
+      await axios
+        .get(`${URL}/api/v1/students/${id}/testComplete/graduate/ielts`, {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((result) => {
+          dispatch({
+            type: STRATEGY_SESSION.getIeltsExpectedDate,
+            payload: { data: result.data, success: true },
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(
+        errorHandler(STRATEGY_SESSION.getIeltsExpectedDate, error, false)
+      );
+    }
+  };
+};

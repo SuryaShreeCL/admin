@@ -2,32 +2,30 @@ import DateFnsUtils from "@date-io/date-fns";
 import { Box, Dialog, ThemeProvider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { downloadGAT } from "../../../Actions/Calldetails";
 import {
   clearCustomData,
   fileUpload,
+  getExpectedDate,
   getGmatData,
   getGreData,
   getIeltsData,
+  getIeltsExpectedDate,
   getToeflData,
   updateGmatData,
   updateGreData,
   updateIeltsData,
   updateToeflData,
 } from "../../../Actions/StrategySession";
-import {
-  getexpecteddate,
-  getieltsexam,
-  getStudentsById,
-} from "../../../Actions/Student";
+import { getDocumentList, getStudentsById } from "../../../Actions/Student";
 import { URL } from "../../../Actions/URL";
 import Mysnack from "../../MySnackBar";
-import DoccumentCard from "../../Utils/DoccumentCard";
 import ExamDateCard from "../../Utils/ExamDateCard";
 import Model from "../../Utils/SectionModel";
+import { DocumentListCard } from "./DocumentCardComponent";
 import { GmatDialogContent } from "./GmatDialogContent";
 import { GreDialogContent } from "./GreDialogContent";
 import { IeltsDialogContent } from "./IeltsDialogContent";
@@ -142,7 +140,7 @@ function Index(props) {
     gmatScoreList,
   } = state;
 
-  const { StudentList, getDocumentList } = useSelector(
+  const { StudentList, getDocumentList: documentList } = useSelector(
     (state) => state.StudentReducer
   );
   const {
@@ -155,6 +153,10 @@ function Index(props) {
     ieltsList,
     updateToelfResponse,
     toelfList,
+    greExpectedDate,
+    gmatExpectedDate,
+    toelfExpectedDate,
+    ieltsExpectedDate,
   } = useSelector((state) => state.StrategySessionReducer);
 
   useEffect(() => {
@@ -162,48 +164,12 @@ function Index(props) {
     dispatch(getGmatData(studentId));
     dispatch(getToeflData(studentId));
     dispatch(getIeltsData(studentId));
-
     dispatch(getStudentsById(studentId));
-    dispatch(
-      getexpecteddate("gre", studentId, (response) => {
-        if (response.status === 200) {
-          setState({
-            ...state,
-            greDateList: response.data,
-          });
-        }
-      })
-    );
-    dispatch(
-      getexpecteddate("gmat", studentId, (response) => {
-        if (response.status === 200) {
-          setState({
-            ...state,
-            gmatDateList: response.data,
-          });
-        }
-      })
-    );
-    dispatch(
-      getexpecteddate("tofel", studentId, (response) => {
-        if (response.status === 200) {
-          setState({
-            ...state,
-            toeflDateList: response.data,
-          });
-        }
-      })
-    );
-    dispatch(
-      getieltsexam(studentId, (response) => {
-        if (response.status === 200) {
-          setState({
-            ...state,
-            ieltsDateList: response.data,
-          });
-        }
-      })
-    );
+    dispatch(getDocumentList(studentId, productId));
+    dispatch(getExpectedDate("gre", studentId));
+    dispatch(getExpectedDate("gmat", studentId));
+    dispatch(getExpectedDate("tofel", studentId));
+    dispatch(getIeltsExpectedDate(studentId));
   }, []);
 
   useEffect(() => {
@@ -449,6 +415,70 @@ function Index(props) {
     }
   }, [uploadFileResponse]);
 
+  useEffect(() => {
+    if (greExpectedDate) {
+      if (greExpectedDate.success) {
+        setState({ ...state, greDateList: greExpectedDate?.data || [] });
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: greExpectedDate.message,
+        });
+      }
+      dispatch(clearCustomData("greExpectedDate"));
+    }
+  }, [greExpectedDate]);
+
+  useEffect(() => {
+    if (gmatExpectedDate) {
+      if (gmatExpectedDate.success) {
+        setState({ ...state, gmatDateList: gmatExpectedDate?.data || [] });
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: gmatExpectedDate.message,
+        });
+      }
+      dispatch(clearCustomData("gmatExpectedDate"));
+    }
+  }, [gmatExpectedDate]);
+
+  useEffect(() => {
+    if (toelfExpectedDate) {
+      if (toelfExpectedDate.success) {
+        setState({ ...state, toeflDateList: toelfExpectedDate?.data || [] });
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: toelfExpectedDate.message,
+        });
+      }
+      dispatch(clearCustomData("toelfExpectedDate"));
+    }
+  }, [toelfExpectedDate]);
+
+  useEffect(() => {
+    if (ieltsExpectedDate) {
+      if (ieltsExpectedDate.success) {
+        setState({ ...state, ieltsDateList: ieltsExpectedDate?.data || [] });
+      } else {
+        setState({
+          ...state,
+          snackOpen: true,
+          snackVariant: "error",
+          snackMsg: ieltsExpectedDate.message,
+        });
+      }
+      dispatch(clearCustomData("ieltsExpectedDate"));
+    }
+  }, [ieltsExpectedDate]);
+
   const customFileFormat = (file) => {
     if (file) {
       return {
@@ -603,7 +633,7 @@ function Index(props) {
     />
   );
 
-  const renderExamDateCards = (data, name) => {
+  const ExamDateCards = ({ data, name }) => {
     return data && data.length !== 0 ? (
       <Grid item md={12}>
         <Box>
@@ -611,13 +641,20 @@ function Index(props) {
         </Box>
         <Box>
           <Grid container spacing={2}>
-            {data.map(({ expectedExamDate }, index) => {
-              return (
-                <Grid key={`${name}-exam-card-${index}`} item md={3}>
-                  <ExamDateCard date={expectedExamDate || ""} />
-                </Grid>
-              );
-            })}
+            <Fragment key={name}>
+              {data.map(({ expectedExamDate }, index) => {
+                return (
+                  <Grid
+                    key={`${name}-exam-card-${index}`}
+                    id={`${name}-exam-card-${index}`}
+                    item
+                    md={3}
+                  >
+                    <ExamDateCard date={expectedExamDate || ""} />
+                  </Grid>
+                );
+              })}
+            </Fragment>
           </Grid>
         </Box>
       </Grid>
@@ -693,120 +730,112 @@ function Index(props) {
           <Grid item md={12} container justifyContent={"space-between"}>
             <p className={classes.HeadStyle}>{"Documents Received"}</p>
           </Grid>
-          {getDocumentList &&
-            getDocumentList.GRE &&
-            Array.isArray(getDocumentList.GRE) &&
-            getDocumentList.GRE.length !== 0 && (
+          {documentList &&
+            documentList.GRE &&
+            Array.isArray(documentList.GRE) &&
+            documentList.GRE.length !== 0 && (
               <Grid item md={12}>
                 <Grid item md={12} direction='column'>
                   <p className={classes.GridStyle}>GRE</p>
                 </Grid>
                 <Grid item={12} container>
-                  {getDocumentList.GRE.map((data) => (
-                    <Grid
-                      item
-                      md={4}
-                      direction='row'
-                      onClick={() => documentClick(data)}
-                    >
-                      <DoccumentCard
+                  {documentList.GRE.map((data) => (
+                    <Grid item md={4} direction='row'>
+                      <DocumentListCard
                         certificate={data.name}
                         date={data.date}
                         path={data.path}
-                        studentid={studentId}
+                        studentId={studentId}
                         category={"Gre"}
                         id={data.greId}
-                        status={true}
+                        onClick={() => documentClick(data)}
                       />
                     </Grid>
                   ))}
                 </Grid>
               </Grid>
             )}
-          {getDocumentList &&
-            getDocumentList.GMAT &&
-            Array.isArray(getDocumentList.GMAT) &&
-            getDocumentList.GMAT.length !== 0 && (
+          {documentList &&
+            documentList.GMAT &&
+            Array.isArray(documentList.GMAT) &&
+            documentList.GMAT.length !== 0 && (
               <Grid item md={12}>
                 <Grid item md={12} direction='column'>
                   <p className={classes.GridStyle}>{"GMAT"}</p>
                 </Grid>
                 <Grid item={12} container>
-                  {getDocumentList.GMAT.map((data) => (
+                  {documentList.GMAT.map((data) => (
                     <Grid
                       item
                       md={4}
                       direction='row'
                       onClick={() => documentClick(data)}
                     >
-                      <DoccumentCard
+                      <DocumentListCard
                         certificate={data.name}
                         date={data.date}
                         path={data.path}
-                        studentid={studentId}
+                        studentId={studentId}
                         category={"Gmat"}
                         id={data.gmatId}
-                        status={true}
                       />
                     </Grid>
                   ))}
                 </Grid>
               </Grid>
             )}
-          {getDocumentList &&
-            getDocumentList.TOEFL &&
-            Array.isArray(getDocumentList.TOEFL) &&
-            getDocumentList.TOEFL.length !== 0 && (
+          {documentList &&
+            documentList.TOEFL &&
+            Array.isArray(documentList.TOEFL) &&
+            documentList.TOEFL.length !== 0 && (
               <Grid item md={12}>
                 <Grid item md={12}>
                   <p className={classes.GridStyle}>{"TOEFL"}</p>
                 </Grid>
                 <Grid item={12} container>
-                  {getDocumentList.TOEFL.map((data) => (
+                  {documentList.TOEFL.map((data) => (
                     <Grid
                       item
                       md={4}
                       direction='row'
                       onClick={() => documentClick(data)}
                     >
-                      <DoccumentCard
+                      <DocumentListCard
                         certificate={data.name}
                         date={data.date}
                         path={data.path}
-                        studentid={studentId}
+                        studentId={studentId}
                         category={"Toefl"}
                         id={data.tofelId}
-                        status={true}
                       />
                     </Grid>
                   ))}
                 </Grid>
               </Grid>
             )}
-          {getDocumentList &&
-            getDocumentList.IELTS &&
-            Array.isArray(getDocumentList.IELTS) &&
-            getDocumentList.IELTS.length !== 0 && (
+          {documentList &&
+            documentList.IELTS &&
+            Array.isArray(documentList.IELTS) &&
+            documentList.IELTS.length !== 0 && (
               <Grid item md={12}>
                 <Grid item md={12} direction='column'>
                   <p className={classes.GridStyle}>{"IELTS"}</p>
                 </Grid>
                 <Grid item={12} container>
-                  {getDocumentList.IELTS.map((data) => (
+                  {documentList.IELTS.map((data) => (
                     <Grid
                       item
                       md={4}
                       direction='row'
                       onClick={() => documentClick(data)}
                     >
-                      <DoccumentCard
+                      <DocumentListCard
                         certificate={data.name}
                         date={data.date}
                         path={data.path}
-                        studentid={studentId}
+                        studentId={studentId}
                         category={"Ielts"}
                         id={data.ieltsId}
-                        status={true}
                       />
                     </Grid>
                   ))}
@@ -818,10 +847,12 @@ function Index(props) {
           </Grid>
           <Grid item md={12}>
             <Grid container spacing={3}>
-              {renderExamDateCards(greDateList, "GRE")}
-              {renderExamDateCards(gmatDateList, "GMAT")}
-              {renderExamDateCards(toeflDateList, "TOEFL")}
-              {renderExamDateCards(ieltsDateList, "IELTS")}
+              <Fragment>
+                <ExamDateCards data={greDateList} name={"GRE"} />
+                <ExamDateCards data={gmatDateList} name={"GMAT"} />
+                <ExamDateCards data={toeflDateList} name={"TOEFL"} />
+                <ExamDateCards data={ieltsDateList} name={"IELTS"} />
+              </Fragment>
             </Grid>
           </Grid>
           <Dialog open={show} onClose={handleClose} maxWidth={"sm"} fullWidth>
