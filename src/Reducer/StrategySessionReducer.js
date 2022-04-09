@@ -16,6 +16,10 @@ const initialState = {
   ieltsList: null,
   updateToelfResponse: null,
   toelfList: null,
+  greExpectedDate: null,
+  gmatExpectedDate: null,
+  toelfExpectedDate: null,
+  ieltsExpectedDate: null,
 };
 
 const StrategySessionReducer = (state = initialState, action) => {
@@ -111,6 +115,30 @@ const StrategySessionReducer = (state = initialState, action) => {
       return {
         ...state,
         uploadFileResponse: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getGreExpectedDate:
+      return {
+        ...state,
+        greExpectedDate: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getGmatExpectedDate:
+      return {
+        ...state,
+        gmatExpectedDate: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getToelfExpectedDate:
+      return {
+        ...state,
+        toelfExpectedDate: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getIeltsExpectedDate:
+      return {
+        ...state,
+        ieltsExpectedDate: action.payload,
         loading: action.loading,
       };
     default:
