@@ -335,7 +335,10 @@ function RootContainer(props) {
     //   items: newListArr,
     // }])
 
-    if (props.adminLinkedProductDetails.department === "Acsoperations") {
+    if (
+      props.adminLinkedProductDetails.department === "Acsoperations" ||
+      props.adminLinkedProductDetails.department === "mentor"
+    ) {
       const { getProductByFamilyIdList } = props;
       let myArr = [];
       if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
