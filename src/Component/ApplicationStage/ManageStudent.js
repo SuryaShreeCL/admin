@@ -40,6 +40,7 @@ export class ApplicationStageManageStudent extends Component {
     const productId = product?.id || match.params.productId;
     this.props.getManageStudentByStages(
       productId,
+      "applicationStage",
       "ApplicationStage",
       size || 20,
       page || 0,
