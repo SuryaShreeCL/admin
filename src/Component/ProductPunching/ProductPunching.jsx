@@ -436,7 +436,9 @@ class ProductPunching extends Component {
             <Grid item md={3}>
               <Autocomplete
                 id={"combo-box-product-family"}
-                options={getAllProductFamilyList || []}
+                options={(getAllProductFamilyList || []).filter(
+                  ({ isDisplayName }) => isDisplayName
+                )}
                 getOptionLabel={(option) =>
                   option.productDisplayName || option.productName
                 }
