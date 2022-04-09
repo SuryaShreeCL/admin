@@ -3,7 +3,7 @@ import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import { Autocomplete } from "@material-ui/lab";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getStudentByStages } from "../../Actions/AdminAction";
+import { getManageStudentByStages } from "../../Actions/AdminAction";
 import {
   getReferProductVariantByProductId,
   getVariantStepsById,
@@ -38,7 +38,7 @@ export class ProfileMentorManageStudent extends Component {
     const { match } = this.props;
     const { intake, product, search } = this.state;
     const productId = product?.id || match.params.productId;
-    this.props.getStudentByStages(
+    this.props.getManageStudentByStages(
       productId,
       "ProfileMentoring",
       size || 20,
@@ -322,7 +322,7 @@ const style = {
 
 const mapStateToProps = (state) => {
   return {
-    studentsByStagesList: state.AdminReducer.studentsByStagesList,
+    studentsByStagesList: state.AdminReducer.manageStudentsByStagesList,
     allIntakeList: state.StudentReducer.allIntakeList,
     loading: state.AdminReducer.loading,
     productVariant: state.ProductReducer.productVariant,
@@ -330,7 +330,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  getStudentByStages,
+  getManageStudentByStages,
   StudentStepDetails,
   getAllIntakeList,
   getReferProductVariantByProductId,

@@ -7,6 +7,15 @@ const initialState = {
   documentUpdateStatus: null,
   downloadFileResponse: null,
   fileDeleteStatus: null,
+  uploadFileResponse: null,
+  updateGreResponse: null,
+  greList: null,
+  updateGmatResponse: null,
+  gmatList: null,
+  updateIeltsResponse: null,
+  ieltsList: null,
+  updateToelfResponse: null,
+  toelfList: null,
 };
 
 const StrategySessionReducer = (state = initialState, action) => {
@@ -48,6 +57,60 @@ const StrategySessionReducer = (state = initialState, action) => {
       return {
         ...state,
         fileDeleteStatus: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.updateGreData:
+      return {
+        ...state,
+        updateGreResponse: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getGreData:
+      return {
+        ...state,
+        greList: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.updateGmatData:
+      return {
+        ...state,
+        updateGmatResponse: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getGmatData:
+      return {
+        ...state,
+        gmatList: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.updateIeltsData:
+      return {
+        ...state,
+        updateIeltsResponse: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getIeltsData:
+      return {
+        ...state,
+        ieltsList: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.updateToeflData:
+      return {
+        ...state,
+        updateToelfResponse: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.getToeflData:
+      return {
+        ...state,
+        toelfList: action.payload,
+        loading: action.loading,
+      };
+    case STRATEGY_SESSION.uploadFile:
+      return {
+        ...state,
+        uploadFileResponse: action.payload,
         loading: action.loading,
       };
     default:

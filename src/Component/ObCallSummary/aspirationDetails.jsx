@@ -331,7 +331,9 @@ class AspirationDetails extends Component {
         this.state.getAspdata &&
         this.state.getAspdata.filter((item) => item.name === questionName);
       let value =
-        profile[0] && profile[0].correctChoices[0]
+        Array.isArray(profile) &&
+        profile.length !== 0 &&
+        profile[0].correctChoices[0]
           ? profile[0].correctChoices[0].text
           : null;
       this.props.getAspirationWork(

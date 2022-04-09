@@ -511,7 +511,7 @@ class StageBasedLayout extends Component {
     }
   }
 
-  handleComplete = (event, status) => {
+  handleCompleted = (event, status) => {
     let obj = {
       student: {
         id: this.props.match.params.studentId,
@@ -614,7 +614,7 @@ class StageBasedLayout extends Component {
                   <ThemedTab
                     key={index}
                     label={item.stepName}
-                    // disabled={item.disabled}
+                    disabled={item.disabled}
                     icon={
                       item.disabled ? (
                         <LockIcon className={"icon_style"} />
@@ -718,7 +718,7 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        // disabled={item.disabled}
+                        disabled={item.disabled}
                         icon={
                           item.disabled ? (
                             <LockIcon className={"icon_style"} />
@@ -940,8 +940,6 @@ const mapStateToProps = (state) => ({
   opsStageCompleteStatus: state.StudentReducer.opsStageCompleteStatus,
 });
 
-const useStyles = (theme) => ({});
-
 export default connect(mapStateToProps, {
   getvarientByid,
   getAdminLinkedProduct,
@@ -952,4 +950,4 @@ export default connect(mapStateToProps, {
   ObIncomplete,
   IncompleteStatus,
   opsStageComplete,
-})(withStyles(useStyles)(StageBasedLayout));
+})(StageBasedLayout);

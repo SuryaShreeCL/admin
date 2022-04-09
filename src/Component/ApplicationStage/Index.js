@@ -710,7 +710,7 @@ function Index(props) {
                       ]
                     }
                     onClick={handleUploadClick}
-                    // disabled={Boolean(status)}
+                    disabled={Boolean(status)}
                   >
                     {"Upload"}
                   </StyledButton>

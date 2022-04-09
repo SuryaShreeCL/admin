@@ -292,6 +292,7 @@ export const ADMIN = {
   getAdminLinkedProduct: "getAdminLinkedProduct",
   checkTokenStatus: "checkTokenStatus",
   getStudentsByStages: "getStudentsByStages",
+  getManageStudentsByStages: "getManageStudentsByStages",
   getAllAdminUsers: "getAllAdminUsers",
   deletementor: "deletementor",
   getAdminUserDepartments: "getAdminUserDepartments",
@@ -612,6 +613,15 @@ export const STRATEGY_SESSION = {
   putDocumentBySubStageId: "putDocumentBySubStageId",
   getDownloadByDocumentId: "getDownloadByDocumentId",
   deleteDocumentByDocumentId: "deleteDocumentByDocumentId",
+  uploadFile: "gatTestTranscriptsUploadFile",
+  getGreData: "getTestTranscriptsGreData",
+  updateGreData: "updateTestTranscriptsGreData",
+  getGmatData: "getTestTranscriptsGmatData",
+  updateGmatData: "updateTestTranscriptsGmatData",
+  getToeflData: "getTestTranscriptsToeflData",
+  updateToeflData: "updateTestTranscriptsToeflData",
+  getIeltsData: "getTestTranscriptsIeltsData",
+  updateIeltsData: "updateTestTranscriptsIeltsData",
 };
 
 export const PROFILE_MENTORING = {

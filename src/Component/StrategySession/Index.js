@@ -14,7 +14,6 @@ import {
   getStudentStageByProductId,
 } from "../../Actions/Student";
 import MySnackBar from "../MySnackBar";
-import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
@@ -25,6 +24,7 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { useStyles } from "./Styles";
+import TestTranscripts from "./TestTranscripts/Index";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -378,7 +378,7 @@ function Index(props) {
     };
     switch (activeTabValue) {
       case "Test Transcripts":
-        return <GraduateTestResult {...props} />;
+        return <TestTranscripts {...props} />;
       default:
         return <DocumentComponent {...renderProps} />;
     }
