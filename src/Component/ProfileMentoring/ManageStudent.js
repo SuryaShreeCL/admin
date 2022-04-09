@@ -40,6 +40,7 @@ export class ProfileMentorManageStudent extends Component {
     const productId = product?.id || match.params.productId;
     this.props.getManageStudentByStages(
       productId,
+      "profileMentoring",
       "ProfileMentoring",
       size || 20,
       page || 0,

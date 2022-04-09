@@ -464,6 +464,7 @@ export const getStudentByStages = (
 
 export const getManageStudentByStages = (
   productId,
+  sectionName,
   stageName,
   size,
   page,
@@ -475,19 +476,22 @@ export const getManageStudentByStages = (
   return (dispatch) => {
     dispatch({ type: ADMIN.loader });
     axios
-      .get(`${URL}/api/v1/product/${productId}/admin/${adminId}/section`, {
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          stage: stageName,
-          size: size,
-          page: page,
-          intake: intake ? intake : "",
-          q: keyword ? keyword : "",
-        },
-      })
+      .get(
+        `${URL}/api/v1/product/${productId}/admin/${adminId}/section/${sectionName}`,
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: stageName,
+            size: size,
+            page: page,
+            intake: intake ? intake : "",
+            q: keyword ? keyword : "",
+          },
+        }
+      )
       .then((result) => {
         dispatch({
           type: ADMIN.getManageStudentsByStages,
