@@ -406,7 +406,7 @@ class AspirationDetails extends Component {
           .map((eachElement, index) => {
             if (
               searchData &&
-              searchData.includes(eachElement.aspirationBranch.name)
+              searchData.includes(eachElement.aspirationBranch?.name)
             ) {
               return eachElement;
             }
