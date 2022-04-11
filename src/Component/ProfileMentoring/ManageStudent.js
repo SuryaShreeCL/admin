@@ -41,7 +41,7 @@ export class ProfileMentorManageStudent extends Component {
     this.props.getManageStudentByStages(
       productId,
       "profileMentoring",
-      "ProfileMentoring",
+      "Profile Mentoring",
       size || 20,
       page || 0,
       intake?.year,
