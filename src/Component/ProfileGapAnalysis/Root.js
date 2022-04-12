@@ -373,7 +373,7 @@ class ProfileGapRoot extends Component {
   };
 
   visibleCvReview = () => {
-    return this.props?.variantStepList?.codeName === "ACS_MBA";
+    return this.props?.variantStepList?.referProductCodeName === "ACS_MBA";
   };
 
   render() {
