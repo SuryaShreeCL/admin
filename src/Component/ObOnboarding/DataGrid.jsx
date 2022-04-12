@@ -1,7 +1,16 @@
 import { DataGrid as DataTable } from "@material-ui/data-grid";
 import React from "react";
 
-const Table = ({ data, obCallStatus, action }) => {
+const Table = ({
+  data,
+  obCallStatus,
+  action,
+  page,
+  pageSize,
+  rowCount,
+  onPageChange,
+  onPageSizeChange,
+}) => {
   const col = [
     {
       field: "id",
@@ -62,6 +71,14 @@ const Table = ({ data, obCallStatus, action }) => {
             id: i,
           };
         })}
+        pagination={true}
+        paginationMode={"server"}
+        page={page}
+        pageSize={pageSize}
+        rowCount={rowCount}
+        rowsPerPageOptions={[10, 20, 40, 80]}
+        onPageChange={onPageChange}
+        onPageSizeChange={onPageSizeChange}
       />
     </div>
   );

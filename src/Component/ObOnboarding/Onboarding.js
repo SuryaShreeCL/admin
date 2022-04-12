@@ -35,28 +35,32 @@ export class Onboarding extends Component {
       snackMsg: "",
       productVariantList: [],
       product: null,
+      page: 0,
+      pageSize: 20,
+      rowCount: 0,
     };
   }
 
-  filterStudentList = (keyword, size, page) => {
+  filterStudentList = (keyword, size, activePage) => {
     const { match, stageDetails } = this.props;
-    const { intake, product, search } = this.state;
+    const { intake, product } = this.state;
     const productId = product?.id || match.params.productId;
     this.props.getStudentByStages(
       productId,
       stageDetails.stepName,
-      size || 20,
-      page || 0,
+      size,
+      activePage,
       intake?.year,
-      keyword || search
+      keyword
     );
   };
 
   componentDidMount() {
     const { match } = this.props;
+    const { search, page, pageSize } = this.state;
 
     // To get the users based on stages
-    this.filterStudentList();
+    this.filterStudentList(search, pageSize, page);
     if (match.params.productId) {
       this.props.getReferProductVariantByProductId(match.params.productId);
     }
@@ -83,6 +87,7 @@ export class Onboarding extends Component {
         } else {
           this.setState({
             listOfUsers: studentsByStagesList.data.content || [],
+            rowCount: studentsByStagesList.data.totalElements || 0,
           });
         }
       } else {
@@ -97,12 +102,14 @@ export class Onboarding extends Component {
 
     if (search !== prevState.search) {
       if (isEmptyString(search)) {
-        this.filterStudentList("");
+        const { pageSize } = this.state;
+        this.filterStudentList("", pageSize, 0);
       }
     }
 
     if (intake !== prevState.intake || product !== prevState.product) {
-      this.filterStudentList();
+      const { search, pageSize } = this.state;
+      this.filterStudentList(search, pageSize, 0);
     }
 
     if (allIntakeList && allIntakeList !== prevProps.allIntakeList) {
@@ -224,9 +231,9 @@ export class Onboarding extends Component {
 
   // To handle search
   handleSearch = () => {
-    const { search } = this.state;
+    const { search, pageSize } = this.state;
     if (!isEmptyString(search)) {
-      this.filterStudentList(search);
+      this.filterStudentList(search, pageSize, 0);
     }
   };
 
@@ -242,6 +249,18 @@ export class Onboarding extends Component {
     });
   };
 
+  onPageChange = (newPage) => {
+    const { pageSize, search } = this.state;
+    this.setState({ page: newPage });
+    this.filterStudentList(search, pageSize, newPage);
+  };
+
+  onPageSizeChange = (newPageSize) => {
+    const { search } = this.state;
+    this.setState({ pageSize: newPageSize, page: 0 });
+    this.filterStudentList(search, newPageSize, 0);
+  };
+
   render() {
     const { loading } = this.props;
     const {
@@ -253,6 +272,9 @@ export class Onboarding extends Component {
       intake,
       productVariantList,
       product,
+      page,
+      pageSize,
+      rowCount,
     } = this.state;
     const { HeadStyle, HeadDisplay } = style;
 
@@ -350,6 +372,11 @@ export class Onboarding extends Component {
                 data={listOfUsers}
                 obCallStatus={this.renderChip}
                 action={this.renderManageButton}
+                page={page}
+                pageSize={pageSize}
+                rowCount={rowCount}
+                onPageChange={this.onPageChange}
+                onPageSizeChange={this.onPageSizeChange}
               />
             ) : loading ? (
               <Loader />
