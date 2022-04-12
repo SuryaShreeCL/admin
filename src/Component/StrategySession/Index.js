@@ -343,7 +343,7 @@ function Index(props) {
     });
   };
 
-  const handleDownload = (path, e) => {
+  const handleDownload = (path, id, e) => {
     dispatch(getDownloadByDocumentId(studentId, sectionId, path));
   };
 

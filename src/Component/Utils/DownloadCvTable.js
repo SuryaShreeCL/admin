@@ -79,7 +79,7 @@ function DownloadCvTable({
                           Boolean(!path) ? "disabled" : "outlined"
                         ]
                       }
-                      onClick={(e) => handleDownload(path, e)}
+                      onClick={(e) => handleDownload(path, id, e)}
                       disabled={Boolean(!path)}
                     >
                       {"Download"}

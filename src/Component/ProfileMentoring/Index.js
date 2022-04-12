@@ -96,7 +96,7 @@ function Index(props) {
         let subStage = getSubStageByStage(
           data,
           "Profile Mentoring",
-          "Complete Cv"
+          "Completed Cv"
         );
         if (subStage.length !== 0) {
           dispatch(
@@ -302,8 +302,8 @@ function Index(props) {
     });
   };
 
-  const handleDownload = (path, e) => {
-    dispatch(getDownloadByDocumentId(studentId, path));
+  const handleDownload = (path, id, e) => {
+    dispatch(getDownloadByDocumentId(studentId, id, path));
   };
 
   const handleDelete = (id, path, e) => {};

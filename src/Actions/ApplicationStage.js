@@ -118,7 +118,7 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUploadDetails`,
           data,
           {
             headers: {

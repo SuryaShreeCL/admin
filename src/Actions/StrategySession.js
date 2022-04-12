@@ -107,7 +107,7 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUploadDetails`,
           data,
           {
             headers: {
@@ -234,6 +234,9 @@ export const updateIeltsData = (studentId, data) => {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
+            params: {
+              stage: "Strategy Session",
+            },
           }
         )
         .then((result) => {
@@ -297,6 +300,9 @@ export const updateToeflData = (studentId, data) => {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
+            params: {
+              stage: "Strategy Session",
+            },
           }
         )
         .then((result) => {
@@ -355,6 +361,9 @@ export const updateGmatData = (studentId, data) => {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
+          params: {
+            stage: "Strategy Session",
+          },
         })
         .then((result) => {
           dispatch({
@@ -411,6 +420,9 @@ export const updateGreData = (studentId, data) => {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: "Strategy Session",
           },
         })
         .then((result) => {
