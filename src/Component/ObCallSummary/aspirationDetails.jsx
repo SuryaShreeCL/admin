@@ -270,19 +270,14 @@ class AspirationDetails extends Component {
       var searchData =
         this.props.getaspirationDataList.data.fieldOfStudy &&
         this.props.getaspirationDataList.data.fieldOfStudy.map(
-          (eachData, index) => eachData.name
+          (eachData, index) => eachData?.name
         );
 
       this.props.getAspirationSpecialization("", (response) => {
         if (response.status === 200) {
           var filteredList = response.data
             .map((eachElement, index) => {
-              if (
-                searchData.includes(
-                  eachElement.aspirationBranch &&
-                    eachElement.aspirationBranch.name
-                )
-              ) {
+              if (searchData.includes(eachElement?.aspirationBranch?.name)) {
                 return eachElement;
               }
             })
@@ -297,7 +292,7 @@ class AspirationDetails extends Component {
       var searchDataTwo =
         this.props.getaspirationDataList.data.preferredRegion &&
         this.props.getaspirationDataList.data.preferredRegion.map(
-          (eachData, index) => eachData.name
+          (eachData, index) => eachData?.name
         );
 
       this.props.getAspirationCollege(
@@ -307,11 +302,7 @@ class AspirationDetails extends Component {
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
-                if (
-                  searchDataTwo.includes(
-                    eachElement.country && eachElement.country.name
-                  )
-                ) {
+                if (searchDataTwo.includes(eachElement?.country?.name)) {
                   return eachElement;
                 }
               })
@@ -331,7 +322,9 @@ class AspirationDetails extends Component {
         this.state.getAspdata &&
         this.state.getAspdata.filter((item) => item.name === questionName);
       let value =
-        profile[0] && profile[0].correctChoices[0]
+        Array.isArray(profile) &&
+        profile.length !== 0 &&
+        profile[0].correctChoices[0]
           ? profile[0].correctChoices[0].text
           : null;
       this.props.getAspirationWork(
@@ -350,7 +343,7 @@ class AspirationDetails extends Component {
           this.props.variantStepList.variant_SKU === "PBP"
             ? "Aspiration-PB-Placements-Q1"
             : "Aspiration-PB-Placements-2023-Q1";
-        let profile = this.state.getAspdata.filter(
+        let profile = this.state.getAspdata?.filter(
           (item) => item.name === questionName
         );
         let value = profile[0].correctChoices[0].text;
@@ -373,12 +366,7 @@ class AspirationDetails extends Component {
         this.state.aspirationCollegeList &&
         this.state.aspirationCollegeList
           .map((eachElement, index) => {
-            if (
-              searchData &&
-              searchData.includes(
-                eachElement.country && eachElement.country.name
-              )
-            ) {
+            if (searchData && searchData.includes(eachElement?.country?.name)) {
               return eachElement;
             }
           })
@@ -727,9 +715,7 @@ class AspirationDetails extends Component {
       .map((eachElement, index) => {
         if (
           searchData &&
-          searchData.includes(
-            eachElement.aspirationBranch && eachElement.aspirationBranch.name
-          )
+          searchData.includes(eachElement?.aspirationBranch?.name)
         ) {
           return eachElement;
         }
@@ -746,10 +732,7 @@ class AspirationDetails extends Component {
         .map((eachSpecialization, index) => {
           if (
             searchData &&
-            searchData.includes(
-              eachSpecialization.aspirationBranch &&
-                eachSpecialization.aspirationBranch.name
-            )
+            searchData.includes(eachSpecialization?.aspirationBranch?.name)
           ) {
             return eachSpecialization;
           }
@@ -765,10 +748,7 @@ class AspirationDetails extends Component {
     var searchData = newValue.map((eachData, index) => eachData.name);
     var filteredList = this.state.aspirationCollegeList
       .map((eachElement, index) => {
-        if (
-          searchData &&
-          searchData.includes(eachElement.country && eachElement.country.name)
-        ) {
+        if (searchData && searchData.includes(eachElement?.country?.name)) {
           return eachElement;
         }
       })
@@ -784,9 +764,7 @@ class AspirationDetails extends Component {
         .map((eachUniversity, index) => {
           if (
             searchData &&
-            searchData.includes(
-              eachUniversity.country && eachUniversity.country.name
-            )
+            searchData.includes(eachUniversity?.country?.name)
           ) {
             return eachUniversity;
           }
@@ -836,7 +814,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.aspWorkErr}
                   error={this.state.aspWorkErr.length > 0}
                   {...params}
-                  label='Preferred Work Profile(others-specify)'
+                  label="Preferred Work Profile(others-specify)"
                 />
               )}
               onChange={(e, newValue) => this.setState({ aspwork: newValue })}
@@ -855,7 +833,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.asplocErr}
                   error={this.state.asplocErr.length > 0}
                   {...params}
-                  label='Preferred Location-Cities(others-specify)'
+                  label="Preferred Location-Cities(others-specify)"
                 />
               )}
               onChange={(e, newValue) =>
@@ -876,7 +854,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.aspPackErr}
                   error={this.state.aspPackErr.length > 0}
                   {...params}
-                  label='Preferred Package'
+                  label="Preferred Package"
                 />
               )}
               onChange={(e, newValue) =>
@@ -891,7 +869,7 @@ class AspirationDetails extends Component {
         <>
           <Grid item md={2}>
             <Autocomplete
-              id='tags-outlined'
+              id="tags-outlined"
               options={this.noOfSchoolArr || []}
               getOptionLabel={(option) => option}
               value={this.state.noOfSchool || []}
@@ -899,7 +877,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Number Of Schools'
+                  label="Number Of Schools"
                   error={this.state.schoolErr.length > 0}
                   helperText={this.state.schoolErr}
                 />
@@ -913,7 +891,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               multiple
-              id='combo-box-demo'
+              id="combo-box-demo"
               disabled={this.state.disable}
               options={
                 !isEmptyArray(this.props.aspirationTerm) &&
@@ -923,8 +901,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Additional Intakes'
-                  variant='standard'
+                  label="Additional Intakes"
+                  variant="standard"
                   error={this.state.termErr.length > 0}
                   helperText={this.state.termErr}
                 />
@@ -937,15 +915,15 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
+              id="combo-box-demo"
               disabled={this.state.disable}
               options={this.props.aspirationDegree}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Degree'
-                  variant='standard'
+                  label="Degree"
+                  variant="standard"
                   error={this.state.degreeErr.length > 0}
                   helperText={this.state.degreeErr}
                 />
@@ -961,7 +939,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
+              id="combo-box-demo"
               options={this.props.aspirationBranch}
               getOptionLabel={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -974,8 +952,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Field Of Study'
-                  variant='standard'
+                  label="Field Of Study"
+                  variant="standard"
                   error={this.state.branchErr.length > 0}
                   helperText={this.state.branchErr}
                 />
@@ -988,15 +966,15 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
-              options={this.state.filteredAspirationSpecializationList.sort(
+              id="combo-box-demo"
+              options={this.state.filteredAspirationSpecializationList?.sort(
                 (a, b) =>
                   -b.aspirationBranch.name.localeCompare(
                     a.aspirationBranch.name
                   )
               )}
               getOptionLabel={(option) => option.name}
-              groupBy={(option) => option.aspirationBranch.name}
+              groupBy={(option) => option.aspirationBranch?.name}
               getOptionDisabled={(option) => {
                 var specializationHolder =
                   this.state.aspirationAreaOfSpecializations &&
@@ -1009,8 +987,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Area of Specialization'
-                  variant='standard'
+                  label="Area of Specialization"
+                  variant="standard"
                   error={this.state.specializationErr.length > 0}
                   helperText={this.state.specializationErr}
                 />
@@ -1025,7 +1003,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
+              id="combo-box-demo"
               options={
                 !isEmptyArray(this.props.aspirationCountry) &&
                 this.props.aspirationCountry.data
@@ -1041,8 +1019,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label='Preferred Region'
-                  variant='standard'
+                  label="Preferred Region"
+                  variant="standard"
                   error={this.state.counteryErr.length > 0}
                   helperText={this.state.counteryErr}
                 />
@@ -1056,7 +1034,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
+              id="combo-box-demo"
               options={this.state.filteredCollegeList.sort(
                 (a, b) => -b.country.name.localeCompare(a.country.name)
               )}
@@ -1073,7 +1051,7 @@ class AspirationDetails extends Component {
                 <TextField
                   {...params}
                   label={this.renderLabel()}
-                  variant='standard'
+                  variant="standard"
                   error={this.state.universityErr.length > 0}
                   helperText={this.state.universityErr}
                 />
