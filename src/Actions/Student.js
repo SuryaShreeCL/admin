@@ -1485,3 +1485,29 @@ export const getStepsBySubStageId = (
       });
   };
 };
+
+export const getCompletedStages = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${URL}/api/v1/student/${studentId}/product/${productId}/adminCompleteList`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({
+          type: STUDENT.getCompletedStages,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getCompletedStages, error, false));
+      });
+  };
+};

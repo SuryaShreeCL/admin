@@ -331,7 +331,7 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: Boolean(status),
+      disabledUploadButton: Boolean(!status),
       isDisabledFileName: true,
       ...props,
     };

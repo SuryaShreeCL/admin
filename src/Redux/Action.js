@@ -128,6 +128,7 @@ export const STUDENT = {
   opsStageComplete: "opsStageComplete",
   getStudentStageByProductId: "getStudentStageByProductId",
   getStepsBySubStageId: "getStepsBySubStageId",
+  getCompletedStages: "getCompletedStages",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",

@@ -24,6 +24,7 @@ import {
   ObIncomplete,
   StudentStepDetails,
   opsStageComplete,
+  getCompletedStages,
 } from "../../Actions/Student";
 import "../../Asset/All.css";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -55,6 +56,7 @@ const STAGES = [
     component: null,
     isCompleteButton: true,
     buttonText: "Onboarding Complete",
+    buttonCompletedText: "Onboarding Completed",
   },
   {
     name: "Profile Gap Analysis",
@@ -62,6 +64,7 @@ const STAGES = [
     component: (props) => <ProfileGapRoot {...props} />,
     isCompleteButton: false,
     buttonText: "Profile Gap Analysis Complete",
+    buttonCompletedText: "Profile Gap Analysis Completed",
   },
   {
     name: "Profile Mentoring",
@@ -69,6 +72,7 @@ const STAGES = [
     component: (props) => <ProfileMentoring {...props} />,
     isCompleteButton: true,
     buttonText: "Profile Mentoring Complete",
+    buttonCompletedText: "Profile Mentoring Completed",
   },
   {
     name: "Strategy Session",
@@ -76,6 +80,7 @@ const STAGES = [
     component: (props) => <StrategySession {...props} />,
     isCompleteButton: true,
     buttonText: "Strategy Session Complete",
+    buttonCompletedText: "Strategy Session Complete",
   },
   {
     name: "Application Stage",
@@ -83,6 +88,7 @@ const STAGES = [
     component: (props) => <ApplicationStage {...props} />,
     isCompleteButton: true,
     buttonText: "Application Stage Complete",
+    buttonCompletedText: "Application Stage Completed",
   },
   {
     name: "Post Admit Services",
@@ -90,6 +96,7 @@ const STAGES = [
     component: () => null,
     isCompleteButton: false,
     buttonText: "Post Admit Services Complete",
+    buttonCompletedText: "Post Admit Services Completed",
   },
 ];
 
@@ -121,6 +128,7 @@ class StageBasedLayout extends Component {
         "Uplaod CV": "UploadCV",
         Others: "AdmissionServices",
       },
+      completedStagesList: [],
     };
   }
 
@@ -341,10 +349,14 @@ class StageBasedLayout extends Component {
   }
 
   componentDidMount() {
+    const { match } = this.props;
+    const studentId = match.params.studentId;
+    const productId = match.params.productId;
     this.props.getVariantStepsById(
       this.props.match.params.productId +
         `?studentId=${this.props.match.params.studentId}`
     );
+    this.props.getCompletedStages(studentId, productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -454,6 +466,46 @@ class StageBasedLayout extends Component {
           `?studentId=${this.props.match.params.studentId}`
       );
     }
+    if (
+      this.props.opsStageCompleteStatus &&
+      this.props.opsStageCompleteStatus !== prevProps.opsStageCompleteStatus
+    ) {
+      if (this.props.opsStageCompleteStatus.success) {
+        const { match } = this.props;
+        const studentId = match.params.studentId;
+        const productId = match.params.productId;
+        this.setState({
+          snackMsg: "Successfully Updated",
+          snackVariant: "success",
+          snackOpen: true,
+        });
+        this.props.getCompletedStages(studentId, productId);
+      } else {
+        this.setState({
+          snackMsg: this.props.opsStageCompleteStatus.message,
+          snackVariant: "error",
+          snackOpen: true,
+        });
+      }
+    }
+    if (
+      this.props.completedStages &&
+      this.props.completedStages !== prevProps.completedStages
+    ) {
+      const { completedStages } = this.props;
+      if (completedStages.success) {
+        this.setState({
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: completedStages.message,
+          snackVariant: "error",
+          snackOpen: true,
+          completedStagesList: [],
+        });
+      }
+    }
   }
 
   handleOBComplete = () => {
@@ -561,27 +613,15 @@ class StageBasedLayout extends Component {
         break;
       }
       case STAGES[2]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[2]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[2]["name"]);
         break;
       }
       case STAGES[3]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[3]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[3]["name"]);
         break;
       }
       case STAGES[4]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[4]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[4]["name"]);
         break;
       }
       case STAGES[5]["stageName"]: {
@@ -590,6 +630,11 @@ class StageBasedLayout extends Component {
       default:
         break;
     }
+  };
+
+  isStageCompleted = () => {
+    const { customStageIndex, completedStagesList } = this.state;
+    return completedStagesList.includes(STAGES[customStageIndex]["name"]);
   };
 
   renderHeaderTabsAndButtonContainer = () => {
@@ -630,10 +675,14 @@ class StageBasedLayout extends Component {
             <PrimaryButton
               color={"primary"}
               variant={"contained"}
-              disabled={false}
+              disabled={this.isStageCompleted()}
               onClick={() => this.handleStageComplete()}
             >
-              {STAGES[customStageIndex]["buttonText"]}
+              {
+                STAGES[customStageIndex][
+                  this.isStageCompleted() ? "buttonCompletedText" : "buttonText"
+                ]
+              }
             </PrimaryButton>
             <PrimaryButton
               color={"primary"}
@@ -938,6 +987,7 @@ const mapStateToProps = (state) => ({
   updateVerificationStatus: state.AdminReducer.updateVerificationResponse,
   StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
   opsStageCompleteStatus: state.StudentReducer.opsStageCompleteStatus,
+  completedStages: state.StudentReducer.completedStages,
 });
 
 export default connect(mapStateToProps, {
@@ -950,4 +1000,5 @@ export default connect(mapStateToProps, {
   ObIncomplete,
   IncompleteStatus,
   opsStageComplete,
+  getCompletedStages,
 })(StageBasedLayout);

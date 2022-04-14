@@ -32,7 +32,7 @@ export const getDocumentModelBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/applicationStage`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/schoolDetails/applicationStage`,
           {
             headers: {
               admin: "yes",
