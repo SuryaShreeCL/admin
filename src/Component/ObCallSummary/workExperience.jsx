@@ -628,7 +628,7 @@ class workExperience extends Component {
                   );
                 })}
             </div>
-            <Grid item md={12}>
+            {/* <Grid item md={12}>
               <p style={HeadStyle}>Documents Received</p>
             </Grid>
             <Grid item md={12}>
@@ -663,7 +663,7 @@ class workExperience extends Component {
                     </Grid>
                   </Grid>
                 )}
-            </Grid>
+            </Grid> */}
 
             <div
               style={{

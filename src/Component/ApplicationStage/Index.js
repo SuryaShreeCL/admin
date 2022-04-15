@@ -698,7 +698,14 @@ function Index(props) {
                     </Box>
                     <Typo color={"#004CFE"} component={"span"} fontWeight={500}>
                       {programLink ? (
-                        <a href={programLink} target='_blank'>
+                        <a
+                          href={
+                            programLink.indexOf("http") > -1
+                              ? programLink
+                              : `https://${programLink}`
+                          }
+                          target='_blank'
+                        >
                           {"Program Link"}
                         </a>
                       ) : (
