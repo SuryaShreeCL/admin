@@ -226,7 +226,7 @@ class StageBasedLayout extends Component {
     );
   }
 
-  checkStageVerified = (stageName, stageDisabled) => {
+  checkStageVerified = (stageName) => {
     const { verifiedStages } = this.state;
     let verified = false;
     if (verifiedStages && verifiedStages.length !== 0) {
@@ -235,7 +235,7 @@ class StageBasedLayout extends Component {
         verified = arr[0]["status"] !== "Verified";
       }
     }
-    return verified || stageDisabled;
+    return verified;
   };
 
   handleIncomplete = () => {
@@ -693,12 +693,9 @@ class StageBasedLayout extends Component {
                   <ThemedTab
                     key={index}
                     label={item.stepName}
-                    disabled={this.checkStageVerified(
-                      item.stepName,
-                      item.disabled
-                    )}
+                    disabled={this.checkStageVerified(item.stepName)}
                     icon={
-                      this.checkStageVerified(item.stepName, item.disabled) ? (
+                      this.checkStageVerified(item.stepName) ? (
                         <LockIcon className={"icon_style"} />
                       ) : null
                     }
@@ -804,15 +801,9 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        disabled={this.checkStageVerified(
-                          item.stepName,
-                          item.disabled
-                        )}
+                        disabled={this.checkStageVerified(item.stepName)}
                         icon={
-                          this.checkStageVerified(
-                            item.stepName,
-                            item.disabled
-                          ) ? (
+                          this.checkStageVerified(item.stepName) ? (
                             <LockIcon className={"icon_style"} />
                           ) : null
                         }

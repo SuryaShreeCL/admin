@@ -394,7 +394,7 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: isStageCompleted() || Boolean(status),
+      disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: false,
       ...props,
     };

@@ -724,13 +724,13 @@ function Index(props) {
                     variant={"contained"}
                     style={
                       customTheme["palette"][
-                        isStageCompleted() || Boolean(status)
+                        isStageCompleted() || documentList.length === 0
                           ? "disabled"
                           : "contained"
                       ]
                     }
                     onClick={handleUploadClick}
-                    disabled={isStageCompleted() || Boolean(status)}
+                    disabled={isStageCompleted() || documentList.length === 0}
                   >
                     {"Upload"}
                   </StyledButton>
