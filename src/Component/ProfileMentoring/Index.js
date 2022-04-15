@@ -53,6 +53,7 @@ function Index(props) {
     status: null,
     anchorEl: null,
     popoverComment: null,
+    completedStagesList: [],
   });
 
   const {
@@ -73,6 +74,7 @@ function Index(props) {
     status,
     anchorEl,
     popoverComment,
+    completedStagesList,
   } = state;
   const {
     loading,
@@ -81,7 +83,7 @@ function Index(props) {
     downloadFileResponse,
   } = useSelector((state) => state.ProfileMentoringReducer);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
@@ -150,6 +152,22 @@ function Index(props) {
       dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
     }
   }, [sectionId]);
+
+  useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
 
   useEffect(() => {
     if (documentModel) {
@@ -313,6 +331,10 @@ function Index(props) {
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
   };
 
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Profile Mentoring");
+  };
+
   const renderComponent = () => {
     const renderProps = {
       open: open,
@@ -331,7 +353,7 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: Boolean(!status),
+      disabledUploadButton: isStageCompleted() || Boolean(!status),
       isDisabledFileName: true,
       ...props,
     };

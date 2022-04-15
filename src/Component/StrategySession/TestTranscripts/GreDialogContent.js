@@ -48,7 +48,6 @@ function GreDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "attempt", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}
@@ -130,7 +129,6 @@ function GreDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "analytical", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}

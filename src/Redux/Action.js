@@ -129,6 +129,7 @@ export const STUDENT = {
   getStudentStageByProductId: "getStudentStageByProductId",
   getStepsBySubStageId: "getStepsBySubStageId",
   getCompletedStages: "getCompletedStages",
+  getStageLockStatus: "getStageLockStatus",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -623,10 +624,7 @@ export const STRATEGY_SESSION = {
   updateToeflData: "updateTestTranscriptsToeflData",
   getIeltsData: "getTestTranscriptsIeltsData",
   updateIeltsData: "updateTestTranscriptsIeltsData",
-  getGreExpectedDate: "getTestTranscriptsGreExpectedDate",
-  getGmatExpectedDate: "getTestTranscriptsGmatExpectedDate",
-  getIeltsExpectedDate: "getTestTranscriptsIeltsExpectedDate",
-  getToelfExpectedDate: "getTestTranscriptsToelfExpectedDate",
+  getTestTranscriptFiles: "getTestTranscriptFiles",
 };
 
 export const PROFILE_MENTORING = {

@@ -55,6 +55,7 @@ function Index(props) {
     status: null,
     anchorEl: null,
     popoverComment: null,
+    completedStagesList: [],
   });
 
   const {
@@ -75,6 +76,7 @@ function Index(props) {
     status,
     anchorEl,
     popoverComment,
+    completedStagesList,
   } = state;
   const {
     loading,
@@ -84,7 +86,7 @@ function Index(props) {
     downloadFileResponse,
   } = useSelector((state) => state.StrategySessionReducer);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
@@ -260,6 +262,22 @@ function Index(props) {
     }
   }, [downloadFileResponse]);
 
+  useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
+
   const handleCancel = () => {
     setState({
       ...state,
@@ -354,6 +372,10 @@ function Index(props) {
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
   };
 
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Strategy Session");
+  };
+
   const renderComponent = () => {
     const renderProps = {
       open: open,
@@ -372,13 +394,15 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: Boolean(status),
+      disabledUploadButton: isStageCompleted() || Boolean(status),
       isDisabledFileName: false,
       ...props,
     };
     switch (activeTabValue) {
       case "Test Transcripts":
-        return <TestTranscripts {...props} />;
+        return (
+          <TestTranscripts {...props} isStageCompleted={isStageCompleted()} />
+        );
       default:
         return <DocumentComponent {...renderProps} />;
     }
@@ -414,7 +438,7 @@ function Index(props) {
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
       <Grid container>
-        <Grid item lg={12}>
+        <Grid item xs={12} lg={12}>
           <Box display={"flex"} alignItems={"center"}>
             <Box flex={1}>
               <CustomTabs value={activeTabValue} onChange={handleTabChange}>
@@ -424,7 +448,7 @@ function Index(props) {
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>
-        <Grid item lg={12}>
+        <Grid item xs={12} lg={12}>
           {renderComponent()}
         </Grid>
       </Grid>

@@ -49,7 +49,6 @@ function GmatDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "attempt", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}
@@ -99,7 +98,6 @@ function GmatDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "analytical", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}

@@ -1,19 +1,19 @@
 import DateFnsUtils from "@date-io/date-fns";
-import { Box, Dialog, ThemeProvider } from "@material-ui/core";
+import { Dialog, ThemeProvider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import React, { Fragment, useEffect, useState } from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { downloadGAT } from "../../../Actions/Calldetails";
 import {
   clearCustomData,
   fileUpload,
-  getExpectedDate,
   getGmatData,
   getGreData,
   getIeltsData,
-  getIeltsExpectedDate,
+  getTestTranscriptFiles,
   getToeflData,
   updateGmatData,
   updateGreData,
@@ -22,16 +22,14 @@ import {
 } from "../../../Actions/StrategySession";
 import { getDocumentList, getStudentsById } from "../../../Actions/Student";
 import { URL } from "../../../Actions/URL";
-import Mysnack from "../../MySnackBar";
-import ExamDateCard from "../../Utils/ExamDateCard";
-import Model from "../../Utils/SectionModel";
+import MySnack from "../../MySnackBar";
 import { DocumentListCard } from "./DocumentCardComponent";
 import { GmatDialogContent } from "./GmatDialogContent";
 import { GreDialogContent } from "./GreDialogContent";
 import { IeltsDialogContent } from "./IeltsDialogContent";
 import { theme, useStyles } from "./Styles";
 import { TableComponent } from "./TableComponent";
-import { ToelfDialogContent } from "./ToelfDialogContent";
+import { ToeflDialogContent } from "./ToeflDialogContent";
 
 const ANALYTICAL_OPTIONS = [
   { title: "0.5" },
@@ -87,22 +85,13 @@ function Index(props) {
     snackOpen: false,
     fileErr: false,
     finalFile: null,
-    filename: "",
-    index: "",
-    sectionStatus: {
-      model: false,
-      data: null,
-      sectionName: "",
-    },
-    toeflDateList: [],
-    ieltsDateList: [],
-    gmatDateList: [],
-    greDateList: [],
+    isFileChanged: false,
     testName: null,
     greScoreList: [],
     ieltsScoreList: [],
     toeflScoreList: [],
     gmatScoreList: [],
+    documentList: null,
   });
 
   const {
@@ -125,24 +114,17 @@ function Index(props) {
     snackOpen,
     snackVariant,
     fileErr,
-    filename,
     finalFile,
-    index,
-    sectionStatus,
-    toeflDateList,
-    ieltsDateList,
-    gmatDateList,
-    greDateList,
     testName,
     greScoreList,
     ieltsScoreList,
     toeflScoreList,
     gmatScoreList,
+    isFileChanged,
+    documentList,
   } = state;
 
-  const { StudentList, getDocumentList: documentList } = useSelector(
-    (state) => state.StudentReducer
-  );
+  const { StudentList } = useSelector((state) => state.StudentReducer);
   const {
     uploadFileResponse,
     updateGreResponse,
@@ -151,12 +133,9 @@ function Index(props) {
     gmatList,
     updateIeltsResponse,
     ieltsList,
-    updateToelfResponse,
-    toelfList,
-    greExpectedDate,
-    gmatExpectedDate,
-    toelfExpectedDate,
-    ieltsExpectedDate,
+    updateToeflResponse,
+    toeflList,
+    testTranscriptFiles,
   } = useSelector((state) => state.StrategySessionReducer);
 
   useEffect(() => {
@@ -165,11 +144,7 @@ function Index(props) {
     dispatch(getToeflData(studentId));
     dispatch(getIeltsData(studentId));
     dispatch(getStudentsById(studentId));
-    dispatch(getDocumentList(studentId, productId));
-    dispatch(getExpectedDate("gre", studentId));
-    dispatch(getExpectedDate("gmat", studentId));
-    dispatch(getExpectedDate("tofel", studentId));
-    dispatch(getIeltsExpectedDate(studentId));
+    dispatch(getTestTranscriptFiles(studentId, productId));
   }, []);
 
   useEffect(() => {
@@ -191,9 +166,9 @@ function Index(props) {
           ),
         { type: newFileType }
       );
-      setState({ ...state, filename: file.name, finalFile: newFile });
+      setState({ ...state, finalFile: newFile, isFileChanged: true });
     } else {
-      setState({ ...state, filename: "", finalFile: null });
+      setState({ ...state, finalFile: null, isFileChanged: false });
     }
   }, [files]);
 
@@ -206,10 +181,7 @@ function Index(props) {
       if (gmatList.success) {
         setState({
           ...state,
-          gmatScoreList:
-            gmatList?.data && Array.isArray(gmatList?.data)
-              ? gmatList.data
-              : [],
+          gmatScoreList: gmatList.data || [],
         });
       } else {
         setState({
@@ -228,8 +200,7 @@ function Index(props) {
       if (greList.success) {
         setState({
           ...state,
-          greScoreList:
-            greList?.data && Array.isArray(greList?.data) ? greList.data : [],
+          greScoreList: greList.data || [],
         });
       } else {
         setState({
@@ -248,10 +219,7 @@ function Index(props) {
       if (ieltsList.success) {
         setState({
           ...state,
-          ieltsScoreList:
-            ieltsList?.data && Array.isArray(ieltsList?.data)
-              ? ieltsList.data
-              : [],
+          ieltsScoreList: ieltsList.data || [],
         });
       } else {
         setState({
@@ -266,26 +234,23 @@ function Index(props) {
   }, [ieltsList]);
 
   useEffect(() => {
-    if (toelfList) {
-      if (toelfList.success) {
+    if (toeflList) {
+      if (toeflList.success) {
         setState({
           ...state,
-          toeflScoreList:
-            toelfList?.data && Array.isArray(toelfList?.data)
-              ? toelfList.data
-              : [],
+          toeflScoreList: toeflList.data || [],
         });
       } else {
         setState({
           ...state,
           snackOpen: true,
           snackVariant: "error",
-          snackMsg: toelfList.message,
+          snackMsg: toeflList.message,
         });
       }
-      dispatch(clearCustomData("toelfList"));
+      dispatch(clearCustomData("toeflList"));
     }
-  }, [toelfList]);
+  }, [toeflList]);
 
   useEffect(() => {
     if (updateGmatResponse) {
@@ -357,8 +322,8 @@ function Index(props) {
   }, [updateIeltsResponse]);
 
   useEffect(() => {
-    if (updateToelfResponse) {
-      if (updateToelfResponse.success) {
+    if (updateToeflResponse) {
+      if (updateToeflResponse.success) {
         setState({
           ...state,
           snackMsg: "Updated Successfully",
@@ -372,12 +337,12 @@ function Index(props) {
           ...state,
           snackOpen: true,
           snackVariant: "error",
-          snackMsg: updateToelfResponse.message,
+          snackMsg: updateToeflResponse.message,
         });
       }
-      dispatch(clearCustomData("updateToelfResponse"));
+      dispatch(clearCustomData("updateToeflResponse"));
     }
-  }, [updateToelfResponse]);
+  }, [updateToeflResponse]);
 
   useEffect(() => {
     if (uploadFileResponse) {
@@ -395,14 +360,20 @@ function Index(props) {
             dispatch(getIeltsData(studentId));
             break;
           }
-          case "TOELF": {
+          case "TOEFL": {
             dispatch(getToeflData(studentId));
             break;
           }
           default:
             break;
         }
-        setState({ ...state, testName: null });
+        setState({
+          ...state,
+          testName: null,
+          finalFile: null,
+          isFileChanged: false,
+        });
+        dispatch(getTestTranscriptFiles(studentId, productId));
       } else {
         setState({
           ...state,
@@ -416,68 +387,23 @@ function Index(props) {
   }, [uploadFileResponse]);
 
   useEffect(() => {
-    if (greExpectedDate) {
-      if (greExpectedDate.success) {
-        setState({ ...state, greDateList: greExpectedDate?.data || [] });
+    if (testTranscriptFiles) {
+      if (testTranscriptFiles.success) {
+        setState({
+          ...state,
+          documentList: testTranscriptFiles.data,
+        });
       } else {
         setState({
           ...state,
           snackOpen: true,
           snackVariant: "error",
-          snackMsg: greExpectedDate.message,
+          snackMsg: testTranscriptFiles.message,
         });
       }
-      dispatch(clearCustomData("greExpectedDate"));
+      dispatch(clearCustomData("testTranscriptFiles"));
     }
-  }, [greExpectedDate]);
-
-  useEffect(() => {
-    if (gmatExpectedDate) {
-      if (gmatExpectedDate.success) {
-        setState({ ...state, gmatDateList: gmatExpectedDate?.data || [] });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: gmatExpectedDate.message,
-        });
-      }
-      dispatch(clearCustomData("gmatExpectedDate"));
-    }
-  }, [gmatExpectedDate]);
-
-  useEffect(() => {
-    if (toelfExpectedDate) {
-      if (toelfExpectedDate.success) {
-        setState({ ...state, toeflDateList: toelfExpectedDate?.data || [] });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: toelfExpectedDate.message,
-        });
-      }
-      dispatch(clearCustomData("toelfExpectedDate"));
-    }
-  }, [toelfExpectedDate]);
-
-  useEffect(() => {
-    if (ieltsExpectedDate) {
-      if (ieltsExpectedDate.success) {
-        setState({ ...state, ieltsDateList: ieltsExpectedDate?.data || [] });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: ieltsExpectedDate.message,
-        });
-      }
-      dispatch(clearCustomData("ieltsExpectedDate"));
-    }
-  }, [ieltsExpectedDate]);
+  }, [testTranscriptFiles]);
 
   const customFileFormat = (file) => {
     if (file) {
@@ -488,13 +414,15 @@ function Index(props) {
     } else return null;
   };
 
-  const handleEdit = (data, indexValue, name) => {
+  const handleEdit = (data, name) => {
     setState({
       ...state,
       show: true,
       testName: name,
       attempt: { title: data.attempt },
-      date: data.completedExamDate,
+      date: data.completedExamDate
+        ? moment(new Date(data.completedExamDate)).format("YYYY-MM")
+        : data.completedExamDate,
       quantitativeReasoning: data.quantitativeReasoning,
       verbalReasoning: data.verbalReasoning,
       integratedReasoning: data.integratedReasoning,
@@ -509,8 +437,8 @@ function Index(props) {
       writing: data.writing || data.writingScore,
       total: data.score || data.totalScore,
       id: data.id,
-      index: indexValue + 1,
       finalFile: customFileFormat(data.studentDocument),
+      isFileChanged: false,
     });
   };
 
@@ -552,6 +480,7 @@ function Index(props) {
 
   const handleSave = (name) => {
     const commonObj = {
+      id: id,
       attempt: attempt?.title,
       expectedExamDate: null,
       completedExamDate: date,
@@ -569,7 +498,9 @@ function Index(props) {
         analyticalWriting: analytical?.title,
       };
       dispatch(updateGreData(studentId, obj));
-      dispatch(fileUpload(studentId, "gre", id, d));
+      if (isFileChanged) {
+        dispatch(fileUpload(studentId, "gre", id, d));
+      }
     }
     if (name === "GMAT") {
       let obj = {
@@ -581,7 +512,9 @@ function Index(props) {
       };
 
       dispatch(updateGmatData(studentId, obj));
-      dispatch(fileUpload(studentId, "gmat", id, d));
+      if (isFileChanged) {
+        dispatch(fileUpload(studentId, "gmat", id, d));
+      }
     }
     if (name === "TOEFL") {
       let obj = {
@@ -592,7 +525,9 @@ function Index(props) {
         speaking: speaking,
       };
       dispatch(updateToeflData(studentId, obj));
-      dispatch(fileUpload(studentId, "toelf", id, d));
+      if (isFileChanged) {
+        dispatch(fileUpload(studentId, "tofel", id, d));
+      }
     }
     if (name === "IELTS") {
       let obj = {
@@ -601,10 +536,13 @@ function Index(props) {
         listeningScore: listening,
         speakingScore: speaking,
         writingScore: writing,
+        totalScore: total,
       };
 
       dispatch(updateIeltsData(studentId, obj));
-      dispatch(fileUpload(studentId, "ielts", id, d));
+      if (isFileChanged) {
+        dispatch(fileUpload(studentId, "ielts", id, d));
+      }
     }
   };
 
@@ -614,51 +552,13 @@ function Index(props) {
   };
 
   const handleClose = () => {
-    setState({ ...state, show: false, testName: null });
-  };
-
-  const renderModel = () => (
-    <Model
-      data={sectionStatus}
-      handleClose={() =>
-        setState({
-          sectionStatus: {
-            ...sectionStatus,
-            model: false,
-          },
-        })
-      }
-      section={sectionStatus}
-      {...props}
-    />
-  );
-
-  const ExamDateCards = ({ data, name }) => {
-    return data && data.length !== 0 ? (
-      <Grid item md={12}>
-        <Box>
-          <p className={classes.GridStyle}>{name}</p>
-        </Box>
-        <Box>
-          <Grid container spacing={2}>
-            <Fragment key={name}>
-              {data.map(({ expectedExamDate }, index) => {
-                return (
-                  <Grid
-                    key={`${name}-exam-card-${index}`}
-                    id={`${name}-exam-card-${index}`}
-                    item
-                    md={3}
-                  >
-                    <ExamDateCard date={expectedExamDate || ""} />
-                  </Grid>
-                );
-              })}
-            </Fragment>
-          </Grid>
-        </Box>
-      </Grid>
-    ) : null;
+    setState({
+      ...state,
+      show: false,
+      testName: null,
+      finalFile: null,
+      isFileChanged: false,
+    });
   };
 
   const renderDialogContent = () => {
@@ -670,6 +570,11 @@ function Index(props) {
       date: date,
       analytical: analytical,
       verbalReasoning: verbalReasoning,
+      integratedReasoning: integratedReasoning,
+      reading: reading,
+      writing: writing,
+      speaking: speaking,
+      listening: listening,
       total: total,
       fileError: fileErr,
       finalFile: finalFile,
@@ -685,8 +590,8 @@ function Index(props) {
         return <GmatDialogContent {...dialogProp} />;
       case "IELTS":
         return <IeltsDialogContent {...dialogProp} />;
-      case "TOELF":
-        return <ToelfDialogContent {...dialogProp} />;
+      case "TOEFL":
+        return <ToeflDialogContent {...dialogProp} />;
       default:
         return null;
     }
@@ -705,6 +610,7 @@ function Index(props) {
             handleDownload={handleDownload}
             handleEdit={handleEdit}
             name={"GRE"}
+            isDisabled={props.isStageCompleted}
           />
           <TableComponent
             disabled={disable}
@@ -712,6 +618,7 @@ function Index(props) {
             handleDownload={handleDownload}
             handleEdit={handleEdit}
             name={"GMAT"}
+            isDisabled={props.isStageCompleted}
           />
           <TableComponent
             disabled={disable}
@@ -719,6 +626,7 @@ function Index(props) {
             handleDownload={handleDownload}
             handleEdit={handleEdit}
             name={"TOEFL"}
+            isDisabled={props.isStageCompleted}
           />
           <TableComponent
             disabled={disable}
@@ -726,8 +634,15 @@ function Index(props) {
             handleDownload={handleDownload}
             handleEdit={handleEdit}
             name={"IELTS"}
+            isDisabled={props.isStageCompleted}
           />
-          <Grid item md={12} container justifyContent={"space-between"}>
+          <Grid
+            item
+            md={12}
+            container
+            justifyContent={"space-between"}
+            style={{ paddingBottom: "10px" }}
+          >
             <p className={classes.HeadStyle}>{"Documents Received"}</p>
           </Grid>
           {documentList &&
@@ -823,12 +738,7 @@ function Index(props) {
                 </Grid>
                 <Grid item={12} container>
                   {documentList.IELTS.map((data) => (
-                    <Grid
-                      item
-                      md={4}
-                      direction='row'
-                      onClick={() => documentClick(data)}
-                    >
+                    <Grid item md={4} onClick={() => documentClick(data)}>
                       <DocumentListCard
                         certificate={data.name}
                         date={data.date}
@@ -842,31 +752,17 @@ function Index(props) {
                 </Grid>
               </Grid>
             )}
-          <Grid item md={12}>
-            <p className={classes.HeadStyle}>{"Exam Date"}</p>
-          </Grid>
-          <Grid item md={12}>
-            <Grid container spacing={3}>
-              <Fragment>
-                <ExamDateCards data={greDateList} name={"GRE"} />
-                <ExamDateCards data={gmatDateList} name={"GMAT"} />
-                <ExamDateCards data={toeflDateList} name={"TOEFL"} />
-                <ExamDateCards data={ieltsDateList} name={"IELTS"} />
-              </Fragment>
-            </Grid>
-          </Grid>
           <Dialog open={show} onClose={handleClose} maxWidth={"sm"} fullWidth>
             {renderDialogContent()}
           </Dialog>
         </MuiPickersUtilsProvider>
       </div>
-      <Mysnack
+      <MySnack
         snackMsg={snackMsg}
         snackVariant={snackVariant}
         snackOpen={snackOpen}
         onClose={() => setState({ ...state, snackOpen: false })}
       />
-      {renderModel()}
     </ThemeProvider>
   );
 }

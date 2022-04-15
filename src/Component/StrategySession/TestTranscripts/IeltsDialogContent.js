@@ -48,7 +48,6 @@ function IeltsDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "attempt", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}

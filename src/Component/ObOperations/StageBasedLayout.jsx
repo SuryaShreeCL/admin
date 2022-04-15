@@ -25,6 +25,7 @@ import {
   StudentStepDetails,
   opsStageComplete,
   getCompletedStages,
+  getStageLockStatus,
 } from "../../Actions/Student";
 import "../../Asset/All.css";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -80,7 +81,7 @@ const STAGES = [
     component: (props) => <StrategySession {...props} />,
     isCompleteButton: true,
     buttonText: "Strategy Session Complete",
-    buttonCompletedText: "Strategy Session Complete",
+    buttonCompletedText: "Strategy Session Completed",
   },
   {
     name: "Application Stage",
@@ -129,6 +130,7 @@ class StageBasedLayout extends Component {
         Others: "AdmissionServices",
       },
       completedStagesList: [],
+      verifiedStages: [],
     };
   }
 
@@ -223,6 +225,18 @@ class StageBasedLayout extends Component {
       <Typography className={"incomplete_text"}>{" incomplete"}</Typography>
     );
   }
+
+  checkStageVerified = (stageName, stageDisabled) => {
+    const { verifiedStages } = this.state;
+    let verified = false;
+    if (verifiedStages && verifiedStages.length !== 0) {
+      let arr = verifiedStages.filter(({ name }) => name === stageName);
+      if (arr.length !== 0) {
+        verified = arr[0]["status"] !== "Verified";
+      }
+    }
+    return verified || stageDisabled;
+  };
 
   handleIncomplete = () => {
     this.setState({
@@ -357,6 +371,7 @@ class StageBasedLayout extends Component {
         `?studentId=${this.props.match.params.studentId}`
     );
     this.props.getCompletedStages(studentId, productId);
+    this.props.getStageLockStatus(studentId, productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -403,7 +418,7 @@ class StageBasedLayout extends Component {
         STAGES.findIndex(({ stageName }) => stageName === newStageName) || 0;
       let activeTab =
         sortedArr.findIndex(
-          ({ stepName }) => stepName === STAGES[index]["name"]
+          ({ stepName }) => stepName === STAGES[index]?.["name"]
         ) || 0;
 
       this.setState({
@@ -480,6 +495,7 @@ class StageBasedLayout extends Component {
           snackOpen: true,
         });
         this.props.getCompletedStages(studentId, productId);
+        this.props.getStageLockStatus(studentId, productId);
       } else {
         this.setState({
           snackMsg: this.props.opsStageCompleteStatus.message,
@@ -503,6 +519,24 @@ class StageBasedLayout extends Component {
           snackVariant: "error",
           snackOpen: true,
           completedStagesList: [],
+        });
+      }
+    }
+    if (
+      this.props.stageLockStatus &&
+      this.props.stageLockStatus !== prevProps.stageLockStatus
+    ) {
+      const { stageLockStatus } = this.props;
+      if (stageLockStatus.success) {
+        this.setState({
+          verifiedStages: stageLockStatus.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: stageLockStatus.message,
+          snackVariant: "error",
+          snackOpen: true,
+          verifiedStages: [],
         });
       }
     }
@@ -659,9 +693,12 @@ class StageBasedLayout extends Component {
                   <ThemedTab
                     key={index}
                     label={item.stepName}
-                    // disabled={item.disabled}
+                    disabled={this.checkStageVerified(
+                      item.stepName,
+                      item.disabled
+                    )}
                     icon={
-                      item.disabled ? (
+                      this.checkStageVerified(item.stepName, item.disabled) ? (
                         <LockIcon className={"icon_style"} />
                       ) : null
                     }
@@ -767,9 +804,15 @@ class StageBasedLayout extends Component {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        // disabled={item.disabled}
+                        disabled={this.checkStageVerified(
+                          item.stepName,
+                          item.disabled
+                        )}
                         icon={
-                          item.disabled ? (
+                          this.checkStageVerified(
+                            item.stepName,
+                            item.disabled
+                          ) ? (
                             <LockIcon className={"icon_style"} />
                           ) : null
                         }
@@ -988,6 +1031,7 @@ const mapStateToProps = (state) => ({
   StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
   opsStageCompleteStatus: state.StudentReducer.opsStageCompleteStatus,
   completedStages: state.StudentReducer.completedStages,
+  stageLockStatus: state.StudentReducer.stageLockStatus,
 });
 
 export default connect(mapStateToProps, {
@@ -1001,4 +1045,5 @@ export default connect(mapStateToProps, {
   IncompleteStatus,
   opsStageComplete,
   getCompletedStages,
+  getStageLockStatus,
 })(StageBasedLayout);

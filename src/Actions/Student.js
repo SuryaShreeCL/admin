@@ -1511,3 +1511,29 @@ export const getCompletedStages = (studentId, productId) => {
       });
   };
 };
+
+export const getStageLockStatus = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${URL}/api/v1/students/${studentId}/products/${productId}/lockStatus`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({
+          type: STUDENT.getStageLockStatus,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getStageLockStatus, error, false));
+      });
+  };
+};

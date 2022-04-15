@@ -19,6 +19,7 @@ function TableComponent({
   handleDownload,
   handleEdit,
   name,
+  isDisabled,
 }) {
   const classes = useStyles();
 
@@ -261,14 +262,18 @@ function TableComponent({
                         fontStyle: "italic",
                       }}
                     >
-                      <IconButton onClick={() => handleDownload("GRE", index)}>
+                      <IconButton
+                        disabled={Boolean(!eachData.studentDocument)}
+                        onClick={() => handleDownload("GRE", index)}
+                      >
                         <GetAppIcon />
                       </IconButton>
                     </div>
                   </TableCell>
                   <TableCell style={{ borderBottom: "none" }}>
                     <IconButton
-                      onClick={() => handleEdit(eachData, index, name)}
+                      disabled={isDisabled}
+                      onClick={() => handleEdit(eachData, name)}
                     >
                       <img src={Pencil} height={17} width={17} />
                     </IconButton>

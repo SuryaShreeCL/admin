@@ -75,6 +75,7 @@ function Index(props) {
     miscellaneousSelectedValue: null,
     programLink: null,
     deadline: null,
+    completedStagesList: [],
   });
 
   const {
@@ -104,6 +105,7 @@ function Index(props) {
     miscellaneousSelectedValue,
     programLink,
     deadline,
+    completedStagesList,
   } = state;
   const {
     loading,
@@ -115,13 +117,29 @@ function Index(props) {
     miscellaneousList,
   } = useSelector((state) => state.ApplicationStageReducer);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
   useEffect(() => {
     dispatch(getStudentStageByProductId(studentId, productId));
   }, []);
+
+  useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
 
   useEffect(() => {
     if (studentStages) {
@@ -267,14 +285,8 @@ function Index(props) {
           upcomingFileName: data.fileName,
           status: data.stepStatus,
           documentList: data.content || [],
-          deadline:
-            data.content.length !== 0
-              ? data.content[0]["schoolDetails"]["deadline"]
-              : null,
-          programLink:
-            data.content.length !== 0
-              ? data.content[0]["schoolDetails"]["programLink"]
-              : null,
+          deadline: data?.schoolDetails?.deadLine,
+          programLink: data?.schoolDetails?.programLink,
         });
       } else {
         setState({
@@ -481,6 +493,10 @@ function Index(props) {
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
   };
 
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Application Stage");
+  };
+
   const renderComponent = () => {
     const renderProps = {
       open: open,
@@ -682,7 +698,9 @@ function Index(props) {
                     </Box>
                     <Typo color={"#004CFE"} component={"span"} fontWeight={500}>
                       {programLink ? (
-                        <a href={programLink}>{"Program Link"}</a>
+                        <a href={programLink} target='_blank'>
+                          {"Program Link"}
+                        </a>
                       ) : (
                         "NA"
                       )}
@@ -706,11 +724,13 @@ function Index(props) {
                     variant={"contained"}
                     style={
                       customTheme["palette"][
-                        Boolean(status) ? "disabled" : "contained"
+                        isStageCompleted() || Boolean(status)
+                          ? "disabled"
+                          : "contained"
                       ]
                     }
                     onClick={handleUploadClick}
-                    disabled={Boolean(status)}
+                    disabled={isStageCompleted() || Boolean(status)}
                   >
                     {"Upload"}
                   </StyledButton>

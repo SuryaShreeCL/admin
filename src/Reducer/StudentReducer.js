@@ -50,6 +50,7 @@ const initialState = {
   studentStages: null,
   subStageSteps: null,
   completedStages: null,
+  stageLockStatus: null,
 };
 
 export default (state = initialState, action) => {
@@ -345,6 +346,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         completedStages: action.payload,
+      };
+    case STUDENT.getStageLockStatus:
+      return {
+        ...state,
+        stageLockStatus: action.payload,
       };
     default:
       break;
