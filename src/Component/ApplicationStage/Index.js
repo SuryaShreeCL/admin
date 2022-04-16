@@ -324,7 +324,9 @@ function Index(props) {
             studentId,
             productId,
             sectionId,
-            requestBody
+            requestBody,
+            schoolType,
+            schoolId
           )
         );
       } else {
@@ -704,7 +706,7 @@ function Index(props) {
                               ? programLink
                               : `https://${programLink}`
                           }
-                          target='_blank'
+                          target="_blank"
                         >
                           {"Program Link"}
                         </a>
@@ -737,7 +739,7 @@ function Index(props) {
                       ]
                     }
                     onClick={handleUploadClick}
-                    disabled={isStageCompleted() || documentList.length === 0}
+                    // disabled={isStageCompleted() || documentList.length === 0}
                   >
                     {"Upload"}
                   </StyledButton>

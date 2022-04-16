@@ -109,7 +109,9 @@ export const uploadDocumentBySubStageId = (
   studentId,
   productId,
   subStageId,
-  data
+  data,
+  type,
+  schoolId
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -118,7 +120,7 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUploadDetails`,
+          `${URL}/api/v1/students/${studentId}/product/${productId}/subStages/${subStageId}/${schoolId}/applicationStage/fileUploadDetails?type=${type}`,
           data,
           {
             headers: {
