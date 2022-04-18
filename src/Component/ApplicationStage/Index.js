@@ -107,6 +107,7 @@ function Index(props) {
     deadline,
     completedStagesList,
   } = state;
+
   const {
     loading,
     schoolList,
@@ -202,7 +203,7 @@ function Index(props) {
       dispatch(getSchoolList(studentId, productId, sectionId));
       dispatch(getMiscellaneousList(studentId, productId, sectionId));
     }
-  }, [sectionId]);
+  }, [sectionId, activeTabValue]);
 
   useEffect(() => {
     if (schoolId) {
@@ -231,15 +232,6 @@ function Index(props) {
             schoolType: schoolObj.type,
             schoolName: schoolObj.name,
           });
-          dispatch(
-            getDocumentModelBySubStageId(
-              studentId,
-              productId,
-              sectionId,
-              schoolObj.id,
-              schoolObj.type
-            )
-          );
         } else {
           setState({ ...state, schoolSteps: [] });
         }
@@ -324,9 +316,9 @@ function Index(props) {
             studentId,
             productId,
             sectionId,
-            requestBody,
+            schoolId,
             schoolType,
-            schoolId
+            requestBody
           )
         );
       } else {
@@ -565,6 +557,7 @@ function Index(props) {
   const handleTabChange = (e, newValue) => {
     let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
+    console.log(arr, newSectionId, newValue);
     setState({
       ...state,
       activeTabValue: newValue,
@@ -635,6 +628,8 @@ function Index(props) {
       miscellaneousSelectedValue: val,
       activeTabValue: null,
       miscellaneousAnchorEl: null,
+      documentList: [],
+      schoolSteps: [],
     });
   };
 
@@ -648,6 +643,8 @@ function Index(props) {
   };
 
   const isMiscellaneous = Boolean(miscellaneousSelectedValue);
+  const disabledUploadButton = isStageCompleted() || documentList.length === 0;
+
   return (
     <div className={classes.stageBoxLayoutStyle}>
       <Grid container>
@@ -706,7 +703,7 @@ function Index(props) {
                               ? programLink
                               : `https://${programLink}`
                           }
-                          target="_blank"
+                          target='_blank'
                         >
                           {"Program Link"}
                         </a>
@@ -733,13 +730,11 @@ function Index(props) {
                     variant={"contained"}
                     style={
                       customTheme["palette"][
-                        isStageCompleted() || documentList.length === 0
-                          ? "disabled"
-                          : "contained"
+                        disabledUploadButton ? "disabled" : "contained"
                       ]
                     }
                     onClick={handleUploadClick}
-                    // disabled={isStageCompleted() || documentList.length === 0}
+                    disabled={disabledUploadButton}
                   >
                     {"Upload"}
                   </StyledButton>

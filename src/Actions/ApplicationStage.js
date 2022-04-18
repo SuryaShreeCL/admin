@@ -77,7 +77,7 @@ export const uploadFileBySubStageId = (
     try {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
-        .post(
+        .put(
           `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/${schoolId}/fileUpload`,
           data,
           {
@@ -109,9 +109,9 @@ export const uploadDocumentBySubStageId = (
   studentId,
   productId,
   subStageId,
-  data,
-  type,
-  schoolId
+  schoolId,
+  schoolType,
+  data
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -120,12 +120,15 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/product/${productId}/subStages/${subStageId}/${schoolId}/applicationStage/fileUploadDetails?type=${type}`,
+          `${URL}/api/v1/students/${studentId}/product/${productId}/subStages/${subStageId}/${schoolId}/applicationStage/fileUploadDetails`,
           data,
           {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              type: schoolType,
             },
           }
         )
