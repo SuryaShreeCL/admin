@@ -537,12 +537,30 @@ class TestEngineResult extends Component {
             </div>
             {this.state.quesAns.length !== 0 &&
               this.state.quesAns.map((eachItem, index) => {
+                /** Modify the questions */
+                let string = eachItem.question || "";
+                let indexOf = string.indexOf(".");
+                let length = string.length;
+                let questionNo = `<span style="float: left;padding-right: 4px;">${string.slice(
+                  0,
+                  indexOf + 1
+                )}</span>`;
+                let newQuestion = string.slice(indexOf + 1, length).trim();
                 return (
                   <>
-                    <div style={{ paddingTop: "10px" }}>
-                      <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                        {eachItem.question}
-                      </Typography>
+                    <div
+                      id={`questions-${index}`}
+                      style={{ paddingTop: "10px" }}
+                    >
+                      <div
+                        style={{
+                          color: "rgb(5, 42, 78)",
+                          fontSize: "14px",
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: `${questionNo}${newQuestion}`,
+                        }}
+                      />
                     </div>
                     <div style={{ paddingTop: 10 }}>
                       <Typography style={{ color: "#686868", fontSize: 14 }}>

@@ -21,6 +21,7 @@ const initialState = {
   adminUserList: [],
   deletementor: [],
   studentsByStagesList: null,
+  manageStudentsByStagesList: null,
   adminUserDepartments: null,
   loading: false,
 };
@@ -125,6 +126,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         studentsByStagesList: action.payload,
+        loading: action.loading,
+      };
+    case ADMIN.getManageStudentsByStages:
+      return {
+        ...state,
+        manageStudentsByStagesList: action.payload,
         loading: action.loading,
       };
     case ADMIN.getAllAdminUsers:

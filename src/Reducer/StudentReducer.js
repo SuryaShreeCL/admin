@@ -41,9 +41,16 @@ const initialState = {
   AspirationDegree: [],
   AspirationBranch: [],
   AspirationCountry: [],
+  regionList: [],
+  degreeList: [],
   AspirationCollege: [],
   AspirationSpecialization: [],
   allIntakeList: null,
+  opsStageCompleteStatus: null,
+  studentStages: null,
+  subStageSteps: null,
+  completedStages: null,
+  stageLockStatus: null,
 };
 
 export default (state = initialState, action) => {
@@ -305,7 +312,7 @@ export default (state = initialState, action) => {
         ...state,
         AspirationCountry: action.AspirationCountry,
       };
-    case STUDENT.aspirationCollege:
+    case STUDENT.AspirationCollege:
       return {
         ...state,
         AspirationCollege: action.AspirationCollege,
@@ -319,6 +326,31 @@ export default (state = initialState, action) => {
       return {
         ...state,
         allIntakeList: action.payload,
+      };
+    case STUDENT.opsStageComplete:
+      return {
+        ...state,
+        opsStageCompleteStatus: action.payload,
+      };
+    case STUDENT.getStepsBySubStageId:
+      return {
+        ...state,
+        subStageSteps: action.payload,
+      };
+    case STUDENT.getStudentStageByProductId:
+      return {
+        ...state,
+        studentStages: action.payload,
+      };
+    case STUDENT.getCompletedStages:
+      return {
+        ...state,
+        completedStages: action.payload,
+      };
+    case STUDENT.getStageLockStatus:
+      return {
+        ...state,
+        stageLockStatus: action.payload,
       };
     default:
       break;

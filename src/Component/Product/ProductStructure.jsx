@@ -19,18 +19,18 @@ import {
   putproductstructure,
   getProductVarient,
   getAllProductFamily,
-  getProductByFamilyId
+  getProductByFamilyId,
 } from "../../Actions/ProductAction";
-import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from "@material-ui/pickers";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { isEmptyString } from "../Validation";
 import MySnackBar from "../MySnackBar";
 import { productstructurePath } from "../RoutePaths";
@@ -38,37 +38,39 @@ class ProductStructure extends Component {
   constructor() {
     super();
     this.state = {
-        id:"",
-        stepname:"",
-        stepnameErr:"",
-        description:"",
-        descriptionErr:"",
-        startMonth:new Date(),
-        startMonthErr:"",
-        endMonthErr:"",
-        endMonth:new Date(),
-        href:"",
-        hrefErr:"",
-        image:"",
-        imageErr:"",
-        lockimage:"",
-        lockimageErr:"",
-        maxtat:"",
-        maxtatErr:"",
-        mintatErr:"",
-        mintat:"",
-        rank:"",
-        rankErr:"",
-        open:false,
-        checkedB:false,
-        varient:"",
-        drop : true,
-        family:"",
-        snackMsg: "",
-        snackVariant: "",
-        snackOpen: false,
-        familyErr:"",
-        varientErr:""
+      id: "",
+      stepname: "",
+      stepnameErr: "",
+      description: "",
+      descriptionErr: "",
+      startMonth: new Date(),
+      startMonthErr: "",
+      endMonthErr: "",
+      endMonth: new Date(),
+      href: "",
+      hrefErr: "",
+      image: "",
+      imageErr: "",
+      lockimage: "",
+      lockimageErr: "",
+      maxtat: "",
+      maxtatErr: "",
+      mintatErr: "",
+      mintat: "",
+      rank: "",
+      rankErr: "",
+      open: false,
+      checkedB: false,
+      varient: "",
+      drop: true,
+      family: "",
+      snackMsg: "",
+      snackVariant: "",
+      snackOpen: false,
+      familyErr: "",
+      varientErr: "",
+      stageId: "",
+      stepId: "",
     };
   }
   componentDidMount() {
@@ -78,166 +80,253 @@ class ProductStructure extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
-      this.props.getProductByFamilyId(this.state.family !== null ? this.state.family.id : null);
+      this.props.getProductByFamilyId(
+        this.state.family !== null ? this.state.family.id : null
+      );
     }
-    if(this.props.postproductstructureList !== prevProps.postproductstructureList){
-        this.props.getproductstructure();
+    if (
+      this.props.postproductstructureList !== prevProps.postproductstructureList
+    ) {
+      this.props.getproductstructure();
+
+      // this.setState({
+      //   postResponse: this.props.postproductstructureList?.body?.data,
+      // });
     }
-    if(this.props.putproductstructureList !== prevProps.putproductstructureList){
-        this.props.getproductstructure();
+    if (
+      this.props.putproductstructureList !== prevProps.putproductstructureList
+    ) {
+      this.props.getproductstructure();
     }
   }
- handleClick=(data)=>{
-     console.log(data)
+  handleClick = (data) => {
     this.setState({
-        open:true,
-        stepname : data.stepName,
-        description : data.description,
-        disabled : data.disabled,
-        href:data.href,
-        startMonth:data.startMonth,
-        endMonth:data.endMonth,
-        rank:data.rank,
-        image:data.image,
-        lockimage:data.lockImg,
-        mintat:data.min_tat,
-        maxtat:data.max_tat,
-        drop : false,
-        id:data.id,
-        varient : data.product.id
-    })
-}
-handleUpdate=()=>{
-    let hlptxt = "Please Fill the Required Field"
-    isEmptyString(this.state.stepname) ? this.setState({ stepnameErr : hlptxt}) : this.setState({stepnameErr : ""})
-    isEmptyString(this.state.image) ? this.setState({ imageErr : hlptxt}) : this.setState({imageErr : ""})
-    isEmptyString(this.state.lockimage) ? this.setState({ lockimageErr : hlptxt}) : this.setState({lockimageErr : ""})
-    isEmptyString(this.state.href) ? this.setState({ hrefErr : hlptxt}) : this.setState({hrefErr : ""})
-    this.state.startMonth === null ? this.setState({ startMonthErr : hlptxt}) : this.setState({startMonthErr : ""})
-    this.state.endMonth === null ? this.setState({ endMonthErr : hlptxt}) : this.setState({endMonthErr : ""})
-    isEmptyString(this.state.rank) ? this.setState({ rankErr : hlptxt}) : this.setState({rankErr : ""})
-    isEmptyString(this.state.maxtat) ? this.setState({ maxtatErr : hlptxt}) : this.setState({maxtatErr : ""})
-    isEmptyString(this.state.mintat) ? this.setState({ mintatErr : hlptxt}) : this.setState({mintatErr : ""})
-    isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlptxt}) : this.setState({descriptionErr : ""})
-    if(
-        !isEmptyString(this.state.stepname) &&
-        !isEmptyString(this.state.image) &&
-        !isEmptyString(this.state.lockimage) &&
-        !isEmptyString(this.state.href) &&
-        !isEmptyString(this.state.rank) &&
-        !isEmptyString(this.state.maxtat) &&
-        !isEmptyString(this.state.mintat) &&
-        !isEmptyString(this.state.description) &&
-        this.state.startMonth !== null &&
-        this.state.endMonth !== null
-    ){
-        let obj={
-            "id": this.state.id,
-            "stepName":this.state.stepname,
-            "description":this.state.description,
-            "disabled":this.state.checkedB,
-            "endMonth":this.state.endMonth,
-            "startMonth":this.state.startMonth,
-            "href":this.state.href,
-            "image":this.state.image,
-            "lockImg":this.state.lockimage,
-            "max_tat":this.state.maxtat,
-            "min_tat":this.state.mintat,
-            "rank":this.state.rank,
-            "parent": null,
-            "product" : this.state.varient
+      open: true,
+      stepname: data.stepName,
+      description: data.description,
+      disabled: data.disabled,
+      href: data.href,
+      startMonth: data.startMonth,
+      endMonth: data.endMonth,
+      rank: data.rank,
+      image: data.image,
+      lockimage: data.lockImg,
+      mintat: data.min_tat,
+      maxtat: data.max_tat,
+      drop: false,
+      id: data.id,
+      varient: data.product,
+      stepId: data.stepId,
+      stageId: data.stagesId,
+    });
+  };
+  handleUpdate = () => {
+    let hlptxt = "Please Fill the Required Field";
+    isEmptyString(this.state.stepname)
+      ? this.setState({ stepnameErr: hlptxt })
+      : this.setState({ stepnameErr: "" });
+    isEmptyString(this.state.image)
+      ? this.setState({ imageErr: hlptxt })
+      : this.setState({ imageErr: "" });
+    isEmptyString(this.state.lockimage)
+      ? this.setState({ lockimageErr: hlptxt })
+      : this.setState({ lockimageErr: "" });
+    isEmptyString(this.state.href)
+      ? this.setState({ hrefErr: hlptxt })
+      : this.setState({ hrefErr: "" });
+    this.state.startMonth === null
+      ? this.setState({ startMonthErr: hlptxt })
+      : this.setState({ startMonthErr: "" });
+    this.state.endMonth === null
+      ? this.setState({ endMonthErr: hlptxt })
+      : this.setState({ endMonthErr: "" });
+    isEmptyString(this.state.rank)
+      ? this.setState({ rankErr: hlptxt })
+      : this.setState({ rankErr: "" });
+    isEmptyString(this.state.maxtat)
+      ? this.setState({ maxtatErr: hlptxt })
+      : this.setState({ maxtatErr: "" });
+    isEmptyString(this.state.mintat)
+      ? this.setState({ mintatErr: hlptxt })
+      : this.setState({ mintatErr: "" });
+    isEmptyString(this.state.description)
+      ? this.setState({ descriptionErr: hlptxt })
+      : this.setState({ descriptionErr: "" });
+    if (
+      !isEmptyString(this.state.stepname) &&
+      !isEmptyString(this.state.image) &&
+      !isEmptyString(this.state.lockimage) &&
+      !isEmptyString(this.state.href) &&
+      !isEmptyString(this.state.rank) &&
+      !isEmptyString(this.state.maxtat) &&
+      !isEmptyString(this.state.mintat) &&
+      !isEmptyString(this.state.description) &&
+      this.state.startMonth !== null &&
+      this.state.endMonth !== null
+    ) {
+      let obj = {
+        id: this.state.id,
+        stepId: this.state.stepId,
+        stagesId: this.state.stageId,
+        description: this.state.description,
+        endMonth: this.state.endMonth,
+        href: this.state.href,
+        image: this.state.image,
+        lockImg: this.state.lockimage,
+        isChild: false,
+        isParent: true,
+        max_tat: this.state.maxtat,
+        min_tat: this.state.mintat,
+        orderNo: this.state.rank,
+
+        product: {
+          id: this.state.varient ? this.state.varient.id : null,
+        },
+        rank: this.state.rank,
+        color: null,
+        startMonth: this.state.startMonth,
+        stepName: this.state.stepname,
+        icon: null,
+        iconCompleted: null,
+      };
+
+      this.props.putproductstructure(obj, (response) => {
+        if (response?.data?.body?.success) {
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+            open: false,
+          });
+        } else {
+          this.setState({
+            snackMsg: response.message,
+            snackOpen: true,
+            snackVariant: "error",
+            open: false,
+          });
         }
-        this.props.putproductstructure(obj)
-        this.setState({
-            snackMsg:"Updated Successfully",
-            snackOpen:true,
-            snackVariant:"success",
-            open : false
-          })
+      });
     }
-    
-}
- handleOpen=()=>{
-     let hlptxt = "Please Fill the Required Field"
-     this.state.family === "" ? this.setState({ familyErr : hlptxt}) : this.setState({ familyErr : "" })
-     this.state.varient === "" ? this.setState({ varientErr : hlptxt }) : this.setState({ varientErr : "" })
-     if(
-        this.state.family !== "" &&
-        this.state.varient !== ""
-     ){
-        this.setState({
-            open:true,
-            stepname : "",
-            description : "",
-            disabled : "",
-            href:"",
-            startMonth:new Date(),
-            endMonth:new Date(),
-            rank:"",
-            image:"",
-            lockimage:"",
-            mintat:"",
-            maxtat:"",
-            drop : true
-        })
-     }
-   
-}
-handelAdd=()=>{
-    let hlptxt = "Please Fill the Required Field"
-    isEmptyString(this.state.stepname) ? this.setState({ stepnameErr : hlptxt}) : this.setState({stepnameErr : ""})
-    isEmptyString(this.state.image) ? this.setState({ imageErr : hlptxt}) : this.setState({imageErr : ""})
-    isEmptyString(this.state.lockimage) ? this.setState({ lockimageErr : hlptxt}) : this.setState({lockimageErr : ""})
-    isEmptyString(this.state.href) ? this.setState({ hrefErr : hlptxt}) : this.setState({hrefErr : ""})
-    this.state.startMonth === null ? this.setState({ startMonthErr : hlptxt}) : this.setState({startMonthErr : ""})
-    this.state.endMonth === null ? this.setState({ endMonthErr : hlptxt}) : this.setState({endMonthErr : ""})
-    isEmptyString(this.state.rank) ? this.setState({ rankErr : hlptxt}) : this.setState({rankErr : ""})
-    isEmptyString(this.state.maxtat) ? this.setState({ maxtatErr : hlptxt}) : this.setState({maxtatErr : ""})
-    isEmptyString(this.state.mintat) ? this.setState({ mintatErr : hlptxt}) : this.setState({mintatErr : ""})
-    isEmptyString(this.state.description) ? this.setState({ descriptionErr : hlptxt}) : this.setState({descriptionErr : ""})
-    console.log(this.state)
-    if(
-        !isEmptyString(this.state.stepname) &&
-        !isEmptyString(this.state.image) &&
-        !isEmptyString(this.state.lockimage) &&
-        !isEmptyString(this.state.href) &&
-        !isEmptyString(this.state.rank) &&
-        !isEmptyString(this.state.maxtat) &&
-        !isEmptyString(this.state.mintat) &&
-        !isEmptyString(this.state.description) &&
-        this.state.startMonth !== null &&
-        this.state.endMonth !== null
-    ){
-        let obj=
-        {
-            "stepName":this.state.stepname,
-            "description":this.state.description,
-            "disabled":this.state.checkedB === true ? true : false,
-            "endMonth":this.state.endMonth,
-            "startMonth":this.state.startMonth,
-            "href":this.state.href,
-            "image":this.state.image,
-            "lockImg":this.state.lockimage,
-            "max_tat":this.state.maxtat,
-            "min_tat":this.state.mintat,
-            "rank":this.state.rank,
-            "parent":null,
-            "product": this.state.varient
+  };
+  handleOpen = () => {
+    let hlptxt = "Please Fill the Required Field";
+    this.state.family === ""
+      ? this.setState({ familyErr: hlptxt })
+      : this.setState({ familyErr: "" });
+    this.state.varient === ""
+      ? this.setState({ varientErr: hlptxt })
+      : this.setState({ varientErr: "" });
+    if (this.state.family !== "" && this.state.varient !== "") {
+      this.setState({
+        open: true,
+        stepname: "",
+        description: "",
+        disabled: "",
+        href: "",
+        startMonth: new Date(),
+        endMonth: new Date(),
+        rank: "",
+        image: "",
+        lockimage: "",
+        mintat: "",
+        maxtat: "",
+        drop: true,
+        icon: "",
+        iconCompleted: "",
+        stepId: "",
+        stageId: "",
+      });
+    }
+  };
+  handelAdd = () => {
+    let hlptxt = "Please Fill the Required Field";
+    isEmptyString(this.state.stepname)
+      ? this.setState({ stepnameErr: hlptxt })
+      : this.setState({ stepnameErr: "" });
+    isEmptyString(this.state.image)
+      ? this.setState({ imageErr: hlptxt })
+      : this.setState({ imageErr: "" });
+    isEmptyString(this.state.lockimage)
+      ? this.setState({ lockimageErr: hlptxt })
+      : this.setState({ lockimageErr: "" });
+    isEmptyString(this.state.href)
+      ? this.setState({ hrefErr: hlptxt })
+      : this.setState({ hrefErr: "" });
+    this.state.startMonth === null
+      ? this.setState({ startMonthErr: hlptxt })
+      : this.setState({ startMonthErr: "" });
+    this.state.endMonth === null
+      ? this.setState({ endMonthErr: hlptxt })
+      : this.setState({ endMonthErr: "" });
+    isEmptyString(this.state.rank)
+      ? this.setState({ rankErr: hlptxt })
+      : this.setState({ rankErr: "" });
+    isEmptyString(this.state.maxtat)
+      ? this.setState({ maxtatErr: hlptxt })
+      : this.setState({ maxtatErr: "" });
+    isEmptyString(this.state.mintat)
+      ? this.setState({ mintatErr: hlptxt })
+      : this.setState({ mintatErr: "" });
+    isEmptyString(this.state.description)
+      ? this.setState({ descriptionErr: hlptxt })
+      : this.setState({ descriptionErr: "" });
+
+    if (
+      !isEmptyString(this.state.stepname) &&
+      !isEmptyString(this.state.image) &&
+      !isEmptyString(this.state.lockimage) &&
+      !isEmptyString(this.state.href) &&
+      !isEmptyString(this.state.rank) &&
+      !isEmptyString(this.state.maxtat) &&
+      !isEmptyString(this.state.mintat) &&
+      !isEmptyString(this.state.description) &&
+      this.state.startMonth !== null &&
+      this.state.endMonth !== null
+    ) {
+      let obj = {
+        description: this.state.description,
+        endMonth: this.state.endMonth,
+        href: this.state.href,
+        image: this.state.image,
+        lockImg: this.state.lockimage,
+        isChild: false,
+        isParent: true,
+        orderNo: this.state.rank,
+        parent: { id: null },
+        product: {
+          id: this.state.varient?.id,
+        },
+        rank: this.state.rank,
+        startMonth: this.state.startMonth,
+        stepName: this.state.stepname,
+        icon: null,
+        iconCompleted: null,
+        color: null,
+        max_tat: this.state.maxtat,
+        min_tat: this.state.mintat,
+      };
+
+      this.props.postproductstructure(obj, (response) => {
+        if (response?.data?.body?.success) {
+          this.setState({
+            snackMsg: "Added Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+            open: false,
+          });
+        } else {
+          this.setState({
+            snackMsg: response.message,
+            snackOpen: true,
+            snackVariant: "error",
+            open: false,
+          });
         }
-        this.props.postproductstructure(obj)
-        console.log(obj)
-        this.setState({
-            snackMsg:"Added Successfully",
-            snackOpen:true,
-            snackVariant:"success",
-            open : false
-          })
+      });
     }
-   
-}
+  };
   render() {
-      console.log(this.props.getproductstructureList)
-      console.log(this.state)
     return (
       <div>
         <div
@@ -262,7 +351,9 @@ handelAdd=()=>{
               id="combo-box-demo"
               fullWidth
               options={this.props.getAllProductFamilyList}
-              getOptionLabel={(option) => option.productName === "LMS" ? "Test Prep" : option.productName}
+              getOptionLabel={(option) =>
+                option.productName === "LMS" ? "Test Prep" : option.productName
+              }
               onChange={(e, newValue) => this.setState({ family: newValue })}
               renderInput={(params) => (
                 <TextField
@@ -323,34 +414,47 @@ handelAdd=()=>{
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.props.getproductstructureList.length !== 0 && this.props.getproductstructureList.map((eachdata) => (
-                    <TableRow>
-                      <TableCell onClick={() => this.props.history.push( productstructurePath.concat(eachdata.id))}>{eachdata.id}</TableCell>
-                      <TableCell>{eachdata.product.name}</TableCell>
-                      <TableCell>{eachdata.stepName}</TableCell>
-                      <TableCell>{eachdata.description}</TableCell>
-                      <TableCell>
-                        {eachdata.disabled === true ? "true" : "false"}
-                      </TableCell>
-                      <TableCell>{new Date(eachdata.startMonth).getMonth()}</TableCell>
-                      <TableCell>{new Date(eachdata.endMonth).getMonth()}</TableCell>
-                      <TableCell>{eachdata.href}</TableCell>
-                      <TableCell>{eachdata.image}</TableCell>
-                      <TableCell>{eachdata.lockImg}</TableCell>
-                      <TableCell>{eachdata.max_tat}</TableCell>
-                      <TableCell>{eachdata.min_tat}</TableCell>
-                      <TableCell>{eachdata.rank}</TableCell>
-                      <TableCell>
-                        <PrimaryButton
-                          color={"primary"}
-                          variant={"contained"}
-                          onClick={(e) => this.handleClick(eachdata)}
+                  {this.props.getproductstructureList.length !== 0 &&
+                    this.props.getproductstructureList.map((eachdata) => (
+                      <TableRow>
+                        <TableCell
+                          onClick={() =>
+                            this.props.history.push(
+                              productstructurePath.concat(eachdata.id)
+                            )
+                          }
                         >
-                          Manage
-                        </PrimaryButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                          {eachdata.id}
+                        </TableCell>
+                        <TableCell>{eachdata.product?.name}</TableCell>
+                        <TableCell>{eachdata.stepName}</TableCell>
+                        <TableCell>{eachdata.description}</TableCell>
+                        <TableCell>
+                          {eachdata.disabled === true ? "true" : "false"}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(eachdata.startMonth).getMonth()}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(eachdata.endMonth).getMonth()}
+                        </TableCell>
+                        <TableCell>{eachdata.href}</TableCell>
+                        <TableCell>{eachdata.image}</TableCell>
+                        <TableCell>{eachdata.lockImg}</TableCell>
+                        <TableCell>{eachdata.max_tat}</TableCell>
+                        <TableCell>{eachdata.min_tat}</TableCell>
+                        <TableCell>{eachdata.rank}</TableCell>
+                        <TableCell>
+                          <PrimaryButton
+                            color={"primary"}
+                            variant={"contained"}
+                            onClick={(e) => this.handleClick(eachdata)}
+                          >
+                            Manage
+                          </PrimaryButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -515,6 +619,7 @@ handelAdd=()=>{
                   onChange={(e) => this.setState({ rank: e.target.value })}
                 />
               </Grid>
+
               {/* <Grid item md={6}>
                   <Autocomplete
                     id="combo-box-demo"
@@ -564,9 +669,9 @@ const mapStateToProps = (state) => {
     getproductstructureList: state.ProductReducer.getproductstructure,
     postproductstructureList: state.ProductReducer.postproductstructure,
     putproductstructureList: state.ProductReducer.putproductstructure,
-    getProductVarientList : state.ProductReducer.getProductVarient,
-    getAllProductFamilyList : state.ProductReducer.getAllProductFamily,
-    getProductByFamilyIdList : state.ProductReducer.getProductByFamilyId
+    getProductVarientList: state.ProductReducer.getProductVarient,
+    getAllProductFamilyList: state.ProductReducer.getAllProductFamily,
+    getProductByFamilyIdList: state.ProductReducer.getProductByFamilyId,
   };
 };
 
@@ -576,5 +681,5 @@ export default connect(mapStateToProps, {
   putproductstructure,
   getProductVarient,
   getAllProductFamily,
-  getProductByFamilyId
+  getProductByFamilyId,
 })(ProductStructure);

@@ -56,6 +56,7 @@ import QuestionSet from "./Question/QuestionSet";
 import QuestionBank from "./QuestionBank";
 import ReportRootContainer from "./Report/Index";
 import ReportHome from "./ReportHome";
+import UserManagement from "./UserManagement";
 import {
   addCoursePath,
   appVersion,
@@ -118,6 +119,7 @@ import {
   videoPath,
   wallPath,
   webinarPath,
+  userManagementPath,
 } from "./RoutePaths";
 import Student from "./Student";
 import Student_data from "./StudentData";
@@ -439,6 +441,7 @@ export default function Routes(props) {
         component={BulkUpload}
       />
       <Route export exact path={single_upload} component={SingleUpload} />
+      <Route exact path={userManagementPath} component={UserManagement} />
     </Switch>
   );
 }

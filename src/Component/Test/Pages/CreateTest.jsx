@@ -19,7 +19,10 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listAllWallPosts } from '../../../Actions/WallActions';
+import {
+  getWallCategories,
+  listAllWallPosts,
+} from '../../../Actions/WallActions';
 import { createTest, scheduleIt } from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import moment from 'moment';
@@ -96,10 +99,16 @@ const CreateTest = () => {
   let questionID = window.sessionStorage.getItem('questionSetId');
   let questionUpload = {
     id: JSON.parse(window.sessionStorage.getItem('questionSetId')),
-    questionSectionId: JSON.parse(window.sessionStorage.getItem('questionSectionId')),
+    questionSectionId: JSON.parse(
+      window.sessionStorage.getItem('questionSectionId')
+    ),
   };
 
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
@@ -241,7 +250,12 @@ const CreateTest = () => {
 
   return (
     <>
-      <BackHandler title={`Create New Test`} tab={0} path={testPath} scrollRef={scrollRef} />
+      <BackHandler
+        title={`Create New Test`}
+        tab={0}
+        path={testPath}
+        scrollRef={scrollRef}
+      />
       <CreateTestContainer>
         <Formik
           initialValues={state}
@@ -253,7 +267,14 @@ const CreateTest = () => {
           }}
           enableReinitialize
         >
-          {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
+          {({
+            handleSubmit,
+            errors,
+            handleChange,
+            values,
+            touched,
+            setFieldValue,
+          }) => (
             <>
               <div className='CreateTest'>
                 <Form onSubmit={handleSubmit} autoComplete='off'>
@@ -301,10 +322,17 @@ const CreateTest = () => {
                         name='eventPost.id'
                         disabled={loading}
                         onChange={(e, value) => {
-                          setFieldValue('eventPost.id', value !== null ? value.id : categories);
+                          setFieldValue(
+                            'eventPost.id',
+                            value !== null ? value.id : categories
+                          );
                         }}
                         renderInput={(params) => (
-                          <TextField {...params} variant='outlined' label='Select Event' />
+                          <TextField
+                            {...params}
+                            variant='outlined'
+                            label='Select Event'
+                          />
                         )}
                       />
                     </Grid>
@@ -313,10 +341,19 @@ const CreateTest = () => {
                     <Controls.Input
                       label='Description Title'
                       name='descriptionTitle'
-                      style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
+                      style={{
+                        width: '100%',
+                        marginTop: '1.2rem',
+                        marginBottom: '10px',
+                      }}
                       value={values.descriptionTitle}
-                      helperText={touched.descriptionTitle && errors.descriptionTitle}
-                      error={touched.descriptionTitle && Boolean(errors.descriptionTitle)}
+                      helperText={
+                        touched.descriptionTitle && errors.descriptionTitle
+                      }
+                      error={
+                        touched.descriptionTitle &&
+                        Boolean(errors.descriptionTitle)
+                      }
                       onChange={handleChange}
                     />
                   </Grid>
@@ -327,18 +364,31 @@ const CreateTest = () => {
                         render={(arrayHelpers) => (
                           <div className={classes.inputWrapper}>
                             {values.description.map((_, index) => (
-                              <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              <div
+                                key={index}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
                                 <Field
                                   className={classes.inputFieldTwo}
                                   placeholder='Description Point'
                                   name={`description.${index}`}
                                 />
-                                <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
-                                  <RemoveCircleIcon color='secondary' fontSize='large' />
+                                <Controls.ActionButton
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  <RemoveCircleIcon
+                                    color='secondary'
+                                    fontSize='large'
+                                  />
                                 </Controls.ActionButton>
                               </div>
                             ))}
-                            <Controls.ActionButton onClick={() => arrayHelpers.push()}>
+                            <Controls.ActionButton
+                              onClick={() => arrayHelpers.push()}
+                            >
                               <AddBoxIcon color='primary' fontSize='large' />
                             </Controls.ActionButton>
                           </div>
@@ -362,7 +412,9 @@ const CreateTest = () => {
                         value={values.score}
                         onChange={handleChange}
                         error={values.score < 1}
-                        helperText={values.score < 1 ? 'Enter Only Positive Values' : ''}
+                        helperText={
+                          values.score < 1 ? 'Enter Only Positive Values' : ''
+                        }
                         inputProps={{
                           pattern: '[0-9]*',
                         }}
@@ -376,10 +428,17 @@ const CreateTest = () => {
                         style={{ width: '100%' }}
                         value={values.cutOffScore}
                         onChange={handleChange}
-                        error={values.cutOffScore < 1 || values.cutOffScore > values.score}
+                        error={
+                          values.cutOffScore < 1 ||
+                          values.cutOffScore > values.score
+                        }
                         helperText={
-                          (values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') ||
-                          (values.cutOffScore >= values.score ? 'Invalid Cutoff Score' : '')
+                          (values.cutOffScore < 1
+                            ? 'Enter Only Positive Values'
+                            : '') ||
+                          (values.cutOffScore >= values.score
+                            ? 'Invalid Cutoff Score'
+                            : '')
                         }
                         inputProps={{
                           pattern: '[0-9]*',
@@ -391,7 +450,10 @@ const CreateTest = () => {
                       render={(arrayHelpers) => (
                         <div className={classes.wrapper}>
                           {values?.testSection?.map((_, index) => (
-                            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                            <div
+                              key={index}
+                              style={{ display: 'flex', alignItems: 'center' }}
+                            >
                               <Field
                                 className={classes.inputField}
                                 placeholder='Duration'
@@ -417,7 +479,10 @@ const CreateTest = () => {
                     style={{ width: '100%', margin: '1rem 0' }}
                   >
                     <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                      <MultipleFileUploadField name='wallFiles' fileType='image' />
+                      <MultipleFileUploadField
+                        name='wallFiles'
+                        fileType='image'
+                      />
                     </Grid>
 
                     <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
@@ -426,8 +491,13 @@ const CreateTest = () => {
                         value={values.nameDescription}
                         name='nameDescription'
                         onChange={handleChange}
-                        helperText={touched.nameDescription && errors.nameDescription}
-                        error={touched.nameDescription && Boolean(errors.nameDescription)}
+                        helperText={
+                          touched.nameDescription && errors.nameDescription
+                        }
+                        error={
+                          touched.nameDescription &&
+                          Boolean(errors.nameDescription)
+                        }
                         multiline
                         className={classes.captionStyle}
                         rows={8}
@@ -558,7 +628,10 @@ const CreateTest = () => {
         </Formik>
       </CreateTestContainer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };
