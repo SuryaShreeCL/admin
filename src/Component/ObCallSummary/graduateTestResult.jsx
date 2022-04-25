@@ -711,10 +711,21 @@ class GraduateTestResult extends Component {
   };
 
   render() {
+    const {
+      greDateList,
+      gmatDateList,
+      ieltsDateList,
+      toeflDateList,
+    } = this.state;
     const files = this.renderScoreCard(this.state.finalFile);
     const gmatfiles = this.renderScoreCard(this.state.gmatfinalFile);
     const toeflfiles = this.renderScoreCard(this.state.toeflfinalFile);
     const ieltsfiles = this.renderScoreCard(this.state.ieltsfinalFile);
+    const isExamDate =
+      greDateList.length !== 0 ||
+      gmatDateList.length !== 0 ||
+      ieltsDateList.length !== 0 ||
+      toeflDateList.length !== 0;
 
     const { classes } = this.props;
 
@@ -1967,9 +1978,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                 </Grid>
               )}
-            <Grid item md={12}>
-              <p style={HeadStyle}>Exam Date</p>
-            </Grid>
+            {isExamDate && (
+              <Grid item md={12}>
+                <p style={HeadStyle}>Exam Date</p>
+              </Grid>
+            )}
             <Grid item md={12}>
               <Grid container spacing={3}>
                 <Grid item md={12}>
