@@ -15,11 +15,11 @@ export const getAllSpecialization = (callback) => {
         },
       })
       .then((result) => {
-        callback(result)
         dispatch({
           type: ASPIRATION.getAllSpecialization,
           payload: result.data,
         });
+        callback(result);
       })
       .catch((error) => {
         console.log(error);
@@ -512,7 +512,7 @@ export const getAllUniversity = (callback) => {
         },
       })
       .then((result) => {
-        callback(result)
+        callback(result);
         dispatch({ type: ASPIRATION.getAllUniversity, payload: result.data });
       })
       .catch((error) => {

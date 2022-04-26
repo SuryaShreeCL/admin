@@ -814,7 +814,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.aspWorkErr}
                   error={this.state.aspWorkErr.length > 0}
                   {...params}
-                  label="Preferred Work Profile(others-specify)"
+                  label='Preferred Work Profile(others-specify)'
                 />
               )}
               onChange={(e, newValue) => this.setState({ aspwork: newValue })}
@@ -833,7 +833,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.asplocErr}
                   error={this.state.asplocErr.length > 0}
                   {...params}
-                  label="Preferred Location-Cities(others-specify)"
+                  label='Preferred Location-Cities(others-specify)'
                 />
               )}
               onChange={(e, newValue) =>
@@ -854,7 +854,7 @@ class AspirationDetails extends Component {
                   helperText={this.state.aspPackErr}
                   error={this.state.aspPackErr.length > 0}
                   {...params}
-                  label="Preferred Package"
+                  label='Preferred Package'
                 />
               )}
               onChange={(e, newValue) =>
@@ -869,7 +869,7 @@ class AspirationDetails extends Component {
         <>
           <Grid item md={2}>
             <Autocomplete
-              id="tags-outlined"
+              id='tags-outlined'
               options={this.noOfSchoolArr || []}
               getOptionLabel={(option) => option}
               value={this.state.noOfSchool || []}
@@ -877,7 +877,7 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Number Of Schools"
+                  label='Number Of Schools'
                   error={this.state.schoolErr.length > 0}
                   helperText={this.state.schoolErr}
                 />
@@ -891,7 +891,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
               multiple
-              id="combo-box-demo"
+              id='combo-box-demo'
               disabled={this.state.disable}
               options={
                 !isEmptyArray(this.props.aspirationTerm) &&
@@ -901,8 +901,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Additional Intakes"
-                  variant="standard"
+                  label='Additional Intakes'
+                  variant='standard'
                   error={this.state.termErr.length > 0}
                   helperText={this.state.termErr}
                 />
@@ -915,15 +915,15 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               disabled={this.state.disable}
               options={this.props.aspirationDegree}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Degree"
-                  variant="standard"
+                  label='Degree'
+                  variant='standard'
                   error={this.state.degreeErr.length > 0}
                   helperText={this.state.degreeErr}
                 />
@@ -939,7 +939,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               options={this.props.aspirationBranch}
               getOptionLabel={(option) => option.name}
               getOptionDisabled={(option) => {
@@ -952,8 +952,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Field Of Study"
-                  variant="standard"
+                  label='Field Of Study'
+                  variant='standard'
                   error={this.state.branchErr.length > 0}
                   helperText={this.state.branchErr}
                 />
@@ -966,7 +966,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               options={this.state.filteredAspirationSpecializationList?.sort(
                 (a, b) =>
                   -b.aspirationBranch.name.localeCompare(
@@ -987,8 +987,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Area of Specialization"
-                  variant="standard"
+                  label='Area of Specialization'
+                  variant='standard'
                   error={this.state.specializationErr.length > 0}
                   helperText={this.state.specializationErr}
                 />
@@ -1003,7 +1003,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               options={
                 !isEmptyArray(this.props.aspirationCountry) &&
                 this.props.aspirationCountry.data
@@ -1019,8 +1019,8 @@ class AspirationDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Preferred Region"
-                  variant="standard"
+                  label='Preferred Region'
+                  variant='standard'
                   error={this.state.counteryErr.length > 0}
                   helperText={this.state.counteryErr}
                 />
@@ -1034,7 +1034,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               options={this.state.filteredCollegeList.sort(
                 (a, b) => -b.country.name.localeCompare(a.country.name)
               )}
@@ -1051,7 +1051,7 @@ class AspirationDetails extends Component {
                 <TextField
                   {...params}
                   label={this.renderLabel()}
-                  variant="standard"
+                  variant='standard'
                   error={this.state.universityErr.length > 0}
                   helperText={this.state.universityErr}
                 />
