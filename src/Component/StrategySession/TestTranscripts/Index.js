@@ -183,13 +183,6 @@ function Index(props) {
           ...state,
           gmatScoreList: gmatList.data || [],
         });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: gmatList.message,
-        });
       }
       dispatch(clearCustomData("gmatList"));
     }
@@ -201,13 +194,6 @@ function Index(props) {
         setState({
           ...state,
           greScoreList: greList.data || [],
-        });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: greList.message,
         });
       }
       dispatch(clearCustomData("greList"));
@@ -221,13 +207,6 @@ function Index(props) {
           ...state,
           ieltsScoreList: ieltsList.data || [],
         });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: ieltsList.message,
-        });
       }
       dispatch(clearCustomData("ieltsList"));
     }
@@ -239,13 +218,6 @@ function Index(props) {
         setState({
           ...state,
           toeflScoreList: toeflList.data || [],
-        });
-      } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: toeflList.message,
         });
       }
       dispatch(clearCustomData("toeflList"));
@@ -650,12 +622,12 @@ function Index(props) {
             Array.isArray(documentList.GRE) &&
             documentList.GRE.length !== 0 && (
               <Grid item md={12}>
-                <Grid item md={12} direction='column'>
+                <Grid item md={12} direction="column">
                   <p className={classes.GridStyle}>GRE</p>
                 </Grid>
                 <Grid item={12} container>
                   {documentList.GRE.map((data) => (
-                    <Grid item md={4} direction='row'>
+                    <Grid item md={4} direction="row">
                       <DocumentListCard
                         certificate={data.name}
                         date={data.date}
@@ -675,7 +647,7 @@ function Index(props) {
             Array.isArray(documentList.GMAT) &&
             documentList.GMAT.length !== 0 && (
               <Grid item md={12}>
-                <Grid item md={12} direction='column'>
+                <Grid item md={12} direction="column">
                   <p className={classes.GridStyle}>{"GMAT"}</p>
                 </Grid>
                 <Grid item={12} container>
@@ -683,7 +655,7 @@ function Index(props) {
                     <Grid
                       item
                       md={4}
-                      direction='row'
+                      direction="row"
                       onClick={() => documentClick(data)}
                     >
                       <DocumentListCard
@@ -712,7 +684,7 @@ function Index(props) {
                     <Grid
                       item
                       md={4}
-                      direction='row'
+                      direction="row"
                       onClick={() => documentClick(data)}
                     >
                       <DocumentListCard
@@ -733,7 +705,7 @@ function Index(props) {
             Array.isArray(documentList.IELTS) &&
             documentList.IELTS.length !== 0 && (
               <Grid item md={12}>
-                <Grid item md={12} direction='column'>
+                <Grid item md={12} direction="column">
                   <p className={classes.GridStyle}>{"IELTS"}</p>
                 </Grid>
                 <Grid item={12} container>
