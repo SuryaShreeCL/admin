@@ -889,7 +889,7 @@ const EditPost = () => {
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
-                                startAdornment: (
+                                endAdornment: (
                                   <InputAdornment position='start'>
                                     <EventIcon />
                                   </InputAdornment>
