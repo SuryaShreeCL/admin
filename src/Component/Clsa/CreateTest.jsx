@@ -27,6 +27,8 @@ import BackHandler from '../Test/Components//BackHandler';
 import Controls from '../Utils/controls/Controls';
 import PaginationComponent from '../Utils/CustomPaginationComponent';
 import Notification from '../Utils/Notification';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   newButton: {
@@ -57,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
     color: '#E95A1D',
     fontSize: 20,
   },
+  overrides: {
+    MuiIconButton: {
+      root: {
+        color: 'red',
+      },
+    },
+  },
 }));
 
 export default function CreateTest() {
@@ -82,6 +91,17 @@ export default function CreateTest() {
     description: yup.string().required(),
   });
 
+  const buttonTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MuiIconButton: {
+          root: {
+            color: 'red',
+          },
+        },
+      },
+    });
+
   const handleSave = () => {
     if (fileList.length == 0) {
       setNotify({
@@ -90,6 +110,12 @@ export default function CreateTest() {
         type: 'error',
       });
       return false;
+    } else if (values.time < Date().toLocaleString()) {
+      setNotify({
+        isOpen: true,
+        message: 'Please choose the correct time',
+        type: 'error',
+      });
     } else {
       history.push({
         pathname: clsaPath,
@@ -142,6 +168,7 @@ export default function CreateTest() {
       />
       <CreateTestContainer>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <ThemeProvider theme={buttonTheme}></ThemeProvider>
           <Grid container spacing={3}>
             <Grid item md={5}>
               <Typography className={classes.text}>Test Name</Typography>
@@ -232,6 +259,7 @@ export default function CreateTest() {
                     id='date-picker-dialog'
                     variant='outlined'
                     disablePast={true}
+                    InputProps={{ readOnly: true }}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -248,6 +276,10 @@ export default function CreateTest() {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    keyboardIcon={<AccessTimeIcon />}
                   />
                 </Grid>
               </Grid>

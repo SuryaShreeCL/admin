@@ -157,9 +157,9 @@ export default function LiveTest() {
                   <TableCell>12-03-2021</TableCell>
                   <TableCell>Xyz admin</TableCell>
                   <TableCell>
-                    <Controls.ActionButton onClick={() => {}}>
+                    {/* <Controls.ActionButton onClick={() => {}}>
                       <VisibilityIcon fontSize='small' color='default' />
-                    </Controls.ActionButton>
+                    </Controls.ActionButton> */}
                     <Controls.ActionButton>
                       <CloudDownloadIcon
                         fontSize='small'
