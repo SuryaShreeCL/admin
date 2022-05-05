@@ -1,53 +1,49 @@
-import Button from "@material-ui/core/Button";
+import { CircularProgress } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import {
-  createTheme,
-  ThemeProvider,
-  withStyles,
-} from "@material-ui/core/styles";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import LockIcon from "@material-ui/icons/Lock";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import qs from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
   getAdminLinkedProduct,
   updateVerificationStatus,
 } from "../../Actions/AdminAction";
-import { getvarientByid } from "../../Actions/ProductAction";
+import {
+  getVariantStepsById,
+  getvarientByid,
+} from "../../Actions/ProductAction";
+import {
+  IncompleteStatus,
+  ObComplete,
+  ObIncomplete,
+  StudentStepDetails,
+} from "../../Actions/Student";
+import "../../Asset/All.css";
+import BackButton from "../../Asset/Images/backbutton.svg";
+import RevampDialog from "../../OnboardingRevamp/RevampDialog";
+import Dot from "../../Utils/Dot";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import MySnackBar from "../MySnackBar";
 import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
+import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
 import GraduateTestResult from "../ObCallSummary/graduateTestResult";
 import TestAndSurvey from "../ObCallSummary/testEngineResult";
+import UploadCV from "../ObCallSummary/UploadCV";
 import WorkExperience from "../ObCallSummary/workExperience";
 import AcademicInfo from "../ObOnboarding/academicInfo";
 import PersonalInfo from "../ObOnboarding/personalInfo";
+import ProfileGapRoot from "../ProfileGapAnalysis/Root";
+import { stagedTabsPath, studentPath } from "../RoutePaths";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import SubLayoutTab from "./SubLayoutTab";
-import { getVariantStepsById } from "../../Actions/ProductAction";
-import ProfileGapAnalysisTab from "../ProfileGapAnalysisTab";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import UploadCV from "../ObCallSummary/UploadCV";
-import BackButton from "../../Asset/Images/backbutton.svg";
-import { stagedTabsPath, studentPath } from "../RoutePaths";
-import ProfileGapRoot from "../ProfileGapAnalysis/Root";
-import CallSummaryLayout from "../ObCallSummary/CallSummaryLayout";
-import {
-  StudentStepDetails,
-  ObComplete,
-  ObIncomplete,
-  IncompleteStatus,
-} from "../../Actions/Student";
-import LockIcon from "@material-ui/icons/Lock";
-import QueryString from "querystring";
-import qs from "qs";
-import MySnackBar from "../MySnackBar";
-import Dot from "../../Utils/Dot";
-import "../../Asset/All.css";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import RevampDialog from "../../OnboardingRevamp/RevampDialog";
-import { CircularProgress } from "@material-ui/core";
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -162,7 +158,7 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else {
+    } else if (this.state.othersstatus === "Verified") {
       return (
         <Grid container>
           <Grid item md={12}>
@@ -279,7 +275,7 @@ class StageBasedLayout extends Component {
             Onboarding Incomplete
           </Button>
         );
-      } else {
+      } else if (this.state.othersstatus === "Verified") {
         return (
           <PrimaryButton
             color={"primary"}
@@ -392,6 +388,7 @@ class StageBasedLayout extends Component {
       let mismatchArr = stage.steps.filter(
         (nvData) => nvData.verificationStatus === "Mismatched"
       );
+
       if (
         verifyArr.length > 0 &&
         nvArr.length === 0 &&
@@ -409,7 +406,7 @@ class StageBasedLayout extends Component {
       }
       if (
         nvArr.length === 0 &&
-        verifyArr.length > 0 &&
+        verifyArr.length >= 0 &&
         mismatchArr.length > 0
       ) {
         return this.setState({

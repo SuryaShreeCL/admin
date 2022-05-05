@@ -1,35 +1,22 @@
-import React, { Component } from "react";
 import {
-  Grid,
-  TextField,
-  Card,
-  IconButton,
-  ThemeProvider,
-  withStyles,
-  createMuiTheme,
+  Card, createMuiTheme, Grid, IconButton, TextField, ThemeProvider
 } from "@material-ui/core";
-import { getStudentsById, getDocumentList } from "../../Actions/Student";
-import {
-  viewStudentStatus,
-  updateVerificationStatus,
-} from "../../Actions/AdminAction";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  getPersonalInfo,
-  updatePersonalInfo,
-  getPincodeDetails,
+  updateVerificationStatus, viewStudentStatus
+} from "../../Actions/AdminAction";
+import {
+  getPersonalInfo, getPincodeDetails, updatePersonalInfo
 } from "../../Actions/Calldetails";
 import { getVariantStepsById } from "../../Actions/ProductAction";
-import GreenTick from "../../Asset/Images/greenTick.png";
-import Pencil from "../../Asset/Images/pencil.png";
-import PrimaryButton from "../../Utils/PrimaryButton";
-import { isEmptyString, isEmail, isNumber, isAlpha, isOnlyNumber } from "../../Component/Validation";
-import Status from "../Utils/Status";
-import { SECTION } from "../../Constant/Variables";
-import Model from "../Utils/SectionModel";
-import DoccumentCard from "../Utils/DoccumentCard";
+import { getDocumentList, getStudentsById } from "../../Actions/Student";
 import { URL } from "../../Actions/URL";
+import Pencil from "../../Asset/Images/pencil.png";
+import { isEmail, isEmptyString, isNumber, isOnlyNumber } from "../../Component/Validation";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import MySnackBar from "../MySnackBar";
+import Model from "../Utils/SectionModel";
 const theme = createMuiTheme({
   overrides: {
     MuiInputBase: {
@@ -330,7 +317,7 @@ export class personalInfo extends Component {
 
   render() {
     const { HeadStyle, GridStyle } = style;
-    console.log(this.props.variantStepList);
+    
     return (
       <div>
         <ThemeProvider theme={theme}>
