@@ -166,12 +166,11 @@ function CreateTest(props) {
         noOfQuestions: values.questions,
 
         startDate: moment(new Date(values.date)).format('yyyy-MM-DD'),
-        startDateTime: values.time.toISOString(),
-        // .toLocaleTimeString({
-        //   hour: 'numeric',
-        //   hour12: true,
-        //   minute: 'numeric',
-        // }),
+        startTime: values.time.toLocaleTimeString({
+          hour: 'numeric',
+          hour12: true,
+          minute: 'numeric',
+        }),
       };
       console.log(data, '---------------');
       if (params.id) {
