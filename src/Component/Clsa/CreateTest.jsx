@@ -89,7 +89,7 @@ function CreateTest(props) {
   });
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [totalPage, setTotalPage] = useState(20);
+  const [totalPage, setTotalPage] = useState(0);
   const [testId, setTestId] = useState('');
   const [list, setList] = useState([]);
 
@@ -239,6 +239,8 @@ function CreateTest(props) {
     }
   };
 
+  console.log(testId, 'id');
+
   const handleQuestionsetDelete = (id) => {
     setLoading(true);
     clsaQuestionsetDelete(testId, id).then((response) => {
@@ -329,7 +331,7 @@ function CreateTest(props) {
               date: data?.startDate,
               time: data?.startDateTime,
             });
-            clsaQuestionsetList(0, params.id).then((res) => {
+            clsaQuestionsetList(0, testId).then((res) => {
               setTotalPage(res?.data?.data?.totalPages);
               setList(res?.data?.data?.content);
               if (res === 'CLSA Test Question Set List Is Empty') {
