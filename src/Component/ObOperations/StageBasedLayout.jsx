@@ -47,6 +47,10 @@ import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import { stagedTabsPath, studentPath } from "../RoutePaths";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import SubLayoutTab from "./SubLayoutTab";
+import StrategySession from "../StrategySession/Index";
+import ProfileMentoring from "../ProfileMentoring/Index";
+import ApplicationStage from "../ApplicationStage/Index";
+
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
@@ -62,6 +66,56 @@ const TabPanel = (props) => {
     </div>
   );
 };
+const STAGES = [
+  {
+    name: "Onboarding",
+    stageName: "OnBoarding",
+    component: null,
+    isCompleteButton: true,
+    buttonText: "Onboarding Complete",
+    buttonCompletedText: "Onboarding Completed",
+  },
+  {
+    name: "Profile Gap Analysis",
+    stageName: "pga",
+    component: (props) => <ProfileGapRoot {...props} />,
+    isCompleteButton: false,
+    buttonText: "Profile Gap Analysis Complete",
+    buttonCompletedText: "Profile Gap Analysis Completed",
+  },
+  {
+    name: "Profile Mentoring",
+    stageName: "ProfileMentoring",
+    component: (props) => <ProfileMentoring {...props} />,
+    isCompleteButton: true,
+    buttonText: "Profile Mentoring Complete",
+    buttonCompletedText: "Profile Mentoring Completed",
+  },
+  {
+    name: "Strategy Session",
+    stageName: "StrategySession",
+    component: (props) => <StrategySession {...props} />,
+    isCompleteButton: true,
+    buttonText: "Strategy Session Complete",
+    buttonCompletedText: "Strategy Session Completed",
+  },
+  {
+    name: "Application Stage",
+    stageName: "ApplicationStage",
+    component: (props) => <ApplicationStage {...props} />,
+    isCompleteButton: true,
+    buttonText: "Application Stage Complete",
+    buttonCompletedText: "Application Stage Completed",
+  },
+  {
+    name: "Post Admit Services",
+    stageName: "PostAdmitServices",
+    component: () => null,
+    isCompleteButton: false,
+    buttonText: "Post Admit Services Complete",
+    buttonCompletedText: "Post Admit Services Completed",
+  },
+];
 
 class StageBasedLayout extends Component {
   constructor(props) {

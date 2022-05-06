@@ -16,19 +16,13 @@ import Pencil from "../../Asset/Images/pencil.png";
 import { isEmail, isEmptyString, isNumber, isOnlyNumber } from "../../Component/Validation";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import {
-  isEmptyString,
-  isEmail,
-  isNumber,
   isAlpha,
-  isOnlyNumber,
 } from "../../Component/Validation";
 import Status from "../Utils/Status";
 import { SECTION } from "../../Constant/Variables";
 import Model from "../Utils/SectionModel";
 import DoccumentCard from "../Utils/DoccumentCard";
-import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
-import Model from "../Utils/SectionModel";
 const theme = createMuiTheme({
   overrides: {
     MuiInputBase: {
