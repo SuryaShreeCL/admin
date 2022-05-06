@@ -225,7 +225,7 @@ function GeneralDetails(props) {
                 onChange={(e) =>
                   handleDateChange({ value: e.target.value, helperText: "" })
                 }
-                type='month'
+                type='date'
                 InputLabelProps={{ shrink: true }}
               />
               {/* <DatePick
