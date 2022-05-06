@@ -182,6 +182,14 @@ export default function LiveTest() {
             type: 'error',
           });
         }
+        if (response === 'Test is Live, It not able to delete') {
+          setLoading(false);
+          setNotify({
+            isOpen: true,
+            message: response,
+            type: 'error',
+          });
+        }
         if (response === 'User attended test, It not able to delete') {
           setLoading(false);
           setNotify({
@@ -326,12 +334,13 @@ export default function LiveTest() {
               {loading && <Loader />}
               {error && <Alert severity='info'>0 Tests Found</Alert>}
             </div>
-            {console.log(data.totalPages, 'hhh')}
-            <PaginationComponent
-              page={page + 1}
-              pageCount={data.totalPages}
-              onPageChange={handlePageChange}
-            />
+            {list.length > 0 && (
+              <PaginationComponent
+                page={page + 1}
+                pageCount={data.totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </TableContainer>
         </Grid>
       </Grid>

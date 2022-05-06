@@ -320,17 +320,19 @@ function CreateTest(props) {
               date: data.startDate,
               time: data?.startDateTime,
             });
-            clsaQuestionsetList(0, params.id).then((res) => {
-              setTotalPage(res?.data?.data?.totalPages);
-              setList(res?.data?.data?.content);
-              if (res === 'CLSA Test Question Set List Is Empty') {
-                setNotify({
-                  isOpen: true,
-                  message: 'CLSA Test Question Set List Is Empty',
-                  type: 'error',
-                });
+            clsaQuestionsetList(0, params.id ? params.id : testId).then(
+              (res) => {
+                setTotalPage(res?.data?.data?.totalPages);
+                setList(res?.data?.data?.content);
+                if (res === 'CLSA Test Question Set List Is Empty') {
+                  setNotify({
+                    isOpen: true,
+                    message: 'CLSA Test Question Set List Is Empty',
+                    type: 'error',
+                  });
+                }
               }
-            });
+            );
           }
         });
       }
