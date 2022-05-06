@@ -1,4 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -32,7 +33,6 @@ import BackButton from "../../Asset/Images/backbutton.svg";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import ApplicationStage from "../ApplicationStage/Index";
 import MySnackBar from "../MySnackBar";
 import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
@@ -47,59 +47,21 @@ import ProfileGapRoot from "../ProfileGapAnalysis/Root";
 import { stagedTabsPath, studentPath } from "../RoutePaths";
 import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import SubLayoutTab from "./SubLayoutTab";
-import StrategySession from "../StrategySession/Index";
-import ProfileMentoring from "../ProfileMentoring/Index";
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
 
-const STAGES = [
-  {
-    name: "Onboarding",
-    stageName: "OnBoarding",
-    component: null,
-    isCompleteButton: true,
-    buttonText: "Onboarding Complete",
-    buttonCompletedText: "Onboarding Completed",
-  },
-  {
-    name: "Profile Gap Analysis",
-    stageName: "pga",
-    component: (props) => <ProfileGapRoot {...props} />,
-    isCompleteButton: false,
-    buttonText: "Profile Gap Analysis Complete",
-    buttonCompletedText: "Profile Gap Analysis Completed",
-  },
-  {
-    name: "Profile Mentoring",
-    stageName: "ProfileMentoring",
-    component: (props) => <ProfileMentoring {...props} />,
-    isCompleteButton: true,
-    buttonText: "Profile Mentoring Complete",
-    buttonCompletedText: "Profile Mentoring Completed",
-  },
-  {
-    name: "Strategy Session",
-    stageName: "StrategySession",
-    component: (props) => <StrategySession {...props} />,
-    isCompleteButton: true,
-    buttonText: "Strategy Session Complete",
-    buttonCompletedText: "Strategy Session Completed",
-  },
-  {
-    name: "Application Stage",
-    stageName: "ApplicationStage",
-    component: (props) => <ApplicationStage {...props} />,
-    isCompleteButton: true,
-    buttonText: "Application Stage Complete",
-    buttonCompletedText: "Application Stage Completed",
-  },
-  {
-    name: "Post Admit Services",
-    stageName: "PostAdmitServices",
-    component: () => null,
-    isCompleteButton: false,
-    buttonText: "Post Admit Services Complete",
-    buttonCompletedText: "Post Admit Services Completed",
-  },
-];
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+};
 
 class StageBasedLayout extends Component {
   constructor(props) {
@@ -203,7 +165,7 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else {
+    } else if (this.state.othersstatus === "Verified") {
       return (
         <Grid container>
           <Grid item md={12}>
@@ -336,7 +298,7 @@ class StageBasedLayout extends Component {
             {"Onboarding Incomplete"}
           </Button>
         );
-      } else {
+      } else if (this.state.othersstatus === "Verified") {
         return (
           <PrimaryButton
             color={"primary"}
@@ -447,6 +409,7 @@ class StageBasedLayout extends Component {
       let mismatchArr = stage.steps.filter(
         (nvData) => nvData.verificationStatus === "Mismatched"
       );
+
       if (
         verifyArr.length > 0 &&
         nvArr.length === 0 &&
@@ -464,7 +427,7 @@ class StageBasedLayout extends Component {
       }
       if (
         nvArr.length === 0 &&
-        verifyArr.length > 0 &&
+        verifyArr.length >= 0 &&
         mismatchArr.length > 0
       ) {
         return this.setState({

@@ -381,7 +381,7 @@ function SpecializationTrack(props) {
       )
     );
   };
-
+console.log(CourseList.map(item => item.displayName))
   return (
     <PageWrapper>
       <div className={classes.specializationWrapper}>
@@ -462,7 +462,9 @@ function SpecializationTrack(props) {
                     onChange={(e, value) =>
                       handleDropDownChange(value, index, "selectedCoursesOne")
                     }
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) =>
+                      option.displayName ? option.displayName : ""
+                    }
                     renderInput={(params) => (
                       <TextFieldComponent
                         {...params}
@@ -480,7 +482,9 @@ function SpecializationTrack(props) {
                     onChange={(e, value) =>
                       handleDropDownChange(value, index, "selectedCoursesTwo")
                     }
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) =>
+                      option.displayName ? option.displayName : ""
+                    }
                     renderInput={(params) => (
                       <TextFieldComponent
                         {...params}

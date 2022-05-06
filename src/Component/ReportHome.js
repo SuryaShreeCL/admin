@@ -22,10 +22,12 @@ import {
   BreadCrumpContainer,
 } from "../Asset/StyledComponents/ReportStyles";
 import Loader from "../Lms/Utils/Loader";
+import { getReportProduct } from "../Actions/AdminAction";
 class ReportHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      productList: [],
       careerReportData: [],
       arr: [
         { col1: "one", col2: "two", col3: "three" },
@@ -39,12 +41,20 @@ class ReportHome extends React.Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let adminDetails = JSON.parse(
+      window.sessionStorage.getItem("adminDetails")
+    );
+    let id = adminDetails.products[0].productFamily.id;
+    if (id) {
+      this.props.getReportProduct(id);
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.careerReport !== prevProps.careerReport) {
       let myArr = [];
-      this.props.careerReport.map(eachReport => {
+      this.props.careerReport.map((eachReport) => {
         let myObj = {};
         for (const property in eachReport) {
           myObj[property] =
@@ -72,6 +82,16 @@ class ReportHome extends React.Component {
         objectKeys: Object.keys(this.state.careerReportData[532]),
       });
     }
+    if (this.props.getProducts !== prevProps.getProducts) {
+      if (this.props.getProducts) {
+        var arr = this.props.getProducts.filter(
+          (item) => item.isProduct === true
+        );
+        this.setState({
+          productList: arr,
+        });
+      }
+    }
   }
 
   reportContent = [
@@ -86,7 +106,7 @@ class ReportHome extends React.Component {
     this.setState({
       isDownloading: true,
     });
-    downloadReport(endpoint, this.state.selectedItem).then(response => {
+    downloadReport(endpoint, this.state.selectedItem).then((response) => {
       if (response.status === 201) {
         const downloadUrl = window.URL.createObjectURL(
           new Blob([response.data])
@@ -108,7 +128,7 @@ class ReportHome extends React.Component {
     });
   };
 
-  handleDynamicDownloadClick = title => {
+  handleDynamicDownloadClick = (title) => {
     this.setState({
       isDownloading: true,
     });
@@ -135,7 +155,7 @@ class ReportHome extends React.Component {
 
     console.log(endPoint);
 
-    downloadReport(endPoint, this.state.selectedItem).then(response => {
+    downloadReport(endPoint, this.state.selectedItem).then((response) => {
       if (response.status === 201) {
         const downloadUrl = window.URL.createObjectURL(
           new Blob([response.data])
@@ -157,11 +177,11 @@ class ReportHome extends React.Component {
     });
   };
 
-  handleDropDownChange = e => {
+  handleDropDownChange = (e) => {
     this.setState({ selectedItem: e.target.value });
 
-    this.props.getTestList(e.target.value, res => {
-      if(typeof res !== "string"){
+    this.props.getTestList(e.target.value, (res) => {
+      if (typeof res !== "string") {
         this.setState({ dynamicReportContent: res.data });
       }
     });
@@ -169,6 +189,8 @@ class ReportHome extends React.Component {
 
   render() {
     let dropDownItems = [];
+    console.log(this.state);
+
     if (this.props.linkedProducts.products)
       dropDownItems = this.props.linkedProducts.products;
 
@@ -199,7 +221,7 @@ class ReportHome extends React.Component {
               <DropDown
                 label="Products"
                 name="products"
-                items={dropDownItems}
+                items={this.state.productList}
                 value={this.state.selectedItem}
                 onChange={this.handleDropDownChange}
               />
@@ -231,7 +253,7 @@ class ReportHome extends React.Component {
                 );
               })}
 
-            {this.state.dynamicReportContent.map(item => {
+            {this.state.dynamicReportContent.map((item) => {
               return (
                 <Grid
                   item
@@ -258,7 +280,7 @@ class ReportHome extends React.Component {
       );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     termsAndConReport: state.ReportReducer.termsAndConReport,
     cvReport: state.ReportReducer.cvReport,
@@ -271,6 +293,7 @@ const mapStateToProps = state => {
     diagTestResult: state.ReportReducer.diagTestResult,
     careerReport: state.ReportReducer.careerReportResult,
     linkedProducts: state.AdminReducer.adminLinkedProductDetails,
+    getProducts: state.AdminReducer.getProductsInReports,
   };
 };
 export default connect(mapStateToProps, {
@@ -283,4 +306,5 @@ export default connect(mapStateToProps, {
   viewDiagTestReport,
   getCareerExpoReport,
   getTestList,
+  getReportProduct,
 })(ReportHome);
