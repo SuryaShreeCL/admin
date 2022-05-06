@@ -97,7 +97,6 @@ function CreateTest(props) {
     params.id && setLoading(true);
     params.id &&
       clsaData(params.id).then((response) => {
-        console.log(response, 'GET');
         if (response.status === 200) {
           setLoading(false);
           let data = response?.data?.data;
@@ -117,7 +116,7 @@ function CreateTest(props) {
       });
     params.id &&
       clsaQuestionsetList(0, params.id).then((res) => {
-        console.log(res, 'ppppp');
+        setLoading(false);
         setTotalPage(res?.data?.data?.totalPages);
         setList(res?.data?.data?.content);
         if (res === 'CLSA Test Question Set List Is Empty') {
@@ -135,47 +134,114 @@ function CreateTest(props) {
     marks: yup.string().required(),
     description: yup.string().required(),
   });
+  const isToday = (someDate) => {
+    return someDate == moment(new Date()).format('yyyy-MM-DD');
+  };
 
   const handleSave = () => {
-    if (
-      values.time <
-      // .toLocaleTimeString({
-      //   hour: 'numeric',
-      //   hour12: true,
-      //   minute: 'numeric',
-      // })
-      new Date()
-      // .toLocaleTimeString({
-      //   hour: 'numeric',
-      //   hour12: true,
-      //   minute: 'numeric',
-      // })
-    ) {
-      setNotify({
-        isOpen: true,
-        message: 'Please choose the proper timing',
-        type: 'error',
-      });
+    console.log('first');
+    var selectedDate = new Date(values.date);
+    if (isToday(values.date)) {
+      if (
+        new Date(values.time).getHours() <= new Date().getHours() &&
+        new Date(values.time).getMinutes() < new Date().getMinutes()
+      ) {
+        setNotify({
+          isOpen: true,
+          message: 'Please choose the proper timing',
+          type: 'error',
+        });
+      } else {
+        console.log('second');
+        const data = {
+          name: values.testName,
+          totalMark: values.marks,
+          duration: values.duration,
+          description: values.description,
+          noOfQuestions: values.questions,
+          startDate: moment(new Date(values.date)).format('yyyy-MM-DD'),
+          startTime: new Date(values.time).toLocaleTimeString('en-us', {
+            hour12: false,
+          }),
+        };
+        if (params.id || testId) {
+          setLoading(true);
+          let id = params.id ? params.id : testId;
+          updateClsaData(id, data)
+            .then((response) => {
+              if (response.status === 200) {
+                setTestId(response?.data?.data?.id);
+                clsaData(response?.data?.data?.id).then((response) => {
+                  if (response.status === 200) {
+                    setLoading(false);
+                  }
+                });
+                setNotify({
+                  isOpen: true,
+                  message: response?.data?.message,
+                  type: 'success',
+                });
+              }
+            })
+            .catch((error) => {
+              setLoading(false);
+            });
+        } else {
+          setLoading(true);
+          createTest(data)
+            .then((response) => {
+              if (response.status === 200) {
+                setTestId(response?.data?.data?.id);
+                clsaData(response?.data?.data?.id).then((response) => {
+                  if (response.status === 200) {
+                    setLoading(false);
+                  }
+                });
+                setNotify({
+                  isOpen: true,
+                  message: response?.data?.message,
+                  type: 'success',
+                });
+              }
+              if (response === 'Bad Request') {
+                setLoading(false);
+                setNotify({
+                  isOpen: true,
+                  message: response,
+                  type: 'error',
+                });
+              }
+              if (response === 'CLSA Test Name is Already Exist') {
+                setLoading(false);
+                setNotify({
+                  isOpen: true,
+                  message: response,
+                  type: 'error',
+                });
+              }
+            })
+            .catch((error) => {
+              setLoading(false);
+            });
+        }
+      }
     } else {
-      console.log(values, '++++++++++');
+      console.log('second');
       const data = {
         name: values.testName,
         totalMark: values.marks,
         duration: values.duration,
         description: values.description,
         noOfQuestions: values.questions,
-
         startDate: moment(new Date(values.date)).format('yyyy-MM-DD'),
-        startTime: values.time.toLocaleTimeString({
-          hour: 'numeric',
-          hour12: true,
-          minute: 'numeric',
+        startTime: new Date(values.time).toLocaleTimeString('en-us', {
+          hour12: false,
         }),
       };
-      console.log(data, '---------------');
-      if (params.id) {
+      if (params.id || testId) {
         setLoading(true);
-        updateClsaData(params.id, data)
+        let id = params.id ? params.id : testId;
+        updateClsaData(id, data)
           .then((response) => {
             if (response.status === 200) {
               setTestId(response?.data?.data?.id);
@@ -193,14 +259,11 @@ function CreateTest(props) {
           })
           .catch((error) => {
             setLoading(false);
-            console.log(error);
           });
       } else {
-        console.log(data, 'else');
         setLoading(true);
         createTest(data)
           .then((response) => {
-            console.log(response, 'jj');
             if (response.status === 200) {
               setTestId(response?.data?.data?.id);
               clsaData(response?.data?.data?.id).then((response) => {
@@ -233,19 +296,14 @@ function CreateTest(props) {
           })
           .catch((error) => {
             setLoading(false);
-            console.log(error);
           });
       }
     }
   };
 
-  console.log(testId, 'id');
-
   const handleQuestionsetDelete = (id) => {
     setLoading(true);
     clsaQuestionsetDelete(testId, id).then((response) => {
-      console.log(response.data.message, 'DELETE');
-
       if (response.status === 200) {
         clsaData(testId).then((response) => {
           setLoading(false);
@@ -263,7 +321,6 @@ function CreateTest(props) {
               time: data?.startDateTime,
             });
             clsaQuestionsetList(0, params.id).then((res) => {
-              console.log(res, 'ppppp');
               setTotalPage(res?.data?.data?.totalPages);
               setList(res?.data?.data?.content);
               if (res === 'CLSA Test Question Set List Is Empty') {
@@ -312,10 +369,10 @@ function CreateTest(props) {
   } = formik;
 
   const handleQuestionsetUpload = (e) => {
+    console.log('00');
     const newFile = new FormData();
     newFile.append('file', e.currentTarget.files[0]);
     clsaQuestionSetUpload(testId, newFile).then((response) => {
-      console.log(response, 'bbbbb');
       if (response.status === 200) {
         clsaData(testId).then((response) => {
           if (response.status === 200) {
@@ -332,6 +389,7 @@ function CreateTest(props) {
               time: data?.startDateTime,
             });
             clsaQuestionsetList(0, testId).then((res) => {
+              setLoading(false);
               setTotalPage(res?.data?.data?.totalPages);
               setList(res?.data?.data?.content);
               if (res === 'CLSA Test Question Set List Is Empty') {
@@ -368,10 +426,8 @@ function CreateTest(props) {
     clsaQuestionsetList(value - 1, testId).then((res) => {
       setLoading(false);
       setList(res.data.data.content);
-      console.log(res, 'resssssss');
     });
   };
-  console.log(values, 'values');
 
   return (
     <>
@@ -395,7 +451,7 @@ function CreateTest(props) {
             </Grid>
             <Grid item md={5}>
               <Controls.Input
-                disabled={params.id ? true : false}
+                // disabled={params.id ? true : false}
                 label='Test Name'
                 name='testName'
                 style={{ width: '100%' }}
@@ -409,6 +465,7 @@ function CreateTest(props) {
               <Controls.Input
                 label='Enter total marks'
                 name='marks'
+                type='number'
                 style={{ width: '100%' }}
                 onChange={handleChange}
                 value={values.marks}
@@ -420,6 +477,7 @@ function CreateTest(props) {
               <Controls.Input
                 label='Duration'
                 name='duration'
+                type='number'
                 value={values.duration}
                 style={{ width: '100%' }}
                 onChange={handleChange}
@@ -524,12 +582,14 @@ function CreateTest(props) {
               <h5 style={{ color: '#052A4E' }}>List of Question Set</h5>
             </Grid>
             <Grid item md={3} align='center'>
+              {console.log(testId, 'll')}
               <Button
                 variant='contained'
                 disabled={testId ? false : true}
                 color={!uploadDisabled ? 'primary' : 'default'}
                 className={classes.newButton}
                 onClick={(event) => {
+                  console.log('click', event);
                   hiddenFileInput.current.click();
                 }}
               >
@@ -560,7 +620,6 @@ function CreateTest(props) {
                   <TableBody>
                     {list &&
                       list.map((item, index) => {
-                        console.log(item, 'ppp');
                         return (
                           <TableRow>
                             {/* <TableCell>{index + 1}</TableCell> */}
@@ -568,14 +627,10 @@ function CreateTest(props) {
                               {item.testName}
                             </TableCell>
                             <TableCell>
-                              {/* {moment(new Date(item.createdOn)).format(
+                              {moment(new Date(item.updatedOn)).format(
                                 'DD MMM yyyy'
                               )}{' '}
-                              , {convertTimeFormat(item.createdOn)} */}
-                              {/* {item.createdOn} */}
-                              {moment(new Date(item.createdOn)).format(
-                                'DD MMM yyyy'
-                              )}
+                              , {convertTimeFormat(item.updatedOn)}
                             </TableCell>
                             <TableCell>
                               <Controls.Button
@@ -625,11 +680,6 @@ function CreateTest(props) {
               history.push({
                 pathname: clsaPath,
               });
-              // setNotify({
-              //   isOpen: true,
-              //   message: 'Test Created successfully',
-              //   type: 'success',
-              // });
             }}
             style={{ borderRadius: '26px' }}
             disabled={list?.length == 0}
