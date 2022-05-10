@@ -14,8 +14,16 @@ import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFi
 import { ExistingMedia } from '../../Wall/Components/Upload/ExistingMedia';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { getWallCategories, listAllWallPosts, listWallPosts } from '../../../Actions/WallActions';
-import { updateTest, getTestDetails, scheduleIt } from '../../../Actions/TestActions';
+import {
+  getWallCategories,
+  listAllWallPosts,
+  listWallPosts,
+} from '../../../Actions/WallActions';
+import {
+  updateTest,
+  getTestDetails,
+  scheduleIt,
+} from '../../../Actions/TestActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
 import { testPath } from '../../RoutePaths';
@@ -87,7 +95,7 @@ const EditTest = () => {
     endDateTime: new Date(),
     score: 0,
     wallFiles: [],
-    cutOffScore: 0
+    cutOffScore: 0,
   });
 
   const [testCreated, setTestCreated] = useState(false);
@@ -99,7 +107,11 @@ const EditTest = () => {
     { id: '3', title: 40 },
     { id: '4', title: 50 },
   ];
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
@@ -114,20 +126,22 @@ const EditTest = () => {
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
   const { posts } = useSelector((state) => state.wallPostListReducer);
-  const { test, loading, error } = useSelector((state) => state.testDetailsReducer);
+  const { test, loading, error } = useSelector(
+    (state) => state.testDetailsReducer
+  );
   // const filterEventFromId = posts?.content?.filter(
   //   (post) => post?.id === test?.wallPost?.linkedEvent?.id
   // );
 
   const validate = (values) => {
-    if (values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
+    // if (values.wallFiles.length === 0) {
+    //   setNotify({
+    //     isOpen: true,
+    //     message: 'Please upload image(s)',
+    //     type: 'error',
+    //   });
+    //   return false;
+    // }
 
     return true;
   };
@@ -177,7 +191,11 @@ const EditTest = () => {
   return (
     <>
       {!loading && (
-        <BackHandler title={`Edit Test`} tab={testType === 'Draft' ? 1 : 2} path={testPath} />
+        <BackHandler
+          title={`Edit Test`}
+          tab={testType === 'Draft' ? 1 : 2}
+          path={testPath}
+        />
       )}
       {loading && <Loader />}
       {error && <Alert severity='error'>{error}</Alert>}
@@ -187,7 +205,11 @@ const EditTest = () => {
             initialValues={test || state}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              if (values.cutOffScore && values.cutOffScore<values.score && values.cutOffScore >= 1) {
+              if (
+                values.cutOffScore &&
+                values.cutOffScore < values.score &&
+                values.cutOffScore >= 1
+              ) {
                 payload = {
                   id: values.id,
                   name: values.name,
@@ -200,8 +222,9 @@ const EditTest = () => {
                   score: values.score,
                   cutOffScore: values.cutOffScore,
                   wallCategory:
-                    values?.wallPost?.linkedEvent?.wallCategories || values.wallPost?.wallCategories,
-                  wallFiles: values?.wallPost?.wallFiles,
+                    values?.wallPost?.linkedEvent?.wallCategories ||
+                    values.wallPost?.wallCategories,
+                  wallFiles: [],
                   testSections: values.testSection,
                 };
                 onTestUpdate(payload, testType);
@@ -209,7 +232,14 @@ const EditTest = () => {
             }}
             enableReinitialize
           >
-            {({ handleSubmit, errors, handleChange, values, touched, setFieldValue }) => (
+            {({
+              handleSubmit,
+              errors,
+              handleChange,
+              values,
+              touched,
+              setFieldValue,
+            }) => (
               <>
                 <div className='CreateTest'>
                   <Form onSubmit={handleSubmit} autoComplete='off'>
@@ -225,7 +255,10 @@ const EditTest = () => {
                         />
                       </Grid>
                       <Grid item style={{ width: '30%' }}>
-                        <FormControl className={classes.root} style={{ width: '100%' }}>
+                        <FormControl
+                          className={classes.root}
+                          style={{ width: '100%' }}
+                        >
                           <Autocomplete
                             multiple
                             name='wallCategory'
@@ -233,7 +266,10 @@ const EditTest = () => {
                             options={categories ?? []}
                             disabled
                             onChange={(e, value) => {
-                              setFieldValue('wallCategory', value !== null ? value : categories);
+                              setFieldValue(
+                                'wallCategory',
+                                value !== null ? value : categories
+                              );
                             }}
                             value={
                               values?.wallPost?.linkedEvent?.wallCategories ||
@@ -279,7 +315,11 @@ const EditTest = () => {
                       <Controls.Input
                         label='Description'
                         name='descriptionTitle'
-                        style={{ width: '100%', marginTop: '1.2rem', marginBottom: '10px' }}
+                        style={{
+                          width: '100%',
+                          marginTop: '1.2rem',
+                          marginBottom: '10px',
+                        }}
                         value={values.descriptionTitle}
                         onChange={handleChange}
                       />
@@ -291,18 +331,31 @@ const EditTest = () => {
                           render={(arrayHelpers) => (
                             <div className={classes.inputWrapper}>
                               {values?.description?.map((_, index) => (
-                                <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                                <div
+                                  key={index}
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
                                   <Field
                                     className={classes.inputFieldTwo}
                                     placeholder='Description Point'
                                     name={`description.${index}`}
                                   />
-                                  <Controls.ActionButton onClick={() => arrayHelpers.remove(index)}>
-                                    <RemoveCircleIcon color='secondary' fontSize='large' />
+                                  <Controls.ActionButton
+                                    onClick={() => arrayHelpers.remove(index)}
+                                  >
+                                    <RemoveCircleIcon
+                                      color='secondary'
+                                      fontSize='large'
+                                    />
                                   </Controls.ActionButton>
                                 </div>
                               ))}
-                              <Controls.ActionButton onClick={() => arrayHelpers.push()}>
+                              <Controls.ActionButton
+                                onClick={() => arrayHelpers.push()}
+                              >
                                 <AddBoxIcon color='primary' fontSize='large' />
                               </Controls.ActionButton>
                             </div>
@@ -310,7 +363,12 @@ const EditTest = () => {
                         />
                       </Grid>
                     </Grid>
-                    <Grid container direction='row' justify='space-between' alignItems='center'>
+                    <Grid
+                      container
+                      direction='row'
+                      justify='space-between'
+                      alignItems='center'
+                    >
                       <Grid item style={{ width: '15%' }}>
                         <Controls.Input
                           label='Score'
@@ -321,26 +379,42 @@ const EditTest = () => {
                         />
                       </Grid>
                       <Grid item style={{ width: '15%' }}>
-                      <Controls.Input
-                        label='Cut Off'
-                        name='cutOffScore'
-                        type='number'
-                        style={{ width: '100%' }}
-                        value={values.cutOffScore}
-                        onChange={handleChange}
-                        error={ values.cutOffScore < 1 || values.cutOffScore>values.score}
-                        helperText={(values.cutOffScore < 1 ? 'Enter Only Positive Values' : '') || (values.cutOffScore>=values.score? 'Invalid Cutoff Score' : '')}
-                        inputProps={{
-                          pattern: '[0-9]*',
-                        }}
-                      />
-                    </Grid>
+                        <Controls.Input
+                          label='Cut Off'
+                          name='cutOffScore'
+                          type='number'
+                          style={{ width: '100%' }}
+                          value={values.cutOffScore}
+                          onChange={handleChange}
+                          error={
+                            values.cutOffScore < 1 ||
+                            values.cutOffScore > values.score
+                          }
+                          helperText={
+                            (values.cutOffScore < 1
+                              ? 'Enter Only Positive Values'
+                              : '') ||
+                            (values.cutOffScore >= values.score
+                              ? 'Invalid Cutoff Score'
+                              : '')
+                          }
+                          inputProps={{
+                            pattern: '[0-9]*',
+                          }}
+                        />
+                      </Grid>
                       <FieldArray
                         name='testSection'
                         render={(arrayHelpers) => (
                           <div className={classes.wrapper}>
                             {values?.testSection?.map((_, index) => (
-                              <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+                              <div
+                                key={index}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
                                 <Field
                                   className={classes.inputField}
                                   placeholder='Duration'
@@ -363,7 +437,7 @@ const EditTest = () => {
                       justify='space-between'
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
-                      <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                      {/* <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                         <MultipleFileUploadField
                           name='wallFilesUpdate'
                           fileType='image'
@@ -372,7 +446,7 @@ const EditTest = () => {
                         {values?.wallPost?.wallFiles?.map((media) => (
                           <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
                         ))}
-                      </Grid>
+                      </Grid> */}
 
                       <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                         <Controls.Input
@@ -380,7 +454,10 @@ const EditTest = () => {
                           value={values.nameDescription}
                           name='nameDescription'
                           onChange={handleChange}
-                          error={touched.nameDescription && Boolean(errors.nameDescription)}
+                          error={
+                            touched.nameDescription &&
+                            Boolean(errors.nameDescription)
+                          }
                           multiline
                           className={classes.captionStyle}
                           rows={8}
@@ -401,7 +478,9 @@ const EditTest = () => {
                           testCreated={!testCreated}
                           questionUpload={{
                             id: values?.id,
-                            questionSectionId: values?.testSection?.map((id) => id.id),
+                            questionSectionId: values?.testSection?.map(
+                              (id) => id.id
+                            ),
                           }}
                         />
                       </Grid>
@@ -476,7 +555,10 @@ const EditTest = () => {
         </CreateTestContainer>
       )}
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 };
