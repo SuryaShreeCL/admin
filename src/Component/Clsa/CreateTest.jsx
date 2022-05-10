@@ -101,7 +101,6 @@ function CreateTest(props) {
           setLoading(false);
           let data = response?.data?.data;
           setTestId(data?.id);
-          let questionSetData = response?.data?.data?.testQuestionsSets;
           setValues({
             testName: data?.name,
             marks: data?.totalMark,
@@ -111,7 +110,6 @@ function CreateTest(props) {
             date: data?.startDate,
             time: data?.startDateTime,
           });
-          // setList(questionSetData);
         }
       });
     params.id &&
@@ -137,22 +135,28 @@ function CreateTest(props) {
   const isToday = (someDate) => {
     return someDate == moment(new Date()).format('yyyy-MM-DD');
   };
+  const isPastDate = (data) => {
+    var d = new Date(data);
+    var cur = new Date();
+    if (d.getHours() >= cur.getHours()) {
+      if (d.getMinutes() > cur.getMinutes()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const handleSave = () => {
-    console.log('first');
-    var selectedDate = new Date(values.date);
     if (isToday(values.date)) {
-      if (
-        new Date(values.time).getHours() <= new Date().getHours() &&
-        new Date(values.time).getMinutes() < new Date().getMinutes()
-      ) {
+      if (isPastDate(values.date) == false) {
         setNotify({
           isOpen: true,
           message: 'Please choose the proper timing',
           type: 'error',
         });
       } else {
-        console.log('second');
         const data = {
           name: values.testName,
           totalMark: values.marks,
@@ -160,7 +164,7 @@ function CreateTest(props) {
           description: values.description,
           noOfQuestions: values.questions,
           startDate: moment(new Date(values.date)).format('yyyy-MM-DD'),
-          startTime: new Date(values.time).toLocaleTimeString('en-us', {
+          startTime: new Date(values.time).toLocaleTimeString('en-US', {
             hour12: false,
           }),
         };
@@ -226,7 +230,6 @@ function CreateTest(props) {
         }
       }
     } else {
-      console.log('second');
       const data = {
         name: values.testName,
         totalMark: values.marks,
@@ -234,7 +237,7 @@ function CreateTest(props) {
         description: values.description,
         noOfQuestions: values.questions,
         startDate: moment(new Date(values.date)).format('yyyy-MM-DD'),
-        startTime: new Date(values.time).toLocaleTimeString('en-us', {
+        startTime: new Date(values.time).toLocaleTimeString('en-US', {
           hour12: false,
         }),
       };
@@ -310,7 +313,6 @@ function CreateTest(props) {
           if (response.status === 200) {
             let data = response?.data?.data;
             setTestId(data.id);
-            let questionSetData = response?.data?.data?.testQuestionsSets;
             setValues({
               testName: data.name,
               marks: data.totalMark,
@@ -371,7 +373,6 @@ function CreateTest(props) {
   } = formik;
 
   const handleQuestionsetUpload = (e) => {
-    console.log('00');
     const newFile = new FormData();
     newFile.append('file', e.currentTarget.files[0]);
     clsaQuestionSetUpload(testId, newFile).then((response) => {
@@ -380,7 +381,6 @@ function CreateTest(props) {
           if (response.status === 200) {
             let data = response?.data?.data;
             setTestId(data.id);
-            let questionSetData = response?.data?.data?.testQuestionsSets;
             setValues({
               testName: data?.name,
               marks: data?.totalMark,
@@ -584,14 +584,12 @@ function CreateTest(props) {
               <h5 style={{ color: '#052A4E' }}>List of Question Set</h5>
             </Grid>
             <Grid item md={3} align='center'>
-              {console.log(testId, 'll')}
               <Button
                 variant='contained'
                 disabled={testId ? false : true}
                 color={!uploadDisabled ? 'primary' : 'default'}
                 className={classes.newButton}
                 onClick={(event) => {
-                  console.log('click', event);
                   hiddenFileInput.current.click();
                 }}
               >
@@ -649,6 +647,9 @@ function CreateTest(props) {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <div style={{ margin: '2rem auto', width: '60%' }}>
+                {loading && <Loader />}
+              </div>
               <PaginationComponent
                 page={page + 1}
                 pageCount={totalPage}
@@ -688,9 +689,7 @@ function CreateTest(props) {
           />
         </Grid>
       </Grid>
-      <div style={{ margin: '2rem auto', width: '60%' }}>
-        {loading && <Loader />}
-      </div>
+
       <Notification notify={notify} setNotify={setNotify} />
     </>
   );
