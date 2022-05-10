@@ -18,6 +18,7 @@ import { getAllSpecialization } from "../../Actions/Aspiration";
 import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import MySnackBar from "../MySnackBar";
+import moment from "moment";
 function GeneralDetails(props) {
   const classes = useStyles();
   const [id, setId] = useState(null);
@@ -72,7 +73,7 @@ function GeneralDetails(props) {
           setId(id);
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({ ...prev, value: strDate }));
+          handleDateChange((prev) => ({ ...prev, value: moment(new Date(date)).format("YYYY-MM-DD") }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -223,7 +224,7 @@ function GeneralDetails(props) {
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
                 onChange={(e) =>
-                  handleDateChange({ value: e.target.value, helperText: "" })
+                  {console.log(e.target.value); handleDateChange({ value: e.target.value, helperText: "" })}
                 }
                 type='date'
                 InputLabelProps={{ shrink: true }}
