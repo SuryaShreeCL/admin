@@ -71,12 +71,6 @@ class ProductStages extends Component {
       snackOpen: false,
       familyErr: "",
       varientErr: "",
-      icon: "",
-      iconCompleted: "",
-      iconErr: "",
-      iconCompletedErr: "",
-      stepId: "",
-      stageId: "",
     };
   }
   componentDidMount() {
@@ -112,8 +106,6 @@ class ProductStages extends Component {
       mintat: "",
       maxtat: "",
       drop: true,
-      icon: "",
-      iconCompleted: "",
     });
   };
   handelAdd = () => {
@@ -148,12 +140,7 @@ class ProductStages extends Component {
     isEmptyString(this.state.description)
       ? this.setState({ descriptionErr: hlptxt })
       : this.setState({ descriptionErr: "" });
-    isEmptyString(this.state.icon)
-      ? this.setState({ iconErr: hlptxt })
-      : this.setState({ iconErr: "" });
-    isEmptyString(this.state.iconCompleted)
-      ? this.setState({ iconCompletedErr: hlptxt })
-      : this.setState({ iconCompletedErr: "" });
+    console.log(this.state);
     if (
       !isEmptyString(this.state.stepname) &&
       !isEmptyString(this.state.image) &&
@@ -164,66 +151,31 @@ class ProductStages extends Component {
       !isEmptyString(this.state.mintat) &&
       !isEmptyString(this.state.description) &&
       this.state.startMonth !== null &&
-      this.state.endMonth !== null &&
-      !isEmptyString(this.state.icon) &&
-      !isEmptyString(this.state.iconCompleted)
+      this.state.endMonth !== null
     ) {
       let obj = {
+        stepName: this.state.stepname,
         description: this.state.description,
+        disabled: this.state.checkedB === true ? "true" : "false",
         endMonth: this.state.endMonth,
+        startMonth: this.state.startMonth,
         href: this.state.href,
         image: this.state.image,
         lockImg: this.state.lockimage,
-        isChild: true,
-        isParent: false,
-        orderNo: this.state.rank,
-        parent: { id: this.props.match.params.id },
-        product: { id: this.props.match.params.id },
-        rank: this.state.rank,
-        startMonth: this.state.startMonth,
-        stepName: this.state.stepname,
-        icon: this.state.icon,
-        iconCompleted: this.state.iconCompleted,
-        color: null,
         max_tat: this.state.maxtat,
         min_tat: this.state.mintat,
+        rank: this.state.rank,
+        parent: {
+          id: this.props.match.params.id,
+        },
+        product: null,
       };
-
-      // {
-      //   stepName: this.state.stepname,
-      //   description: this.state.description,
-      //   disabled: this.state.checkedB === true ? "true" : "false",
-      //   endMonth: this.state.endMonth,
-      //   startMonth: this.state.startMonth,
-      //   href: this.state.href,
-      //   image: this.state.image,
-      //   lockImg: this.state.lockimage,
-      //   max_tat: this.state.maxtat,
-      //   min_tat: this.state.mintat,
-      //   rank: this.state.rank,
-      //   parent: {
-      //     id: this.props.match.params.id,
-      //   },
-      //   product: null,
-      //   icon: this.state.icon,
-      //   iconCompleted: this.state.iconCompleted,
-      // };
-      this.props.postproductstructure(obj, (response) => {
-        if (response?.data?.body?.success) {
-          this.setState({
-            snackMsg: "Added Successfully",
-            snackOpen: true,
-            snackVariant: "success",
-            open: false,
-          });
-        } else {
-          this.setState({
-            snackMsg: response.message,
-            snackOpen: true,
-            snackVariant: "error",
-            open: false,
-          });
-        }
+      this.props.postproductstructure(obj);
+      this.setState({
+        snackMsg: "Added Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+        open: false,
       });
     }
   };
@@ -259,12 +211,6 @@ class ProductStages extends Component {
     isEmptyString(this.state.description)
       ? this.setState({ descriptionErr: hlptxt })
       : this.setState({ descriptionErr: "" });
-    isEmptyString(this.state.icon)
-      ? this.setState({ iconErr: hlptxt })
-      : this.setState({ iconErr: "" });
-    isEmptyString(this.state.iconCompleted)
-      ? this.setState({ iconCompletedErr: hlptxt })
-      : this.setState({ iconCompletedErr: "" });
     if (
       !isEmptyString(this.state.stepname) &&
       !isEmptyString(this.state.image) &&
@@ -275,57 +221,37 @@ class ProductStages extends Component {
       !isEmptyString(this.state.mintat) &&
       !isEmptyString(this.state.description) &&
       this.state.startMonth !== null &&
-      this.state.endMonth !== null &&
-      !isEmptyString(this.state.icon) &&
-      !isEmptyString(this.state.iconCompleted)
+      this.state.endMonth !== null
     ) {
       let obj = {
         id: this.state.id,
-        stepId: this.state.stepId,
-        stagesId: this.state.stageId,
+        stepName: this.state.stepname,
         description: this.state.description,
-        endMonth: this.state.endMonth,
+        disabled: this.state.checkedB,
+        endMonth: new Date(this.state.endMonth).getMonth(),
+        startMonth: new Date(this.state.startMonth).getMonth(),
         href: this.state.href,
         image: this.state.image,
         lockImg: this.state.lockimage,
-        isChild: true,
-        isParent: false,
         max_tat: this.state.maxtat,
         min_tat: this.state.mintat,
-        orderNo: this.state.rank,
+        rank: this.state.rank,
         parent: {
-          id: this.state.id,
-        },
-        product: {
           id: this.props.match.params.id,
         },
-        rank: this.state.rank,
-        color: null,
-        startMonth: this.state.startMonth,
-        stepName: this.state.stepname,
-        icon: this.state.icon,
-        iconCompleted: this.state.iconCompleted,
+        product: null,
       };
-      this.props.putproductstructure(obj, (response) => {
-        if (response?.data?.body?.success) {
-          this.setState({
-            snackMsg: "Updated Successfully",
-            snackOpen: true,
-            snackVariant: "success",
-            open: false,
-          });
-        } else {
-          this.setState({
-            snackMsg: response.message,
-            snackOpen: true,
-            snackVariant: "error",
-            open: false,
-          });
-        }
+      this.props.putproductstructure(obj);
+      this.setState({
+        snackMsg: "Updated Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+        open: false,
       });
     }
   };
   handleClick = (data) => {
+    console.log(data);
     this.setState({
       open: true,
       stepname: data.stepName,
@@ -341,11 +267,11 @@ class ProductStages extends Component {
       maxtat: data.max_tat,
       drop: false,
       id: data.id,
-      stepId: data.stepId,
-      stageId: data.stageId,
     });
   };
   render() {
+    console.log(this.props.match.params.id);
+    console.log(this.props.getproductstepsList);
     return (
       <div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -605,32 +531,6 @@ class ProductStages extends Component {
                   error={this.state.rankErr.length > 0}
                   helperText={this.state.rankErr}
                   onChange={(e) => this.setState({ rank: e.target.value })}
-                />
-              </Grid>
-              <Grid item md={3}>
-                <TextField
-                  name="icon"
-                  value={this.state.icon}
-                  label="Icon"
-                  type="text"
-                  fullWidth
-                  error={this.state.iconErr.length > 0}
-                  helperText={this.state.iconErr}
-                  onChange={(e) => this.setState({ icon: e.target.value })}
-                />
-              </Grid>
-              <Grid item md={3}>
-                <TextField
-                  name="iconCompleted"
-                  value={this.state.iconCompleted}
-                  label="Icon Completed"
-                  type="text"
-                  fullWidth
-                  error={this.state.iconCompletedErr.length > 0}
-                  helperText={this.state.iconCompletedErr}
-                  onChange={(e) =>
-                    this.setState({ iconCompleted: e.target.value })
-                  }
                 />
               </Grid>
               <Grid item md={6}></Grid>

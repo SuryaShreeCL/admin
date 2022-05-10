@@ -58,6 +58,7 @@ class ProductPunching extends Component {
       snackVariant: "",
       snackOpen: false,
       productVariantList: [],
+      loadUpdate:false,
     };
   }
 
@@ -96,6 +97,7 @@ class ProductPunching extends Component {
           family: null,
           product: null,
           variant: null,
+          loadUpdate:false,
         });
         this.props.getPunchingData(match.params.id);
       } else {
@@ -103,6 +105,7 @@ class ProductPunching extends Component {
           snackMsg: postPunchingStatus.message,
           snackOpen: true,
           snackVariant: "error",
+          loadUpdate:false,
         });
       }
     }
@@ -215,11 +218,15 @@ class ProductPunching extends Component {
     return arr.length === validArray.length;
   };
 
-  handleUpdate = () => {
+  handleUpdate = ( ) => {
     const { punching } = this.state;
     const { match } = this.props;
 
     if (punching && this.getValidation()) {
+      this.setState({
+        loadUpdate:true
+      
+      });
       let paymentModel = punching.paymentDetails.map(
         ({ paymentId, paymentProvider }) => ({ paymentId, paymentProvider })
       );
@@ -420,6 +427,7 @@ class ProductPunching extends Component {
       variant,
       variantErr,
       punching,
+      loadUpdate,
       productVariantList,
       product,
       productErr,
@@ -601,6 +609,7 @@ class ProductPunching extends Component {
                   color={"primary"}
                   variant={"contained"}
                   onClick={() => this.handleUpdate()}
+                  disabled={Boolean(loadUpdate)}
                 >
                   {"Update Details"}
                 </PrimaryButton>
