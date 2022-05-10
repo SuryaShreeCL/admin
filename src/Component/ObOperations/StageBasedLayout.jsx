@@ -464,7 +464,7 @@ class StageBasedLayout extends Component {
       }
       if (
         nvArr.length === 0 &&
-        verifyArr.length > 0 &&
+        verifyArr.length >= 0 &&
         mismatchArr.length > 0
       ) {
         return this.setState({
