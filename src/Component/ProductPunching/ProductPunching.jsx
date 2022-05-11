@@ -158,8 +158,8 @@ class ProductPunching extends Component {
             paymentProvider: null,
             paymentIdErr: null,
             paymentProviderErr: null,
-            Amount: null,
-            AmountErr: null,
+            amount: null,
+            amountErr: null,
           },
         ],
       };
@@ -174,8 +174,8 @@ class ProductPunching extends Component {
       paymentProvider: null,
       paymentIdErr: null,
       paymentProviderErr: null,
-      Amount : null,
-      AmountErr: null,
+      amount : null,
+      amountErr: null,
 
     };
     let arr = [...punching.paymentDetails];
@@ -202,16 +202,16 @@ class ProductPunching extends Component {
   getValidation = () => {
     const { punching } = this.state;
     let arr = punching.paymentDetails;
-    punching.paymentDetails.map(({ paymentId, paymentProvider,Amount }, index) => {
+    punching.paymentDetails.map(({ paymentId, paymentProvider,amount }, index) => {
       let paymentIdError = null;
       let paymentProviderError = null;
-      let AmountError = null;
+      let amountError = null;
       if (!(paymentId && paymentId.trim().length !== 0))
         paymentIdError = helperText;
       if (!paymentProvider) paymentProviderError = helperText;
-      if (!Amount) AmountError = helperText;
+      if (!amount) amountError = helperText;
       arr[index]["paymentIdErr"] = paymentIdError;
-      arr[index]["AmountErr"] = AmountError;
+      arr[index]["amountErr"] = amountError;
       arr[index]["paymentProviderErr"] = paymentProviderError;
     });
     let obj = {
@@ -219,8 +219,8 @@ class ProductPunching extends Component {
       paymentDetails: arr,
     };
     let validArray = arr.filter(
-      ({ paymentIdErr, paymentProviderErr,AmountErr }) =>
-        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr) && !Boolean(AmountErr)
+      ({ paymentIdErr, paymentProviderErr,amountErr }) =>
+        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr) && !Boolean(amountErr)
     );
     this.setState({ punching: obj });
     return arr.length === validArray.length;
@@ -236,7 +236,7 @@ class ProductPunching extends Component {
       
       });
       let paymentModel = punching.paymentDetails.map(
-        ({ paymentId, paymentProvider }) => ({ paymentId, paymentProvider })
+        ({ paymentId,amount, paymentProvider }) => ({ paymentId,amount, paymentProvider })
       );
       let requestBody = {
         studentId: match.params.id,
@@ -284,7 +284,7 @@ class ProductPunching extends Component {
     ) {
       return punching.paymentDetails.map(
         (
-          { paymentId, paymentProvider,Amount,AmountErr, paymentIdErr, paymentProviderErr },
+          { paymentId, paymentProvider,amount,amountErr, paymentIdErr, paymentProviderErr },
           index
         ) => {
           let isDeleteOption = punching.paymentDetails.length - 1 !== 0;
@@ -337,14 +337,14 @@ class ProductPunching extends Component {
                   <Grid item xs={12} sm={3}>
                     <TextField
                       id={index}
-                      key={`Amount${index}`}
+                      key={`amount${index}`}
                       label={"Amount"}
-                      name={"Amount"}
+                      name={"amount"}
                       type={"number"}
-                      value={Amount || ""}
+                      value={amount || ""}
                       onChange={this.handleChange}
-                      error={Boolean(AmountErr)}
-                      helperText={AmountErr || " "}
+                      error={Boolean(amountErr)}
+                      helperText={amountErr || " "}
                       fullWidth
                     />
                   </Grid>
