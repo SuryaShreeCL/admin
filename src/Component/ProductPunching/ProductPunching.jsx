@@ -158,6 +158,8 @@ class ProductPunching extends Component {
             paymentProvider: null,
             paymentIdErr: null,
             paymentProviderErr: null,
+            Amount: null,
+            AmountErr: null,
           },
         ],
       };
@@ -172,6 +174,9 @@ class ProductPunching extends Component {
       paymentProvider: null,
       paymentIdErr: null,
       paymentProviderErr: null,
+      Amount : null,
+      AmountErr: null,
+
     };
     let arr = [...punching.paymentDetails];
     arr.push(paymentModel);
@@ -197,13 +202,16 @@ class ProductPunching extends Component {
   getValidation = () => {
     const { punching } = this.state;
     let arr = punching.paymentDetails;
-    punching.paymentDetails.map(({ paymentId, paymentProvider }, index) => {
+    punching.paymentDetails.map(({ paymentId, paymentProvider,Amount }, index) => {
       let paymentIdError = null;
       let paymentProviderError = null;
+      let AmountError = null;
       if (!(paymentId && paymentId.trim().length !== 0))
         paymentIdError = helperText;
       if (!paymentProvider) paymentProviderError = helperText;
+      if (!Amount) AmountError = helperText;
       arr[index]["paymentIdErr"] = paymentIdError;
+      arr[index]["AmountErr"] = AmountError;
       arr[index]["paymentProviderErr"] = paymentProviderError;
     });
     let obj = {
@@ -211,8 +219,8 @@ class ProductPunching extends Component {
       paymentDetails: arr,
     };
     let validArray = arr.filter(
-      ({ paymentIdErr, paymentProviderErr }) =>
-        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr)
+      ({ paymentIdErr, paymentProviderErr,AmountErr }) =>
+        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr) && !Boolean(AmountErr)
     );
     this.setState({ punching: obj });
     return arr.length === validArray.length;
@@ -276,7 +284,7 @@ class ProductPunching extends Component {
     ) {
       return punching.paymentDetails.map(
         (
-          { paymentId, paymentProvider, paymentIdErr, paymentProviderErr },
+          { paymentId, paymentProvider,Amount,AmountErr, paymentIdErr, paymentProviderErr },
           index
         ) => {
           let isDeleteOption = punching.paymentDetails.length - 1 !== 0;
@@ -285,7 +293,7 @@ class ProductPunching extends Component {
             <Fragment key={`paymentDetails${index}`}>
               <Grid item xs={12} lg={12} key={index}>
                 <Grid container spacing={2} alignItems={"center"}>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={3}>
                     <Autocomplete
                       id={`provider-combo-box-${index}`}
                       key={`provider-combo-box-${index}`}
@@ -313,7 +321,7 @@ class ProductPunching extends Component {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={3}>
                     <TextField
                       id={index}
                       key={`paymentId${index}`}
@@ -323,6 +331,20 @@ class ProductPunching extends Component {
                       onChange={this.handleChange}
                       error={Boolean(paymentIdErr)}
                       helperText={paymentIdErr || " "}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <TextField
+                      id={index}
+                      key={`Amount${index}`}
+                      label={"Amount"}
+                      name={"Amount"}
+                      type={"number"}
+                      value={Amount || ""}
+                      onChange={this.handleChange}
+                      error={Boolean(AmountErr)}
+                      helperText={AmountErr || " "}
                       fullWidth
                     />
                   </Grid>
