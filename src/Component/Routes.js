@@ -122,6 +122,7 @@ import {
   clsaPath,
   clsaTestCreate,
   clsaTestEdit,
+  result,
 } from './RoutePaths';
 import Student from './Student';
 import Student_data from './StudentData';
@@ -138,6 +139,7 @@ import EditPost from './Wall/Pages/EditPost';
 import WallLanding from './Wall/WallLanding';
 import Webinar from './Webinar/Webinar';
 import ClsaTestPath from '../Component/Clsa/CreateTest';
+import Result from './Wall/Pages/ResultTab';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -457,7 +459,11 @@ export default function Routes(props) {
         exact
         path={clsaTestEdit + ':id'}
         render={(props) => <ClsaTestPath {...props} />}
-        // component={ClsaTestPath}
+      />
+      <Route
+        exact
+        path={result + ':id'}
+        render={(props) => <Result {...props} />}
       />
     </Switch>
   );

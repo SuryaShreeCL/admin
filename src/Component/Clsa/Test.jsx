@@ -334,13 +334,12 @@ export default function LiveTest() {
               {loading && <Loader />}
               {error && <Alert severity='info'>0 Tests Found</Alert>}
             </div>
-            {
-              <PaginationComponent
-                page={page + 1}
-                pageCount={data.totalPages}
-                onPageChange={handlePageChange}
-              />
-            }
+            {console.log(page, data.totalPages, 'kkk')}
+            <PaginationComponent
+              page={page + 0}
+              pageCount={data.totalPages}
+              onPageChange={handlePageChange}
+            />
           </TableContainer>
         </Grid>
       </Grid>

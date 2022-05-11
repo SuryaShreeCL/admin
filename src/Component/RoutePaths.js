@@ -65,6 +65,7 @@ export const premiumUsersPath = rootPath.concat('/premium-users');
 export const clsaPath = rootPath.concat('/clsa');
 export const clsaTestCreate = rootPath.concat('/clsa/create');
 export const clsaTestEdit = rootPath.concat('/clsa/edit/');
+export const result = rootPath.concat('/result/');
 
 // Rengine another version path
 
