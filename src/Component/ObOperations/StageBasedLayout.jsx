@@ -219,7 +219,7 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else if (this.state.othersstatus === "Verified") {
+    } else if (this.state.othersStatus === "Verified") {
       return (
         <Grid container>
           <Grid item md={12}>
@@ -352,7 +352,7 @@ class StageBasedLayout extends Component {
             {"Onboarding Incomplete"}
           </Button>
         );
-      } else if (this.state.othersstatus === "Verified") {
+      } else if (this.state.othersStatus === "Verified") {
         return (
           <PrimaryButton
             color={"primary"}
