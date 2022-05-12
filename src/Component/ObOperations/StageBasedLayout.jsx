@@ -211,7 +211,7 @@ class StageBasedLayout extends Component {
           </Grid>
           <Grid item md={12}>
             <TextField
-              label='Add Comments'
+              label="Add Comments"
               fullWidth
               value={this.state.comments}
               onChange={(e) => this.setState({ comments: e.target.value })}
@@ -318,7 +318,7 @@ class StageBasedLayout extends Component {
           );
           this.setState({
             snackOpen: true,
-            snackMsg: response.data,
+            snackMsg: "Completed Successfully",
             snackVariant: "success",
             open: false,
             isLoading: false,
@@ -722,7 +722,7 @@ class StageBasedLayout extends Component {
           </ThemedTabs>
         </Grid>
         {isCompleteButtonContainer && (
-          <Grid item md={4} align='right' className={"button_grid"}>
+          <Grid item md={4} align="right" className={"button_grid"}>
             <PrimaryButton
               color={"primary"}
               variant={"contained"}
@@ -786,7 +786,7 @@ class StageBasedLayout extends Component {
             style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
             <Typography
               style={{
                 cursor: "pointer",
@@ -810,8 +810,8 @@ class StageBasedLayout extends Component {
                 value={this.state.tabCount}
                 textColor={"inherit"}
                 onChange={(e, value) => this.setState({ tabCount: value })}
-                aria-label='ant example'
-                variant='scrollable'
+                aria-label="ant example"
+                variant="scrollable"
               >
                 {this.state.productDetails !== null &&
                   this.state.productDetails.map((item, index) => {
@@ -829,7 +829,7 @@ class StageBasedLayout extends Component {
                   })}
               </ThemedTabs>
             </Grid>
-            <Grid item md={4} align='right' className={"button_grid"}>
+            <Grid item md={4} align="right" className={"button_grid"}>
               <PrimaryButton
                 color={"primary"}
                 variant={"contained"}
@@ -855,12 +855,12 @@ class StageBasedLayout extends Component {
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant='scrollable'
+                  variant="scrollable"
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label='ant example'
+                  aria-label="ant example"
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -882,13 +882,13 @@ class StageBasedLayout extends Component {
                         });
                       })}
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
@@ -936,12 +936,12 @@ class StageBasedLayout extends Component {
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant='scrollable'
+                  variant="scrollable"
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label='ant example'
+                  aria-label="ant example"
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -963,13 +963,13 @@ class StageBasedLayout extends Component {
                         });
                       })}
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
