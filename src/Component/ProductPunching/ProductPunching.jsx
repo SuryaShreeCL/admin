@@ -403,9 +403,9 @@ class ProductPunching extends Component {
                 {paymentDetailsModelList &&
                   paymentDetailsModelList.length !== 0 &&
                   paymentDetailsModelList.map(
-                    ({ id, paymentProvider, paymentId }, index) => (
+                    ({ id, paymentProvider, paymentId,amount }, index) => (
                       <Fragment key={`paymentDetailsModelList${index}`}>
-                        <Grid item md={6}>
+                        <Grid item md={4}>
                           <TextField
                             id={id}
                             key={id}
@@ -416,7 +416,19 @@ class ProductPunching extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item md={6}>
+                        <Grid item md={4}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Amount'
+                            name={"Amount"}
+                            value={amount}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                        
+                        <Grid item md={4}>
                           <TextField
                             id={id}
                             key={id}
