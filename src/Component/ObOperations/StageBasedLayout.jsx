@@ -238,7 +238,7 @@ class StageBasedLayout extends Component {
 
   handleText() {
     return (
-      <Typography className={"incomplete_text"}>{" incomplete"}</Typography>
+      <Typography className={"incomplete_text"}>&nbsp;{" incomplete"}</Typography>
     );
   }
 
