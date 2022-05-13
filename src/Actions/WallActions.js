@@ -414,3 +414,54 @@ export const postRecordedVideoUrl = (webinarId, url, callback) => {
       });
   };
 };
+
+export const getStudentEventStatus = (eventId, callback) => {
+  return (dispatch) => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/v1/event/${eventId}/wallstep/status`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              'accessToken'
+            )}`,
+          },
+        }
+      )
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        callback(error.response.data);
+      });
+  };
+};
+
+export const updateStudentEventStatus = (eventId, data, callback) => {
+  return (dispatch) => {
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/v1/event/${eventId}/wallstep/status`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              'accessToken'
+            )}`,
+          },
+        }
+      )
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        callback(error.response.data);
+      });
+  };
+};
