@@ -80,7 +80,6 @@ export class Student extends Component {
       college: null,
       department: null,
       phone: null,
-      origin: null,
       provider: "",
       toogleButton: false,
       password: "",
@@ -92,7 +91,6 @@ export class Student extends Component {
       collegeHelperText: "",
       departmentHelperText: "",
       phoneHelperText: "",
-      originHelperText: "",
       studentIdHelperText: "",
       internAccess: false,
       lmsAccess: false,
@@ -138,7 +136,6 @@ export class Student extends Component {
     { title: "College", fieldName: "college.name" },
     { title: "Department", fieldName: "department.name" },
     { title: "Phone", fieldName: "phoneNumber" },
-    { title: "Origin", fieldName:"origin"},
     { title: "Degree", fieldName: "ugDegree.name" },
     // { title: 'UGGPA', field: 'uggpa' },
   ];
@@ -151,7 +148,6 @@ export class Student extends Component {
     // { title: "College", fieldName: "college.name" },
     // { title: "Department", fieldName: "department.name" },
     { title: "Phone", fieldName: "phoneNumber" },
-    { title: "Origin", fieldName:"origin"},
     // { title: "Degree", fieldName: "ugDegree.name" },
     // { title: 'UGGPA', field: 'uggpa' },k
   ];
@@ -228,13 +224,12 @@ export class Student extends Component {
         collegeHelperText: "",
         departmentHelperText: "",
         phoneHelperText: "",
-        originHelperText:"",
         studentIdHelperText: "",
       });
     }
   }
 
-  rowClick =  (rowData) => {
+  rowClick = (rowData) => {
     if (
       ["LMSEDITOR", "LMSCHECKER"].indexOf(sessionStorage.getItem("role")) === -1
     ) {
@@ -1349,7 +1344,6 @@ const data = [
     dob: null,
     provider: "Local",
     ugDegree: null,
-    origin: null,
     college: null,
     department: null,
     university: null,
