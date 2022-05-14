@@ -61,7 +61,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
@@ -178,6 +178,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "tenthForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("tenth");
   };
@@ -187,6 +189,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "twelthForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("twelfth");
   };
@@ -194,7 +198,12 @@ class ProfileGapRoot extends Component {
   // diploma handling
   handleDiplomaClick = () => {
     console.log("diploma");
-    this.setState({ value: "diplomaForm", open: false });
+    this.setState({
+      value: "diplomaForm",
+      open: false,
+      anchorEl: null,
+      arrowOpenName: null,
+    });
     this.props.getAcademicType("diploma");
   };
 
@@ -204,6 +213,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "ugForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("ug");
   };
@@ -214,6 +225,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "pgForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("pg");
   };
@@ -288,7 +301,13 @@ class ProfileGapRoot extends Component {
     {
       label: "Academics Summary",
       value: "index",
-      handler: () => this.setState({ value: "index", open: false }),
+      handler: () =>
+        this.setState({
+          value: "index",
+          open: false,
+          anchorEl: null,
+          arrowOpenName: null,
+        }),
     },
   ];
 
@@ -312,8 +331,8 @@ class ProfileGapRoot extends Component {
           id={id}
           onClick={this.handlePopupClick}
           className={classes.iconButtonStyle}
-          color="primary"
-          aria-label="add to shopping cart"
+          color='primary'
+          aria-label='add to shopping cart'
         >
           <AccountCircleRoundedIcon fontSize={"large"} />
         </IconButton>
@@ -342,7 +361,7 @@ class ProfileGapRoot extends Component {
   };
 
   handleMenuItem = (value) => {
-    this.setState({ value: value });
+    this.setState({ value: value, cvAnchorEl: null, arrowOpenName: null });
   };
 
   handleCvMenuOpen = (e, name) => {
@@ -354,7 +373,7 @@ class ProfileGapRoot extends Component {
   };
 
   visibleCvReview = () => {
-    return this.props?.variantStepList?.codeName === "ACS_MBA";
+    return this.props?.variantStepList?.referProductCodeName === "ACS_MBA";
   };
 
   render() {
@@ -389,28 +408,28 @@ class ProfileGapRoot extends Component {
             <Paper square className={classes.paperStyle}>
               <Tabs
                 value={this.state.value}
-                indicatorColor="none"
-                textColor="primary"
+                indicatorColor='none'
+                textColor='primary'
                 onChange={(e, newValue) => this.setState({ value: newValue })}
                 // variant="scrollable"
               >
                 <Tab
-                  label="Dashboard"
+                  label='Dashboard'
                   value={"dashboard"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label="General Details"
+                  label='General Details'
                   value={"generalDetails"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label="Interest Details"
+                  label='Interest Details'
                   value={"interestDetails"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label="Test Results"
+                  label='Test Results'
                   value={"testResult"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
@@ -425,14 +444,14 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
                 <Tab
-                  label="PPGA Call Notes"
+                  label='PPGA Call Notes'
                   value={"ppgaCallNotes"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label="Academic Details"
+                    label='Academic Details'
                     value={"academicDetails"}
                     // onMouseOver={(e) => {
                     //   this.menuOpen(e, 'academicDetails');
@@ -443,7 +462,7 @@ class ProfileGapRoot extends Component {
                   />
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label="PGA Report"
+                    label='PGA Report'
                     value={"pgaReport"}
                     // onMouseEnter={e => {
                     //   this.pgaMenuOpen(e,'pgaReport');
@@ -454,7 +473,7 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
                 <Tab
-                  label="Career Role"
+                  label='Career Role'
                   style={{ textTransform: "none", minWidth: "135px" }}
                   value={"careerRole"}
                 />
@@ -621,7 +640,13 @@ class ProfileGapRoot extends Component {
                 <MenuItem
                   classes={{ selected: classes.menuItemStyle }}
                   selected={eachMenu.value === this.state.value}
-                  onClick={() => this.setState({ value: eachMenu.value })}
+                  onClick={() =>
+                    this.setState({
+                      value: eachMenu.value,
+                      pgaAnchorEl: null,
+                      arrowOpenName: null,
+                    })
+                  }
                 >
                   {eachMenu.label}
                 </MenuItem>

@@ -70,6 +70,7 @@ export const personelInfoPath = rootPath.concat("/personalInfo");
 // export const OnboardingPersonalInfoPath = rootPath.concat('/Onboarding/personalInfo');
 // export const OnboardingAcademicInfoPath = rootPath.concat('/Onboarding/academicInfo');
 export const OnboardingPath = rootPath.concat("/onboarding");
+export const userManagementPath = rootPath.concat("/user-management");
 
 // LMS
 export const lms_course_landing = rootPath.concat("/course-landing");

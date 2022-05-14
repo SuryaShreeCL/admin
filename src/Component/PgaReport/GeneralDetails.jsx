@@ -18,6 +18,7 @@ import { getAllSpecialization } from "../../Actions/Aspiration";
 import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import MySnackBar from "../MySnackBar";
+import moment from "moment";
 function GeneralDetails(props) {
   const classes = useStyles();
   const [id, setId] = useState(null);
@@ -72,7 +73,7 @@ function GeneralDetails(props) {
           setId(id);
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({ ...prev, value: strDate }));
+          handleDateChange((prev) => ({ ...prev, value: moment(new Date(date)).format("YYYY-MM-DD") }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -152,14 +153,14 @@ function GeneralDetails(props) {
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
-        <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
+        <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
           <Grid container spacing={2}>
             <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
               <Typography variant={"h5"}>General Details</Typography>
             </Grid>
             <Grid item md={4} lg={4} xl={4}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={preferredProgramList}
                 value={preferredProgram.value}
                 onChange={(e, value) => {
@@ -174,15 +175,15 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={preferredProgram.helperText}
                     error={preferredProgram.helperText.length > 0}
-                    label="Preferred Program"
-                    variant="standard"
+                    label='Preferred Program'
+                    variant='standard'
                   />
                 )}
               />
             </Grid>
             <Grid item md={4} lg={4} xl={4}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={allSpecializationList}
                 value={areaOfSpec.value}
                 onChange={(e, value) =>
@@ -194,8 +195,8 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={areaOfSpec.helperText}
                     error={areaOfSpec.helperText.length > 0}
-                    label="Area of Specialization"
-                    variant="standard"
+                    label='Area of Specialization'
+                    variant='standard'
                   />
                 )}
               />
@@ -223,9 +224,9 @@ function GeneralDetails(props) {
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
                 onChange={(e) =>
-                  handleDateChange({ value: e.target.value, helperText: "" })
+                  {console.log(e.target.value); handleDateChange({ value: e.target.value, helperText: "" })}
                 }
-                type="month"
+                type='date'
                 InputLabelProps={{ shrink: true }}
               />
               {/* <DatePick
@@ -257,7 +258,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={intakeList}
                 value={intake.value}
                 onChange={(e, value) =>
@@ -270,15 +271,15 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={intake.helperText}
                     error={intake.helperText.length > 0}
-                    label="Intake"
-                    variant="standard"
+                    label='Intake'
+                    variant='standard'
                   />
                 )}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={roundList}
                 value={round.value}
                 onChange={(e, value) =>
@@ -288,10 +289,10 @@ function GeneralDetails(props) {
                 renderInput={(params) => (
                   <TextFieldComponent
                     {...params}
-                    label="Round"
+                    label='Round'
                     helperText={round.helperText}
                     error={round.helperText.length > 0}
-                    variant="standard"
+                    variant='standard'
                   />
                 )}
               />

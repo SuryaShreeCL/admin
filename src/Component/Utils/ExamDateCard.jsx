@@ -20,7 +20,7 @@ function ExamDateCard({ date }) {
           <Grid item md={8} className={"gat_exam_card"}>
             <div className={"gat_exam_div"}>
               <div>
-                <Typography>Exam Date</Typography>
+                <Typography>{"Exam Date"}</Typography>
               </div>
               <div>
                 <Typography>
