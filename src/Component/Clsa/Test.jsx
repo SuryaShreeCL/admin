@@ -230,18 +230,6 @@ export default function LiveTest() {
     <>
       <Paper className={classes.pageContent}>
         <Toolbar>
-          {/* <Controls.RoundedInput
-            className={classes.searchInput}
-            placeholder='Search Tests'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          /> */}
           <Controls.Button
             text='Create New Test'
             variant='contained'
@@ -263,7 +251,6 @@ export default function LiveTest() {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  {/* <TableCell>#</TableCell> */}
                   <TableCell style={{ width: 750 }}>Test Name</TableCell>
                   <TableCell>Created on</TableCell>
                   <TableCell>Created by</TableCell>

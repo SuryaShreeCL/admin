@@ -1,18 +1,30 @@
 import { Grid } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { getStudentEventStatus } from '../../../Actions/WallActions';
 import {
   Container,
   TopTab,
   TopTabs,
 } from '../../Test/Assets/Styles/WallStyles';
 import Result from './Result';
-import Controls from '../../Utils/controls/Controls';
-import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 const ResultTab = () => {
+  const { id } = useParams();
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
+  const [users, setUsers] = useState({});
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getStudentEventStatus(id, (response) => {
+        console.log(response);
+        setUsers(response);
+      })
+    );
+  }, []);
 
   const renderContent = (value) => {
     try {
@@ -32,11 +44,10 @@ const ResultTab = () => {
           fontStyle: 'normal',
           fontWeight: 600,
           fontSize: '20px',
-          // lineHeight: '24px'
           color: '#001D3A',
         }}
       >
-        Merecedes Placement Drive result
+        {users?.data?.eventName}
       </div>
       <Container style={{ marginTop: '28px' }}>
         <Grid container>
@@ -49,19 +60,7 @@ const ResultTab = () => {
             >
               <TopTab label='Result' />
               <Grid item md={11}></Grid>
-              <Grid item md={1}>
-                <Controls.ActionButton
-                // disabled={!item.noOfStudentAttempt}
-                // href={`${process.env.REACT_APP_API_URL}/api/v1/students/clsa/${item.id}/report`}
-                >
-                  <CloudDownloadIcon
-                    fontSize='small'
-                    style={{
-                      color: 'green',
-                    }}
-                  />
-                </Controls.ActionButton>
-              </Grid>
+              <Grid item md={1}></Grid>
             </TopTabs>
           </Grid>
           <Grid item md={12}>

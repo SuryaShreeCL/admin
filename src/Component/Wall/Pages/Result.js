@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
 import {
+  createMuiTheme,
   Divider,
   Grid,
   makeStyles,
@@ -10,26 +9,27 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  withStyles,
-  createMuiTheme,
   ThemeProvider,
+  withStyles,
 } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Controls from '../../Utils/controls/Controls';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { data } from './SampleData';
-import { Formik, useFormik } from 'formik';
-import * as yup from 'yup';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 import { CloudCircleOutlined } from '@material-ui/icons';
-import CloseIcon from '@material-ui/icons/Close';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import * as yup from 'yup';
 import {
   getStudentEventStatus,
   updateStudentEventStatus,
 } from '../../../Actions/WallActions';
-import { useDispatch } from 'react-redux';
+import Controls from '../../Utils/controls/Controls';
+import Notification from '../../Utils/Notification';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 const tableTheme = () =>
   createMuiTheme({
@@ -70,23 +70,7 @@ const RedCheckbox = withStyles({
     },
   },
   checked: {},
-})((props) => (
-  <Checkbox
-    // checkedIcon={
-    // <CloseIcon
-    // style={{
-    // backgroundColor: '#8B0303',
-    // color: '#fff',
-    // borderRadius: '4px',
-    // height: 20,
-    // width: 20,
-    // }}
-    // />
-    // }
-    color='default'
-    {...props}
-  />
-));
+})((props) => <Checkbox color='default' {...props} />);
 
 export default function Result() {
   const classes = useStyles();
@@ -95,8 +79,14 @@ export default function Result() {
   const [users, setUsers] = useState({});
   const [selectedRound, setSelectedRound] = useState(null);
   const [selectStatus, setSelectedStatus] = useState(null);
+  const [flag, setFlag] = useState(true);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [confirmedUser, setConfirmedUser] = useState([]);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
 
   const selector_Data = [
     {
@@ -140,15 +130,10 @@ export default function Result() {
   }, []);
 
   const validationSchema = yup.object({
-    studentSelector: yup
-      .object()
-      .nullable()
-      .required(),
     rounds: yup
       .object()
       .nullable()
       .required(),
-    reason: yup.string().required(),
   });
 
   const groupBy = (arr) => {
@@ -162,6 +147,7 @@ export default function Result() {
 
   const _submit = () => {
     var grouped = groupBy(confirmedUser);
+    console.log(grouped);
     var structured = Object.entries(grouped).map(([key, value]) => ({
       stepName: key,
       stepId: value?.length > 0 ? value[0]['stepId'] : '',
@@ -177,6 +163,8 @@ export default function Result() {
           : [],
     }));
 
+    console.log(structured);
+
     let payload = {
       eventId: users?.data?.eventId,
       eventName: users?.data?.eventName,
@@ -187,7 +175,11 @@ export default function Result() {
       updateStudentEventStatus(id, payload, (res) => {
         if (res.success) {
           _fetch();
-          alert('Update Successfully');
+          setNotify({
+            isOpen: true,
+            message: 'Data updated succesfully',
+            type: 'success',
+          });
         }
       })
     );
@@ -202,13 +194,19 @@ export default function Result() {
     }));
     setSelectedUsers(t);
     setConfirmedUser(t);
+    setFlag(false);
+    setNotify({
+      isOpen: true,
+      message: 'Data of the Round saved succesfully',
+      type: 'success',
+    });
   };
 
   const formik = useFormik({
     initialValues: {
       rounds: [],
       studentSelector: [],
-      reason: [],
+      reason: '',
     },
     validationSchema: validationSchema,
     onSubmit: handleSave,
@@ -316,6 +314,9 @@ export default function Result() {
     if (selectStatus?.value) {
       return student.stepStatus === selectStatus?.value;
     }
+    if (selectStatus?.value === null) {
+      return student.stepStatus;
+    }
     return student.stepStatus === 'Qualified';
   };
 
@@ -329,9 +330,31 @@ export default function Result() {
     setValues,
     handleChange,
   } = formik;
+
+  const Icon = () => {
+    return (
+      <div style={{ position: 'absolute', right: 60 }}>
+        {/* <Controls.ActionButton
+          style={{ top: -55 }}
+          href={`${
+            process.env.REACT_APP_API_URL
+          }/api/v1/event/${id}/wallsteps/${1}`}
+        >
+          <CloudDownloadIcon
+            fontSize='small'
+            style={{
+              color: 'green',
+            }}
+          />
+        </Controls.ActionButton> */}
+      </div>
+    );
+  };
+
   return (
     <>
       <div>
+        <Icon />
         <Grid container spacing={3} direction='row' className={classes.main}>
           <Grid item md={1}></Grid>
           <Grid item md={3}>
@@ -594,6 +617,7 @@ export default function Result() {
               <Grid item md={9}></Grid>
               <Grid item md={3}>
                 <Controls.Button
+                  disabled={flag}
                   text='Update'
                   color='primary'
                   className={classes.newButton1}
@@ -604,6 +628,7 @@ export default function Result() {
             </Grid>
           </Grid>
         </Grid>
+        <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>
   );
