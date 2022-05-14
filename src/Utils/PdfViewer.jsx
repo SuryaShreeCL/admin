@@ -38,7 +38,7 @@ function PdfViewer(props) {
 
   const { ZoomInButton, ZoomOutButton, ZoomPopover } = zoomPluginInstance;
   return (
-    <Worker workerUrl='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js'>
+    <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js">
       <div className={classes.pdfWrapper}>
         <div className={classes.pdfViewer}>
           <ZoomOutButton />

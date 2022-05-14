@@ -499,3 +499,31 @@ export const getTestTranscriptFiles = (studentId, productId) => {
     }
   };
 };
+
+export const getFilePath = (studentId, subStageId, filePath) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      await axios
+        .get(
+          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${filePath}`,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          dispatch({
+            type: STRATEGY_SESSION.getFilePath,
+            payload: response.data,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getFilePath, error, false));
+    }
+  };
+};

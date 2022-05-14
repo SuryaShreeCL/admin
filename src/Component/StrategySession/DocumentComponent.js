@@ -1,6 +1,8 @@
 import { Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
+import { URL } from "../../Actions/URL";
+import PdfViewer from "../../Utils/PdfViewer";
 import CvViewer from "../ProfileGapAnalysis/CvViewer";
 import { DocumentUploadPopup } from "../Utils/controls/DocumentUploadPopup";
 import { customTheme, StyledButton } from "../Utils/controls/Styles";
@@ -25,8 +27,10 @@ function DocumentComponent({
   file,
   disabledUploadButton,
   isDisabledFileName,
+  filePath,
   ...props
 }) {
+  console.log(new Blob([filePath], { type: "application/pdf" }));
   return (
     <Grid container>
       <Grid item xs={8}>
@@ -60,7 +64,11 @@ function DocumentComponent({
       </Grid>
 
       <Grid item xs={4}>
-        <CvViewer doctype={"cv"} {...props} />
+        <PdfViewer
+          cvUrl={window.URL.createObjectURL(
+            new Blob([filePath], { type: "application/pdf" })
+          )}
+        />
       </Grid>
       <DocumentUploadPopup
         open={open}
