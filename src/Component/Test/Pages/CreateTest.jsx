@@ -478,12 +478,12 @@ const CreateTest = () => {
                     justify='space-between'
                     style={{ width: '100%', margin: '1rem 0' }}
                   >
-                    {/* <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                       <MultipleFileUploadField
                         name='wallFiles'
                         fileType='image'
                       />
-                    </Grid> */}
+                    </Grid>
 
                     <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                       <Controls.Input
