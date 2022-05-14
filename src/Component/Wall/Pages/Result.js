@@ -319,7 +319,8 @@ export default function Result() {
     }
     return student.stepStatus === 'Qualified';
   };
-
+  {
+  }
   const {
     values,
     errors,
@@ -330,15 +331,14 @@ export default function Result() {
     setValues,
     handleChange,
   } = formik;
-
+  console.log(values.rounds);
   const Icon = () => {
     return (
       <div style={{ position: 'absolute', right: 60 }}>
-        {/* <Controls.ActionButton
+        <Controls.ActionButton
           style={{ top: -55 }}
-          href={`${
-            process.env.REACT_APP_API_URL
-          }/api/v1/event/${id}/wallsteps/${1}`}
+          disabled={!values?.rounds?.stepId}
+          href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/wallsteps/${values?.rounds?.stepId}`}
         >
           <CloudDownloadIcon
             fontSize='small'
@@ -346,7 +346,7 @@ export default function Result() {
               color: 'green',
             }}
           />
-        </Controls.ActionButton> */}
+        </Controls.ActionButton>
       </div>
     );
   };
