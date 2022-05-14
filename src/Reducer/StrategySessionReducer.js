@@ -17,6 +17,7 @@ const initialState = {
   updateToeflResponse: null,
   toeflList: null,
   testTranscriptFiles: null,
+  filePath: null,
 };
 
 const StrategySessionReducer = (state = initialState, action) => {
@@ -118,6 +119,13 @@ const StrategySessionReducer = (state = initialState, action) => {
       return {
         ...state,
         testTranscriptFiles: action.payload,
+        loading: action.loading,
+      };
+
+    case STRATEGY_SESSION.getFilePath:
+      return {
+        ...state,
+        filePath: action.payload,
         loading: action.loading,
       };
     default:

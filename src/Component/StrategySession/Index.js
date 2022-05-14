@@ -6,6 +6,7 @@ import {
   clearCustomData,
   getDocumentModelBySubStageId,
   getDownloadByDocumentId,
+  getFilePath,
   uploadDocumentBySubStageId,
   uploadFileBySubStageId,
 } from "../../Actions/StrategySession";
@@ -36,7 +37,7 @@ function Index(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const params = useParams();
-  const { studentId, productId } = params;
+  const { studentId, productId, subStageId } = params;
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -84,6 +85,7 @@ function Index(props) {
     fileUploadStatus,
     documentUpdateStatus,
     downloadFileResponse,
+    filePath,
   } = useSelector((state) => state.StrategySessionReducer);
 
   const { studentStages, subStageSteps, completedStages } = useSelector(
@@ -166,6 +168,10 @@ function Index(props) {
           status: data.stepStatus,
           documentList: data.content || [],
         });
+        const index = data.content.length - 1;
+        const path =
+          data.content.length !== 0 ? data.content[index]["path"] : "";
+        dispatch(getFilePath(studentId, sectionId, path));
       } else {
         setState({
           ...state,
@@ -180,7 +186,6 @@ function Index(props) {
       dispatch(clearCustomData("documentModel"));
     }
   }, [documentModel]);
-
   useEffect(() => {
     if (fileUploadStatus) {
       if (fileUploadStatus.success) {
@@ -396,6 +401,7 @@ function Index(props) {
       file: file,
       disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: false,
+      filePath: filePath,
       ...props,
     };
     switch (activeTabValue) {

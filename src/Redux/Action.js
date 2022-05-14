@@ -626,6 +626,7 @@ export const STRATEGY_SESSION = {
   getIeltsData: "getTestTranscriptsIeltsData",
   updateIeltsData: "updateTestTranscriptsIeltsData",
   getTestTranscriptFiles: "getTestTranscriptFiles",
+  getFilePath: "getFilePath",
 };
 
 export const PROFILE_MENTORING = {
@@ -637,6 +638,7 @@ export const PROFILE_MENTORING = {
   putDocumentBySubStageId: "putProfileMentoringDocumentBySubStageId",
   getDownloadByDocumentId: "getProfileMentoringDownloadByDocumentId",
   deleteDocumentByDocumentId: "deleteProfileMentoringDocumentByDocumentId",
+  getCvId: "getCvId",
 };
 
 export const APPLICATION_STAGE = {
