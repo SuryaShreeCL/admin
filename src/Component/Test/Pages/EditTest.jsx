@@ -134,14 +134,14 @@ const EditTest = () => {
   // );
 
   const validate = (values) => {
-    // if (values.wallFiles.length === 0) {
-    //   setNotify({
-    //     isOpen: true,
-    //     message: 'Please upload image(s)',
-    //     type: 'error',
-    //   });
-    //   return false;
-    // }
+    if (values.wallFiles.length === 0) {
+      setNotify({
+        isOpen: true,
+        message: 'Please upload image(s)',
+        type: 'error',
+      });
+      return false;
+    }
 
     return true;
   };
@@ -437,16 +437,19 @@ const EditTest = () => {
                       justify='space-between'
                       style={{ width: '100%', margin: '1rem 0' }}
                     >
-                      {/* <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
+                      <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
                         <MultipleFileUploadField
                           name='wallFilesUpdate'
                           fileType='image'
                           disable={true}
                         />
                         {values?.wallPost?.wallFiles?.map((media) => (
-                          <ExistingMedia media={media} wallFiles={values?.wallPost?.wallFiles} />
+                          <ExistingMedia
+                            media={media}
+                            wallFiles={values?.wallPost?.wallFiles}
+                          />
                         ))}
-                      </Grid> */}
+                      </Grid>
 
                       <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
                         <Controls.Input
