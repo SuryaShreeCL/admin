@@ -223,7 +223,7 @@ function GeneralDetails(props) {
             <Grid item md={2} lg={2} xl={2} container alignItems={"flex-end"}>
               <TextField
                 label={"Date"}
-                value={selectedDate.value}
+                value={selectedDate.value ? selectedDate.value : null}
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
                 onChange={(e) =>
