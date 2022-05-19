@@ -69,6 +69,7 @@ function Index(props) {
     file,
     popperComment,
   } = state;
+  console.log(cvReviewList);
   const params = useParams();
   const { studentId, productId } = params;
   const dispatch = useDispatch();
@@ -79,6 +80,7 @@ function Index(props) {
     cvUploadStatus,
     cvReviewStatus,
   } = useSelector(state => state.CvReviewReducer);
+  console.log(cvReviewStatus);
 
   const handleSnack = (open, color, message) => {
     setState({
@@ -133,6 +135,7 @@ function Index(props) {
           ...customProp,
         });
         dispatch(getStudentCvList(studentId, productId));
+        console.log(getStudentCvList);
       } else {
         setState({
           ...state,
@@ -142,6 +145,7 @@ function Index(props) {
         });
       }
       dispatch(clearCustomData('cvUploadStatus'));
+      console.log(cvUploadStatus)
     }
   }, [cvUploadStatus]);
 
@@ -177,6 +181,7 @@ function Index(props) {
     if (file) {
       let uploadFormData = new FormData();
       uploadFormData.append('file', file);
+      console.log(uploadFormData);
       dispatch(cvUpload(studentId, productId, uploadFormData, commentText));
     } else {
       handleSnack(true, 'error', FILE_REQUIRED_MESSAGE);
@@ -284,7 +289,6 @@ function Index(props) {
   const handleDownload = (id, cvPath) => {
     dispatch(cvDownload(studentId, id, cvPath));
   };
-
   const renderTable = () => {
     return cvReviewList?.length !== 0 ? (
       <StyledTable>
@@ -294,9 +298,17 @@ function Index(props) {
           <th>{'Comment'}</th>
           <th></th>
         </tr>
-        {cvReviewList.map(({ comment, createdBy, id, path }) => (
-          <tr>
-            <td>{path}</td>
+        {cvReviewList.map(({ comment, createdBy, id, path,status }) => (
+                    <tr>
+                    {status === "Editor"? (
+                    <td>
+                      {path}_R
+                      </td>
+                    ):(
+                      <td>
+                        {path}
+                      </td>)
+          }
             <td>{createdBy}</td>
             <td>
               {comment && comment.trim().length !== 0 && (
@@ -320,7 +332,7 @@ function Index(props) {
               </StyledButton>
             </td>
           </tr>
-        ))}
+              ))}
       </StyledTable>
     ) : null;
   };
