@@ -140,7 +140,6 @@ function CreateTest(props) {
     var cur = new Date();
     if (d.getHours() >= cur.getHours()) {
       if (d.getMinutes() > cur.getMinutes()) {
-        console.log('past');
         return false;
       } else {
         return true;
@@ -325,19 +324,17 @@ function CreateTest(props) {
               date: data.startDate,
               time: data?.startDateTime,
             });
-            clsaQuestionsetList(0, params.id ? params.id : testId).then(
-              (res) => {
-                setTotalPage(res?.data?.data?.totalPages);
-                setList(res?.data?.data?.content);
-                if (res === 'CLSA Test Question Set List Is Empty') {
-                  setNotify({
-                    isOpen: true,
-                    message: 'CLSA Test Question Set List Is Empty',
-                    type: 'error',
-                  });
-                }
+            clsaQuestionsetList(0, params.id ? params.id : testId).then((res) => {
+              setTotalPage(res?.data?.data?.totalPages);
+              setList(res?.data?.data?.content);
+              if (res === 'CLSA Test Question Set List Is Empty') {
+                setNotify({
+                  isOpen: true,
+                  message: 'CLSA Test Question Set List Is Empty',
+                  type: 'error',
+                });
               }
-            );
+            });
           }
         });
       }
@@ -365,15 +362,7 @@ function CreateTest(props) {
     onSubmit: handleSave,
   });
 
-  const {
-    values,
-    handleChange,
-    errors,
-    touched,
-    handleSubmit,
-    setFieldValue,
-    setValues,
-  } = formik;
+  const { values, handleChange, errors, touched, handleSubmit, setFieldValue, setValues } = formik;
 
   const handleQuestionsetUpload = (e) => {
     const newFile = new FormData();
@@ -493,9 +482,7 @@ function CreateTest(props) {
             <Grid item md={5}>
               <Grid container spacing={2}>
                 <Grid item md={12}>
-                  <Typography className={classes.text}>
-                    Test Description
-                  </Typography>
+                  <Typography className={classes.text}>Test Description</Typography>
                 </Grid>
                 <Grid item md={12}>
                   <Controls.Input
@@ -513,9 +500,7 @@ function CreateTest(props) {
             <Grid item md={7}>
               <Grid container spacing={2}>
                 <Grid item md={12}>
-                  <Typography className={classes.text}>
-                    Number of question
-                  </Typography>
+                  <Typography className={classes.text}>Number of question</Typography>
                 </Grid>
                 <Grid item md={12}>
                   <Controls.Input
@@ -613,9 +598,7 @@ function CreateTest(props) {
                   <TableHead>
                     <TableRow>
                       {/* <TableCell>#</TableCell> */}
-                      <TableCell style={{ width: 750 }}>
-                        Name of the file uploaded
-                      </TableCell>
+                      <TableCell style={{ width: 750 }}>Name of the file uploaded</TableCell>
                       <TableCell>Uploaded on</TableCell>
                       <TableCell>Actions</TableCell>
                     </TableRow>
@@ -626,14 +609,10 @@ function CreateTest(props) {
                         return (
                           <TableRow>
                             {/* <TableCell>{index + 1}</TableCell> */}
-                            <TableCell style={{ color: '#1093FF' }}>
-                              {item.testName}
-                            </TableCell>
+                            <TableCell style={{ color: '#1093FF' }}>{item.testName}</TableCell>
                             <TableCell>
-                              {moment(new Date(item.updatedOn)).format(
-                                'DD MMM yyyy'
-                              )}{' '}
-                              , {convertTimeFormat(item.updatedOn)}
+                              {moment(new Date(item.updatedOn)).format('DD MMM yyyy')} ,{' '}
+                              {convertTimeFormat(item.updatedOn)}
                             </TableCell>
                             <TableCell>
                               <Controls.Button
@@ -650,9 +629,7 @@ function CreateTest(props) {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <div style={{ margin: '2rem auto', width: '60%' }}>
-                {loading && <Loader />}
-              </div>
+              <div style={{ margin: '2rem auto', width: '60%' }}>{loading && <Loader />}</div>
               <PaginationComponent
                 page={page + 1}
                 pageCount={totalPage}

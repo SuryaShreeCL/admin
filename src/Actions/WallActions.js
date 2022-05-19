@@ -1,5 +1,5 @@
-import { WALL } from "../Redux/Action";
-import axios from "axios";
+import { WALL } from '../Redux/Action';
+import axios from 'axios';
 
 export const listWallPosts = (status, type, page = 0) => async (dispatch) => {
   try {
@@ -13,9 +13,9 @@ export const listWallPosts = (status, type, page = 0) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       }
@@ -44,9 +44,9 @@ export const listAllWallPosts = (status, type) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       }
@@ -66,7 +66,7 @@ export const listAllWallPosts = (status, type) => async (dispatch) => {
   }
 };
 export const listWallWebinars = (page = 0, type) => async (dispatch) => {
-  let department = window.sessionStorage.getItem("department");
+  let department = window.sessionStorage.getItem('department');
 
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
@@ -76,15 +76,15 @@ export const listWallWebinars = (page = 0, type) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
         params: {
           page: page - 1,
           size: 6,
-          activeStatus: type ? type : "",
+          activeStatus: type ? type : '',
           department: department,
         },
       }
@@ -106,7 +106,7 @@ export const listWallWebinars = (page = 0, type) => async (dispatch) => {
 };
 
 export const listAllWallWebinars = () => async (dispatch) => {
-  let department = window.sessionStorage.getItem("department");
+  let department = window.sessionStorage.getItem('department');
   try {
     dispatch({ type: WALL.WEBINAR_LIST_REQUEST });
 
@@ -115,9 +115,9 @@ export const listAllWallWebinars = () => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
         params: {
@@ -144,7 +144,7 @@ export const listAllWallWebinars = () => async (dispatch) => {
 };
 
 export const getWallCategories = (status) => async (dispatch) => {
-  let department = window.sessionStorage.getItem("department");
+  let department = window.sessionStorage.getItem('department');
   try {
     dispatch({ type: WALL.WALL_CATEGORIES_REQUEST });
 
@@ -153,9 +153,9 @@ export const getWallCategories = (status) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
         params: {
@@ -189,9 +189,9 @@ export const getWallJobList = (status) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       }
@@ -222,9 +222,9 @@ export const deleteWallPost = (id) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       }
@@ -257,9 +257,9 @@ export const createWallPost = (post) => async (dispatch) => {
       {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       }
@@ -294,9 +294,9 @@ export const updateWallPost = (post) => async (dispatch) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${window.sessionStorage.getItem(
-              "accessToken"
+              'accessToken'
             )}`,
           },
         }
@@ -327,9 +327,9 @@ export const uploadImage = (image, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${window.sessionStorage.getItem(
-              "accessToken"
+              'accessToken'
             )}`,
           },
         }
@@ -349,9 +349,9 @@ export const getPlatforms = () => {
       .get(`${process.env.REACT_APP_API_URL}/api/v1/platforms`, {
         crossDomain: true,
         headers: {
-          admin: "yes",
+          admin: 'yes',
           Authorization: `Bearer ${window.sessionStorage.getItem(
-            "accessToken"
+            'accessToken'
           )}`,
         },
       })
@@ -394,9 +394,9 @@ export const postRecordedVideoUrl = (webinarId, url, callback) => {
         {
           crossDomain: true,
           headers: {
-            admin: "yes",
+            admin: 'yes',
             Authorization: `Bearer ${window.sessionStorage.getItem(
-              "accessToken"
+              'accessToken'
             )}`,
           },
           params: {
@@ -405,7 +405,58 @@ export const postRecordedVideoUrl = (webinarId, url, callback) => {
         }
       )
       .then((response) => {
-        console.log("hello");
+        console.log('hello');
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        callback(error.response.data);
+      });
+  };
+};
+
+export const getStudentEventStatus = (eventId, callback) => {
+  return (dispatch) => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/api/v1/event/${eventId}/wallstep/status`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              'accessToken'
+            )}`,
+          },
+        }
+      )
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        callback(error.response.data);
+      });
+  };
+};
+
+export const updateStudentEventStatus = (eventId, data, callback) => {
+  return (dispatch) => {
+    axios
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/v1/event/${eventId}/wallstep/status`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: 'yes',
+            Authorization: `Bearer ${window.sessionStorage.getItem(
+              'accessToken'
+            )}`,
+          },
+        }
+      )
+      .then((response) => {
         callback(response.data);
       })
       .catch((error) => {

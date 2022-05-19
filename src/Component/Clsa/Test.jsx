@@ -224,18 +224,6 @@ export default function LiveTest() {
     <>
       <Paper className={classes.pageContent}>
         <Toolbar>
-          {/* <Controls.RoundedInput
-            className={classes.searchInput}
-            placeholder='Search Tests'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          /> */}
           <Controls.Button
             text='Create New Test'
             variant='contained'

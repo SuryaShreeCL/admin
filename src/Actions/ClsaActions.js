@@ -60,10 +60,7 @@ export const clsaQuestionSetUpload = async (id, data) => {
 
   try {
     const response = await axios.post(
-      URL +
-        '/api/v1/clsatest/' +
-        id +
-        '/testquestionset/import?type=SINGLE_SELECT',
+      URL + '/api/v1/clsatest/' + id + '/testquestionset/import?type=SINGLE_SELECT',
       data,
       {
         headers: {
@@ -84,15 +81,12 @@ export const clsaTestList = async (page) => {
   let accessToken = window.sessionStorage.getItem('accessToken');
 
   try {
-    const response = await axios.get(
-      URL + '/api/v1/clsatest/viewall?page=' + page + '&size=10',
-      {
-        headers: {
-          admin: 'yes',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axios.get(URL + '/api/v1/clsatest/viewall?page=' + page + '&size=10', {
+      headers: {
+        admin: 'yes',
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response;
   } catch (error) {
     return error.response && error.response.data.message
@@ -145,12 +139,7 @@ export const clsaQuestionsetList = async (page, testID) => {
 
   try {
     const response = await axios.get(
-      URL +
-        '/api/v1/clsatest/' +
-        testID +
-        '/testquestionset/viewall?page=' +
-        page +
-        '&size=5',
+      URL + '/api/v1/clsatest/' + testID + '/testquestionset/viewall?page=' + page + '&size=5',
       {
         headers: {
           admin: 'yes',

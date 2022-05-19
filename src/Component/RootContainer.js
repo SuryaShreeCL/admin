@@ -49,6 +49,7 @@ import {
   notificationPath,
   obOperationPath,
   premiumUsersPath,
+  clsaPath,
   productPath,
   productPunchingPath,
   reportsPath,

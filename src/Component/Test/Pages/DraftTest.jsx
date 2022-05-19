@@ -74,26 +74,33 @@ export default function DraftTest() {
     },
   });
 
-  const { loading, error, tests } = useSelector((state) => state.testListReducer);
+  const { loading, error, tests } = useSelector(
+    (state) => state.testListReducer
+  );
   let totalPages = tests.totalPages;
 
   const [scheduler, setScheduler] = useState(false);
   const [data, setData] = useState('');
 
   const [viewData, setViewData] = useState([]);
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: '',
+    type: '',
+  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: '',
     subTitle: '',
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
-    tests.content,
-    headCells,
-    filterFn,
-    totalPages
-  );
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting,
+    page,
+  } = useTable(tests.content, headCells, filterFn, totalPages);
 
   const handleSearch = (text) => {
     dispatch(listTests('Draft', page, text));
@@ -183,7 +190,9 @@ export default function DraftTest() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell style={{ color: '#1093FF' }}>{item.name}</TableCell>
+                  <TableCell style={{ color: '#1093FF' }}>
+                    {item.name}
+                  </TableCell>
                   <TableCell>
                     <ScheduleIcon
                       fontSize='small'
@@ -232,10 +241,17 @@ export default function DraftTest() {
         <TblPagination />
       </Paper>
 
-      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <Drawer
+        anchor='right'
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
         <DrawerContainer>
           <ButtonsContainerTwo>
-            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
+            <span
+              style={{ fontSize: '1rem' }}
+              onClick={() => openInPage(viewData)}
+            >
               <IconButton aria-label='edit'>
                 <EditIcon color='primary' size='large' />
               </IconButton>
@@ -264,7 +280,10 @@ export default function DraftTest() {
         </DrawerContainer>
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
       <ScheduleLater
         scheduler={scheduler}
         setScheduler={setScheduler}
