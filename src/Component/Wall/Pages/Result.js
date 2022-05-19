@@ -23,10 +23,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import {
-  getStudentEventStatus,
-  updateStudentEventStatus,
-} from '../../../Actions/WallActions';
+import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
 import Controls from '../../Utils/controls/Controls';
 import Notification from '../../Utils/Notification';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
@@ -304,8 +301,7 @@ export default function Result() {
   const _filter = (student, steps) => {
     if (selectedRound && selectStatus?.value) {
       return (
-        steps.stepName === selectedRound?.stepName &&
-        student.stepStatus === selectStatus?.value
+        steps.stepName === selectedRound?.stepName && student.stepStatus === selectStatus?.value
       );
     }
     if (selectedRound) {
@@ -319,8 +315,7 @@ export default function Result() {
     }
     return student.stepStatus === 'Qualified';
   };
-  {
-  }
+
   const {
     values,
     errors,
@@ -334,16 +329,16 @@ export default function Result() {
   console.log(values.rounds);
   const Icon = () => {
     return (
-      <div style={{ position: 'absolute', right: 60 }}>
+      <div style={{ position: 'absolute', right: '5%' }}>
         <Controls.ActionButton
-          style={{ top: -55 }}
+          style={{ top: -70 }}
           disabled={!values?.rounds?.stepId}
           href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/wallsteps/${values?.rounds?.stepId}`}
         >
           <CloudDownloadIcon
-            fontSize='small'
+            fontSize='medium'
             style={{
-              color: 'green',
+              color: !values?.rounds?.stepId ? 'gray' : 'green',
             }}
           />
         </Controls.ActionButton>
@@ -356,7 +351,6 @@ export default function Result() {
       <div>
         <Icon />
         <Grid container spacing={3} direction='row' className={classes.main}>
-          <Grid item md={1}></Grid>
           <Grid item md={3}>
             <FormControl className={classes.width}>
               <Autocomplete
@@ -372,7 +366,7 @@ export default function Result() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label='Rounds'
+                    label='Select Round'
                     name='rounds'
                     variant='outlined'
                     error={touched.rounds && Boolean(errors.rounds)}
@@ -401,9 +395,7 @@ export default function Result() {
                     label='Student Selector'
                     name='studentSelector'
                     variant='outlined'
-                    error={
-                      touched.studentSelector && Boolean(errors.studentSelector)
-                    }
+                    error={touched.studentSelector && Boolean(errors.studentSelector)}
                   />
                 )}
                 className={classes.autocompleteTextinput}
@@ -454,8 +446,7 @@ export default function Result() {
                                     el.stepStatus === 'Qualified'
                                 ).length ===
                                 users?.data?.stepDetailsModelList.find(
-                                  (el) =>
-                                    el.stepName === selectedRound?.stepName
+                                  (el) => el.stepName === selectedRound?.stepName
                                 )?.studentList.length
                               : false
                           }
@@ -488,28 +479,15 @@ export default function Result() {
                                     el.stepStatus === 'Not Qualified'
                                 ).length ===
                                 users?.data?.stepDetailsModelList.find(
-                                  (el) =>
-                                    el.stepName === selectedRound?.stepName
+                                  (el) => el.stepName === selectedRound?.stepName
                                 )?.studentList.length
                               : false
                           }
                         />
                       </div>
                     </TableCell>
-
                     <TableCell className={classes.heading}>User Name</TableCell>
                     <TableCell className={classes.heading}>Email</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell style={{ color: 'transparent' }}>
-                      ugyuuyiuhij
-                    </TableCell>
-                    <TableCell style={{ color: 'transparent' }}>
-                      ugyuuyiuhij
-                    </TableCell>
-                    <TableCell style={{ color: 'transparent' }}>
-                      ugyuuyiuhij
-                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <ThemeProvider theme={tableTheme}>
@@ -525,17 +503,14 @@ export default function Result() {
                                   <TableCell className={classes.box}>
                                     <FormControlLabel
                                       className={classes.transparent}
-                                      control={
-                                        <GreenCheckbox name='checkedA' />
-                                      }
+                                      control={<GreenCheckbox name='checkedA' />}
                                       disabled={!selectedRound}
                                       checked={
                                         !selectedRound
                                           ? item.stepStatus === 'Qualified'
                                           : selectedUsers.filter(
                                               (el) =>
-                                                el.stepName ===
-                                                  steps.stepName &&
+                                                el.stepName === steps.stepName &&
                                                 el.stepStatus === 'Qualified' &&
                                                 el.userId === item.studentId
                                             ).length > 0
@@ -558,10 +533,8 @@ export default function Result() {
                                           ? item.stepStatus === 'Not Qualified'
                                           : selectedUsers.filter(
                                               (el) =>
-                                                el.stepName ===
-                                                  steps.stepName &&
-                                                el.stepStatus ===
-                                                  'Not Qualified' &&
+                                                el.stepName === steps.stepName &&
+                                                el.stepStatus === 'Not Qualified' &&
                                                 el.userId === item.studentId
                                             ).length > 0
                                       }
@@ -575,18 +548,12 @@ export default function Result() {
                                       }}
                                     />
                                   </TableCell>
-
                                   <TableCell className={classes.color}>
                                     {item.studentName}
                                   </TableCell>
                                   <TableCell className={classes.color}>
                                     {item.studentEmailId}
                                   </TableCell>
-                                  <TableCell></TableCell>
-                                  <TableCell></TableCell>
-                                  <TableCell></TableCell>
-                                  <TableCell></TableCell>
-                                  <TableCell></TableCell>
                                 </TableRow>
                               );
                             })}
@@ -596,29 +563,36 @@ export default function Result() {
                   </TableBody>
                 </ThemeProvider>
               </Table>
-              <Grid container>
-                <Grid item md={11}></Grid>
-                <Grid item md={1}>
-                  <Controls.Button
-                    text='Submit'
-                    type='submit'
-                    color='primary'
-                    className={classes.newButton}
-                    variant='contained'
-                    onClick={handleSubmit}
-                  />
-                </Grid>
-              </Grid>
             </TableContainer>
             <Grid container>
               <Grid item md={12}>
                 <Divider className={classes.divider} />
               </Grid>
-              <Grid item md={9}></Grid>
-              <Grid item md={3}>
+              <Grid
+                item
+                md={12}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-around',
+                  padding: '0 5rem',
+                }}
+              >
+                <Grid container>
+                  <Grid item>
+                    <Controls.Button
+                      text='Submit'
+                      type='submit'
+                      color='primary'
+                      className={classes.newButton}
+                      variant='contained'
+                      onClick={() => console.log(values)}
+                    />
+                  </Grid>
+                </Grid>
                 <Controls.Button
                   disabled={flag}
-                  text='Update'
+                  text='Round Update'
                   color='primary'
                   className={classes.newButton1}
                   variant='contained'
@@ -640,10 +614,11 @@ const useStyles = makeStyles({
   newButton: {
     borderRadius: '24px',
     marginTop: 20,
+    width: 200,
   },
   newButton1: {
     borderRadius: '24px',
-    width: 130,
+    width: 200,
     marginTop: 20,
   },
   box: {
@@ -672,5 +647,5 @@ const useStyles = makeStyles({
     marginTop: '10px',
     marginBottom: '10px',
   },
-  main: { marginTop: '1%' },
+  main: { justifyContent: 'space-evenly', marginTop: '2%', alignItems: 'center', display: 'flex' },
 });
