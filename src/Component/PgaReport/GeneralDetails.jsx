@@ -75,7 +75,7 @@ function GeneralDetails(props) {
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
           handleDateChange((prev) => ({
             ...prev,
-            value: date ? moment(new Date(date)).format("YYYY-MM-DD") : null,
+            value: moment(new Date(date)).format("YYYY-MM-DD"),
           }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
@@ -124,7 +124,7 @@ function GeneralDetails(props) {
       contextDescription: contextDesc.value,
       currentSemester: parseInt(currentSem.value),
       timeLineDescription: timelineDesc.value,
-      strDate: selectedDate.value,
+      strDate: selectedDate.value ? selectedDate.value : null,
       preferredProgram: preferredProgram.value,
       areaOfSpecialization: areaOfSpec.value,
       inTake: intake && intake.value,
