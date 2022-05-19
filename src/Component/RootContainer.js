@@ -57,7 +57,6 @@ import {
   studentPath,
   testimonialsPath,
   testPath,
-  clsaPath,
   videoPath,
   wallPath,
   webinarPath,
