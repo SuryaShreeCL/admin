@@ -75,7 +75,7 @@ function GeneralDetails(props) {
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
           handleDateChange((prev) => ({
             ...prev,
-            value: moment(new Date(date)).format("YYYY-MM-DD"),
+            value: date ? moment(new Date(date)).format("YYYY-MM-DD") : null,
           }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
