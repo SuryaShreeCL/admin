@@ -630,7 +630,13 @@ class ProfileGapRoot extends Component {
                 <MenuItem
                   classes={{ selected: classes.menuItemStyle }}
                   selected={eachMenu.value === this.state.value}
-                  onClick={() => this.setState({ value: eachMenu.value })}
+                  onClick={() =>
+                    this.setState({
+                      value: eachMenu.value,
+                      pgaAnchorEl: null,
+                      arrowOpenName: null,
+                    })
+                  }
                 >
                   {eachMenu.label}
                 </MenuItem>
