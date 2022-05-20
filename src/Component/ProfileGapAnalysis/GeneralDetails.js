@@ -516,9 +516,17 @@ class GeneralDetails extends Component {
     });
   };
   renderstudentdetails() {
+    console.log(StudentStepDetails);
     if (
       this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
       this.props.StudentStepDetailsList.codeName === "ACS_MIM"
+      // this.props.StudentStepDetailsList.codeName === "ACS_MBA_01" ||
+      // this.props.StudentStepDetailsList.codeName === "ACS_MBA_02" ||
+      // this.props.StudentStepDetailsList.codeName === "ACS_MBA_03" ||
+      // this.props.StudentStepDetailsList.codeName === "ACS_MIM_01" ||
+      // this.props.StudentStepDetailsList.codeName === "ACS_MIM_02"
+      
+
     ) {
       return (
         <ThemeProvider theme={theme}>
@@ -716,7 +724,115 @@ class GeneralDetails extends Component {
           </Grid>
         </ThemeProvider>
       );
-    } else {
+    } 
+    else if (
+      this.props.StudentStepDetailsList.codeName === "ACS_MBA_01" ||
+      this.props.StudentStepDetailsList.codeName === "ACS_MBA_02" ||
+      this.props.StudentStepDetailsList.codeName === "ACS_MBA_03" ||
+      this.props.StudentStepDetailsList.codeName === "ACS_MIM_01" ||
+      this.props.StudentStepDetailsList.codeName === "ACS_MIM_02"
+     
+    ){
+      return (
+        <Grid container>
+        <Grid item md={4}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                marginTop: "15px",
+              }}
+            >
+              <div
+                style={{
+                  alignItems: "flex-start",
+                  display: "flex",
+                }}
+                onClick={(e) => this.handleClick(e, "ugCollege")}
+              >
+                <Dot
+                  color={
+                    this.state.verificationstatus &&
+                    this.state.verificationstatus.length > 0 &&
+                    this.verifiedstatus("ugCollege").verificationStatus ===
+                      "Verified"
+                      ? "green"
+                      : "orange"
+                  }
+                />
+              </div>
+              <div style={{ paddingLeft: "10px", width: "100%", }}>
+                <Autocomplete
+                  popupIcon={<ExpandMore style={{ color: "black" }} />}
+                  options={this.props.getAllCollegesList || []}
+                  getOptionLabel={(option) => option.name}
+                  value={this.state.college}
+                  onChange={(e, newValue) => {
+                    this.commentshistory("college", newValue);
+                    this.setState({ college: newValue });
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      name="college"
+                      className={"field_style"}
+                      label="College Name"
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  )}
+                />
+              </div>
+            </div>
+          </Grid>
+        
+        <Grid item md={4}>
+                   <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                marginTop: "15px",
+              }}
+            >
+              <div
+                style={{
+                  alignItems: "flex-start",
+                  display: "flex",
+                }}
+           
+                  onClick={(e) => this.handleClick(e, "workExperience")}
+                >
+                  <Dot
+                    color={
+                      this.state.verificationstatus &&
+                      this.state.verificationstatus.length > 0 &&
+                      this.verifiedstatus("workExperience")
+                        .verificationStatus === "Verified"
+                        ? "green"
+                        : "orange"
+                    }
+                  />
+                </div>
+                <div style={{ paddingLeft: "10px"}}>
+                  <TextField
+                    name="workexp"
+                    label="Work Experience"
+                    className={"work_style"}
+                    value={this.state.workexp}
+                    onChange={(e) => {
+                      this.commentshistory("workExperience", e.target.value);
+                      this.handlechange(e);
+                    }}
+                    InputLabelProps={{ shrink: true }}
+                  />
+                </div>
+              </div>
+            </Grid>
+            </Grid>
+      )
+    }
+    else {
       return (
         <Grid container>
           <Grid item md={4}>
