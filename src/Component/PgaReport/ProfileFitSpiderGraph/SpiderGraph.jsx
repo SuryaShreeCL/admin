@@ -158,7 +158,7 @@ function SpiderGraph({ isGenerate, graphData }) {
     <RightContainer>
       <GraphHeader isBottom={isGenerate}>
         <Typo variant={'h6'} fontSize={'18px'}>
-          {'Spider Graph'}
+          {'Profile Fit Graph'}
         </Typo>
       </GraphHeader>
       {isGenerate && graphData ? (
@@ -173,7 +173,7 @@ function SpiderGraph({ isGenerate, graphData }) {
       ) : (
         <div>
           <CenteredIcon />
-          <CenteredText>{'Spider graph is not generated'}</CenteredText>
+          <CenteredText>{'Profile Fit Graph is not generated'}</CenteredText>
         </div>
       )}
     </RightContainer>
