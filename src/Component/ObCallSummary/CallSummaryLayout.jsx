@@ -6,7 +6,7 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import ClientDetails from "./ClientDetails";
 import Question from "./textEditor";
 import Rating from "./Rating";
-import { completecall } from "../../Actions/Calldetails";
+import { completecall,skipcall } from "../../Actions/Calldetails";
 import Mysnack from "../MySnackBar";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -34,6 +34,18 @@ class CallSummaryLayout extends Component {
       snackvariant: "success",
     });
   };
+  handleskip = () => {
+    this.props.skipcall(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+    this.setState({
+      snackopen: true,
+      snackmsg: "Call skipped Successfully",
+      snackvariant: "success",
+    });
+  };
+ 
   renderLeftContent = (value) => {
     try {
       if (value === 0) {
@@ -90,6 +102,15 @@ class CallSummaryLayout extends Component {
             alignItems={"center"}
           >
             <Typography variant="h6">OnBoarding Call Summary</Typography>
+            <Grid item xs={2}></Grid>
+            <PrimaryButton
+              variant={"contained"}
+              color={"primary"}
+              style={{ textTransform: "none" }}
+              onClick={() => this.handleskip()}
+            >
+              Skip Call Summary
+            </PrimaryButton>
             <PrimaryButton
               variant={"contained"}
               color={"primary"}
@@ -159,4 +180,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { completecall })(CallSummaryLayout);
+export default connect(mapStateToProps, { completecall,skipcall })(CallSummaryLayout);

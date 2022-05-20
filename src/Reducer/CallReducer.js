@@ -23,6 +23,7 @@ const initialState = {
   completecall: [],
   ietlsCompletedScore: [],
   getIntakeTermList: [],
+  skipcall:[],
 };
 
 export default (state = initialState, action) => {
@@ -136,6 +137,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         completecall: action.payload,
+      };
+      case CALL_DETAILS.skipcall:
+      return {
+        ...state,
+        skipcall: action.payload,
       };
     case CALL_DETAILS.getIntakeTermList:
       return {
