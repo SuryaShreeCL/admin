@@ -430,15 +430,15 @@ class TestEngineResult extends Component {
           </Table>
         </TableContainer>
         <Dialog
-          maxWidth="xs"
+          maxWidth="sm"
           fullWidth={true}
           open={this.state.show}
           onClose={() => this.setState({ show: false })}
           aria-labelledby="customized-dialog-title"
         >
-          <DialogContent>
+          <DialogContent style={{padding:"40px"}}>
             <Typography
-              style={{ color: "#052A4E", fontSize: 24, fontWeight: "bold" }}
+              style={{ color: "#052A4E", fontSize: 22, fontWeight: "bold" }}
             >
               Reset {this.state.questionSetName} ?
             </Typography>
