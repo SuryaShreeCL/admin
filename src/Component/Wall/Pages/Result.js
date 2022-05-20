@@ -76,9 +76,7 @@ export default function Result() {
   const [users, setUsers] = useState({});
   const [selectedRound, setSelectedRound] = useState(null);
   const [selectStatus, setSelectedStatus] = useState(null);
-  const [flag, setFlag] = useState(true);
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [confirmedUser, setConfirmedUser] = useState([]);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -133,39 +131,11 @@ export default function Result() {
       .required(),
   });
 
-  const groupBy = (arr) => {
-    const initialValue = {};
-    return arr.reduce((acc, cval) => {
-      const myAttribute = cval['stepName'];
-      acc[myAttribute] = [...(acc[myAttribute] || []), cval];
-      return acc;
-    }, initialValue);
-  };
-
-  const _submit = () => {
-    var grouped = groupBy(confirmedUser);
-    console.log(grouped);
-    var structured = Object.entries(grouped).map(([key, value]) => ({
-      stepName: key,
-      stepId: value?.length > 0 ? value[0]['stepId'] : '',
-      rejectedReason: value[0].rejectedReason,
-      studentList:
-        value?.length > 0
-          ? value.map((el) => ({
-              studentId: el.userId,
-              studentName: el.studentName,
-              studentEmailId: el.studentEmailId,
-              stepStatus: el.stepStatus,
-            }))
-          : [],
-    }));
-
-    console.log(structured);
-
+  const _roundUpdate = (data) => {
     let payload = {
       eventId: users?.data?.eventId,
       eventName: users?.data?.eventName,
-      stepDetailsModelList: structured,
+      stepDetailsModelList: [data],
     };
 
     dispatch(
@@ -174,8 +144,41 @@ export default function Result() {
           _fetch();
           setNotify({
             isOpen: true,
-            message: 'Data updated succesfully',
+            message: res.message,
             type: 'success',
+          });
+        } else {
+          setNotify({
+            isOpen: true,
+            message: res.message,
+            type: 'error',
+          });
+        }
+      })
+    );
+  };
+
+  const _submit = (data) => {
+    let payload = {
+      eventId: users?.data?.eventId,
+      eventName: users?.data?.eventName,
+      stepDetailsModelList: data,
+    };
+
+    dispatch(
+      updateStudentEventStatus(id, payload, (res) => {
+        if (res.success) {
+          _fetch();
+          setNotify({
+            isOpen: true,
+            message: 'Round Details Submitted',
+            type: 'success',
+          });
+        } else {
+          setNotify({
+            isOpen: true,
+            message: res.message,
+            type: 'error',
           });
         }
       })
@@ -190,13 +193,6 @@ export default function Result() {
       rejectedReason: el.stepId == v.rounds.stepId ? v.reason : null,
     }));
     setSelectedUsers(t);
-    setConfirmedUser(t);
-    setFlag(false);
-    setNotify({
-      isOpen: true,
-      message: 'Data of the Round saved succesfully',
-      type: 'success',
-    });
   };
 
   const formik = useFormik({
@@ -326,7 +322,7 @@ export default function Result() {
     setValues,
     handleChange,
   } = formik;
-  console.log(values.rounds);
+  console.log('val', users.data);
 
   return (
     <>
@@ -565,10 +561,11 @@ export default function Result() {
                 <Controls.Button
                   text='Round Update'
                   type='submit'
+                  disabled={!selectedRound}
                   color='primary'
                   className={classes.newButton}
                   variant='contained'
-                  onClick={_submit}
+                  onClick={() => _roundUpdate(values.rounds)}
                 />
                 <Controls.ActionButton
                   style={{ marginTop: '1rem' }}
@@ -583,17 +580,18 @@ export default function Result() {
                   />
                 </Controls.ActionButton>
                 <Controls.Button
-                  disabled={flag}
+                  disabled={!selectedRound}
                   text='Submit'
                   color='primary'
                   className={classes.newButton1}
                   variant='contained'
-                  onClick={() => console.log(values)}
+                  onClick={() => _submit(users.data.stepDetailsModelList)}
                 />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
+        <pre>{JSON.stringify({ values }, null, 4)}</pre>
         <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>
