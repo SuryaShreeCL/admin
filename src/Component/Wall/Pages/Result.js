@@ -327,29 +327,10 @@ export default function Result() {
     handleChange,
   } = formik;
   console.log(values.rounds);
-  const Icon = () => {
-    return (
-      <div style={{ position: 'absolute', right: '5%' }}>
-        <Controls.ActionButton
-          style={{ top: -70 }}
-          disabled={!values?.rounds?.stepId}
-          href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/wallsteps/${values?.rounds?.stepId}`}
-        >
-          <CloudDownloadIcon
-            fontSize='medium'
-            style={{
-              color: !values?.rounds?.stepId ? 'gray' : 'green',
-            }}
-          />
-        </Controls.ActionButton>
-      </div>
-    );
-  };
 
   return (
     <>
       <div>
-        <Icon />
         <Grid container spacing={3} direction='row' className={classes.main}>
           <Grid item md={3}>
             <FormControl className={classes.width}>
@@ -416,150 +397,153 @@ export default function Result() {
           <Grid item md={12}>
             <TableContainer>
               <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.box}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#007500',
-                        }}
-                      >
-                        <div>Accepted</div>
-                        <FormControlLabel
-                          className={classes.formLabel}
-                          control={<GreenCheckbox name='checkedG' />}
-                          disabled={!selectedRound}
-                          onChange={(e, isChecked) => {
-                            onStatusAllChange(isChecked, 'q');
+                {selectedRound && (
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.box}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#007500',
                           }}
-                          checked={
-                            users?.data?.stepDetailsModelList.find(
-                              (el) => el.stepName === selectedRound?.stepName
-                            )?.studentList.length > 0
-                              ? selectedUsers.filter(
-                                  (el) =>
-                                    el.stepName === selectedRound?.stepName &&
-                                    el.stepStatus === 'Qualified'
-                                ).length ===
-                                users?.data?.stepDetailsModelList.find(
-                                  (el) => el.stepName === selectedRound?.stepName
-                                )?.studentList.length
-                              : false
-                          }
-                        />
-                      </div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: '#8B0303',
-                        }}
-                      >
-                        <div>Rejected</div>
-                        <FormControlLabel
-                          className={classes.formlabel2}
-                          control={<RedCheckbox name='checkedB' />}
-                          disabled={!selectedRound}
-                          onChange={(e, isChecked) => {
-                            onStatusAllChange(isChecked, 'nq');
+                        >
+                          <div>Accepted</div>
+                          <FormControlLabel
+                            className={classes.formLabel}
+                            control={<GreenCheckbox name='checkedA' />}
+                            disabled={!selectedRound}
+                            onChange={(e, isChecked) => {
+                              onStatusAllChange(isChecked, 'q');
+                            }}
+                            checked={
+                              users?.data?.stepDetailsModelList.find(
+                                (el) => el.stepName === selectedRound?.stepName
+                              )?.studentList.length > 0
+                                ? selectedUsers.filter(
+                                    (el) =>
+                                      el.stepName === selectedRound?.stepName &&
+                                      el.stepStatus === 'Qualified'
+                                  ).length ===
+                                  users?.data?.stepDetailsModelList.find(
+                                    (el) => el.stepName === selectedRound?.stepName
+                                  )?.studentList.length
+                                : false
+                            }
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#8B0303',
                           }}
-                          checked={
-                            users?.data?.stepDetailsModelList.find(
-                              (el) => el.stepName === selectedRound?.stepName
-                            )?.studentList.length > 0
-                              ? selectedUsers.filter(
-                                  (el) =>
-                                    el.stepName === selectedRound?.stepName &&
-                                    el.stepStatus === 'Not Qualified'
-                                ).length ===
-                                users?.data?.stepDetailsModelList.find(
-                                  (el) => el.stepName === selectedRound?.stepName
-                                )?.studentList.length
-                              : false
-                          }
-                        />
-                      </div>
-                    </TableCell>
-                    <TableCell className={classes.heading}>User Name</TableCell>
-                    <TableCell className={classes.heading}>Email</TableCell>
-                  </TableRow>
-                </TableHead>
+                        >
+                          <div>Rejected</div>
+                          <FormControlLabel
+                            className={classes.formlabel2}
+                            control={<RedCheckbox name='checkedB' />}
+                            disabled={!selectedRound}
+                            onChange={(e, isChecked) => {
+                              onStatusAllChange(isChecked, 'nq');
+                            }}
+                            checked={
+                              users?.data?.stepDetailsModelList.find(
+                                (el) => el.stepName === selectedRound?.stepName
+                              )?.studentList.length > 0
+                                ? selectedUsers.filter(
+                                    (el) =>
+                                      el.stepName === selectedRound?.stepName &&
+                                      el.stepStatus === 'Not Qualified'
+                                  ).length ===
+                                  users?.data?.stepDetailsModelList.find(
+                                    (el) => el.stepName === selectedRound?.stepName
+                                  )?.studentList.length
+                                : false
+                            }
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className={classes.heading}>User Name</TableCell>
+                      <TableCell className={classes.heading}>Email</TableCell>
+                    </TableRow>
+                  </TableHead>
+                )}
                 <ThemeProvider theme={tableTheme}>
                   <TableBody>
-                    {users?.data?.stepDetailsModelList.map((steps) => {
-                      return (
-                        <>
-                          {steps.studentList
-                            .filter((student) => _filter(student, steps))
-                            .map((item) => {
-                              return (
-                                <TableRow>
-                                  <TableCell className={classes.box}>
-                                    <FormControlLabel
-                                      className={classes.transparent}
-                                      control={<GreenCheckbox name='checkedA' />}
-                                      disabled={!selectedRound}
-                                      checked={
-                                        !selectedRound
-                                          ? item.stepStatus === 'Qualified'
-                                          : selectedUsers.filter(
-                                              (el) =>
-                                                el.stepName === steps.stepName &&
-                                                el.stepStatus === 'Qualified' &&
-                                                el.userId === item.studentId
-                                            ).length > 0
-                                      }
-                                      onChange={(e, isChecked) => {
-                                        onStatusChange(isChecked, 'q', {
-                                          stepName: steps.stepName,
-                                          stepId: steps.stepId,
-                                          userId: item.studentId,
-                                          ...item,
-                                        });
-                                      }}
-                                    />
-                                    <FormControlLabel
-                                      className={classes.transparent}
-                                      control={<RedCheckbox name='checkedB' />}
-                                      disabled={!selectedRound}
-                                      checked={
-                                        !selectedRound
-                                          ? item.stepStatus === 'Not Qualified'
-                                          : selectedUsers.filter(
-                                              (el) =>
-                                                el.stepName === steps.stepName &&
-                                                el.stepStatus === 'Not Qualified' &&
-                                                el.userId === item.studentId
-                                            ).length > 0
-                                      }
-                                      onChange={(e, isChecked) => {
-                                        onStatusChange(isChecked, 'nq', {
-                                          stepName: steps.stepName,
-                                          stepId: steps.stepId,
-                                          userId: item.studentId,
-                                          ...item,
-                                        });
-                                      }}
-                                    />
-                                  </TableCell>
-                                  <TableCell className={classes.color}>
-                                    {item.studentName}
-                                  </TableCell>
-                                  <TableCell className={classes.color}>
-                                    {item.studentEmailId}
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
-                        </>
-                      );
-                    })}
+                    {selectedRound &&
+                      users?.data?.stepDetailsModelList.map((steps) => {
+                        return (
+                          <>
+                            {steps.studentList
+                              .filter((student) => _filter(student, steps))
+                              .map((item) => {
+                                return (
+                                  <TableRow>
+                                    <TableCell className={classes.box}>
+                                      <FormControlLabel
+                                        className={classes.transparent}
+                                        control={<GreenCheckbox name='checkedA' />}
+                                        disabled={!selectedRound}
+                                        checked={
+                                          !selectedRound
+                                            ? item.stepStatus === 'Qualified'
+                                            : selectedUsers.filter(
+                                                (el) =>
+                                                  el.stepName === steps.stepName &&
+                                                  el.stepStatus === 'Qualified' &&
+                                                  el.userId === item.studentId
+                                              ).length > 0
+                                        }
+                                        onChange={(e, isChecked) => {
+                                          onStatusChange(isChecked, 'q', {
+                                            stepName: steps.stepName,
+                                            stepId: steps.stepId,
+                                            userId: item.studentId,
+                                            ...item,
+                                          });
+                                        }}
+                                      />
+                                      <FormControlLabel
+                                        className={classes.transparent}
+                                        control={<RedCheckbox name='checkedB' />}
+                                        disabled={!selectedRound}
+                                        checked={
+                                          !selectedRound
+                                            ? item.stepStatus === 'Not Qualified'
+                                            : selectedUsers.filter(
+                                                (el) =>
+                                                  el.stepName === steps.stepName &&
+                                                  el.stepStatus === 'Not Qualified' &&
+                                                  el.userId === item.studentId
+                                              ).length > 0
+                                        }
+                                        onChange={(e, isChecked) => {
+                                          onStatusChange(isChecked, 'nq', {
+                                            stepName: steps.stepName,
+                                            stepId: steps.stepId,
+                                            userId: item.studentId,
+                                            ...item,
+                                          });
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell className={classes.color}>
+                                      {item.studentName}
+                                    </TableCell>
+                                    <TableCell className={classes.color}>
+                                      {item.studentEmailId}
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })}
+                          </>
+                        );
+                      })}
                   </TableBody>
                 </ThemeProvider>
               </Table>
@@ -575,28 +559,36 @@ export default function Result() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-around',
-                  padding: '0 5rem',
+                  padding: '0 4rem',
                 }}
               >
-                <Grid container>
-                  <Grid item>
-                    <Controls.Button
-                      text='Submit'
-                      type='submit'
-                      color='primary'
-                      className={classes.newButton}
-                      variant='contained'
-                      onClick={() => console.log(values)}
-                    />
-                  </Grid>
-                </Grid>
+                <Controls.Button
+                  text='Round Update'
+                  type='submit'
+                  color='primary'
+                  className={classes.newButton}
+                  variant='contained'
+                  onClick={_submit}
+                />
+                <Controls.ActionButton
+                  style={{ marginTop: '1rem' }}
+                  disabled={!values?.rounds?.stepId}
+                  href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/wallsteps/${values?.rounds?.stepId}`}
+                >
+                  <CloudDownloadIcon
+                    fontSize='large'
+                    style={{
+                      color: !values?.rounds?.stepId ? 'gray' : 'green',
+                    }}
+                  />
+                </Controls.ActionButton>
                 <Controls.Button
                   disabled={flag}
-                  text='Round Update'
+                  text='Submit'
                   color='primary'
                   className={classes.newButton1}
                   variant='contained'
-                  onClick={_submit}
+                  onClick={() => console.log(values)}
                 />
               </Grid>
             </Grid>
