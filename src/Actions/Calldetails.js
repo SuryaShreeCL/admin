@@ -506,6 +506,30 @@ export const completecall = (studentId, productId, data) => {
       });
   };
 };
+export const skipcall = (studentId, productId) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return (dispatch) => {
+    axios
+      .put(
+        URL +
+          "/api/v1/students/" + studentId + "/product/" + productId + "/skipObCall","",
+          
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({ type: CALL_DETAILS.skipcall, payload: result.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 // export const getsearchlist = (data) =>{
 //     let userId = window.sessionStorage.getItem("adminUserId")
 //     return dispatch =>{
