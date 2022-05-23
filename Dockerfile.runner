@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nginx-120 as production
+FROM registry.access.redhat.com/ubi9/nginx-120 as production
 
 USER 0
 RUN dnf -y update && dnf clean all
