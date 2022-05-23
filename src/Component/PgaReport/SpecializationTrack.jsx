@@ -381,7 +381,6 @@ function SpecializationTrack(props) {
       )
     );
   };
-console.log(CourseList.map(item => item.displayName))
   return (
     <PageWrapper>
       <div className={classes.specializationWrapper}>
