@@ -28,19 +28,20 @@ export const getCourses=()=>{
     let accessToken = window.sessionStorage.getItem("accessToken")
 
     return dispatch => {
-        axios.get(URL+"/api/v1/courses", {
+        axios
+          .get(URL + "/api/v1/pbcourses", {
             crossDomain: true,
-            headers : {
-                "Authorization" : `Bearer ${accessToken}`,
-                admin : "yes"
-            }
-        })
-            .then(result => {
-                dispatch({type:COURSES.GetCourses,courseList:result.data})
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              admin: "yes",
+            },
+          })
+          .then((result) => {
+            dispatch({ type: COURSES.GetCourses, courseList: result.data });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
 }
 
