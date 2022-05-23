@@ -37,7 +37,7 @@ export const getCourses=()=>{
             },
           })
           .then((result) => {
-            dispatch({ type: COURSES.GetCourses, courseList: result.data });
+            dispatch({ type: COURSES.GetCourses, courseList: result?.data?.data });
           })
           .catch((error) => {
             console.log(error);

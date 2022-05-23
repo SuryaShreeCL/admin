@@ -77,9 +77,6 @@ function SpecializationTrack(props) {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-
-  console.log(CourseList)
-
   const getAndSetStudentSpecializationTrack = () => {
     getStudentSpecializationTrack(
       props.match.params.studentId,
