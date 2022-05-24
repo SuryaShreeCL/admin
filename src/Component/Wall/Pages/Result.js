@@ -75,6 +75,7 @@ export default function Result() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [users, setUsers] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedRound, setSelectedRound] = useState(null);
   const [selectStatus, setSelectedStatus] = useState(null);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -100,6 +101,7 @@ export default function Result() {
   ];
 
   const _fetch = () => {
+    setIsLoading(true);
     dispatch(
       getStudentEventStatus(id, (response) => {
         setUsers(response);
@@ -117,6 +119,7 @@ export default function Result() {
             )
             .flat(),
         ]);
+        setIsLoading(false);
       })
     );
   };
@@ -134,16 +137,20 @@ export default function Result() {
   });
 
   const _roundUpdate = (data, reason) => {
-    if (reason === '' || reason.length < 5) {
-      setNotify({
-        isOpen: true,
-        message: 'Please fill the reason',
-        type: 'error',
-      });
-      return;
-    }
+    // if (reason === '' || reason.length < 5) {
+    //   setNotify({
+    //     isOpen: true,
+    //     message: 'Please fill the reason',
+    //     type: 'error',
+    //   });
+    //   return;
+    // }
 
-    let finalStudentsList = selectedUsers.map((user) => {
+    setIsLoading(true);
+
+    let filterRounds = selectedUsers.filter((student) => student.stepName === data.stepName);
+
+    let finalStudentsList = filterRounds.map((user) => {
       delete user.userId;
       delete user.stepName;
       return user;
@@ -165,6 +172,7 @@ export default function Result() {
             type: 'success',
           });
         } else {
+          setIsLoading(false);
           setNotify({
             isOpen: true,
             message: res.message,
@@ -476,12 +484,12 @@ export default function Result() {
               )}
               <ThemeProvider theme={tableTheme}>
                 <TableBody>
-                  {!users?.data > 0 && (
+                  {isLoading ? (
                     <div style={{ margin: '2rem auto', width: '60%' }}>
                       <Loader />
                     </div>
-                  )}
-                  {selectedRound &&
+                  ) : (
+                    selectedRound &&
                     users?.data?.stepDetailsModelList.map((steps) => {
                       return (
                         <>
@@ -549,7 +557,8 @@ export default function Result() {
                             })}
                         </>
                       );
-                    })}
+                    })
+                  )}
                 </TableBody>
               </ThemeProvider>
             </Table>
@@ -579,15 +588,13 @@ export default function Result() {
               />
               <Controls.ActionButton
                 style={{ marginTop: '1rem' }}
-                disabled={true}
-                // disabled={!values?.rounds?.stepId}
-                href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/wallsteps/${values?.rounds?.stepId}`}
+                disabled={!values?.rounds?.stepId}
+                href={`${process.env.REACT_APP_API_URL}/api/v1/event/${id}/result/page`}
               >
                 <CloudDownloadIcon
                   fontSize='large'
                   style={{
-                    color: true ? 'gray' : 'green',
-                    // color: !values?.rounds?.stepId ? 'gray' : 'green',
+                    color: !values?.rounds?.stepId ? 'gray' : 'green',
                   }}
                 />
               </Controls.ActionButton>

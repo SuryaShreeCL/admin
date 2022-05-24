@@ -70,7 +70,7 @@ const DynamicFormContainer = React.memo(
                 <Grid container direction='row' justify='space-between' className={classes.spacer}>
                   <>
                     <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>Event Start Date </h6>
+                      <h6 style={{ fontSize: '1rem' }}>Form Start Time </h6>
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
                           InputProps={{
@@ -92,7 +92,7 @@ const DynamicFormContainer = React.memo(
                       </MuiPickersUtilsProvider>
                     </Grid>
                     <Grid item>
-                      <h6 style={{ fontSize: '1rem' }}>Event End Date </h6>
+                      <h6 style={{ fontSize: '1rem' }}>Form End Time </h6>
                       <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
                           InputProps={{
