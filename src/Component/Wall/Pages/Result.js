@@ -107,7 +107,7 @@ export default function Result() {
             ?.map((step) =>
               step.studentList.map((student) => ({
                 stepName: step.stepName,
-                stepId: step.stepId,
+                studentId: student.studentId,
                 stepStatus: student.stepStatus,
                 userId: student.studentId,
                 studentName: student.studentName,
@@ -129,13 +129,29 @@ export default function Result() {
       .object()
       .nullable()
       .required(),
+    rejectedReason: yup.string().required(''),
   });
 
-  const _roundUpdate = (data) => {
+  const _roundUpdate = (data, reason) => {
+    if (reason === '' || reason.length < 5) {
+      setNotify({
+        isOpen: true,
+        message: 'Please fill the reason',
+        type: 'error',
+      });
+      return;
+    }
+
+    let finalStudentsList = selectedUsers.map((user) => {
+      delete user.userId;
+      delete user.stepName;
+      return user;
+    });
+
     let payload = {
       eventId: users?.data?.eventId,
       eventName: users?.data?.eventName,
-      stepDetailsModelList: [data],
+      stepDetailsModelList: [{ ...data, rejectedReason: reason, studentList: finalStudentsList }],
     };
 
     dispatch(
@@ -185,24 +201,14 @@ export default function Result() {
     );
   };
 
-  // Local Save
-  const handleSave = (v) => {
-    var exist = selectedUsers;
-    var t = exist.map((el) => ({
-      ...el,
-      rejectedReason: el.stepId == v.rounds.stepId ? v.reason : null,
-    }));
-    setSelectedUsers(t);
-  };
-
   const formik = useFormik({
     initialValues: {
       rounds: [],
       studentSelector: [],
-      reason: '',
+      rejectedReason: '',
     },
     validationSchema: validationSchema,
-    onSubmit: handleSave,
+    onSubmit: _roundUpdate,
   });
 
   const onStatusChange = (isChecked, status, data) => {
@@ -254,7 +260,7 @@ export default function Result() {
       if (isChecked) {
         t = exist.studentList.map((el) => ({
           stepName: exist.stepName,
-          stepId: exist.stepId,
+          studentId: el.studentId,
           stepStatus: 'Qualified',
           userId: el.studentId,
           studentName: el.studentName,
@@ -263,7 +269,7 @@ export default function Result() {
       } else {
         t = exist.studentList.map((el) => ({
           stepName: exist.stepName,
-          stepId: exist.stepId,
+          studentId: el.studentId,
           stepStatus: 'NA',
           userId: el.studentId,
           studentName: el.studentName,
@@ -274,7 +280,7 @@ export default function Result() {
       if (isChecked) {
         t = exist.studentList.map((el) => ({
           stepName: exist.stepName,
-          stepId: exist.stepId,
+          studentId: el.studentId,
           stepStatus: 'Not Qualified',
           userId: el.studentId,
           studentName: el.studentName,
@@ -283,7 +289,7 @@ export default function Result() {
       } else {
         t = exist.studentList.map((el) => ({
           stepName: exist.stepName,
-          stepId: exist.stepId,
+          studentId: el.studentId,
           stepStatus: 'NA',
           userId: el.studentId,
           studentName: el.studentName,
@@ -322,7 +328,6 @@ export default function Result() {
     setValues,
     handleChange,
   } = formik;
-  console.log('val', users.data);
 
   return (
     <>
@@ -382,11 +387,11 @@ export default function Result() {
           <Grid item md={3}>
             <Controls.Input
               label='Enter Rejection Reason'
-              name='reason'
-              value={values.reason}
+              name='rejectedReason'
+              value={values.rejectedReason}
               onChange={handleChange}
-              className={classes.imput}
-              error={touched.reason && Boolean(errors.reason)}
+              className={classes.input}
+              error={touched.rejectedReason && Boolean(errors.rejectedReason)}
             />
           </Grid>
 
@@ -498,7 +503,7 @@ export default function Result() {
                                         onChange={(e, isChecked) => {
                                           onStatusChange(isChecked, 'q', {
                                             stepName: steps.stepName,
-                                            stepId: steps.stepId,
+                                            studentId: steps.studentId,
                                             userId: item.studentId,
                                             ...item,
                                           });
@@ -521,7 +526,7 @@ export default function Result() {
                                         onChange={(e, isChecked) => {
                                           onStatusChange(isChecked, 'nq', {
                                             stepName: steps.stepName,
-                                            stepId: steps.stepId,
+                                            studentId: steps.studentId,
                                             userId: item.studentId,
                                             ...item,
                                           });
@@ -565,7 +570,7 @@ export default function Result() {
                   color='primary'
                   className={classes.newButton}
                   variant='contained'
-                  onClick={() => _roundUpdate(values.rounds)}
+                  onClick={() => _roundUpdate(values.rounds, values.rejectedReason)}
                 />
                 <Controls.ActionButton
                   style={{ marginTop: '1rem' }}
@@ -591,7 +596,7 @@ export default function Result() {
             </Grid>
           </Grid>
         </Grid>
-        <pre>{JSON.stringify({ values }, null, 4)}</pre>
+        <pre>{JSON.stringify({ selectedUsers }, null, 4)}</pre>
         <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>
@@ -632,7 +637,7 @@ const useStyles = makeStyles({
     color: 'transparent',
     flexDirection: 'column',
   },
-  imput: { width: '100%', marginTop: 8 },
+  input: { width: '100%', marginTop: 8 },
   autocompleteTextinput: {
     marginTop: '10px',
     marginBottom: '10px',
