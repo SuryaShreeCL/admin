@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import React from "react";
+import { StyleSheet, Text, View, Font, Link } from "@react-pdf/renderer";
+import React, { useEffect } from "react";
 
 const Table = ({
   tableHeading,
@@ -72,38 +72,44 @@ const Table = ({
       <View>
         {row.map((item, idx) => (
           <View style={styles.row}>
-            {item.map((item, index) => (
-              <Text
-                // style={
-                //   idx === 0
-                //     ? {
-                //         ...styles.th,
-                //         color: item.frontColorCode,
-                //         borderLeft: item.colorCode,
-                //       }
-                //     : {
-                //         ...styles.td,
-                //         color: item.ColorCode,
-                //         borderLeft: `3px solid ${item.colorCode}`,
-                //       }
-                // }
-                style={
-                  idx === 0
-                    ? {
-                        ...styles.th,
-                        color: item.frontColorCode,
-                        borderLeft: item.colorCode,
-                      }
-                    : {
-                        ...styles.td,
-                        color: item.frontColorCode,
-                        borderLeft: `3px solid ${item.colorCode}`,
-                      }
-                }
-              >
-                {item.name}
-              </Text>
-            ))}
+            {item.map((item, index) => {
+              let programNameIndex = row[0].findIndex(
+                (item) => item.name === "Program Name"
+              );
+              let isProgramLink =
+                programNameIndex > -1 &&
+                programNameIndex === index &&
+                item.link;
+              return (
+                <Text
+                  style={
+                    idx === 0
+                      ? {
+                          ...styles.th,
+                          color: item.frontColorCode,
+                          borderLeft: item.colorCode,
+                        }
+                      : {
+                          ...styles.td,
+                          color: item.frontColorCode,
+                          borderLeft: `3px solid ${item.colorCode}`,
+                        }
+                  }
+                >
+                  {isProgramLink ? (
+                    <Link
+                      src={item.link}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    item.name
+                  )}
+                </Text>
+              );
+            })}
           </View>
         ))}
       </View>
