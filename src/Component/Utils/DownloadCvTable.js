@@ -34,10 +34,18 @@ function DownloadCvTable({
           body.map(
             (
               { comment, versionName, uploadedDate, id, path, isDelete },
-              index
+              index,status
             ) => (
               <tr id={`row${index}`}>
-                <td>{versionName || "NA"}</td>
+                 {status=== "Review Completed"? (
+            <td>
+              {versionName}_R 
+              </td>
+            ):(
+              <td>
+                {versionName}
+              </td>)
+  }
                 <td>
                   {uploadedDate
                     ? moment(new Date(uploadedDate)).format("DD MMMM YYYY")
