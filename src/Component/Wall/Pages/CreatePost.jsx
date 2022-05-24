@@ -252,6 +252,8 @@ const CreatePost = () => {
         form: yup
           .object()
           .shape({
+            startDate: yup.string().required('Start Date is Required'),
+            expiredDate: yup.string().required('Expired Date is Required'),
             formQuestions: yup.array().of(
               yup.object().shape({
                 questionText: yup.string().required('Question is Required'),
