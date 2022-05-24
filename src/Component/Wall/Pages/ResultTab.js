@@ -3,11 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { getStudentEventStatus } from '../../../Actions/WallActions';
-import {
-  Container,
-  TopTab,
-  TopTabs,
-} from '../../Test/Assets/Styles/WallStyles';
+import { Container, TopTab, TopTabs } from '../../Test/Assets/Styles/WallStyles';
 import Result from './Result';
 
 const ResultTab = () => {
@@ -59,8 +55,6 @@ const ResultTab = () => {
               aria-label='tabs'
             >
               <TopTab label='Result' />
-              <Grid item md={11}></Grid>
-              <Grid item md={1}></Grid>
             </TopTabs>
           </Grid>
           <Grid item md={12}>
