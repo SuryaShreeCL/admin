@@ -178,6 +178,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "tenthForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("tenth");
   };
@@ -187,6 +189,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "twelthForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("twelfth");
   };
@@ -194,7 +198,12 @@ class ProfileGapRoot extends Component {
   // diploma handling
   handleDiplomaClick = () => {
     console.log("diploma");
-    this.setState({ value: "diplomaForm", open: false });
+    this.setState({
+      value: "diplomaForm",
+      open: false,
+      anchorEl: null,
+      arrowOpenName: null,
+    });
     this.props.getAcademicType("diploma");
   };
 
@@ -204,6 +213,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "ugForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName: null,
     });
     this.props.getAcademicType("ug");
   };
@@ -214,6 +225,8 @@ class ProfileGapRoot extends Component {
     this.setState({
       value: "pgForm",
       open: false,
+      anchorEl: null,
+      arrowOpenName : null
     });
     this.props.getAcademicType("pg");
   };
@@ -342,7 +355,7 @@ class ProfileGapRoot extends Component {
   };
 
   handleMenuItem = (value) => {
-    this.setState({ value: value });
+    this.setState({ value: value, cvAnchorEl: null, arrowOpenName: null });
   };
 
   handleCvMenuOpen = (e, name) => {
