@@ -7,6 +7,7 @@ import ClientDetails from "./ClientDetails";
 import Question from "./textEditor";
 import Rating from "./Rating";
 import { completecall,skipcall } from "../../Actions/Calldetails";
+
 import Mysnack from "../MySnackBar";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -23,6 +24,7 @@ class CallSummaryLayout extends Component {
       snackvariant: "",
     };
   }
+ 
   handlecomplete = () => {
     this.props.completecall(
       this.props.match.params.studentId,
@@ -40,12 +42,11 @@ class CallSummaryLayout extends Component {
       this.props.match.params.productId
     );
     this.setState({
-      snackopen: true,
-      snackmsg: "Call skipped Successfully",
-      snackvariant: "success",
-    });
-  };
- 
+      snackopen:true,
+      snackmsg: "Call Skipped Successfully",
+      snckVariant : "success",
+    })
+  }
   renderLeftContent = (value) => {
     try {
       if (value === 0) {
@@ -64,6 +65,8 @@ class CallSummaryLayout extends Component {
   };
 
   render() {
+    const isSkipObCallStatus = this.props.getClientInfoList.isSkipObCall ;
+    console.log(this.props.getClientInfoList.isSkipObCall);
     return (
       <div style={{ marginTop: !this.props.hasBreadCrumbs && "15px" }}>
         {this.props.hasBreadCrumbs && (
@@ -92,8 +95,11 @@ class CallSummaryLayout extends Component {
             </Breadcrumbs>
           </div>
         )}
+        
+          
 
         <Grid container spacing={2}>
+          
           <Grid
             item
             md={12}
@@ -108,6 +114,7 @@ class CallSummaryLayout extends Component {
               color={"primary"}
               style={{ textTransform: "none" }}
               onClick={() => this.handleskip()}
+              disabled={isSkipObCallStatus}
             >
               Skip Call Summary
             </PrimaryButton>
@@ -177,6 +184,7 @@ class CallSummaryLayout extends Component {
 const mapStateToProps = (state) => {
   return {
     completecallList: state.CallReducer.completecall,
+    getClientInfoList: state.CallReducer.getClientInfo,
   };
 };
 
