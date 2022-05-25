@@ -236,7 +236,7 @@ export default function Result() {
         var deleteIndex = t.findIndex(
           (el) => el.userId === data.userId && el.stepStatus === 'Qualified'
         );
-        t.push({ ...t[deleteIndex], stepStatus: 'NA' });
+        // t.push({ ...t[deleteIndex], stepStatus: 'NA' });
         t.splice(deleteIndex, 1);
       }
     } else if (status === 'nq') {
@@ -253,7 +253,7 @@ export default function Result() {
         var deleteIndex = t.findIndex(
           (el) => el.userId === data.userId && el.stepStatus === 'Not Qualified'
         );
-        t.push({ ...t[deleteIndex], stepStatus: 'NA' });
+        // t.push({ ...t[deleteIndex], stepStatus: 'NA' });
         t.splice(deleteIndex, 1);
       }
     }
@@ -610,7 +610,7 @@ export default function Result() {
           </Grid>
         </Grid>
       </Grid>
-      {/* <pre>{JSON.stringify({ selectedUsers }, null, 4)}</pre> */}
+      <pre>{JSON.stringify({ selectedUsers }, null, 4)}</pre>
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
