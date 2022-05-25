@@ -6,8 +6,7 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import ClientDetails from "./ClientDetails";
 import Question from "./textEditor";
 import Rating from "./Rating";
-import { completecall,skipcall } from "../../Actions/Calldetails";
-
+import { completecall,skipcall,getClientInfo } from "../../Actions/Calldetails";
 import Mysnack from "../MySnackBar";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import BackButton from "../../Asset/Images/backbutton.svg";
@@ -24,7 +23,29 @@ class CallSummaryLayout extends Component {
       snackvariant: "",
     };
   }
- 
+ componentDidUpdate(prevProps,prevState){
+   if(this.props.obcallSkipData !== prevProps.obcallSkipData){
+     if(this.props.obcallSkipData?.body?.success){
+        this.setState({
+          snackopen: true,
+          snackmsg: "Call Skipped Successfully",
+          snackvariant: "success",
+        });
+     }
+     else{
+       this.setState({
+         snackopen: true,
+         snackmsg: "Call Skipped Failed",
+         snackvariant: "success",
+       });
+     }
+     this.props.getClientInfo(
+       this.props.match.params.studentId,
+       this.props.match.params.productId
+     );
+   }
+
+ }
   handlecomplete = () => {
     this.props.completecall(
       this.props.match.params.studentId,
@@ -41,11 +62,6 @@ class CallSummaryLayout extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
-    this.setState({
-      snackopen:true,
-      snackmsg: "Call Skipped Successfully",
-      snckVariant : "success",
-    })
   }
   renderLeftContent = (value) => {
     try {
@@ -65,6 +81,7 @@ class CallSummaryLayout extends Component {
   };
 
   render() {
+    console.log(this.props.obcallSkipData)
     const isSkipObCallStatus = this.props.getClientInfoList.isSkipObCall ;
     console.log(this.props.getClientInfoList.isSkipObCall);
     return (
@@ -185,7 +202,12 @@ const mapStateToProps = (state) => {
   return {
     completecallList: state.CallReducer.completecall,
     getClientInfoList: state.CallReducer.getClientInfo,
+    obcallSkipData: state.CallReducer.skipcall,
   };
 };
 
-export default connect(mapStateToProps, { completecall,skipcall })(CallSummaryLayout);
+export default connect(mapStateToProps, {
+  completecall,
+  skipcall,
+  getClientInfo,
+})(CallSummaryLayout);
