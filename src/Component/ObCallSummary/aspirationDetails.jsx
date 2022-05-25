@@ -270,19 +270,14 @@ class AspirationDetails extends Component {
       var searchData =
         this.props.getaspirationDataList.data.fieldOfStudy &&
         this.props.getaspirationDataList.data.fieldOfStudy.map(
-          (eachData, index) => eachData.name
+          (eachData, index) => eachData?.name
         );
 
       this.props.getAspirationSpecialization("", (response) => {
         if (response.status === 200) {
           var filteredList = response.data
             .map((eachElement, index) => {
-              if (
-                searchData.includes(
-                  eachElement.aspirationBranch &&
-                    eachElement.aspirationBranch.name
-                )
-              ) {
+              if (searchData.includes(eachElement?.aspirationBranch?.name)) {
                 return eachElement;
               }
             })
@@ -297,7 +292,7 @@ class AspirationDetails extends Component {
       var searchDataTwo =
         this.props.getaspirationDataList.data.preferredRegion &&
         this.props.getaspirationDataList.data.preferredRegion.map(
-          (eachData, index) => eachData.name
+          (eachData, index) => eachData?.name
         );
 
       this.props.getAspirationCollege(
@@ -307,11 +302,7 @@ class AspirationDetails extends Component {
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
-                if (
-                  searchDataTwo.includes(
-                    eachElement.country && eachElement.country.name
-                  )
-                ) {
+                if (searchDataTwo.includes(eachElement?.country?.name)) {
                   return eachElement;
                 }
               })
@@ -352,7 +343,7 @@ class AspirationDetails extends Component {
           this.props.variantStepList.variant_SKU === "PBP"
             ? "Aspiration-PB-Placements-Q1"
             : "Aspiration-PB-Placements-2023-Q1";
-        let profile = this.state.getAspdata.filter(
+        let profile = this.state.getAspdata?.filter(
           (item) => item.name === questionName
         );
         let value = profile[0].correctChoices[0].text;
@@ -375,12 +366,7 @@ class AspirationDetails extends Component {
         this.state.aspirationCollegeList &&
         this.state.aspirationCollegeList
           .map((eachElement, index) => {
-            if (
-              searchData &&
-              searchData.includes(
-                eachElement.country && eachElement.country.name
-              )
-            ) {
+            if (searchData && searchData.includes(eachElement?.country?.name)) {
               return eachElement;
             }
           })
@@ -406,7 +392,7 @@ class AspirationDetails extends Component {
           .map((eachElement, index) => {
             if (
               searchData &&
-              searchData.includes(eachElement.aspirationBranch.name)
+              searchData.includes(eachElement?.aspirationBranch?.name)
             ) {
               return eachElement;
             }
@@ -729,9 +715,7 @@ class AspirationDetails extends Component {
       .map((eachElement, index) => {
         if (
           searchData &&
-          searchData.includes(
-            eachElement.aspirationBranch && eachElement.aspirationBranch.name
-          )
+          searchData.includes(eachElement?.aspirationBranch?.name)
         ) {
           return eachElement;
         }
@@ -748,10 +732,7 @@ class AspirationDetails extends Component {
         .map((eachSpecialization, index) => {
           if (
             searchData &&
-            searchData.includes(
-              eachSpecialization.aspirationBranch &&
-                eachSpecialization.aspirationBranch.name
-            )
+            searchData.includes(eachSpecialization?.aspirationBranch?.name)
           ) {
             return eachSpecialization;
           }
@@ -767,10 +748,7 @@ class AspirationDetails extends Component {
     var searchData = newValue.map((eachData, index) => eachData.name);
     var filteredList = this.state.aspirationCollegeList
       .map((eachElement, index) => {
-        if (
-          searchData &&
-          searchData.includes(eachElement.country && eachElement.country.name)
-        ) {
+        if (searchData && searchData.includes(eachElement?.country?.name)) {
           return eachElement;
         }
       })
@@ -786,9 +764,7 @@ class AspirationDetails extends Component {
         .map((eachUniversity, index) => {
           if (
             searchData &&
-            searchData.includes(
-              eachUniversity.country && eachUniversity.country.name
-            )
+            searchData.includes(eachUniversity?.country?.name)
           ) {
             return eachUniversity;
           }
@@ -990,15 +966,15 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id='combo-box-demo'
-              options={this.state.filteredAspirationSpecializationList.sort(
+              id="combo-box-demo"
+              options={this.state.filteredAspirationSpecializationList?.sort(
                 (a, b) =>
                   -b.aspirationBranch.name.localeCompare(
                     a.aspirationBranch.name
                   )
               )}
               getOptionLabel={(option) => option.name}
-              groupBy={(option) => option.aspirationBranch.name}
+              groupBy={(option) => option.aspirationBranch?.name}
               getOptionDisabled={(option) => {
                 var specializationHolder =
                   this.state.aspirationAreaOfSpecializations &&

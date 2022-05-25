@@ -550,3 +550,26 @@ export const clearCustomData = (fieldName) => {
     });
   };
 };
+
+export const getReportProduct = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(`${URL}/api/v1/get/product/productFamily/${id}`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: ADMIN.getProductsInReports,
+          payload: result.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(ADMIN.getProductsInReports, error, false));
+      });
+  };
+}

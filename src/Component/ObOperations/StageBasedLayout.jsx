@@ -1,4 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -193,7 +194,7 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else {
+    } else if (this.state.othersstatus === "Verified") {
       return (
         <Grid container>
           <Grid item md={12}>
@@ -314,7 +315,7 @@ class StageBasedLayout extends Component {
             {"Onboarding Incomplete"}
           </Button>
         );
-      } else {
+      } else if (this.state.othersstatus === "Verified") {
         return (
           <PrimaryButton
             color={"primary"}
@@ -420,6 +421,7 @@ class StageBasedLayout extends Component {
       let mismatchArr = stage.steps.filter(
         (nvData) => nvData.verificationStatus === "Mismatched"
       );
+
       if (
         verifyArr.length > 0 &&
         nvArr.length === 0 &&
@@ -437,7 +439,7 @@ class StageBasedLayout extends Component {
       }
       if (
         nvArr.length === 0 &&
-        verifyArr.length > 0 &&
+        verifyArr.length >= 0 &&
         mismatchArr.length > 0
       ) {
         return this.setState({

@@ -1,3 +1,4 @@
+
 import {
   Box,
   createTheme,
@@ -58,6 +59,7 @@ class ProductPunching extends Component {
       snackVariant: "",
       snackOpen: false,
       productVariantList: [],
+      loadUpdate:false,
     };
   }
 
@@ -96,6 +98,7 @@ class ProductPunching extends Component {
           family: null,
           product: null,
           variant: null,
+          loadUpdate:false,
         });
         this.props.getPunchingData(match.params.id);
       } else {
@@ -103,6 +106,7 @@ class ProductPunching extends Component {
           snackMsg: postPunchingStatus.message,
           snackOpen: true,
           snackVariant: "error",
+          loadUpdate:false,
         });
       }
     }
@@ -155,6 +159,8 @@ class ProductPunching extends Component {
             paymentProvider: null,
             paymentIdErr: null,
             paymentProviderErr: null,
+            amount: null,
+            amountErr: null,
           },
         ],
       };
@@ -169,6 +175,9 @@ class ProductPunching extends Component {
       paymentProvider: null,
       paymentIdErr: null,
       paymentProviderErr: null,
+      amount : null,
+      amountErr: null,
+
     };
     let arr = [...punching.paymentDetails];
     arr.push(paymentModel);
@@ -194,13 +203,16 @@ class ProductPunching extends Component {
   getValidation = () => {
     const { punching } = this.state;
     let arr = punching.paymentDetails;
-    punching.paymentDetails.map(({ paymentId, paymentProvider }, index) => {
+    punching.paymentDetails.map(({ paymentId, paymentProvider,amount }, index) => {
       let paymentIdError = null;
       let paymentProviderError = null;
+      let amountError = null;
       if (!(paymentId && paymentId.trim().length !== 0))
         paymentIdError = helperText;
       if (!paymentProvider) paymentProviderError = helperText;
+      if (!amount) amountError = helperText;
       arr[index]["paymentIdErr"] = paymentIdError;
+      arr[index]["amountErr"] = amountError;
       arr[index]["paymentProviderErr"] = paymentProviderError;
     });
     let obj = {
@@ -208,20 +220,24 @@ class ProductPunching extends Component {
       paymentDetails: arr,
     };
     let validArray = arr.filter(
-      ({ paymentIdErr, paymentProviderErr }) =>
-        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr)
+      ({ paymentIdErr, paymentProviderErr,amountErr }) =>
+        !Boolean(paymentIdErr) && !Boolean(paymentProviderErr) && !Boolean(amountErr)
     );
     this.setState({ punching: obj });
     return arr.length === validArray.length;
   };
 
-  handleUpdate = () => {
+  handleUpdate = ( ) => {
     const { punching } = this.state;
     const { match } = this.props;
 
     if (punching && this.getValidation()) {
+      this.setState({
+        loadUpdate:true
+      
+      });
       let paymentModel = punching.paymentDetails.map(
-        ({ paymentId, paymentProvider }) => ({ paymentId, paymentProvider })
+        ({ paymentId,amount, paymentProvider }) => ({ paymentId,amount, paymentProvider })
       );
       let requestBody = {
         studentId: match.params.id,
@@ -269,7 +285,7 @@ class ProductPunching extends Component {
     ) {
       return punching.paymentDetails.map(
         (
-          { paymentId, paymentProvider, paymentIdErr, paymentProviderErr },
+          { paymentId, paymentProvider,amount,amountErr, paymentIdErr, paymentProviderErr },
           index
         ) => {
           let isDeleteOption = punching.paymentDetails.length - 1 !== 0;
@@ -278,7 +294,7 @@ class ProductPunching extends Component {
             <Fragment key={`paymentDetails${index}`}>
               <Grid item xs={12} lg={12} key={index}>
                 <Grid container spacing={2} alignItems={"center"}>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={3}>
                     <Autocomplete
                       id={`provider-combo-box-${index}`}
                       key={`provider-combo-box-${index}`}
@@ -306,7 +322,7 @@ class ProductPunching extends Component {
                       )}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4}>
+                  <Grid item xs={12} sm={3}>
                     <TextField
                       id={index}
                       key={`paymentId${index}`}
@@ -316,6 +332,20 @@ class ProductPunching extends Component {
                       onChange={this.handleChange}
                       error={Boolean(paymentIdErr)}
                       helperText={paymentIdErr || " "}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={3}>
+                    <TextField
+                      id={index}
+                      key={`amount${index}`}
+                      label={"Amount"}
+                      name={"amount"}
+                      type={"number"}
+                      value={amount || ""}
+                      onChange={this.handleChange}
+                      error={Boolean(amountErr)}
+                      helperText={amountErr || " "}
                       fullWidth
                     />
                   </Grid>
@@ -374,9 +404,9 @@ class ProductPunching extends Component {
                 {paymentDetailsModelList &&
                   paymentDetailsModelList.length !== 0 &&
                   paymentDetailsModelList.map(
-                    ({ id, paymentProvider, paymentId }, index) => (
+                    ({ id, paymentProvider, paymentId,amount }, index) => (
                       <Fragment key={`paymentDetailsModelList${index}`}>
-                        <Grid item md={6}>
+                        <Grid item md={4}>
                           <TextField
                             id={id}
                             key={id}
@@ -387,7 +417,19 @@ class ProductPunching extends Component {
                             fullWidth
                           />
                         </Grid>
-                        <Grid item md={6}>
+                        <Grid item md={4}>
+                          <TextField
+                            id={id}
+                            key={id}
+                            label='Amount'
+                            name={"Amount"}
+                            value={amount}
+                            disabled
+                            fullWidth
+                          />
+                        </Grid>
+                        
+                        <Grid item md={4}>
                           <TextField
                             id={id}
                             key={id}
@@ -420,6 +462,7 @@ class ProductPunching extends Component {
       variant,
       variantErr,
       punching,
+      loadUpdate,
       productVariantList,
       product,
       productErr,
@@ -436,7 +479,9 @@ class ProductPunching extends Component {
             <Grid item md={3}>
               <Autocomplete
                 id={"combo-box-product-family"}
-                options={getAllProductFamilyList || []}
+                options={(getAllProductFamilyList || []).filter(
+                  ({ isDisplayName }) => isDisplayName
+                )}
                 getOptionLabel={(option) =>
                   option.productDisplayName || option.productName
                 }
@@ -599,6 +644,7 @@ class ProductPunching extends Component {
                   color={"primary"}
                   variant={"contained"}
                   onClick={() => this.handleUpdate()}
+                  disabled={Boolean(loadUpdate)}
                 >
                   {"Update Details"}
                 </PrimaryButton>
@@ -634,3 +680,4 @@ export default connect(mapStateToProps, {
   postPunchingData,
   getReferProductVariantByProductId,
 })(ProductPunching);
+

@@ -18,6 +18,7 @@ import { getAllSpecialization } from "../../Actions/Aspiration";
 import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import MySnackBar from "../MySnackBar";
+import moment from "moment";
 function GeneralDetails(props) {
   const classes = useStyles();
   const [id, setId] = useState(null);
@@ -72,7 +73,10 @@ function GeneralDetails(props) {
           setId(id);
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({ ...prev, value: strDate }));
+          handleDateChange((prev) => ({
+            ...prev,
+            value: date ? moment(new Date(date)).format("YYYY-MM-DD") : null,
+          }));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -120,7 +124,7 @@ function GeneralDetails(props) {
       contextDescription: contextDesc.value,
       currentSemester: parseInt(currentSem.value),
       timeLineDescription: timelineDesc.value,
-      strDate: selectedDate.value,
+      strDate: selectedDate.value ? selectedDate.value : null,
       preferredProgram: preferredProgram.value,
       areaOfSpecialization: areaOfSpec.value,
       inTake: intake && intake.value,
@@ -152,7 +156,7 @@ function GeneralDetails(props) {
   return (
     <PageWrapper>
       <Grid container className={classes.containerStyle}>
-        <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
+        <Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
           <Grid container spacing={2}>
             <Grid item md={12} xs={12} sm={12} lg={12} xl={12}>
               <Typography variant={"h5"}>General Details</Typography>
@@ -225,7 +229,7 @@ function GeneralDetails(props) {
                 onChange={(e) =>
                   handleDateChange({ value: e.target.value, helperText: "" })
                 }
-                type="month"
+                type="date"
                 InputLabelProps={{ shrink: true }}
               />
               {/* <DatePick

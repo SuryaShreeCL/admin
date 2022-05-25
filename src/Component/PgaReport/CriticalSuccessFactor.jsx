@@ -47,7 +47,7 @@ function CriticalSuccessFactor(props) {
   };
 
   useEffect(() => {
-    getPgaCfcList().then((response) => {
+    getPgaCfcList(props?.match?.params?.productId).then((response) => {
       if (response.status === 200) {
         setCv(response.data.data);
       }

@@ -421,7 +421,7 @@ class workExperience extends Component {
                                 id='standard-basic'
                                 disabled={this.state.disable}
                                 label='Organisation'
-                                value={item.organization || ""}
+                                value={item.organization || ''}
                                 // error={this.state.organizationErr.length > 0}
                                 // helperText={this.state.organizationErr}
                                 contentEditable={this.state.disable}
@@ -567,7 +567,7 @@ class workExperience extends Component {
                                   )
                                 }
                                 // error={this.state.roleErr.length > 0}
-                                // helperText={this.state.roleErr}
+                                helperText={this.state.roleErr}
                                 error={
                                   this.state[`roleErr${index}`] !== undefined &&
                                   this.state[`roleErr${index}`] !== ""
@@ -575,7 +575,7 @@ class workExperience extends Component {
                                     : false
                                 }
                                 // onChange={(e) =>this.onChange(e,index)}
-                                helperText={this.state[`roleErr${index}`]}
+                                // helperText={this.state[`roleErr${index}`]}
                                 // value={item.role || ""}
                                 InputLabelProps={{
                                   shrink: true,
@@ -628,10 +628,10 @@ class workExperience extends Component {
                   );
                 })}
             </div>
-            <Grid item md={12}>
+            {/* <Grid item md={12}>
               <p style={HeadStyle}>Documents Received</p>
-            </Grid>
-            <Grid item md={12}>
+            </Grid> */}
+            {/* <Grid item md={12}>
               {this.props.getAllDocumentList.CV &&
                 this.props.getAllDocumentList.CV.length !== 0 && (
                   <Grid item md={12}>
@@ -663,7 +663,7 @@ class workExperience extends Component {
                     </Grid>
                   </Grid>
                 )}
-            </Grid>
+            </Grid> */}
 
             <div
               style={{

@@ -24,6 +24,7 @@ const initialState = {
   manageStudentsByStagesList: null,
   adminUserDepartments: null,
   loading: false,
+  getProductsInReports : [], 
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -154,7 +155,11 @@ export default (state = initialState, action) => {
         ...state,
         [action.fieldName]: null,
       };
-
+    case ADMIN.getProductsInReports:
+      return {
+        ...state,
+        getProductsInReports: action.payload,
+      };
     default:
       break;
   }

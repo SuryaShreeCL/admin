@@ -1177,14 +1177,11 @@ export const getVariantStepsById = (variantId, callback) => {
           admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
-        params: {
-          platform: "old",
-        },
       })
       .then((result) => {
         dispatch({
           type: PRODUCT.getVariantStepsById,
-          payload: result.data.data,
+          payload: result.data,
         });
         callback(result.data);
       })
