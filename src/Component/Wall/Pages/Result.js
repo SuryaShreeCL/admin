@@ -599,7 +599,8 @@ export default function Result() {
                 />
               </Controls.ActionButton>
               <Controls.Button
-                disabled={!selectedRound}
+                disabled={true}
+                // disabled={!selectedRound}
                 text='Submit'
                 color='primary'
                 className={classes.newButton1}
