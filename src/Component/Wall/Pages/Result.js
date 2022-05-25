@@ -610,7 +610,7 @@ export default function Result() {
           </Grid>
         </Grid>
       </Grid>
-      <pre>{JSON.stringify({ selectedUsers }, null, 4)}</pre>
+      {/* <pre>{JSON.stringify({ selectedUsers }, null, 4)}</pre> */}
       <Notification notify={notify} setNotify={setNotify} />
     </div>
   );
