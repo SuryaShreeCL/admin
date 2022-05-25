@@ -239,8 +239,11 @@ class ClientDetails extends Component {
         fieldOfExperience,
         months,
         firstName,
+        isSkipObCall,
+
         lastName,
       } = this.props.getClientInfoList;
+      console.log(isSkipObCall);
       this.setState({
         // name: clientName,
         name: firstName + lastName,
