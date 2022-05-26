@@ -236,16 +236,16 @@ function Index(props) {
           setState({ ...state, schoolSteps: [] });
         }
       } else {
-        setState({
-          ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: schoolList.message,
-          schoolSteps: [],
-          schoolId: null,
-          schoolType: null,
-          schoolName: null,
-        });
+        // setState({
+        //   ...state,
+        //   snackOpen: true,
+        //   snackVariant: "error",
+        //   snackMsg: schoolList.message,
+        //   schoolSteps: [],
+        //   schoolId: null,
+        //   schoolType: null,
+        //   schoolName: null,
+        // });
       }
       dispatch(clearCustomData("schoolList"));
     }
