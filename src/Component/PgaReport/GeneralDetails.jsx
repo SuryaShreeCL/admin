@@ -19,11 +19,13 @@ import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import MySnackBar from "../MySnackBar";
 import moment from "moment";
+import { data } from "jquery";
 function GeneralDetails(props) {
   const classes = useStyles();
   const [id, setId] = useState(null);
   const [selectedDate, handleDateChange] = useState({
     value: null,
+    
     helperText: "",
   });
   const [preferredProgramList, setPreferredProgramList] = useState([]);
@@ -71,9 +73,10 @@ function GeneralDetails(props) {
             strDate,
           } = response.data.data;
           setId(id);
+          console.log(date)
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({ ...prev, value: moment(new Date(date)).format("YYYY-MM-DD") }));
+          handleDateChange((prev) => ({ ...prev,value:date? moment(new Date(date)).format("YYYY-MM-DD") : null}));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -93,6 +96,7 @@ function GeneralDetails(props) {
       })
     );
     getSchoolProgram(props.match.params.productId).then((response) => {
+      
       if (response.status === 200) {
         setPreferredProgramList(response.data.data);
       }
@@ -105,11 +109,13 @@ function GeneralDetails(props) {
     getPgaRound().then((response) => {
       if (response.status === 200) {
         setRoundList(response.data.data);
+        
       }
     });
     getAndSetStudentGeneralDetails();
+    
   }, []);
-
+   
   const handleSave = () => {
     const findObj = props.adminLinkedProductDetails.products.find(
       (el) => el.id === props.match.params.productId
@@ -218,9 +224,10 @@ function GeneralDetails(props) {
               />
             </Grid>
             <Grid item md={2} lg={2} xl={2} container alignItems={"flex-end"}>
+              {console.log(selectedDate)}
               <TextField
                 label={"Date"}
-                value={selectedDate.value}
+                value={ selectedDate.value || ""}
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
                 onChange={(e) =>

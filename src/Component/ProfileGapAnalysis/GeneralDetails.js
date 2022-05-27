@@ -711,7 +711,7 @@ class GeneralDetails extends Component {
                     name="workexp"
                     label="Work Experience"
                     className={"work_style"}
-                    value={this.state.workexp}
+                    value={this.state.workExperience}
                     onChange={(e) => {
                       this.commentshistory("workExperience", e.target.value);
                       this.handlechange(e);
