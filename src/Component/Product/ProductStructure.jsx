@@ -171,7 +171,7 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: this.state.varient,
+        product: {"id" : this.state.varient.id},
       };
       this.props.putproductstructure(obj);
       this.setState({
@@ -266,7 +266,7 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: this.state.varient,
+        product: {"id" : this.state.varient.id},
       };
       this.props.postproductstructure(obj);
       console.log(obj);
