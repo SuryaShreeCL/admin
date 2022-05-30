@@ -124,6 +124,8 @@ import {
   clsaTestEdit,
   userManagementPath,
   result,
+  placementDrives,
+  drivePath,
 } from './RoutePaths';
 import Student from './Student';
 import Student_data from './StudentData';
@@ -143,6 +145,8 @@ import ClsaTestPath from '../Component/Clsa/CreateTest';
 import UserManagement from './UserManagement';
 
 import Result from './Wall/Pages/ResultTab';
+import PlacementDrives from './Wall/PlacementDrives';
+import DriveResult from './Wall/Pages/DriveResult';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -168,6 +172,7 @@ export default function Routes(props) {
       <Route exact path={studentIdPath + '/:id'} render={(props) => <Student_data {...props} />} />
       <Route exact path={loginPath} render={(props) => <MLogin {...props} />} />
       <Route exact path={wallPath} render={(props) => <WallLanding {...props} />} />
+      <Route exact path={placementDrives} render={(props) => <PlacementDrives {...props} />} />
       <Route exact path={createPath} render={(props) => <CreatePost {...props} />} />
       <Route exact path={editPath} render={(props) => <EditPost {...props} />} />
       <Route exact path={premiumUsersPath} render={(props) => <PremiumUsersLanding {...props} />} />
@@ -316,6 +321,7 @@ export default function Routes(props) {
       <Route exact path={clsaTestCreate} render={(props) => <ClsaTestPath {...props} />} />
       <Route exact path={clsaTestEdit + ':id'} render={(props) => <ClsaTestPath {...props} />} />
       <Route exact path={result + ':id'} render={(props) => <Result {...props} />} />
+      <Route exact path={drivePath + ':id'} render={(props) => <DriveResult {...props} />} />
     </Switch>
   );
 }

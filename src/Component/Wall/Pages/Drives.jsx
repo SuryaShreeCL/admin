@@ -18,7 +18,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DescriptionIcon from '@material-ui/icons/Description';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, result } from '../../RoutePaths';
+import { editPath, createPath, result, drivePath } from '../../RoutePaths';
 import moment from 'moment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -66,7 +66,7 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function Events() {
+export default function Drives() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -127,7 +127,7 @@ export default function Events() {
 
   const openResultPage = (item) => {
     history.push({
-      pathname: result + item.id,
+      pathname: drivePath + item.id,
       id: item.id,
     });
     setOpenDrawer(false);
@@ -159,7 +159,7 @@ export default function Events() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Events'
+            placeholder='Search Drives'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -177,7 +177,7 @@ export default function Events() {
             className={classes.filterBtn}
           /> */}
           <Controls.Button
-            text='Create New Event'
+            text='Create New Drive'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}

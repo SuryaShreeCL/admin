@@ -25,6 +25,7 @@ import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOut
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import NewspaperIcon from '@material-ui/icons/Wallpaper';
+import NextWeekOutlined from '@material-ui/icons/NextWeekOutlined';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -61,6 +62,7 @@ import {
   wallPath,
   webinarPath,
   userManagementPath,
+  placementDrives,
 } from './RoutePaths';
 import Routes from './Routes';
 
@@ -522,6 +524,12 @@ function RootContainer(props) {
           icon: <NewspaperIcon />,
           title: 'Wall',
           path: wallPath,
+          items: [],
+        },
+        {
+          icon: <NextWeekOutlined />,
+          title: 'Placement Drives',
+          path: placementDrives,
           items: [],
         },
         {
