@@ -180,9 +180,11 @@ function DriveResult() {
             <div
               style={{
                 display: 'flex',
+                marginTop: '1rem',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                border: '1px solid',
+                borderBottom: '2px solid #0094b1',
+                borderTop: '2px solid #007d93',
                 borderRadius: '4px',
               }}
             >
