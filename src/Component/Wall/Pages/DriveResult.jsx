@@ -50,7 +50,7 @@ function DriveResult() {
     {
       title: 'Status',
       field: 'stepStatus',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => (
         <div
           style={{
@@ -74,42 +74,54 @@ function DriveResult() {
       title: '10%',
       field: 'sscScore',
       type: 'numeric',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{rowData.sscScore}</div>,
     },
     {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{rowData.hscScore}</div>,
     },
     {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{rowData.ugScore}</div>,
     },
     {
       title: 'Graduation',
       field: 'ugEndDate',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{new Date(rowData.ugEndDate).getFullYear()}</div>,
     },
     {
       title: 'Active Backlogs',
       field: 'activeBacklogs',
       type: 'numeric',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{rowData.activeBacklogs}</div>,
     },
     {
       title: 'Fresher/Experience',
       field: 'experienceStatus',
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <div>{rowData.experienceStatus}</div>,
       lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
+    },
+    {
+      title: 'Custom Questions',
+      field: 'answers',
+      emptyValue: () => <em>Not Filled</em>,
+      render: (rowData) => (
+        <div style={{ width: '300px', display: 'flex' }}>
+          {rowData.answers.map((answer) => (
+            <p> {`${answer}`}&nbsp;|&nbsp; </p>
+          ))}
+        </div>
+      ),
     },
   ];
 
