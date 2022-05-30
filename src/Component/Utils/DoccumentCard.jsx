@@ -33,6 +33,7 @@ class DoccumentCard extends Component {
     this.props.gettoeflscore(this.props.studentid);
   }
   handleSave = event => {
+    console.log(this.props)
     if (this.props.category === 'Toefl') {
       this.props.deleteDocumentGraduate(
         this.props.studentid,
@@ -66,10 +67,11 @@ class DoccumentCard extends Component {
       );
     }
     if (!this.props.category) {
+      console.log(this.props)
       this.props.deleteDocument(
         this.props.studentid,
         this.props.path,
-        response => {
+        (response) => {
           if (response.status === 200) {
             this.setState({
               snackmsg: 'Document Deleted',
