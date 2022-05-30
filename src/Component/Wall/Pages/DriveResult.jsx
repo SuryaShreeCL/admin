@@ -4,21 +4,24 @@ import { useDispatch } from 'react-redux';
 import '../Assets/Styles/toolbar.css';
 import { useParams } from 'react-router-dom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
-import AddIcon from '@material-ui/icons/Add';
+import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import Loader from '../../Utils/controls/Loader';
 import { FormControl, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
+import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [rounds, setRounds] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [selectedRound, setSelectedRound] = useState([]);
+  const [rejectReason, setRejectReason] = useState(null);
   const [eventInfo, setEventInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [rounds, setRounds] = useState([]);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: '',
@@ -55,6 +58,47 @@ function DriveResult() {
       ),
       lookup: { Qualified: 'Qualified', 'Not Qualified': 'Not Qualified', NA: 'NA' },
     },
+    {
+      title: '10%',
+      field: 'sscScore',
+      type: 'numeric',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{rowData.sscScore}</div>,
+    },
+    {
+      title: '12%',
+      field: 'hscScore',
+      type: 'numeric',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{rowData.hscScore}</div>,
+    },
+    {
+      title: 'UG%',
+      field: 'ugScore',
+      type: 'numeric',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{rowData.ugScore}</div>,
+    },
+    {
+      title: 'Graduation',
+      field: 'ugEndDate',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{new Date(rowData.ugEndDate).getFullYear()}</div>,
+    },
+    {
+      title: 'Active Backlogs',
+      field: 'activeBacklogs',
+      type: 'numeric',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{rowData.activeBacklogs}</div>,
+    },
+    {
+      title: 'Fresher/Experience',
+      field: 'experienceStatus',
+      emptyValue: () => <em>null</em>,
+      render: (rowData) => <div>{rowData.experienceStatus}</div>,
+      lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
+    },
   ];
 
   const fetchDriveDetails = () => {
@@ -69,30 +113,13 @@ function DriveResult() {
     );
   };
 
-  const _roundUpdate = (data, reason = '') => {
-    // if (reason === '' || reason.length < 5) {
-    //   setNotify({
-    //     isOpen: true,
-    //     message: 'Please fill the reason',
-    //     type: 'error',
-    //   });
-    //   return;
-    // }
-
+  const _roundUpdate = (data) => {
     setIsLoading(true);
-
-    // let filterRounds = selectedUsers.filter((student) => student.stepName === data.stepName);
-
-    // let finalStudentsList = filterRounds.map((user) => {
-    //   delete user.userId;
-    //   delete user.stepName;
-    //   return user;
-    // });
 
     let payload = {
       eventId: eventInfo?.eventId,
       eventName: eventInfo?.eventName,
-      stepDetailsModelList: data,
+      stepDetailsModelList: [{ ...selectedRound, reason: rejectReason, studentList: data }],
     };
 
     dispatch(
@@ -122,24 +149,33 @@ function DriveResult() {
 
   return (
     <div>
+      <Controls.Input
+        label='Rejection Reason'
+        value={rejectReason}
+        name='rejectReason'
+        onChange={(ev) => setRejectReason(ev.target.value)}
+        style={{ width: '100%' }}
+        multiline
+        rows={3}
+      />
       <MaterialTable
         columns={columns}
         data={tableData.studentList}
         components={{
           Toolbar: (props) => (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <MTableToolbar {...props} />
               {isLoading ? (
                 <Loader />
               ) : (
                 <FormControl>
                   <Autocomplete
-                    style={{ width: '300px', paddingRight: '1rem' }}
+                    style={{ width: '300px', paddingLeft: '1rem' }}
                     name='rounds'
                     getOptionLabel={(option) => option?.stepName}
                     options={rounds ?? []}
                     onChange={(e, value) => {
                       if (value) {
+                        setSelectedRound(value);
                         let filterData = rounds?.filter(
                           (student) => student?.stepName === value?.stepName
                         );
@@ -157,12 +193,13 @@ function DriveResult() {
                   />
                 </FormControl>
               )}
+              <MTableToolbar {...props} />
             </div>
           ),
         }}
         actions={[
           {
-            icon: () => <ThumbUp color='primary' />,
+            icon: () => <ThumbUp style={{ color: 'green' }} />,
             tooltip: 'Accept',
             onClick: (e, data) => {
               let filterStatus = data.map((student) => {
@@ -170,24 +207,35 @@ function DriveResult() {
                 return student;
               });
               setTableData(tableData, filterStatus);
-              _roundUpdate(filterStatus);
+              _roundUpdate(filterStatus, '');
             },
           },
           {
             icon: () => <ThumbDown color='error' />,
             tooltip: 'Reject',
             onClick: (e, data) => {
+              if (rejectReason === null) {
+                setNotify({
+                  isOpen: true,
+                  message: 'Please fill the reason',
+                  type: 'error',
+                });
+                return;
+              }
               let filterStatus = data.map((student) => {
                 student.stepStatus = 'Not Qualified';
                 return student;
               });
               setTableData(tableData, filterStatus);
-              console.log(filterStatus);
               _roundUpdate(filterStatus);
             },
           },
+          {
+            icon: () => <CloudDownloadIcon color='error' />,
+            tooltip: 'CV Download',
+            onClick: (e, data) => console.log('pdf'),
+          },
         ]}
-        // onSelectionChange={(selectedRows) => console.log(selectedRows)}
         options={{
           sorting: true,
           search: true,
@@ -206,9 +254,9 @@ function DriveResult() {
           grouping: false,
           columnsButton: true,
           rowStyle: (data, index) => (index % 2 === 0 ? { background: '#f5f5f5' } : null),
-          headerStyle: { background: '#7b7b7b', color: '#ffff' },
+          headerStyle: { background: '#e0edfc', color: '#000' },
         }}
-        title={eventInfo.eventName}
+        title={selectedRound?.stepName}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>
