@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
 import ThumbDown from '@material-ui/icons/ThumbDown';
-import FilterIcon from '@material-ui/icons/FilterList';
+import FilterIcon from '@material-ui/icons/Tune';
 import SortIcon from '@material-ui/icons/CompareArrows';
 import SearchIcon from '@material-ui/icons/SearchSharp';
 import ExportIcon from '@material-ui/icons/GetApp';
@@ -163,8 +163,9 @@ function DriveResult() {
 
   return (
     <div>
+      <h3 style={{ textAlign: 'center' }}>{eventInfo?.eventName} </h3>
       <Controls.Input
-        label='Rejection Reason'
+        label='Enter Rejection Reason'
         value={rejectReason}
         name='rejectReason'
         onChange={(ev) => setRejectReason(ev.target.value)}
@@ -294,12 +295,12 @@ function DriveResult() {
         }}
         title={selectedRound?.stepName}
         icons={{
-          Filter: () => <FilterIcon />,
+          Filter: () => <FilterIcon style={{ color: '#807f7f' }} />,
           SortArrow: () => (
             <SortIcon fontSize='small' style={{ color: '#c6c6c6', transform: 'rotate(-90deg)' }} />
           ),
           Clear: () => <ClearIcon />,
-          Export: () => <ExportIcon />,
+          Export: () => <ExportIcon style={{ color: 'green' }} />,
           ResetSearch: () => <ClearIcon />,
           Search: () => <SearchIcon />,
           ViewColumn: () => <ViewColumnIcon />,
