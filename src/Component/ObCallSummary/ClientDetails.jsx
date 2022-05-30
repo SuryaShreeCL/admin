@@ -686,6 +686,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.ugdegreeErr.length > 0}
                       helperText={this.state.ugdegreeErr}
+                      required 
                     />
                   )}
                 />
@@ -748,6 +749,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.collegeErr.length > 0}
                       helperText={this.state.collegeErr}
+                      required
                     />
                   )}
                 />
@@ -810,6 +812,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.departmentErr.length > 0}
                       helperText={this.state.departmentErr}
+                      required
                     />
                   )}
                 />
@@ -822,6 +825,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ sem: e.target.value })}
                   error={this.state.semErr.length > 0}
                   helperText={this.state.semErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -834,6 +838,7 @@ class ClientDetails extends Component {
                   }
                   error={this.state.activebacklogsErr.length > 0}
                   helperText={this.state.activebacklogsErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -844,6 +849,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ cgpa: e.target.value })}
                   error={this.state.cgpaErr.length > 0}
                   helperText={this.state.cgpaErr}
+                  required
                 />
               </Grid>
               <Grid item md={6}></Grid>
@@ -1321,6 +1327,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.ugdegreeErr.length > 0}
                       helperText={this.state.ugdegreeErr}
+                      required
                     />
                   )}
                 />
@@ -1383,6 +1390,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.collegeErr.length > 0}
                       helperText={this.state.collegeErr}
+                      required
                     />
                   )}
                 />
@@ -1445,6 +1453,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.departmentErr.length > 0}
                       helperText={this.state.departmentErr}
+                      required
                     />
                   )}
                 />
@@ -1457,6 +1466,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ sem: e.target.value })}
                   error={this.state.semErr.length > 0}
                   helperText={this.state.semErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -1467,6 +1477,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ cgpa: e.target.value })}
                   error={this.state.cgpaErr.length > 0}
                   helperText={this.state.cgpaErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -1479,6 +1490,7 @@ class ClientDetails extends Component {
                   }
                   error={this.state.activebacklogsErr.length > 0}
                   helperText={this.state.activebacklogsErr}
+                  required
                 />
               </Grid>
               <Grid item md={12}>
