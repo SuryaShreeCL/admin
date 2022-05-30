@@ -6,7 +6,7 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import FilterIcon from '@material-ui/icons/FilterList';
-import SortIcon from '@material-ui/icons/ArrowUpward';
+import SortIcon from '@material-ui/icons/CompareArrows';
 import SearchIcon from '@material-ui/icons/SearchSharp';
 import ExportIcon from '@material-ui/icons/GetApp';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
@@ -295,7 +295,9 @@ function DriveResult() {
         title={selectedRound?.stepName}
         icons={{
           Filter: () => <FilterIcon />,
-          // SortArrow: () => <SortIcon />,
+          SortArrow: () => (
+            <SortIcon fontSize='small' style={{ color: '#c6c6c6', transform: 'rotate(-90deg)' }} />
+          ),
           Clear: () => <ClearIcon />,
           Export: () => <ExportIcon />,
           ResetSearch: () => <ClearIcon />,
