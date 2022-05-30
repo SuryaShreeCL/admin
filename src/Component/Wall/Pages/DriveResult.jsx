@@ -201,7 +201,7 @@ function DriveResult() {
                         {...params}
                         label='Select Round'
                         name='rounds'
-                        variant='standard'
+                        variant='outlined'
                       />
                     )}
                   />
@@ -247,29 +247,18 @@ function DriveResult() {
             },
           },
           {
-            icon: () => <CloudDownloadIcon color='error' />,
+            icon: () => <CloudDownloadIcon />,
             tooltip: 'CV Download',
             onClick: (e, data) => {
               let filteredIds = data.map((student) => ({
                 studentId: student.studentId,
               }));
-
-              axios
-                .get(
-                  `${
-                    process.env.REACT_APP_API_URL
-                  }/api/v1/event/${id}/filter/cv?studentIdList=${JSON.stringify(...filteredIds)}`,
-                  {
-                    crossDomain: true,
-                    headers: {
-                      admin: 'yes',
-                      Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
-                    },
-                  }
-                )
-                .then((response) => {
-                  console.log(response);
-                });
+              window.open(
+                `${
+                  process.env.REACT_APP_API_URL
+                }/api/v1/event/${id}/filter/cv?studentIdList=${JSON.stringify(...filteredIds)}`,
+                '_blank'
+              );
             },
           },
         ]}
@@ -277,7 +266,7 @@ function DriveResult() {
           sorting: true,
           search: true,
           searchFieldAlignment: 'right',
-          searchFieldVariant: 'standard',
+          searchFieldVariant: 'outlined',
           filtering: true,
           paging: false,
           exportButton: true,
