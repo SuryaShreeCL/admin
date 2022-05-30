@@ -6,12 +6,19 @@ import { useParams } from 'react-router-dom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
 import ThumbDown from '@material-ui/icons/ThumbDown';
+import FilterIcon from '@material-ui/icons/FilterList';
+import SortIcon from '@material-ui/icons/ArrowUpward';
+import SearchIcon from '@material-ui/icons/SearchSharp';
+import ExportIcon from '@material-ui/icons/GetApp';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+import ClearIcon from '@material-ui/icons/Clear';
 import Loader from '../../Utils/controls/Loader';
 import { FormControl, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import Controls from '../../Utils/controls/Controls';
+import axios from 'axios';
 
 function DriveResult() {
   const { id } = useParams();
@@ -33,8 +40,15 @@ function DriveResult() {
       title: 'Name',
       field: 'studentName',
       editable: false,
+      filtering: false,
     },
-    { title: 'Email', field: 'studentEmailId', filterPlaceholder: 'filter', editable: false },
+    {
+      title: 'Email',
+      field: 'studentEmailId',
+      filtering: false,
+      filterPlaceholder: 'filter',
+      editable: false,
+    },
     {
       title: 'Status',
       field: 'stepStatus',
@@ -193,7 +207,9 @@ function DriveResult() {
                   />
                 </FormControl>
               )}
-              <MTableToolbar {...props} />
+              <div style={{ flexGrow: 1, padding: '1rem' }}>
+                <MTableToolbar {...props} />
+              </div>
             </div>
           ),
         }}
@@ -207,7 +223,7 @@ function DriveResult() {
                 return student;
               });
               setTableData(tableData, filterStatus);
-              _roundUpdate(filterStatus, '');
+              _roundUpdate(filterStatus);
             },
           },
           {
@@ -233,7 +249,28 @@ function DriveResult() {
           {
             icon: () => <CloudDownloadIcon color='error' />,
             tooltip: 'CV Download',
-            onClick: (e, data) => console.log('pdf'),
+            onClick: (e, data) => {
+              let filteredIds = data.map((student) => ({
+                studentId: student.studentId,
+              }));
+
+              axios
+                .get(
+                  `${
+                    process.env.REACT_APP_API_URL
+                  }/api/v1/event/${id}/filter/cv?studentIdList=${JSON.stringify(...filteredIds)}`,
+                  {
+                    crossDomain: true,
+                    headers: {
+                      admin: 'yes',
+                      Authorization: `Bearer ${window.sessionStorage.getItem('accessToken')}`,
+                    },
+                  }
+                )
+                .then((response) => {
+                  console.log(response);
+                });
+            },
           },
         ]}
         options={{
@@ -257,6 +294,15 @@ function DriveResult() {
           headerStyle: { background: '#e0edfc', color: '#000' },
         }}
         title={selectedRound?.stepName}
+        icons={{
+          Filter: () => <FilterIcon />,
+          // SortArrow: () => <SortIcon />,
+          Clear: () => <ClearIcon />,
+          Export: () => <ExportIcon />,
+          ResetSearch: () => <ClearIcon />,
+          Search: () => <SearchIcon />,
+          ViewColumn: () => <ViewColumnIcon />,
+        }}
       />
       <Notification notify={notify} setNotify={setNotify} />
     </div>

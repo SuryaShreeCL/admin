@@ -237,9 +237,6 @@ export default function Events() {
                     >
                       <DeleteIcon fontSize='small' color='secondary' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => openResultPage(item)}>
-                      <DescriptionIcon fontSize='small' color='primary' />
-                    </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
               ))}
