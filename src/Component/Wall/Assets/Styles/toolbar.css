@@ -1,8 +1,0 @@
-#main-container
-  > div
-  > div
-  > div:nth-child(1)
-  > div.MuiToolbar-root.MuiToolbar-regular.MTableToolbar-root-105.MuiToolbar-gutters {
-  flex-grow: 1;
-  padding: 1rem;
-}

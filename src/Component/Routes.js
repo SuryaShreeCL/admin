@@ -144,7 +144,6 @@ import Webinar from './Webinar/Webinar';
 import ClsaTestPath from '../Component/Clsa/CreateTest';
 import UserManagement from './UserManagement';
 
-import Result from './Wall/Pages/ResultTab';
 import PlacementDrives from './Wall/PlacementDrives';
 import DriveResult from './Wall/Pages/DriveResult';
 // import PersonaInfo from './Utils/DoccumentCard'
@@ -320,7 +319,7 @@ export default function Routes(props) {
       <Route exact path={clsaPath} render={(props) => <ClsaLanding {...props} />} />
       <Route exact path={clsaTestCreate} render={(props) => <ClsaTestPath {...props} />} />
       <Route exact path={clsaTestEdit + ':id'} render={(props) => <ClsaTestPath {...props} />} />
-      <Route exact path={result + ':id'} render={(props) => <Result {...props} />} />
+
       <Route exact path={drivePath + ':id'} render={(props) => <DriveResult {...props} />} />
     </Switch>
   );

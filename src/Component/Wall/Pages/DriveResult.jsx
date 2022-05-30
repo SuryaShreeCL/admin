@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import { useDispatch } from 'react-redux';
-import '../Assets/Styles/toolbar.css';
 import { useParams } from 'react-router-dom';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
@@ -18,7 +17,6 @@ import { Autocomplete } from '@material-ui/lab';
 import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import Controls from '../../Utils/controls/Controls';
-import axios from 'axios';
 
 function DriveResult() {
   const { id } = useParams();
@@ -127,6 +125,7 @@ function DriveResult() {
     );
   };
 
+  //Updates the specific round detials
   const _roundUpdate = (data) => {
     setIsLoading(true);
 
@@ -136,6 +135,7 @@ function DriveResult() {
       stepDetailsModelList: [{ ...selectedRound, reason: rejectReason, studentList: data }],
     };
 
+    //once the update is success, it re-renders the ui with latest information
     dispatch(
       updateStudentEventStatus(id, payload, (res) => {
         if (res.success) {
@@ -177,7 +177,15 @@ function DriveResult() {
         data={tableData.studentList}
         components={{
           Toolbar: (props) => (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                border: '1px solid',
+                borderRadius: '4px',
+              }}
+            >
               {isLoading ? (
                 <Loader />
               ) : (
@@ -280,7 +288,7 @@ function DriveResult() {
           grouping: false,
           columnsButton: true,
           rowStyle: (data, index) => (index % 2 === 0 ? { background: '#f5f5f5' } : null),
-          headerStyle: { background: '#e0edfc', color: '#000' },
+          headerStyle: { background: 'aliceblue', color: '#000' },
         }}
         title={selectedRound?.stepName}
         icons={{
