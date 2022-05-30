@@ -1,4 +1,5 @@
 import { Backdrop, Box, Divider, Grid } from "@material-ui/core";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,15 +7,16 @@ import {
   clearCustomData,
   getDocumentModelBySubStageId,
   getDownloadByDocumentId,
+  getMiscellaneousList,
+  getSchoolList,
   uploadDocumentBySubStageId,
   uploadFileBySubStageId,
-  getSchoolList,
-  getMiscellaneousList,
 } from "../../Actions/ApplicationStage";
 import {
   getStepsBySubStageId,
   getStudentStageByProductId,
 } from "../../Actions/Student";
+import { ReactComponent as EmptySchool } from "../../Asset/icons/empty-school.svg";
 import {
   customTheme,
   StyledStaticButton,
@@ -25,6 +27,7 @@ import MySnackBar from "../MySnackBar";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
+import { StyledButton, Typo } from "../Utils/controls/Styles";
 import {
   bytesToMegaBytes,
   getSubStageByStage,
@@ -33,9 +36,6 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { PopperMenu } from "./MiscellaneousPopover";
-import { ReactComponent as EmptySchool } from "../../Asset/icons/empty-school.svg";
-import { StyledButton, Typo } from "../Utils/controls/Styles";
-import moment from "moment";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -557,7 +557,7 @@ function Index(props) {
   const handleTabChange = (e, newValue) => {
     let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
-    console.log(arr, newSectionId, newValue);
+
     setState({
       ...state,
       activeTabValue: newValue,
@@ -703,7 +703,7 @@ function Index(props) {
                               ? programLink
                               : `https://${programLink}`
                           }
-                          target='_blank'
+                          target="_blank"
                         >
                           {"Program Link"}
                         </a>

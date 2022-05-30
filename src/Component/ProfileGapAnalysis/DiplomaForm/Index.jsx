@@ -17,6 +17,7 @@ import {
   getUniversity,
   getBranches,
 } from "../../../Actions/College";
+import { getAllDegrees } from "../../../Actions/Degree";
 
 class Index extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ class Index extends Component {
     this.props.getAllColleges();
     this.props.getBranches();
     this.props.getUniversity();
+    this.props.getAllDegrees();
     this.props.viewAcademicDetails(
       this.props.match.params.studentId,
       this.props.academicTypes,
@@ -231,6 +233,7 @@ class Index extends Component {
                   scoreScale={this.state.scoreScale}
                   score={this.state.score}
                   degreeName={this.state.degree}
+                  allDegrees={this.props.allDegrees}
                   handleChange={(e) => this.handleChange(e)}
                   collegeResponse={this.props.collegeResponse}
                   departmentResponse={this.props.departmentResponse}
@@ -332,6 +335,7 @@ const mapStateToProps = (state) => {
     collegeResponse: state.CollegeReducer.allCollegeList,
     universityResponse: state.CollegeReducer.University,
     departmentResponse: state.CollegeReducer.BranchList,
+    allDegrees: state.DegreeReducer.allDegreeList,
   };
 };
 export default connect(mapStateToProps, {
@@ -343,4 +347,5 @@ export default connect(mapStateToProps, {
   getUniversity,
   getBranches,
   getAcademicType,
+  getAllDegrees,
 })(Index);

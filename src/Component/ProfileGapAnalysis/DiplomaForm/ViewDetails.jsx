@@ -1,11 +1,11 @@
 // new design
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
 import "../DiplomaForm/DiplomaForm.css";
 import { ExpandMore } from "@material-ui/icons";
 
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
 
 class ViewDetails extends Component {
@@ -21,13 +21,16 @@ class ViewDetails extends Component {
   degree = [];
 
   renderDegree = () => {
+    const { allDegrees } = this.props;
+    const degreeOptions =
+      allDegrees && Array.isArray(allDegrees) ? allDegrees : [];
     if (this.props.item.degree) {
       return (
         <Grid item md={2}>
           <AutoCompleteDropDown
             popupIcon={<ExpandMore style={{ color: "black" }} />}
             id="degreeName"
-            options={this.degree}
+            options={degreeOptions}
             value={this.props.degreeName}
             onChange={this.props.handleDegreeChange}
             getOptionLabel={(option) => option.name}
@@ -59,6 +62,7 @@ class ViewDetails extends Component {
       departmentResponse,
       universityResponse,
       gpaScale,
+      allDegrees,
     } = this.props;
 
     return (

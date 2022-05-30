@@ -10,53 +10,53 @@ import {
   TableRow,
   ThemeProvider,
   Typography,
-} from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import Grid from '@material-ui/core/Grid';
+} from "@material-ui/core";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import Grid from "@material-ui/core/Grid";
 // import{getsearchlist} from '../../Actions/Calldetails'
 // import button from './button';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { withStyles } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import TextField from '@material-ui/core/TextField';
-import { ExpandMore } from '@material-ui/icons';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
-import CloseIcon from '@material-ui/icons/Close';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import SearchIcon from '@material-ui/icons/Search';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import { Autocomplete } from '@material-ui/lab';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { withStyles } from "@material-ui/core/styles";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import { ExpandMore } from "@material-ui/icons";
+import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import CloseIcon from "@material-ui/icons/Close";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import SearchIcon from "@material-ui/icons/Search";
+import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
+import { Autocomplete } from "@material-ui/lab";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   activateStudentProduct,
   getAwaitingUsersByAdminId,
-} from '../../Actions/AdminAction';
+} from "../../Actions/AdminAction";
 import {
   getAllProductFamily,
   getProductByFamilyId,
   getProductVarient,
   searchProductActivationList,
-} from '../../Actions/ProductAction';
-import BackButton from '../../Asset/Images/backbutton.svg';
-import PrimaryButton from '../../Utils/PrimaryButton';
-import MySnackBar from '../MySnackBar';
-import { studentPath } from '../RoutePaths';
-import Loader from '../Utils/controls/Loader';
-import { isEmptyArray, isEmptyString } from '../Validation';
-import * as moment from 'moment';
+} from "../../Actions/ProductAction";
+import BackButton from "../../Asset/Images/backbutton.svg";
+import PrimaryButton from "../../Utils/PrimaryButton";
+import MySnackBar from "../MySnackBar";
+import { studentPath } from "../RoutePaths";
+import Loader from "../Utils/controls/Loader";
+import { isEmptyArray, isEmptyString } from "../Validation";
+import * as moment from "moment";
 
 const AntTabs = withStyles({
   root: {
-    borderBottom: '2px solid #A2D3FC',
+    borderBottom: "2px solid #A2D3FC",
   },
   indicator: {
-    backgroundColor: '#1890ff',
-    height: '5px',
-    borderRadius: '6px 6px 0px 0px',
+    backgroundColor: "#1890ff",
+    height: "5px",
+    borderRadius: "6px 6px 0px 0px",
   },
 })(Tabs);
 
@@ -64,51 +64,51 @@ const theme = createMuiTheme({
   overrides: {
     MuiInputLabel: {
       root: {
-        whiteSpace: 'nowrap',
-        fontSize: 'inherit',
+        whiteSpace: "nowrap",
+        fontSize: "inherit",
       },
     },
     MuiFormControl: {
       marginNormal: {
-        marginTop: '0px',
-        marginBottom: '0px',
+        marginTop: "0px",
+        marginBottom: "0px",
       },
     },
     MuiPaper: {
       rounded: {
-        borderRadius: '20px',
+        borderRadius: "20px",
       },
     },
   },
 });
 const AntTab = withStyles((theme) => ({
   root: {
-    textTransform: 'none',
+    textTransform: "none",
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing(4),
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
-    '&:hover': {
-      color: '#40a9ff',
+    ].join(","),
+    "&:hover": {
+      color: "#40a9ff",
       opacity: 1,
     },
-    '&$selected': {
-      color: '#000',
+    "&$selected": {
+      color: "#000",
       fontWeight: theme.typography.fontWeightBold,
     },
-    '&:focus': {
-      color: '#000',
+    "&:focus": {
+      color: "#000",
     },
   },
   selected: {},
@@ -120,7 +120,7 @@ class ProductActivation extends Component {
     this.state = {
       tabCount: 0,
       show: false,
-      id: '',
+      id: "",
       clientName: null,
       contactNumber: null,
       email: null,
@@ -139,9 +139,9 @@ class ProductActivation extends Component {
       snackMsg: null,
       shrink: false,
       listOfUsers: [],
-      keyword: '',
-      intakehlpTxt: '',
-      yearhlpTxt: '',
+      keyword: "",
+      intakehlpTxt: "",
+      yearhlpTxt: "",
       yearArr: [],
       currentYear: new Date().getFullYear(),
       loading: false,
@@ -150,7 +150,7 @@ class ProductActivation extends Component {
   handleClose = (e) => {
     this.setState({ show: false });
   };
-  intakeSession = [{ title: 'Fall' }, { title: 'Summer' }, { title: 'Spring' }];
+  intakeSession = [{ title: "Fall" }, { title: "Summer" }, { title: "Spring" }];
   componentDidMount() {
     // this.props.getAwaitingUsersByAdminId();
     this.props.getAllProductFamily();
@@ -196,8 +196,8 @@ class ProductActivation extends Component {
     ) {
       this.setState({
         snackOpen: true,
-        snackColor: 'success',
-        snackMsg: 'Product activated successfully',
+        snackColor: "success",
+        snackMsg: "Product activated successfully",
         show: false,
         isLoading: false,
       });
@@ -216,7 +216,7 @@ class ProductActivation extends Component {
       const { searchActivationList } = this.props;
       if (
         searchActivationList &&
-        typeof searchActivationList === 'object' &&
+        typeof searchActivationList === "object" &&
         searchActivationList.content
       ) {
         if (searchActivationList.content?.length !== 0) {
@@ -227,17 +227,14 @@ class ProductActivation extends Component {
         } else {
           this.setState({
             listOfUsers: [],
-            snackOpen: true,
-            snackColor: 'error',
-            snackMsg: 'No data found',
             loading: false,
           });
         }
       } else {
         this.setState({
           snackOpen: true,
-          snackColor: 'error',
-          snackMsg: 'Exception failed',
+          snackColor: "error",
+          snackMsg: "Exception failed",
           loading: false,
         });
       }
@@ -254,20 +251,20 @@ class ProductActivation extends Component {
   }
 
   handleActivate = () => {
-    let helperText = 'Please fill the required field';
+    let helperText = "Please fill the required field";
     this.state.intake === null
       ? this.setState({
           intakehlpTxt: helperText,
         })
       : this.setState({
-          intakehlpTxt: '',
+          intakehlpTxt: "",
         });
     this.state.year === null
       ? this.setState({
           yearhlpTxt: helperText,
         })
       : this.setState({
-          yearhlpTxt: '',
+          yearhlpTxt: "",
         });
     this.setState({ isLoading: true });
     let obj = {
@@ -275,8 +272,8 @@ class ProductActivation extends Component {
       productPaymentModels: [
         {
           productId: this.state.productVariant.id,
-          stage: 'Activated',
-          activatedBy: window.sessionStorage.getItem('adminUserId'),
+          stage: "Activated",
+          activatedBy: window.sessionStorage.getItem("adminUserId"),
           intakeTerm: this.state.intake && this.state.intake.title,
           intakeYear: this.state.year && this.state.year.title,
         },
@@ -284,11 +281,11 @@ class ProductActivation extends Component {
     };
     if (this.state.intake !== null && this.state.year !== null) {
       this.props.activateStudentProduct(obj, (response) => {
-        if (response.data === 'updated') {
+        if (response.data === "updated") {
           this.setState({
             snackOpen: true,
-            snackColor: 'success',
-            snackMsg: 'Product activated successfully',
+            snackColor: "success",
+            snackMsg: "Product activated successfully",
             show: false,
             isLoading: false,
           });
@@ -318,24 +315,24 @@ class ProductActivation extends Component {
   render() {
     return (
       <div style={{ padding: 10 }}>
-        <div style={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
+        <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
           <img
             src={BackButton}
-            style={{ cursor: 'pointer', marginTop: '-10px' }}
+            style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
             <Typography
               style={{
-                cursor: 'pointer',
-                fontWeight: '600',
-                marginLeft: '10px',
+                cursor: "pointer",
+                fontWeight: "600",
+                marginLeft: "10px",
               }}
               onClick={() => this.props.history.push(studentPath)}
             >
               Home
             </Typography>
-            <Typography style={{ cursor: 'pointer', fontWeight: '600' }}>
+            <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
               Product Activation
             </Typography>
           </Breadcrumbs>
@@ -345,15 +342,15 @@ class ProductActivation extends Component {
 
           <AntTabs
             value={this.state.tabCount}
-            textColor={'inherit'}
+            textColor={"inherit"}
             // onChange={(e, value) => this.setState({ tabCount: value })}
-            aria-label='ant example'
+            aria-label="ant example"
           >
-            <AntTab label='Awaiting Allocation' />
+            <AntTab label="Awaiting Allocation" />
           </AntTabs>
           <TextField
-            label='&nbsp; &nbsp;&nbsp;&nbsp;   Search by Email ID / Mobile / Full Name / CLS ID'
-            variant='outlined'
+            label="&nbsp; &nbsp;&nbsp;&nbsp;   Search by Email ID / Mobile / Full Name / CLS ID"
+            variant="outlined"
             value={this.state.keyword}
             onChange={(e) => this.setState({ keyword: e.target.value })}
             InputLabelProps={{
@@ -373,7 +370,7 @@ class ProductActivation extends Component {
             onKeyUp={(e) => {
               if (e.keyCode === 13) {
                 e.preventDefault();
-                document.getElementById('search').click();
+                document.getElementById("search").click();
               }
             }}
             // type="search"
@@ -384,14 +381,14 @@ class ProductActivation extends Component {
             //     </InputAdornment>
             //   ),
             // }}
-            style={{ width: '40%', marginLeft: '50%', bottom: 65 }}
+            style={{ width: "40%", marginLeft: "50%", bottom: 65 }}
           />
           <IconButton
-            style={{ marginLeft: '8px', top: -60 }}
+            style={{ marginLeft: "8px", top: -60 }}
             onClick={this.handleSearch}
-            color='primary'
-            id={'search'}
-            aria-label='search'
+            color="primary"
+            id={"search"}
+            aria-label="search"
           >
             <SearchRoundedIcon />
           </IconButton>
@@ -402,16 +399,16 @@ class ProductActivation extends Component {
               <TableHead>
                 {this.state.listOfUsers.length !== 0 ? (
                   <TableRow>
-                    <TableCell align='center'>CLS ID</TableCell>
-                    <TableCell align='center'>Client Name</TableCell>
-                    <TableCell align='center'>College</TableCell>
-                    <TableCell align='center'>Dept</TableCell>
-                    <TableCell align='center'>Degree</TableCell>
-                    <TableCell align='center'>Product Variant</TableCell>
-                    <TableCell align='center'>Order Punch Date</TableCell>
-                    <TableCell align='center'>Amount Paid</TableCell>
-                    <TableCell align='center'>Activated</TableCell>
-                    <TableCell align='center'></TableCell>
+                    <TableCell align="center">CLS ID</TableCell>
+                    <TableCell align="center">Client Name</TableCell>
+                    <TableCell align="center">College</TableCell>
+                    <TableCell align="center">Dept</TableCell>
+                    <TableCell align="center">Degree</TableCell>
+                    <TableCell align="center">Product Variant</TableCell>
+                    <TableCell align="center">Order Punch Date</TableCell>
+                    <TableCell align="center">Amount Paid</TableCell>
+                    <TableCell align="center">Activated</TableCell>
+                    <TableCell align="center"></TableCell>
                   </TableRow>
                 ) : (
                   this.state.loading && <Loader />
@@ -430,33 +427,33 @@ class ProductActivation extends Component {
                     //     : null;
                     return (
                       <TableRow>
-                        <TableCell align='center'>{eachData.clsId}</TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">{eachData.clsId}</TableCell>
+                        <TableCell align="center">
                           {eachData.firstName + eachData.lastName}
                         </TableCell>
-                        <TableCell align='center'>{eachData.college}</TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">{eachData.college}</TableCell>
+                        <TableCell align="center">
                           {eachData.department}
                         </TableCell>
-                        <TableCell align='center'>{eachData.degree}</TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">{eachData.degree}</TableCell>
+                        <TableCell align="center">
                           {eachData.products.name}
                         </TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">
                           {moment(new Date(eachData.orderDate)).format(
-                            'MMM yyyy'
+                            "MMM yyyy"
                           )}
                         </TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">
                           {eachData.paymentProvider}
                         </TableCell>
-                        <TableCell align='center'>{eachData.stage}</TableCell>
-                        <TableCell align='center'>
+                        <TableCell align="center">{eachData.stage}</TableCell>
+                        <TableCell align="center">
                           <IconButton
                             onClick={() => this.handleShowPopUp(eachData)}
                           >
                             <AddCircleRoundedIcon
-                              style={{ color: '#1093FF' }}
+                              style={{ color: "#1093FF" }}
                             />
                           </IconButton>
                         </TableCell>
@@ -491,41 +488,41 @@ class ProductActivation extends Component {
           </TableContainer>
           <div style={{ borderRadius: 10 }}>
             <Dialog
-              maxWidth='lg'
+              maxWidth="lg"
               fullWidth={true}
               open={this.state.show}
               onClose={this.handleClose}
               // maxHeight='lg'
-              aria-labelledby='customized-dialog-title'
+              aria-labelledby="customized-dialog-title"
             >
               {/* <Dialog id="customized-dialog-title" > */}
-              <div className='flex-1 text-center'></div>
+              <div className="flex-1 text-center"></div>
               <div
-                className='model-close-button'
-                style={{ display: 'flex', justifyContent: 'flex-end' }}
+                className="model-close-button"
+                style={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <IconButton aria-label='close' onClick={this.handleClose}>
+                <IconButton aria-label="close" onClick={this.handleClose}>
                   <CloseIcon
                     style={{
-                      background: '#ADD8E6',
+                      background: "#ADD8E6",
                       borderRadius: 20,
-                      color: '#1093FF',
+                      color: "#1093FF",
                       backgroundSize: 20,
                     }}
                   />
                 </IconButton>
               </div>
               {/* </DialogTitle> */}
-              <DialogContent style={{ height: '300px' }}>
+              <DialogContent style={{ height: "300px" }}>
                 <Grid
                   container
                   spacing={4}
-                  style={{ width: '90%', paddingLeft: 50 }}
+                  style={{ width: "90%", paddingLeft: 50 }}
                 >
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      color='primary'
-                      label='Client Name'
+                      color="primary"
+                      label="Client Name"
                       fullWidth
                       disabled
                       value={this.state.clientName}
@@ -535,8 +532,8 @@ class ProductActivation extends Component {
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      color='primary'
-                      label='Contact Number'
+                      color="primary"
+                      label="Contact Number"
                       fullWidth
                       disabled
                       value={this.state.contactNumber}
@@ -546,8 +543,8 @@ class ProductActivation extends Component {
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <TextField
-                      color='primary'
-                      label='Email Address'
+                      color="primary"
+                      label="Email Address"
                       fullWidth
                       disabled
                       value={this.state.email}
@@ -559,8 +556,8 @@ class ProductActivation extends Component {
                     <TextField
                       disabled
                       value={this.state.clsId}
-                      color='primary'
-                      label='CLS ID'
+                      color="primary"
+                      label="CLS ID"
                       fullWidth
                       // value={this.state.name}
                       // onChange={(e) => this.setState({ name: e.target.value })}
@@ -568,8 +565,8 @@ class ProductActivation extends Component {
                   </Grid>
                   <Grid item xs={3}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      id='combo-box-demo'
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      id="combo-box-demo"
                       disabled
                       value={this.state.productFamily}
                       options={this.props.getAllProductFamilyList}
@@ -581,16 +578,16 @@ class ProductActivation extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Product Family'
-                          variant='standard'
+                          label="Product Family"
+                          variant="standard"
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={3}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
-                      id='combo-box-demo'
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
+                      id="combo-box-demo"
                       disabled
                       value={this.state.productVariant}
                       options={this.props.getProductVarientList}
@@ -602,15 +599,15 @@ class ProductActivation extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Product Variant'
-                          variant='standard'
+                          label="Product Variant"
+                          variant="standard"
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={3}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                       options={this.intakeSession}
                       getOptionLabel={(option) => option.title}
                       value={this.state.intake}
@@ -621,7 +618,7 @@ class ProductActivation extends Component {
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          label='Intake'
+                          label="Intake"
                           error={this.state.intakehlpTxt}
                           helperText={this.state.intakehlpTxt}
                         />
@@ -630,7 +627,7 @@ class ProductActivation extends Component {
                   </Grid>
                   <Grid item xs={3}>
                     <Autocomplete
-                      popupIcon={<ExpandMore style={{ color: '#1093FF' }} />}
+                      popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
                       options={this.state.yearArr}
                       getOptionLabel={(option) => option.title}
                       value={this.state.year}
@@ -641,8 +638,8 @@ class ProductActivation extends Component {
                         <TextField
                           {...params}
                           value={this.state.intake}
-                          color='primary'
-                          label='Year'
+                          color="primary"
+                          label="Year"
                           error={this.state.yearhlpTxt}
                           helperText={this.state.yearhlpTxt}
                         />
@@ -653,8 +650,8 @@ class ProductActivation extends Component {
                     <TextField
                       disabled
                       value={this.state.validity}
-                      color='primary'
-                      label='Product Validity'
+                      color="primary"
+                      label="Product Validity"
                       fullWidth
                       // value={this.state.name}
                       // onChange={(e) => this.setState({ name: e.target.value })}
@@ -664,8 +661,8 @@ class ProductActivation extends Component {
                     <TextField
                       disabled
                       value={this.state.endServiceDate}
-                      color='primary'
-                      label='End Of Service Date'
+                      color="primary"
+                      label="End Of Service Date"
                       fullWidth
                       // value={this.state.name}
                       // onChange={(e) => this.setState({ name: e.target.value })}
@@ -675,8 +672,8 @@ class ProductActivation extends Component {
                     <TextField
                       disabled
                       value={this.state.amountPaid}
-                      color='primary'
-                      label='Amount Paid'
+                      color="primary"
+                      label="Amount Paid"
                       fullWidth
                       // value={this.state.name}
                       // onChange={(e) => this.setState({ name: e.target.value })}
@@ -686,8 +683,8 @@ class ProductActivation extends Component {
                     <TextField
                       disabled
                       value={this.state.bdaName}
-                      color='primary'
-                      label='BDA Name'
+                      color="primary"
+                      label="BDA Name"
                       fullWidth
                       // value={this.state.name}
                       // onChange={(e) => this.setState({ name: e.target.value })}
@@ -698,24 +695,24 @@ class ProductActivation extends Component {
               {/* <DialogActions> */}
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  paddingTop: '10%',
-                  paddingBottom: '5%',
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: "10%",
+                  paddingBottom: "5%",
                 }}
               >
                 <PrimaryButton
                   onClick={this.handleActivate}
-                  variant={'contained'}
-                  color={'primary'}
+                  variant={"contained"}
+                  color={"primary"}
                   disabled={this.state.isLoading}
-                  style={{ textTransform: 'none' }}
+                  style={{ textTransform: "none" }}
                 >
                   {this.state.isLoading && (
                     <CircularProgress
                       disableShrink
                       style={{
-                        color: '#fff',
+                        color: "#fff",
                         width: 20,
                         height: 20,
                         marginRight: 10,

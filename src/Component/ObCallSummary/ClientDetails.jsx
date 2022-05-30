@@ -114,7 +114,7 @@ class ClientDetails extends Component {
       agentErr: "",
       callstatus: "",
       callstatusErr: "",
-      callbacktime: new Date(),
+      callbacktime: "",
       callbacktimeErr: "",
       spedays: "",
       speDaysErr: "",
@@ -255,7 +255,7 @@ class ClientDetails extends Component {
         calltime: obCallTime,
         agent: agent,
         callstatus: { title: callStatus },
-        callbacktime: new Date(callBackTime),
+        callbacktime: callBackTime ? new Date(callBackTime) : "",
         spedays: { title: specificDays },
         spetime: specificTime,
         enrolldate: this.props.getClientInfoList.enrollmentDate,
@@ -1026,7 +1026,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={4}>
                 <KeyboardDateTimePicker
-                  variant="inline"
+                  variant="dialog"
                   ampm={false}
                   label="Call Back Time"
                   disabled={
@@ -1044,6 +1044,9 @@ class ClientDetails extends Component {
                   onError={console.log}
                   // disablePast
                   format="dd/MM/yyyy HH:mm"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item md={4}>
