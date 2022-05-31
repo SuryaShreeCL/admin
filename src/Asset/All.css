@@ -456,7 +456,8 @@ input[type='checkbox']:checked + label {
 }
 
 #main-container {
-  max-height: calc(100vh - 110px);
+  /* max-height: calc(100vh - 110px); */
+  max-height: 100vh;
   overflow: auto;
 }
 
