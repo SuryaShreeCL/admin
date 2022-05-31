@@ -646,7 +646,7 @@ class Index extends Component {
       },
 
       {
-        title: "obtained Score",
+        title: "Obtained Score",
         field: "score",
         // type : "numeric",
         render: (rowData, renderType) =>
