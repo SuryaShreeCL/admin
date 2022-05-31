@@ -154,44 +154,55 @@ class workExperience extends Component {
   };
   handleSave() {
     console.log("handlesave/////////////////////////");
+    console.log(tempArr);
     var error = false;
-
+    const validFields = [
+      "description",
+      "employmentType",
+      "organization",
+      "startDate",
+      "endDate",
+      "role",
+    ];
     for (let i = 0; i < this.state.professional.length; i++) {
       for (const [key, value] of Object.entries(this.state.professional[i])) {
-        if (key !== "department") {
-          if (value === "") {
-            error = true;
-            this.setState({
-              [key.concat(`Err${i}`)]: `Please fill the required field`,
-            });
-          }
-          if (value === null) {
-            error = true;
-            this.setState({
-              [key.concat(`Err${i}`)]: `Please fill the required field`,
-            });
+        console.log(value, key);
+        if (validFields.includes(key)) {
+          if (key !== "department") {
+            if (value === "") {
+              error = true;
+
+              this.setState({
+                [key.concat(`Err${i}`)]: `Please fill the required field`,
+              });
+            }
+            if (value === null) {
+              error = true;
+              this.setState({
+                [key.concat(`Err${i}`)]: `Please fill the required field`,
+              });
+            }
           }
         }
       }
     }
 
-    if (error === false) {
+    if (!error) {
       var tempArr = this.state.professional;
-
       this.props.updateworkexp(this.props.match.params.studentId, tempArr);
+      console.log(tempArr);
       this.setState({
         snackmsg: "Updated Sucessfully",
         snackopen: true,
         snackvariant: "success",
       });
+    } else {
+      this.setState({
+        snackmsg: "Please Fill the required Field",
+        snackopen: true,
+        snackvariant: "error",
+      });
     }
-    // else{
-    //   this.setState({
-    //     snackmsg : "Please Fill the required Field",
-    //     snackopen : true,
-    //     snackvariant : "error"
-    //   })
-    // }
   }
 
   employeeType = [
@@ -369,7 +380,7 @@ class workExperience extends Component {
                                 popupIcon={
                                   <ExpandMore style={{ color: "#1093FF" }} />
                                 }
-                                id='combo-box-demo'
+                                id="combo-box-demo"
                                 disabled={this.state.disable}
                                 value={
                                   {
@@ -392,9 +403,9 @@ class workExperience extends Component {
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
-                                    label='Employment Type'
+                                    label="Employment Type"
                                     disabled={this.state.disable}
-                                    variant='standard'
+                                    variant="standard"
                                     contentEditable={
                                       this.state.disable === false
                                     }
@@ -418,9 +429,10 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                id='standard-basic'
+                                id="standard-basic"
                                 disabled={this.state.disable}
-                                label='Organisation'
+                                required
+                                label="Organisation"
                                 value={item.organization || ""}
                                 // error={this.state.organizationErr.length > 0}
                                 // helperText={this.state.organizationErr}
@@ -430,7 +442,7 @@ class workExperience extends Component {
                                     undefined &&
                                   this.state[`organizationErr${index}`] !== ""
                                     ? true
-                                    : false
+                                    : false || item.organization.trim() === ""
                                 }
                                 onChange={(e) =>
                                   this.state.disable === false &&
@@ -476,9 +488,9 @@ class workExperience extends Component {
                                 }}
                               /> */}
                               <TextField
-                                label='Start Date'
+                                label="Start Date"
                                 value={item.startDate || ""}
-                                type='month'
+                                type="month"
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
@@ -504,16 +516,16 @@ class workExperience extends Component {
                                 }}
                                 disableFuture
                                 disabled={this.state.disable}
-                                name='startDate'
+                                name="startDate"
                                 fullWidth
-                                margin='normal'
+                                margin="normal"
                               />
                             </Grid>
                             <Grid item md={3}>
                               <TextField
-                                label='End Date'
+                                label="End Date"
                                 value={item.endDate || ""}
-                                type='month'
+                                type="month"
                                 onChange={(e) =>
                                   this.state.disable === false &&
                                   this.onChange(
@@ -542,16 +554,16 @@ class workExperience extends Component {
                                   shrink: true,
                                 }}
                                 disableFuture
-                                margin='normal'
+                                margin="normal"
                                 disabled={this.state.disable}
-                                name='EndDate'
+                                name="EndDate"
                                 fullWidth
                               />
                             </Grid>
                             <Grid item md={4}>
                               <TextField
-                                id='standard-multiline-static'
-                                label='Designation'
+                                id="standard-multiline-static"
+                                label="Designation"
                                 disabled={this.state.disable}
                                 value={item.role || ""}
                                 onChange={(e) =>
@@ -584,8 +596,8 @@ class workExperience extends Component {
                             </Grid>
                             <Grid item md={8}>
                               <TextField
-                                id='standard-multiline-static'
-                                label='Job Description'
+                                id="standard-multiline-static"
+                                label="Job Description"
                                 multiline
                                 disabled={this.state.disable}
                                 value={item.description || ""}
