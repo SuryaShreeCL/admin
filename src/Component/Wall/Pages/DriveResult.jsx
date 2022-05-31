@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -23,6 +23,7 @@ function DriveResult() {
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
   const [tableData, setTableData] = useState([]);
+  let textRef = useRef(null);
   const [selectedRound, setSelectedRound] = useState([]);
   const [rejectReason, setRejectReason] = useState(null);
   const [eventInfo, setEventInfo] = useState([]);
@@ -116,7 +117,7 @@ function DriveResult() {
       field: 'answers',
       emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => (
-        <div style={{ width: '300px', display: 'flex' }}>
+        <div style={{ width: '350px', display: 'flex' }}>
           {rowData.answers.map((answer) => (
             <p> {`${answer}`}&nbsp;|&nbsp; </p>
           ))}
@@ -144,7 +145,9 @@ function DriveResult() {
     let payload = {
       eventId: eventInfo?.eventId,
       eventName: eventInfo?.eventName,
-      stepDetailsModelList: [{ ...selectedRound, reason: rejectReason, studentList: data }],
+      stepDetailsModelList: [
+        { ...selectedRound, reason: textRef.current.value, studentList: data },
+      ],
     };
 
     //once the update is success, it re-renders the ui with latest information
@@ -177,10 +180,9 @@ function DriveResult() {
     <div>
       <h3 style={{ textAlign: 'center' }}>{eventInfo?.eventName} </h3>
       <Controls.Input
+        inputRef={textRef}
         label='Enter Rejection Reason'
-        value={rejectReason}
         name='rejectReason'
-        onChange={(ev) => setRejectReason(ev.target.value)}
         style={{ width: '100%' }}
         multiline
         rows={3}
@@ -253,7 +255,7 @@ function DriveResult() {
             icon: () => <ThumbDown color='error' />,
             tooltip: 'Reject',
             onClick: (e, data) => {
-              if (rejectReason === null) {
+              if (textRef.current.value.length === 0) {
                 setNotify({
                   isOpen: true,
                   message: 'Please fill the reason',
