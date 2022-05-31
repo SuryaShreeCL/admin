@@ -549,7 +549,8 @@ class GraduateTestResult extends Component {
       let month = new Date(this.state.gredate).getMonth();
       let year = new Date(this.state.gredate).getFullYear();
       let time = new Date(this.state.gredate).toLocaleTimeString();
-
+      let finalDate = date + "-" + month + "-" + year
+      console.log(this.state.gredate,"bakugan")
       let obj = {
         attempt: this.state.greattempt && this.state.greattempt.title,
         expectedExamDate: null,
@@ -904,7 +905,7 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
                     this.props.getgrescoreList.map((eachdata, index) => {
-                      console.log(eachdata.expectedExamDate);
+                      console.log(eachdata.completedExamDate);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
@@ -937,9 +938,8 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                           {eachdata.completedExamDate}
+                           {console.log(examdate)}
                           </TableCell>
 
                           <TableCell
@@ -1196,9 +1196,7 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                            {eachdata.completedExamDate}
                           </TableCell>
 
                           <TableCell
@@ -1463,9 +1461,7 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                            {eachdata.completedExamDate}
                           </TableCell>
 
                           <TableCell
@@ -1739,9 +1735,7 @@ class GraduateTestResult extends Component {
                                 borderBottom: "none",
                               }}
                             >
-                              {moment(
-                                new Date(eachdata && eachdata.completedExamDate)
-                              ).format("MMM yyyy")}
+                              {eachdata.completedExamDate}
                             </TableCell>
 
                             <TableCell
@@ -2131,13 +2125,17 @@ class GraduateTestResult extends Component {
                       )}
                     />
                   </Grid>
+                  
                   <Grid item xs={12} md={6}>
+                    {console.log(this.state.gredate)}
+                    
                     <TextField
-                      disableFuture
+                      
                       margin="normal"
                       label="Exam Date"
                       value={this.state.gredate}
-                      type="month"
+                      
+                      type="date"
                       onChange={(e) =>
                         this.setState({ gredate: e.target.value })
                       }
