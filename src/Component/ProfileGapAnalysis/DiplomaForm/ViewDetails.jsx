@@ -152,7 +152,7 @@ class ViewDetails extends Component {
           <Grid item md={4}>
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="universityName"
+              id="UniversityName"
               options={universityResponse}
               value={universityName}
               onChange={this.props.handleUniversityChange}
@@ -160,9 +160,9 @@ class ViewDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="university Name"
+                  label="University Name"
                   variant="standard"
-                  name="universityName"
+                  name="UniversityName"
                 />
               )}
             />
