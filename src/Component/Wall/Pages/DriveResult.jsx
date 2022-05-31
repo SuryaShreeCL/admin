@@ -40,6 +40,7 @@ function DriveResult() {
       field: 'studentName',
       editable: false,
       filtering: false,
+      sorting: false,
     },
     {
       title: 'Email',
@@ -47,13 +48,15 @@ function DriveResult() {
       filtering: false,
       filterPlaceholder: 'filter',
       editable: false,
+      sorting: false,
     },
     {
       title: 'Status',
       field: 'stepStatus',
+      sorting: false,
       emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => (
-        <div
+        <p
           style={{
             background:
               rowData.stepStatus === 'Qualified'
@@ -67,7 +70,7 @@ function DriveResult() {
           }}
         >
           {rowData.stepStatus}
-        </div>
+        </p>
       ),
       lookup: { Qualified: 'Qualified', 'Not Qualified': 'Not Qualified', NA: 'NA' },
     },
@@ -76,45 +79,47 @@ function DriveResult() {
       field: 'sscScore',
       type: 'numeric',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{rowData.sscScore}</div>,
+      render: (rowData) => <p>{rowData.sscScore}</p>,
     },
     {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{rowData.hscScore}</div>,
+      render: (rowData) => <p>{rowData.hscScore}</p>,
     },
     {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{rowData.ugScore}</div>,
+      render: (rowData) => <p>{rowData.ugScore}</p>,
     },
     {
       title: 'Graduation',
       field: 'ugEndDate',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{new Date(rowData.ugEndDate).getFullYear()}</div>,
+      render: (rowData) => <p>{new Date(rowData.ugEndDate).getFullYear()}</p>,
     },
     {
       title: 'Active Backlogs',
       field: 'activeBacklogs',
       type: 'numeric',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{rowData.activeBacklogs}</div>,
+      render: (rowData) => <p>{rowData.activeBacklogs}</p>,
     },
     {
       title: 'Fresher/Experience',
+      sorting: false,
       field: 'experienceStatus',
       emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <div>{rowData.experienceStatus}</div>,
+      render: (rowData) => <p>{rowData.experienceStatus}</p>,
       lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
     },
     {
       title: 'Custom Questions',
       field: 'answers',
+      sorting: false,
       emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => (
         <div style={{ width: '350px', display: 'flex' }}>
