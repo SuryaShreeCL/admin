@@ -7,6 +7,7 @@ import { ExpandMore } from "@material-ui/icons";
 
 import { connect, useDispatch } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
+import { isNumber } from "../../Validation";
 
 class ViewDetails extends Component {
   //   college Array
@@ -195,6 +196,11 @@ class ViewDetails extends Component {
               name="score"
               label="CGPA Scale"
               type="number"
+              onKeyPress={(evt) => {
+                if (isNumber(evt)) {
+                  evt.preventDefault();
+                }
+              }}
               value={score}
               onChange={this.props.handleChange}
               error={scoreScale !== null && scoreScale < score}
