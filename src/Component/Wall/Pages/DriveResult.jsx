@@ -19,13 +19,13 @@ import Notification from '../../Utils/Notification';
 import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
+  let textRef = useRef(null);
   const { id } = useParams();
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
   const [tableData, setTableData] = useState([]);
-  let textRef = useRef(null);
   const [selectedRound, setSelectedRound] = useState([]);
-  const [rejectReason, setRejectReason] = useState(null);
+  const [customQuestions, setCustomQuestions] = useState([]);
   const [eventInfo, setEventInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [notify, setNotify] = useState({
@@ -34,13 +34,14 @@ function DriveResult() {
     type: '',
   });
 
-  const columns = [
+  let columns = [
     {
       title: 'Name',
       field: 'studentName',
       editable: false,
       filtering: false,
-      sorting: false,
+      sorting: true,
+      defaultSort: 'asc',
     },
     {
       title: 'Email',
@@ -108,33 +109,23 @@ function DriveResult() {
       emptyValue: () => <em>Not Filled</em>,
       render: (rowData) => <p>{rowData.activeBacklogs}</p>,
     },
-    {
-      title: 'Fresher/Experience',
-      sorting: false,
-      field: 'experienceStatus',
-      emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => <p>{rowData.experienceStatus}</p>,
-      lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
-    },
-    {
-      title: 'Custom Questions',
+  ];
+
+  const customQuestionFields = customQuestions?.forEach((question, idx) => {
+    columns.push({
+      title: question,
       field: 'answers',
       sorting: false,
-      emptyValue: () => <em>Not Filled</em>,
-      render: (rowData) => (
-        <div style={{ width: '350px', display: 'flex' }}>
-          {rowData.answers.map((answer) => (
-            <p> {`${answer}`}&nbsp;|&nbsp; </p>
-          ))}
-        </div>
-      ),
-    },
-  ];
+      render: (rowData) => <p>{rowData?.answers[idx]}</p>,
+    });
+    return columns;
+  });
 
   const fetchDriveDetails = () => {
     setIsLoading(true);
     dispatch(
       getStudentEventStatus(id, (response) => {
+        setCustomQuestions(response?.data?.stepDetailsModelList[0]?.customQuestions);
         setEventInfo(response.data);
         setRounds(response?.data?.stepDetailsModelList);
         setTableData(response?.data?.stepDetailsModelList);
@@ -193,7 +184,7 @@ function DriveResult() {
         rows={3}
       />
       <MaterialTable
-        columns={columns}
+        columns={customQuestionFields ?? columns}
         data={tableData.studentList}
         components={{
           Toolbar: (props) => (
@@ -223,6 +214,7 @@ function DriveResult() {
                         let filterData = rounds?.filter(
                           (student) => student?.stepName === value?.stepName
                         );
+
                         setTableData(...filterData);
                       }
                     }}
