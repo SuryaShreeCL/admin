@@ -1075,6 +1075,13 @@ export class academicInfo extends Component {
                               this.state.pgCgpaScale === "" ||
                               this.state.pgCgpaScale === null
                             }
+                            onKeyPress={(evt) => {
+                              if (
+                                isNumber(evt) ||
+                                evt.target.value?.length >= 2
+                              )
+                                evt.preventDefault();
+                            }}
                             label="CGPA"
                             onChange={(e) => {
                               if (this.state.pgCgpaScale) {
@@ -1354,6 +1361,13 @@ export class academicInfo extends Component {
                               this.state.ugCgpaScale === null
                             }
                             label="CGPA"
+                            onKeyPress={(evt) => {
+                              if (
+                                isNumber(evt) ||
+                                evt.target.value?.length >= 2
+                              )
+                                evt.preventDefault();
+                            }}
                             value={this.state.ugCgpa}
                             onChange={(e) => {
                               if (this.state.ugCgpaScale) {
@@ -1604,6 +1618,13 @@ export class academicInfo extends Component {
                           <TextField
                             id="standard-basic"
                             value={this.state.diplomoCgpa}
+                            onKeyPress={(evt) => {
+                              if (
+                                isNumber(evt) ||
+                                evt.target.value?.length >= 2
+                              )
+                                evt.preventDefault();
+                            }}
                             onChange={(e) => {
                               if (this.state.diplomoCgpaScale) {
                                 if (e.target.value) {

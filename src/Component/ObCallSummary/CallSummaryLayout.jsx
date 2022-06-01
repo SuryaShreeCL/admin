@@ -6,7 +6,11 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import ClientDetails from "./ClientDetails";
 import Question from "./textEditor";
 import Rating from "./Rating";
-import { completecall,skipcall } from "../../Actions/Calldetails";
+import {
+  completecall,
+  skipcall,
+  getClientInfo,
+} from "../../Actions/Calldetails";
 
 import Mysnack from "../MySnackBar";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
@@ -23,6 +27,12 @@ class CallSummaryLayout extends Component {
       snackopen: false,
       snackvariant: "",
     };
+  }
+  componentDidMount(){
+   this.props.getClientInfo(
+     this.props.match.params.studentId,
+     this.props.match.params.productId
+   ); 
   }
   handlecomplete = () => {
     this.props.completecall(
@@ -43,7 +53,7 @@ class CallSummaryLayout extends Component {
     this.setState({
       snackopen:true,
       snackmsg: "Call Skipped Successfully",
-      snckVariant : "success",
+      snackvariant : "success",
     })
   }
   renderLeftContent = (value) => {
@@ -93,10 +103,7 @@ class CallSummaryLayout extends Component {
           </div>
         )}
         
-          
-
         <Grid container spacing={2}>
-          
           <Grid
             item
             md={12}
@@ -111,6 +118,7 @@ class CallSummaryLayout extends Component {
               color={"primary"}
               style={{ textTransform: "none" }}
               onClick={() => this.handleskip()}
+              disabled={this.props.getClientInfoList.isSkipObCall}
             >
               Skip Call Summary
             </PrimaryButton>
@@ -180,7 +188,8 @@ class CallSummaryLayout extends Component {
 const mapStateToProps = (state) => {
   return {
     completecallList: state.CallReducer.completecall,
+    getClientInfoList: state.CallReducer.getClientInfo,
   };
 };
 
-export default connect(mapStateToProps, { completecall,skipcall })(CallSummaryLayout);
+export default connect(mapStateToProps, { completecall,skipcall,getClientInfo })(CallSummaryLayout);
