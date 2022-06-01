@@ -111,12 +111,17 @@ function DriveResult() {
     },
   ];
 
+  //Populates the custom questions into columns array
   const customQuestionFields = customQuestions?.forEach((question, idx) => {
     columns.push({
       title: question,
       field: 'answers',
       sorting: false,
-      render: (rowData) => <p>{rowData?.answers[idx]}</p>,
+      render: (rowData) => (
+        <div style={{ width: '300px', display: 'flex' }}>
+          <p>{rowData?.answers[idx]}</p>
+        </div>
+      ),
     });
     return columns;
   });
@@ -184,7 +189,7 @@ function DriveResult() {
         rows={3}
       />
       <MaterialTable
-        columns={customQuestionFields ?? columns}
+        columns={columns}
         data={tableData.studentList}
         components={{
           Toolbar: (props) => (
@@ -202,36 +207,38 @@ function DriveResult() {
               {isLoading ? (
                 <Loader />
               ) : (
-                <FormControl>
-                  <Autocomplete
-                    style={{ width: '300px', paddingLeft: '1rem' }}
-                    name='rounds'
-                    getOptionLabel={(option) => option?.stepName}
-                    options={rounds ?? []}
-                    onChange={(e, value) => {
-                      if (value) {
-                        setSelectedRound(value);
-                        let filterData = rounds?.filter(
-                          (student) => student?.stepName === value?.stepName
-                        );
+                <>
+                  <FormControl>
+                    <Autocomplete
+                      style={{ width: '300px', paddingLeft: '1rem' }}
+                      name='rounds'
+                      getOptionLabel={(option) => option?.stepName}
+                      options={rounds ?? []}
+                      onChange={(e, value) => {
+                        if (value) {
+                          setSelectedRound(value);
+                          let filterData = rounds?.filter(
+                            (student) => student?.stepName === value?.stepName
+                          );
 
-                        setTableData(...filterData);
-                      }
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label='Select Round'
-                        name='rounds'
-                        variant='outlined'
-                      />
-                    )}
-                  />
-                </FormControl>
+                          setTableData(...filterData);
+                        }
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label='Select Round'
+                          name='rounds'
+                          variant='outlined'
+                        />
+                      )}
+                    />
+                  </FormControl>
+                  <div style={{ flexGrow: 1, padding: '1rem' }}>
+                    <MTableToolbar {...props} />
+                  </div>
+                </>
               )}
-              <div style={{ flexGrow: 1, padding: '1rem' }}>
-                <MTableToolbar {...props} />
-              </div>
             </div>
           ),
         }}
