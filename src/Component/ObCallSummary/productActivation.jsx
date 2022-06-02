@@ -445,7 +445,7 @@ class ProductActivation extends Component {
                           )}
                         </TableCell>
                         <TableCell align="center">
-                          {eachData.paymentProvider}
+                          {eachData.amountPaid}
                         </TableCell>
                         <TableCell align="center">{eachData.stage}</TableCell>
                         <TableCell align="center">

@@ -50,6 +50,10 @@ class CallSummaryLayout extends Component {
       this.props.match.params.studentId,
       this.props.match.params.productId
     );
+    this.props.getClientInfo(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    ); 
     this.setState({
       snackopen:true,
       snackmsg: "Call Skipped Successfully",
