@@ -50,7 +50,7 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
-import { ErrorMessage, isNumber } from "../Validation";
+import { ErrorMessage,isSpace, spaceRemoveRegex } from "../Validation";
 import * as moment from "moment";
 
 const theme = createMuiTheme({
@@ -1120,6 +1120,10 @@ export class academicInfo extends Component {
                             }}
                             value={this.state.pgCgpa}
                             error={this.state.pgCgpaErr.length > 0}
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             helperText={this.state.pgCgpaErr}
                           />
                         </Grid>
@@ -1395,6 +1399,10 @@ export class academicInfo extends Component {
                               }
                             }}
                             error={this.state.ugCgpaErr.length > 0}
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             helperText={this.state.ugCgpaErr}
                           />
                         </Grid>
@@ -1651,6 +1659,10 @@ export class academicInfo extends Component {
                               this.state.diplomoCgpaScale === "" ||
                               this.state.diplomoCgpaScale === null
                             }
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
                           />
@@ -1742,12 +1754,17 @@ export class academicInfo extends Component {
                             value={this.state.twelthSchool}
                             label="School Name"
                             // margin="normal"
-                            onChange={(e) =>
-                              this.setState({
-                                twelthSchool: e.target.value,
-                                twelthSchoolErr: "",
-                              })
-                            }
+                              onChange={(e) => {
+                                if (spaceRemoveRegex.test(e.target.value) || e.target.value === "") {
+                                  this.setState({
+                                    twelthSchool: e.target.value,
+                                    twelthSchoolErr: "",
+                                  })
+                              
+                                } else {
+                                  e.preventDefault();
+                                }
+                              }}
                             disabled={this.state.documentedit}
                           />
                         </Grid>
@@ -1814,6 +1831,10 @@ export class academicInfo extends Component {
                               this.state.twelthCgpaScale === "" ||
                               this.state.twelthCgpaScale === null
                             }
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
@@ -1946,12 +1967,23 @@ export class academicInfo extends Component {
                             disabled={this.state.documentedit}
                             margin="normal"
                             value={this.state.tenthSchool}
-                            onChange={(e) =>
-                              this.setState({
-                                tenthSchool: e.target.value,
-                                tenthSchoolErr: "",
-                              })
-                            }
+                            // onChange={(e) =>
+                            //   this.setState({
+                            //     tenthSchool: e.target.value,
+                            //     tenthSchoolErr: "",
+                            //   })
+                            // }
+                            onChange={(e) => {
+                              if (spaceRemoveRegex.test(e.target.value) || e.target.value === "") {
+                                this.setState({
+                                  tenthSchool: e.target.value,
+                                  tenthSchoolErr: "",
+                                })
+                            
+                              } else {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </Grid>
                         <Grid item md={6}>
@@ -2016,6 +2048,11 @@ export class academicInfo extends Component {
                               this.state.tenthCgpaScale === null
                             }
                             label="CGPA"
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
+
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
                             onChange={(e) => {
