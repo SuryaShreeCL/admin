@@ -404,10 +404,11 @@ class GraduateTestResult extends Component {
   };
 
   handleClick(data, index) {
+  
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
-      gredate: data.completedExamDate,
+      gredate: moment(data.completedExamDate).format('YYYY-MM-DD'),
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -440,7 +441,7 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
-      gmatdate: data.completedExamDate,
+      gmatdate: moment(data.completedExamDate).format('YYYY-MM-DD'),
       gmatid: data.id,
       gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
@@ -454,7 +455,7 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
-      toefldate: data.completedExamDate,
+      toefldate: moment(data.completedExamDate).format('YYYY-MM-DD'),
       toeflscore: data.score,
       toeflid: data.id,
       toeflfinalFile: this.customFileFormat(data.studentDocument),
@@ -469,7 +470,7 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
-      ieltsdate: data.completedExamDate,
+      ieltsdate: moment(data.completedExamDate).format('YYYY-MM-DD'),
       ieltsscore: data.totalScore,
       ieltsid: data.id,
       ieltsfinalFile: this.customFileFormat(data.studentDocument),
@@ -2336,8 +2337,9 @@ class GraduateTestResult extends Component {
                       disableFuture
                       margin="normal"
                       label="Exam Date"
+
                       value={this.state.gmatdate}
-                      type="month"
+                      type="date"
                       onChange={(e) =>
                         this.setState({ gmatdate: e.target.value })
                       }
@@ -2553,7 +2555,7 @@ class GraduateTestResult extends Component {
                       margin="normal"
                       label="Exam Date"
                       value={this.state.toefldate}
-                      type="month"
+                      type="date"
                       onChange={(e) =>
                         this.setState({ toefldate: e.target.value })
                       }
@@ -2761,7 +2763,7 @@ class GraduateTestResult extends Component {
                       margin="normal"
                       label="Exam Date"
                       value={this.state.ieltsdate}
-                      type="month"
+                      type="date"
                       onChange={(e) =>
                         this.setState({ ieltsdate: e.target.value })
                       }
