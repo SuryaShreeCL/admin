@@ -55,7 +55,7 @@ function DriveResult() {
       title: 'Status',
       field: 'stepStatus',
       sorting: false,
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>null</em>,
       render: (rowData) => (
         <p
           style={{
@@ -79,35 +79,42 @@ function DriveResult() {
       title: '10%',
       field: 'sscScore',
       type: 'numeric',
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.sscScore}</p>,
     },
     {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.hscScore}</p>,
     },
     {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.ugScore}</p>,
     },
     {
       title: 'Graduation',
       field: 'ugEndDate',
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{new Date(rowData.ugEndDate).getFullYear()}</p>,
     },
     {
       title: 'Active Backlogs',
       field: 'activeBacklogs',
       type: 'numeric',
-      emptyValue: () => <em>Not Filled</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.activeBacklogs}</p>,
+    },
+    {
+      title: 'Fresher/Experience',
+      field: 'experienceStatus',
+      emptyValue: () => <em>--</em>,
+      render: (rowData) => <div>{rowData.experienceStatus}</div>,
+      lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
     },
   ];
 
@@ -119,7 +126,7 @@ function DriveResult() {
       sorting: false,
       render: (rowData) => (
         <div style={{ width: '300px', display: 'flex' }}>
-          <p>{rowData?.answers[idx]}</p>
+          <p>{rowData?.answers[idx] ?? '--'}</p>
         </div>
       ),
     });
