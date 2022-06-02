@@ -28,11 +28,11 @@ class CallSummaryLayout extends Component {
       snackvariant: "",
     };
   }
-  componentDidMount(){
-   this.props.getClientInfo(
-     this.props.match.params.studentId,
-     this.props.match.params.productId
-   ); 
+  componentDidMount() {
+    this.props.getClientInfo(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
   }
   handlecomplete = () => {
     this.props.completecall(
@@ -45,21 +45,26 @@ class CallSummaryLayout extends Component {
       snackvariant: "success",
     });
   };
+
   handleskip = () => {
     this.props.skipcall(
       this.props.match.params.studentId,
-      this.props.match.params.productId
+      this.props.match.params.productId,
+      (response) => {
+        if (response.statusCodeValue === 200) {
+          this.setState({
+            snackopen: true,
+            snackmsg: "Call Skipped Successfully",
+            snackvariant: "success",
+          });
+          this.props.getClientInfo(
+            this.props.match.params.studentId,
+            this.props.match.params.productId
+          );
+        }
+      }
     );
-    this.props.getClientInfo(
-      this.props.match.params.studentId,
-      this.props.match.params.productId
-    ); 
-    this.setState({
-      snackopen:true,
-      snackmsg: "Call Skipped Successfully",
-      snackvariant : "success",
-    })
-  }
+  };
   renderLeftContent = (value) => {
     try {
       if (value === 0) {
@@ -106,7 +111,7 @@ class CallSummaryLayout extends Component {
             </Breadcrumbs>
           </div>
         )}
-        
+
         <Grid container spacing={2}>
           <Grid
             item
@@ -193,7 +198,12 @@ const mapStateToProps = (state) => {
   return {
     completecallList: state.CallReducer.completecall,
     getClientInfoList: state.CallReducer.getClientInfo,
+    skipcallList: state.CallReducer.skipcall,
   };
 };
 
-export default connect(mapStateToProps, { completecall,skipcall,getClientInfo })(CallSummaryLayout);
+export default connect(mapStateToProps, {
+  completecall,
+  skipcall,
+  getClientInfo,
+})(CallSummaryLayout);
