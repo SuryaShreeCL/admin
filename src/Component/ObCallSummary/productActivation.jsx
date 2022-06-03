@@ -437,7 +437,7 @@ class ProductActivation extends Component {
                         </TableCell>
                         <TableCell align="center">{eachData.degree}</TableCell>
                         <TableCell align="center">
-                          {eachData.products.name}
+                          {eachData.products?.name}
                         </TableCell>
                         <TableCell align="center">
                           {moment(new Date(eachData.orderDate)).format(
@@ -445,7 +445,7 @@ class ProductActivation extends Component {
                           )}
                         </TableCell>
                         <TableCell align="center">
-                          {eachData.amountPaid}
+                          {eachData.products?.sellingPrice}
                         </TableCell>
                         <TableCell align="center">{eachData.stage}</TableCell>
                         <TableCell align="center">
