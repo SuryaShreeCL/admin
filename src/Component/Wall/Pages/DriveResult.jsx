@@ -7,6 +7,7 @@ import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import FilterIcon from '@material-ui/icons/Tune';
 import SortIcon from '@material-ui/icons/CompareArrows';
+import BackHandler from '../Components/BackHandler';
 import SearchIcon from '@material-ui/icons/SearchSharp';
 import ExportIcon from '@material-ui/icons/GetApp';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
@@ -186,6 +187,7 @@ function DriveResult() {
 
   return (
     <div>
+      <BackHandler title='' tab={0} isDrive={true} />
       <h3 style={{ textAlign: 'center' }}>{eventInfo?.eventName} </h3>
       <Controls.Input
         inputRef={textRef}
