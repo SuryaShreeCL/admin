@@ -25,7 +25,6 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';

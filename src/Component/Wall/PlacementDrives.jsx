@@ -5,6 +5,8 @@ import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Drives from './Pages/Drives';
 import { useLocation } from 'react-router-dom';
 
+// Note: Events are considered as Drives
+
 const PlacementDrives = () => {
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
