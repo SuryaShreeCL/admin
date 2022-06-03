@@ -33,7 +33,7 @@ import {
 } from '../../../Actions/WallActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { wallPath } from '../../RoutePaths';
+import { placementDrives, wallPath } from '../../RoutePaths';
 import Notification from '../../Utils/Notification';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
@@ -155,7 +155,7 @@ const EditPost = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: wallPath,
+        pathname: location.isDrive ? placementDrives : wallPath,
         tab: location?.postTypeTab,
       });
     }, 1200);
@@ -170,7 +170,7 @@ const EditPost = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: wallPath,
+        pathname: location.isDrive ? placementDrives : wallPath,
         tab: location?.postTypeTab,
       });
     }, 1200);
@@ -207,7 +207,6 @@ const EditPost = () => {
     setFieldValue('hostImageUrl', '');
   };
 
-  // console.log(records);
   const eventvalidationSchema = yup.object({
     jobCategory: yup
       .object()
@@ -278,7 +277,11 @@ const EditPost = () => {
 
   return (
     <>
-      <BackHandler title={`Edit ${location?.postType}`} tab={location?.postTypeTab} />
+      <BackHandler
+        title={`Edit ${location?.postType}`}
+        tab={location?.postTypeTab}
+        isDrive={location?.isDrive}
+      />
       <CreatePostContainer>
         <Formik
           initialValues={records || state}

@@ -37,9 +37,10 @@ const WallLanding = () => {
         return <DraftPost />;
       } else if (value === 2) {
         return <ScheduledPost />;
-      } else if (value === 3) {
-        return <Events />;
       }
+      // else if (value === 3) {
+      //   return <Events />;
+      // }
       // else if (value === 4) {
       //   return <Webinars />;
       // }
@@ -87,7 +88,7 @@ const WallLanding = () => {
               <TopTab label='Live Posts' />
               <TopTab label='Draft Posts' />
               <TopTab label='Scheduled Posts' />
-              <TopTab label='Events' />
+              {/* <TopTab label='Events' /> */}
               {/* <TopTab label='Webinars' /> */}
             </TopTabs>
           )}

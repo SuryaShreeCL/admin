@@ -33,7 +33,7 @@ import {
 } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
 import { useHistory, useLocation } from 'react-router-dom';
-import { testCreate, wallPath } from '../../RoutePaths';
+import { placementDrives, testCreate, wallPath } from '../../RoutePaths';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
 import PreprationContainer from '../Components/PreparationContainer';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -144,7 +144,6 @@ const CreatePost = () => {
   });
 
   useEffect(() => {
-    console.log(state, 'state');
     dispatch(getWallCategories('Live'));
     dispatch(getWallJobList('Live'));
     dispatch(getPlatforms());
@@ -305,7 +304,7 @@ const CreatePost = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: state.isEvent ? testCreate : wallPath,
+        pathname: state.isEvent ? testCreate : location.isDrive ? placementDrives : wallPath,
         tab: location?.postTypeTab,
       });
     }, 1500);
@@ -365,15 +364,9 @@ const CreatePost = () => {
       <BackHandler
         title={`Create New ${location?.postType ?? 'Post'}`}
         tab={location?.postTypeTab}
+        isDrive={location?.isDrive}
       />
       <CreatePostContainer>
-        {console.log(
-          state.isWebinar
-            ? webinarvalidationSchema
-            : state.isEvent
-            ? eventvalidationSchema
-            : postvalidationSchema
-        )}
         <Formik
           initialValues={state || []}
           validationSchema={

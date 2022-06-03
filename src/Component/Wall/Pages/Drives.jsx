@@ -120,7 +120,8 @@ export default function Drives() {
       pathname: editPath,
       recordForEdit: item,
       postType: 'Event',
-      postTypeTab: 3,
+      postTypeTab: 0,
+      isDrive: true,
     });
     setOpenDrawer(false);
   };
@@ -159,7 +160,7 @@ export default function Drives() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search Drives'
+            placeholder='Search Events'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -169,15 +170,8 @@ export default function Drives() {
             }}
             onChange={handleSearch}
           />
-          {/* <Controls.Button
-            text='Filter'
-            variant='outlined'
-            color='default'
-            startIcon={<FilterListIcon />}
-            className={classes.filterBtn}
-          /> */}
           <Controls.Button
-            text='Create New Drive'
+            text='Create New Event'
             variant='contained'
             color='primary'
             startIcon={<AddIcon />}
@@ -187,7 +181,8 @@ export default function Drives() {
                 pathname: createPath,
                 type: true,
                 postType: 'Event',
-                postTypeTab: 3,
+                postTypeTab: 0,
+                isDrive: true,
               });
             }}
           />

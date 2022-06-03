@@ -5,11 +5,6 @@ import { Container, TopTab, TopTabs } from './Assets/Styles/WallStyles';
 import Drives from './Pages/Drives';
 import { useLocation } from 'react-router-dom';
 
-export const Lms_Roles = ['LMSCHECKER', 'LMSEDITOR'];
-export const isLms_Role = (role) => {
-  return Lms_Roles.indexOf(role) > -1;
-};
-
 const PlacementDrives = () => {
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
@@ -34,7 +29,7 @@ const PlacementDrives = () => {
             onChange={(e, value) => setTabCount(value)}
             aria-label='tabs'
           >
-            <TopTab label='Drives' />
+            <TopTab label='Events' />
           </TopTabs>
         </Grid>
         <Grid item md={12} overflow='auto'>

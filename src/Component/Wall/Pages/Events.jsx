@@ -120,15 +120,7 @@ export default function Events() {
       pathname: editPath,
       recordForEdit: item,
       postType: 'Event',
-      postTypeTab: 3,
-    });
-    setOpenDrawer(false);
-  };
-
-  const openResultPage = (item) => {
-    history.push({
-      pathname: result + item.id,
-      id: item.id,
+      postTypeTab: 0,
     });
     setOpenDrawer(false);
   };
@@ -187,7 +179,7 @@ export default function Events() {
                 pathname: createPath,
                 type: true,
                 postType: 'Event',
-                postTypeTab: 3,
+                postTypeTab: 0,
               });
             }}
           />
