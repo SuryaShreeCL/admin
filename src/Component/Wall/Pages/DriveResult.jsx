@@ -288,13 +288,20 @@ function DriveResult() {
             icon: () => <CloudDownloadIcon />,
             tooltip: 'CV Download',
             onClick: (e, data) => {
-              let filteredIds = data.map((student) => ({
-                studentId: student.studentId,
-              }));
+              let filteredIds = data.map((student) => student.studentId);
               window.open(
-                `${
-                  process.env.REACT_APP_API_URL
-                }/api/v1/event/${id}/filter/cv?studentIdList=${JSON.stringify(...filteredIds)}`,
+                `${process.env.REACT_APP_API_URL}/api/v1/event/${id}/filter/cv?studentIdList=${filteredIds}`,
+                '_blank'
+              );
+            },
+          },
+          {
+            icon: () => <ExportIcon style={{ color: 'green' }} />,
+            tooltip: 'Master Sheet Download',
+            onClick: (e, data) => {
+              let filteredIds = data.map((student) => student.studentId);
+              window.open(
+                `${process.env.REACT_APP_API_URL}/api/v1/event/${id}/filter/result/page?studentIdList=${filteredIds}`,
                 '_blank'
               );
             },
@@ -307,8 +314,8 @@ function DriveResult() {
           searchFieldVariant: 'outlined',
           filtering: true,
           paging: false,
-          exportButton: true,
-          exportAllData: true,
+          exportButton: false,
+          exportAllData: false,
           exportFileName: eventInfo.eventName,
           addRowPosition: 'first',
           actionsColumnIndex: -1,
