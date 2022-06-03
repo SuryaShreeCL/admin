@@ -55,7 +55,7 @@ function DriveResult() {
       title: 'Status',
       field: 'stepStatus',
       sorting: false,
-      emptyValue: () => <em>null</em>,
+      emptyValue: () => <em>--</em>,
       render: (rowData) => (
         <p
           style={{
@@ -80,21 +80,21 @@ function DriveResult() {
       field: 'sscScore',
       type: 'numeric',
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p>{rowData.sscScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.sscScore}</p>,
     },
     {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p>{rowData.hscScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
     {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p>{rowData.ugScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.ugScore}</p>,
     },
     {
       title: 'Graduation',
