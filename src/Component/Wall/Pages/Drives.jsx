@@ -99,14 +99,8 @@ export default function Drives() {
     totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listWallPosts('Live', true, page, text));
   };
 
   const openInPopup = (item) => {
@@ -167,7 +161,11 @@ export default function Drives() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
           <Controls.Button
             text='Create New Event'
