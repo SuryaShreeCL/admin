@@ -1087,8 +1087,8 @@ export const putproductstructure = (data, callback) => {
         console.log(result);
       })
       .catch((error) => {
+                console.log(error);
         callback(error);
-        console.log(error);
       });
   };
 };

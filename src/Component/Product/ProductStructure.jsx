@@ -94,7 +94,6 @@ class ProductStructure extends Component {
     }
   }
   handleClick = (data) => {
-    console.log(data);
     this.setState({
       open: true,
       stepname: data.stepName,
@@ -171,14 +170,24 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: {"id" : this.state.varient.id},
+        product: { id: this.state.varient },
       };
-      this.props.putproductstructure(obj);
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
-        open: false,
+      this.props.putproductstructure(obj, (response) => {
+        if (response.status === 200) {
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+            open: false,
+          });
+        } else {
+          this.setState({
+            snackMsg: "Network Failed",
+            snackOpen: true,
+            snackVariant: "error",
+            open: false,
+          });
+        }
       });
     }
   };
@@ -240,7 +249,7 @@ class ProductStructure extends Component {
     isEmptyString(this.state.description)
       ? this.setState({ descriptionErr: hlptxt })
       : this.setState({ descriptionErr: "" });
-    console.log(this.state);
+
     if (
       !isEmptyString(this.state.stepname) &&
       !isEmptyString(this.state.image) &&
@@ -266,10 +275,10 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: {"id" : this.state.varient.id},
+        product: { id: this.state.varient.id },
       };
       this.props.postproductstructure(obj);
-      console.log(obj);
+
       this.setState({
         snackMsg: "Added Successfully",
         snackOpen: true,
@@ -279,8 +288,6 @@ class ProductStructure extends Component {
     }
   };
   render() {
-    console.log(this.props.getproductstructureList);
-    console.log(this.state);
     return (
       <div>
         <div
