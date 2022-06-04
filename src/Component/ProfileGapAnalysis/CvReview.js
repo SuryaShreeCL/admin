@@ -341,7 +341,7 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let isReview = cvStatus === 'REVIEW';
+  let isReview = cvStatus === "REVIEW";
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
