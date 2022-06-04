@@ -506,7 +506,7 @@ export const completecall = (studentId, productId, data) => {
       });
   };
 };
-export const skipcall = (studentId, productId) => {
+export const skipcall = (studentId, productId,callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return (dispatch) => {
@@ -523,9 +523,11 @@ export const skipcall = (studentId, productId) => {
         }
       )
       .then((result) => {
+        callback(result.data)
         dispatch({ type: CALL_DETAILS.skipcall, payload: result.data });
       })
       .catch((error) => {
+                callback(error);
         console.log(error);
       });
   };

@@ -5,19 +5,19 @@ import {
   IconButton,
   Popper,
   TextField,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/DeleteOutline';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+} from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/DeleteOutline";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   clearCustomData,
   cvDownload,
   cvUpload,
   getStudentCvList,
   reviewCompleted,
-} from '../../Actions/CvReview';
-import { ReactComponent as CommentIcon } from '../../Asset/icons/comment.svg';
+} from "../../Actions/CvReview";
+import { ReactComponent as CommentIcon } from "../../Asset/icons/comment.svg";
 import {
   Container,
   ContentWrapper,
@@ -30,32 +30,32 @@ import {
   Typo,
   useStyles,
   Wrapper,
-} from '../../Asset/StyledComponents/CvReview';
-import MySnackBar from '../MySnackBar';
-import DropzoneComponent from '../Utils/controls/CustomDropZone';
-import CustomPopup from '../Utils/controls/CustomPopup';
-import Loader from '../Utils/controls/Loader';
-import CvViewer from './CvViewer';
+} from "../../Asset/StyledComponents/CvReview";
+import MySnackBar from "../MySnackBar";
+import DropzoneComponent from "../Utils/controls/CustomDropZone";
+import CustomPopup from "../Utils/controls/CustomPopup";
+import Loader from "../Utils/controls/Loader";
+import CvViewer from "./CvViewer";
 
-const CV_UPLOAD_MESSAGE = 'CV Uploaded Successfully';
-const CV_REVIEW_MESSAGE = 'CV Review Completed Successfully';
-const FILE_REQUIRED_MESSAGE = 'Please select a file';
+const CV_UPLOAD_MESSAGE = "CV Uploaded Successfully";
+const CV_REVIEW_MESSAGE = "CV Review Completed Successfully";
+const FILE_REQUIRED_MESSAGE = "Please select a file";
 const FILE_SELECT_INVALID =
-  'Please select a valid format (.doc/.docx/.pdf)  file';
+  "Please select a valid format (.doc/.docx/.pdf)  file";
 
 function Index(props) {
   const classes = useStyles();
   const [state, setState] = useState({
     snackOpen: false,
-    snackVariant: '',
-    snackMsg: '',
+    snackVariant: "",
+    snackMsg: "",
     cvReviewList: [],
     cvStatus: null,
-    commentText: '',
+    commentText: "",
     popupOpen: false,
     anchorEl: null,
     file: null,
-    popperComment: '',
+    popperComment: "",
   });
   const {
     snackOpen,
@@ -79,7 +79,7 @@ function Index(props) {
     downloadStatus,
     cvUploadStatus,
     cvReviewStatus,
-  } = useSelector(state => state.CvReviewReducer);
+  } = useSelector((state) => state.CvReviewReducer);
   console.log(cvReviewStatus);
 
   const handleSnack = (open, color, message) => {
@@ -104,18 +104,18 @@ function Index(props) {
           cvStatus: studentCvList.data?.status,
         });
       } else {
-        handleSnack(true, 'error', studentCvList.message);
+        handleSnack(true, "error", studentCvList.message);
       }
-      dispatch(clearCustomData('studentCvList'));
+      dispatch(clearCustomData("studentCvList"));
     }
   }, [studentCvList]);
 
   useEffect(() => {
     if (downloadStatus) {
       if (!downloadStatus.success) {
-        handleSnack(true, 'error', downloadStatus.message);
+        handleSnack(true, "error", downloadStatus.message);
       }
-      dispatch(clearCustomData('downloadStatus'));
+      dispatch(clearCustomData("downloadStatus"));
     }
   }, [downloadStatus]);
 
@@ -125,12 +125,12 @@ function Index(props) {
         snackOpen: true,
         popupOpen: false,
         file: null,
-        commentText: '',
+        commentText: "",
       };
       if (cvUploadStatus.success) {
         setState({
           ...state,
-          snackVariant: 'success',
+          snackVariant: "success",
           snackMsg: CV_UPLOAD_MESSAGE,
           ...customProp,
         });
@@ -139,38 +139,38 @@ function Index(props) {
       } else {
         setState({
           ...state,
-          snackVariant: 'error',
+          snackVariant: "error",
           snackMsg: cvUploadStatus.message,
           ...customProp,
         });
       }
-      dispatch(clearCustomData('cvUploadStatus'));
-      console.log(cvUploadStatus)
+      dispatch(clearCustomData("cvUploadStatus"));
+      console.log(cvUploadStatus);
     }
   }, [cvUploadStatus]);
 
   useEffect(() => {
     if (cvReviewStatus) {
       if (cvReviewStatus.success) {
-        handleSnack(true, 'success', CV_REVIEW_MESSAGE);
+        handleSnack(true, "success", CV_REVIEW_MESSAGE);
         dispatch(getStudentCvList(studentId, productId));
       } else {
-        handleSnack(true, 'error', cvReviewStatus.message);
+        handleSnack(true, "error", cvReviewStatus.message);
       }
-      dispatch(clearCustomData('cvReviewStatus'));
+      dispatch(clearCustomData("cvReviewStatus"));
     }
   }, [cvReviewStatus]);
 
-  const handleDrop = files => {
+  const handleDrop = (files) => {
     if (files && files.length !== 0) {
       setState({ ...state, file: files[0] });
     } else {
-      setTimeout(() => handleSnack(true, 'error', FILE_SELECT_INVALID), 200);
+      setTimeout(() => handleSnack(true, "error", FILE_SELECT_INVALID), 200);
     }
   };
 
   const handleCancel = () => {
-    setState({ ...state, popupOpen: false, file: null, commentText: '' });
+    setState({ ...state, popupOpen: false, file: null, commentText: "" });
   };
 
   const handlePopupOpen = () => {
@@ -180,19 +180,19 @@ function Index(props) {
   const handleUpload = () => {
     if (file) {
       let uploadFormData = new FormData();
-      uploadFormData.append('file', file);
+      uploadFormData.append("file", file);
       console.log(uploadFormData);
       dispatch(cvUpload(studentId, productId, uploadFormData, commentText));
     } else {
-      handleSnack(true, 'error', FILE_REQUIRED_MESSAGE);
+      handleSnack(true, "error", FILE_REQUIRED_MESSAGE);
     }
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, snackOpen: false, snackVariant: '', snackMsg: '' });
+    setState({ ...state, snackOpen: false, snackVariant: "", snackMsg: "" });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value, name } = e.target;
     setState({ ...state, [name]: value });
   };
@@ -208,28 +208,28 @@ function Index(props) {
     return (
       <div>
         <DropzoneComponent
-          acceptTypes={'.pdf, .doc, .docx'}
+          acceptTypes={".pdf, .doc, .docx"}
           onDrop={handleDrop}
         />
         <FlexJustifyView>
           <Typo
-            variant={'h6'}
+            variant={"h6"}
             className={classes.subTextStyle}
-            color={'#333333'}
+            color={"#333333"}
           >
-            {'CV Details'}
+            {"CV Details"}
           </Typo>
           {file?.name && (
             <div>
               <FlexEndView>
-                <Typo variant={'caption'} color={'#333333'}>
+                <Typo variant={"caption"} color={"#333333"}>
                   {file.name}
                 </Typo>
                 <IconButton
                   onClick={handleDelete}
                   className={classes.iconButtonStyle}
                 >
-                  <DeleteIcon color={'error'} />
+                  <DeleteIcon color={"error"} />
                 </IconButton>
               </FlexEndView>
             </div>
@@ -237,9 +237,9 @@ function Index(props) {
         </FlexJustifyView>
 
         <TextField
-          name={'commentText'}
-          label={'Comment'}
-          placeholder={'Comment'}
+          name={"commentText"}
+          label={"Comment"}
+          placeholder={"Comment"}
           value={commentText}
           className={classes.bottomPad}
           onChange={handleChange}
@@ -250,8 +250,8 @@ function Index(props) {
   };
 
   const handleClickAway = () => {
-    if (document.activeElement.id !== 'command_icon')
-      setState({ ...state, anchorEl: null, popperComment: '' });
+    if (document.activeElement.id !== "command_icon")
+      setState({ ...state, anchorEl: null, popperComment: "" });
   };
 
   const renderPopperContent = () => {
@@ -259,13 +259,13 @@ function Index(props) {
       <ClickAwayListener onClickAway={handleClickAway}>
         <Paper>
           <Wrapper>
-            <Typo variant={'body1'} color={'#18AAE7'}>
-              {'Comment'}
+            <Typo variant={"body1"} color={"#18AAE7"}>
+              {"Comment"}
             </Typo>
             <ContentWrapper className={classes.popperContentStyle}>
               <Typo
-                variant={'body1'}
-                color={'#333333'}
+                variant={"body1"}
+                color={"#333333"}
                 paragraph={true}
                 className={classes.popperContent}
               >
@@ -290,49 +290,47 @@ function Index(props) {
     dispatch(cvDownload(studentId, id, cvPath));
   };
   const renderTable = () => {
+    console.log(cvReviewList);
     return cvReviewList?.length !== 0 ? (
       <StyledTable>
         <tr>
-          <th>{'Version'}</th>
-          <th>{'Uploaded By'}</th>
-          <th>{'Comment'}</th>
+          <th>{"Version"}</th>
+          <th>{"Uploaded By"}</th>
+          <th>{"Comment"}</th>
           <th></th>
         </tr>
-        {cvReviewList.map(({ comment, createdBy, id, path,status }) => (
-                    <tr>
-                    {status === "Editor"? (
-                    <td>
-                      {path}_R
-                      </td>
-                    ):(
-                      <td>
-                        {path}
-                      </td>)
-          }
-            <td>{createdBy}</td>
-            <td>
-              {comment && comment.trim().length !== 0 && (
-                <IconButton
-                  id={'command_icon'}
-                  className={classes.iconButtonStyle}
-                  onClick={e => handleClick(comment, e)}
-                >
-                  <CommentIcon />
-                </IconButton>
-              )}
-            </td>
-            <td>
-              <StyledButton
-                height={'25px'}
-                variant={'outlined'}
-                style={customTheme.palette.outlined}
-                onClick={() => handleDownload(id, path)}
-              >
-                {'Download'}
-              </StyledButton>
-            </td>
-          </tr>
-              ))}
+        {cvReviewList.map(
+          ({ comment, createdBy, id, path, status, uploadedStatus }) =>
+            uploadedStatus === "Upload CV" || uploadedStatus === "Cv Review" || status === "Editor" ? (
+              <tr>
+                {status === "Editor" ? <td>{path}_R</td> : <td>{path}</td>}
+                <td>{createdBy}</td>
+                <td>
+                  {comment && comment.trim().length !== 0 && (
+                    <IconButton
+                      id={"command_icon"}
+                      className={classes.iconButtonStyle}
+                      onClick={(e) => handleClick(comment, e)}
+                    >
+                      <CommentIcon />
+                    </IconButton>
+                  )}
+                </td>
+                <td>
+                  <StyledButton
+                    height={"25px"}
+                    variant={"outlined"}
+                    style={customTheme.palette.outlined}
+                    onClick={() => handleDownload(id, path)}
+                  >
+                    {"Download"}
+                  </StyledButton>
+                </td>
+              </tr>
+            ) : (
+              <></>
+            )
+        )}
       </StyledTable>
     ) : null;
   };
@@ -351,15 +349,15 @@ function Index(props) {
               <FlexEndView>
                 {isReview && (
                   <StyledButton
-                    variant={'outlined'}
+                    variant={"outlined"}
                     style={customTheme.palette.outlined}
                     onClick={handleReview}
                   >
-                    {'Review Completed'}
+                    {"Review Completed"}
                   </StyledButton>
                 )}
                 <StyledButton
-                  variant={'contained'}
+                  variant={"contained"}
                   style={
                     isReview
                       ? customTheme.palette.contained
@@ -368,7 +366,7 @@ function Index(props) {
                   onClick={handlePopupOpen}
                   disabled={!isReview}
                 >
-                  {'Upload CV'}
+                  {"Upload CV"}
                 </StyledButton>
               </FlexEndView>
             </Grid>
@@ -379,21 +377,21 @@ function Index(props) {
         </Container>
       </Grid>
       <Grid item sm={12} md={5}>
-        <CvViewer doctype={'cv'} {...props} />
+        <CvViewer doctype={"cv"} {...props} />
       </Grid>
       <Popper
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        placement={'bottom-start'}
+        placement={"bottom-start"}
       >
         {renderPopperContent()}
       </Popper>
       <CustomPopup
         open={popupOpen}
-        title={'CV Upload'}
-        width={'600px'}
-        leftButtonText={'Cancel'}
-        rightButtonText={'Upload'}
+        title={"CV Upload"}
+        width={"600px"}
+        leftButtonText={"Cancel"}
+        rightButtonText={"Upload"}
         handleLeftButton={handleCancel}
         handleRightButton={handleUpload}
         handleClose={handleCancel}

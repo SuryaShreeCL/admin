@@ -41,6 +41,7 @@ export const getDocumentModelBySubStageId = (
             params: {
               schoolId: schoolId,
               type: schoolType,
+              admin: true
             },
           }
         )
