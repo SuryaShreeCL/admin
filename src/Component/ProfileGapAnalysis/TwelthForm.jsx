@@ -28,6 +28,10 @@ import { ExpandMore } from "@material-ui/icons";
 
 function TwelthForm(props) {
   // Setting up initial state values
+  const popperAnchorEl = useSelector(
+    (state) => state.HelperReducer.popperState.popperAnchorEl
+  );
+  const profileSimilarityPopupOpen = Boolean(popperAnchorEl);
   const [educationalDetailsId, setEducationalDetailsId] = useState("");
   const [schoolName, setSchoolName] = useState({
     name: "",
@@ -238,6 +242,13 @@ function TwelthForm(props) {
       (response) => {
         if (response.status === 200) {
           setStudentMatch(response.data.data);
+          if (!response.data.data.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "Given Filter is not found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );
@@ -290,6 +301,13 @@ function TwelthForm(props) {
       (response) => {
         if (response.status === 200) {
           setDistinctMatch(response.data.data);
+          if (!response.data.data.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "No Data found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );

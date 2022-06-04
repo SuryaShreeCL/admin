@@ -22,7 +22,7 @@ class ViewDetails extends Component {
   degree = [];
 
   renderDegree = () => {
-    const { allDegrees } = this.props;
+    const { allDegrees, degreeNameErr } = this.props;
     const degreeOptions =
       allDegrees && Array.isArray(allDegrees) ? allDegrees : [];
     if (this.props.item.degree) {
@@ -37,6 +37,8 @@ class ViewDetails extends Component {
             getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
+                error={degreeNameErr.length !== 0}
+                helperText={degreeNameErr}
                 {...params}
                 label="Degree"
                 variant="standard"
@@ -64,6 +66,11 @@ class ViewDetails extends Component {
       universityResponse,
       gpaScale,
       allDegrees,
+      collegeNameErr,
+      departmentNameErr,
+      universityNameErr,
+      scoreScaleErr,
+      scoreErr,
     } = this.props;
 
     return (
@@ -95,6 +102,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={collegeNameErr.length !== 0}
+                  helperText={collegeNameErr}
                   {...params}
                   label="College Name"
                   variant="standard"
@@ -114,6 +123,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={departmentNameErr.length !== 0}
+                  helperText={departmentNameErr}
                   {...params}
                   label="Department"
                   variant="standard"
@@ -132,6 +143,7 @@ class ViewDetails extends Component {
               fullWidth
             /> */}
             <AutoCompleteDropDown
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="CGPA/Percentage"
               options={gpaScale}
               value={gpaScale.find((item) => item.value === scoreScale) || null}
@@ -140,6 +152,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.title}
               renderInput={(params) => (
                 <TextField
+                  error={scoreScaleErr?.length !== 0}
+                  helperText={scoreScale || scoreScaleErr}
                   {...params}
                   label="CGPA/Percentage"
                   variant="standard"
@@ -159,6 +173,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={universityNameErr.length !== 0}
+                  helperText={universityNameErr}
                   {...params}
                   label="University Name"
                   variant="standard"
@@ -203,9 +219,14 @@ class ViewDetails extends Component {
               }}
               value={score}
               onChange={this.props.handleChange}
-              error={scoreScale !== null && scoreScale < score}
+              error={
+                (scoreScale !== null && scoreScale < score) ||
+                scoreErr.length !== 0
+              }
               helperText={
-                scoreScale !== null && scoreScale < score ? "Invalid Input" : ""
+                scoreScale !== null && scoreScale < score
+                  ? "Invalid Input"
+                  : "" || scoreErr
               }
             />
           </Grid>

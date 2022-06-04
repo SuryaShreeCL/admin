@@ -78,6 +78,7 @@ class DoccumentCard extends Component {
               snackopen: true,
               snackvariant: 'success',
             });
+            window.location.reload(false);
           } else {
             this.setState({
               snackmsg: ErrorMessage.NetworkError,
