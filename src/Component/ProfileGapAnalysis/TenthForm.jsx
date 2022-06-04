@@ -34,6 +34,10 @@ import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
 import SimilarityPopup from "./SimilarityPopup";
 function TenthForm(props) {
+  const popperAnchorEl = useSelector(
+    (state) => state.HelperReducer.popperState.popperAnchorEl
+  );
+  const profileSimilarityPopupOpen = Boolean(popperAnchorEl);
   // Setting up initial values for the variable
   const choice = [
     { title: "10", value: 10 },
@@ -249,8 +253,14 @@ function TenthForm(props) {
     getSimilarStudentsByGrade(props.match.params.studentId, "ssc", year).then(
       (response) => {
         if (response.status === 200) {
-          
           setStudentMatch(response.data.data);
+          if (!response.data.data?.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "Given Filter is not Found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
         // else{
         //   setSnack({
@@ -270,6 +280,13 @@ function TenthForm(props) {
       (response) => {
         if (response.status === 200) {
           setDistinctMatch(response.data.data);
+          if (!response.data.data?.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "No Result Found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );
