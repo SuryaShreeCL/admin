@@ -407,7 +407,11 @@ class GraduateTestResult extends Component {
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
+<<<<<<< HEAD
       gredate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
+      gredate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -440,7 +444,11 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
+<<<<<<< HEAD
       gmatdate: moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
+      gmatdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       gmatid: data.id,
       gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
@@ -454,7 +462,11 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
+<<<<<<< HEAD
       toefldate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
+      toefldate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       toeflscore: data.score,
       toeflid: data.id,
       toeflfinalFile: this.customFileFormat(data.studentDocument),
@@ -469,7 +481,11 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
+<<<<<<< HEAD
       ieltsdate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
+      ieltsdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       ieltsscore: data.totalScore,
       ieltsid: data.id,
       ieltsfinalFile: this.customFileFormat(data.studentDocument),
@@ -549,8 +565,8 @@ class GraduateTestResult extends Component {
       let month = new Date(this.state.gredate).getMonth();
       let year = new Date(this.state.gredate).getFullYear();
       let time = new Date(this.state.gredate).toLocaleTimeString();
-      let finalDate = date + "-" + month + "-" + year
-      console.log(this.state.gredate,"bakugan")
+      let finalDate = date + "-" + month + "-" + year;
+      console.log(this.state.gredate, "bakugan");
       let obj = {
         attempt: this.state.greattempt && this.state.greattempt.title,
         expectedExamDate: null,
@@ -938,8 +954,8 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                           {eachdata.completedExamDate}
-                           {console.log(examdate)}
+                            {eachdata.completedExamDate}
+                            {console.log(examdate)}
                           </TableCell>
 
                           <TableCell
@@ -2125,16 +2141,14 @@ class GraduateTestResult extends Component {
                       )}
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12} md={6}>
                     {console.log(this.state.gredate)}
-                    
+
                     <TextField
-                      
                       margin="normal"
                       label="Exam Date"
                       value={this.state.gredate}
-                      
                       type="date"
                       onChange={(e) =>
                         this.setState({ gredate: e.target.value })
@@ -2221,7 +2235,7 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
+                    <Dropzone onDrop={this.onDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2337,7 +2351,6 @@ class GraduateTestResult extends Component {
                       disableFuture
                       margin="normal"
                       label="Exam Date"
-
                       value={this.state.gmatdate}
                       type="date"
                       onChange={(e) =>
@@ -2434,7 +2447,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.gmatonDrop}>
+                    <Dropzone onDrop={this.gmatonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2643,7 +2656,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.toeflonDrop}>
+                    <Dropzone onDrop={this.toeflonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2852,7 +2865,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.ieltsonDrop}>
+                    <Dropzone onDrop={this.ieltsonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div

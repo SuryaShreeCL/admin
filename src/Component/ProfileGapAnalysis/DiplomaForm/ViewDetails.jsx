@@ -143,6 +143,7 @@ class ViewDetails extends Component {
               fullWidth
             /> */}
             <AutoCompleteDropDown
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
               id="CGPA/Percentage"
               options={gpaScale}
               value={gpaScale.find((item) => item.value === scoreScale) || null}

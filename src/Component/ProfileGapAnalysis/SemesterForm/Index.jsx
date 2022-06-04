@@ -838,19 +838,20 @@ class Index extends Component {
 
                 <div className={classes.buttonDiv}>
                   <Button
-                    className={"button"}
+                    // className={"button"}
                     variant={"outlined"}
                     color={"primary"}
-                    // className={classes.sgpaButton}
+                    className={classes.sgpaButton}
                     onClick={this.handleSgpaClick}
                   >
                     Calculate SGPA
                   </Button>
+
                   <Button
-                    className={"button"}
+                    // className={"button"}
                     variant={"outlined"}
                     color={"primary"}
-                    // className={classes.cgpaButton}
+                    className={classes.cgpaButton}
                     onClick={this.handleCgpaClick}
                   >
                     Calculate CGPA
@@ -893,11 +894,12 @@ const useStyles = (theme) => ({
     marginLeft: "10px",
   },
   sgpaButton: {
-    borderRadius: "20px",
-    marginRight: "15px",
+    borderRadius: "5px",
+    marginRight: "10px",
   },
   cgpaButton: {
-    borderRadius: "20px",
+    borderRadius: "5px",
+    marginRight: "10px",
   },
   examTypeStyle: {
     "& .MuiFormLabel-root.Mui-error": {

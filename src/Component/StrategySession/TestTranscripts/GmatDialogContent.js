@@ -64,7 +64,7 @@ function GmatDialogContent({
             margin={"normal"}
             label={"Exam Date"}
             value={date}
-            type={"month"}
+            type={"date"}
             name={"date"}
             onChange={handleChange}
             InputLabelProps={{
@@ -161,7 +161,7 @@ function GmatDialogContent({
         </Grid>
         <Grid item md={6}></Grid>
         <Grid item md={6} sm={5} xs={5}>
-          <Dropzone onDrop={handleDrop}>
+          <Dropzone onDrop={handleDrop} accept={".pdf"}>
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div {...getRootProps({ className: classes.dropZoneLayout })}>
