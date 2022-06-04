@@ -6,7 +6,11 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import ClientDetails from "./ClientDetails";
 import Question from "./textEditor";
 import Rating from "./Rating";
-import { completecall,skipcall } from "../../Actions/Calldetails";
+import {
+  completecall,
+  skipcall,
+  getClientInfo,
+} from "../../Actions/Calldetails";
 
 import Mysnack from "../MySnackBar";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
@@ -24,6 +28,12 @@ class CallSummaryLayout extends Component {
       snackvariant: "",
     };
   }
+  componentDidMount() {
+    this.props.getClientInfo(
+      this.props.match.params.studentId,
+      this.props.match.params.productId
+    );
+  }
   handlecomplete = () => {
     this.props.completecall(
       this.props.match.params.studentId,
@@ -35,17 +45,26 @@ class CallSummaryLayout extends Component {
       snackvariant: "success",
     });
   };
+
   handleskip = () => {
     this.props.skipcall(
       this.props.match.params.studentId,
-      this.props.match.params.productId
+      this.props.match.params.productId,
+      (response) => {
+        if (response.statusCodeValue === 200) {
+          this.setState({
+            snackopen: true,
+            snackmsg: "Call Skipped Successfully",
+            snackvariant: "success",
+          });
+          this.props.getClientInfo(
+            this.props.match.params.studentId,
+            this.props.match.params.productId
+          );
+        }
+      }
     );
-    this.setState({
-      snackopen:true,
-      snackmsg: "Call Skipped Successfully",
-      snckVariant : "success",
-    })
-  }
+  };
   renderLeftContent = (value) => {
     try {
       if (value === 0) {
@@ -92,11 +111,8 @@ class CallSummaryLayout extends Component {
             </Breadcrumbs>
           </div>
         )}
-        
-          
 
         <Grid container spacing={2}>
-          
           <Grid
             item
             md={12}
@@ -111,6 +127,7 @@ class CallSummaryLayout extends Component {
               color={"primary"}
               style={{ textTransform: "none" }}
               onClick={() => this.handleskip()}
+              disabled={this.props.getClientInfoList.isSkipObCall}
             >
               Skip Call Summary
             </PrimaryButton>
@@ -180,7 +197,13 @@ class CallSummaryLayout extends Component {
 const mapStateToProps = (state) => {
   return {
     completecallList: state.CallReducer.completecall,
+    getClientInfoList: state.CallReducer.getClientInfo,
+    skipcallList: state.CallReducer.skipcall,
   };
 };
 
-export default connect(mapStateToProps, { completecall,skipcall })(CallSummaryLayout);
+export default connect(mapStateToProps, {
+  completecall,
+  skipcall,
+  getClientInfo,
+})(CallSummaryLayout);

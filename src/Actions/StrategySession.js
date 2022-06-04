@@ -30,7 +30,7 @@ export const getDocumentModelBySubStageId = (
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}?admin=true`,
           {
             headers: {
               admin: "yes",

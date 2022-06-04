@@ -431,7 +431,7 @@ class GeneralDetails extends Component {
   handleopen = () => {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
     ) {
       if (
         this.state.firstname !== "" &&
@@ -819,7 +819,7 @@ class GeneralDetails extends Component {
   renderhigherdetails() {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
     ) {
       return (
         <Grid container spacing={3}>
@@ -1092,7 +1092,7 @@ class GeneralDetails extends Component {
   handlesaved = () => {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
     ) {
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
@@ -1658,7 +1658,7 @@ class GeneralDetails extends Component {
                   {this.props.StudentStepDetailsList.referProductCodeName ===
                     "ACS_MBA" ||
                   this.props.StudentStepDetailsList.referProductCodeName ===
-                    "ACS MIM" ? (
+                    "ACS_MIM" ? (
                     <Grid item md={4}>
                       <div
                         style={{

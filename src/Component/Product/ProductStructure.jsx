@@ -380,7 +380,7 @@ class ProductStructure extends Component {
                         >
                           {eachdata.id}
                         </TableCell>
-                        <TableCell>{eachdata.product.name}</TableCell>
+                        <TableCell>{eachdata.product?.name}</TableCell>
                         <TableCell>{eachdata.stepName}</TableCell>
                         <TableCell>{eachdata.description}</TableCell>
                         <TableCell>
