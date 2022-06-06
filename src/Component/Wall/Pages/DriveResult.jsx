@@ -115,7 +115,7 @@ function DriveResult() {
       field: 'experienceStatus',
       emptyValue: () => <em>--</em>,
       render: (rowData) => <div>{rowData.experienceStatus}</div>,
-      lookup: { Frehser: 'Fresher', Experienced: 'Experienced' },
+      lookup: { Fresher: 'Fresher', Experienced: 'Experienced' },
     },
   ];
 
