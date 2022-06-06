@@ -21,9 +21,9 @@ import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
   let textRef = useRef(null);
-  const [sslcValue, setSslcValue] = useState('');
-  const [hscValue, setHscValue] = useState('');
-  const [ugValue, setUgValue] = useState('');
+  const [sslcValue, setSslcValue] = useState('all');
+  const [hscValue, setHscValue] = useState('all');
+  const [ugValue, setUgValue] = useState('all');
   const { id } = useParams();
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
@@ -258,7 +258,13 @@ function DriveResult() {
             message: res.message,
             type: 'success',
           });
+          setSslcValue('all');
+          setHscValue('all');
+          setUgValue('all');
         } else {
+          setSslcValue('all');
+          setHscValue('all');
+          setUgValue('all');
           setIsLoading(false);
           setNotify({
             isOpen: true,
