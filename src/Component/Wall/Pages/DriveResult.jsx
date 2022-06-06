@@ -102,6 +102,8 @@ function DriveResult() {
           <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
+          <MenuItem value={40}>40</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
@@ -133,6 +135,8 @@ function DriveResult() {
           <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
+          <MenuItem value={40}>40</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
@@ -164,6 +168,8 @@ function DriveResult() {
           <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
+          <MenuItem value={40}>40</MenuItem>
+          <MenuItem value={50}>50</MenuItem>
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
