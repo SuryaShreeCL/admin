@@ -13,7 +13,7 @@ import ExportIcon from '@material-ui/icons/GetApp';
 import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 import ClearIcon from '@material-ui/icons/Clear';
 import Loader from '../../Utils/controls/Loader';
-import { FormControl, TextField } from '@material-ui/core';
+import { FormControl, MenuItem, Select, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
 import Notification from '../../Utils/Notification';
@@ -21,10 +21,14 @@ import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
   let textRef = useRef(null);
+  const [sslcValue, setSslcValue] = useState('');
+  const [hscValue, setHscValue] = useState('');
+  const [ugValue, setUgValue] = useState('');
   const { id } = useParams();
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [filteredData, setFilteredData] = useState(tableData ?? []);
   const [selectedRound, setSelectedRound] = useState([]);
   const [customQuestions, setCustomQuestions] = useState([]);
   const [eventInfo, setEventInfo] = useState([]);
@@ -83,6 +87,28 @@ function DriveResult() {
       cellStyle: {
         textAlign: 'center',
       },
+      filterComponent: () => (
+        <Select
+          id='sslc'
+          style={{ width: 70 }}
+          value={sslcValue}
+          onChange={(e) => {
+            setSslcValue(e.target.value);
+            let filteredData = tableData.studentList.filter(
+              (student) => parseInt(student.sscScore) >= e.target.value
+            );
+            setFilteredData(filteredData);
+          }}
+        >
+          <MenuItem value={'all'}>
+            <em>All</em>
+          </MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
+        </Select>
+      ),
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.sscScore}</p>,
     },
@@ -93,6 +119,28 @@ function DriveResult() {
       cellStyle: {
         textAlign: 'center',
       },
+      filterComponent: () => (
+        <Select
+          id='hsc'
+          style={{ width: 70 }}
+          value={hscValue}
+          onChange={(e) => {
+            setHscValue(e.target.value);
+            let filteredData = tableData.studentList.filter(
+              (student) => parseInt(student.hscScore) >= e.target.value
+            );
+            setFilteredData(filteredData);
+          }}
+        >
+          <MenuItem value={'all'}>
+            <em>All</em>
+          </MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
+        </Select>
+      ),
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
@@ -103,6 +151,28 @@ function DriveResult() {
       cellStyle: {
         textAlign: 'center',
       },
+      filterComponent: () => (
+        <Select
+          id='ugscore'
+          style={{ width: 70 }}
+          value={ugValue}
+          onChange={(e) => {
+            setUgValue(e.target.value);
+            let filteredData = tableData.studentList.filter(
+              (student) => parseInt(student.ugScore) >= e.target.value
+            );
+            setFilteredData(filteredData);
+          }}
+        >
+          <MenuItem value={'all'}>
+            <em>All</em>
+          </MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
+        </Select>
+      ),
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.ugScore}</p>,
     },
@@ -214,7 +284,7 @@ function DriveResult() {
       />
       <MaterialTable
         columns={columns}
-        data={tableData.studentList}
+        data={filteredData.length > 0 ? filteredData : tableData.studentList}
         components={{
           Toolbar: (props) => (
             <div
