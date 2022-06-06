@@ -21,6 +21,9 @@ import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
   let textRef = useRef(null);
+  const [sslcValue, setSslcValue] = useState('');
+  const [hscValue, setHscValue] = useState('');
+  const [ugValue, setUgValue] = useState('');
   const { id } = useParams();
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
@@ -85,7 +88,9 @@ function DriveResult() {
         <Select
           id='sslc'
           style={{ width: 70 }}
+          value={sslcValue}
           onChange={(e) => {
+            setSslcValue(e.target.value);
             let filteredData = tableData.studentList.filter(
               (student) => parseInt(student.sscScore) >= e.target.value
             );
@@ -95,9 +100,10 @@ function DriveResult() {
           <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
-          <MenuItem value={5}>60</MenuItem>
-          <MenuItem value={6}>70</MenuItem>
-          <MenuItem value={7}>80</MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
         </Select>
       ),
       emptyValue: () => <em>--</em>,
@@ -107,25 +113,28 @@ function DriveResult() {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
-      // filterComponent: () => (
-      //   <Select
-      //     id='hsc'
-      //     style={{ width: 70 }}
-      //     onChange={(e) => {
-      //       let filteredData = tableData.studentList.filter(
-      //         (student) => parseInt(student.hscScore) >= e.target.value
-      //       );
-      //       setFilteredData(filteredData);
-      //     }}
-      //   >
-      //     <MenuItem value={'all'}>
-      //       <em>All</em>
-      //     </MenuItem>
-      //     <MenuItem value={5}>60</MenuItem>
-      //     <MenuItem value={6}>70</MenuItem>
-      //     <MenuItem value={7}>80</MenuItem>
-      //   </Select>
-      // ),
+      filterComponent: () => (
+        <Select
+          id='hsc'
+          style={{ width: 70 }}
+          value={hscValue}
+          onChange={(e) => {
+            setHscValue(e.target.value);
+            let filteredData = tableData.studentList.filter(
+              (student) => parseInt(student.hscScore) >= e.target.value
+            );
+            setFilteredData(filteredData);
+          }}
+        >
+          <MenuItem value={'all'}>
+            <em>All</em>
+          </MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
+        </Select>
+      ),
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
@@ -133,25 +142,28 @@ function DriveResult() {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
-      // filterComponent: () => (
-      //   <Select
-      //     id='ugscore'
-      //     style={{ width: 70 }}
-      //     onChange={(e) => {
-      //       let filteredData = tableData.studentList.filter(
-      //         (student) => parseInt(student.ugScore) >= e.target.value
-      //       );
-      //       setFilteredData(filteredData);
-      //     }}
-      //   >
-      //     <MenuItem value={'all'}>
-      //       <em>All</em>
-      //     </MenuItem>
-      //     <MenuItem value={5}>60</MenuItem>
-      //     <MenuItem value={6}>70</MenuItem>
-      //     <MenuItem value={7}>80</MenuItem>
-      //   </Select>
-      // ),
+      filterComponent: () => (
+        <Select
+          id='ugscore'
+          style={{ width: 70 }}
+          value={ugValue}
+          onChange={(e) => {
+            setUgValue(e.target.value);
+            let filteredData = tableData.studentList.filter(
+              (student) => parseInt(student.ugScore) >= e.target.value
+            );
+            setFilteredData(filteredData);
+          }}
+        >
+          <MenuItem value={'all'}>
+            <em>All</em>
+          </MenuItem>
+          <MenuItem value={60}>60</MenuItem>
+          <MenuItem value={70}>70</MenuItem>
+          <MenuItem value={80}>80</MenuItem>
+          <MenuItem value={80}>90</MenuItem>
+        </Select>
+      ),
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.ugScore}</p>,
     },
