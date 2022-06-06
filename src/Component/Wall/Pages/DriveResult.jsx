@@ -80,6 +80,9 @@ function DriveResult() {
       title: '10%',
       field: 'sscScore',
       type: 'numeric',
+      cellStyle: {
+        textAlign: 'center',
+      },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.sscScore}</p>,
     },
@@ -87,6 +90,9 @@ function DriveResult() {
       title: '12%',
       field: 'hscScore',
       type: 'numeric',
+      cellStyle: {
+        textAlign: 'center',
+      },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
@@ -94,12 +100,18 @@ function DriveResult() {
       title: 'UG%',
       field: 'ugScore',
       type: 'numeric',
+      cellStyle: {
+        textAlign: 'center',
+      },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.ugScore}</p>,
     },
     {
       title: 'Graduation',
       field: 'ugEndDate',
+      cellStyle: {
+        textAlign: 'center',
+      },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{new Date(rowData.ugEndDate).getFullYear()}</p>,
     },
@@ -107,6 +119,9 @@ function DriveResult() {
       title: 'Active Backlogs',
       field: 'activeBacklogs',
       type: 'numeric',
+      cellStyle: {
+        textAlign: 'center',
+      },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.activeBacklogs}</p>,
     },
