@@ -83,7 +83,6 @@ function DriveResult() {
     {
       title: '10%',
       field: 'sscScore',
-      type: 'numeric',
       cellStyle: {
         textAlign: 'center',
       },
@@ -115,7 +114,6 @@ function DriveResult() {
     {
       title: '12%',
       field: 'hscScore',
-      type: 'numeric',
       cellStyle: {
         textAlign: 'center',
       },
@@ -147,7 +145,6 @@ function DriveResult() {
     {
       title: 'UG%',
       field: 'ugScore',
-      type: 'numeric',
       cellStyle: {
         textAlign: 'center',
       },
@@ -179,6 +176,7 @@ function DriveResult() {
     {
       title: 'Graduation',
       field: 'ugEndDate',
+      type: 'numeric',
       cellStyle: {
         textAlign: 'center',
       },
