@@ -93,7 +93,9 @@ function TwelthForm(props) {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectCode : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectCode
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
@@ -110,7 +112,9 @@ function TwelthForm(props) {
       title: "Subject Name",
       field: "subjectDetails.subjectName",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectName : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectName
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
@@ -131,7 +135,9 @@ function TwelthForm(props) {
         textAlign: "center",
       },
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.maximumMarks
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
