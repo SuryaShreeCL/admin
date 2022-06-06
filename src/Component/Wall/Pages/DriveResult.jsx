@@ -107,7 +107,7 @@ function DriveResult() {
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
-          <MenuItem value={80}>90</MenuItem>
+          <MenuItem value={90}>90</MenuItem>
         </Select>
       ),
       emptyValue: () => <em>--</em>,
@@ -140,7 +140,7 @@ function DriveResult() {
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
-          <MenuItem value={80}>90</MenuItem>
+          <MenuItem value={90}>90</MenuItem>
         </Select>
       ),
       emptyValue: () => <em>--</em>,
@@ -173,7 +173,7 @@ function DriveResult() {
           <MenuItem value={60}>60</MenuItem>
           <MenuItem value={70}>70</MenuItem>
           <MenuItem value={80}>80</MenuItem>
-          <MenuItem value={80}>90</MenuItem>
+          <MenuItem value={90}>90</MenuItem>
         </Select>
       ),
       emptyValue: () => <em>--</em>,
