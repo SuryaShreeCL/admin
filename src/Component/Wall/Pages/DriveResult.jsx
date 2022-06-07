@@ -147,7 +147,7 @@ function DriveResult() {
       render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
     {
-      title: 'UG%',
+      title: 'UG CGPA',
       field: 'ugScore',
       cellStyle: {
         textAlign: 'center',
@@ -168,6 +168,12 @@ function DriveResult() {
           <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={6}>6</MenuItem>
+          <MenuItem value={7}>7</MenuItem>
+          <MenuItem value={8}>8</MenuItem>
+          <MenuItem value={9}>9</MenuItem>
           <MenuItem value={40}>40%</MenuItem>
           <MenuItem value={50}>50%</MenuItem>
           <MenuItem value={60}>60%</MenuItem>
@@ -182,7 +188,6 @@ function DriveResult() {
     {
       title: 'Graduation',
       field: 'ugEndDate',
-      type: 'numeric',
       cellStyle: {
         textAlign: 'center',
       },
