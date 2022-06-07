@@ -407,7 +407,11 @@ class GraduateTestResult extends Component {
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
+<<<<<<< HEAD
+      gredate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
       gredate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -440,7 +444,11 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
+<<<<<<< HEAD
+      gmatdate: moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
       gmatdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       gmatid: data.id,
       gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
@@ -454,7 +462,11 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
+<<<<<<< HEAD
+      toefldate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
       toefldate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       toeflscore: data.score,
       toeflid: data.id,
       toeflfinalFile: this.customFileFormat(data.studentDocument),
@@ -469,7 +481,11 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
+<<<<<<< HEAD
+      ieltsdate:moment( data.completedExamDate).format('YYYY-MM-DD'),
+=======
       ieltsdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
+>>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       ieltsscore: data.totalScore,
       ieltsid: data.id,
       ieltsfinalFile: this.customFileFormat(data.studentDocument),
@@ -559,7 +575,7 @@ class GraduateTestResult extends Component {
         analyticalWriting:
           this.state.greanalytic && this.state.greanalytic.title,
         score: this.state.gretotal,
-        completedExamDate: this.state.gredate,
+        completedExamDate:moment(this.state.gredate).format('DD-MM-YYYY'),
       };
 
       this.props.updategrescore(this.state.greid, obj);
@@ -587,7 +603,7 @@ class GraduateTestResult extends Component {
         integratedReasoning: this.state.gmatint,
         analyticalAssessment: this.state.gmatanalytic.title,
         score: this.state.gmatscore,
-        completedExamDate: this.state.gmatdate,
+        completedExamDate:moment(this.state.gmatdate).format('DD-MM-YYYY'),
         verbalReasoning: this.state.gmatverb,
       };
 
@@ -616,7 +632,7 @@ class GraduateTestResult extends Component {
         writing: this.state.toeflwrite,
         speaking: this.state.toeflspeak,
         score: this.state.toeflscore,
-        completedExamDate: this.state.toefldate,
+        completedExamDate:moment(this.state.toefldate).format('DD-MM-YYYY'),
         expectedExamDate: null,
       };
 
@@ -645,7 +661,7 @@ class GraduateTestResult extends Component {
         speakingScore: this.state.ieltsspeak,
         writingScore: this.state.ieltswrite,
         totalScore: this.state.ieltsscore,
-        completedExamDate: this.state.ieltsdate,
+        completedExamDate:moment(this.state.ieltsdate).format('DD-MM-YYYY'),
         expectedExamDate: null,
       };
 
@@ -2139,6 +2155,7 @@ class GraduateTestResult extends Component {
                       }
                       InputLabelProps={{
                         shrink: true,
+
                       }}
                       fullWidth
                       name="ExamDate"
@@ -2755,7 +2772,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <TextField
-                      disableFuture
+                       disableFuture
                       margin="normal"
                       label="Exam Date"
                       value={this.state.ieltsdate}
@@ -2766,6 +2783,7 @@ class GraduateTestResult extends Component {
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      
                       fullWidth
                       name="ExamDate"
                     />
