@@ -407,11 +407,7 @@ class GraduateTestResult extends Component {
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
-<<<<<<< HEAD
-      gredate:moment( data.completedExamDate).format('YYYY-MM-DD'),
-=======
       gredate: moment(data.completedExamDate).format("YYYY-MM-DD"),
->>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -444,11 +440,7 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
-<<<<<<< HEAD
-      gmatdate: moment( data.completedExamDate).format('YYYY-MM-DD'),
-=======
       gmatdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
->>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       gmatid: data.id,
       gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
@@ -462,11 +454,7 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
-<<<<<<< HEAD
-      toefldate:moment( data.completedExamDate).format('YYYY-MM-DD'),
-=======
       toefldate: moment(data.completedExamDate).format("YYYY-MM-DD"),
->>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       toeflscore: data.score,
       toeflid: data.id,
       toeflfinalFile: this.customFileFormat(data.studentDocument),
@@ -481,11 +469,7 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
-<<<<<<< HEAD
-      ieltsdate:moment( data.completedExamDate).format('YYYY-MM-DD'),
-=======
       ieltsdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
->>>>>>> 70281978df28a6959adeba4b2cb76c954e7a1e77
       ieltsscore: data.totalScore,
       ieltsid: data.id,
       ieltsfinalFile: this.customFileFormat(data.studentDocument),
