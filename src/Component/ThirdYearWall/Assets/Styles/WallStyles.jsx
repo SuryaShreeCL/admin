@@ -22,6 +22,7 @@ export const TopTab = withStyles((theme) => ({
     fontWeight: theme.typography.fontWeightLight,
     marginRight: theme.spacing(3),
     fontSize: "1rem",
+    maxWidth: "280px !important",
     fontFamily: [
       "-apple-system",
       "BlinkMacSystemFont",

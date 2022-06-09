@@ -5,23 +5,7 @@ import { useLocation } from "react-router-dom";
 import Webinars from "./Pages/ThirdYearWebinars";
 import ConversionPopup from "./Pages/ConversionPopup";
 
-// export const Lms_Roles = ["LMSCHECKER", "LMSEDITOR"];
-// export const isLms_Role = (role) => {
-//   return Lms_Roles.indexOf(role) > -1;
-// };
-
-// const Lms_Tabs = [
-//   {
-//     label: "Webinars",
-//   },
-//   {
-//     label: "Recorded videos",
-//   },
-// ];
-
 const ThirdYearWallLanding = () => {
-  // let role = window.sessionStorage.getItem("role");
-  // console.log();
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
 
@@ -37,21 +21,6 @@ const ThirdYearWallLanding = () => {
     }
   };
 
-  // const renderLmsWebinarContent = (value) => {
-  //   try {
-  //     if (value === 0) {
-  //       return <Webinars />;
-  //     } else if (value === 1) {
-  //       return <RecordedVideos />;
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const renderLmsTab = () => {
-  //   return Lms_Tabs.map(({ label }) => <TopTab label={label} />);
-  // };
   console.log(tabCount, "tabCount");
   return (
     <Container>
