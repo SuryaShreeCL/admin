@@ -242,8 +242,10 @@ class Index extends Component {
     this.props.getTopicList(testQuestionSetId, response => {});
     this.props.aegetTopicList(testQuestionSetId, response => {});
   };
-
+  
   render() {
+    const datae = window.sessionStorage.getItem("department");
+    const datalist=this.props?.questionTypes?.data?.filter(item=> item.title !== 'Subjective')
     const { testQuestionSetId, courseId, sectionId } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
@@ -292,7 +294,11 @@ class Index extends Component {
               <DropDown
                 label="Question Type"
                 name="questionType"
-                items={questionType}
+              
+                
+               
+                items={datae === "assessment_engine_admin"?datalist:questionType}
+
                 value={selectedType}
                 onChange={handleChange}
               />
