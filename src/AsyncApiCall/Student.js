@@ -151,7 +151,7 @@ export const postTestBanner = async (testQuesSetId, data) => {
       data,
       {
         headers: {
-           admin: "yes",
+          // admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       }

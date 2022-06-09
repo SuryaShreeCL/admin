@@ -6,6 +6,8 @@ import { Label, Radio, T2 } from "../../../Assets/StyledTest";
 
 function RadioButtons(props) {
   let { checked, handleRadioChange, answerType, editData } = props;
+  var aesubject = window.sessionStorage.getItem('department');
+
   // console.log(editData);
   return (
     <FormControl
@@ -40,6 +42,8 @@ function RadioButtons(props) {
               }
               disabled={editData}
             />
+            {
+          aesubject !== "assessment_engine_admin" ?<> 
             <FormControlLabel
               value="SUBJECTIVE"
               control={<Radio color="primary" />}
@@ -47,7 +51,8 @@ function RadioButtons(props) {
                 <Label active={answerType === "SUBJECTIVE"}>Subjective</Label>
               }
               disabled={editData}
-            />
+            /></>:<></>
+}
           </>
         )}
       </RadioGroup>
