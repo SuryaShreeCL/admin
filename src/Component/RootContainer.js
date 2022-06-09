@@ -652,7 +652,7 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN') {
+    } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department')!== 'assessment_engine_admin') {
       setSideNav([
         {
           icon: <></>,
@@ -664,6 +664,12 @@ function RootContainer(props) {
           icon: <></>,
           title: 'Course',
           path: coursePath,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: 'Test',
+          path: lmsTest,
           items: [],
         },
         {
@@ -692,6 +698,58 @@ function RootContainer(props) {
         },
       ]);
     }
+
+
+    else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department') === 'assessment_engine_admin') {
+      setSideNav([
+        // {
+        //   icon: <></>,
+        //   title: 'Student',
+        //   path: studentPath,
+        //   items: [],
+        // },
+        // {
+        //   icon: <></>,
+        //   title: 'Course',
+        //   path: coursePath,
+        //   items: [],
+        // },
+        {
+          icon: <></>,
+          title: 'Test',
+          path: lmsTest,
+          items: [],
+        },
+        // {
+        //   icon: <></>,
+        //   title: 'College',
+        //   path: collegePath,
+        //   items: [],
+        // },
+        // {
+        //   icon: <></>,
+        //   title: 'Degree',
+        //   path: degreePath,
+        //   items: [],
+        // },
+        // {
+        //   icon: <></>,
+        //   title: 'Department',
+        //   path: departmentPath,
+        //   items: [],
+        // },
+        // {
+        //   icon: <></>,
+        //   title: 'InTake',
+        //   path: intakePath,
+        //   items: [],
+        // },
+      ]);
+    }
+
+
+
+    
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
   //

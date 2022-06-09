@@ -7,6 +7,7 @@ import { MenuItem, ListItemIcon, Typography } from "@material-ui/core";
 import PublishIcon from "../../Assets/icons/Publish.svg";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
+import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
 
 export default function Menu(props) {
   const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
@@ -23,6 +24,7 @@ export default function Menu(props) {
     { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
     { text: "Approve", icon: <ThumbUpIcon style={{ fill: "#1093ff" }} /> },
     { text: "Publish Now", icon: <img src={PublishIcon} alt="Publish" /> },
+    { text: "Reschedule", icon: <AccessTimeOutlinedIcon style={{ fill: "#1093ff" }} /> },
     { text: "Unarchive", icon: <UnarchiveIcon style={{ fill: "#1093ff" }} /> },
   ];
 
@@ -41,9 +43,15 @@ export default function Menu(props) {
       array.length = 3;
       return array;
     }
+    if (status === "Scheduled") {
+      array.splice(2, 1);
+      array.splice(3, 1);
+      return array;
+    }
     if (status === "Archived") {
       return array.splice(4, 1);
     }
+    
     if (status === "Live") {
       return array.splice(0, 2);
       // if (props.courseMaterial) return array.splice(0, 2);

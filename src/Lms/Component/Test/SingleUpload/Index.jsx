@@ -12,8 +12,11 @@ import {
 import {
   cleanEditData,
   getQuestions,
+  aegetQuestions,
   postQuestions,
+  aepostQuestions,
   previewTestData,
+  aepreviewTestData,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
@@ -68,6 +71,39 @@ export class Index extends Component {
 
     if (questionId) {
       this.props.getQuestions(questionId, response => {
+        if (response.success) {
+          const {
+            difficultyLevel,
+            expectedTime,
+            question,
+            description,
+            type,
+            subject,
+            concept,
+            topic,
+            imgURL,
+          } = response.data;
+          // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
+          this.setState({
+            activeLevel: toTitleCase(difficultyLevel),
+            expectedTime,
+            question,
+            description,
+            checked: type === "BUNDLE" ? true : false,
+            answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
+            bucketArray: response.data.questionChoices,
+            text: response.data.explanation,
+            url: response.data.explanationVideo,
+            url: response.data.video ? response.data.video.videoUrl : "",
+            activeSubject: subject !== null ? subject.id : null,
+            activeConcept: concept !== null ? concept.id : null,
+            activeTopic: topic !== null ? topic.id : null,
+            imgURL: imgURL,
+            // editableData: { response },
+          });
+        }
+      });
+      this.props.aegetQuestions(questionId, response => {
         if (response.success) {
           const {
             difficultyLevel,
@@ -446,6 +482,20 @@ export class Index extends Component {
           });
         }
       });
+      this.props.aepostQuestions(testQuestionSetId, obj, response => {
+        if (response.success) {
+          this.props.history.push(
+            lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+          );
+        } else {
+          this.setState({
+            alert: {
+              severity: "error",
+              msg: response.message,
+            },
+          });
+        }
+      });
     }
   };
 
@@ -799,7 +849,10 @@ export default connect(mapStateToProps, {
   getTopics2,
   putImage,
   postQuestions,
+  aepostQuestions,
   getQuestions,
+  aegetQuestions,
   cleanEditData,
   previewTestData,
+  aepreviewTestData,
 })(Index);

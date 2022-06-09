@@ -1,4 +1,12 @@
-import { Grid, Snackbar } from "@material-ui/core";
+import { 
+ 
+  Box,
+  Button,
+  Dialog,
+  Grid,
+  Snackbar,
+  TextField,
+  Typography, } from "@material-ui/core";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import ShareIcon from "@material-ui/icons/Share";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
@@ -11,21 +19,35 @@ import PublishIcon from "../../Assets/icons/Publish.svg";
 import { Container, H1 } from "../../Assets/StyledComponents";
 import {
   approveTest,
+  aeapproveTest,
   deleteTest,
+  aedeleteTest,
   draftTest,
+  aedraftTest,
   getFilters,
+  aegetFilters,
   getQuestionSet,
+  aegetQuestionSet,
   publishTest,
+  aepublishTest,
   reviewTest,
+  aereviewTest,
 } from "../../Redux/Action/Test";
 import DialogComponent from "../../Utils/DialogComponent";
 import PaginationComponent from "../../Utils/PaginationComponent";
 import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
+//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
+import { rescheduleTest } from "../../../AsyncApiCall/Student";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+
+
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
+const TEST_TYPE = "AE_TEST";
 
 const editorConfiguration = {
   toolbar: [
@@ -76,14 +98,31 @@ class TestLanding extends Component {
       alertState: false,
       alertMsg: "",
       alertSeverity: "",
+      popupOpen: false,
+      eventDate: "",
+      eventDate: new Date(),
+      eventEndDate: new Date(),
     };
   }
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
     this.props.getFilters();
-    let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+     this.props.aegetFilters();
+     let deptname = window.sessionStorage.getItem("department");
+     if(deptname === "assessment_engine_admin")
+     {
+       console.log(deptname)
+    var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE ,testType : TEST_TYPE};
+    console.log(paramObj)
+     }
+     else{
+      var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+
+     }
     this.props.getQuestionSet(paramObj);
+    this.props.aegetQuestionSet(paramObj);
+
     this.setState({ role: role });
   }
 
@@ -145,6 +184,7 @@ class TestLanding extends Component {
         size: NO_OF_RESPONSE,
       };
       this.props.getQuestionSet(paramObj);
+      this.props.aegetQuestionSet(paramObj);
     }
   }
 
@@ -249,6 +289,33 @@ class TestLanding extends Component {
             status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+
+          this.handleCloseIconClick();
+        } else {
+          //
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: "error",
+          });
+          this.handleCloseIconClick();
+        }
+      });
+      this.props.aedeleteTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+          
           this.handleCloseIconClick();
         } else {
           //
@@ -273,6 +340,23 @@ class TestLanding extends Component {
             status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        }
+      });
+      this.props.aereviewTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
@@ -289,9 +373,28 @@ class TestLanding extends Component {
             status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
-      });
+      }
+      );
+      this.props.aedraftTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        }
+      }
+      );
     } else if (this.state.dialogContent.type === "approve") {
       this.props.approveTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -305,9 +408,32 @@ class TestLanding extends Component {
             status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
+      this.props.aeapproveTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        }
+      }
+
+
+      
+      
+      
+      );
     } else if (this.state.dialogContent.type === "publish") {
       this.props.publishTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -321,6 +447,7 @@ class TestLanding extends Component {
             status: this.state.status !== "default" ? this.state.status : null,
           };
           this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
           this.handleCloseIconClick();
         } else {
           //
@@ -332,12 +459,73 @@ class TestLanding extends Component {
           this.handleCloseIconClick();
         }
       });
+      this.props.aepublishTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.props.getQuestionSet(paramObj);
+          this.props.aegetQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        } else {
+          //
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: "error",
+          });
+          this.handleCloseIconClick();
+        }
+      });
+      
     }
   };
+  handleReschedule = () =>{
+    console.log(this.state.popUpId, "++++++");
+    // if (this.state.eventDate && this.state.endEventDate) {
+      let obj = {
+        startDateTime: this.state.eventDate,
+        endDateTime: this. state.eventEndDate,
+      };
+      rescheduleTest(this.state.popUpId, obj)
+      .then(response=>{
+        if(response?.status === 200){
+          this.setState({
+            alertState : true,
+            alertSeverity : "success",
+            alertMsg : "Test rescheduled successfully",
+            popupOpen : false,
+          })
+          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+          this.props.getQuestionSet(paramObj);
+        }else{
+          this.setState({
+            alertState : true,
+            alertSeverity : "error",
+            alertMsg : response
+          })
+        }
+      })
+    // }else{
+    //   this.setState({
+    //     alertState : true,
+    //     alertSeverity : "error",
+    //     alertMsg : "Please fill the Required Fields"
+    //   })
+    // }
+  }
+
 
   render() {
     const { data: filterData } = this.props.filterData;
     const { data: tableContent } = this.props.testData;
+    console.log(this.props.testData)
     const {
       testType,
       topicId,
@@ -347,9 +535,15 @@ class TestLanding extends Component {
       role,
       anchorEl,
       popUpId,
+      
       dialogStatus,
       dialogContent,
+      popupOpen,
+      eventDate,
+      eventEndDate,
     } = this.state;
+    // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
+    // console.log(filterAE)
     const {
       handleDropDownChange,
       handlePageChange,
@@ -362,8 +556,10 @@ class TestLanding extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
+      handleReschedule,
     } = this;
     return (
+
       <Container>
         <Grid
           item
@@ -429,6 +625,93 @@ class TestLanding extends Component {
             {this.state.alertMsg}
           </Alert>
         </Snackbar>
+
+        <Dialog
+          open={popupOpen}
+          onClose={() => this.setState({ popupOpen: !popupOpen })}
+        >
+          <Box position={"relative"}>
+            <Grid
+              container
+              spacing={3}
+              style={{ width: "auto", margin: 0, padding: "20px" }}
+            >
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                {/* <RescheduleIcon /> */}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography variant="h4">Reschedule Test</Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <DateTimePicker
+                  label="Start date and time"
+                  inputVariant="outlined"
+                  value={eventDate}
+                  onChange={(value) => this.setState({ eventDate: value })}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <DateTimePicker
+                  label="End date and time"
+                  inputVariant="outlined"
+                  value={eventEndDate}
+                  onChange={(value) => this.setState({ eventEndDate: value })}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <Button
+                  onClick={() => this.setState({ popupOpen: !popupOpen })}
+                  variant={"outlined"}
+                  color={"primary"}
+                  size={"large"}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item xs={6} container alignItems="center">
+                <Button
+                  size={"large"}
+                  onClick={this.handleReschedule}
+                  variant={"contained"}
+                  color={"primary"}
+                >
+                  Reschedule
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Dialog>
       </Container>
     );
   }
@@ -443,10 +726,17 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getFilters,
+  aegetFilters,
   getQuestionSet,
+  aegetQuestionSet,
   deleteTest,
+  aedeleteTest,
   reviewTest,
+  aereviewTest,
   approveTest,
+  aeapproveTest,
   publishTest,
+  aepublishTest,
   draftTest,
+  aedraftTest
 })(TestLanding);

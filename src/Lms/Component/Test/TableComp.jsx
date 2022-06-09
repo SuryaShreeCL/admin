@@ -6,9 +6,12 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { MoreVertRounded } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import Blue from "../../../Asset/icons/Down.svg";
 import Blur from "../../../Asset/icons/Up.png";
+import { downloadTest } from "../../Redux/Action/Test";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import {
   BodyCell,
   BoldCell,
@@ -28,6 +31,8 @@ const headText = [
   "Course",
   "Topic name",
   "Status",
+  "Download",
+  "Test URL",
   "",
 ];
 
@@ -42,11 +47,23 @@ const headText = [
 const handleShowThreeDot = (role, status) => {
   return !(
     role === "LMSEDITOR" &&
-    (status === "Live" || status === "In Review" || status === "Approved")
+    (status === "Live" ||
+      status === "In Review" ||
+      status === "Approved" ||
+      status === "Sheduled")
   );
 };
 
 export default function TableComp(props) {
+ 
+  const dispatch = useDispatch();
+  const handleDownload = (testQuestionSetId, downloadpath) => {
+    // setScheduler(true);
+    // setData(item);
+    // console.log("dcvg")
+
+    dispatch(downloadTest(testQuestionSetId, downloadpath));
+  };
   const {
     tableContent,
     field,
@@ -62,6 +79,7 @@ export default function TableComp(props) {
     handleOptions,
   } = props;
 
+  
   //Sort Icons
   const renderIcons = (field, order, index) => {
     const typeIndex = field.indexOf("type");
@@ -231,7 +249,7 @@ export default function TableComp(props) {
         </Head>
         <TableBody>
           {tableContent &&
-            tableContent.map(item => {
+            tableContent.map((item) => {
               return (
                 <TableRow key={item.id} style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
@@ -245,13 +263,45 @@ export default function TableComp(props) {
                   <BodyCell>{item.courseName}</BodyCell>
                   <BodyCell>{item.topicName}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
+                  {item.testType === "AE_TEST" ? (
+                    <>
+                      <BodyCell>
+                        {/* {item.uniqueUrl} */}
+
+                        {/* <Controls.ActionButton
+                      disabled={!item.attemptedStudents}
+                      href={`${process.env.REACT_APP_API_URL}`}
+                    > */}
+                        <CloudDownloadIcon
+                          fontSize="small"
+                          onClick={() => handleDownload(item.id)}
+                        />
+                        {/* </Controls.ActionButton> */}
+                        {/* <Controls.ActionButton onClick={() => onSchedule(item)}> */}
+                        {/* <ScheduleIcon fontSize='small' color='primary' /> */}
+                        {/* </Controls.ActionButton> */}
+                      </BodyCell>
+                      <BodyCell>
+                        <a href={`${item.uniqueUrl}`} target={"_blank"}>
+                          {item.uniqueUrl}
+                        </a>
+                      </BodyCell>{" "}
+                    </>
+                  ) : (
+                    <>
+                      <BodyCell></BodyCell>
+                      <BodyCell></BodyCell>
+                    </>
+                  )}
                   <BodyCell>
                     {handleShowThreeDot(role, item.status) && (
                       <div>
                         <IconButton
                           aria-controls={item.id}
                           aria-haspopup="true"
-                          onClick={event => handleThreeDotClick(event, item.id)}
+                          onClick={(event) =>
+                            handleThreeDotClick(event, item.id)
+                          }
                           style={{ padding: "0px" }}
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />

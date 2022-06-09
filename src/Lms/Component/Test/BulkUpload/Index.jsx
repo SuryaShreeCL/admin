@@ -22,10 +22,15 @@ import { Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
   getQuestionType,
+  aegetQuestionType,
   setQuestionData,
+  aesetQuestionData,
   setQuestionDataWithId,
+  aesetQuestionDataWithId,
   getTemplate,
+  aegetTemplate,
   getTopicList,
+  aegetTopicList,
 } from "../../../Redux/Action/Test";
 import Alert from "@material-ui/lab/Alert";
 import { lmsTest, single_upload } from "../../../../Component/RoutePaths";
@@ -49,6 +54,7 @@ class Index extends Component {
   componentDidMount() {
     const { testQuestionSetId } = this.props.match.params;
     this.props.getQuestionType(testQuestionSetId);
+    this.props.aegetQuestionType(testQuestionSetId);
   }
 
   handleChange = event => {
@@ -56,6 +62,7 @@ class Index extends Component {
       obj => obj.id === event.target.value
     );
     this.props.getTemplate(this.props.questionTypes.data[index].fileName);
+    this.props.aegetTemplate(this.props.questionTypes.data[index].fileName);
     this.setState({ selectedType: event.target.value });
   };
 
@@ -123,8 +130,64 @@ class Index extends Component {
             }
           }
         );
+        this.props.aesetQuestionDataWithId(
+          testQuestionSetId,
+          this.state.selectedType,
+          sectionId,
+          formData,
+          response => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "success",
+              });
+
+              this.props.history.push(
+                lms_add_test +
+                  "?testQuestionSetId=" +
+                  this.props.match.params.testQuestionSetId
+              );
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+            }
+          }
+        );
       } else {
         this.props.setQuestionData(
+          testQuestionSetId,
+          this.state.selectedType,
+          formData,
+          response => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "success",
+              });
+              this.props.history.push(
+                lms_add_test +
+                  "?testQuestionSetId=" +
+                  this.props.match.params.testQuestionSetId
+              );
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+            }
+          }
+        );
+        this.props.aesetQuestionData(
           testQuestionSetId,
           this.state.selectedType,
           formData,
@@ -177,6 +240,7 @@ class Index extends Component {
   handleTopicList = () => {
     const { testQuestionSetId } = this.props.match.params;
     this.props.getTopicList(testQuestionSetId, response => {});
+    this.props.aegetTopicList(testQuestionSetId, response => {});
   };
 
   render() {
@@ -319,8 +383,13 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   getQuestionType,
+  aegetQuestionType,
   setQuestionData,
+  aesetQuestionData,
   setQuestionDataWithId,
+  aesetQuestionDataWithId,
   getTemplate,
+  aegetTemplate,
   getTopicList,
+  aegetTopicList,
 })(Index);

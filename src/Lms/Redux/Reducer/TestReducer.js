@@ -22,7 +22,20 @@ const TestReducer = (state = initialState, action) => {
         filterData: action.payload,
       };
     }
+    case TEST.aegetFilters: {
+      return {
+        ...state,
+        filterData: action.payload,
+      };
+    }
+
     case TEST.getQuestionSet: {
+      return {
+        ...state,
+        testData: action.payload,
+      };
+    }
+    case TEST.aegetQuestionSet: {
       return {
         ...state,
         testData: action.payload,
@@ -34,7 +47,19 @@ const TestReducer = (state = initialState, action) => {
         questionType: action.payload,
       };
     }
+    case TEST.aegetQuestionType: {
+      return {
+        ...state,
+        questionType: action.payload,
+      };
+    }
     case TEST.createTestQuestionSet: {
+      return {
+        ...state,
+        testQuestionSetResponse: action.payload,
+      };
+    }
+    case TEST.aecreateTestQuestionSet: {
       return {
         ...state,
         testQuestionSetResponse: action.payload,
@@ -46,7 +71,19 @@ const TestReducer = (state = initialState, action) => {
         topics: action.payload,
       };
     }
+    case TEST.aegetTopicByCourse: {
+      return {
+        ...state,
+        topics: action.payload,
+      };
+    }
     case TEST.getTemplate: {
+      return {
+        ...state,
+        template: action.payload,
+      };
+    }
+    case TEST.aegetTemplate: {
       return {
         ...state,
         template: action.payload,
@@ -58,7 +95,19 @@ const TestReducer = (state = initialState, action) => {
         subjects: action.payload,
       };
     }
+    case TEST.aegetSubjectsByCourse: {
+      return {
+        ...state,
+        subjects: action.payload,
+      };
+    }
     case TEST.getTestQuestionSet: {
+      return {
+        ...state,
+        testQuestionSet: action.payload,
+      };
+    }
+    case TEST.aegetTestQuestionSet: {
       return {
         ...state,
         testQuestionSet: action.payload,
@@ -70,13 +119,31 @@ const TestReducer = (state = initialState, action) => {
         editData: action.payload,
       };
     }
+    case TEST.aegetQuestions: {
+      return {
+        ...state,
+        editData: action.payload,
+      };
+    }
     case TEST.cleanEditData: {
       return {
         ...state,
         editData: null,
       };
     }
+    case TEST.aecleanEditData: {
+      return {
+        ...state,
+        editData: null,
+      };
+    }
     case TEST.previewTestData: {
+      return {
+        ...state,
+        previewData: action.payload,
+      };
+    }
+    case TEST.aepreviewTestData: {
       return {
         ...state,
         previewData: action.payload,
