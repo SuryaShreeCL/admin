@@ -1,28 +1,28 @@
-import { Card, Button } from '@material-ui/core';
-import React, { Component } from 'react';
+import { Card, Button } from "@material-ui/core";
+import React, { Component } from "react";
 import {
   deleteDocument,
   getDocumentList,
   deleteDocumentGraduate,
   getStudentsById,
-} from '../../Actions/Student';
+} from "../../Actions/Student";
 import {
   getgmatscore,
   getgrescore,
   getieltsscore,
   gettoeflscore,
-} from '../../Actions/Calldetails';
-import { connect } from 'react-redux';
-import Mysnack from '../MySnackBar';
-import { ErrorMessage } from '../Validation';
-import * as moment from 'moment';
+} from "../../Actions/Calldetails";
+import { connect } from "react-redux";
+import Mysnack from "../MySnackBar";
+import { ErrorMessage } from "../Validation";
+import * as moment from "moment";
 
 class DoccumentCard extends Component {
   constructor() {
     super();
     this.state = {
-      snackmsg: '',
-      snackvariant: '',
+      snackmsg: "",
+      snackvariant: "",
       snackopen: false,
     };
   }
@@ -32,58 +32,63 @@ class DoccumentCard extends Component {
     this.props.getieltsscore(this.props.studentid);
     this.props.gettoeflscore(this.props.studentid);
   }
-  handleSave = event => {
-    console.log(this.props)
-    if (this.props.category === 'Toefl') {
+  handleSave = (event) => {
+    console.log(this.props);
+    if (this.props.category === "Toefl") {
       this.props.deleteDocumentGraduate(
         this.props.studentid,
         this.props.path,
         this.props.id,
-        'tofel'
+        "tofel"
       );
     }
-    if (this.props.category === 'Gre') {
+    if (this.props.category === "Gre") {
       this.props.deleteDocumentGraduate(
         this.props.studentid,
         this.props.path,
         this.props.id,
-        'gre'
+        "gre"
       );
     }
-    if (this.props.category === 'Gmat') {
+    if (this.props.category === "Gmat") {
       this.props.deleteDocumentGraduate(
         this.props.studentid,
         this.props.path,
         this.props.id,
-        'gmat'
+        "gmat"
       );
     }
-    if (this.props.category === 'Ielts') {
+    if (this.props.category === "Ielts") {
       this.props.deleteDocumentGraduate(
         this.props.studentid,
         this.props.path,
         this.props.id,
-        'ielts'
+        "ielts"
       );
     }
     if (!this.props.category) {
-      console.log(this.props)
+      console.log(this.props);
       this.props.deleteDocument(
         this.props.studentid,
         this.props.path,
         (response) => {
           if (response.status === 200) {
             this.setState({
-              snackmsg: 'Document Deleted',
+              snackmsg: "Document Deleted",
               snackopen: true,
-              snackvariant: 'success',
+              snackvariant: "success",
             });
-            window.location.reload(false);
+            this.props.getDocumentList(
+              this.props.studentid,
+              this.props.productId
+            );
+
+            // window.location.reload(false);
           } else {
             this.setState({
               snackmsg: ErrorMessage.NetworkError,
               snackopen: true,
-              snackvariant: 'error',
+              snackvariant: "error",
             });
           }
         }
@@ -105,21 +110,21 @@ class DoccumentCard extends Component {
     let year = new Date(this.props.date).getFullYear();
 
     var months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
     var monthName = months[month];
-    let newDate = date + ' ' + monthName + ' ' + year;
+    let newDate = date + " " + monthName + " " + year;
 
     const { deletebtn } = style;
 
@@ -128,54 +133,54 @@ class DoccumentCard extends Component {
       <div style={{ marginBottom: 20, marginLeft: 10 }}>
         <Card
           style={{
-            height: '80px',
-            maxWidth: '330px',
-            width: '100%',
-            boxShadow: ' 0px 8px 7px rgba(183, 222, 255, 0.5)',
+            height: "80px",
+            maxWidth: "330px",
+            width: "100%",
+            boxShadow: " 0px 8px 7px rgba(183, 222, 255, 0.5)",
             borderRadius: 8,
-            display: 'flex',
-            flexDirection: 'row',
+            display: "flex",
+            flexDirection: "row",
           }}
         >
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '10px',
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "10px",
             }}
           >
             <p
               style={{
-                fontStyle: 'Montserrat',
-                fontWeight: '400',
-                fontStyle: 'normal',
-                fontSize: '14px',
-                color: '#052A4E',
-                marginTop: '10px',
+                fontStyle: "Montserrat",
+                fontWeight: "400",
+                fontStyle: "normal",
+                fontSize: "14px",
+                color: "#052A4E",
+                marginTop: "10px",
               }}
             >
               {this.props.certificate}
             </p>
             <p
               style={{
-                fontStyle: 'Montserrat',
-                fontWeight: '400',
-                fontStyle: 'normal',
-                fontSize: '14px',
-                color: '#686868',
+                fontStyle: "Montserrat",
+                fontWeight: "400",
+                fontStyle: "normal",
+                fontSize: "14px",
+                color: "#686868",
               }}
             >
-              Uploaded On: {moment(new Date(newDate)).format('MMM yyyy')}
+              Uploaded On: {moment(new Date(newDate)).format("MMM yyyy")}
             </p>
           </div>
           {!this.props.status && (
             <div>
               <Button
-                href='#text-buttons'
-                color='secondary'
+                href="#text-buttons"
+                color="secondary"
                 style={deletebtn}
-                onClick={event => this.handleSave(event)}
+                onClick={(event) => this.handleSave(event)}
               >
                 Delete
               </Button>
@@ -194,16 +199,16 @@ class DoccumentCard extends Component {
 }
 const style = {
   deletebtn: {
-    color: 'red',
-    fontWeight: '500',
-    fontSize: '14px',
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    textTransform: 'none',
-    textDecorationLine: 'underline',
+    color: "red",
+    fontWeight: "500",
+    fontSize: "14px",
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    textTransform: "none",
+    textDecorationLine: "underline",
   },
 };
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     deleteDocumentList: state.StudentReducer.deleteDocument,
     getAllDocumentList: state.StudentReducer.getDocumentList,
