@@ -70,6 +70,7 @@ export const getQuestionSet = bodyObj => {
 
 export const aegetQuestionSet = bodyObj => {
   let accessToken = sessionStorage.getItem("accessToken");
+  console.log(bodyObj);
   return dispatch => {
     axios
       .post(`${URL}/api/v2/lms/testQuestionSets`, bodyObj, {
@@ -979,7 +980,7 @@ export const aepreviewTestData = (questionId, requestBody) => {
       .post(`${URL}/api/v2/lms/questions/${questionId}/preview`, requestBody, {
         crossDomain: true,
         headers: {
-           admin: "yes",
+          // admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })

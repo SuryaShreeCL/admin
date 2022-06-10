@@ -650,6 +650,7 @@ export class Index extends Component {
       });
     } else {
       this.props.previewTestData(question_id, requestBody);
+      this.props.aepreviewTestData(question_id, requestBody);
       this.setState({ openPreview: true });
     }
   };

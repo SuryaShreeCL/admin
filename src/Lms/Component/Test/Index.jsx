@@ -43,7 +43,9 @@ import TableComp from "./TableComp";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-const TEST_TYPE = "AE_TEST";
+var testVar = window.sessionStorage.getItem("department");
+const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
+console.log(testVar);
 
 const editorConfiguration = {
   toolbar: [
@@ -106,18 +108,24 @@ class TestLanding extends Component {
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
-    this.props.getFilters();
-    this.props.aegetFilters();
-    let deptname = window.sessionStorage.getItem("department");
-    if (deptname === "assessment_engine_admin") {
-      var paramObj = {
-        page: INITIAL_PAGE_NO,
-        size: NO_OF_RESPONSE,
-        testType: TEST_TYPE,
-      };
-    } else {
-      var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-    }
+    var deptname = window.sessionStorage.getItem("department");
+    deptname === "assessment_engine_admin"
+      ? this.props.aegetFilters()
+      : this.props.getFilters();
+    // if (deptname === "assessment_engine_admin") {
+    //   var paramObj = {
+    //     page: INITIAL_PAGE_NO,
+    //     size: NO_OF_RESPONSE,
+    //     testType: TEST_TYPE,
+    //   };
+    // } else {
+    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+    // }
+    var paramObj = {
+      page: INITIAL_PAGE_NO,
+      size: NO_OF_RESPONSE,
+      testType: TEST_TYPE,
+    };
     deptname === "assessment_engine_admin"
       ? this.props.aegetQuestionSet(paramObj)
       : this.props.getQuestionSet(paramObj);
@@ -172,10 +180,16 @@ class TestLanding extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
+      let deptName = window.sessionStorage.getItem("department");
       let paramObj = {
         page: this.state.currentPage,
         testType:
-          this.state.testType !== "default" ? this.state.testType : null,
+          deptName === "assessment_engine_admin"
+            ? "AE_TEST"
+            : this.state.testType !== "default"
+            ? this.state.testType
+            : null,
+
         topicId: this.state.topicId !== "default" ? this.state.topicId : null,
         status: this.state.status !== "default" ? this.state.status : null,
         field: this.state.field.length > 0 ? this.state.field : null,
