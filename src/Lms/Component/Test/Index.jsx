@@ -1,49 +1,45 @@
-import { 
- 
+import {
   Box,
   Button,
   Dialog,
   Grid,
   Snackbar,
-  TextField,
-  Typography, } from "@material-ui/core";
+  Typography,
+} from "@material-ui/core";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import ShareIcon from "@material-ui/icons/Share";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import { Alert } from "@material-ui/lab";
+import { DateTimePicker } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
+import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
 import { Container, H1 } from "../../Assets/StyledComponents";
 import {
-  approveTest,
   aeapproveTest,
-  deleteTest,
   aedeleteTest,
-  draftTest,
   aedraftTest,
-  getFilters,
   aegetFilters,
-  getQuestionSet,
   aegetQuestionSet,
-  publishTest,
   aepublishTest,
-  reviewTest,
   aereviewTest,
+  approveTest,
+  deleteTest,
+  draftTest,
+  getFilters,
+  getQuestionSet,
+  publishTest,
+  reviewTest,
 } from "../../Redux/Action/Test";
 import DialogComponent from "../../Utils/DialogComponent";
 import PaginationComponent from "../../Utils/PaginationComponent";
 import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
-//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
-import { rescheduleTest } from "../../../AsyncApiCall/Student";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import MomentUtils from "@date-io/moment";
-
-
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -102,28 +98,31 @@ class TestLanding extends Component {
       eventDate: "",
       eventDate: new Date(),
       eventEndDate: new Date(),
+      openStatus: false,
+      clickableStatus: "",
+      department: "",
     };
   }
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
     this.props.getFilters();
-     this.props.aegetFilters();
-     let deptname = window.sessionStorage.getItem("department");
-     if(deptname === "assessment_engine_admin")
-     {
-       console.log(deptname)
-    var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE ,testType : TEST_TYPE};
-    console.log(paramObj)
-     }
-     else{
+    this.props.aegetFilters();
+    let deptname = window.sessionStorage.getItem("department");
+    if (deptname === "assessment_engine_admin") {
+      var paramObj = {
+        page: INITIAL_PAGE_NO,
+        size: NO_OF_RESPONSE,
+        testType: TEST_TYPE,
+      };
+    } else {
       var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+    }
+    deptname === "assessment_engine_admin"
+      ? this.props.aegetQuestionSet(paramObj)
+      : this.props.getQuestionSet(paramObj);
 
-     }
-    this.props.getQuestionSet(paramObj);
-    this.props.aegetQuestionSet(paramObj);
-
-    this.setState({ role: role });
+    this.setState({ role: role, department: deptname });
   }
 
   handleDropDownChange = (event) => {
@@ -183,20 +182,23 @@ class TestLanding extends Component {
         order: this.state.order.length > 0 ? this.state.order : null,
         size: NO_OF_RESPONSE,
       };
-      this.props.getQuestionSet(paramObj);
-      this.props.aegetQuestionSet(paramObj);
+      this.state.department === "assessment_engine_admin"
+        ? this.props.aegetQuestionSet(paramObj)
+        : this.props.getQuestionSet(paramObj);
     }
   }
 
-  handleThreeDotClick = (event, topicId) => {
+  handleThreeDotClick = (event, topicId, status) => {
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
+      openStatus: !this.state.openStatus,
+      clickableStatus: status,
     });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null, popUpId: null });
+    this.setState({ anchorEl: null, popUpId: null, openStatus: false });
   };
 
   handleOptions = (text, topicName, topicId) => {
@@ -215,6 +217,9 @@ class TestLanding extends Component {
       this.setState({
         dialogStatus: true,
         dialogContent: dialogContent,
+        anchorEl: null,
+        openStatus: !this.state.openStatus,
+        clickableStatus: null,
       });
     } else if (text === "Unarchive") {
       const dialogContent = {
@@ -225,7 +230,13 @@ class TestLanding extends Component {
         button1: "No",
         button2: "Yes",
       };
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+      this.setState({
+        dialogStatus: true,
+        dialogContent: dialogContent,
+        anchorEl: null,
+        openStatus: !this.state.openStatus,
+        clickableStatus: null,
+      });
     } else if (text === "Send Review") {
       const dialogContent = {
         type: "review",
@@ -235,7 +246,13 @@ class TestLanding extends Component {
         button1: "Cancel",
         button2: "Send",
       };
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+      this.setState({
+        dialogStatus: true,
+        dialogContent: dialogContent,
+        anchorEl: null,
+        openStatus: !this.state.openStatus,
+        clickableStatus: null,
+      });
     } else if (text === "Approve") {
       const dialogContent = {
         type: "approve",
@@ -245,7 +262,13 @@ class TestLanding extends Component {
         button1: "Cancel",
         button2: "Approve",
       };
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+      this.setState({
+        dialogStatus: true,
+        dialogContent: dialogContent,
+        anchorEl: null,
+        openStatus: !this.state.openStatus,
+        clickableStatus: null,
+      });
     } else if (text === "Publish Now") {
       const dialogContent = {
         type: "publish",
@@ -255,7 +278,13 @@ class TestLanding extends Component {
         button1: "Cancel",
         button2: "Publish now",
       };
-      this.setState({ dialogStatus: true, dialogContent: dialogContent });
+      this.setState({
+        dialogStatus: true,
+        dialogContent: dialogContent,
+        anchorEl: null,
+        openStatus: !this.state.openStatus,
+        clickableStatus: null,
+      });
     }
   };
 
@@ -288,9 +317,9 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
-
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         } else {
           //
@@ -313,9 +342,11 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
-          
+
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
+
           this.handleCloseIconClick();
         } else {
           //
@@ -339,8 +370,9 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
@@ -355,8 +387,10 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
+
           this.handleCloseIconClick();
         }
       });
@@ -372,12 +406,13 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
-      }
-      );
+      });
       this.props.aedraftTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
@@ -389,12 +424,13 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
-      }
-      );
+      });
     } else if (this.state.dialogContent.type === "approve") {
       this.props.approveTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -407,8 +443,10 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
       });
@@ -423,95 +461,94 @@ class TestLanding extends Component {
               this.state.topicId !== "default" ? this.state.topicId : null,
             status: this.state.status !== "default" ? this.state.status : null,
           };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
+
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
           this.handleCloseIconClick();
         }
-      }
-
-
-      
-      
-      
-      );
+      });
     } else if (this.state.dialogContent.type === "publish") {
-      this.props.publishTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
+      this.state.department === "assessment_engine_admin"
+        ? this.props.aepublishTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
+              this.props.aegetQuestionSet(paramObj);
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
+          })
+        : this.props.publishTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
+
+              this.props.getQuestionSet(paramObj);
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
           });
-          this.handleCloseIconClick();
-        }
-      });
-      this.props.aepublishTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
-          this.props.getQuestionSet(paramObj);
-          this.props.aegetQuestionSet(paramObj);
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
-          });
-          this.handleCloseIconClick();
-        }
-      });
-      
     }
   };
-  handleReschedule = () =>{
-    console.log(this.state.popUpId, "++++++");
+  handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
-      let obj = {
-        startDateTime: this.state.eventDate,
-        endDateTime: this. state.eventEndDate,
-      };
-      rescheduleTest(this.state.popUpId, obj)
-      .then(response=>{
-        if(response?.status === 200){
-          this.setState({
-            alertState : true,
-            alertSeverity : "success",
-            alertMsg : "Test rescheduled successfully",
-            popupOpen : false,
-          })
-          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-          this.props.getQuestionSet(paramObj);
-        }else{
-          this.setState({
-            alertState : true,
-            alertSeverity : "error",
-            alertMsg : response
-          })
-        }
-      })
+    let obj = {
+      startDateTime: this.state.eventDate,
+      endDateTime: this.state.eventEndDate,
+    };
+    rescheduleTest(this.state.popUpId, obj).then((response) => {
+      if (response?.status === 200) {
+        this.setState({
+          alertState: true,
+          alertSeverity: "success",
+          alertMsg: "Test rescheduled successfully",
+          popupOpen: false,
+        });
+        let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+        this.props.getQuestionSet(paramObj);
+      } else {
+        this.setState({
+          alertState: true,
+          alertSeverity: "error",
+          alertMsg: response,
+        });
+      }
+    });
     // }else{
     //   this.setState({
     //     alertState : true,
@@ -519,13 +556,12 @@ class TestLanding extends Component {
     //     alertMsg : "Please fill the Required Fields"
     //   })
     // }
-  }
-
+  };
 
   render() {
     const { data: filterData } = this.props.filterData;
     const { data: tableContent } = this.props.testData;
-    console.log(this.props.testData)
+
     const {
       testType,
       topicId,
@@ -535,7 +571,7 @@ class TestLanding extends Component {
       role,
       anchorEl,
       popUpId,
-      
+
       dialogStatus,
       dialogContent,
       popupOpen,
@@ -543,7 +579,7 @@ class TestLanding extends Component {
       eventEndDate,
     } = this.state;
     // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
-    // console.log(filterAE)
+    //
     const {
       handleDropDownChange,
       handlePageChange,
@@ -559,7 +595,6 @@ class TestLanding extends Component {
       handleReschedule,
     } = this;
     return (
-
       <Container>
         <Grid
           item
@@ -596,6 +631,8 @@ class TestLanding extends Component {
             popUpId={popUpId}
             handleClose={handleClose}
             handleOptions={handleOptions}
+            openStatus={this.state.openStatus}
+            clickedStatus={this.state.clickableStatus}
           />
         )}
         {tableContent !== undefined && (
@@ -738,5 +775,5 @@ export default connect(mapStateToProps, {
   publishTest,
   aepublishTest,
   draftTest,
-  aedraftTest
+  aedraftTest,
 })(TestLanding);

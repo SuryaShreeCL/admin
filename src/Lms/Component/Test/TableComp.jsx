@@ -1,27 +1,21 @@
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@material-ui/core";
+import { IconButton, Table, TableBody, TableRow } from "@material-ui/core";
 import { MoreVertRounded } from "@material-ui/icons";
-import { useDispatch, useSelector } from "react-redux";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React from "react";
+import { useDispatch } from "react-redux";
 import Blue from "../../../Asset/icons/Down.svg";
 import Blur from "../../../Asset/icons/Up.png";
-import { downloadTest } from "../../Redux/Action/Test";
-import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import {
   BodyCell,
   BoldCell,
   Head,
+  HeadCell,
   HeadInline,
   IconBox,
   TableBox,
 } from "../../Assets/StyledTableComponents";
+import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
-import { HeadCell } from "../../Assets/StyledTableComponents";
 
 const headText = [
   "Name",
@@ -37,8 +31,8 @@ const headText = [
 ];
 
 // const handleOpen = (itemId, popUpId, role, status) => {
-//   // console.log(status);
-//   // console.log(role === 'LMSEDITOR' && status === 'Live');
+//   //
+//   //
 //   if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
 //     return false;
 //   else return itemId === popUpId;
@@ -55,12 +49,11 @@ const handleShowThreeDot = (role, status) => {
 };
 
 export default function TableComp(props) {
- 
   const dispatch = useDispatch();
   const handleDownload = (testQuestionSetId, downloadpath) => {
     // setScheduler(true);
     // setData(item);
-    // console.log("dcvg")
+    //
 
     dispatch(downloadTest(testQuestionSetId, downloadpath));
   };
@@ -77,9 +70,10 @@ export default function TableComp(props) {
     popUpId,
     handleClose,
     handleOptions,
+    openStatus,
+    clickedStatus,
   } = props;
 
-  
   //Sort Icons
   const renderIcons = (field, order, index) => {
     const typeIndex = field.indexOf("type");
@@ -300,7 +294,7 @@ export default function TableComp(props) {
                           aria-controls={item.id}
                           aria-haspopup="true"
                           onClick={(event) =>
-                            handleThreeDotClick(event, item.id)
+                            handleThreeDotClick(event, item.id, item.status)
                           }
                           style={{ padding: "0px" }}
                         >
@@ -309,13 +303,14 @@ export default function TableComp(props) {
                         <Menu
                           role={role}
                           anchorEl={anchorEl}
-                          open={item.id === popUpId}
+                          open={openStatus}
                           // open={handleOpen(item.id, popUpId, role, item.status)}
                           handleClose={handleClose}
                           status={item.status}
                           handleOptions={handleOptions}
                           name={item.name}
                           topicId={item.id}
+                          activeStatus={clickedStatus}
                         />
                       </div>
                     )}
