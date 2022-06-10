@@ -22,7 +22,7 @@ function DropDownRack(props) {
   const dispatch = useDispatch();
   const [testType, setTestType] = useState('');
 
-
+const aeDept = window.sessionStorage.getItem("department")
   const {
     subjects,
     concepts,
@@ -97,7 +97,8 @@ function DropDownRack(props) {
                 onChange={handleInputChange}
               />
             </Grid>
-            {testType === 'AE_TEST' &&
+            {aeDept === 'assessment_engine_admin' &&
+          
             <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
               <InputLabel

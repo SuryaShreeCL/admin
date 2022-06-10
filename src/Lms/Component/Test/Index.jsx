@@ -47,7 +47,11 @@ import MomentUtils from "@date-io/moment";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-const TEST_TYPE = "AE_TEST";
+var testVar = window.sessionStorage.getItem("department");
+  // const TEST_TYPE = "AE_TEST";
+ const TEST_TYPE = testVar === 'assessment_engine_admin' ? "AE_TEST": null ;
+ console.log(testVar)
+
 
 const editorConfiguration = {
   toolbar: [
@@ -110,16 +114,21 @@ class TestLanding extends Component {
     this.props.getFilters();
      this.props.aegetFilters();
      let deptname = window.sessionStorage.getItem("department");
-     if(deptname === "assessment_engine_admin")
-     {
-       console.log(deptname)
-    var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE ,testType : TEST_TYPE};
-    console.log(paramObj)
-     }
-     else{
-      var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+    //  if(deptname === "assessment_engine_admin")
+    //  {
+    //    console.log(deptname)
+    // var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE ,testType : TEST_TYPE};
+    // console.log(paramObj)
+    //  }
+    //  else{
+    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
 
-     }
+    //  }
+    console.log(TEST_TYPE);
+    var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE , testType : TEST_TYPE};
+    console.log(TEST_TYPE);
+    console.log(paramObj);
+    // let paramObj = {deptname === "assessment_engine_admin" ? ()}
     this.props.getQuestionSet(paramObj);
     this.props.aegetQuestionSet(paramObj);
 
@@ -173,10 +182,12 @@ class TestLanding extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState !== this.state) {
+      let deptName = window.sessionStorage.getItem("department");
       let paramObj = {
         page: this.state.currentPage,
-        testType:
-          this.state.testType !== "default" ? this.state.testType : null,
+        testType:deptName === "assessment_engine_admin" ? "AE_TEST" :  this.state.testType !== "default" ? this.state.testType : null,    
+
+         
         topicId: this.state.topicId !== "default" ? this.state.topicId : null,
         status: this.state.status !== "default" ? this.state.status : null,
         field: this.state.field.length > 0 ? this.state.field : null,
