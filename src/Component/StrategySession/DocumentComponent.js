@@ -7,6 +7,7 @@ import CvViewer from "../ProfileGapAnalysis/CvViewer";
 import { DocumentUploadPopup } from "../Utils/controls/DocumentUploadPopup";
 import { customTheme, StyledButton } from "../Utils/controls/Styles";
 import { DownloadCvTable } from "../Utils/DownloadCvTable";
+import FileViewer from "../../Utils/FileViewer";
 
 function DocumentComponent({
   open,
@@ -64,10 +65,10 @@ function DocumentComponent({
       </Grid>
 
       <Grid item xs={4}>
-        <PdfViewer
-          cvUrl={window.URL.createObjectURL(
-            new Blob([filePath], { type: "application/pdf" })
-          )}
+        <FileViewer
+        // cvUr={window.URL.createObjectURL(
+        //   new Blob([filePath])
+        // // )}
         />
       </Grid>
       <DocumentUploadPopup
@@ -78,7 +79,7 @@ function DocumentComponent({
         handleLeftButton={handleUpload}
         handleRightButton={handleCancel}
         handleClose={handleCancel}
-        acceptTypes={".doc, .docx, .xls, .xlsx"}
+        acceptTypes={".doc, .docx, .xls, .xlsx, .pdf"}
         onDrop={onDrop}
         handleChange={handleChange}
         comment={comment}

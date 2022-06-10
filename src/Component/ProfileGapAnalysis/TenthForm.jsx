@@ -96,7 +96,10 @@ function TenthForm(props) {
             if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -115,7 +118,10 @@ function TenthForm(props) {
             if (!isEmptyString(rowData.subjectDetails.subjectName)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -148,7 +154,10 @@ function TenthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
@@ -183,7 +192,10 @@ function TenthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
