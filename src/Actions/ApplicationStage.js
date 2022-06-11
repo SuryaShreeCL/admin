@@ -148,7 +148,7 @@ export const uploadDocumentBySubStageId = (
   };
 };
 
-export const getDownloadByDocumentId = (studentId, subStageId, fileName,schoolId) => {
+export const getDownloadByDocumentId = (studentId, subStageId, fileName,schoolId,schoolType) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
@@ -163,6 +163,9 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName,schoolId
               Authorization: `Bearer ${accessToken}`,
             },
             responseType: "blob",
+            params: {
+              type: schoolType,
+            },
           }
         )
         .then((response) => {
