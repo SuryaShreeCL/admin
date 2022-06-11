@@ -500,6 +500,8 @@ export const getTestTranscriptFiles = (studentId, productId) => {
   };
 };
 
+const getFileType = (fileName) => fileName.split(".").pop();
+
 export const getFilePath = (studentId, subStageId, filePath) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
@@ -519,7 +521,7 @@ export const getFilePath = (studentId, subStageId, filePath) => {
         .then((response) => {
           dispatch({
             type: STRATEGY_SESSION.getFilePath,
-            payload: response.data,
+            payload: { path: response.data, type: getFileType(filePath) },
           });
         });
     } catch (error) {
