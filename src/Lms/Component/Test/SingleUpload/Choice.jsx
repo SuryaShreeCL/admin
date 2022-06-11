@@ -1,5 +1,5 @@
-import { Box, Button, createTheme, ThemeProvider } from "@material-ui/core";
-import { AddRounded } from "@material-ui/icons";
+import { Box, Button, createTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import { AddRounded, DeleteRounded } from "@material-ui/icons";
 import React from "react";
 import CheckedIcon from "../../../Assets/icons/Checked.svg";
 import UnCheckedIcon from "../../../Assets/icons/UnChecked.svg";
@@ -18,6 +18,7 @@ function Choice(props) {
     handleDeleteIconClick,
     handleTextChange,
     answerType,
+    handleDeleteChoiceClick
   } = props;
   if (answerType) {
     return (
@@ -60,6 +61,9 @@ function Choice(props) {
                   />
                 }
               />
+              <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
+                <DeleteRounded />
+              </IconButton>
             </C1>
           );
         })}
