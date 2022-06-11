@@ -130,9 +130,12 @@ class TestLanding extends Component {
       ? this.props.aegetQuestionSet(paramObj)
       : this.props.getQuestionSet(paramObj);
 
-    this.setState({ role: role, department: deptname,testType: deptname === "assessment_engine_admin" ? "" : "default",
-    testType: "",
-     });
+    this.setState({
+      role: role,
+      department: deptname,
+      testType: deptname === "assessment_engine_admin" ? "" : "default",
+      testType: "",
+    });
   }
 
   handleDropDownChange = (event) => {
@@ -205,7 +208,7 @@ class TestLanding extends Component {
   }
 
   handleThreeDotClick = (event, topicId, status) => {
-    console.log(topicId)
+    console.log(status);
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
@@ -220,7 +223,9 @@ class TestLanding extends Component {
 
   handleOptions = (text, topicName, topicId) => {
     if (text === "Edit") {
-      this.props.history.push(lms_add_test + "?testQuestionSetId=" + this.state.popUpId);
+      this.props.history.push(
+        lms_add_test + "?testQuestionSetId=" + this.state.popUpId
+      );
     }
     if (text === "Archive") {
       const dialogContent = {

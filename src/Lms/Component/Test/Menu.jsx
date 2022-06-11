@@ -18,7 +18,21 @@ export default function Menu(props) {
     { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
     { text: "Unarchive", icon: <UnarchiveIcon style={{ fill: "#1093ff" }} /> },
   ];
-
+  const aeChecker = [
+    { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
+    { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
+    { text: "Publish Now", icon: <img src={PublishIcon} alt="Publish" /> },
+    { text: "Approve", icon: <ThumbUpIcon style={{ fill: "#1093ff" }} /> },
+    {
+      text: "Reschedule",
+      icon: <AccessTimeOutlinedIcon style={{ fill: "#1093ff" }} />,
+    },
+    {
+      text: "Schedule",
+      icon: <AccessTimeOutlinedIcon style={{ fill: "#1093ff" }} />,
+    },
+    { text: "Unarchive", icon: <UnarchiveIcon style={{ fill: "#1093ff" }} /> },
+  ];
   const checkerChoices = [
     { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
     { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
@@ -74,7 +88,8 @@ export default function Menu(props) {
 
   const filterSuperAdmin = (array, status) => {
     if (status === "Draft") {
-      array.length = 5;
+      array.splice(3, 6);
+
       return array;
     }
     if (status === "Approved") {
@@ -82,17 +97,23 @@ export default function Menu(props) {
       return array;
     }
     if (status === "Live") {
-      array.splice(2, 4);
+      array.splice(2, 6);
+      array.splice(0, 1);
       return array;
     }
     if (status === "Archived") {
-      array.splice(0, 3);
-      array.splice(1, 2)
-      return array;
+      const arr = [];
+      arr.push(array[0]);
+      arr.push(array[5]);
+      arr.push(array[2]);
+      return arr;
     }
     if (status === "Scheduled") {
-      array.splice(2, 2);
-      return array;
+      const arr = [];
+      arr.push(array[0]);
+      arr.push(array[1]);
+      arr.push(array[3]);
+      return arr;
     } else return [];
   };
 
@@ -140,7 +161,7 @@ export default function Menu(props) {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}
       >
-        {filterSuperAdmin(checkerChoices, activeStatus).map((item) => (
+        {filterSuperAdmin(aeChecker, activeStatus).map((item) => (
           <MenuItem
             onClick={() => handleOptions(item.text, name, topicId)}
             className={"menu-item-text"}
