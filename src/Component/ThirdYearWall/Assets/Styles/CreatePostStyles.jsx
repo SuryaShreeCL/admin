@@ -51,6 +51,10 @@ export const ButtonsContainer = styled.section`
   max-width: 100%;
   align-items: center;
   margin-top: 1rem;
+
+  .btnscontainer: {
+    justifycontent: "flex-end !important";
+  }
 `;
 
 export const ButtonsContainerTwo = styled(ButtonsContainer)`

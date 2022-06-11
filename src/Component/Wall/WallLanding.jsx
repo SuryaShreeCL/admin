@@ -41,9 +41,9 @@ const WallLanding = () => {
       // else if (value === 3) {
       //   return <Events />;
       // }
-      else if (value === 3) {
-        return <Webinars />;
-      }
+      // else if (value === 4) {
+      //   return <Webinars />;
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +89,7 @@ const WallLanding = () => {
               <TopTab label="Draft Posts" />
               <TopTab label="Scheduled Posts" />
               {/* <TopTab label='Events' /> */}
-              <TopTab label="Webinars" />
+              {/* <TopTab label="Webinars" /> */}
             </TopTabs>
           )}
         </Grid>

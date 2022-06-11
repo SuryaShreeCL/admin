@@ -127,6 +127,8 @@ import {
   placementDrives,
   drivePath,
   thirdYear,
+  createWebinarPath,
+  editWebinarPath,
 } from "./RoutePaths";
 import Student from "./Student";
 import Student_data from "./StudentData";
@@ -142,10 +144,11 @@ import CreatePost from "./Wall/Pages/CreatePost";
 import EditPost from "./Wall/Pages/EditPost";
 import WallLanding from "./Wall/WallLanding";
 import ThirdYearWallLanding from "./ThirdYearWall/ThirdYearWallLanding";
+import CreateWebinar from "./ThirdYearWall/Pages/CreateWebinar";
+import EditWebinar from "./ThirdYearWall/Pages/EditWebinar";
 import Webinar from "./Webinar/Webinar";
 import ClsaTestPath from "../Component/Clsa/CreateTest";
 import UserManagement from "./UserManagement";
-
 import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
 // import PersonaInfo from './Utils/DoccumentCard'
@@ -244,6 +247,16 @@ export default function Routes(props) {
         exact
         path={editPath}
         render={(props) => <EditPost {...props} />}
+      />
+      <Route
+        exact
+        path={createWebinarPath}
+        render={(props) => <CreateWebinar {...props} />}
+      />
+      <Route
+        exact
+        path={editWebinarPath}
+        render={(props) => <EditWebinar {...props} />}
       />
       <Route
         exact

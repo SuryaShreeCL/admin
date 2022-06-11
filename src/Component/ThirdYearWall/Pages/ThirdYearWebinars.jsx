@@ -17,17 +17,18 @@ import Drawer from "@material-ui/core/Drawer";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import Notification from "../../Utils/Notification";
 import { useHistory } from "react-router-dom";
-import { editPath, createPath } from "../../RoutePaths";
+import { editPath, createWebinarPath, editWebinarPath } from "../../RoutePaths";
 import Loader from "../../Utils/controls/Loader";
 import MuiAlert from "@material-ui/lab/Alert";
 import ConfirmDialog from "../../Utils/ConfirmDialog";
-import FilterListIcon from "@material-ui/icons/FilterList";
+// import FilterListIcon from "@material-ui/icons/FilterList";
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { DrawerContainer } from "../Assets/Styles/WallStyles";
 import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
 import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
+import moment from "moment";
 import { renderListCategory } from "../../Utils/Helpers";
 
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -50,16 +51,18 @@ const useStyles = makeStyles((theme) => ({
     right: "20px",
     borderRadius: "26px",
   },
+  actions: {
+    width: "140px",
+  },
 }));
 
 const headCells = [
-  { id: "category", label: "Category", disableSorting: true },
-  { id: "eventTitle", label: "Title" },
-  { id: "caption", label: "Caption", disableSorting: true },
-  { id: "studentWallWebinar", label: "Registered" },
-  { id: "createdDate", label: "Date of upload" },
-  { id: "uploadedBy", label: "Uploded by" },
-  { id: "status", label: "Status", disableSorting: true },
+  { id: "eventTitle", label: "Webinar Title" },
+  { id: "published", label: "Published" },
+  { id: "caption", label: "Description", disableSorting: true },
+  { id: "status", label: "Webinar Status", disableSorting: true },
+  { id: "startDate", label: "Start date" },
+  { id: "endDate", label: "End date" },
   { id: "actions", label: "Actions", disableSorting: true },
 ];
 
@@ -128,7 +131,7 @@ export default function Webinars() {
 
   const openInPage = (item) => {
     history.push({
-      pathname: editPath,
+      pathname: editWebinarPath,
       recordForEdit: item,
       postType: "Webinar",
       postTypeTab: 0,
@@ -197,7 +200,7 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder="Search Webinars"
+            placeholder="Search 3rd Year Webinars"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -222,7 +225,7 @@ export default function Webinars() {
             className={classes.newButton}
             onClick={() => {
               history.push({
-                pathname: createPath,
+                pathname: createWebinarPath,
                 type: false,
                 postType: "Webinar",
                 postTypeTab: 0,
@@ -239,16 +242,17 @@ export default function Webinars() {
                 console.log(item, "item+++");
                 return (
                   <TableRow key={item.id}>
-                    <TableCell>
-                      {renderListCategory(item.wallCategories)}
-                    </TableCell>
                     <TableCell>{`${item.eventTitle}`}</TableCell>
+                    <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                     <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                    <TableCell>{item.studentWallWebinar.length}</TableCell>
-                    <TableCell>{item.createdAt.split("T")[0]}</TableCell>
-                    <TableCell>{item.createdBy}</TableCell>
                     <TableCell>{item.activeStatus}</TableCell>
                     <TableCell>
+                      {moment(item.eventDate).format("MMM Do, hh:mm a")}
+                    </TableCell>
+                    <TableCell>
+                      {moment(item.eventEndDate).format("MMM Do, hh:mm a")}
+                    </TableCell>
+                    <TableCell className={classes.actions}>
                       <Controls.ActionButton onClick={() => openInPage(item)}>
                         <EditOutlinedIcon fontSize="small" color="primary" />
                       </Controls.ActionButton>
