@@ -632,11 +632,11 @@ export class Index extends Component {
       // topicId: this.props.location.state.topicId
       //   ? this.props.location.state.topicId
       //   : null,
-      testQuestionsSetId: this.props.location.state.testQuestionSetId
-        ? this.props.location.state.testQuestionSetId
+      testQuestionsSetId: testQuestionSetId
+        ? testQuestionSetId
         : null,
-      testSectionId: this.props.location.state.sectionId
-        ? this.props.location.state.sectionId
+      testSectionId:sectionId
+        ? sectionId
         : null,
       type: this.getType(),
     };

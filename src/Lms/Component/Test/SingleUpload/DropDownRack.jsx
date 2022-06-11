@@ -8,18 +8,20 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { DropDownDiv } from "../../../Assets/StyledComponents";
 import { AVOID_INPUT } from "../../../Constants";
 import { aegetTestQuestionSet } from "../../../Redux/Action/Test";
 import DropDown from "../../../Utils/DropDown";
+import QueryString from "qs";
 
 
 
 function DropDownRack(props) {
   const dispatch = useDispatch();
-  const [testType, setTestType] = useState("");
-
+  const location = useLocation()
+  console.log(location)
+  const [testType, setTestType] = useState("")
   const aeDept = window.sessionStorage.getItem("department");
   const {
     subjects,
