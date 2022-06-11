@@ -183,6 +183,7 @@ function Index(props) {
       uploadFormData.append("file", file);
       console.log(uploadFormData);
       dispatch(cvUpload(studentId, productId, uploadFormData, commentText));
+      window.location.reload();
     } else {
       handleSnack(true, "error", FILE_REQUIRED_MESSAGE);
     }
