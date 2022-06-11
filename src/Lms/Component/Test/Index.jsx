@@ -205,6 +205,7 @@ class TestLanding extends Component {
   }
 
   handleThreeDotClick = (event, topicId, status) => {
+    console.log(topicId)
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
@@ -219,7 +220,7 @@ class TestLanding extends Component {
 
   handleOptions = (text, topicName, topicId) => {
     if (text === "Edit") {
-      this.props.history.push(lms_add_test + "?testQuestionSetId=" + topicId);
+      this.props.history.push(lms_add_test + "?testQuestionSetId=" + this.state.popUpId);
     }
     if (text === "Archive") {
       const dialogContent = {
