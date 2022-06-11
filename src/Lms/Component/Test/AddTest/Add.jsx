@@ -130,7 +130,7 @@ class Add extends Component {
       }
     );
     const { type } = this.state;
-    this.props.getCourses((response) => {
+   deptName !== "assessment_engine_admin" && this.props.getCourses((response) => {
       if (response.success) {
         if (testQuestionSetId === undefined) {
           if (
