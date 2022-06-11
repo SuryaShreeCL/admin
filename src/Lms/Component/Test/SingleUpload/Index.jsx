@@ -394,13 +394,13 @@ export class Index extends Component {
     });
   };
 
-  handleDeleteChoiceClick = (ind) =>{
+  handleDeleteChoiceClick = (ind) => {
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
-      bucketArray : copyOfBucketArr
-    })
-  }
+      bucketArray: copyOfBucketArr,
+    });
+  };
 
   // Save Button
 
@@ -467,7 +467,7 @@ export class Index extends Component {
         type: this.getType(),
         difficultyLevel: activeLevel.toUpperCase(),
         expectedTime: expectedTime,
-        topic: { id: activeTopic.length === 0 ? null : activeTopic },
+        topic: { id: activeTopic?.length === 0 ? null : activeTopic },
         testSection: { id: sectionId },
         question,
         description,
@@ -476,35 +476,37 @@ export class Index extends Component {
         explanationVideo: this.state.url,
         video: { videoUrl: this.state.url },
       };
+      let deptName = window.sessionStorage.getItem("department");
 
-      this.props.postQuestions(testQuestionSetId, obj, (response) => {
-        if (response.success) {
-          this.props.history.push(
-            lms_add_test + "?testQuestionSetId=" + testQuestionSetId
-          );
-        } else {
-          this.setState({
-            alert: {
-              severity: "error",
-              msg: response.message,
-            },
+      deptName === "assessment_engine_admin"
+        ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
+            if (response.success) {
+              this.props.history.push(
+                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+              );
+            } else {
+              this.setState({
+                alert: {
+                  severity: "error",
+                  msg: response.message,
+                },
+              });
+            }
+          })
+        : this.props.postQuestions(testQuestionSetId, obj, (response) => {
+            if (response.success) {
+              this.props.history.push(
+                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+              );
+            } else {
+              this.setState({
+                alert: {
+                  severity: "error",
+                  msg: response.message,
+                },
+              });
+            }
           });
-        }
-      });
-      this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
-        if (response.success) {
-          this.props.history.push(
-            lms_add_test + "?testQuestionSetId=" + testQuestionSetId
-          );
-        } else {
-          this.setState({
-            alert: {
-              severity: "error",
-              msg: response.message,
-            },
-          });
-        }
-      });
     }
   };
 
@@ -633,19 +635,15 @@ export class Index extends Component {
       }
     );
     const topicId = sessionStorage.getItem("topicId");
-    console.log(topicId)
+    console.log(topicId);
     let requestBody = {
       choices: this.getChoices(),
       isHaveDescription: this.isEmptyCheck(description),
       // topicId: this.props.location.state.topicId
       //   ? this.props.location.state.topicId
       //   : null,
-      testQuestionsSetId: testQuestionSetId
-        ? testQuestionSetId
-        : null,
-      testSectionId:sectionId
-        ? sectionId
-        : null,
+      testQuestionsSetId: testQuestionSetId ? testQuestionSetId : null,
+      testSectionId: sectionId ? sectionId : null,
       type: this.getType(),
     };
     let question_id = questionId ? questionId : "NO_QUESTION";
@@ -664,7 +662,7 @@ export class Index extends Component {
         },
       });
     } else {
-      let deptName = window.sessionStorage.getItem("department")
+      let deptName = window.sessionStorage.getItem("department");
       deptName === "assessment_engine_admin"
         ? this.props.aepreviewTestData(question_id, requestBody)
         : this.props.previewTestData(question_id, requestBody);
@@ -759,7 +757,7 @@ export class Index extends Component {
       difficulty,
       handleInputChange,
       expectedTime,
-      testQuestionSetId
+      testQuestionSetId,
     };
 
     let answerProps = {
@@ -844,11 +842,12 @@ export class Index extends Component {
         </BackIconBox>
         <C2>
           <H1>{id !== undefined ? "Edit Test" : "Add New Test"}</H1>
-          <DropDownRack
-            {...dropDownRackProps}
-          />
+          <DropDownRack {...dropDownRackProps} />
           <Question {...questionProps} />
-          <Answer handleDeleteChoiceClick={this.handleDeleteChoiceClick} {...answerProps} />
+          <Answer
+            handleDeleteChoiceClick={this.handleDeleteChoiceClick}
+            {...answerProps}
+          />
           <Explanation {...explanationProps} />
         </C2>
         <Buttons {...buttonsProps} />
