@@ -980,7 +980,7 @@ export const aepreviewTestData = (questionId, requestBody) => {
       .post(`${URL}/api/v2/lms/questions/${questionId}/preview`, requestBody, {
         crossDomain: true,
         headers: {
-          // admin: "yes",
+          admin: "yes",
           Authorization: `Bearer ${accessToken}`,
         },
       })
