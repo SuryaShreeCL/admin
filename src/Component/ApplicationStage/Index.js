@@ -477,7 +477,7 @@ function Index(props) {
   };
 
   const handleDownload = (path, id, e) => {
-    dispatch(getDownloadByDocumentId(studentId, sectionId, path));
+    dispatch(getDownloadByDocumentId(studentId, sectionId, path,schoolId));
   };
 
   const handleDelete = (id, path, e) => {};
