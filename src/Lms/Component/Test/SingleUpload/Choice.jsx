@@ -5,6 +5,7 @@ import CheckedIcon from "../../../Assets/icons/Checked.svg";
 import UnCheckedIcon from "../../../Assets/icons/UnChecked.svg";
 import { C1, Checkbox, FormControlLabel, T1 } from "../../../Assets/StyledTest";
 import TextEditor from "../../../Utils/TextEditor";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
@@ -58,8 +59,11 @@ function Choice(props) {
                     icon={<img src={UnCheckedIcon} alt="" />}
                     checkedIcon={<img src={CheckedIcon} alt="" />}
                   />
+                 
                 }
+                
               />
+              
             </C1>
           );
         })}

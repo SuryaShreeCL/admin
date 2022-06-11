@@ -38,6 +38,7 @@ function Layout(props) {
   } = props;
   return (
     <Container>
+      
       <Header>
         <LeftBox>
           <ImgBox>
@@ -77,7 +78,11 @@ function Layout(props) {
             </PrimaryButton>
           )}
         </RightBox>
+
+
+
       </Header>
+
 
       <SubHeader>
         <SubLeftBox>
@@ -96,6 +101,7 @@ function Layout(props) {
         </Typography>
       </SubHeader>
       <Main>{children}</Main>
+
     </Container>
   );
 }

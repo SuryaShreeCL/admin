@@ -82,7 +82,7 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-      testType: "default",
+      testType: "",
       topicId: "default",
       status: "default",
       order: [],
@@ -130,7 +130,9 @@ class TestLanding extends Component {
       ? this.props.aegetQuestionSet(paramObj)
       : this.props.getQuestionSet(paramObj);
 
-    this.setState({ role: role, department: deptname });
+    this.setState({ role: role, department: deptname,testType: deptname === "assessment_engine_admin" ? "" : "default",
+    testType: "",
+     });
   }
 
   handleDropDownChange = (event) => {
