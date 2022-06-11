@@ -279,7 +279,7 @@ function Index(props) {
       let uploadFormData = new FormData();
       uploadFormData.append("file", newFile);
       dispatch(uploadFile(studentId, productId, uploadFormData, comment));
-      window.location.reload();
+      
     }
   };
 
