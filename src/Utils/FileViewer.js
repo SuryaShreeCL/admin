@@ -5,9 +5,9 @@ import FileViewer from "react-file-viewer";
 
 const getFileType = (fileName) => fileName.split(".").pop();
 
-export default function App() {
-  const [filePath, setFilePath] = React.useState("");
-  const [fileType, setFileType] = React.useState("");
+export default function App({ fileType, filePath }) {
+  // const [filePath, setFilePath] = React.useState("");
+  // const [fileType, setFileType] = React.useState("");
 
   const containerRef = React.useRef(null);
 
@@ -17,15 +17,15 @@ export default function App() {
   //   setFilePath(URL.createObjectURL(file));
   //   setFileType(getFileType(file.name));
   // };
+  // console.log(fileType, filePath, "fileType");
 
   return (
-    <div className="App">
+    <div>
       {/* <input
         type="file"
         accept=".jpg,.jpeg,.png,.docx,.csv,.xslx,.pdf"
         onChange={handleInputChange}
       /> */}
-
       {filePath && fileType && (
         <>
           <div
@@ -46,17 +46,38 @@ export default function App() {
                 key={filePath}
                 fileType={fileType}
                 filePath={filePath}
-                // errorComponent={<p>errorComponent</p>}
-                // onError={(error) =>
-                //   console.error("FileViewer error: ", { error })
-                // }
+                errorComponent={<p>errorComponent</p>}
+                onError={(error) =>
+                  console.error("FileViewer error: ", { error })
+                }
               />
             </div>
           </div>
-
-          {/* <button onClick={zoomIn}>zoom in</button> */}
+          {/* 
+          <button onClick={zoomIn}>zoom in</button> */}
         </>
       )}
     </div>
   );
 }
+
+/*
+react-file-viewer claims to support following file types:
+
+pdf
+csv
+xslx
+docx
+Video: mp4, webm
+Audio: mp3
+*/
+
+/*
+if it's photo viewer, it'll gonna have id of 
+pg-photo-container
+
+pdf:
+pdf-viewer-container
+pdf-viewer
+pdf-canvas x2?
+*/

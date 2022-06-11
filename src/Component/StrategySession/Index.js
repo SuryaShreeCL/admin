@@ -85,8 +85,9 @@ function Index(props) {
     fileUploadStatus,
     documentUpdateStatus,
     downloadFileResponse,
-    filePath,
+    fileObject,
   } = useSelector((state) => state.StrategySessionReducer);
+  console.log(fileObject);
 
   const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
@@ -401,7 +402,7 @@ function Index(props) {
       file: file,
       disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: false,
-      filePath: filePath,
+      fileObject: fileObject,
       ...props,
     };
     switch (activeTabValue) {
