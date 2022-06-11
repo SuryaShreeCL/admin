@@ -18,7 +18,6 @@ const ThirdYearWallLanding = () => {
     }
   };
 
-  // console.log(tabCount, "tabCount");
   return (
     <Container>
       <Grid container>
@@ -27,12 +26,12 @@ const ThirdYearWallLanding = () => {
             value={tabCount}
             textColor={"inherit"}
             onChange={(e, value) => setTabCount(value)}
-            aria-label="tabs"
+            aria-label='tabs'
           >
-            <TopTab label="3rd Year Webinars" />
+            <TopTab label='3rd Year Webinars' />
           </TopTabs>
         </Grid>
-        <Grid item md={12} overflow="auto">
+        <Grid item md={12} overflow='auto'>
           {renderContent(tabCount)}
         </Grid>
       </Grid>

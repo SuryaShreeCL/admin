@@ -1,136 +1,35 @@
-import { THIRDYEARWEBINAR } from "../Redux/Action";
+import { THIRD_YEAR_WEBINAR } from "../Redux/Action";
 
-// export const wallPostListReducer = (state = { posts: [] }, action) => {
-//   switch (action.type) {
-//     case WALL.LIST_REQUEST:
-//       return { loading: true, posts: [] };
-//     case WALL.LIST_SUCCESS:
-//       return {
-//         loading: false,
-//         posts: action.payload,
-//       };
-//     case WALL.LIST_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
+const defaultState = {
+  loading: false,
+  allWebinarList: null,
+  webinarList: null,
+  createStatus: null,
+  updateStatus: null,
+  deleteStatus: null,
+};
 
-export const thirdWebinarListReducer = (state = { webinars: [] }, action) => {
+export const thirdYearWebinarListReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case THIRDYEARWEBINAR.WEBINAR_LIST_REQUEST:
-      return { loading: true, webinars: [] };
-    case THIRDYEARWEBINAR.WEBINAR_LIST_SUCCESS:
+    case THIRD_YEAR_WEBINAR.LOADER:
+      return { ...state, loading: true };
+    case THIRD_YEAR_WEBINAR.GET_ALL_WEBINAR_LIST:
       return {
+        ...state,
         loading: false,
-        webinars: action.payload,
+        allWebinarList: action.payload,
       };
-    case THIRDYEARWEBINAR.WEBINAR_LIST_FAIL:
-      return { loading: false, error: action.payload };
+    case THIRD_YEAR_WEBINAR.GET_WEBINAR_BY_ID:
+      return { ...state, loading: false, webinarList: action.payload };
+    case THIRD_YEAR_WEBINAR.CREATE_WEBINAR:
+      return { ...state, loading: false, createStatus: action.payload };
+    case THIRD_YEAR_WEBINAR.UPDATE_WEBINAR:
+      return { ...state, loading: false, updateStatus: action.payload };
+    case THIRD_YEAR_WEBINAR.DELETE_WEBINAR_BY_ID:
+      return { ...state, loading: false, deleteStatus: action.payload };
+    case THIRD_YEAR_WEBINAR.CLEAR_DATA:
+      return {};
     default:
       return state;
   }
 };
-
-// export const getWallCategoriesReducer = (
-//   state = { categories: [] },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case WALL.WALL_CATEGORIES_REQUEST:
-//       return { loading: true, posts: [] };
-//     case WALL.WALL_CATEGORIES_SUCCESS:
-//       return {
-//         loading: false,
-//         categories: action.payload,
-//       };
-//     case WALL.WALL_CATEGORIES_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const getWallJobListReducer = (state = { categories: [] }, action) => {
-//   switch (action.type) {
-//     case WALL.WALL_JOB_LIST_REQUEST:
-//       return { loading: true, posts: [] };
-//     case WALL.WALL_JOB_LIST_SUCCESS:
-//       return {
-//         loading: false,
-//         jobs: action.payload,
-//       };
-//     case WALL.WALL_JOB_LIST_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const wallPostDetailsReducer = (state = { post: [] }, action) => {
-//   switch (action.type) {
-//     case WALL.DETAILS_REQUEST:
-//       return { ...state, loading: true };
-//     case WALL.DETAILS_SUCCESS:
-//       return { loading: false, post: action.payload };
-//     case WALL.DETAILS_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const wallPostDeleteReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case WALL.DELETE_REQUEST:
-//       return { loading: true };
-//     case WALL.DELETE_SUCCESS:
-//       return { loading: false, success: true };
-//     case WALL.DELETE_FAIL:
-//       return { loading: false, error: action.payload };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const wallPostCreateReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case WALL.CREATE_REQUEST:
-//       return { loading: true };
-//     case WALL.CREATE_SUCCESS:
-//       return { loading: false, success: true, WALL: action.payload };
-//     case WALL.CREATE_FAIL:
-//       return { loading: false, error: action.payload };
-//     case WALL.CREATE_RESET:
-//       return {};
-//     default:
-//       return state;
-//   }
-// };
-
-// export const wallPostUpdateReducer = (state = { post: {} }, action) => {
-//   switch (action.type) {
-//     case WALL.UPDATE_REQUEST:
-//       return { loading: true };
-//     case WALL.UPDATE_SUCCESS:
-//       return { loading: false, success: true, post: action.payload };
-//     case WALL.UPDATE_FAIL:
-//       return { loading: false, error: action.payload };
-//     case WALL.UPDATE_RESET:
-//       return { post: {} };
-//     default:
-//       return state;
-//   }
-// };
-
-// export const platformsReducer = (state = { platforms: [] }, action) => {
-//   switch (action.type) {
-//     case WALL.PLATFORMS:
-//       return {
-//         platforms: action.payload,
-//       };
-
-//     default:
-//       return state;
-//   }
-// };

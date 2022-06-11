@@ -144,8 +144,7 @@ import CreatePost from "./Wall/Pages/CreatePost";
 import EditPost from "./Wall/Pages/EditPost";
 import WallLanding from "./Wall/WallLanding";
 import ThirdYearWallLanding from "./ThirdYearWall/ThirdYearWallLanding";
-import CreateWebinar from "./ThirdYearWall/Pages/CreateWebinar";
-import EditWebinar from "./ThirdYearWall/Pages/EditWebinar";
+import ThirdYearWebinar from "./ThirdYearWall/Pages/Webinar";
 import Webinar from "./Webinar/Webinar";
 import ClsaTestPath from "../Component/Clsa/CreateTest";
 import UserManagement from "./UserManagement";
@@ -251,12 +250,12 @@ export default function Routes(props) {
       <Route
         exact
         path={createWebinarPath}
-        render={(props) => <CreateWebinar {...props} />}
+        render={(props) => <ThirdYearWebinar {...props} />}
       />
       <Route
         exact
-        path={editWebinarPath}
-        render={(props) => <EditWebinar {...props} />}
+        path={`${editWebinarPath}/:id`}
+        render={(props) => <ThirdYearWebinar {...props} />}
       />
       <Route
         exact
