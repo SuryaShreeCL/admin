@@ -18,7 +18,6 @@ import DropDown from "../../../Utils/DropDown";
 
 function DropDownRack(props) {
   const dispatch = useDispatch();
-  const location = useLocation();
   const [testType, setTestType] = useState("");
 
   const aeDept = window.sessionStorage.getItem("department");
@@ -36,10 +35,12 @@ function DropDownRack(props) {
     activeLevel,
     handleInputChange,
     expectedTime,
+    testQuestionSetId
   } = props;
+
   useEffect(() => {
     dispatch(
-      aegetTestQuestionSet(location.state.testQuestionSetId, (response) => {
+      aegetTestQuestionSet(testQuestionSetId, (response) => {
         if (response.success) {
           if (response.data.type) {
             setTestType(response.data.type);
@@ -47,7 +48,7 @@ function DropDownRack(props) {
         }
       })
     );
-  }, [location.state.testQuestionSetId]);
+  }, [testQuestionSetId]);
 
   if (subjects !== null && concepts !== null) {
     return (
