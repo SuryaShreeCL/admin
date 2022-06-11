@@ -1,4 +1,4 @@
-import MomentUtils from "@date-io/moment";
+// import MomentUtils from "@date-io/moment";
 import {
   FormControlLabel,
   Grid,
@@ -10,6 +10,7 @@ import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import QueryString from "qs";
+import MomentUtils from '@date-io/moment';
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -1332,6 +1333,7 @@ class Add extends Component {
                         />
                       </Grid>
                       <Grid item md={6}>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
                         <DateTimePicker
                           label="End date and time"
                           inputVariant="outlined"
@@ -1339,7 +1341,7 @@ class Add extends Component {
                           onChange={(value) =>
                             this.setState({ eventEndDate: value })
                           }
-                        />
+                        /></MuiPickersUtilsProvider>
                       </Grid>
                     </MuiPickersUtilsProvider>
                   </React.Fragment>
