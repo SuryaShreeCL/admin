@@ -222,6 +222,7 @@ function Index(props) {
   const [tabValue, setTabValue] = useState(0);
   const [dropDownValue, setDropdownValue] = useState([]);
   const [degreeType, setDegreeType] = useState(null);
+  const [type, setType] = useState(null);
   const [degreeTypeHelperText, setDegreeTypeHelperText] = useState("");
   const [subCategory, setSubCategory] = useState(null);
   const [subCategoryHelperText, setSubCategoryHelperText] = useState("");
@@ -372,7 +373,7 @@ function Index(props) {
       return (
         <TopSubjects
           subjects={subjects}
-          degreeType={degreeType}
+          degreeType={type}
           subjectTableFields={subjectTableFields}
           semester={semester}
         />
@@ -399,6 +400,7 @@ function Index(props) {
       ? setSubCategoryHelperText(HELPER_TEXT.requiredField)
       : setSubCategoryHelperText("");
     if (!isEmptyObject(degreeType) && !isEmptyObject(subCategory)) {
+      setType(degreeType);
       getAndSetAcademicSummary();
     }
   };
