@@ -4,25 +4,24 @@ import {
   Grid,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
+  OutlinedInput
 } from "@material-ui/core";
-import React from "react";
-import { getTestQuestionSet } from "../../../Redux/Action/Test";
-
-import {aegetTestQuestionSet } from "../../../Redux/Action/Test";
-
-
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { DropDownDiv } from "../../../Assets/StyledComponents";
-import DropDown from "../../../Utils/DropDown";
 import { AVOID_INPUT } from "../../../Constants";
-import  { useEffect, useState } from "react";
+import { aegetTestQuestionSet } from "../../../Redux/Action/Test";
+import DropDown from "../../../Utils/DropDown";
+
+
 
 function DropDownRack(props) {
   const dispatch = useDispatch();
-  const [testType, setTestType] = useState('');
+  const location = useLocation();
+  const [testType, setTestType] = useState("");
 
-const aeDept = window.sessionStorage.getItem("department")
+  const aeDept = window.sessionStorage.getItem("department");
   const {
     subjects,
     concepts,
@@ -37,18 +36,18 @@ const aeDept = window.sessionStorage.getItem("department")
     activeLevel,
     handleInputChange,
     expectedTime,
-    testQuestionSetId,
   } = props;
-  useEffect(()=>{
-    console.log(testQuestionSetId, "_____-");
-    dispatch(aegetTestQuestionSet(testQuestionSetId, (response)=>{
-      if(response.success){
-        if(response.data.type){
-          setTestType(response.data.type)
+  useEffect(() => {
+    dispatch(
+      aegetTestQuestionSet(location.state.testQuestionSetId, (response) => {
+        if (response.success) {
+          if (response.data.type) {
+            setTestType(response.data.type);
+          }
         }
-      }
-    }))
-  }, [testQuestionSetId]);
+      })
+    );
+  }, [location.state.testQuestionSetId]);
 
   if (subjects !== null && concepts !== null) {
     return (
@@ -97,52 +96,7 @@ const aeDept = window.sessionStorage.getItem("department")
                 onChange={handleInputChange}
               />
             </Grid>
-            {aeDept === 'assessment_engine_admin' &&
-          
-            <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
-              <InputLabel
-                shrink={true}
-                style={{
-                  top: "-8px",
-                  left: "15px",
-                  background: "#FFFFFF",
-                  padding: "0 10px 0 8px",
-                  zIndex: 1,
-                }}
-              >
-                Expected time for completion
-              </InputLabel>
-              <OutlinedInput
-                inputProps={{
-                  style: {
-                    height: "11px",
-                  },
-                }}
-                type={"number"}
-                onKeyDown={evt =>
-                  (AVOID_INPUT.includes(evt.key) ||
-                    // Up arrow and down arrow disabling
-                    evt.keyCode === 38 ||
-                    evt.keyCode === 40) &&
-                  evt.preventDefault()
-                }
-                id="expectedTime"
-                value={expectedTime}
-                name="expectedTime"
-                // placeholder='Expected time for completion'
-                onChange={handleInputChange}
-                endAdornment={
-                  <InputAdornment position="end">seconds</InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-            }
-
-
-            {topics !== null && (
-              
+            {aeDept === "assessment_engine_admin" && (
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel
@@ -164,7 +118,49 @@ const aeDept = window.sessionStorage.getItem("department")
                       },
                     }}
                     type={"number"}
-                    onKeyDown={evt =>
+                    onKeyDown={(evt) =>
+                      (AVOID_INPUT.includes(evt.key) ||
+                        // Up arrow and down arrow disabling
+                        evt.keyCode === 38 ||
+                        evt.keyCode === 40) &&
+                      evt.preventDefault()
+                    }
+                    id="expectedTime"
+                    value={expectedTime}
+                    name="expectedTime"
+                    // placeholder='Expected time for completion'
+                    onChange={handleInputChange}
+                    endAdornment={
+                      <InputAdornment position="end">seconds</InputAdornment>
+                    }
+                  />
+                </FormControl>
+              </Grid>
+            )}
+
+            {topics !== null && (
+              <Grid item xs={12} sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel
+                    shrink={true}
+                    style={{
+                      top: "-8px",
+                      left: "15px",
+                      background: "#FFFFFF",
+                      padding: "0 10px 0 8px",
+                      zIndex: 1,
+                    }}
+                  >
+                    Expected time for completion
+                  </InputLabel>
+                  <OutlinedInput
+                    inputProps={{
+                      style: {
+                        height: "11px",
+                      },
+                    }}
+                    type={"number"}
+                    onKeyDown={(evt) =>
                       (AVOID_INPUT.includes(evt.key) ||
                         // Up arrow and down arrow disabling
                         evt.keyCode === 38 ||
