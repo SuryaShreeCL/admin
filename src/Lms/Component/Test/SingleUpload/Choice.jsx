@@ -67,7 +67,11 @@ function Choice(props) {
               <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
                 <DeleteRounded />
               </IconButton>
+<<<<<<< HEAD
+             </C1>
+=======
             </C1>
+>>>>>>> e2745f359ef271ccc4c304d263c59b4e7ca953b2
           );
         })}
         {answerType !== "SUBJECTIVE" && (

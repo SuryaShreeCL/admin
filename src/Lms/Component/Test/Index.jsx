@@ -6,14 +6,16 @@ import {
   Snackbar,
   Typography,
 } from "@material-ui/core";
+
 import ArchiveIcon from "@material-ui/icons/Archive";
 import ShareIcon from "@material-ui/icons/Share";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import { Alert } from "@material-ui/lab";
-import { DateTimePicker } from "@material-ui/pickers";
+import  {DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import MomentUtils from '@date-io/moment';
 //import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
@@ -307,6 +309,28 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
+    } else if (text === "Reschedule") {
+      const { data: tableContent } = this.props.testData;
+
+      if (tableContent) {
+        let findObj = tableContent.content.map(
+          (el) => el.id === this.state.popUpId
+        );
+
+        if (findObj) {
+          this.setState({
+            eventDate: findObj.eventDate ? findObj.eventDate : new Date(),
+
+            eventEndDate: findObj.eventEndDate
+              ? findObj.eventEndDate
+              : new Date(),
+          });
+        }
+      }
+
+      this.setState({
+        popupOpen: true,
+      });
     }
   };
 
@@ -549,6 +573,7 @@ class TestLanding extends Component {
   };
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
+      console.log("reschedule")
     let obj = {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
@@ -563,6 +588,7 @@ class TestLanding extends Component {
         });
         let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
         this.props.getQuestionSet(paramObj);
+        this.props.aegetQuestionSet(paramObj);
       } else {
         this.setState({
           alertState: true,
@@ -721,12 +747,13 @@ class TestLanding extends Component {
                 alignItems="center"
                 justifyContent="center"
               >
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
                 <DateTimePicker
                   label="Start date and time"
                   inputVariant="outlined"
                   value={eventDate}
                   onChange={(value) => this.setState({ eventDate: value })}
-                />
+                /></MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
@@ -735,12 +762,13 @@ class TestLanding extends Component {
                 alignItems="center"
                 justifyContent="center"
               >
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
                 <DateTimePicker
                   label="End date and time"
                   inputVariant="outlined"
                   value={eventEndDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
-                />
+                /></MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
@@ -761,7 +789,7 @@ class TestLanding extends Component {
               <Grid item xs={6} container alignItems="center">
                 <Button
                   size={"large"}
-                  onClick={this.handleReschedule}
+                  onClick={()=>this.handleReschedule()}
                   variant={"contained"}
                   color={"primary"}
                 >
