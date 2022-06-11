@@ -45,6 +45,7 @@
     "react-draggable": "^4.4.4",
     "react-dropzone": "^11.3.4",
     "react-export-excel": "^0.5.3",
+    "react-file-viewer": "^1.2.1",
     "react-filter-search": "^1.0.11",
     "react-google-login": "^5.1.21",
     "react-icons": "^3.11.0",

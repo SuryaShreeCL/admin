@@ -28,10 +28,9 @@ function DocumentComponent({
   file,
   disabledUploadButton,
   isDisabledFileName,
-  filePath,
+  fileObject,
   ...props
 }) {
-  console.log(new Blob([filePath], { type: "application/pdf" }));
   return (
     <Grid container>
       <Grid item xs={8}>
@@ -66,9 +65,8 @@ function DocumentComponent({
 
       <Grid item xs={4}>
         <FileViewer
-        // cvUr={window.URL.createObjectURL(
-        //   new Blob([filePath])
-        // // )}
+          filePath={window.URL.createObjectURL(new Blob([fileObject?.path]))}
+          fileType={fileObject?.type}
         />
       </Grid>
       <DocumentUploadPopup
@@ -79,7 +77,7 @@ function DocumentComponent({
         handleLeftButton={handleUpload}
         handleRightButton={handleCancel}
         handleClose={handleCancel}
-        acceptTypes={".doc, .docx, .xls, .xlsx, .pdf"}
+        acceptTypes={".doc, .docx, .xls, .xlsx, .csv, .pdf"}
         onDrop={onDrop}
         handleChange={handleChange}
         comment={comment}
