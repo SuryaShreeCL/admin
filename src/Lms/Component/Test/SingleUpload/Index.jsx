@@ -394,6 +394,14 @@ export class Index extends Component {
     });
   };
 
+  handleDeleteChoiceClick = (ind) =>{
+    let copyOfBucketArr = [...this.state.bucketArray];
+    copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
+    this.setState({
+      bucketArray : copyOfBucketArr
+    })
+  }
+
   // Save Button
 
   handleSaveClick = () => {
@@ -840,7 +848,7 @@ export class Index extends Component {
             {...dropDownRackProps}
           />
           <Question {...questionProps} />
-          <Answer {...answerProps} />
+          <Answer handleDeleteChoiceClick={this.handleDeleteChoiceClick} {...answerProps} />
           <Explanation {...explanationProps} />
         </C2>
         <Buttons {...buttonsProps} />

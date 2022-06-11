@@ -1,10 +1,11 @@
-import { Box, Button, createTheme, ThemeProvider } from "@material-ui/core";
-import { AddRounded } from "@material-ui/icons";
+import { Box, Button, createTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import { AddRounded, DeleteRounded } from "@material-ui/icons";
 import React from "react";
 import CheckedIcon from "../../../Assets/icons/Checked.svg";
 import UnCheckedIcon from "../../../Assets/icons/UnChecked.svg";
 import { C1, Checkbox, FormControlLabel, T1 } from "../../../Assets/StyledTest";
 import TextEditor from "../../../Utils/TextEditor";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
@@ -18,6 +19,7 @@ function Choice(props) {
     handleDeleteIconClick,
     handleTextChange,
     answerType,
+    handleDeleteChoiceClick
   } = props;
   if (answerType) {
     return (
@@ -58,8 +60,17 @@ function Choice(props) {
                     icon={<img src={UnCheckedIcon} alt="" />}
                     checkedIcon={<img src={CheckedIcon} alt="" />}
                   />
+                 
                 }
+                
               />
+<<<<<<< HEAD
+              
+=======
+              <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
+                <DeleteRounded />
+              </IconButton>
+>>>>>>> 235706d6b69c4e03dcc1e566a7a28ea179fd43a7
             </C1>
           );
         })}

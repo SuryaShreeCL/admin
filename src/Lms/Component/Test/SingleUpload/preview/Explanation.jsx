@@ -17,8 +17,11 @@ function Explanation({ testResponse }) {
         <ExpDiv>
           <LatexViewer math={videoExplanation} />
         </ExpDiv>
+        
+
         {video ? (
           <Box p={"1rem"}>
+
             <VideoPlayer videoId={video} />
           </Box>
         ) : (
