@@ -1,4 +1,10 @@
-import { Box, Button, createTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  createTheme,
+  IconButton,
+  ThemeProvider,
+} from "@material-ui/core";
 import { AddRounded, DeleteRounded } from "@material-ui/icons";
 import React from "react";
 import CheckedIcon from "../../../Assets/icons/Checked.svg";
@@ -19,7 +25,7 @@ function Choice(props) {
     handleDeleteIconClick,
     handleTextChange,
     answerType,
-    handleDeleteChoiceClick
+    handleDeleteChoiceClick,
   } = props;
   if (answerType) {
     return (
@@ -55,23 +61,21 @@ function Choice(props) {
                   <Checkbox
                     value={index}
                     checked={choice.selected}
-                    onChange={e => handleCheckBoxes(e)}
+                    onChange={(e) => handleCheckBoxes(e)}
                     disableRipple
                     icon={<img src={UnCheckedIcon} alt="" />}
                     checkedIcon={<img src={CheckedIcon} alt="" />}
                   />
-                 
                 }
-                
               />
-              <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
+              <IconButton
+                color="secondary"
+                onClick={() => handleDeleteChoiceClick(index)}
+                style={{ marginTop: "-9px" }}
+              >
                 <DeleteRounded />
               </IconButton>
-<<<<<<< HEAD
-             </C1>
-=======
             </C1>
->>>>>>> e2745f359ef271ccc4c304d263c59b4e7ca953b2
           );
         })}
         {answerType !== "SUBJECTIVE" && (
