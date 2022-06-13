@@ -8,6 +8,7 @@ import TextEditor from "../../../Utils/TextEditor";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+const aedept = window.sessionStorage.getItem("department");
 
 function Choice(props) {
   const {
@@ -64,14 +65,12 @@ function Choice(props) {
                 }
                 
               />
+              {aedept==="assessment_engine_admin" ? 
+
               <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
                 <DeleteRounded />
-              </IconButton>
-<<<<<<< HEAD
-             </C1>
-=======
+              </IconButton>:<></>}
             </C1>
->>>>>>> e2745f359ef271ccc4c304d263c59b4e7ca953b2
           );
         })}
         {answerType !== "SUBJECTIVE" && (

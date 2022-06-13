@@ -34,7 +34,10 @@ export default function DropDownRack(props) {
         />
       </Grid>:<></>
         }
-      {testType !== "CALIBRATION"  &&   (
+
+
+
+      {testType !== "CALIBRATION" && aedept!== "assessment_engine_admin" ?
         
          
         <Grid item xs={12} md={4}>
@@ -48,8 +51,8 @@ export default function DropDownRack(props) {
             onChange={handleDropDownChange}
             disabled={testType === "CALIBRATION"}
           /> 
-        </Grid> 
-      )}
+        </Grid> :<></>
+      }
       <Grid item xs={12} md={4}>
         <DropDown
           label="Status"
