@@ -70,7 +70,7 @@ function DocumentComponent({
         handleLeftButton={handleUpload}
         handleRightButton={handleCancel}
         handleClose={handleCancel}
-        acceptTypes={".doc, .docx, .xls, .xlsx"}
+        acceptTypes={".doc, .docx, .pdf"}
         onDrop={onDrop}
         handleChange={handleChange}
         comment={comment}
