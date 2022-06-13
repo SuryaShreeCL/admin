@@ -32,7 +32,6 @@ export const getAllWebinarList = (page = 0) => async (dispatch) => {
 };
 
 export const getWebinarList = (id) => async (dispatch) => {
-  let department = window.sessionStorage.getItem("department");
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
     const { data } = await axios.get(`${baseUrl}/wallpost/webinarlist`, {

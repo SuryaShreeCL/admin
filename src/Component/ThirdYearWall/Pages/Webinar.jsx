@@ -81,6 +81,7 @@ const Webinar = () => {
   } = useSelector((state) => state.thirdYearWebinarListReducer);
 
   console.log(
+    params?.id,
     loading,
     allWebinarList,
     webinarList,
@@ -113,9 +114,9 @@ const Webinar = () => {
   });
 
   useEffect(() => {
-    if (params?.id) {
-      dispatch(getWebinarList());
-    }
+    // if (params?.id) {
+    dispatch(getAllWebinarList());
+    // }
   }, []);
 
   useEffect(() => {
@@ -129,7 +130,7 @@ const Webinar = () => {
           zoomLink: data?.zoomLink,
           eventDate: data?.eventDate ? new Date(data?.eventDate) : new Date(),
           eventEndDate: data?.eventEndDate
-            ? new Date(data?.eventDate)
+            ? new Date(data?.eventEndDate)
             : new Date(),
         });
       } else {
@@ -202,8 +203,18 @@ const Webinar = () => {
     return true;
   };
 
+  //Max 30 words limit for description
   const getWordCount = (str) => {
     return str?.trim().split(/\s+/).length || 0;
+  };
+
+  const isValidZoomLink = (str) => {
+    let regexp = /https:\/\/[\w-]*\.?zoom.us\/(j|my)\/[\d\w?=-]+/g;
+    if (regexp.test(str)) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const validationSchema = yup.object({
@@ -216,7 +227,14 @@ const Webinar = () => {
         "It shouldn't exceed more than 30 word Limit",
         (value) => getWordCount(value) <= 30
       ),
-    zoomLink: yup.string().required("Zoom link is required"),
+    zoomLink: yup
+      .string()
+      .required("Zoom link is required")
+      .test(
+        "is-valid-zoom-link",
+        "Not a valid zoom link",
+        (value) => isValidZoomLink(value) === true
+      ),
   });
 
   return (
@@ -249,9 +267,9 @@ const Webinar = () => {
           }) => {
             return (
               <>
-                <div className='CreatePost'>
-                  <Form onSubmit={handleSubmit} autoComplete='off'>
-                    <Grid container spacing={1} direction='column'>
+                <div className="CreatePost">
+                  <Form onSubmit={handleSubmit} autoComplete="off">
+                    <Grid container spacing={1} direction="column">
                       <Grid item>
                         <h6 style={{ fontSize: "1rem" }}>{"Webinar Title"}</h6>
                         <Controls.Input
@@ -279,7 +297,7 @@ const Webinar = () => {
                             touched.description && Boolean(errors.description)
                           }
                           // helperText={touched.description && errors.description}
-                          helperText={`Max 30 words limited`}
+                          helperText={`Max 30 words limit`}
                           multiline
                           className={classes.captionStyle}
                           rows={2}
@@ -291,9 +309,10 @@ const Webinar = () => {
                           {"Enter Zoom Link"}
                         </h6>
                         <Controls.Input
-                          label='Zoom Webinar Link'
-                          name='zoomLink'
+                          label="Zoom Webinar Link"
+                          name="zoomLink"
                           error={touched.zoomLink && Boolean(errors.zoomLink)}
+                          helperText={touched.zoomLink && errors.zoomLink}
                           className={classes.captionStyle}
                           value={values.zoomLink}
                           onChange={handleChange}
@@ -302,8 +321,8 @@ const Webinar = () => {
 
                       <Grid
                         container
-                        direction='row'
-                        justify='space-between'
+                        direction="row"
+                        justify="space-between"
                         className={classes.spacer}
                       >
                         <Grid item lg={12}>
@@ -316,7 +335,7 @@ const Webinar = () => {
                             <DateTimePicker
                               InputProps={{
                                 startAdornment: (
-                                  <InputAdornment position='start'>
+                                  <InputAdornment position="start">
                                     <EventIcon />
                                   </InputAdornment>
                                 ),
@@ -326,7 +345,7 @@ const Webinar = () => {
                               disablePast
                               name={"eventDate"}
                               label={"Start Data & Time"}
-                              inputVariant='outlined'
+                              inputVariant="outlined"
                               onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
@@ -362,8 +381,8 @@ const Webinar = () => {
                 <ButtonsContainer className={classes.btnContainer}>
                   <Controls.Button
                     text={`Discard`}
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     style={{ borderRadius: "26px", marginRight: "10px" }}
                     onClick={() => {
                       setConfirmDialog({
@@ -378,8 +397,8 @@ const Webinar = () => {
                   />
                   <Controls.Button
                     text={`Submit`}
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     style={{ borderRadius: "26px" }}
                     type={"submit"}
                     onClick={submitForm}

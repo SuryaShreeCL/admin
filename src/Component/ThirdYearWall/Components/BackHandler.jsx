@@ -1,7 +1,7 @@
 import React from "react";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { BackHandlerContainer } from "../Assets/Styles/CreatePostStyles";
-import { placementDrives, wallPath, thirdYear } from "../../RoutePaths";
+import { thirdYear } from "../../RoutePaths";
 import { useHistory } from "react-router-dom";
 
 const BackHandler = ({ title, tab, isDrive }) => {
@@ -9,7 +9,6 @@ const BackHandler = ({ title, tab, isDrive }) => {
 
   const handleBack = () => {
     history.push({
-      // pathname: isDrive ? placementDrives : wallPath,
       pathname: thirdYear,
       tab: tab,
     });

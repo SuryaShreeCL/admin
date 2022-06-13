@@ -7,31 +7,24 @@ import {
   TableCell,
   Toolbar,
   InputAdornment,
-  IconButton,
 } from "@material-ui/core";
 import useTable from "../../Utils/useTable";
 import Controls from "../../Utils/controls/Controls";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import Drawer from "@material-ui/core/Drawer";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import Notification from "../../Utils/Notification";
 import { useHistory } from "react-router-dom";
-import { editPath, createWebinarPath, editWebinarPath } from "../../RoutePaths";
+import { createWebinarPath, editWebinarPath } from "../../RoutePaths";
 import Loader from "../../Utils/controls/Loader";
 import MuiAlert from "@material-ui/lab/Alert";
 import ConfirmDialog from "../../Utils/ConfirmDialog";
-// import FilterListIcon from "@material-ui/icons/FilterList";
 import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
-import EditIcon from "@material-ui/icons/Edit";
-import { DrawerContainer } from "../Assets/Styles/WallStyles";
-import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
 import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
 import moment from "moment";
-import { renderListCategory } from "../../Utils/Helpers";
 
-const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -67,12 +60,9 @@ const headCells = [
 ];
 
 export default function Webinars() {
-  let role = window.sessionStorage.getItem("role");
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [recordForEdit, setRecordForEdit] = useState(null);
-  const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -104,12 +94,12 @@ export default function Webinars() {
     (webinar) => webinar.activeStatus !== "Archive"
   );
 
-  const [viewData, setViewData] = useState([]);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
+
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
     title: "",
@@ -146,8 +136,6 @@ export default function Webinars() {
       postType: "Webinar",
       postTypeTab: 0,
     });
-    setRecordForEdit(item);
-    setOpenDrawer(false);
   };
 
   const onDelete = (id) => {
@@ -210,27 +198,21 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder='Search 3rd Year Webinars'
+            placeholder="Search 3rd Year Webinars"
             InputProps={{
               startAdornment: (
-                <InputAdornment position='start'>
+                <InputAdornment position="start">
                   <Search />
                 </InputAdornment>
               ),
             }}
             onChange={handleSearch}
           />
-          {/* <Controls.Button
-            text='Filter'
-            variant='outlined'
-            color='default'
-            startIcon={<FilterListIcon />}
-            className={classes.filterBtn}
-          /> */}
+
           <Controls.Button
-            text='Create New Webinar'
-            variant='contained'
-            color='primary'
+            text="Create New Webinar"
+            variant="contained"
+            color="primary"
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -264,12 +246,12 @@ export default function Webinars() {
                     </TableCell>
                     <TableCell className={classes.actions}>
                       <Controls.ActionButton onClick={() => openInPage(item)}>
-                        <EditOutlinedIcon fontSize='small' color='primary' />
+                        <EditOutlinedIcon fontSize="small" color="primary" />
                       </Controls.ActionButton>
                       <Controls.ActionButton
                         onClick={() => handleDeleteClick(item)}
                       >
-                        <DeleteIcon fontSize='small' color='secondary' />
+                        <DeleteIcon fontSize="small" color="secondary" />
                       </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
@@ -280,16 +262,16 @@ export default function Webinars() {
         </TblContainer>
         <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
-          {error && <Alert severity='error'>{error}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
           {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity='info'>0 Webinars Found</Alert>
+            <Alert severity="info">0 Webinars Found</Alert>
           )}
         </div>
         <TblPagination />
       </Paper>
 
-      <Drawer
-        anchor='right'
+      {/* <Drawer
+        anchor="right"
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
@@ -299,8 +281,8 @@ export default function Webinars() {
               style={{ fontSize: "1rem" }}
               onClick={() => openInPage(viewData)}
             >
-              <IconButton aria-label='edit'>
-                <EditIcon color='primary' size='large' />
+              <IconButton aria-label="edit">
+                <EditIcon color="primary" size="large" />
               </IconButton>
               Edit
             </span>
@@ -318,14 +300,14 @@ export default function Webinars() {
                 });
               }}
             >
-              <IconButton aria-label='remove'>
-                <DeleteIcon color='secondary' size='large' />
+              <IconButton aria-label="remove">
+                <DeleteIcon color="secondary" size="large" />
               </IconButton>
               Remove
             </span>
           </ButtonsContainerTwo>
         </DrawerContainer>
-      </Drawer>
+      </Drawer> */}
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog
         confirmDialog={confirmDialog}
