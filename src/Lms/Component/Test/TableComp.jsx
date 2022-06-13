@@ -16,10 +16,10 @@ import {
 } from "../../Assets/StyledTableComponents";
 import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
-const deptName =window.sessionStorage.getItem("department");
+let deptName = window.sessionStorage.getItem("department");
 console.log(deptName);
 
-const headText =deptName === "assessment_engine_admin" ? [
+const headText = deptName === "assessment_engine_admin" ? [
   "Name",
   "Test Type",
   "#  Que Assignes",
