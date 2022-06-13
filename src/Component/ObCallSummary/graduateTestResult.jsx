@@ -559,7 +559,7 @@ class GraduateTestResult extends Component {
         analyticalWriting:
           this.state.greanalytic && this.state.greanalytic.title,
         score: this.state.gretotal,
-        completedExamDate:moment(this.state.gredate).format('DD-MM-YYYY'),
+        completedExamDate: moment(this.state.gredate).format("DD-MM-YYYY"),
       };
 
       this.props.updategrescore(this.state.greid, obj);
@@ -587,7 +587,7 @@ class GraduateTestResult extends Component {
         integratedReasoning: this.state.gmatint,
         analyticalAssessment: this.state.gmatanalytic.title,
         score: this.state.gmatscore,
-        completedExamDate:moment(this.state.gmatdate).format('DD-MM-YYYY'),
+        completedExamDate: moment(this.state.gmatdate).format("DD-MM-YYYY"),
         verbalReasoning: this.state.gmatverb,
       };
 
@@ -616,7 +616,7 @@ class GraduateTestResult extends Component {
         writing: this.state.toeflwrite,
         speaking: this.state.toeflspeak,
         score: this.state.toeflscore,
-        completedExamDate:moment(this.state.toefldate).format('DD-MM-YYYY'),
+        completedExamDate: moment(this.state.toefldate).format("DD-MM-YYYY"),
         expectedExamDate: null,
       };
 
@@ -645,7 +645,7 @@ class GraduateTestResult extends Component {
         speakingScore: this.state.ieltsspeak,
         writingScore: this.state.ieltswrite,
         totalScore: this.state.ieltsscore,
-        completedExamDate:moment(this.state.ieltsdate).format('DD-MM-YYYY'),
+        completedExamDate: moment(this.state.ieltsdate).format("DD-MM-YYYY"),
         expectedExamDate: null,
       };
 
@@ -2139,7 +2139,6 @@ class GraduateTestResult extends Component {
                       }
                       InputLabelProps={{
                         shrink: true,
-
                       }}
                       fullWidth
                       name="ExamDate"
@@ -2756,7 +2755,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <TextField
-                       disableFuture
+                      disableFuture
                       margin="normal"
                       label="Exam Date"
                       value={this.state.ieltsdate}
@@ -2767,7 +2766,6 @@ class GraduateTestResult extends Component {
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      
                       fullWidth
                       name="ExamDate"
                     />

@@ -63,7 +63,7 @@ function ToeflDialogContent({
             margin={"normal"}
             label={"Exam Date"}
             value={date}
-            type={"month"}
+            type={"date"}
             name={"date"}
             onChange={handleChange}
             InputLabelProps={{
