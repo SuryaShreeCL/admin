@@ -55,7 +55,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
-
+const aedept = window.sessionStorage.getItem("department");
 const dialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
@@ -1149,7 +1149,7 @@ class Add extends Component {
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
-
+    const aedept = window.sessionStorage.getItem("department");
     const {
       handleThreeDotClick,
       handleClose,
@@ -1200,23 +1200,39 @@ class Add extends Component {
               disabled={testQuestionSetId !== null ? true : false}
               placeholder="Course"
             /> */}
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <RadioButtonsGroup
-                radioData={{
-                  name: "type",
-                  activeValue: type,
-                  radioItemData: [
-                    { id: "CALIBRATION", label: "Calibration Test" },
-                    { id: "TOPIC", label: "Topic Test" },
-                    { id: "QUESTIONBANK", label: "Question Bank" },
-                    { id: "AE_TEST", label: "Assessment Engine" },
-                  ],
-                  handleRadioChange: this.handleTestChange,
-                  groupName: "Test Type",
-                  marginRightValue: "56px",
-                }}
-              />
+          </Grid>
+          <Grid item xs={12} md={8}>
+
+           {aedept !== "assessment_engine_admin" ?
+            <RadioButtonsGroup
+              radioData={{
+                name: "type",
+                activeValue: type,
+                radioItemData: [
+                  { id: "CALIBRATION", label: "Calibration Test" },
+                  { id: "TOPIC", label: "Topic Test" },
+                  { id: "QUESTIONBANK", label: "Question Bank" },
+                  // { id: "AE_TEST", label: "Assessment Engine" },
+                ],
+                handleRadioChange: this.handleTestChange,
+                groupName: "Test Type",
+                marginRightValue: "56px",
+              }}
+            />:<RadioButtonsGroup
+            radioData={{
+              name: "type",
+              activeValue: type,
+              radioItemData: [
+                // { id: "CALIBRATION", label: "Calibration Test" },
+                // { id: "TOPIC", label: "Topic Test" },
+                // { id: "QUESTIONBANK", label: "Question Bank" },
+                { id: "AE_TEST", label: "Assessment Engine" },
+              ],
+              handleRadioChange: this.handleTestChange,
+              groupName: "Test Type",
+              marginRightValue: "56px",
+            }}
+          />}
             </Grid>
             <Grid item xs={12} md={4}>
               {type === "CALIBRATION" || type === "AE_TEST" ? (

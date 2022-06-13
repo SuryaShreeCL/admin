@@ -54,7 +54,7 @@ class Index extends Component {
   componentDidMount() {
     const { testQuestionSetId } = this.props.match.params;
     const deptName = window.sessionStorage.getItem("department");
-    deptName === ""
+    deptName === "assessment_engine_admin"
       ? this.props.aegetQuestionType(testQuestionSetId)
       : this.props.getQuestionType(testQuestionSetId);
   }

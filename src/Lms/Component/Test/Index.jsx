@@ -294,11 +294,12 @@ class TestLanding extends Component {
         clickableStatus: null,
       });
     } else if (text === "Publish Now") {
+      var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "publish",
         icon: <img src={PublishIcon} width="64px" height="64px" />,
         title: "Are you sure you want to Publish? ",
-        body: topicName,
+        body: deptname !== "assessment_engine_admin"?topicName:"",
         button1: "Cancel",
         button2: "Publish now",
       };
