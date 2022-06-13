@@ -16,9 +16,10 @@ import {
 } from "../../Assets/StyledTableComponents";
 import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
+const deptName =window.sessionStorage.getItem("department");
+console.log(deptName);
 
-
-const headText = [
+const headText =deptName === "assessment_engine_admin" ? [
   "Name",
   "Test Type",
   "#  Que Assignes",
@@ -28,6 +29,16 @@ const headText = [
   "Status",
   "Download",
   "Test URL",
+  "",
+]:[
+  "Name",
+  "Test Type",
+  "#  Que Assignes",
+  "# Que filled",
+  "Course",
+  "Topic name",
+  "Status",
+  
   "",
 ];
 

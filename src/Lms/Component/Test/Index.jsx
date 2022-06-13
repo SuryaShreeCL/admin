@@ -28,7 +28,7 @@ import {
   aegetFilters,
   aegetQuestionSet,
   aepublishTest,
-  aereviewTest,
+  // aereviewTest,
   approveTest,
   deleteTest,
   draftTest,
@@ -422,24 +422,24 @@ class TestLanding extends Component {
           this.handleCloseIconClick();
         }
       });
-      this.props.aereviewTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+      // this.props.aereviewTest(this.state.popUpId, (response) => {
+      //   if (response.success) {
+      //     let paramObj = {
+      //       page: INITIAL_PAGE_NO,
+      //       size: NO_OF_RESPONSE,
+      //       testType:
+      //         this.state.testType !== "default" ? this.state.testType : null,
+      //       topicId:
+      //         this.state.topicId !== "default" ? this.state.topicId : null,
+      //       status: this.state.status !== "default" ? this.state.status : null,
+      //     };
+      //     this.state.department === "assessment_engine_admin"
+      //       ? this.props.aegetQuestionSet(paramObj)
+      //       : this.props.getQuestionSet(paramObj);
 
-          this.handleCloseIconClick();
-        }
-      });
+      //     this.handleCloseIconClick();
+      //   }
+      // });
     } else if (this.state.dialogContent.type === "unarchive") {
       this.props.draftTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -819,7 +819,7 @@ export default connect(mapStateToProps, {
   deleteTest,
   aedeleteTest,
   reviewTest,
-  aereviewTest,
+  // aereviewTest,
   approveTest,
   aeapproveTest,
   publishTest,
