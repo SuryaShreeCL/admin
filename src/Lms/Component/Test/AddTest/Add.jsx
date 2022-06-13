@@ -227,7 +227,7 @@ class Add extends Component {
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
           courseIdValue: questionSet.productId,
-          sectionId: questionSet.testSection[0].id,
+          sectionId: questionSet?.testSection[0]?.id,
           cutOffScore: questionSet.cutOffScore,
           eventDate: questionSet.eventDate,
           eventEndDate: questionSet.eventEndDate,
