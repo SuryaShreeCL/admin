@@ -171,7 +171,7 @@ export const rescheduleTest = async (testQuesSetId, data) => {
   return axios
     .put(`${URL}/api/v2/lms/testQuestionSet/${testQuesSetId}/schedule`, data, {
       headers: {
-        // admin: "yes",
+         admin: "yes",
         Authorization: `Bearer ${accessToken}`,
       },
     })
