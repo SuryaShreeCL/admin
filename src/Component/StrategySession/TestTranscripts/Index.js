@@ -393,7 +393,7 @@ function Index(props) {
       testName: name,
       attempt: { title: data.attempt },
       date: data.completedExamDate
-        ? moment(new Date(data.completedExamDate)).format("YYYY-MM")
+        ? moment(new Date(data.completedExamDate)).format("YYYY-MM-DD")
         : data.completedExamDate,
       quantitativeReasoning: data.quantitativeReasoning,
       verbalReasoning: data.verbalReasoning,
@@ -455,7 +455,7 @@ function Index(props) {
       id: id,
       attempt: attempt?.title,
       expectedExamDate: null,
-      completedExamDate: date,
+      completedExamDate: moment(date).format("DD-MM-YYYY"),
       score: total,
     };
 
@@ -628,6 +628,7 @@ function Index(props) {
                 <Grid item={12} container>
                   {documentList.GRE.map((data) => (
                     <Grid item md={4} direction="row">
+                      {console.log(data.date)}
                       <DocumentListCard
                         certificate={data.name}
                         date={data.date}

@@ -76,21 +76,21 @@ function TableComponent({
         return (
           <>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.verbalReasoning}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.analyticalWriting}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
@@ -103,28 +103,28 @@ function TableComponent({
         return (
           <>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.quantitativeReasoning}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.analyticalAssessment}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.verbalReasoning}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
@@ -137,28 +137,28 @@ function TableComponent({
         return (
           <>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.reading}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.writing}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.speaking}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
@@ -171,28 +171,28 @@ function TableComponent({
         return (
           <>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.readingScore}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.writingScore}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
               {eachData.speakingScore}
             </TableCell>
             <TableCell
-              align='center'
+              align="center"
               contentEditable={disabled}
               className={classes.tableCellCustomStyle}
             >
@@ -225,33 +225,39 @@ function TableComponent({
           </TableHead>
           <TableBody>
             {tableData.map((eachData, index) => {
+              console.log(eachData.completedExamDate);
+              let date = new Date(eachData.completedExamDate).getDate();
+              let month = new Date(eachData.completedExamDate).getMonth() + 1;
+              let year = new Date(eachData.completedExamDate).getFullYear();
+              let examdate = date + "-" + month + "-" + year;
               return (
                 <TableRow>
                   <TableCell
-                    align='center'
+                    align="center"
                     contentEditable={disabled}
                     className={classes.tableCellCustomStyle}
                   >
                     {eachData.attempt}
                   </TableCell>
                   <TableCell
-                    align='center'
+                    align="center"
                     className={classes.tableCellCustomStyle}
                   >
-                    {moment(
+                    {/* {moment(
                       new Date(eachData && eachData.completedExamDate)
-                    ).format("MMM yyyy")}
+                    ).format("DD-MM-YYYY")} */}
+                    {eachData.completedExamDate}
                   </TableCell>
                   {renderInnerContent(eachData)}
                   <TableCell
-                    align='center'
+                    align="center"
                     contentEditable={disabled}
                     className={classes.tableCellCustomStyle}
                   >
                     {eachData.score || eachData.totalScore}
                   </TableCell>
                   <TableCell
-                    align='center'
+                    align="center"
                     contentEditable={disabled}
                     style={{ borderBottom: "none", cursor: "pointer" }}
                   >
