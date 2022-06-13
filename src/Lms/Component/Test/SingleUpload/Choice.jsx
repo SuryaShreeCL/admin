@@ -14,6 +14,7 @@ import TextEditor from "../../../Utils/TextEditor";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+const aedept = window.sessionStorage.getItem("department");
 
 function Choice(props) {
   const {
@@ -68,13 +69,11 @@ function Choice(props) {
                   />
                 }
               />
-              <IconButton
-                color="secondary"
-                onClick={() => handleDeleteChoiceClick(index)}
-                style={{ marginTop: "-9px" }}
-              >
+              {aedept==="assessment_engine_admin" ? 
+
+              <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
                 <DeleteRounded />
-              </IconButton>
+              </IconButton>:<></>}
             </C1>
           );
         })}

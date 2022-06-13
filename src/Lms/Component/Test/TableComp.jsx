@@ -17,6 +17,7 @@ import {
 import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
 
+
 const headText = [
   "Name",
   "Test Type",
@@ -73,6 +74,7 @@ export default function TableComp(props) {
     openStatus,
     clickedStatus,
   } = props;
+  const aedept = window.sessionStorage.getItem("department");
 
   //Sort Icons
   const renderIcons = (field, order, index) => {
@@ -257,7 +259,7 @@ export default function TableComp(props) {
                   <BodyCell>{item.courseName}</BodyCell>
                   <BodyCell>{item.topicName}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
-                  {item.testType === "AE_TEST" ? (
+                  {item.testType === "AE_TEST" && aedept ==="assessment_engine_admin" ? (
                     <>
                       <BodyCell>
                         {/* {item.uniqueUrl} */}
