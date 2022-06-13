@@ -55,6 +55,7 @@ const SingleSelect = ({
                     }
                   />
                 );
+
               else
                 return (
                   <FormControlLabel
@@ -69,17 +70,20 @@ const SingleSelect = ({
                         )}
                       />
                     }
+
                     label={
                       <Typography variant='h6' color='textPrimary'>
                         <Latex math={choice.text || ''} />
                       </Typography>
                     }
+
                   />
                 );
             })}
           </ChoiceInnerBox>
         </ChoiceBox>
       );
+
     } else {
       return (
         <Table>
@@ -93,6 +97,7 @@ const SingleSelect = ({
                   </Td>
                 </Tr>
               );
+
             else
               return (
                 <Tr>
@@ -104,16 +109,19 @@ const SingleSelect = ({
                 </Tr>
               );
           })}
+
         </Table>
       );
     }
   };
 
   return (
+
     <ChoiceDiv>
       {topText !== null && topText !== undefined && (
         <TopGrey>{topText}</TopGrey>
       )}
+      
 
       <Center>
         <Typography variant='h5' color='textPrimary'>

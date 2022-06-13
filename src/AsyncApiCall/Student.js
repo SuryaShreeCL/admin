@@ -74,7 +74,7 @@ export const getInterestDetails = async (studentId, productId) => {
   }
 };
 
-export const deleteInterestDetails = async interestId => {
+export const deleteInterestDetails = async (interestId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   try {
@@ -141,3 +141,48 @@ export const getTestQuestionSet = async (studentId, productId) => {
     };
   }
 };
+
+export const postTestBanner = async (testQuesSetId, data) => {
+  const fileType = "image";
+  let accessToken = sessionStorage.getItem("accessToken");
+  return axios
+    .post(
+      `${URL}/api/v2/lms/assessments/type/${fileType}/${testQuesSetId}`,
+      data,
+      {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    });
+};
+
+export const rescheduleTest = async (testQuesSetId, data) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return axios
+    .put(`${URL}/api/v2/lms/testQuestionSet/${testQuesSetId}/schedule`, data, {
+      headers: {
+         admin: "yes",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    });
+};
+
+

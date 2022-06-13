@@ -47,10 +47,15 @@ function Index(props) {
       break;
     }
     default:
+      let deptName = window.sessionStorage.getItem("department")
       return (
         <Dialog fullScreen TransitionComponent={Transition} open={props.open}>
           <DefaultPreview {...props} />
-          <Explanation {...props} />
+          {deptName === "assessment_engine_admin" ? (
+            <></>
+          ) : (
+            <Explanation {...props} />
+          )}
         </Dialog>
       );
   }

@@ -9,6 +9,8 @@ function Question(props) {
     handleDescriptionChange,
     description,
   } = props;
+  const deptName = window.sessionStorage.getItem("department")
+
   return (
     <QDiv>
       <T4>Question</T4>
@@ -18,13 +20,19 @@ function Question(props) {
           data={question}
         />
       </EditorBox>
-      <T4>Description</T4>
-      <EditorBox>
-        <TextEditor
-          onChange={(event, editor) => handleDescriptionChange(event, editor)}
-          data={description}
-        />
-      </EditorBox>
+      {deptName !== "assessment_engine_admin" && (
+        <>
+          <T4>Description</T4>
+          <EditorBox>
+            <TextEditor
+              onChange={(event, editor) =>
+                handleDescriptionChange(event, editor)
+              }
+              data={description}
+            />
+          </EditorBox>
+        </>
+      )}
     </QDiv>
   );
 }

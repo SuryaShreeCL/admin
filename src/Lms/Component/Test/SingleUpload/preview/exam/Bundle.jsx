@@ -5,8 +5,8 @@
 import { Box, Checkbox, FormControlLabel } from "@material-ui/core";
 import React from "react";
 import Latex from "../../../../../Utils/LatexViewer";
-
-const App = ({ choices, bundleLength, selectedChoice }) => {
+import Grid from '@material-ui/core/Grid'
+const App = ({ choices, bundleLength, selectedChoice,question }) => {
   var alphaOption = [
     "A",
     "B",
@@ -50,53 +50,62 @@ const App = ({ choices, bundleLength, selectedChoice }) => {
   };
 
   let idxx = -1;
-
   return (
-    <div>
-      <table className={"bundle__table"}>
-        <thead>
-          <tr>
-            {renderHeader().map(item => {
-              return <th>{item}</th>;
+    <Grid container spacing={2}>
+      <Grid item md={12} sm={12} xs={12}>
+        <div
+          className={""}
+          dangerouslySetInnerHTML={{ __html: question }}
+        ></div>
+      </Grid>
+      <Grid item md={12} sm={12} xs={12}>
+        <table className={"bundle__table"}>
+          <thead>
+            <tr>
+              {renderHeader().map((item) => {
+                return <th>{item}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {renderOptions().map((item, i) => {
+              let indx = 0;
+              return (
+                <td className={"td"}>
+                  {item.choices.map((option, idx) => {
+                    return (
+                      <tr>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="optionA"
+                              color="primary"
+                              checked={selectedChoice.some(
+                                (selected) =>
+                                  selected.bundleNo === item.bundleNo &&
+                                  selected.id === option.id
+                              )}
+                            />
+                          }
+                          label={
+                            <Box display={"flex"}>
+                              <span>
+                                {alphaOption[(idxx = idxx + 1)]})&nbsp;
+                              </span>
+                              <Latex math={option.text} />
+                            </Box>
+                          }
+                        />
+                      </tr>
+                    );
+                  })}
+                </td>
+              );
             })}
-          </tr>
-        </thead>
-        <tbody>
-          {renderOptions().map((item, i) => {
-            let indx = 0;
-            return (
-              <td className={"td"}>
-                {item.choices.map((option, idx) => {
-                  return (
-                    <tr>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            name="optionA"
-                            color="primary"
-                            checked={selectedChoice.some(
-                              selected =>
-                                selected.bundleNo === item.bundleNo &&
-                                selected.id === option.id
-                            )}
-                          />
-                        }
-                        label={
-                          <Box display={"flex"}>
-                            <span>{alphaOption[(idxx = idxx + 1)]})&nbsp;</span>
-                            <Latex math={option.text} />
-                          </Box>
-                        }
-                      />
-                    </tr>
-                  );
-                })}
-              </td>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </Grid>
+    </Grid>
   );
 };
 

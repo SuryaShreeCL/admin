@@ -22,10 +22,15 @@ import { Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import {
   getQuestionType,
+  aegetQuestionType,
   setQuestionData,
+  aesetQuestionData,
   setQuestionDataWithId,
+  aesetQuestionDataWithId,
   getTemplate,
+  aegetTemplate,
   getTopicList,
+  aegetTopicList,
 } from "../../../Redux/Action/Test";
 import Alert from "@material-ui/lab/Alert";
 import { lmsTest, single_upload } from "../../../../Component/RoutePaths";
@@ -48,18 +53,26 @@ class Index extends Component {
 
   componentDidMount() {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getQuestionType(testQuestionSetId);
+    const deptName = window.sessionStorage.getItem("department");
+    deptName === "assessment_engine_admin"
+      ? this.props.aegetQuestionType(testQuestionSetId)
+      : this.props.getQuestionType(testQuestionSetId);
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     let index = this.props.questionTypes.data.findIndex(
-      obj => obj.id === event.target.value
+      (obj) => obj.id === event.target.value
     );
-    this.props.getTemplate(this.props.questionTypes.data[index].fileName);
+    let deptName = window.sessionStorage.getItem("department");
+   
+    deptName === "assessment_engine_admin"
+
+    ?this.props.getTemplate(this.props.questionTypes.data[index].fileName)
+    :this.props.aegetTemplate(this.props.questionTypes.data[index].fileName);
     this.setState({ selectedType: event.target.value });
   };
 
-  onDrop = files => {
+  onDrop = (files) => {
     if (files[0].name.match(/.(xls|xlsx|csv)$/i))
       this.setState({
         files,
@@ -99,7 +112,36 @@ class Index extends Component {
           this.state.selectedType,
           sectionId,
           formData,
-          response => {
+          (response) => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "success",
+              });
+
+              this.props.history.push(
+                lms_add_test +
+                  "?testQuestionSetId=" +
+                  this.props.match.params.testQuestionSetId
+              );
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+            }
+          }
+        );
+        this.props.aesetQuestionDataWithId(
+          testQuestionSetId,
+          this.state.selectedType,
+          sectionId,
+          formData,
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -128,7 +170,34 @@ class Index extends Component {
           testQuestionSetId,
           this.state.selectedType,
           formData,
-          response => {
+          (response) => {
+            if (response.success) {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "success",
+              });
+              this.props.history.push(
+                lms_add_test +
+                  "?testQuestionSetId=" +
+                  this.props.match.params.testQuestionSetId
+              );
+            } else {
+              this.setState({
+                files: [],
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+            }
+          }
+        );
+        this.props.aesetQuestionData(
+          testQuestionSetId,
+          this.state.selectedType,
+          formData,
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -176,10 +245,15 @@ class Index extends Component {
 
   handleTopicList = () => {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getTopicList(testQuestionSetId, response => {});
+    this.props.getTopicList(testQuestionSetId, (response) => {});
+    this.props.aegetTopicList(testQuestionSetId, (response) => {});
   };
 
   render() {
+    const datae = window.sessionStorage.getItem("department");
+    const datalist = this.props?.questionTypes?.data?.filter(
+      (item) => item.title !== "Subjective"
+    );
     const { testQuestionSetId, courseId, sectionId } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
@@ -228,7 +302,9 @@ class Index extends Component {
               <DropDown
                 label="Question Type"
                 name="questionType"
-                items={questionType}
+                items={
+                  datae === "assessment_engine_admin" ? datalist : questionType
+                }
                 value={selectedType}
                 onChange={handleChange}
               />
@@ -310,7 +386,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     questionTypes: state.TestReducer.questionType,
     template: state.TestReducer.template,
@@ -319,8 +395,13 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   getQuestionType,
+  aegetQuestionType,
   setQuestionData,
+  aesetQuestionData,
   setQuestionDataWithId,
+  aesetQuestionDataWithId,
   getTemplate,
+  aegetTemplate,
   getTopicList,
+  aegetTopicList,
 })(Index);
