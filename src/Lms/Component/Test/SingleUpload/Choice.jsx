@@ -1,4 +1,10 @@
-import { Box, Button, createTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  createTheme,
+  IconButton,
+  ThemeProvider,
+} from "@material-ui/core";
 import { AddRounded, DeleteRounded } from "@material-ui/icons";
 import React from "react";
 import CheckedIcon from "../../../Assets/icons/Checked.svg";
@@ -20,7 +26,7 @@ function Choice(props) {
     handleDeleteIconClick,
     handleTextChange,
     answerType,
-    handleDeleteChoiceClick
+    handleDeleteChoiceClick,
   } = props;
   if (answerType) {
     return (
@@ -56,14 +62,12 @@ function Choice(props) {
                   <Checkbox
                     value={index}
                     checked={choice.selected}
-                    onChange={e => handleCheckBoxes(e)}
+                    onChange={(e) => handleCheckBoxes(e)}
                     disableRipple
                     icon={<img src={UnCheckedIcon} alt="" />}
                     checkedIcon={<img src={CheckedIcon} alt="" />}
                   />
-                 
                 }
-                
               />
               {aedept==="assessment_engine_admin" ? 
 

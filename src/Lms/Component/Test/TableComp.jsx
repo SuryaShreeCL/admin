@@ -290,32 +290,33 @@ export default function TableComp(props) {
                     </>
                   )}
                   <BodyCell>
-                    {handleShowThreeDot(role, item.status) && (
-                      <div>
-                        <IconButton
-                          aria-controls={item.id}
-                          aria-haspopup="true"
-                          onClick={(event) =>
-                            handleThreeDotClick(event, item.id, item.status)
-                          }
-                          style={{ padding: "0px" }}
-                        >
-                          <MoreVertRounded style={{ fill: "#1093FF" }} />
-                        </IconButton>
-                        <Menu
-                          role={role}
-                          anchorEl={anchorEl}
-                          open={openStatus}
-                          // open={handleOpen(item.id, popUpId, role, item.status)}
-                          handleClose={handleClose}
-                          status={item.status}
-                          handleOptions={handleOptions}
-                          name={item.name}
-                          topicId={item.id}
-                          activeStatus={clickedStatus}
-                        />
-                      </div>
-                    )}
+                    {handleShowThreeDot(role, item.status) &&
+                      item.status !== "Approved" && (
+                        <div>
+                          <IconButton
+                            aria-controls={item.id}
+                            aria-haspopup="true"
+                            onClick={(event) =>
+                              handleThreeDotClick(event, item.id, item.status)
+                            }
+                            style={{ padding: "0px" }}
+                          >
+                            <MoreVertRounded style={{ fill: "#1093FF" }} />
+                          </IconButton>
+                          <Menu
+                            role={role}
+                            anchorEl={anchorEl}
+                            open={openStatus}
+                            // open={handleOpen(item.id, popUpId, role, item.status)}
+                            handleClose={handleClose}
+                            status={item.status}
+                            handleOptions={handleOptions}
+                            name={item.name}
+                            topicId={item.id}
+                            activeStatus={clickedStatus}
+                          />
+                        </div>
+                      )}
                   </BodyCell>
                 </TableRow>
               );
