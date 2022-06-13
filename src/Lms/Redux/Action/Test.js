@@ -736,7 +736,7 @@ export const aedeleteSection = (sectionId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return () => {
     axios
-      .put(`${URL}/api/v2/lms/testSection/${sectionId}`, {
+      .put(`${URL}/api/v2/lms/testSection/${sectionId}`,{}, {
         crossDomain: true,
         headers: {
            admin: "yes",
