@@ -302,7 +302,7 @@ function Index(props) {
         </tr>
         {cvReviewList.map(
           ({ comment, createdBy, id, path, status, isShow }) =>
-             status === "Editor" || status === "Draft" && isShow === true?  (
+             status === "Editor" ||  isShow === true?  (
               <tr>
                 {status === "Editor" ? <td>{path}_R</td> : <td>{path}</td>}
                 <td>{createdBy}</td>
