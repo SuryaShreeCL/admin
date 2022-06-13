@@ -53,20 +53,22 @@ class Index extends Component {
 
   componentDidMount() {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getQuestionType(testQuestionSetId);
-    this.props.aegetQuestionType(testQuestionSetId);
+    const deptName = window.sessionStorage.getItem("department");
+    deptName === ""
+      ? this.props.aegetQuestionType(testQuestionSetId)
+      : this.props.getQuestionType(testQuestionSetId);
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     let index = this.props.questionTypes.data.findIndex(
-      obj => obj.id === event.target.value
+      (obj) => obj.id === event.target.value
     );
     this.props.getTemplate(this.props.questionTypes.data[index].fileName);
     this.props.aegetTemplate(this.props.questionTypes.data[index].fileName);
     this.setState({ selectedType: event.target.value });
   };
 
-  onDrop = files => {
+  onDrop = (files) => {
     if (files[0].name.match(/.(xls|xlsx|csv)$/i))
       this.setState({
         files,
@@ -106,7 +108,7 @@ class Index extends Component {
           this.state.selectedType,
           sectionId,
           formData,
-          response => {
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -135,7 +137,7 @@ class Index extends Component {
           this.state.selectedType,
           sectionId,
           formData,
-          response => {
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -164,7 +166,7 @@ class Index extends Component {
           testQuestionSetId,
           this.state.selectedType,
           formData,
-          response => {
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -191,7 +193,7 @@ class Index extends Component {
           testQuestionSetId,
           this.state.selectedType,
           formData,
-          response => {
+          (response) => {
             if (response.success) {
               this.setState({
                 files: [],
@@ -239,13 +241,15 @@ class Index extends Component {
 
   handleTopicList = () => {
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getTopicList(testQuestionSetId, response => {});
-    this.props.aegetTopicList(testQuestionSetId, response => {});
+    this.props.getTopicList(testQuestionSetId, (response) => {});
+    this.props.aegetTopicList(testQuestionSetId, (response) => {});
   };
-  
+
   render() {
     const datae = window.sessionStorage.getItem("department");
-    const datalist=this.props?.questionTypes?.data?.filter(item=> item.title !== 'Subjective')
+    const datalist = this.props?.questionTypes?.data?.filter(
+      (item) => item.title !== "Subjective"
+    );
     const { testQuestionSetId, courseId, sectionId } = this.props.match.params;
     if (this.props.questionTypes !== undefined) {
       const { data: questionType } = this.props.questionTypes;
@@ -294,11 +298,9 @@ class Index extends Component {
               <DropDown
                 label="Question Type"
                 name="questionType"
-              
-                
-               
-                items={datae === "assessment_engine_admin"?datalist:questionType}
-
+                items={
+                  datae === "assessment_engine_admin" ? datalist : questionType
+                }
                 value={selectedType}
                 onChange={handleChange}
               />
@@ -380,7 +382,7 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     questionTypes: state.TestReducer.questionType,
     template: state.TestReducer.template,

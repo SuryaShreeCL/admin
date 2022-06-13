@@ -461,23 +461,38 @@ export class Index extends Component {
         },
       });
     } else {
-      const obj = {
-        id: questionId !== undefined ? questionId : null,
-        name: "",
-        type: this.getType(),
-        difficultyLevel: activeLevel.toUpperCase(),
-        expectedTime: expectedTime,
-        topic: { id: activeTopic?.length === 0 ? null : activeTopic },
-        testSection: { id: sectionId },
-        question,
-        description,
-        choices: this.getChoices(),
-        explanation: this.state.text,
-        explanationVideo: this.state.url,
-        video: { videoUrl: this.state.url },
-      };
       let deptName = window.sessionStorage.getItem("department");
-
+      const obj =
+        deptName === "assessment_engine_admin"
+          ? {
+              id: questionId !== undefined ? questionId : null,
+              name: "",
+              type: this.getType(),
+              difficultyLevel: activeLevel.toUpperCase(),
+              expectedTime: expectedTime,
+              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+              testSection: { id: sectionId },
+              question,
+              choices: this.getChoices(),
+              explanation: this.state.text,
+              explanationVideo: this.state.url,
+              video: { videoUrl: this.state.url },
+            }
+          : {
+              id: questionId !== undefined ? questionId : null,
+              name: "",
+              type: this.getType(),
+              difficultyLevel: activeLevel.toUpperCase(),
+              expectedTime: expectedTime,
+              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+              testSection: { id: sectionId },
+              question,
+              description,
+              choices: this.getChoices(),
+              explanation: this.state.text,
+              explanationVideo: this.state.url,
+              video: { videoUrl: this.state.url },
+            };
       deptName === "assessment_engine_admin"
         ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
             if (response.success) {
@@ -635,7 +650,7 @@ export class Index extends Component {
       }
     );
     const topicId = sessionStorage.getItem("topicId");
-    console.log(topicId);
+
     let requestBody = {
       choices: this.getChoices(),
       isHaveDescription: this.isEmptyCheck(description),
