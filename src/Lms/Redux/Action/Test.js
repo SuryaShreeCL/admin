@@ -168,29 +168,29 @@ export const reviewTest = (testQuestionSetId, callback) => {
 
 
 
-export const aereviewTest = (testQuestionSetId, callback) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return () => {
-    axios
-      .put(
-        `${URL}/api/v2/lms/testquestionsets/${testQuestionSetId}/status/Review`,
-        {},
-        {
-          crossDomain: true,
-          headers: {
-             admin: "yes",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then(response => {
-        callback(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-};
+// export const aereviewTest = (testQuestionSetId, callback) => {
+//   let accessToken = sessionStorage.getItem("accessToken");
+//   return () => {
+//     axios
+//       .put(
+//         `${URL}/api/v2/lms/testquestionsets/${testQuestionSetId}/status/Review`,
+//         {},
+//         {
+//           crossDomain: true,
+//           headers: {
+//              admin: "yes",
+//             Authorization: `Bearer ${accessToken}`,
+//           },
+//         }
+//       )
+//       .then(response => {
+//         callback(response.data);
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+//   };
+// };
 
 export const approveTest = (testQuestionSetId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
