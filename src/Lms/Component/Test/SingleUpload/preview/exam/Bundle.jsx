@@ -6,7 +6,7 @@ import { Box, Checkbox, FormControlLabel } from "@material-ui/core";
 import React from "react";
 import Latex from "../../../../../Utils/LatexViewer";
 
-const App = ({ choices, bundleLength, selectedChoice }) => {
+const App = ({ choices, bundleLength, selectedChoice,question }) => {
   var alphaOption = [
     "A",
     "B",
@@ -50,13 +50,14 @@ const App = ({ choices, bundleLength, selectedChoice }) => {
   };
 
   let idxx = -1;
-
+console.log(question,"+++++++++++++++++")
   return (
     <div>
+      <div style={{padding:"10px",fontWeight:"bold"}} dangerouslySetInnerHTML={{ __html: question }}></div>
       <table className={"bundle__table"}>
         <thead>
           <tr>
-            {renderHeader().map(item => {
+            {renderHeader().map((item) => {
               return <th>{item}</th>;
             })}
           </tr>
@@ -75,7 +76,7 @@ const App = ({ choices, bundleLength, selectedChoice }) => {
                             name="optionA"
                             color="primary"
                             checked={selectedChoice.some(
-                              selected =>
+                              (selected) =>
                                 selected.bundleNo === item.bundleNo &&
                                 selected.id === option.id
                             )}

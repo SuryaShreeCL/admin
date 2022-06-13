@@ -70,6 +70,7 @@ const Passage = ({
               bundleLength={bundleLength}
               choices={choices}
               selectedChoice={selectedChoice}
+              question={para}
             />
           ) : subjective ? (
             <TextBox
