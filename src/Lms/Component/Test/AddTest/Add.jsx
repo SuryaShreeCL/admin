@@ -1136,7 +1136,6 @@ class Add extends Component {
       handleMenuItemDelete,
       handleSectionThreeDotClick,
     } = this;
-
     return (
       <Card padding={"12px 20px"}>
         <Box display={"flex"} alignItems={"center"}>

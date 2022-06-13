@@ -25,28 +25,40 @@ const Passage = ({
   isMulti,
 }) => {
   const { Para } = passage;
+  let deptName = window.sessionStorage.getItem("department");
   return (
     <Grid container id="test-container">
-      <Grid item md={6} id="inside-test-container">
-        <Box display={"flex"} className={"overflow-scroll"} height={"inherit"}>
-          <Box flex={1} className={"question-left-container"}>
-            <Para>
-              <Latex math={para} />
-            </Para>
-            <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
-              <Latex math={description} />
+      {deptName === "assessment_engine_admin" ? (
+        <></>
+      ) : (
+        <Grid item md={6} id="inside-test-container">
+          <Box
+            display={"flex"}
+            className={"overflow-scroll"}
+            height={"inherit"}
+          >
+            <Box flex={1} className={"question-left-container"}>
+              <Para>
+                <Latex math={para} />
+              </Para>
+
+              <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
+                <Latex math={description} />
+              </Box>
+
+              <Box>
+                {imgUrl && (
+                  <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
+                )}
+              </Box>
             </Box>
             <Box>
-              {imgUrl && (
-                <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
-              )}
+              <Divider variant="middle" orientation={"vertical"} />
             </Box>
           </Box>
-          <Box>
-            <Divider variant="middle" orientation={"vertical"} />
-          </Box>
-        </Box>
-      </Grid>
+        </Grid>
+      )}
+
       <Grid item md={6} id="inside-test-container-right">
         <Box
           minHeight={400}
