@@ -50,10 +50,9 @@ const App = ({ choices, bundleLength, selectedChoice,question }) => {
   };
 
   let idxx = -1;
-console.log(question,"+++++++++++++++++")
   return (
     <div>
-      <div style={{padding:"10px",fontWeight:"bold"}} dangerouslySetInnerHTML={{ __html: question }}></div>
+      <div className={""} dangerouslySetInnerHTML={{ __html: question }}></div>
       <table className={"bundle__table"}>
         <thead>
           <tr>
