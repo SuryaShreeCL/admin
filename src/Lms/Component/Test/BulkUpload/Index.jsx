@@ -44,7 +44,7 @@ class Index extends Component {
       (obj) => obj.id === event.target.value
     );
     let deptName = window.sessionStorage.getItem("department");
-
+  
     deptName === "assessment_engine_admin"
       ? this.props.getTemplate(this.props.questionTypes.data[index].fileName)
       : this.props.aegetTemplate(this.props.questionTypes.data[index].fileName);
