@@ -11,10 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import * as yup from "yup";
 import {
-  getAllWebinarList,
+  createWebinar,
   getWebinarList,
+  updateWebinar,
 } from "../../../Actions/ThirdWebinarAction";
-import { createWallPost, updateWallPost } from "../../../Actions/WallActions";
 import { thirdYear } from "../../RoutePaths";
 import ConfirmDialog from "../../Utils/ConfirmDialog";
 import Controls from "../../Utils/controls/Controls";
@@ -71,24 +71,8 @@ const Webinar = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
-  const {
-    loading,
-    allWebinarList,
-    webinarList,
-    createStatus,
-    updateStatus,
-    deleteStatus,
-  } = useSelector((state) => state.thirdYearWebinarListReducer);
-
-  console.log(
-    params?.id,
-    loading,
-    allWebinarList,
-    webinarList,
-    createStatus,
-    updateStatus,
-    deleteStatus,
-    "updating"
+  const { loading, webinarList, createStatus, updateStatus } = useSelector(
+    (state) => state.thirdYearWebinarListReducer
   );
 
   const isEdit = params?.id;
@@ -114,9 +98,9 @@ const Webinar = () => {
   });
 
   useEffect(() => {
-    // if (params?.id) {
-    dispatch(getAllWebinarList());
-    // }
+    if (params?.id) {
+      dispatch(getWebinarList(params?.id));
+    }
   }, []);
 
   useEffect(() => {
@@ -125,7 +109,7 @@ const Webinar = () => {
         const { data } = webinarList;
         setState({
           ...state,
-          webinarTitle: data?.webinarTitle,
+          webinarTitle: data?.eventTitle,
           description: data?.description,
           zoomLink: data?.zoomLink,
           eventDate: data?.eventDate ? new Date(data?.eventDate) : new Date(),
@@ -142,6 +126,54 @@ const Webinar = () => {
       }
     }
   }, [webinarList]);
+
+  useEffect(() => {
+    if (createStatus) {
+      if (createStatus.success) {
+        setNotify({
+          isOpen: true,
+          message: "Created Successfully",
+          type: "success",
+        });
+        setTimeout(() => {
+          history.push({
+            pathname: thirdYear,
+            tab: location?.postTypeTab,
+          });
+        }, 1200);
+      } else {
+        setNotify({
+          isOpen: true,
+          message: createStatus.message,
+          type: "error",
+        });
+      }
+    }
+  }, [createStatus]);
+
+  useEffect(() => {
+    if (updateStatus) {
+      if (updateStatus.success) {
+        setNotify({
+          isOpen: true,
+          message: "Updated Successfully",
+          type: "success",
+        });
+        setTimeout(() => {
+          history.push({
+            pathname: thirdYear,
+            tab: location?.postTypeTab,
+          });
+        }, 1200);
+      } else {
+        setNotify({
+          isOpen: true,
+          message: updateStatus.message,
+          type: "error",
+        });
+      }
+    }
+  }, [updateStatus]);
 
   const onDiscard = () => {
     setConfirmDialog({
@@ -162,28 +194,20 @@ const Webinar = () => {
   };
 
   const handleSchedule = (values) => {
-    let payload = {};
+    let payload = {
+      id: values.id,
+      eventTitle: values.webinarTitle,
+      description: values.description,
+      zoomLink: values.zoomLink,
+      eventDate: values.eventDate,
+      eventEndDate: values.eventEndDate,
+      activeStatus: "Scheduled",
+    };
     if (isEdit) {
-      dispatch(updateWallPost(values));
-      setNotify({
-        isOpen: true,
-        message: "Updated Successfully",
-        type: "success",
-      });
+      dispatch(updateWebinar(payload));
     } else {
-      dispatch(createWallPost({ ...values, activeStatus: "Scheduled" }));
-      setNotify({
-        isOpen: true,
-        message: "Created Successfully",
-        type: "success",
-      });
+      dispatch(createWebinar(payload));
     }
-    setTimeout(() => {
-      history.push({
-        pathname: thirdYear,
-        tab: location?.postTypeTab,
-      });
-    }, 1500);
   };
 
   const validate = (values) => {
@@ -230,10 +254,8 @@ const Webinar = () => {
     zoomLink: yup
       .string()
       .required("Zoom link is required")
-      .test(
-        "is-valid-zoom-link",
-        "Not a valid zoom link",
-        (value) => isValidZoomLink(value) === true
+      .test("is-valid-zoom-link", "Not a valid zoom link", (value) =>
+        isValidZoomLink(value)
       ),
   });
 
@@ -251,7 +273,6 @@ const Webinar = () => {
           onSubmit={(values, { resetForm }) => {
             if (validate(values)) {
               handleSchedule(values);
-              resetForm();
             }
           }}
           enableReinitialize
@@ -267,9 +288,9 @@ const Webinar = () => {
           }) => {
             return (
               <>
-                <div className="CreatePost">
-                  <Form onSubmit={handleSubmit} autoComplete="off">
-                    <Grid container spacing={1} direction="column">
+                <div className='CreatePost'>
+                  <Form onSubmit={handleSubmit} autoComplete='off'>
+                    <Grid container spacing={1} direction='column'>
                       <Grid item>
                         <h6 style={{ fontSize: "1rem" }}>{"Webinar Title"}</h6>
                         <Controls.Input
@@ -277,6 +298,9 @@ const Webinar = () => {
                           name={"webinarTitle"}
                           error={
                             touched.webinarTitle && Boolean(errors.webinarTitle)
+                          }
+                          helperText={
+                            touched.webinarTitle && errors.webinarTitle
                           }
                           className={classes.captionStyle}
                           value={values.webinarTitle}
@@ -296,7 +320,6 @@ const Webinar = () => {
                           error={
                             touched.description && Boolean(errors.description)
                           }
-                          // helperText={touched.description && errors.description}
                           helperText={`Max 30 words limit`}
                           multiline
                           className={classes.captionStyle}
@@ -309,8 +332,8 @@ const Webinar = () => {
                           {"Enter Zoom Link"}
                         </h6>
                         <Controls.Input
-                          label="Zoom Webinar Link"
-                          name="zoomLink"
+                          label='Zoom Webinar Link'
+                          name='zoomLink'
                           error={touched.zoomLink && Boolean(errors.zoomLink)}
                           helperText={touched.zoomLink && errors.zoomLink}
                           className={classes.captionStyle}
@@ -321,8 +344,8 @@ const Webinar = () => {
 
                       <Grid
                         container
-                        direction="row"
-                        justify="space-between"
+                        direction='row'
+                        justify='space-between'
                         className={classes.spacer}
                       >
                         <Grid item lg={12}>
@@ -335,7 +358,7 @@ const Webinar = () => {
                             <DateTimePicker
                               InputProps={{
                                 startAdornment: (
-                                  <InputAdornment position="start">
+                                  <InputAdornment position='start'>
                                     <EventIcon />
                                   </InputAdornment>
                                 ),
@@ -345,7 +368,7 @@ const Webinar = () => {
                               disablePast
                               name={"eventDate"}
                               label={"Start Data & Time"}
-                              inputVariant="outlined"
+                              inputVariant='outlined'
                               onChange={(val) => {
                                 setFieldValue("eventDate", val);
                               }}
@@ -381,13 +404,13 @@ const Webinar = () => {
                 <ButtonsContainer className={classes.btnContainer}>
                   <Controls.Button
                     text={`Discard`}
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     style={{ borderRadius: "26px", marginRight: "10px" }}
                     onClick={() => {
                       setConfirmDialog({
                         isOpen: true,
-                        title: "Are you sure to discard this post?",
+                        title: "Are you sure to discard this webinar?",
                         subTitle: "You can't undo this operation",
                         onConfirm: () => {
                           onDiscard();
@@ -397,11 +420,13 @@ const Webinar = () => {
                   />
                   <Controls.Button
                     text={`Submit`}
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     style={{ borderRadius: "26px" }}
                     type={"submit"}
                     onClick={submitForm}
+                    disabled={loading}
+                    loading={loading}
                   />
                 </ButtonsContainer>
               </>

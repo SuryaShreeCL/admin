@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-import { Container, TopTab, TopTabs } from "./Assets/Styles/WallStyles";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Container, TopTab, TopTabs } from "./Assets/Styles/WallStyles";
 import Webinars from "./Pages/ThirdYearWebinars";
 
 const ThirdYearWallLanding = () => {

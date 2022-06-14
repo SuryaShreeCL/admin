@@ -1,30 +1,35 @@
-import React, { useState, useEffect } from "react";
 import {
-  Paper,
-  makeStyles,
-  TableBody,
-  TableRow,
-  TableCell,
-  Toolbar,
   InputAdornment,
+  makeStyles,
+  Paper,
+  TableBody,
+  TableCell,
+  TableRow,
+  Toolbar,
 } from "@material-ui/core";
-import useTable from "../../Utils/useTable";
-import Controls from "../../Utils/controls/Controls";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import Notification from "../../Utils/Notification";
-import { useHistory } from "react-router-dom";
-import { createWebinarPath, editWebinarPath } from "../../RoutePaths";
-import Loader from "../../Utils/controls/Loader";
-import MuiAlert from "@material-ui/lab/Alert";
-import ConfirmDialog from "../../Utils/ConfirmDialog";
-import { useSelector, useDispatch } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import MuiAlert from "@material-ui/lab/Alert";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import {
+  deleteWebinarById,
+  getAllWebinarList,
+} from "../../../Actions/ThirdWebinarAction";
+import { createWebinarPath, editWebinarPath } from "../../RoutePaths";
+import ConfirmDialog from "../../Utils/ConfirmDialog";
+import Controls from "../../Utils/controls/Controls";
+import Loader from "../../Utils/controls/Loader";
+import Notification from "../../Utils/Notification";
+import useTable from "../../Utils/useTable";
 
-const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
+const ACTIVE_STATUS = ["Live", "Scheduled", "Expired"];
+
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -70,29 +75,16 @@ export default function Webinars() {
     },
   });
 
-  const { loading, error, webinars } = useSelector(
-    (state) => state.wallWebinarListReducer
+  const { loading, allWebinarList, deleteStatus } = useSelector(
+    (state) => state.thirdYearWebinarListReducer
   );
 
-  const wallPostDeleteReducer = useSelector(
-    (state) => state.wallPostDeleteReducer
-  );
+  let totalPages = allWebinarList?.data?.totalPages;
 
-  const {
-    // loading,
-    allWebinarList,
-    webinarList,
-    createStatus,
-    updateStatus,
-    deleteStatus,
-  } = useSelector((state) => state.thirdYearWebinarListReducer);
-
-  let totalPages = webinars?.totalPages;
-
-  //fitering out archived webinars
-  let filteredWebinars = webinars?.content?.filter(
-    (webinar) => webinar.activeStatus !== "Archive"
-  );
+  let filteredWebinars =
+    allWebinarList?.data?.content?.filter((webinar) =>
+      ACTIVE_STATUS.includes(webinar.activeStatus)
+    ) || [];
 
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -113,6 +105,7 @@ export default function Webinars() {
     TblPagination,
     recordsAfterPagingAndSorting,
     page,
+    setPage,
   } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
   const handleSearch = (e) => {
@@ -122,16 +115,15 @@ export default function Webinars() {
         if (target.value == "") return items;
         else
           return items.filter((x) =>
-            x.eventTitle.toLowerCase().includes(target.value)
+            x.webinarTitle.toLowerCase().includes(target.value)
           );
       },
     });
   };
 
   const openInPage = (item) => {
-    console.log(item, "item");
     history.push({
-      pathname: `${editWebinarPath}/${item.id}`,
+      pathname: `${editWebinarPath}/${item.webinarId}`,
       recordForEdit: item,
       postType: "Webinar",
       postTypeTab: 0,
@@ -143,53 +135,53 @@ export default function Webinars() {
       ...confirmDialog,
       isOpen: false,
     });
-    dispatch(deleteWallPost(id));
-    setTimeout(() => {
-      dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
-    }, 1200);
+    let currentPageContentLength = filteredWebinars.length - 1;
+    dispatch(deleteWebinarById(id, currentPageContentLength));
     setDeleteClick(true);
   };
 
   useEffect(() => {
-    if (deleteClick && !wallPostDeleteReducer.loading) {
-      if (wallPostDeleteReducer.success) {
+    if (deleteClick && deleteStatus) {
+      if (deleteStatus.success) {
         setNotify({
           isOpen: true,
           message: "Deleted Successfully",
-          type: "error",
+          type: "success",
         });
+        setTimeout(() => {
+          if (deleteStatus.currentPageContentLength)
+            dispatch(getAllWebinarList(page));
+          else {
+            let newPage = page - 1 === 0 ? 1 : page - 1;
+            dispatch(getAllWebinarList(newPage));
+            setPage(newPage);
+          }
+        }, 1200);
       } else {
         setNotify({
           isOpen: true,
-          message: wallPostDeleteReducer.error,
+          message: deleteStatus.message,
           type: "error",
         });
       }
       setDeleteClick(false);
     }
-  }, [deleteClick, wallPostDeleteReducer]);
+  }, [deleteClick, deleteStatus]);
 
   useEffect(() => {
-    dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
+    dispatch(getAllWebinarList(page));
   }, [dispatch, page]);
 
   const handleDeleteClick = (item) => {
-    if (!item.isEditable) {
-      setNotify({
-        isOpen: true,
-        message: "Only the creator can delete the post",
-        type: "Error",
-      });
-    } else {
-      setConfirmDialog({
-        isOpen: true,
-        title: "Are you sure to delete this post?",
-        subTitle: "You can't undo this operation",
-        onConfirm: () => {
-          onDelete(item.id);
-        },
-      });
-    }
+    setConfirmDialog({
+      isOpen: true,
+      title: "DELETE WEBINAR?",
+      subTitle: `Are you sure you want to delete the selected Event?
+        It’wll go longer will be visible on the App.`,
+      onConfirm: () => {
+        onDelete(item.webinarId);
+      },
+    });
   };
 
   return (
@@ -198,10 +190,10 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder="Search 3rd Year Webinars"
+            placeholder='Search 3rd Year Webinars'
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <Search />
                 </InputAdornment>
               ),
@@ -210,9 +202,9 @@ export default function Webinars() {
           />
 
           <Controls.Button
-            text="Create New Webinar"
-            variant="contained"
-            color="primary"
+            text='Create New Webinar'
+            variant='contained'
+            color='primary'
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -231,27 +223,27 @@ export default function Webinars() {
           {filteredWebinars && (
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => {
-                console.log(item, "item+++");
                 return (
-                  <TableRow key={item.id}>
-                    <TableCell>{`${item.eventTitle}`}</TableCell>
-                    <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                    <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
+                  <TableRow key={item.webinarId}>
+                    <TableCell>{`${item.webinarTitle}`}</TableCell>
+                    <TableCell>{moment(item.published).fromNow()}</TableCell>
+                    <TableCell>{`${item.description?.slice(0, 20) ||
+                      ""}...`}</TableCell>
                     <TableCell>{item.activeStatus}</TableCell>
                     <TableCell>
-                      {moment(item.eventDate).format("MMM Do, hh:mm a")}
+                      {moment(item.startDate).format("MMM Do, hh:mm a")}
                     </TableCell>
                     <TableCell>
-                      {moment(item.eventEndDate).format("MMM Do, hh:mm a")}
+                      {moment(item.endDate).format("MMM Do, hh:mm a")}
                     </TableCell>
                     <TableCell className={classes.actions}>
                       <Controls.ActionButton onClick={() => openInPage(item)}>
-                        <EditOutlinedIcon fontSize="small" color="primary" />
+                        <EditOutlinedIcon fontSize='small' color='primary' />
                       </Controls.ActionButton>
                       <Controls.ActionButton
                         onClick={() => handleDeleteClick(item)}
                       >
-                        <DeleteIcon fontSize="small" color="secondary" />
+                        <DeleteIcon fontSize='small' color='secondary' />
                       </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
@@ -261,53 +253,20 @@ export default function Webinars() {
           )}
         </TblContainer>
         <div style={{ margin: "2rem auto", width: "60%" }}>
-          {loading && <Loader />}
-          {error && <Alert severity="error">{error}</Alert>}
-          {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity="info">0 Webinars Found</Alert>
+          {!loading && allWebinarList ? (
+            allWebinarList.success ? (
+              filteredWebinars?.length === 0 && (
+                <Alert severity='info'>0 Webinars Found</Alert>
+              )
+            ) : (
+              <Alert severity='error'>{allWebinarList.message}</Alert>
+            )
+          ) : (
+            <Loader />
           )}
         </div>
         <TblPagination />
       </Paper>
-
-      {/* <Drawer
-        anchor="right"
-        open={openDrawer}
-        onClose={() => setOpenDrawer(false)}
-      >
-        <DrawerContainer>
-          <ButtonsContainerTwo>
-            <span
-              style={{ fontSize: "1rem" }}
-              onClick={() => openInPage(viewData)}
-            >
-              <IconButton aria-label="edit">
-                <EditIcon color="primary" size="large" />
-              </IconButton>
-              Edit
-            </span>
-            <span
-              style={{ fontSize: "1rem" }}
-              onClick={() => {
-                setOpenDrawer(false);
-                setConfirmDialog({
-                  isOpen: true,
-                  title: "Are you sure to delete this post?",
-                  subTitle: "You can't undo this operation",
-                  onConfirm: () => {
-                    onDelete(viewData.id);
-                  },
-                });
-              }}
-            >
-              <IconButton aria-label="remove">
-                <DeleteIcon color="secondary" size="large" />
-              </IconButton>
-              Remove
-            </span>
-          </ButtonsContainerTwo>
-        </DrawerContainer>
-      </Drawer> */}
       <Notification notify={notify} setNotify={setNotify} />
       <ConfirmDialog
         confirmDialog={confirmDialog}

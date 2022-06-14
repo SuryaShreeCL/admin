@@ -4,20 +4,18 @@ import { errorHandler } from "../Component/Utils/Helpers";
 
 const baseUrl = `${process.env.REACT_APP_API_URL}/api/v1`;
 
-export const getAllWebinarList = (page = 0) => async (dispatch) => {
-  let department = window.sessionStorage.getItem("department");
+export const getAllWebinarList = (page = 1) => async (dispatch) => {
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
-    const { data } = await axios.get(`${baseUrl}/wallpost/webinarlist`, {
+    const { data } = await axios.get(`${baseUrl}/gre/webinar/viewall`, {
       crossDomain: true,
       headers: {
         admin: "yes",
         Authorization: `Bearer ${window.sessionStorage.getItem("accessToken")}`,
       },
       params: {
-        page: page,
+        page: page - 1,
         size: 6,
-        department: department,
       },
     });
     dispatch({
@@ -34,14 +32,11 @@ export const getAllWebinarList = (page = 0) => async (dispatch) => {
 export const getWebinarList = (id) => async (dispatch) => {
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
-    const { data } = await axios.get(`${baseUrl}/wallpost/webinarlist`, {
+    const { data } = await axios.get(`${baseUrl}/gre/webinar/${id}`, {
       crossDomain: true,
       headers: {
         admin: "yes",
         Authorization: `Bearer ${window.sessionStorage.getItem("accessToken")}`,
-      },
-      params: {
-        id: id,
       },
     });
     dispatch({
@@ -56,7 +51,7 @@ export const getWebinarList = (id) => async (dispatch) => {
 export const updateWebinar = (payload) => async (dispatch) => {
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
-    const { data } = await axios.put(`${baseUrl}/`, payload, {
+    const { data } = await axios.put(`${baseUrl}/gre/webinar`, payload, {
       crossDomain: true,
       headers: {
         admin: "yes",
@@ -75,7 +70,7 @@ export const updateWebinar = (payload) => async (dispatch) => {
 export const createWebinar = (payload) => async (dispatch) => {
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
-    const { data } = await axios.put(`${baseUrl}/`, payload, {
+    const { data } = await axios.put(`${baseUrl}/gre/webinar`, payload, {
       crossDomain: true,
       headers: {
         admin: "yes",
@@ -91,10 +86,13 @@ export const createWebinar = (payload) => async (dispatch) => {
   }
 };
 
-export const deleteWebinarById = (id) => async (dispatch) => {
+export const deleteWebinarById = (
+  webinarId,
+  currentPageContentLength
+) => async (dispatch) => {
   try {
     dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
-    const { data } = await axios.delete(`${baseUrl}//${id}`, {
+    const { data } = await axios.delete(`${baseUrl}/gre/webinar/${webinarId}`, {
       crossDomain: true,
       headers: {
         admin: "yes",
@@ -103,7 +101,7 @@ export const deleteWebinarById = (id) => async (dispatch) => {
     });
     dispatch({
       type: THIRD_YEAR_WEBINAR.DELETE_WEBINAR_BY_ID,
-      payload: data,
+      payload: { ...data, currentPageContentLength },
     });
   } catch (error) {
     dispatch(
