@@ -211,7 +211,7 @@ function Index(props) {
           open: false,
         });
         dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
-        window.location.reload()
+        
        
       } else {
         setState({
