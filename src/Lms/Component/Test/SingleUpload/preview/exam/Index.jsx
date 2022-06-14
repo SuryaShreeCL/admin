@@ -6,6 +6,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import React, { Component } from "react";
 import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
 import BottomBanner from "../../../../../../Asset/icons/BottomBanner.svg";
+import MobileResponsiveImage from "../../../../../../Asset/icons/MobileBottomcontainer.svg";
+
 import "../../../../../Assets/css/Preview/Preview.css";
 import {
   BackIconTag,
@@ -35,7 +37,6 @@ import SingleSelect from "./SingleSelect";
 import { RenderBookMark } from "../../../../../Utils/Bookmark";
 import { secondsToHms } from "../../../../../Utils/HelperFunction";
 import { ArrowBack } from "@material-ui/icons";
-
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -254,7 +255,8 @@ class Index extends Component {
           <Footer>
             {deptName === "assessment_engine_admin" ? (
               <Box>
-                <img src={BottomBanner} width={"100%"} height={"100%"}/>
+{console.log(window.screen.width)}
+                {  window.screen.width > 1000  ? <img src={BottomBanner} alt={"Web Image"} width={"100%"}/> : <img src={MobileResponsiveImage} alt={"MobileImage"} width={"100%"}/>}
               </Box>
             ) : (
               <>
