@@ -1,32 +1,29 @@
-import React, { useEffect, useRef, useState } from "react";
-import MaterialTable, { MTableToolbar } from "material-table";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import ThumbUp from "@material-ui/icons/ThumbUp";
-import CloudDownloadIcon from "@material-ui/icons/PictureAsPdf";
-import ThumbDown from "@material-ui/icons/ThumbDown";
-import FilterIcon from "@material-ui/icons/Tune";
-import SortIcon from "@material-ui/icons/CompareArrows";
-import BackHandler from "../Components/BackHandler";
-import SearchIcon from "@material-ui/icons/SearchSharp";
-import ExportIcon from "@material-ui/icons/GetApp";
-import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import ClearIcon from "@material-ui/icons/Clear";
-import Loader from "../../Utils/controls/Loader";
-import { FormControl, MenuItem, Select, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
-import {
-  getStudentEventStatus,
-  updateStudentEventStatus,
-} from "../../../Actions/WallActions";
-import Notification from "../../Utils/Notification";
-import Controls from "../../Utils/controls/Controls";
+import React, { useEffect, useRef, useState } from 'react';
+import MaterialTable, { MTableToolbar } from 'material-table';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import ThumbUp from '@material-ui/icons/ThumbUp';
+import CloudDownloadIcon from '@material-ui/icons/PictureAsPdf';
+import ThumbDown from '@material-ui/icons/ThumbDown';
+import FilterIcon from '@material-ui/icons/Tune';
+import SortIcon from '@material-ui/icons/CompareArrows';
+import BackHandler from '../Components/BackHandler';
+import SearchIcon from '@material-ui/icons/SearchSharp';
+import ExportIcon from '@material-ui/icons/GetApp';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
+import ClearIcon from '@material-ui/icons/Clear';
+import Loader from '../../Utils/controls/Loader';
+import { FormControl, MenuItem, Select, TextField } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { getStudentEventStatus, updateStudentEventStatus } from '../../../Actions/WallActions';
+import Notification from '../../Utils/Notification';
+import Controls from '../../Utils/controls/Controls';
 
 function DriveResult() {
   let textRef = useRef(null);
-  const [sslcValue, setSslcValue] = useState("all");
-  const [hscValue, setHscValue] = useState("all");
-  const [ugValue, setUgValue] = useState("all");
+  const [sslcValue, setSslcValue] = useState('all');
+  const [hscValue, setHscValue] = useState('all');
+  const [ugValue, setUgValue] = useState('all');
   const { id } = useParams();
   const dispatch = useDispatch();
   const [rounds, setRounds] = useState([]);
@@ -38,43 +35,43 @@ function DriveResult() {
   const [isLoading, setIsLoading] = useState(false);
   const [notify, setNotify] = useState({
     isOpen: false,
-    message: "",
-    type: "",
+    message: '',
+    type: '',
   });
 
   let columns = [
     {
-      title: "Name",
-      field: "studentName",
+      title: 'Name',
+      field: 'studentName',
       editable: false,
       filtering: false,
       sorting: true,
-      defaultSort: "asc",
+      defaultSort: 'asc',
     },
     {
-      title: "Email",
-      field: "studentEmailId",
+      title: 'Email',
+      field: 'studentEmailId',
       filtering: false,
-      filterPlaceholder: "filter",
+      filterPlaceholder: 'filter',
       editable: false,
       sorting: false,
     },
     {
-      title: "Status",
-      field: "stepStatus",
+      title: 'Status',
+      field: 'stepStatus',
       sorting: false,
       emptyValue: () => <em>--</em>,
       render: (rowData) => (
         <p
           style={{
             background:
-              rowData.stepStatus === "Qualified"
-                ? "#02ae02af"
-                : rowData.stepStatus === "Not Qualified"
-                ? "#d80303aa"
-                : "#9f9f9f",
-            borderRadius: "4px",
-            textAlign: "center",
+              rowData.stepStatus === 'Qualified'
+                ? '#02ae02af'
+                : rowData.stepStatus === 'Not Qualified'
+                ? '#d80303aa'
+                : '#9f9f9f',
+            borderRadius: '4px',
+            textAlign: 'center',
             padding: 5,
           }}
         >
@@ -82,20 +79,20 @@ function DriveResult() {
         </p>
       ),
       lookup: {
-        Qualified: "Qualified",
-        "Not Qualified": "Not Qualified",
-        NA: "NA",
+        Qualified: 'Qualified',
+        'Not Qualified': 'Not Qualified',
+        NA: 'NA',
       },
     },
     {
-      title: "10%",
-      field: "sscScore",
+      title: '10%',
+      field: 'sscScore',
       cellStyle: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       filterComponent: () => (
         <Select
-          id="sslc"
+          id='sslc'
           style={{ width: 70 }}
           value={sslcValue}
           onChange={(e) => {
@@ -106,7 +103,7 @@ function DriveResult() {
             setFilteredData(filteredData);
           }}
         >
-          <MenuItem value={"all"}>
+          <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
           <MenuItem value={40}>40%</MenuItem>
@@ -118,17 +115,17 @@ function DriveResult() {
         </Select>
       ),
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p style={{ width: "70px" }}>{rowData.sscScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.sscScore}</p>,
     },
     {
-      title: "12%",
-      field: "hscScore",
+      title: '12%',
+      field: 'hscScore',
       cellStyle: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       filterComponent: () => (
         <Select
-          id="hsc"
+          id='hsc'
           style={{ width: 70 }}
           value={hscValue}
           onChange={(e) => {
@@ -139,7 +136,7 @@ function DriveResult() {
             setFilteredData(filteredData);
           }}
         >
-          <MenuItem value={"all"}>
+          <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
           <MenuItem value={40}>40%</MenuItem>
@@ -151,17 +148,17 @@ function DriveResult() {
         </Select>
       ),
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p style={{ width: "70px" }}>{rowData.hscScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.hscScore}</p>,
     },
     {
-      title: "UG CGPA",
-      field: "ugScore",
+      title: 'UG CGPA',
+      field: 'ugScore',
       cellStyle: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       filterComponent: () => (
         <Select
-          id="ugscore"
+          id='ugscore'
           style={{ width: 70 }}
           value={ugValue}
           onChange={(e) => {
@@ -172,7 +169,7 @@ function DriveResult() {
             setFilteredData(filteredData);
           }}
         >
-          <MenuItem value={"all"}>
+          <MenuItem value={'all'}>
             <em>All</em>
           </MenuItem>
           <MenuItem value={4}>4</MenuItem>
@@ -190,46 +187,45 @@ function DriveResult() {
         </Select>
       ),
       emptyValue: () => <em>--</em>,
-      render: (rowData) => <p style={{ width: "70px" }}>{rowData.ugScore}</p>,
+      render: (rowData) => <p style={{ width: '70px' }}>{rowData.ugScore}</p>,
     },
     {
-      title: "Graduation",
-      field: "ugEndDate",
+      title: 'Graduation',
+      field: 'ugEndDate',
       cellStyle: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{new Date(rowData.ugEndDate).getFullYear()}</p>,
     },
     {
-      title: "Active Backlogs",
-      field: "activeBacklogs",
-      type: "numeric",
+      title: 'Active Backlogs',
+      field: 'activeBacklogs',
+      type: 'numeric',
       cellStyle: {
-        textAlign: "center",
+        textAlign: 'center',
       },
       emptyValue: () => <em>--</em>,
       render: (rowData) => <p>{rowData.activeBacklogs}</p>,
     },
     {
-      title: "Fresher/Experience",
-      field: "experienceStatus",
+      title: 'Fresher/Experience',
+      field: 'experienceStatus',
       emptyValue: () => <em>--</em>,
       render: (rowData) => <div>{rowData.experienceStatus}</div>,
-      lookup: { Fresher: "Fresher", Experienced: "Experienced" },
+      lookup: { Fresher: 'Fresher', Experienced: 'Experienced' },
     },
   ];
 
   //Populates the custom questions into columns array
   const customQuestionFields = customQuestions?.forEach((question, idx) => {
-    console.log(question, idx);
     columns.push({
       title: question,
-      field: "answers",
+      field: 'answers',
       sorting: false,
       render: (rowData) => (
-        <div style={{ width: "300px", display: "flex" }}>
-          <p>{rowData?.answers[idx] ?? "--"}</p>
+        <div style={{ width: '300px', display: 'flex' }}>
+          <p>{rowData?.answers[idx] ?? '--'}</p>
         </div>
       ),
       customFilterAndSearch: (term, rowData) =>
@@ -245,9 +241,7 @@ function DriveResult() {
     setIsLoading(true);
     dispatch(
       getStudentEventStatus(id, (response) => {
-        setCustomQuestions(
-          response?.data?.stepDetailsModelList[0]?.customQuestions
-        );
+        setCustomQuestions(response?.data?.stepDetailsModelList[0]?.customQuestions);
         setEventInfo(response.data);
         setRounds(response?.data?.stepDetailsModelList);
         setTableData(response?.data?.stepDetailsModelList);
@@ -276,20 +270,20 @@ function DriveResult() {
           setNotify({
             isOpen: true,
             message: res.message,
-            type: "success",
+            type: 'success',
           });
-          setSslcValue("all");
-          setHscValue("all");
-          setUgValue("all");
+          setSslcValue('all');
+          setHscValue('all');
+          setUgValue('all');
         } else {
-          setSslcValue("all");
-          setHscValue("all");
-          setUgValue("all");
+          setSslcValue('all');
+          setHscValue('all');
+          setUgValue('all');
           setIsLoading(false);
           setNotify({
             isOpen: true,
             message: res.message,
-            type: "error",
+            type: 'error',
           });
         }
       })
@@ -302,13 +296,13 @@ function DriveResult() {
 
   return (
     <div>
-      <BackHandler title="" tab={0} isDrive={true} />
-      <h3 style={{ textAlign: "center" }}>{eventInfo?.eventName} </h3>
+      <BackHandler title='' tab={0} isDrive={true} />
+      <h3 style={{ textAlign: 'center' }}>{eventInfo?.eventName} </h3>
       <Controls.Input
         inputRef={textRef}
-        label="Enter Rejection Reason"
-        name="rejectReason"
-        style={{ width: "100%" }}
+        label='Enter Rejection Reason'
+        name='rejectReason'
+        style={{ width: '100%' }}
         multiline
         rows={3}
       />
@@ -319,13 +313,13 @@ function DriveResult() {
           Toolbar: (props) => (
             <div
               style={{
-                display: "flex",
-                marginTop: "1rem",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderBottom: "2px solid #0094b1",
-                borderTop: "2px solid #007d93",
-                borderRadius: "4px",
+                display: 'flex',
+                marginTop: '1rem',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '2px solid #0094b1',
+                borderTop: '2px solid #007d93',
+                borderRadius: '4px',
               }}
             >
               {isLoading ? (
@@ -334,8 +328,8 @@ function DriveResult() {
                 <>
                   <FormControl>
                     <Autocomplete
-                      style={{ width: "300px", paddingLeft: "1rem" }}
-                      name="rounds"
+                      style={{ width: '300px', paddingLeft: '1rem' }}
+                      name='rounds'
                       getOptionLabel={(option) => option?.stepName}
                       options={rounds ?? []}
                       onChange={(e, value) => {
@@ -351,14 +345,14 @@ function DriveResult() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label="Select Round"
-                          name="rounds"
-                          variant="outlined"
+                          label='Select Round'
+                          name='rounds'
+                          variant='outlined'
                         />
                       )}
                     />
                   </FormControl>
-                  <div style={{ flexGrow: 1, padding: "1rem" }}>
+                  <div style={{ flexGrow: 1, padding: '1rem' }}>
                     <MTableToolbar {...props} />
                   </div>
                 </>
@@ -368,11 +362,11 @@ function DriveResult() {
         }}
         actions={[
           {
-            icon: () => <ThumbUp style={{ color: "green" }} />,
-            tooltip: "Accept",
+            icon: () => <ThumbUp style={{ color: 'green' }} />,
+            tooltip: 'Accept',
             onClick: (e, data) => {
               let filterStatus = data.map((student) => {
-                student.stepStatus = "Qualified";
+                student.stepStatus = 'Qualified';
                 return student;
               });
               setTableData(tableData, filterStatus);
@@ -380,19 +374,19 @@ function DriveResult() {
             },
           },
           {
-            icon: () => <ThumbDown color="error" />,
-            tooltip: "Reject",
+            icon: () => <ThumbDown color='error' />,
+            tooltip: 'Reject',
             onClick: (e, data) => {
               if (textRef.current.value.length === 0) {
                 setNotify({
                   isOpen: true,
-                  message: "Please fill the reason",
-                  type: "error",
+                  message: 'Please fill the reason',
+                  type: 'error',
                 });
                 return;
               }
               let filterStatus = data.map((student) => {
-                student.stepStatus = "Not Qualified";
+                student.stepStatus = 'Not Qualified';
                 return student;
               });
               setTableData(tableData, filterStatus);
@@ -401,23 +395,23 @@ function DriveResult() {
           },
           {
             icon: () => <CloudDownloadIcon />,
-            tooltip: "CV Download",
+            tooltip: 'CV Download',
             onClick: (e, data) => {
               let filteredIds = data.map((student) => student.studentId);
               window.open(
                 `${process.env.REACT_APP_API_URL}/api/v1/event/${id}/filter/cv?studentIdList=${filteredIds}`,
-                "_blank"
+                '_blank'
               );
             },
           },
           {
-            icon: () => <ExportIcon style={{ color: "green" }} />,
-            tooltip: "Master Sheet Download",
+            icon: () => <ExportIcon style={{ color: 'green' }} />,
+            tooltip: 'Master Sheet Download',
             onClick: (e, data) => {
               let filteredIds = data.map((student) => student.studentId);
               window.open(
                 `${process.env.REACT_APP_API_URL}/api/v1/event/${id}/filter/result/page?studentIdList=${filteredIds}`,
-                "_blank"
+                '_blank'
               );
             },
           },
@@ -425,35 +419,31 @@ function DriveResult() {
         options={{
           sorting: true,
           search: true,
-          searchFieldAlignment: "right",
-          searchFieldVariant: "outlined",
+          searchFieldAlignment: 'right',
+          searchFieldVariant: 'outlined',
           filtering: true,
           paging: false,
           exportButton: false,
           exportAllData: false,
           exportFileName: eventInfo.eventName,
-          addRowPosition: "first",
+          addRowPosition: 'first',
           actionsColumnIndex: -1,
           selection: true,
           showSelectAllCheckbox: true,
           showTextRowsSelected: false,
           grouping: false,
           columnsButton: true,
-          rowStyle: (data, index) =>
-            index % 2 === 0 ? { background: "#f5f5f5" } : null,
-          headerStyle: { background: "aliceblue", color: "#000" },
+          rowStyle: (data, index) => (index % 2 === 0 ? { background: '#f5f5f5' } : null),
+          headerStyle: { background: 'aliceblue', color: '#000' },
         }}
         title={selectedRound?.stepName}
         icons={{
-          Filter: () => <FilterIcon style={{ color: "#807f7f" }} />,
+          Filter: () => <FilterIcon style={{ color: '#807f7f' }} />,
           SortArrow: () => (
-            <SortIcon
-              fontSize="small"
-              style={{ color: "#c6c6c6", transform: "rotate(-90deg)" }}
-            />
+            <SortIcon fontSize='small' style={{ color: '#c6c6c6', transform: 'rotate(-90deg)' }} />
           ),
           Clear: () => <ClearIcon />,
-          Export: () => <ExportIcon style={{ color: "green" }} />,
+          Export: () => <ExportIcon style={{ color: 'green' }} />,
           ResetSearch: () => <ClearIcon />,
           Search: () => <SearchIcon />,
           ViewColumn: () => <ViewColumnIcon />,
