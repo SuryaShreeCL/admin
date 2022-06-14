@@ -2,6 +2,7 @@ import { Backdrop, Box, Divider, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {withRouter} from 'react-router-dom';
 import {
   clearCustomData,
   getDocumentModelBySubStageId,
@@ -210,6 +211,8 @@ function Index(props) {
           open: false,
         });
         dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
+        window.location.reload()
+       
       } else {
         setState({
           ...state,
