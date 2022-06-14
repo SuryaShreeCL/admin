@@ -65,7 +65,7 @@ class Index extends Component {
     );
     let deptName = window.sessionStorage.getItem("department");
    
-    deptName === "assessment_engine_admin"
+    deptName !== "assessment_engine_admin"
 
     ?this.props.getTemplate(this.props.questionTypes.data[index].fileName)
     :this.props.aegetTemplate(this.props.questionTypes.data[index].fileName);
@@ -165,7 +165,12 @@ class Index extends Component {
             }
           }
         );
-      } else {
+      }
+      
+      else {
+        let deptName = window.sessionStorage.getItem("department");
+   
+        // deptName === "assessment_engine_admin" ?
         this.props.setQuestionData(
           testQuestionSetId,
           this.state.selectedType,
