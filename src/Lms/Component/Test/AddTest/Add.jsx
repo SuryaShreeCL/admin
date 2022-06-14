@@ -5,6 +5,7 @@ import {
   IconButton,
   Switch,
   Typography,
+  Backdrop
 } from "@material-ui/core";
 import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
@@ -50,6 +51,8 @@ import { InputTextField } from "../../../Utils/TextField";
 import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
 const aedept = window.sessionStorage.getItem("department");
@@ -112,6 +115,8 @@ class Add extends Component {
       eventDate: null,
       eventEndDate: null,
       department: null,
+      loading : false
+
     };
   }
 
@@ -222,7 +227,7 @@ class Add extends Component {
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
           courseIdValue: questionSet.productId,
-          sectionId: questionSet.testSection[0].id,
+          sectionId: questionSet?.testSection[0]?.id,
           cutOffScore: questionSet.cutOffScore,
           eventDate: questionSet.eventDate,
           eventEndDate: questionSet.eventEndDate,
@@ -476,6 +481,9 @@ class Add extends Component {
   };
 
   handleSaveButton = () => {
+    this.setState({
+      loading : true
+    })
     const {
       testQuestionSetId,
       type,
@@ -504,14 +512,15 @@ class Add extends Component {
           ? this.props.aecreateTestQuestionSet(
               questionBankSet,
               (questionBankResponse) => {
-                if (questionBankResponse.success) {
+                if (questionBankResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   this.setState({
                     snackOpen: true,
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: questionBankResponse.data.id,
+                    testQuestionSetId: questionBankResponse?.data?.id,
+                    loading : false
                   });
                 }
               }
@@ -519,14 +528,15 @@ class Add extends Component {
           : this.props.createTestQuestionSet(
               questionBankSet,
               (questionBankResponse) => {
-                if (questionBankResponse.success) {
+                if (questionBankResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   this.setState({
                     snackOpen: true,
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: questionBankResponse.data.id,
+                    testQuestionSetId: questionBankResponse?.data?.id,
+                    loading:false
                   });
                 }
               }
@@ -536,6 +546,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
+          loading:false
         });
       }
     }
@@ -549,9 +560,9 @@ class Add extends Component {
         topicId !== undefined &&
         topicTestSections.duration &&
         topicTestSections.noOfQuestions &&
-        nameDescription.trim().length !== 0 &&
-        description.length !== 0 &&
-        descriptionTitle.trim().length !== 0
+        nameDescription?.trim()?.length !== 0 &&
+        description?.length !== 0 &&
+        descriptionTitle?.trim()?.length !== 0
       ) {
         var topicTestSet = {
           id: testQuestionSetId,
@@ -566,7 +577,7 @@ class Add extends Component {
           ? this.props.aecreateTestQuestionSet(
               topicTestSet,
               (topicTestResponse) => {
-                if (topicTestResponse.success) {
+                if (topicTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempTopicTestSections = this.state.topicTestSections;
@@ -579,6 +590,7 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    loading: false,
                   });
                 }
               }
@@ -586,7 +598,7 @@ class Add extends Component {
           : this.props.createTestQuestionSet(
               topicTestSet,
               (topicTestResponse) => {
-                if (topicTestResponse.success) {
+                if (topicTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempTopicTestSections = this.state.topicTestSections;
@@ -599,6 +611,7 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    loading: false,
                   });
                 }
               }
@@ -608,6 +621,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
+          loading: false,
         });
       }
     }
@@ -616,16 +630,16 @@ class Add extends Component {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
         (item) =>
-          item.name !== null &&
-          item.name.trim().length !== 0 &&
-          item.duration !== null &&
-          item.noOfQuestions !== null &&
-          item.nameDescription !== null &&
-          item.nameDescription.trim().length !== 0 &&
-          item.description !== null &&
-          item.description.length !== 0 &&
-          item.descriptionTitle !== null &&
-          item.descriptionTitle.trim().length !== 0
+          item?.name !== null &&
+          item?.name.trim().length !== 0 &&
+          item?.duration !== null &&
+          item?.noOfQuestions !== null &&
+          item?.nameDescription !== null &&
+          item?.nameDescription.trim().length !== 0 &&
+          item?.description !== null &&
+          item?.description.length !== 0 &&
+          item?.descriptionTitle !== null &&
+          item?.descriptionTitle.trim().length !== 0
       );
       if (
         name &&
@@ -651,7 +665,7 @@ class Add extends Component {
             this.props.createTestQuestionSet(
               calibrationTestSet,
               (calibrationTestResponse) => {
-                if (calibrationTestResponse.success) {
+                if (calibrationTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
@@ -670,12 +684,14 @@ class Add extends Component {
                     courseIdValue: calibrationTestResponse.data.productId,
 
                     calibrationTestData: tempcalibrationTestData,
+                    loading: false,
                   });
                 } else {
                   this.setState({
                     snackOpen: true,
                     snackType: "warning",
-                    message: calibrationTestResponse.message,
+                    message: calibrationTestResponse?.message,
+                    loading: false,
                   });
                 }
               }
@@ -685,6 +701,7 @@ class Add extends Component {
               snackOpen: true,
               snackType: "warning",
               message: "Please fill all the section fields",
+              loading: false,
             });
           }
         } else {
@@ -692,6 +709,7 @@ class Add extends Component {
             snackOpen: true,
             snackType: "warning",
             message: "Please add the section",
+            loading: false,
           });
         }
       } else {
@@ -699,6 +717,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
+          loading: false,
         });
       }
     }
@@ -778,13 +797,13 @@ class Add extends Component {
             this.props.aecreateTestQuestionSet(
               calibrationTestSet,
               (calibrationTestResponse) => {
-                if (calibrationTestResponse.success) {
+                if (calibrationTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
                   calibrationTestResponse.data.testSection.map(
                     (item, index) => {
-                      if (calibrationTestData.length > index) {
+                      if (calibrationTestData?.length > index) {
                         tempcalibrationTestData[index].id = item.id;
                       }
                     }
@@ -793,17 +812,20 @@ class Add extends Component {
                     snackOpen: true,
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: calibrationTestResponse.data.id,
-                    courseIdValue: calibrationTestResponse.data.productId,
-                    sectionId: calibrationTestResponse.data.testSection[0].id,
+                    testQuestionSetId: calibrationTestResponse?.data?.id,
+                    courseIdValue: calibrationTestResponse?.data?.productId,
+                    sectionId:
+                      calibrationTestResponse?.data?.testSection[0]?.id,
                     calibrationTestData: tempcalibrationTestData,
+                    loading: false,
                   });
-                  this.handleBannerUpload(calibrationTestResponse.data.id);
+                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
                 } else {
                   this.setState({
                     snackOpen: true,
                     snackType: "warning",
-                    message: calibrationTestResponse.message,
+                    message: "Network Failed",
+                    loading: false,
                   });
                 }
               }
@@ -813,6 +835,7 @@ class Add extends Component {
               snackOpen: true,
               snackType: "warning",
               message: "Please fill all the section fields",
+              loading: false,
             });
           }
         } else {
@@ -820,6 +843,7 @@ class Add extends Component {
             snackOpen: true,
             snackType: "warning",
             message: "Please add the section",
+            loading: false,
           });
         }
       } else {
@@ -827,6 +851,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
+          loading: false,
         });
       }
     }
@@ -1015,11 +1040,11 @@ class Add extends Component {
 
   handleBannerUpload = (testQuesSetId) => {
     const { posterUrl } = this.state;
-    if (posterUrl.length !== 0) {
+    if (posterUrl?.length !== 0) {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {
-        if (response?.status === 202) {
+        if (response?.status === 201) {
           this.setState({
             posterUrl: response.data.posterUrl,
           });
@@ -1137,28 +1162,29 @@ class Add extends Component {
       handleSectionThreeDotClick,
     } = this;
     return (
-      <Card padding={"12px 20px"}>
-        <Box display={"flex"} alignItems={"center"}>
-          {/* Header */}
-          <TestTitle flex={1}>
-            {id !== undefined ? "Edit Test" : "Add New Test"}
-          </TestTitle>
-          <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
-            {/* cancel */}
-            <Cancel
-              onClick={() => {
-                this.props.history.push(lmsTest);
-              }}
-            >
-              Cancel
-            </Cancel>
-            {/* save */}
-            <Save onClick={this.handleSaveButton}>Save</Save>
+      <>
+        <Card padding={"12px 20px"}>
+          <Box display={"flex"} alignItems={"center"}>
+            {/* Header */}
+            <TestTitle flex={1}>
+              {id !== undefined ? "Edit Test" : "Add New Test"}
+            </TestTitle>
+            <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
+              {/* cancel */}
+              <Cancel
+                onClick={() => {
+                  this.props.history.push(lmsTest);
+                }}
+              >
+                Cancel
+              </Cancel>
+              {/* save */}
+              <Save onClick={this.handleSaveButton}>Save</Save>
+            </Box>
           </Box>
-        </Box>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            {/* <DropDown
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              {/* <DropDown
               label="Course"
               name="courseId"
               items={
@@ -1207,233 +1233,245 @@ class Add extends Component {
               marginRightValue: "56px",
             }}
           />}
-          </Grid>
-          <Grid item xs={12} md={4}>
-            {type === "CALIBRATION" || type === "AE_TEST" ? (
-              <div>
-                <InputTextField
-                  name="name"
-                  onChange={this.handleChange}
-                  value={name}
-                  label={"Test name"}
-                  height="11px"
-                  placeholder={"Test name"}
-                  required
-                />
-              </div>
-            ) : (
-              <DropDown
-                label="Topic"
-                name="topicId"
-                items={topics.data}
-                value={topicId}
-                onChange={this.handleChange}
-                placeholder="Topic"
-                disabled={testQuestionSetId !== null ? true : false}
-              />
-            )}
-          </Grid>
-          {type !== "QUESTIONBANK" ? (
-            <>
-              <Grid item xs={12} md={8}>
-                <InputTextField
-                  name="nameDescription"
-                  onChange={this.handleChange}
-                  value={nameDescription}
-                  label="Description"
-                  multiline
-                  rows={3}
-                  placeholder="Description"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <InputTextField
-                  name="descriptionTitle"
-                  onChange={this.handleChange}
-                  value={descriptionTitle}
-                  label="Test Instruction heading"
-                  height="11px"
-                  placeholder="Test Instruction heading"
-                  required
-                />
-              </Grid>
-              {type === "AE_TEST" && (
-                <Grid item xs={12} md={4}>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              {type === "CALIBRATION" || type === "AE_TEST" ? (
+                <div>
                   <InputTextField
-                    name="cutOffScore"
-                    type={"number"}
-                    // onChange={this.handleChange}
-                    onChange={(e) => {
-                      if (e.target.value.length <= 3) {
-                        this.handleChange(e);
-                      } else {
-                        e.preventDefault();
-                      }
-                    }}
-                    value={cutOffScore}
-                    label={"Cut Off"}
+                    name="name"
+                    onChange={this.handleChange}
+                    value={name}
+                    label={"Test name"}
                     height="11px"
-                    placeholder={"Cut Off"}
+                    placeholder={"Test name"}
+                    required
+                  />
+                </div>
+              ) : (
+                <DropDown
+                  label="Topic"
+                  name="topicId"
+                  items={topics.data}
+                  value={topicId}
+                  onChange={this.handleChange}
+                  placeholder="Topic"
+                  disabled={testQuestionSetId !== null ? true : false}
+                />
+              )}
+            </Grid>
+            {type !== "QUESTIONBANK" ? (
+              <>
+                <Grid item xs={12} md={8}>
+                  <InputTextField
+                    name="nameDescription"
+                    onChange={this.handleChange}
+                    value={nameDescription}
+                    label="Description"
+                    multiline
+                    rows={3}
+                    placeholder="Description"
                     required
                   />
                 </Grid>
-              )}
-              <Grid item xs={12} md={8}>
-                <AutocompleteText
-                  autoData={{
-                    label: "Test Instruction Details",
-                    placeholder: "List The Instruction",
-                    title: "Type the content and press enter",
-                    value: description !== null ? description : [],
-                    onChange: this.handleInstructionChange,
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} md={8}>
-                {this.renderFile()}
-                {this.renderFileName() && (
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      marginTop: "5px",
-                    }}
-                  >
-                    <Typography>{this.renderFileName()}</Typography>
-                    <IconButton
-                      color={"secondary"}
-                      size="small"
-                      onClick={this.handleFileDelete}
-                    >
-                      <DeleteRoundedIcon />
-                    </IconButton>
-                  </span>
-                )}
-              </Grid>
-              <Grid item md={4} container spacing={3}>
-                <Grid item md={12}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={scheduleTest}
-                        onChange={(e) => {
-                          if (!e.target.checked) {
-                            this.setState({
-                              eventDate: null,
-                              eventEndDate: null,
-                            });
-                          }
-                          this.setState({ scheduleTest: e.target.checked });
-                        }}
-                        name="scheduleTest"
-                        color="primary"
-                      />
-                    }
-                    label="Schedule test"
+                <Grid item xs={12} md={4}>
+                  <InputTextField
+                    name="descriptionTitle"
+                    onChange={this.handleChange}
+                    value={descriptionTitle}
+                    label="Test Instruction heading"
+                    height="11px"
+                    placeholder="Test Instruction heading"
+                    required
                   />
                 </Grid>
-                {scheduleTest && (
-                  <React.Fragment>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <Grid item md={6}>
-                        <DateTimePicker
-                          label="Start date and time"
-                          inputVariant="outlined"
-                          value={eventDate}
-                          onChange={(value) =>
-                            this.setState({ eventDate: value })
-                          }
-                        />
-                      </Grid>
-                      <Grid item md={6}>
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <DateTimePicker
-                          label="End date and time"
-                          inputVariant="outlined"
-                          value={eventEndDate}
-                          onChange={(value) =>
-                            this.setState({ eventEndDate: value })
-                          }
-                        /></MuiPickersUtilsProvider>
-                      </Grid>
-                    </MuiPickersUtilsProvider>
-                  </React.Fragment>
+                {type === "AE_TEST" && (
+                  <Grid item xs={12} md={4}>
+                    <InputTextField
+                      name="cutOffScore"
+                      type={"number"}
+                      // onChange={this.handleChange}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 3) {
+                          this.handleChange(e);
+                        } else {
+                          e.preventDefault();
+                        }
+                      }}
+                      value={cutOffScore}
+                      label={"Cut Off"}
+                      height="11px"
+                      placeholder={"Cut Off"}
+                      required
+                    />
+                  </Grid>
                 )}
-              </Grid>
-            </>
-          ) : (
-            <Divider />
+                <Grid item xs={12} md={8}>
+                  <AutocompleteText
+                    autoData={{
+                      label: "Test Instruction Details",
+                      placeholder: "List The Instruction",
+                      title: "Type the content and press enter",
+                      value: description !== null ? description : [],
+                      onChange: this.handleInstructionChange,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  {this.renderFile()}
+                  {this.renderFileName() && (
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        marginTop: "5px",
+                      }}
+                    >
+                      <Typography>{this.renderFileName()}</Typography>
+                      <IconButton
+                        color={"secondary"}
+                        size="small"
+                        onClick={this.handleFileDelete}
+                      >
+                        <DeleteRoundedIcon />
+                      </IconButton>
+                    </span>
+                  )}
+                </Grid>
+                <Grid item md={4} container spacing={3}>
+                  <Grid item md={12}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={scheduleTest}
+                          onChange={(e) => {
+                            if (!e.target.checked) {
+                              this.setState({
+                                eventDate: null,
+                                eventEndDate: null,
+                              });
+                            }
+                            this.setState({ scheduleTest: e.target.checked });
+                          }}
+                          name="scheduleTest"
+                          color="primary"
+                        />
+                      }
+                      label="Schedule test"
+                    />
+                  </Grid>
+                  {scheduleTest && (
+                    <React.Fragment>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <Grid item md={6}>
+                          <DateTimePicker
+                            label="Start date and time"
+                            inputVariant="outlined"
+                            value={eventDate}
+                            onChange={(value) =>
+                              this.setState({ eventDate: value })
+                            }
+                          />
+                        </Grid>
+                        <Grid item md={6}>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DateTimePicker
+                              label="End date and time"
+                              inputVariant="outlined"
+                              value={eventEndDate}
+                              onChange={(value) =>
+                                this.setState({ eventEndDate: value })
+                              }
+                            />
+                          </MuiPickersUtilsProvider>
+                        </Grid>
+                      </MuiPickersUtilsProvider>
+                    </React.Fragment>
+                  )}
+                </Grid>
+              </>
+            ) : (
+              <Divider />
+            )}
+            {/* description */}
+          </Grid>
+          {type === "CALIBRATION" || type === "AE_TEST" ? (
+            <CalibrationTestCard
+              data={{
+                tabValue: calibrationActiveSectionTab,
+                testData: calibrationTestData,
+                sectionChange: this.handleSectionChange,
+                tabLabels: calibrationSectionTabLabels,
+                totalSection: calibrationTotalSection,
+                tabChange: this.handleTabChange,
+                testPropertiesChange: this.handleCalibrationTestProperties,
+                sectionInstructionChange: this.handleSectionInstructionChange,
+                handleClose: handleClose,
+                anchorEl: sectionAnchorEl,
+                handleMenuItemDelete: handleMenuItemDelete,
+                handleThreeDotClick: handleSectionThreeDotClick,
+              }}
+            />
+          ) : null}
+          {type === "TOPIC" && (
+            <TopicTestCard
+              data={{
+                testSections: topicTestSections,
+                handleChange: this.handleChange,
+              }}
+            />
           )}
-          {/* description */}
-        </Grid>
-        {type === "CALIBRATION" || type === "AE_TEST" ? (
-          <CalibrationTestCard
-            data={{
-              tabValue: calibrationActiveSectionTab,
-              testData: calibrationTestData,
-              sectionChange: this.handleSectionChange,
-              tabLabels: calibrationSectionTabLabels,
-              totalSection: calibrationTotalSection,
-              tabChange: this.handleTabChange,
-              testPropertiesChange: this.handleCalibrationTestProperties,
-              sectionInstructionChange: this.handleSectionInstructionChange,
-              handleClose: handleClose,
-              anchorEl: sectionAnchorEl,
-              handleMenuItemDelete: handleMenuItemDelete,
-              handleThreeDotClick: handleSectionThreeDotClick,
+          {type !== undefined && (
+            <TestAddButtonCard
+              addQuestion={this.handleAddQuestion}
+              type={type}
+              sectionData={calibrationTestData}
+              tabValue={calibrationActiveSectionTab}
+              id={testQuestionSetId}
+              questions={this.getQuestionData()}
+              handleThreeDotClick={handleThreeDotClick}
+              handleClose={handleClose}
+              anchorEl={anchorEl}
+              popUpId={popUpId}
+              handleDelete={handleDelete}
+            />
+          )}
+          <DialogComponent
+            open={sectionDialogOpen}
+            dialogContent={sectionDialogContent}
+            handleButton1Click={handleButton1Click}
+            handleCloseIconClick={handleCloseIconClick}
+            handleButton2Click={handleSectionDelete}
+          />
+          <DialogComponent
+            open={dialogStatus}
+            dialogContent={dialogContent}
+            handleButton1Click={handleButton1Click}
+            handleCloseIconClick={handleCloseIconClick}
+            handleButton2Click={handlePrimaryButtonClick}
+          />
+          <SnackBar
+            snackData={{
+              open: snackOpen,
+              snackClose: () => {
+                this.setState({ snackOpen: false });
+              },
+              snackType: snackType,
+              message: message,
             }}
           />
-        ) : null}
-        {type === "TOPIC" && (
-          <TopicTestCard
-            data={{
-              testSections: topicTestSections,
-              handleChange: this.handleChange,
-            }}
-          />
-        )}
-        {type !== undefined && (
-          <TestAddButtonCard
-            addQuestion={this.handleAddQuestion}
-            type={type}
-            sectionData={calibrationTestData}
-            tabValue={calibrationActiveSectionTab}
-            id={testQuestionSetId}
-            questions={this.getQuestionData()}
-            handleThreeDotClick={handleThreeDotClick}
-            handleClose={handleClose}
-            anchorEl={anchorEl}
-            popUpId={popUpId}
-            handleDelete={handleDelete}
-          />
-        )}
-        <DialogComponent
-          open={sectionDialogOpen}
-          dialogContent={sectionDialogContent}
-          handleButton1Click={handleButton1Click}
-          handleCloseIconClick={handleCloseIconClick}
-          handleButton2Click={handleSectionDelete}
-        />
-        <DialogComponent
-          open={dialogStatus}
-          dialogContent={dialogContent}
-          handleButton1Click={handleButton1Click}
-          handleCloseIconClick={handleCloseIconClick}
-          handleButton2Click={handlePrimaryButtonClick}
-        />
-        <SnackBar
-          snackData={{
-            open: snackOpen,
-            snackClose: () => {
-              this.setState({ snackOpen: false });
-            },
-            snackType: snackType,
-            message: message,
+        </Card>
+        <Backdrop
+          style={{
+            color: "#fff",
+            zIndex: 10000,
           }}
-        />
-      </Card>
+          open={this.state.loading}
+        >
+          <CircularProgress color="inherit" />
+          {/* hello */}
+        </Backdrop>
+      </>
     );
   }
 }

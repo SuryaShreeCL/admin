@@ -26,38 +26,62 @@ const Passage = ({
 }) => {
   const { Para } = passage;
   let deptName = window.sessionStorage.getItem("department");
-  return (
+  return deptName === "assessment_engine_admin" ? (
     <Grid container id="test-container">
-      {deptName === "assessment_engine_admin" ? (
-        <></>
-      ) : (
-        <Grid item md={6} id="inside-test-container">
-          <Box
-            display={"flex"}
-            className={"overflow-scroll"}
-            height={"inherit"}
-          >
-            <Box flex={1} className={"question-left-container"}>
-              <Para>
-                <Latex math={para} />
-              </Para>
+      <Grid item md={12} id="inside-test-container-right">
+        <Box
+          minHeight={400}
+          className={"overflow-scroll"}
+          id="inside-test-container"
+        >
+          {bundle ? (
+            <Bundle
+              bundleLength={bundleLength}
+              choices={choices}
+              selectedChoice={selectedChoice}
+              question={para}
+            />
+          ) : subjective ? (
+            <TextBox
+              type={"text"}
+              placeholder={"Enter your answer here"}
+              value={answer}
+            />
+          ) : (
+            <SingleSelect
+              question={question}
+              options={choices}
+              selectedChoice={selectedChoice}
+              isMulti={isMulti}
+            />
+          )}
+        </Box>
+      </Grid>
+    </Grid>
+  ) : (
+    <Grid container id="test-container">
+      <Grid item md={6} id="inside-test-container">
+        <Box display={"flex"} className={"overflow-scroll"} height={"inherit"}>
+          <Box flex={1} className={"question-left-container"}>
+            <Para>
+              <Latex math={para} />
+            </Para>
 
-              <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
-                <Latex math={description} />
-              </Box>
-
-              <Box>
-                {imgUrl && (
-                  <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
-                )}
-              </Box>
+            <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
+              <Latex math={description} />
             </Box>
+
             <Box>
-              <Divider variant="middle" orientation={"vertical"} />
+              {imgUrl && (
+                <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
+              )}
             </Box>
           </Box>
-        </Grid>
-      )}
+          <Box>
+            <Divider variant="middle" orientation={"vertical"} />
+          </Box>
+        </Box>
+      </Grid>
 
       <Grid item md={6} id="inside-test-container-right">
         <Box
@@ -89,7 +113,7 @@ const Passage = ({
         </Box>
       </Grid>
     </Grid>
-  );
+  )
 };
 
 export default Passage;
