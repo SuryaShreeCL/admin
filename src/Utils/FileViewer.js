@@ -1,31 +1,14 @@
 import React from "react";
-
+import Grid from "@material-ui/core/Grid";
 import FileViewer from "react-file-viewer";
-// import { resizeImg, resizePDF } from "./helpers";
 
 const getFileType = (fileName) => fileName.split(".").pop();
 
 export default function App({ fileType, filePath }) {
-  // const [filePath, setFilePath] = React.useState("");
-  // const [fileType, setFileType] = React.useState("");
-
   const containerRef = React.useRef(null);
-
-  // const handleInputChange = (e) => {
-  //   const file = e.target.files[0];
-
-  //   setFilePath(URL.createObjectURL(file));
-  //   setFileType(getFileType(file.name));
-  // };
-  // console.log(fileType, filePath, "fileType");
 
   return (
     <div>
-      {/* <input
-        type="file"
-        accept=".jpg,.jpeg,.png,.docx,.csv,.xslx,.pdf"
-        onChange={handleInputChange}
-      /> */}
       {filePath && fileType && (
         <>
           <div
@@ -38,8 +21,9 @@ export default function App({ fileType, filePath }) {
             <div
               ref={containerRef}
               style={{
-                width: "500px",
-                height: "500px",
+                width: "100%",
+                height: "560px",
+                border: "1px solid black",
               }}
             >
               <FileViewer
@@ -53,8 +37,6 @@ export default function App({ fileType, filePath }) {
               />
             </div>
           </div>
-          {/* 
-          <button onClick={zoomIn}>zoom in</button> */}
         </>
       )}
     </div>
