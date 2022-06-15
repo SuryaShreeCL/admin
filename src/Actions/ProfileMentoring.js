@@ -71,10 +71,9 @@ export const uploadFile = (studentId, productId, data, comment) => {
           },
           params: {
             comment: comment,
+            stage: "Profile Mentoring",
           },
-          params: {
-            stage: "Profile Mentoring"
-          },
+          
         })
         .then((response) => {
           dispatch({
