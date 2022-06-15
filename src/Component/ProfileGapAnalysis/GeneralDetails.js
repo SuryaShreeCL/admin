@@ -430,8 +430,8 @@ class GeneralDetails extends Component {
 
   handleopen = () => {
     if (
-      this.props.variantStepList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.shortName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       if (
         this.state.firstname !== "" &&
@@ -517,8 +517,8 @@ class GeneralDetails extends Component {
   };
   renderstudentdetails() {
     if (
-      this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.codeName === "ACS_MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
     ) {
       return (
         <ThemeProvider theme={theme}>
@@ -818,8 +818,8 @@ class GeneralDetails extends Component {
 
   renderhigherdetails() {
     if (
-      this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.shortName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       return (
         <Grid container spacing={3}>
@@ -1091,8 +1091,8 @@ class GeneralDetails extends Component {
 
   handlesaved = () => {
     if (
-      this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.shortName === "ACS MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
@@ -1655,8 +1655,10 @@ class GeneralDetails extends Component {
                       </div>
                     </div>
                   </Grid>
-                  {this.props.StudentStepDetailsList.codeName === "ACS_MBA" ||
-                  this.props.StudentStepDetailsList.shortName === "ACS MIM" ? (
+                  {this.props.StudentStepDetailsList.referProductCodeName ===
+                    "ACS_MBA" ||
+                  this.props.StudentStepDetailsList.referProductCodeName ===
+                    "ACS MIM" ? (
                     <Grid item md={4}>
                       <div
                         style={{

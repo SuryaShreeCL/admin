@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   ButtonsContainer,
   CreatePostContainer,
-} from '../Assets/Styles/CreatePostStyles';
-import BackHandler from '../Components/BackHandler';
-import Preview from '../Components/Preview';
-import { Alert } from '@material-ui/lab';
-import Switch from '@material-ui/core/Switch';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { DateTimePicker } from '@material-ui/pickers';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import EventIcon from '@material-ui/icons/Event';
-import MomentUtils from '@date-io/moment';
-import { Formik, Form } from 'formik';
-import Controls from '../../Utils/controls/Controls';
-import moment from 'moment';
-import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Divider, Typography } from '@material-ui/core';
-import * as yup from 'yup';
-import { Grid } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import { MultipleFileUploadField } from '../Components/Upload/MultipleFileUploadField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+} from "../Assets/Styles/CreatePostStyles";
+import BackHandler from "../Components/BackHandler";
+import Preview from "../Components/Preview";
+import { Alert } from "@material-ui/lab";
+import Switch from "@material-ui/core/Switch";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { DateTimePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import EventIcon from "@material-ui/icons/Event";
+import MomentUtils from "@date-io/moment";
+import { Formik, Form } from "formik";
+import Controls from "../../Utils/controls/Controls";
+import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button, Divider, Typography } from "@material-ui/core";
+import * as yup from "yup";
+import { Grid } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import { MultipleFileUploadField } from "../Components/Upload/MultipleFileUploadField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 import {
   createWallPost,
   getWallCategories,
@@ -36,7 +36,7 @@ import {
 } from "../../../Actions/WallActions";
 import Notification from "../../Utils/Notification";
 import { useHistory, useLocation } from "react-router-dom";
-import { testCreate, wallPath } from "../../RoutePaths";
+import { placementDrives, testCreate, wallPath } from "../../RoutePaths";
 import ConfirmDialog from "../../Utils/ConfirmDialog";
 import PreprationContainer from "../Components/PreparationContainer";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -147,7 +147,6 @@ const CreatePost = () => {
   });
 
   useEffect(() => {
-    console.log(state, "state");
     dispatch(getWallCategories("Live"));
     dispatch(getWallJobList("Live"));
     dispatch(getPlatforms());
@@ -255,6 +254,8 @@ const CreatePost = () => {
         form: yup
           .object()
           .shape({
+            startDate: yup.string().required("Start Date is Required"),
+            expiredDate: yup.string().required("Expired Date is Required"),
             formQuestions: yup.array().of(
               yup.object().shape({
                 questionText: yup.string().required("Question is Required"),
@@ -298,7 +299,6 @@ const CreatePost = () => {
   });
 
   const createPost = (post, activeStatus) => {
-    console.log(post, "posghugvjubkvb ");
     if (!post.id) dispatch(createWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
@@ -309,7 +309,11 @@ const CreatePost = () => {
     });
     setTimeout(() => {
       history.push({
-        pathname: state.isEvent ? testCreate : wallPath,
+        pathname: state.isEvent
+          ? testCreate
+          : location.isDrive
+          ? placementDrives
+          : wallPath,
         tab: location?.postTypeTab,
       });
     }, 1500);
@@ -370,15 +374,9 @@ const CreatePost = () => {
       <BackHandler
         title={`Create New ${location?.postType ?? "Post"}`}
         tab={location?.postTypeTab}
+        isDrive={location?.isDrive}
       />
       <CreatePostContainer>
-        {console.log(
-          state.isWebinar
-            ? webinarvalidationSchema
-            : state.isEvent
-            ? eventvalidationSchema
-            : postvalidationSchema
-        )}
         <Formik
           initialValues={state || []}
           validationSchema={

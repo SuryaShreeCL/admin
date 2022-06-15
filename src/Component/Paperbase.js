@@ -11,9 +11,9 @@ import Header from './Header';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant='body2' color='textSecondary' align='center'>
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color='inherit' href='https://material-ui.com/'>
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -159,8 +159,6 @@ const styles = {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    
-    
   },
   main: {
     flex: 1,
@@ -189,7 +187,7 @@ function Paperbase(props) {
           {/* <Hidden smUp implementation="js"> */}
           <Navigator
             PaperProps={{ style: { width: drawerWidth } }}
-            variant="permenet"
+            variant='permenet'
             open={open}
             onClose={handleDrawerToggle}
           />
@@ -203,9 +201,9 @@ function Paperbase(props) {
           <main className={classes.main}>
             <Content />
           </main>
-          <footer className={classes.footer}>
+          {/* <footer className={classes.footer}>
             <Copyright />
-          </footer>
+          </footer> */}
         </div>
       </div>
     </ThemeProvider>

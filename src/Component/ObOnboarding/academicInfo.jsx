@@ -208,7 +208,7 @@ export class academicInfo extends Component {
           ugDepartment: ugDetails.department,
           ugDegree: ugDetails.degree,
           ugSemester: ugDetails.currentSem,
-          ugCgpaScale: { title: ugScale.toString(), value: ugScale },
+          ugCgpaScale: { title: ugScale?.toString(), value: ugScale },
           ugCgpa: ugDetails.score,
           ugStartDate: ugDetails.startDate,
           ugEndDate: ugDetails.endDate,
@@ -228,7 +228,7 @@ export class academicInfo extends Component {
           pgDepartment: pgDetails.department,
           pgDegree: pgDetails.degree,
           pgCgpa: pgDetails.score,
-          pgCgpaScale: { title: pgScale.toString(), value: pgScale },
+          pgCgpaScale: { title: pgScale?.toString(), value: pgScale },
           pgStartDate: pgDetails.startDate,
           pgEndDate: pgDetails.endDate,
         });
@@ -268,7 +268,7 @@ export class academicInfo extends Component {
         this.setState({
           tenthSchool: tenthDetails.schoolName,
           tenthExamBoard: tenthDetails.examBoard,
-          tenthCgpaScale: { title: tenthScale.toString(), value: tenthScale },
+          tenthCgpaScale: { title: tenthScale?.toString(), value: tenthScale },
           tenthStartDate: tenthDetails.startDate,
           //  moment(new Date(tenthDetails.startDate)).format(
           //   "yyyy-MM"
@@ -303,7 +303,7 @@ export class academicInfo extends Component {
           twelthEndDate: twelthDetails.endDate,
           twelthCgpa: twelthDetails.score,
           twelthCgpaScale: {
-            title: twelthScale.toString(),
+            title: twelthScale?.toString(),
             value: twelthScale,
           },
         });

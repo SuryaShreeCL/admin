@@ -25,6 +25,7 @@ import InsertInvitationOutlinedIcon from '@material-ui/icons/InsertInvitationOut
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import TrendingUpRoundedIcon from '@material-ui/icons/TrendingUpRounded';
 import NewspaperIcon from '@material-ui/icons/Wallpaper';
+import NextWeekOutlined from '@material-ui/icons/NextWeekOutlined';
 import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -49,6 +50,7 @@ import {
   notificationPath,
   obOperationPath,
   premiumUsersPath,
+  clsaPath,
   productPath,
   productPunchingPath,
   reportsPath,
@@ -56,11 +58,11 @@ import {
   studentPath,
   testimonialsPath,
   testPath,
-  clsaPath,
   videoPath,
   wallPath,
   webinarPath,
   userManagementPath,
+  placementDrives,
 } from './RoutePaths';
 import Routes from './Routes';
 
@@ -531,6 +533,12 @@ function RootContainer(props) {
           items: [],
         },
         {
+          icon: <NextWeekOutlined />,
+          title: 'Placement Drives',
+          path: placementDrives,
+          items: [],
+        },
+        {
           icon: <AssignmentIcon />,
           title: 'Tests',
           path: testPath,
@@ -904,9 +912,9 @@ function RootContainer(props) {
           <Routes {...props} />
           {/* <LandingAdmin {...props} /> */}
         </main>
-        <footer className={classes.footer}>
+        {/* <footer className={classes.footer}>
           <Copyright />
-        </footer>
+        </footer> */}
       </div>
     </ThemeProvider>
   );

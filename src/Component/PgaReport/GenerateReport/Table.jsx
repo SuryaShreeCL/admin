@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer";
-import React from "react";
+import { StyleSheet, Text, View, Link, Font } from "@react-pdf/renderer";
+import React, { useEffect } from "react";
 
 const Table = ({
   tableHeading,
@@ -29,6 +29,8 @@ const Table = ({
       flex: `0 0 ${100 / rowDataLength}%`,
       maxWidth: `${100 / rowDataLength}%}`,
       textAlign: "center",
+      flexShrink: 1,
+      flexWrap: "wrap",
     },
     td: {
       fontSize: 10,
@@ -37,6 +39,8 @@ const Table = ({
       maxWidth: `${100 / rowDataLength}%}`,
       textAlign: "center",
       padding: 5,
+      flexShrink: 1,
+      flexWrap: "wrap",
     },
     table_footer: {
       color: "red",
@@ -49,6 +53,7 @@ const Table = ({
       // padding: 10,
     },
     table_sub_description_container: {
+      width: "100%",
       display: "flex",
       flexDirection: "row",
       justifyContent: "flex-end",
@@ -57,6 +62,7 @@ const Table = ({
     colorBox: {
       width: 10,
       height: 10,
+      marginRight: "4px",
     },
     table_sub_description_inner: {
       display: "flex",
@@ -65,52 +71,83 @@ const Table = ({
       paddingRight: 10,
     },
   });
-  console.log(row, "dddddddddddddddd");
+  Font.registerHyphenationCallback((word) => {
+    const middle = Math.floor(word.length);
+    const parts =
+      word.length === 1
+        ? [word]
+        : [word.substr(0, middle), word.substr(middle)];
+
+    console.log(word, parts);
+
+    return parts;
+  });
+
+  const handleLinkClick = (e) => {
+    console.log(e);
+  };
+
+  var el = document.getElementById("school_link");
+  useEffect(() => {
+    if (el) {
+      console.log("goooooooooooooooooo");
+      el.addEventListener("click", handleLinkClick, false);
+    }
+  }, [el]);
+
   return (
     <View>
       <Text style={styles.heading}>{tableHeading}</Text>
       <View>
         {row.map((item, idx) => (
           <View style={styles.row}>
-            {item.map((item, index) => (
-              <Text
-                // style={
-                //   idx === 0
-                //     ? {
-                //         ...styles.th,
-                //         color: item.frontColorCode,
-                //         borderLeft: item.colorCode,
-                //       }
-                //     : {
-                //         ...styles.td,
-                //         color: item.ColorCode,
-                //         borderLeft: `3px solid ${item.colorCode}`,
-                //       }
-                // }
-                style={
-                  idx === 0
-                    ? {
-                        ...styles.th,
-                        color: item.frontColorCode,
-                        borderLeft: item.colorCode,
-                      }
-                    : {
-                        ...styles.td,
-                        color: item.frontColorCode,
-                        borderLeft: `3px solid ${item.colorCode}`,
-                      }
-                }
-              >
-                {item.name}
-              </Text>
-            ))}
+            {item.map((item, index) => {
+              let programNameIndex = row[0].findIndex(
+                (item) => item.name === "Program Name"
+              );
+              let isProgramLink =
+                programNameIndex > -1 &&
+                programNameIndex === index &&
+                item.link;
+              return (
+                <Text
+                  style={
+                    idx === 0
+                      ? {
+                          ...styles.th,
+                          color: item.frontColorCode,
+                          borderLeft: item.colorCode,
+                        }
+                      : {
+                          ...styles.td,
+                          color: item.frontColorCode,
+                          borderLeft: `3px solid ${item.colorCode}`,
+                        }
+                  }
+                >
+                  {isProgramLink ? (
+                    <Link
+                      src={item.link}
+                      onClick={() => window.open(item.link, "_blank")}
+                      rel="noreferrer"
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    item.name
+                  )}
+                </Text>
+              );
+            })}
           </View>
         ))}
       </View>
       {/* Table Footer */}
       <View>
-        {subDescription.length > 0 && (
+        {subDescription.length > 0 ? (
           <Text style={styles.table_footer}>{subDescription}</Text>
+        ) : (
+          <Text style={{ paddingTop: "100px" }} />
         )}
         <View style={styles.table_sub_description_container}>
           {tableHelper.map((item) => (

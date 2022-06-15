@@ -123,6 +123,9 @@ import {
   clsaTestCreate,
   clsaTestEdit,
   userManagementPath,
+  result,
+  placementDrives,
+  drivePath,
 } from './RoutePaths';
 import Student from './Student';
 import Student_data from './StudentData';
@@ -141,6 +144,8 @@ import Webinar from './Webinar/Webinar';
 import ClsaTestPath from '../Component/Clsa/CreateTest';
 import UserManagement from './UserManagement';
 
+import PlacementDrives from './Wall/PlacementDrives';
+import DriveResult from './Wall/Pages/DriveResult';
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -148,11 +153,14 @@ export default function Routes(props) {
       {/* <Route restricted={false} exact path="/" component={Login} /> */}
       <Route exact path={studentPath} render={(props) => <StudentHome {...props} />} />
       <Route exact path={coursePath} render={(props) => <Courses {...props} />} />
+      <Route exact path={studentPath} render={(props) => <StudentHome {...props} />} />
+      <Route exact path={coursePath} render={(props) => <Courses {...props} />} />
       <Route
         exact
         path={editCoursePath.concat(':id')}
         render={(props) => <TabPanel {...props} />}
       />
+      <Route exact path={addCoursePath} render={(props) => <TabPanel {...props} />} />
       <Route exact path={addCoursePath} render={(props) => <TabPanel {...props} />} />
 
       <Route exact path={collegePath} render={(props) => <College {...props} />} />
@@ -163,6 +171,7 @@ export default function Routes(props) {
       <Route exact path={studentIdPath + '/:id'} render={(props) => <Student_data {...props} />} />
       <Route exact path={loginPath} render={(props) => <MLogin {...props} />} />
       <Route exact path={wallPath} render={(props) => <WallLanding {...props} />} />
+      <Route exact path={placementDrives} render={(props) => <PlacementDrives {...props} />} />
       <Route exact path={createPath} render={(props) => <CreatePost {...props} />} />
       <Route exact path={editPath} render={(props) => <EditPost {...props} />} />
       <Route exact path={premiumUsersPath} render={(props) => <PremiumUsersLanding {...props} />} />
@@ -215,6 +224,8 @@ export default function Routes(props) {
       />
       <Route exact path={productPunchingPath} render={(props) => <Student {...props} />} />
       <Route exact path={productcomboPath} render={(props) => <ProductComboForm {...props} />} />
+      <Route exact path={productPunchingPath} render={(props) => <Student {...props} />} />
+      <Route exact path={productcomboPath} render={(props) => <ProductComboForm {...props} />} />
       <Route
         exact
         path={productuserPunchingPath.concat(':id')}
@@ -226,11 +237,13 @@ export default function Routes(props) {
         render={(props) => <ProductStages {...props} />}
       />
       <Route exact path={clientDetailsPath} render={(props) => <ClientDetails {...props} />} />
+      <Route exact path={clientDetailsPath} render={(props) => <ClientDetails {...props} />} />
       <Route
         exact
         path={callSummaryLayoutPath.concat(':studentId/product/:productId')}
         render={(props) => <CallSummaryLayout {...props} />}
       />
+      <Route exact path={obOperationPath} render={(props) => <ObOperationLanding {...props} />} />
       <Route exact path={obOperationPath} render={(props) => <ObOperationLanding {...props} />} />
       <Route
         exact
@@ -303,6 +316,11 @@ export default function Routes(props) {
         component={BulkUpload}
       />
       <Route export exact path={single_upload} component={SingleUpload} />
+      <Route exact path={clsaPath} render={(props) => <ClsaLanding {...props} />} />
+      <Route exact path={clsaTestCreate} render={(props) => <ClsaTestPath {...props} />} />
+      <Route exact path={clsaTestEdit + ':id'} render={(props) => <ClsaTestPath {...props} />} />
+
+      <Route exact path={drivePath + ':id'} render={(props) => <DriveResult {...props} />} />
     </Switch>
   );
 }

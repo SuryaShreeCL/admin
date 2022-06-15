@@ -1,16 +1,18 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Controls from '../../Utils/controls/Controls';
 import { ErrorMessage, FieldArray, Field } from 'formik';
 import AddIcon from '@material-ui/icons/Add';
 import SaveIcon from '@material-ui/icons/Save';
+import EventIcon from '@material-ui/icons/Event';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
-//Icons
 import MULTIPLECHOICE from '@material-ui/icons/ShortTextRounded';
 import FILEUPLOAD from '@material-ui/icons/ArrowUpward';
 import TEXT from '@material-ui/icons/TextFormatRounded';
+import MomentUtils from '@date-io/moment';
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const useStyles = makeStyles({
   input: {
@@ -65,6 +67,55 @@ const DynamicFormContainer = React.memo(
             name={`wallSteps.${formIdx}.form.formQuestions`}
             render={(arrayHelpers) => (
               <div>
+                <Grid container direction='row' justify='space-between' className={classes.spacer}>
+                  <>
+                    <Grid item>
+                      <h6 style={{ fontSize: '1rem' }}>Form Start Time </h6>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DateTimePicker
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EventIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formValues?.startDate}
+                          style={{ width: '400px', margin: '0px 10px' }}
+                          disablePast
+                          name={`wallSteps.${formIdx}.form.startDate`}
+                          inputVariant='outlined'
+                          onChange={(val) => {
+                            setFieldValue(`wallSteps.${formIdx}.form.startDate`, val);
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
+                    <Grid item>
+                      <h6 style={{ fontSize: '1rem' }}>Form End Time </h6>
+                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DateTimePicker
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position='start'>
+                                <EventIcon />
+                              </InputAdornment>
+                            ),
+                          }}
+                          value={formValues?.expiredDate}
+                          style={{ width: '400px', margin: '0px 10px' }}
+                          disablePast
+                          name={`wallSteps.${formIdx}.form.expiredDate`}
+                          inputVariant='outlined'
+                          onChange={(val) => {
+                            setFieldValue(`wallSteps.${formIdx}.form.expiredDate`, val);
+                          }}
+                        />
+                      </MuiPickersUtilsProvider>
+                    </Grid>
+                  </>
+                </Grid>
+
                 {formValues?.formQuestions?.map((option, index) => (
                   <div className={classes.fieldStep}>
                     <div key={index} className={classes.input}>

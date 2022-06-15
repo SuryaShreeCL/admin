@@ -18,14 +18,13 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DescriptionIcon from '@material-ui/icons/Description';
 import Notification from '../../Utils/Notification';
 import { useHistory } from 'react-router-dom';
-import { editPath, createPath, result } from '../../RoutePaths';
+import { editPath, createPath, result, drivePath } from '../../RoutePaths';
 import moment from 'moment';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import Loader from '../../Utils/controls/Loader';
 import MuiAlert from '@material-ui/lab/Alert';
 import ConfirmDialog from '../../Utils/ConfirmDialog';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { useSelector, useDispatch } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -66,7 +65,7 @@ const headCells = [
   { id: 'actions', label: 'Actions', disableSorting: true },
 ];
 
-export default function Events() {
+export default function Drives() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -100,14 +99,8 @@ export default function Events() {
     totalPages
   );
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.eventTitle.toLowerCase().includes(target.value));
-      },
-    });
+  const handleSearch = (text) => {
+    dispatch(listWallPosts('Live', true, page, text));
   };
 
   const openInPopup = (item) => {
@@ -121,6 +114,15 @@ export default function Events() {
       recordForEdit: item,
       postType: 'Event',
       postTypeTab: 0,
+      isDrive: true,
+    });
+    setOpenDrawer(false);
+  };
+
+  const openResultPage = (item) => {
+    history.push({
+      pathname: drivePath + item.id,
+      id: item.id,
     });
     setOpenDrawer(false);
   };
@@ -159,15 +161,12 @@ export default function Events() {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch(e.target.value);
+              }
+            }}
           />
-          {/* <Controls.Button
-            text='Filter'
-            variant='outlined'
-            color='default'
-            startIcon={<FilterListIcon />}
-            className={classes.filterBtn}
-          /> */}
           <Controls.Button
             text='Create New Event'
             variant='contained'
@@ -180,6 +179,7 @@ export default function Events() {
                 type: true,
                 postType: 'Event',
                 postTypeTab: 0,
+                isDrive: true,
               });
             }}
           />
@@ -228,6 +228,9 @@ export default function Events() {
                       }}
                     >
                       <DeleteIcon fontSize='small' color='secondary' />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton onClick={() => openResultPage(item)}>
+                      <DescriptionIcon fontSize='small' color='primary' />
                     </Controls.ActionButton>
                   </TableCell>
                 </TableRow>
