@@ -49,9 +49,9 @@ import VideoPlayer from "../../../Lms/Utils/VideoPlayer";
 import { getVideoInfo } from "../../../Lms/Redux/Action/CourseMaterial";
 import { connect } from "react-redux";
 
-const Alert = props => <MuiAlert elevation={6} variant="filled" {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   pageContent: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
@@ -91,19 +91,19 @@ function Webinars(props) {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
-    fn: items => {
+    fn: (items) => {
       return items;
     },
   });
 
   const { loading, error, webinars } = useSelector(
-    state => state.wallWebinarListReducer
+    (state) => state.wallWebinarListReducer
   );
   let totalPages = webinars?.totalPages;
 
   // Filtering out archived webinars
   let filteredWebinars = webinars?.content?.filter(
-    webinar => webinar.activeStatus !== "Archive"
+    (webinar) => webinar.activeStatus !== "Archive"
   );
 
   const [viewData, setViewData] = useState([]);
@@ -126,20 +126,20 @@ function Webinars(props) {
     page,
   } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
-      fn: items => {
+      fn: (items) => {
         if (target.value == "") return items;
         else
-          return items.filter(x =>
+          return items.filter((x) =>
             x.eventTitle.toLowerCase().includes(target.value)
           );
       },
     });
   };
 
-  const openInPage = item => {
+  const openInPage = (item) => {
     if (!item.isEditable) {
       setNotify({
         isOpen: true,
@@ -158,7 +158,7 @@ function Webinars(props) {
     }
   };
 
-  const onDelete = id => {
+  const onDelete = (id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
@@ -178,7 +178,7 @@ function Webinars(props) {
     dispatch(listWallWebinars(page, "Expired"));
   }, [dispatch, page]);
 
-  const handleDeleteClick = item => {
+  const handleDeleteClick = (item) => {
     if (!item.isEditable) {
       setNotify({
         isOpen: true,
@@ -212,14 +212,14 @@ function Webinars(props) {
     setVideoObj({ playBackInfo: "", otp: "" });
   };
 
-  const handleLinkFieldChange = e => {
+  const handleLinkFieldChange = (e) => {
     setLinkField(e.target.value);
     setVideoObj({ playBackInfo: "", otp: "" });
   };
 
   const handleSaveClick = () => {
     dispatch(
-      postRecordedVideoUrl(activeDialogId, linkField, res => {
+      postRecordedVideoUrl(activeDialogId, linkField, (res) => {
         if (res.success) {
           setLinkField("");
           handleDialogClose();
@@ -236,18 +236,20 @@ function Webinars(props) {
   };
 
   const handlePreviewClick = () => {
-    props.getVideoInfo(linkField, res => {
-      console.log(res);
-      if (res.playbackInfo && res.otp)
-        setVideoObj({ playBackInfo: res.playbackInfo, otp: res.otp });
-      else {
-        setNotify({
-          isOpen: true,
-          message: res.message,
-          type: "Error",
-        });
-      }
-    });
+    let deptName = window.sessionStorage.getItem("department");
+    deptName !== "assessment_engine_admin" &&
+      props.getVideoInfo(linkField, (res) => {
+        console.log(res);
+        if (res.playbackInfo && res.otp)
+          setVideoObj({ playBackInfo: res.playbackInfo, otp: res.otp });
+        else {
+          setNotify({
+            isOpen: true,
+            message: res.message,
+            type: "Error",
+          });
+        }
+      });
   };
 
   return (
@@ -287,7 +289,7 @@ function Webinars(props) {
                     <TableCell>
                       <Controls.ActionButton
                         id={item.id}
-                        onClick={e =>
+                        onClick={(e) =>
                           handleLinkClick(e, item.webinarRecordingsVideoUrl)
                         }
                       >

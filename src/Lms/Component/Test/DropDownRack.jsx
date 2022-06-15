@@ -6,6 +6,7 @@ const DEFAULT_OBJ = { id: "default", title: "Select" };
 
 export default function DropDownRack(props) {
   const { handleDropDownChange, filterData, testType, topicId, status } = props;
+  const aedept = window.sessionStorage.getItem("department");
 
   let [state, setState] = useState({ testTypes: [], topics: [], status: [] });
 
@@ -21,7 +22,9 @@ export default function DropDownRack(props) {
 
   return (
     <Grid container spacing={3}>
+        {aedept !== "assessment_engine_admin" ?
       <Grid item xs={12} md={4}>
+      
         <DropDown
           label="Test Type"
           name="testType"
@@ -29,9 +32,17 @@ export default function DropDownRack(props) {
           value={testType}
           onChange={handleDropDownChange}
         />
-      </Grid>
-      {testType !== "CALIBRATION" && (
+      </Grid>:<></>
+        }
+
+
+
+      {testType !== "CALIBRATION" && aedept!== "assessment_engine_admin" ?
+        
+         
         <Grid item xs={12} md={4}>
+             
+       
           <DropDown
             label="Topic Name"
             name="topicId"
@@ -39,9 +50,9 @@ export default function DropDownRack(props) {
             value={topicId}
             onChange={handleDropDownChange}
             disabled={testType === "CALIBRATION"}
-          />
-        </Grid>
-      )}
+          /> 
+        </Grid> :<></>
+      }
       <Grid item xs={12} md={4}>
         <DropDown
           label="Status"

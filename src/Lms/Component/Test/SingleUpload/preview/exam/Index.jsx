@@ -5,6 +5,9 @@ import { Box, Divider } from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import React, { Component } from "react";
 import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
+import BottomBanner from "../../../../../../Asset/icons/BottomBanner.svg";
+import MobileResponsiveImage from "../../../../../../Asset/icons/MobileBottomcontainer.svg";
+
 import "../../../../../Assets/css/Preview/Preview.css";
 import {
   BackIconTag,
@@ -34,7 +37,6 @@ import SingleSelect from "./SingleSelect";
 import { RenderBookMark } from "../../../../../Utils/Bookmark";
 import { secondsToHms } from "../../../../../Utils/HelperFunction";
 import { ArrowBack } from "@material-ui/icons";
-
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +53,7 @@ class Index extends Component {
       isHaveImage,
       totalBundle,
     } = this.props.testResponse.data;
+    console.log(type, isHaveDescription, isHaveImage);
     if (type === "SINGLE_SELECT") {
       return isHaveDescription || isHaveImage ? (
         <Passage
@@ -94,7 +97,7 @@ class Index extends Component {
           )}
           selectedChoice={[]}
           imgUrl={imgURL}
-          bundleLength={totalBundle}
+          // bundleLength={totalBundle}
         />
       );
     } else if (type === "MULTI_CHOICE") {
@@ -181,16 +184,23 @@ class Index extends Component {
 
     const test_type = sessionStorage.getItem("testType");
     const isQuestionBank = test_type && test_type === "QUESTIONBANK";
+    const deptName = window.sessionStorage.getItem("department")
     return (
       <div>
         <Container>
-          <BookMarkContainer
-            className={
-              isQuestionBank ? "bookmark_potion_style" : "demo__bookmark__test"
-            }
-          >
-            <RenderBookMark bookMarked={false} demoBookmark={false} />
-          </BookMarkContainer>
+          {deptName === "assessment_engine_admin" ? (
+            <></>
+          ) : (
+            <BookMarkContainer
+              className={
+                isQuestionBank
+                  ? "bookmark_potion_style"
+                  : "demo__bookmark__test"
+              }
+            >
+              <RenderBookMark bookMarked={false} demoBookmark={false} />
+            </BookMarkContainer>
+          )}
           <TitleContainer>
             <Div display={"flex"}>
               {isQuestionBank && (
@@ -206,15 +216,21 @@ class Index extends Component {
               ) : (
                 <>
                   <Div display={"flex"}>
-                    <QuestionCount bold="bold">
-                      {currentQuestionNo}
-                    </QuestionCount>
-                    <QuestionCount>
-                      /
-                      {totalNoOfQuestion && totalNoOfQuestion > 0
-                        ? totalNoOfQuestion
-                        : 1}
-                    </QuestionCount>
+                    {deptName === "assessment_engine_admin" ? (
+                      <></>
+                    ) : (
+                      <>
+                        <QuestionCount bold="bold">
+                          {currentQuestionNo}
+                        </QuestionCount>
+                        <QuestionCount>
+                          /
+                          {totalNoOfQuestion && totalNoOfQuestion > 0
+                            ? totalNoOfQuestion
+                            : 1}
+                        </QuestionCount>
+                      </>
+                    )}
                     <QuestionTitle>{conceptName}</QuestionTitle>
                     <TimeRemaining>
                       {"Time Remaining"}
@@ -224,31 +240,44 @@ class Index extends Component {
                       {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
                     </QuestionCount>
                   </Div>
-                  <Div>
-                    <LinearProgress variant="determinate" value={0} />
-                  </Div>
+                  {deptName === "assessment_engine_admin" ? (
+                    <></>
+                  ) : (
+                    <Div>
+                      <LinearProgress variant="determinate" value={0} />
+                    </Div>
+                  )}
                 </>
               )}
             </TitleHeader>
           </TitleContainer>
           <Body>{this.renderQuestion()}</Body>
           <Footer>
-            <Box width={"100%"}>
-              <Divider />
-            </Box>
-            <Box className={"test_bottom_pad"}>
-              {!isQuestionBank ? (
-                <Pause>
-                  <Icon src={PauseIcon} alt={""} />
-                  <Box whiteSpace="nowrap">{"Pause exam"}</Box>
-                </Pause>
-              ) : (
-                <div></div>
-              )}
-              <Next disabled={false} loading={false}>
-                {isQuestionBank ? "Submit" : "Next"}
-              </Next>
-            </Box>
+            {deptName === "assessment_engine_admin" ? (
+              <Box>
+{console.log(window.screen.width)}
+                {  window.screen.width > 1000  ? <img src={BottomBanner} alt={"Web Image"} width={"100%"}/> : <img src={MobileResponsiveImage} alt={"MobileImage"} width={"100%"}/>}
+              </Box>
+            ) : (
+              <>
+                <Box width={"100%"}>
+                  <Divider />
+                </Box>
+                <Box className={"test_bottom_pad"}>
+                  {!isQuestionBank ? (
+                    <Pause>
+                      <Icon src={PauseIcon} alt={""} />
+                      <Box whiteSpace="nowrap">{"Pause exam"}</Box>
+                    </Pause>
+                  ) : (
+                    <div></div>
+                  )}
+                  <Next disabled={false} loading={false}>
+                    {isQuestionBank ? "Submit" : "Next"}
+                  </Next>
+                </Box>
+              </>
+            )}
           </Footer>
         </Container>
       </div>

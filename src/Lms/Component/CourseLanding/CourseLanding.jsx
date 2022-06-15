@@ -57,27 +57,27 @@ class CourseLanding extends Component {
 
   componentDidMount() {
     const role = sessionStorage.getItem('role');
-    this.props.getCourses(response => {
-      if (response.success) {
-        this.props.getSubjects(response.data[0].id, subjectResponse => {
-          if (subjectResponse.success) {
-            this.props.getConcepts(
-              subjectResponse.data[0].id,
-              conceptResponse => {
-                if (conceptResponse.success) {
-                  this.setState({
-                    courseId: response.data[0].id,
-                    subjectId: subjectResponse.data[0].id,
-                    conceptId: conceptResponse.data[0].id,
-                    role: role,
-                  });
+      this.props.getCourses((response) => {
+        if (response.success) {
+          this.props.getSubjects(response.data[0].id, (subjectResponse) => {
+            if (subjectResponse.success) {
+              this.props.getConcepts(
+                subjectResponse.data[0].id,
+                (conceptResponse) => {
+                  if (conceptResponse.success) {
+                    this.setState({
+                      courseId: response.data[0].id,
+                      subjectId: subjectResponse.data[0].id,
+                      conceptId: conceptResponse.data[0].id,
+                      role: role,
+                    });
+                  }
                 }
-              }
-            );
-          }
-        });
-      }
-    });
+              );
+            }
+          });
+        }
+      });
   }
 
   componentDidUpdate(prevProps, prevState) {

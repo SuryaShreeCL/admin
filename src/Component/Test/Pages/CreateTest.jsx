@@ -284,11 +284,13 @@ const CreateTest = () => {
                       <Controls.Input
                         label='Test Name'
                         name='name'
+                        
                         style={{ width: '100%' }}
                         value={values.name}
                         helperText={touched.name && errors.name}
                         error={touched.name && Boolean(errors.name)}
                         onChange={handleChange}
+                        required
                       />
                     </Grid>
                     {/* <Grid item style={{ width: '30%' }}>
@@ -341,6 +343,7 @@ const CreateTest = () => {
                     <Controls.Input
                       label='Description Title'
                       name='descriptionTitle'
+                     
                       style={{
                         width: '100%',
                         marginTop: '1.2rem',
@@ -355,6 +358,7 @@ const CreateTest = () => {
                         Boolean(errors.descriptionTitle)
                       }
                       onChange={handleChange}
+                      required
                     />
                   </Grid>
                   <Grid container>
@@ -409,6 +413,7 @@ const CreateTest = () => {
                         name='score'
                         type='number'
                         style={{ width: '100%' }}
+                        required
                         value={values.score}
                         onChange={handleChange}
                         error={values.score < 1}
@@ -426,6 +431,7 @@ const CreateTest = () => {
                         name='cutOffScore'
                         type='number'
                         style={{ width: '100%' }}
+                        required
                         value={values.cutOffScore}
                         onChange={handleChange}
                         error={

@@ -20,6 +20,9 @@ export const adminLogin = (data, callback) => {
       });
   };
 };
+export const loginWithSso = (data) =>{
+  return axios.put(URL + "/api/v1/students/validateAdmin", data)
+}
 
 export const toRefreshToken = (data) => {
   let refreshToken = window.sessionStorage.getItem('refreshToken');
@@ -29,7 +32,7 @@ export const toRefreshToken = (data) => {
         crossDomain: true,
         headers: {
           'x-refresh-token': refreshToken,
-          admin: 'yes',
+          //admin: 'yes',
         },
       })
       .then((result) => {
@@ -50,7 +53,7 @@ export const postStudentAccess = (data) => {
       .put(URL + '/api/v1/students/unifiedAccess', data, {
         crossDomain: true,
         headers: {
-          admin: 'yes',
+          //admin: 'yes',
           Authorization: `Bearer ${accessToken}`,
         },
       })

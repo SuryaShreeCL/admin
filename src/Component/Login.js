@@ -16,6 +16,7 @@ import {
   adminLogin,
   clearCustomData,
   getAdminUserDepartments,
+  loginWithSso,
 } from "../Actions/AdminAction";
 import { isEmptyString } from "./Validation";
 import MySnackBar from "./MySnackBar";
@@ -121,6 +122,68 @@ export class Login extends Component {
         }
       });
     }
+
+
+    else if(
+      !isEmptyString(username) &&
+      !isEmptyString(password) 
+    )
+    {
+      let loginObj = {
+        userName: username,
+        password: password,
+        department: "assessment_engine_admin",
+      };
+
+    
+      loginWithSso(loginObj).then(response=>{
+        // console.log(response.data, "========");
+        if (response.status === 200) {
+          window.sessionStorage.setItem("token", "true");
+          window.sessionStorage.setItem(
+            "accessToken",
+            response.data.accessToken
+          );
+          window.sessionStorage.setItem(
+            "refreshToken",
+            response.data.refreshToken
+          );
+          window.sessionStorage.setItem("role", response.data.role);
+          window.sessionStorage.setItem(
+            "mentor",
+            JSON.stringify(response.data.Mentor)
+          );
+          window.sessionStorage.setItem(
+            "adminUserId",
+            response.data.AdminUsers
+          );
+          window.sessionStorage.setItem("department", response.data.department);
+          this.props.history.push(landingAdminPath);
+        } else {
+          this.setState({
+            snackMsg:
+              response.response && response.response.data.message
+                ? response.response.data.message
+                : response.message,
+            snackOpen: true,
+            snackVariant: "error",
+          });
+        }
+      })
+      .catch(err=>{
+            this.setState({
+            snackMsg:
+            err.response && err.response.data.message
+                ? err.response.data.message
+                : err.message,
+            snackOpen: true,
+            snackVariant: "error",
+          });
+      })
+    }
+
+
+
   };
 
   handleChange = (e) => {

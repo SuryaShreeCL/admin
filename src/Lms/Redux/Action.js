@@ -22,17 +22,40 @@ export const COURSE_MATERIAL = {
 
 export const TEST = {
   getFilters: 'getFilters',
+  aegetFilters: 'aegetFilters',
+  
   getQuestionSet: 'getQuestionSet',
+  aegetQuestionSet: 'aegetQuestionSet',
+
   getQuestionType: 'getQuestionType',
+  aegetQuestionType: 'aegetQuestionType',
+
   setQuestionData: 'setQuestionData',
+  aesetQuestionData: 'aesetQuestionData',
+
   createTestQuestionSet: 'createTestQuestionSet',
+  aecreateTestQuestionSet: 'aecreateTestQuestionSet',
+
   getTopicByCourse: 'getTopicByCourse',
+  aegetTopicByCourse: 'aegetTopicByCourse',
+
   getTemplate: 'getTemplate',
+  aegetTemplate: 'aegetTemplate',
+
   getSubjectsByCourse: 'getSubjectsByCourse',
+  aegetSubjectsByCourse: 'aegetSubjectsByCourse',
+
   getTestQuestionSet: 'getTestQuestionSet',
+  aegetTestQuestionSet: 'aegetTestQuestionSet',
+
   getQuestions: 'getQuestions',
+  aegetQuestions: 'aegetQuestions',
+
   cleanEditData: 'cleanEditData',
+  aecleanEditData: 'aecleanEditData',
+
   previewTestData: 'previewTestData',
+  aepreviewTestData: 'aepreviewTestData',
 };
 
 export const STUDENT = {
@@ -48,3 +71,7 @@ export const STUDENT = {
   topicTestExport: 'topicTestExport',
   topicTestReportExport: 'topicTestReportExport',
 };
+export const TESTDOWNLOAD={
+  testQuestionSetId:"testQuestionSetId",
+}
+
