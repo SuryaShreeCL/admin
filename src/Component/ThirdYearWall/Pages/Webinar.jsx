@@ -425,7 +425,6 @@ const Webinar = () => {
                     style={{ borderRadius: "26px" }}
                     type={"submit"}
                     onClick={submitForm}
-                    disabled={loading}
                     loading={loading}
                   />
                 </ButtonsContainer>

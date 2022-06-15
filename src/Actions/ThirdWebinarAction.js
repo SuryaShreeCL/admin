@@ -31,7 +31,6 @@ export const getAllWebinarList = (page = 1) => async (dispatch) => {
 
 export const getWebinarList = (id) => async (dispatch) => {
   try {
-    dispatch({ type: THIRD_YEAR_WEBINAR.LOADER });
     const { data } = await axios.get(`${baseUrl}/gre/webinar/${id}`, {
       crossDomain: true,
       headers: {
