@@ -64,7 +64,12 @@ export const uploadFile = (studentId, productId, data, comment) => {
     try {
       dispatch({ type: PROFILE_MENTORING.loader });
       await axios
-        .post(`${URL}/api/v1/cv/${studentId}/${productId}`, data, {
+        .post(`${URL}/api/v1/cv/${studentId}/${productId}`, data,{
+          params:{
+            stage:"Profile Mentoring"
+          }
+        },
+        {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
