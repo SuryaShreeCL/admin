@@ -100,6 +100,17 @@ class workExperience extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.getworkexpList !== prevProps.getworkexpList) {
+      console.log(this.props.getworkexpList)
+      this.props.getworkexpList.sort(function(x, y) {
+        return x.currentlyWorking === y.currentlyWorking
+          ? 0
+          : x.currentlyWorking
+          ? -1
+          : 1;
+        // false values first
+        // return (x === y)? 0 : x? 1 : -1;
+    });
+    console.log(this.props.getworkexpList)
       this.setState({
         professional: this.props.getworkexpList,
       });
