@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Table,
   TableHead,
@@ -6,23 +6,23 @@ import {
   TableCell,
   makeStyles,
   TableSortLabel,
-} from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
+} from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   table: {
     marginTop: theme.spacing(3),
-    '& thead th': {
-      fontWeight: '600',
-      color: '#052A4E',
-      backgroundColor: '#F4F7F9;',
+    "& thead th": {
+      fontWeight: "600",
+      color: "#052A4E",
+      backgroundColor: "#F4F7F9;",
     },
-    '& tbody td': {
-      fontWeight: '300',
+    "& tbody td": {
+      fontWeight: "300",
     },
-    '& tbody tr:hover': {
-      backgroundColor: '#fffbf2',
-      cursor: 'pointer',
+    "& tbody tr:hover": {
+      backgroundColor: "#fffbf2",
+      cursor: "pointer",
     },
   },
 }));
@@ -33,12 +33,14 @@ export default function useTable(records, headCells, filterFn, totalPages) {
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
 
-  const TblContainer = (props) => <Table className={classes.table}>{props.children}</Table>;
+  const TblContainer = (props) => (
+    <Table className={classes.table}>{props.children}</Table>
+  );
 
   const TblHead = (props) => {
     const handleSortRequest = (cellId) => {
-      const isAsc = orderBy === cellId && order === 'asc';
-      setOrder(isAsc ? 'desc' : 'asc');
+      const isAsc = orderBy === cellId && order === "asc";
+      setOrder(isAsc ? "desc" : "asc");
       setOrderBy(cellId);
     };
 
@@ -46,13 +48,16 @@ export default function useTable(records, headCells, filterFn, totalPages) {
       <TableHead>
         <TableRow>
           {headCells.map((headCell) => (
-            <TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? order : false}>
+            <TableCell
+              key={headCell.id}
+              sortDirection={orderBy === headCell.id ? order : false}
+            >
               {headCell.disableSorting ? (
                 headCell.label
               ) : (
                 <TableSortLabel
                   active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
+                  direction={orderBy === headCell.id ? order : "asc"}
                   onClick={() => {
                     handleSortRequest(headCell.id);
                   }}
@@ -72,7 +77,13 @@ export default function useTable(records, headCells, filterFn, totalPages) {
   };
 
   const TblPagination = () => (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Pagination
         page={page}
         count={totalPages}
@@ -95,7 +106,7 @@ export default function useTable(records, headCells, filterFn, totalPages) {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -119,5 +130,6 @@ export default function useTable(records, headCells, filterFn, totalPages) {
     TblPagination,
     recordsAfterPagingAndSorting,
     page,
+    setPage,
   };
 }

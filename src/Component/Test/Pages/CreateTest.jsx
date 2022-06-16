@@ -16,7 +16,6 @@ import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import {
@@ -483,15 +482,8 @@ const CreateTest = () => {
                     direction='row'
                     justify='space-between'
                     style={{ width: '100%', margin: '1rem 0' }}
-                  >
-                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='image'
-                      />
-                    </Grid>
-
-                    <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
+                  >                  
+                    <Grid item style={{ width: '100%', marginTop: '1.2rem' }}>
                       <Controls.Input
                         label='Test instructions..'
                         value={values.nameDescription}

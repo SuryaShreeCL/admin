@@ -60,6 +60,7 @@ const headCells = [
   { id: 'createdAt', label: 'Published' },
   { id: 'description', label: 'Description', disableSorting: true },
   { id: 'totalRegistrations', label: 'Registrations' },
+  { id: 'noOfFormFilled', label: 'Form Filled' },
   { id: 'eventDate', label: 'Start Date', disableSorting: true },
   { id: 'eventEndDate', label: 'End Date', disableSorting: true },
   { id: 'actions', label: 'Actions', disableSorting: true },
@@ -195,6 +196,7 @@ export default function Drives() {
                   <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
                   <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalRegistrations ?? 0}</TableCell>
+                  <TableCell>{item.noOfFormFilled ?? 0}</TableCell>
                   <TableCell>{moment(item.eventDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>{moment(item.eventEndDate).format('MMM Do, hh:mm a')}</TableCell>
                   <TableCell>

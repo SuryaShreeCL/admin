@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-
-import { Container, TopTab, TopTabs } from "./Assets/Styles/WallStyles";
-import Drives from "./Pages/Drives";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Container, TopTab, TopTabs } from "./Assets/Styles/WallStyles";
+import Webinars from "./Pages/ThirdYearWebinars";
 
-// Note: Events are considered as Drives
-
-const PlacementDrives = () => {
+const ThirdYearWallLanding = () => {
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
 
   const renderContent = (value) => {
     try {
       if (value === 0) {
-        return <Drives />;
+        return <Webinars />;
       }
     } catch (error) {
       console.log(error);
@@ -29,12 +26,12 @@ const PlacementDrives = () => {
             value={tabCount}
             textColor={"inherit"}
             onChange={(e, value) => setTabCount(value)}
-            aria-label="tabs"
+            aria-label='tabs'
           >
-            <TopTab label="Events" />
+            <TopTab label='3rd Year Webinars' />
           </TopTabs>
         </Grid>
-        <Grid item md={12} overflow="auto">
+        <Grid item md={12} overflow='auto'>
           {renderContent(tabCount)}
         </Grid>
       </Grid>
@@ -42,4 +39,4 @@ const PlacementDrives = () => {
   );
 };
 
-export default PlacementDrives;
+export default ThirdYearWallLanding;
