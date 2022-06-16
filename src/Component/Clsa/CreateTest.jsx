@@ -505,6 +505,7 @@ function CreateTest(props) {
                 <Grid item md={12}>
                   <Controls.Input
                     label='No of question'
+                    class="noscroll"
                     name='questions'
                     style={{ width: '100%' }}
                     type='number'

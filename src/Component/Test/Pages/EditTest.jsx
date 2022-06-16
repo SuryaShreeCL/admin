@@ -426,6 +426,7 @@ const EditTest = () => {
                                 <Field
                                   className={classes.inputField}
                                   placeholder='No Of Questions'
+                                //  class="noscroll"
                                   name={`testSection.${index}.noOfQuestions`}
                                 />
                               </div>
