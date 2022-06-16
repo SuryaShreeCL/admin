@@ -422,8 +422,18 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
+    if(expectedTime === 0)
+        {
+          this.setState({
+            alert: {
+              severity: "error",
+              msg: "Expected time must not be zero",
+            },
+          });
+        }
+    
 
-    if (testQuestionSetId === undefined)
+  else{  if (testQuestionSetId === undefined)
       testQuestionSetId = this.props.editData.data.testQuestionsSetId;
 
     if (sectionId === undefined)
@@ -523,7 +533,7 @@ export class Index extends Component {
             }
           });
     }
-  };
+  }};
 
   handleCancelClick = () => {
     let { testQuestionSetId } = QueryString.parse(this.props.location.search, {

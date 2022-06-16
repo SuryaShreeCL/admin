@@ -40,17 +40,18 @@ function DropDownRack(props) {
     testQuestionSetId
   } = props;
 
-  useEffect(() => {
-    dispatch(
-      aegetTestQuestionSet(testQuestionSetId, (response) => {
-        if (response.success) {
-          if (response.data.type) {
-            setTestType(response.data.type);
-          }
-        }
-      })
-    );
-  }, [testQuestionSetId]);
+ 
+  // useEffect(() => {
+  //   dispatch(
+  //     aegetTestQuestionSet(testQuestionSetId, (response) => {
+  //       if (response.success) {
+  //         if (response.data.type) {
+  //           setTestType(response.data.type);
+  //         }
+  //       }
+  //     })
+  //   );
+  // }, [testQuestionSetId]);
 
   if (subjects !== null && concepts !== null) {
     return (
@@ -137,6 +138,7 @@ function DropDownRack(props) {
                       <InputAdornment position="end">seconds</InputAdornment>
                     }
                   />
+                  { console.log(expectedTime)}
                 </FormControl>
               </Grid>
             )}

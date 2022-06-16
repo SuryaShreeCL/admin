@@ -236,6 +236,14 @@ class Add extends Component {
           posterUrl: questionSet.posterUrl,
         });
       }
+      // if(questionSet.eventDate !== questionSet.eventEndDate)
+      // {
+      //   this.setState({
+      //     snackOpen: true,
+      //     snackType: "warning",
+      //     message: "Please save the test",
+      //   }); 
+      // }
 
       if (questionSet.type === "TOPIC") {
         this.setState({
@@ -761,6 +769,12 @@ class Add extends Component {
               eventDate,
               eventEndDate,
             };
+      //  const wrk=     eventEndDate !== eventDate ? this.setState({
+      //         snackOpen: true,
+      //         snackType: "warning",
+      //         message: "Start time and end time must not be same",
+      //         loading: false,
+      //       }):null     
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -1078,6 +1092,7 @@ class Add extends Component {
             style={{ position: "absolute", top: 2, right: 2 }}
             color={"secondary"}
             size="small"
+            onClick={this.handleFileDelete}
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1098,9 +1113,10 @@ class Add extends Component {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                cursor: "pointer" ,
               }}
             >
-              <div {...getRootProps({ className: "dropzone" })}>
+              <div style={{ cursor: "pointer" }} {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} accept={".jpg,.png,.gif"} />
                 <p style={{ cursor: "pointer" }}>
                   Drag 'n' drop some files here, or click to select files
@@ -1150,6 +1166,10 @@ class Add extends Component {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
     const aedept = window.sessionStorage.getItem("department");
+    
+      const check =  eventEndDate === eventDate ;
+      console.log(check);
+    
     const {
       handleThreeDotClick,
       handleClose,
@@ -1306,7 +1326,7 @@ class Add extends Component {
                   </Grid>
                 )}
                 <Grid item xs={12} md={8}>
-                  <AutocompleteText
+                  <AutocompleteText 
                     autoData={{
                       label: "Test Instruction Details",
                       placeholder: "List The Instruction",
@@ -1314,6 +1334,7 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
+                    rules={{required:true}}
                   />
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -1382,7 +1403,22 @@ class Add extends Component {
                               onChange={(value) =>
                                 this.setState({ eventEndDate: value })
                               }
+                              // // {eventEndDate=== eventDate}
+                              // onKeyPress = {eventDate === eventEndDate ?  this.setState({
+                              //   snackOpen: true,
+                              //   snackType: "error",
+                              //   message: "vfgefgygy",
+                              // }):"" }
+                              
                             />
+                            {eventDate === eventEndDate ? console.log("trrrrrrruuuuuuu"):console.log("falseeeee")}
+        
+        
+                           
+                          {console.log(eventDate)}
+                        {  console.log(eventEndDate)
+                        }
+                     {/* {   eventDate === eventEndDate   ? console.log("crt value"):console.log("wrong")} */}
                           </MuiPickersUtilsProvider>
                         </Grid>
                       </MuiPickersUtilsProvider>

@@ -6,6 +6,8 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import React, { Component } from "react";
 import BookmarkIcon from "../../../../../Assets/icons/Bookmarks.svg";
 import BottomBanner from "../../../../../../Asset/icons/BottomBanner.svg";
+import MobileResponsiveImage from "../../../../../../Asset/icons/MobileBottomcontainer.svg";
+
 import "../../../../../Assets/css/Preview/Preview.css";
 import {
   BackIconTag,
@@ -35,13 +37,15 @@ import SingleSelect from "./SingleSelect";
 import { RenderBookMark } from "../../../../../Utils/Bookmark";
 import { secondsToHms } from "../../../../../Utils/HelperFunction";
 import { ArrowBack } from "@material-ui/icons";
-
+import AesingleSelect from "./AESingleSelect";
+import AeBundleType from "./AEBundle";
+import AePassage from "./AePassage";
 class Index extends Component {
   constructor(props) {
     super(props);
   }
-
   renderQuestion = () => {
+    const deptName = window.sessionStorage.getItem("department");
     const {
       type,
       question,
@@ -53,73 +57,144 @@ class Index extends Component {
       totalBundle,
     } = this.props.testResponse.data;
     console.log(type, isHaveDescription, isHaveImage);
-    if (type === "SINGLE_SELECT") {
-      return isHaveDescription || isHaveImage ? (
-        <Passage
-          description={description}
-          question={question}
-          choices={choices}
-          selectedChoice={[]}
-          // imgUrl={imgURL}
-          bundleLength={totalBundle}
-        />
-      ) : (
-        <SingleSelect
-          question={question}
-          options={choices}
-          selectedChoice={[]}
-          description={description}
-          // imgUrl={imgURL}
-        />
-      );
-    } else if (type === "SUBJECTIVE" || type === "DESCRIPTIVE") {
-      return (
-        <Passage
-          para={question}
-          description={description}
-          subjective={true}
-          answer={null}
-          imgUrl={imgURL}
-          bundleLength={totalBundle}
-        />
-      );
-    } else if (type === "BUNDLE") {
-      return (
-        <Passage
-          para={question}
-          description={description}
-          bundle={true}
-          choices={choices}
-          bundleLength={Math.max.apply(
-            Math,
-            choices.map(item => item.bundleNo)
-          )}
-          selectedChoice={[]}
-          imgUrl={imgURL}
-          // bundleLength={totalBundle}
-        />
-      );
-    } else if (type === "MULTI_CHOICE") {
-      return isHaveDescription || isHaveImage ? (
-        <Passage
-          description={description}
-          question={question}
-          choices={choices}
-          selectedChoice={[]}
-          imgUrl={imgURL}
-          isMulti={true}
-          bundleLength={totalBundle}
-        />
-      ) : (
-        <SingleSelect
-          question={question}
-          options={choices}
-          selectedChoice={[]}
-          description={description}
-          imgUrl={imgURL}
-          isMulti={true}
-        />
-      );
+    if (deptName === "assessment_engine_admin") {
+      if (type === "SINGLE_SELECT") {
+        return isHaveDescription || isHaveImage ? (
+          <AePassage
+            description={description}
+            question={question}
+            choices={choices}
+            selectedChoice={[]}
+            // imgUrl={imgURL}
+            bundleLength={totalBundle}
+          />
+        ) : (
+          <AesingleSelect
+            question={question}
+            options={choices}
+            selectedChoice={[]}
+            description={description}
+            // imgUrl={imgURL}
+          />
+        );
+      } else if (type === "SUBJECTIVE" || type === "DESCRIPTIVE") {
+        return (
+          <AePassage
+            para={question}
+            description={description}
+            subjective={true}
+            answer={null}
+            imgUrl={imgURL}
+            bundleLength={totalBundle}
+          />
+        );
+      } else if (type === "BUNDLE") {
+        return (
+          <AePassage
+            para={question}
+            description={description}
+            bundle={true}
+            choices={choices}
+            bundleLength={Math.max.apply(
+              Math,
+              choices.map((item) => item.bundleNo)
+            )}
+            selectedChoice={[]}
+            imgUrl={imgURL}
+            // bundleLength={totalBundle}
+          />
+        );
+      } else if (type === "MULTI_CHOICE") {
+        return isHaveDescription || isHaveImage ? (
+          <AePassage
+            description={description}
+            question={question}
+            choices={choices}
+            selectedChoice={[]}
+            imgUrl={imgURL}
+            isMulti={true}
+            bundleLength={totalBundle}
+          />
+        ) : (
+          <AesingleSelect
+            question={question}
+            options={choices}
+            selectedChoice={[]}
+            description={description}
+            imgUrl={imgURL}
+            isMulti={true}
+          />
+        );
+      }
+    } else {
+      if (type === "SINGLE_SELECT") {
+        return isHaveDescription || isHaveImage ? (
+          <Passage
+            description={description}
+            question={question}
+            choices={choices}
+            selectedChoice={[]}
+            // imgUrl={imgURL}
+            bundleLength={totalBundle}
+          />
+        ) : (
+          <SingleSelect
+            question={question}
+            options={choices}
+            selectedChoice={[]}
+            description={description}
+            // imgUrl={imgURL}
+          />
+        );
+      } else if (type === "SUBJECTIVE" || type === "DESCRIPTIVE") {
+        return (
+          <Passage
+            para={question}
+            description={description}
+            subjective={true}
+            answer={null}
+            imgUrl={imgURL}
+            bundleLength={totalBundle}
+          />
+        );
+      } else if (type === "BUNDLE") {
+        return (
+          <Passage
+            para={question}
+            description={description}
+            bundle={true}
+            choices={choices}
+            bundleLength={Math.max.apply(
+              Math,
+              choices.map((item) => item.bundleNo)
+            )}
+            selectedChoice={[]}
+            imgUrl={imgURL}
+            // bundleLength={totalBundle}
+          />
+        );
+      } else if (type === "MULTI_CHOICE") {
+        return isHaveDescription || isHaveImage ? (
+          <Passage
+            description={description}
+            question={question}
+            choices={choices}
+            selectedChoice={[]}
+            imgUrl={imgURL}
+            isMulti={true}
+            bundleLength={totalBundle}
+          />
+        ) : (
+          <SingleSelect
+            question={question}
+            options={choices}
+            selectedChoice={[]}
+            description={description}
+            imgUrl={imgURL}
+            isMulti={true}
+          />
+        );
+      }
     }
   };
 
@@ -141,14 +216,14 @@ class Index extends Component {
         this.state.bundleSelect.length !==
         Math.max.apply(
           Math,
-          choices.map(item => item.bundleNo)
+          choices.map((item) => item.bundleNo)
         )
       );
     }
     return true;
   };
 
-  getRemainingTime = time => {
+  getRemainingTime = (time) => {
     this.time = time;
     if (time === 0) {
       this.setState({ stop: true });
@@ -183,7 +258,7 @@ class Index extends Component {
 
     const test_type = sessionStorage.getItem("testType");
     const isQuestionBank = test_type && test_type === "QUESTIONBANK";
-    const deptName = window.sessionStorage.getItem("department")
+    const deptName = window.sessionStorage.getItem("department");
     return (
       <div>
         <Container>
@@ -254,7 +329,15 @@ class Index extends Component {
           <Footer>
             {deptName === "assessment_engine_admin" ? (
               <Box>
-                <img src={BottomBanner} width={"100%"} height={"100%"}/>
+                {window.screen.width > 1000 ? (
+                  <img src={BottomBanner} alt={"Web Image"} width={"100%"} />
+                ) : (
+                  <img
+                    src={MobileResponsiveImage}
+                    alt={"MobileImage"}
+                    width={"100%"}
+                  />
+                )}
               </Box>
             ) : (
               <>

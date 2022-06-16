@@ -330,11 +330,17 @@ function RootContainer(props) {
     //   items: newListArr,
     // }])
 
-    if (props.adminLinkedProductDetails.department === 'Acsoperations') {
-      const { getProductByFamilyIdList } = props;
+    if (
+      props.adminLinkedProductDetails.department === "Acsoperations" ||
+      props.adminLinkedProductDetails.department === "mentor"
+    ) {
+      const {
+        adminLinkedProductDetails: { products: productList },
+        getProductByFamilyIdList
+      } = props;
       let myArr = [];
-      if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
-        getProductByFamilyIdList.map((eachItem) => {
+      if (productList && productList.length !== 0) {
+        productList.map((eachItem) => {
           if (eachItem.isProduct) {
             myArr.push({
               title: eachItem.shortName,
@@ -837,23 +843,25 @@ function RootContainer(props) {
     return true;
   };
 
+  console.log(props.adminLinkedProductDetails, "++++++++++++++");
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
-          position='fixed'
-          color='default'
+          position="fixed"
+          color="default"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
           <Toolbar>
             <IconButton
-              color='inherit'
-              aria-label='open drawer'
+              color="inherit"
+              aria-label="open drawer"
               onClick={handleDrawerOpen}
-              edge='start'
+              edge="start"
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               {/* <MenuIcon /> */}
@@ -884,15 +892,15 @@ function RootContainer(props) {
               style={{ height: '30px', backgroundColor: '#cacaca' }}
               orientation='vertical'
             />
-            <IconButton color='primary' onClick={logout}>
+            <IconButton color="primary" onClick={logout}>
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           className={classes.drawer}
-          variant='persistent'
-          anchor='left'
+          variant="persistent"
+          anchor="left"
           open={open}
           classes={{
             paper: classes.drawerPaper,
@@ -934,7 +942,7 @@ function RootContainer(props) {
           {/* <Divider /> */}
         </Drawer>
         <main
-          id='main-container'
+          id="main-container"
           className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
