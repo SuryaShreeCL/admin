@@ -56,7 +56,7 @@ function PdfViewer(props) {
             {...props}
             fileUrl={
               // SamplePdf
-              props.cvUrl ? props.cvUrl : null
+              props.cvUrl ? props.cvUrl : SamplePdf
             }
             plugins={[zoomPluginInstance]}
           />
