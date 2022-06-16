@@ -113,6 +113,11 @@ export default function Menu(props) {
       arr.push(array[0]);
       arr.push(array[1]);
       arr.push(array[3]);
+<<<<<<< HEAD
+      arr.push(array[5]);
+=======
+      arr.push(array[4]);
+>>>>>>> qa-bug-fixing-vijay
       return arr;
     } else return [];
   };
