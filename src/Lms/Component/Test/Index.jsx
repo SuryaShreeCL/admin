@@ -684,9 +684,10 @@ class TestLanding extends Component {
             clickedStatus={this.state.clickableStatus}
           />
         )}
-        {tableContent !== undefined && (
+        
+        {tableContent !== undefined && (          
           <PaginationComponent
-            pageCount={tableContent.totalPages}
+            pageCount={tableContent?.totalPages}
             onPageChange={handlePageChange}
           />
         )}
