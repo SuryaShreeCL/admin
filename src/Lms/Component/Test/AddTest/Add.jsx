@@ -1306,7 +1306,7 @@ class Add extends Component {
                   </Grid>
                 )}
                 <Grid item xs={12} md={8}>
-                  <AutocompleteText
+                  <AutocompleteText 
                     autoData={{
                       label: "Test Instruction Details",
                       placeholder: "List The Instruction",
@@ -1314,6 +1314,7 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
+                    rules={{required:true}}
                   />
                 </Grid>
                 <Grid item xs={12} md={8}>

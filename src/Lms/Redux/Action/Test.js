@@ -1007,7 +1007,7 @@ export const downloadTest =(testQuestionSetId,downloadpath) => {
         responseType: 'blob',
       })
       .then(response => {
-        var filename = "downloadpath"
+        var filename = "Student Report"
         //   .split('.')
         //   .slice(0, -1)
         //   .join('.');
