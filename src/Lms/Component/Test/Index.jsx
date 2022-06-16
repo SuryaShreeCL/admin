@@ -352,7 +352,9 @@ class TestLanding extends Component {
   };
 
   handlePrimaryButtonClick = () => {
+    
     if (this.state.dialogContent.type === "archive") {
+      this.state.department !== "assessment_engine_admin"?
       this.props.deleteTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
@@ -377,7 +379,7 @@ class TestLanding extends Component {
           });
           this.handleCloseIconClick();
         }
-      });
+      }):
       this.props.aedeleteTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
@@ -768,6 +770,7 @@ class TestLanding extends Component {
                   label="End date and time"
                   inputVariant="outlined"
                   value={eventEndDate}
+                  disabled ={eventEndDate === eventDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
                 /></MuiPickersUtilsProvider>
               </Grid>

@@ -40,6 +40,7 @@ function DropDownRack(props) {
     testQuestionSetId
   } = props;
 
+ 
   // useEffect(() => {
   //   dispatch(
   //     aegetTestQuestionSet(testQuestionSetId, (response) => {
@@ -137,6 +138,7 @@ function DropDownRack(props) {
                       <InputAdornment position="end">seconds</InputAdornment>
                     }
                   />
+                  { console.log(expectedTime)}
                 </FormControl>
               </Grid>
             )}

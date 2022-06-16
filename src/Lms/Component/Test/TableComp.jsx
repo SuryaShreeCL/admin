@@ -24,9 +24,11 @@ const headText = deptName === "assessment_engine_admin" ? [
   "Test Type",
   "#  Que Assignes",
   "# Que filled",
-  "Course",
-  "Topic name",
-  "Status",
+  "",
+  "",
+   "Status",
+   
+   
   "Download",
   "Test URL",
   "",
