@@ -104,6 +104,7 @@ class CalibrationTestCard extends Component {
                       label="Section Name"
                       placeholder="Section Name"
                       height="11px"
+                      required
                     />
                   </Grid>
 

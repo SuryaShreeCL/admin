@@ -64,12 +64,12 @@ const handleShowThreeDot = (role, status) => {
 
 export default function TableComp(props) {
   const dispatch = useDispatch();
-  const handleDownload = (testQuestionSetId, downloadpath) => {
+  const handleDownload = (testQuestionSetId, StudentReport) => {
     // setScheduler(true);
     // setData(item);
     //
 
-    dispatch(downloadTest(testQuestionSetId, downloadpath));
+    dispatch(downloadTest(testQuestionSetId, StudentReport));
   };
   const {
     tableContent,
