@@ -44,6 +44,7 @@ class Index extends Component {
   constructor(props) {
     super(props);
   }
+
   renderQuestion = () => {
     const deptName = window.sessionStorage.getItem("department");
     const {
@@ -56,8 +57,6 @@ class Index extends Component {
       isHaveImage,
       totalBundle,
     } = this.props.testResponse.data;
-    console.log(type, isHaveDescription, isHaveImage);
-    if (deptName === "assessment_engine_admin") {
       if (type === "SINGLE_SELECT") {
         return isHaveDescription || isHaveImage ? (
           <AePassage
@@ -126,76 +125,7 @@ class Index extends Component {
           />
         );
       }
-    } else {
-      if (type === "SINGLE_SELECT") {
-        return isHaveDescription || isHaveImage ? (
-          <Passage
-            description={description}
-            question={question}
-            choices={choices}
-            selectedChoice={[]}
-            // imgUrl={imgURL}
-            bundleLength={totalBundle}
-          />
-        ) : (
-          <SingleSelect
-            question={question}
-            options={choices}
-            selectedChoice={[]}
-            description={description}
-            // imgUrl={imgURL}
-          />
-        );
-      } else if (type === "SUBJECTIVE" || type === "DESCRIPTIVE") {
-        return (
-          <Passage
-            para={question}
-            description={description}
-            subjective={true}
-            answer={null}
-            imgUrl={imgURL}
-            bundleLength={totalBundle}
-          />
-        );
-      } else if (type === "BUNDLE") {
-        return (
-          <Passage
-            para={question}
-            description={description}
-            bundle={true}
-            choices={choices}
-            bundleLength={Math.max.apply(
-              Math,
-              choices.map((item) => item.bundleNo)
-            )}
-            selectedChoice={[]}
-            imgUrl={imgURL}
-            // bundleLength={totalBundle}
-          />
-        );
-      } else if (type === "MULTI_CHOICE") {
-        return isHaveDescription || isHaveImage ? (
-          <Passage
-            description={description}
-            question={question}
-            choices={choices}
-            selectedChoice={[]}
-            imgUrl={imgURL}
-            isMulti={true}
-            bundleLength={totalBundle}
-          />
-        ) : (
-          <SingleSelect
-            question={question}
-            options={choices}
-            selectedChoice={[]}
-            description={description}
-            imgUrl={imgURL}
-            isMulti={true}
-          />
-        );
-      }
-    }
+    
   };
 
   disabled = () => {
@@ -258,11 +188,10 @@ class Index extends Component {
 
     const test_type = sessionStorage.getItem("testType");
     const isQuestionBank = test_type && test_type === "QUESTIONBANK";
-    const deptName = window.sessionStorage.getItem("department");
     return (
       <div>
         <Container>
-          {deptName === "assessment_engine_admin" ? (
+          {/* {deptName === "assessment_engine_admin" ? (
             <></>
           ) : (
             <BookMarkContainer
@@ -274,7 +203,7 @@ class Index extends Component {
             >
               <RenderBookMark bookMarked={false} demoBookmark={false} />
             </BookMarkContainer>
-          )}
+          )} */}
           <TitleContainer>
             <Div display={"flex"}>
               {isQuestionBank && (
@@ -290,7 +219,7 @@ class Index extends Component {
               ) : (
                 <>
                   <Div display={"flex"}>
-                    {deptName === "assessment_engine_admin" ? (
+                    {/* {deptName === "assessment_engine_admin" ? (
                       <></>
                     ) : (
                       <>
@@ -304,7 +233,7 @@ class Index extends Component {
                             : 1}
                         </QuestionCount>
                       </>
-                    )}
+                    )} */}
                     <QuestionTitle>{conceptName}</QuestionTitle>
                     <TimeRemaining>
                       {"Time Remaining"}
@@ -314,20 +243,19 @@ class Index extends Component {
                       {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
                     </QuestionCount>
                   </Div>
-                  {deptName === "assessment_engine_admin" ? (
+                  {/* {deptName === "assessment_engine_admin" ? (
                     <></>
                   ) : (
                     <Div>
                       <LinearProgress variant="determinate" value={0} />
                     </Div>
-                  )}
+                  )} */}
                 </>
               )}
             </TitleHeader>
           </TitleContainer>
           <Body>{this.renderQuestion()}</Body>
           <Footer>
-            {deptName === "assessment_engine_admin" ? (
               <Box>
                 {window.screen.width > 1000 ? (
                   <img src={BottomBanner} alt={"Web Image"} width={"100%"} />
@@ -339,26 +267,6 @@ class Index extends Component {
                   />
                 )}
               </Box>
-            ) : (
-              <>
-                <Box width={"100%"}>
-                  <Divider />
-                </Box>
-                <Box className={"test_bottom_pad"}>
-                  {!isQuestionBank ? (
-                    <Pause>
-                      <Icon src={PauseIcon} alt={""} />
-                      <Box whiteSpace="nowrap">{"Pause exam"}</Box>
-                    </Pause>
-                  ) : (
-                    <div></div>
-                  )}
-                  <Next disabled={false} loading={false}>
-                    {isQuestionBank ? "Submit" : "Next"}
-                  </Next>
-                </Box>
-              </>
-            )}
           </Footer>
         </Container>
       </div>

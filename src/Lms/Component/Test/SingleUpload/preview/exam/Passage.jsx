@@ -26,39 +26,40 @@ const Passage = ({
 }) => {
   const { Para } = passage;
   let deptName = window.sessionStorage.getItem("department");
-  return deptName === "assessment_engine_admin" ? (
-    <Grid container id="test-container">
-      <Grid item md={12} id="inside-test-container-right">
-        <Box
-          minHeight={400}
-          className={"overflow-scroll"}
-          id="inside-test-container"
-        >
-          {bundle ? (
-            <Bundle
-              bundleLength={bundleLength}
-              choices={choices}
-              selectedChoice={selectedChoice}
-              question={para}
-            />
-          ) : subjective ? (
-            <TextBox
-              type={"text"}
-              placeholder={"Enter your answer here"}
-              value={answer}
-            />
-          ) : (
-            <SingleSelect
-              question={question}
-              options={choices}
-              selectedChoice={selectedChoice}
-              isMulti={isMulti}
-            />
-          )}
-        </Box>
-      </Grid>
-    </Grid>
-  ) : (
+  return (
+  //  deptName === "assessment_engine_admin" ? (
+  //   <Grid container id="test-container">
+  //     <Grid item md={12} id="inside-test-container-right">
+  //       <Box
+  //         minHeight={400}
+  //         className={"overflow-scroll"}
+  //         id="inside-test-container"
+  //       >
+  //         {bundle ? (
+  //           <Bundle
+  //             bundleLength={bundleLength}
+  //             choices={choices}
+  //             selectedChoice={selectedChoice}
+  //             question={para}
+  //           />
+  //         ) : subjective ? (
+  //           <TextBox
+  //             type={"text"}
+  //             placeholder={"Enter your answer here"}
+  //             value={answer}
+  //           />
+  //         ) : (
+  //           <SingleSelect
+  //             question={question}
+  //             options={choices}
+  //             selectedChoice={selectedChoice}
+  //             isMulti={isMulti}
+  //           />
+  //         )}
+  //       </Box>
+  //     </Grid>
+  //   </Grid>
+  // ) : (
     <Grid container id="test-container">
       <Grid item md={6} id="inside-test-container">
         <Box display={"flex"} className={"overflow-scroll"} height={"inherit"}>
@@ -113,6 +114,7 @@ const Passage = ({
         </Box>
       </Grid>
     </Grid>
+  // )
   )
 };
 
