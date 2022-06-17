@@ -52,6 +52,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
@@ -751,11 +752,13 @@ class Add extends Component {
         nameDescription.trim().length !== 0 &&
         description.length !== 0 &&
         descriptionTitle.trim().length !== 0 &&
-        cutOffScore.length !== 0
+        cutOffScore.length !== 0 
+        
         // courseId !== undefined
       ) {
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
+
             var calibrationTestSet = {
               id: testQuestionSetId,
               name: name,
@@ -810,7 +813,7 @@ class Add extends Component {
             // );
             this.props.aecreateTestQuestionSet(
               calibrationTestSet,
-              (calibrationTestResponse) => {
+              (calibrationTestResponse) => {                
                 if (calibrationTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
@@ -834,17 +837,19 @@ class Add extends Component {
                     loading: false,
                   });
                   this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                } else {
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "warning",
-                    message: "Network Failed",
-                    loading: false,
-                  });
+                }                                              
+                else {                  
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "warning",
+                      message: "Network Failed",
+                      loading: false,
+                    });                                    
                 }
               }
-            );
-          } else {
+            );           
+          }      
+          else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
@@ -852,7 +857,21 @@ class Add extends Component {
               loading: false,
             });
           }
-        } else {
+        }   
+        // else if (
+        //     moment(eventEndDate).isSameOrBefore(eventDate) ||
+        //     moment(eventDate).isBefore(moment()) ||
+        //     moment(eventEndDate).isBefore(moment())
+        //   ) {
+        //     this.setState({
+        //       snackOpen: true,
+        //       snackType: "warning",
+        //       message: "Please add proper timing & date",
+        //       loading: false,
+        //     });
+        //   }    
+        
+        else {
           this.setState({
             snackOpen: true,
             snackType: "warning",
@@ -860,7 +879,8 @@ class Add extends Component {
             loading: false,
           });
         }
-      } else {
+      }      
+      else {
         this.setState({
           snackOpen: true,
           snackType: "warning",

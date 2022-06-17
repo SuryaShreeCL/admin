@@ -112,7 +112,7 @@ export default function Menu(props) {
       const arr = [];
       arr.push(array[0]);
       arr.push(array[1]);
-      arr.push(array[3]);
+      arr.push(array[4]);
       return arr;
     } else return [];
   };
