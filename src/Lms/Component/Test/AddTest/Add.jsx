@@ -52,6 +52,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
@@ -236,6 +237,14 @@ class Add extends Component {
           posterUrl: questionSet.posterUrl,
         });
       }
+      // if(questionSet.eventDate !== questionSet.eventEndDate)
+      // {
+      //   this.setState({
+      //     snackOpen: true,
+      //     snackType: "warning",
+      //     message: "Please save the test",
+      //   }); 
+      // }
 
       if (questionSet.type === "TOPIC") {
         this.setState({
@@ -743,11 +752,13 @@ class Add extends Component {
         nameDescription.trim().length !== 0 &&
         description.length !== 0 &&
         descriptionTitle.trim().length !== 0 &&
-        cutOffScore.length !== 0
+        cutOffScore.length !== 0 
+        
         // courseId !== undefined
       ) {
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
+
             var calibrationTestSet = {
               id: testQuestionSetId,
               name: name,
@@ -761,6 +772,12 @@ class Add extends Component {
               eventDate,
               eventEndDate,
             };
+      //  const wrk=     eventEndDate !== eventDate ? this.setState({
+      //         snackOpen: true,
+      //         snackType: "warning",
+      //         message: "Start time and end time must not be same",
+      //         loading: false,
+      //       }):null     
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -796,7 +813,7 @@ class Add extends Component {
             // );
             this.props.aecreateTestQuestionSet(
               calibrationTestSet,
-              (calibrationTestResponse) => {
+              (calibrationTestResponse) => {                
                 if (calibrationTestResponse?.success) {
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
@@ -820,17 +837,19 @@ class Add extends Component {
                     loading: false,
                   });
                   this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                } else {
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "warning",
-                    message: "Network Failed",
-                    loading: false,
-                  });
+                }                                              
+                else {                  
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "warning",
+                      message: "Network Failed",
+                      loading: false,
+                    });                                    
                 }
               }
-            );
-          } else {
+            );           
+          }      
+          else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
@@ -838,7 +857,21 @@ class Add extends Component {
               loading: false,
             });
           }
-        } else {
+        }   
+        // else if (
+        //     moment(eventEndDate).isSameOrBefore(eventDate) ||
+        //     moment(eventDate).isBefore(moment()) ||
+        //     moment(eventEndDate).isBefore(moment())
+        //   ) {
+        //     this.setState({
+        //       snackOpen: true,
+        //       snackType: "warning",
+        //       message: "Please add proper timing & date",
+        //       loading: false,
+        //     });
+        //   }    
+        
+        else {
           this.setState({
             snackOpen: true,
             snackType: "warning",
@@ -846,7 +879,8 @@ class Add extends Component {
             loading: false,
           });
         }
-      } else {
+      }      
+      else {
         this.setState({
           snackOpen: true,
           snackType: "warning",
@@ -1066,6 +1100,8 @@ class Add extends Component {
   };
 
   renderFile = () => {
+    var deptName = window.sessionStorage.getItem("department");
+    console.log(deptName)
     if (typeof this.state.posterUrl === "string") {
       return (
         <div style={{ position: "relative" }}>
@@ -1078,6 +1114,7 @@ class Add extends Component {
             style={{ position: "absolute", top: 2, right: 2 }}
             color={"secondary"}
             size="small"
+            onClick={this.handleFileDelete}
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1085,6 +1122,11 @@ class Add extends Component {
       );
     } else {
       return (
+        <>
+       {
+         
+        deptName === "assessment_engine_admin" &&(
+
         <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps }) => (
             <section
@@ -1098,9 +1140,10 @@ class Add extends Component {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                cursor: "pointer" ,
               }}
             >
-              <div {...getRootProps({ className: "dropzone" })}>
+              <div style={{ cursor: "pointer" }} {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} accept={".jpg,.png,.gif"} />
                 <p style={{ cursor: "pointer" }}>
                   Drag 'n' drop some files here, or click to select files
@@ -1111,7 +1154,7 @@ class Add extends Component {
               </aside>
             </section>
           )}
-        </Dropzone>
+        </Dropzone>)}</>
       );
     }
   };
@@ -1150,6 +1193,10 @@ class Add extends Component {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
     const aedept = window.sessionStorage.getItem("department");
+    
+      const check =  eventEndDate === eventDate ;
+      console.log(check);
+    
     const {
       handleThreeDotClick,
       handleClose,
@@ -1306,7 +1353,7 @@ class Add extends Component {
                   </Grid>
                 )}
                 <Grid item xs={12} md={8}>
-                  <AutocompleteText
+                  <AutocompleteText 
                     autoData={{
                       label: "Test Instruction Details",
                       placeholder: "List The Instruction",
@@ -1314,6 +1361,7 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
+                    rules={{required:true}}
                   />
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -1338,6 +1386,8 @@ class Add extends Component {
                     </span>
                   )}
                 </Grid>
+                
+                {aedept === "assessment_engine_admin" && (
                 <Grid item md={4} container spacing={3}>
                   <Grid item md={12}>
                     <FormControlLabel
@@ -1382,13 +1432,28 @@ class Add extends Component {
                               onChange={(value) =>
                                 this.setState({ eventEndDate: value })
                               }
+                              // // {eventEndDate=== eventDate}
+                              // onKeyPress = {eventDate === eventEndDate ?  this.setState({
+                              //   snackOpen: true,
+                              //   snackType: "error",
+                              //   message: "vfgefgygy",
+                              // }):"" }
+                              
                             />
+                            {eventDate === eventEndDate ? console.log("trrrrrrruuuuuuu"):console.log("falseeeee")}
+        
+        
+                           
+                          {console.log(eventDate)}
+                        {  console.log(eventEndDate)
+                        }
+                     {/* {   eventDate === eventEndDate   ? console.log("crt value"):console.log("wrong")} */}
                           </MuiPickersUtilsProvider>
                         </Grid>
                       </MuiPickersUtilsProvider>
                     </React.Fragment>
                   )}
-                </Grid>
+                </Grid>)}
               </>
             ) : (
               <Divider />

@@ -5,7 +5,7 @@ import { TextField } from "@material-ui/core";
 export const InputTextField = (props) => {
   return (
     <TextField
-      {...props}
+      {...props}required
       inputProps={{
         style: {
           color: "#052A4E",

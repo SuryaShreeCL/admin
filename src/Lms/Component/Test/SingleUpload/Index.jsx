@@ -118,6 +118,7 @@ export class Index extends Component {
                 imgURL,
               } = response.data;
               // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
+              console.log(response.data.questionChoices)
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
@@ -128,6 +129,7 @@ export class Index extends Component {
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
                 url: response.data.explanationVideo,
+                
                 url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
@@ -422,6 +424,16 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
+    if(this.state.expectedTime === 0)
+    {
+      this.setState({
+        alert: {
+          severity: "error",
+          msg: "Expected time must not be zero",
+        },
+      });
+    }
+    else{
 
     if (testQuestionSetId === undefined)
       testQuestionSetId = this.props.editData.data.testQuestionsSetId;
@@ -523,7 +535,7 @@ export class Index extends Component {
             }
           });
     }
-  };
+  }};
 
   handleCancelClick = () => {
     let { testQuestionSetId } = QueryString.parse(this.props.location.search, {
