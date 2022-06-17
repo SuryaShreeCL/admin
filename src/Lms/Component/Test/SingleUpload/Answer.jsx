@@ -25,6 +25,7 @@ function Answer(props) {
     handleDeleteIconClick,
     handleTextChange,
     editData,
+    handleDeleteChoiceClick
   } = props;
 
   let tabCompProps = {
@@ -75,7 +76,7 @@ function Answer(props) {
       </Div2>
       <TabComp {...tabCompProps} />
       <RadioButtons {...radioButtonProps} />
-      <Choice {...choiceProps} />
+      <Choice handleDeleteChoiceClick={handleDeleteChoiceClick} {...choiceProps} />
     </React.Fragment>
   );
 }

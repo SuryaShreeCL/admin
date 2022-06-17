@@ -12,8 +12,11 @@ import {
 import {
   cleanEditData,
   getQuestions,
+  aegetQuestions,
   postQuestions,
+  aepostQuestions,
   previewTestData,
+  aepreviewTestData,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
@@ -59,57 +62,91 @@ export class Index extends Component {
   }
 
   componentDidMount() {
+    var deptName = window.sessionStorage.getItem("department");
     const { questionId, courseId } = QueryString.parse(
       this.props.location.search,
       {
         ignoreQueryPrefix: true,
       }
     );
-
     if (questionId) {
-      this.props.getQuestions(questionId, response => {
-        if (response.success) {
-          const {
-            difficultyLevel,
-            expectedTime,
-            question,
-            description,
-            type,
-            subject,
-            concept,
-            topic,
-            imgURL,
-          } = response.data;
-          // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
-          this.setState({
-            activeLevel: toTitleCase(difficultyLevel),
-            expectedTime,
-            question,
-            description,
-            checked: type === "BUNDLE" ? true : false,
-            answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
-            bucketArray: response.data.questionChoices,
-            text: response.data.explanation,
-            url: response.data.explanationVideo,
-            url: response.data.video ? response.data.video.videoUrl : "",
-            activeSubject: subject !== null ? subject.id : null,
-            activeConcept: concept !== null ? concept.id : null,
-            activeTopic: topic !== null ? topic.id : null,
-            imgURL: imgURL,
-            // editableData: { response },
+      deptName === "assessment_engine_admin"
+        ? this.props.aegetQuestions(questionId, (response) => {
+            if (response.success) {
+              const {
+                difficultyLevel,
+                expectedTime,
+                question,
+                description,
+                type,
+                subject,
+                concept,
+                topic,
+                imgURL,
+              } = response.data;
+              // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
+              this.setState({
+                activeLevel: toTitleCase(difficultyLevel),
+                expectedTime,
+                question,
+                description,
+                checked: type === "BUNDLE" ? true : false,
+                answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
+                bucketArray: response.data.questionChoices,
+                text: response.data.explanation,
+                url: response.data.explanationVideo,
+                url: response.data.video ? response.data.video.videoUrl : "",
+                activeSubject: subject !== null ? subject.id : null,
+                activeConcept: concept !== null ? concept.id : null,
+                activeTopic: topic !== null ? topic.id : null,
+                imgURL: imgURL,
+                // editableData: { response },
+              });
+            }
+          })
+        : this.props.getQuestions(questionId, (response) => {
+            if (response.success) {
+              const {
+                difficultyLevel,
+                expectedTime,
+                question,
+                description,
+                type,
+                subject,
+                concept,
+                topic,
+                imgURL,
+              } = response.data;
+              // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
+              this.setState({
+                activeLevel: toTitleCase(difficultyLevel),
+                expectedTime,
+                question,
+                description,
+                checked: type === "BUNDLE" ? true : false,
+                answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
+                bucketArray: response.data.questionChoices,
+                text: response.data.explanation,
+                url: response.data.explanationVideo,
+                url: response.data.video ? response.data.video.videoUrl : "",
+                activeSubject: subject !== null ? subject.id : null,
+                activeConcept: concept !== null ? concept.id : null,
+                activeTopic: topic !== null ? topic.id : null,
+                imgURL: imgURL,
+                // editableData: { response },
+              });
+            }
           });
-        }
-      });
     } else {
-      this.props.getSubjects(courseId, subjectResponse => {
+      this.props.getSubjects(courseId, (subjectResponse) => {
         if (subjectResponse.success) {
           this.props.getConcepts(
             subjectResponse.data[0].id,
-            conceptResponse => {
+            (conceptResponse) => {
               if (conceptResponse.success) {
                 this.props.getTopics2(
                   conceptResponse.data[0].id,
-                  topicsResponse => {
+                  (topicsResponse) => {
                     if (topicsResponse.success) {
                       this.setState({
                         activeSubject: subjectResponse.data[0].id,
@@ -143,10 +180,10 @@ export class Index extends Component {
     this.props.cleanEditData();
   }
 
-  handleSubjectChange = event => {
-    this.props.getConcepts(event.target.value, conceptResponse => {
+  handleSubjectChange = (event) => {
+    this.props.getConcepts(event.target.value, (conceptResponse) => {
       if (conceptResponse.success) {
-        this.props.getTopics2(conceptResponse.data[0].id, topicsResponse => {
+        this.props.getTopics2(conceptResponse.data[0].id, (topicsResponse) => {
           if (topicsResponse.success) {
             this.setState({
               activeSubject: event.target.value,
@@ -159,8 +196,8 @@ export class Index extends Component {
     });
   };
 
-  handleConceptChange = e => {
-    this.props.getTopics2(e.target.value, topicsResponse => {
+  handleConceptChange = (e) => {
+    this.props.getTopics2(e.target.value, (topicsResponse) => {
       if (topicsResponse.success) {
         this.setState({
           activeConcept: e.target.value,
@@ -170,11 +207,11 @@ export class Index extends Component {
     });
   };
 
-  handleTopicChange = e => {
+  handleTopicChange = (e) => {
     this.setState({ activeTopic: e.target.value });
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -210,7 +247,7 @@ export class Index extends Component {
     }
   };
 
-  handleTabChange = value => {
+  handleTabChange = (value) => {
     this.setState({ activeTab: value });
   };
 
@@ -228,7 +265,7 @@ export class Index extends Component {
     this.setState({ bucketArray: arr, activeTab: count - 1 });
   };
 
-  handleRadioChange = e => {
+  handleRadioChange = (e) => {
     if (e.target.value === "SUBJECTIVE") {
       this.setState({
         answerType: e.target.value,
@@ -252,7 +289,7 @@ export class Index extends Component {
       });
   };
 
-  handleCheckBoxes = e => {
+  handleCheckBoxes = (e) => {
     const { activeTab } = this.state;
     if (this.state.answerType === "SINGLE_SELECT") {
       let arr = this.state.bucketArray;
@@ -260,7 +297,7 @@ export class Index extends Component {
         arr[activeTab].choices[e.target.value].selected = false;
         this.setState({ bucketArray: arr });
       } else {
-        arr[activeTab].choices.map(item => (item.selected = false));
+        arr[activeTab].choices.map((item) => (item.selected = false));
         arr[activeTab].choices[e.target.value].selected = true;
         this.setState({ bucketArray: arr });
       }
@@ -295,7 +332,7 @@ export class Index extends Component {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     if (e.target.files[0].name.match(/.(png|svg|jpeg|jpg)$/i)) {
-      this.props.putImage(formData, response => {
+      this.props.putImage(formData, (response) => {
         if (response.success) {
           let arr = this.state.bucketArray;
           arr[this.state.activeTab].choices[index].image = response.data;
@@ -312,7 +349,7 @@ export class Index extends Component {
       });
   };
 
-  handleThreeDotClick = e => {
+  handleThreeDotClick = (e) => {
     this.setState({
       anchorEl: e.currentTarget,
     });
@@ -334,7 +371,7 @@ export class Index extends Component {
     }
   };
 
-  handleDeleteIconClick = index => {
+  handleDeleteIconClick = (index) => {
     let arr = this.state.bucketArray;
     arr[this.state.activeTab].choices[index].image = null;
     this.setState({ bucketArray: arr });
@@ -351,9 +388,17 @@ export class Index extends Component {
     this.setState({ text: data });
   };
 
-  handleUrlChange = e => {
+  handleUrlChange = (e) => {
     this.setState({
       url: e.target.value,
+    });
+  };
+
+  handleDeleteChoiceClick = (ind) => {
+    let copyOfBucketArr = [...this.state.bucketArray];
+    copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
+    this.setState({
+      bucketArray: copyOfBucketArr,
     });
   };
 
@@ -416,36 +461,67 @@ export class Index extends Component {
         },
       });
     } else {
-      const obj = {
-        id: questionId !== undefined ? questionId : null,
-        name: "",
-        type: this.getType(),
-        difficultyLevel: activeLevel.toUpperCase(),
-        expectedTime: expectedTime,
-        topic: { id: activeTopic.length === 0 ? null : activeTopic },
-        testSection: { id: sectionId },
-        question,
-        description,
-        choices: this.getChoices(),
-        explanation: this.state.text,
-        explanationVideo: this.state.url,
-        video: { videoUrl: this.state.url },
-      };
-
-      this.props.postQuestions(testQuestionSetId, obj, response => {
-        if (response.success) {
-          this.props.history.push(
-            lms_add_test + "?testQuestionSetId=" + testQuestionSetId
-          );
-        } else {
-          this.setState({
-            alert: {
-              severity: "error",
-              msg: response.message,
-            },
+      let deptName = window.sessionStorage.getItem("department");
+      const obj =
+        deptName === "assessment_engine_admin"
+          ? {
+              id: questionId !== undefined ? questionId : null,
+              name: "",
+              type: this.getType(),
+              difficultyLevel: activeLevel.toUpperCase(),
+              expectedTime: expectedTime,
+              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+              testSection: { id: sectionId },
+              question,
+              choices: this.getChoices(),
+              explanation: this.state.text,
+              explanationVideo: this.state.url,
+              video: { videoUrl: this.state.url },
+            }
+          : {
+              id: questionId !== undefined ? questionId : null,
+              name: "",
+              type: this.getType(),
+              difficultyLevel: activeLevel.toUpperCase(),
+              expectedTime: expectedTime,
+              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+              testSection: { id: sectionId },
+              question,
+              description,
+              choices: this.getChoices(),
+              explanation: this.state.text,
+              explanationVideo: this.state.url,
+              video: { videoUrl: this.state.url },
+            };
+      deptName === "assessment_engine_admin"
+        ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
+            if (response.success) {
+              this.props.history.push(
+                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+              );
+            } else {
+              this.setState({
+                alert: {
+                  severity: "error",
+                  msg: response.message,
+                },
+              });
+            }
+          })
+        : this.props.postQuestions(testQuestionSetId, obj, (response) => {
+            if (response.success) {
+              this.props.history.push(
+                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+              );
+            } else {
+              this.setState({
+                alert: {
+                  severity: "error",
+                  msg: response.message,
+                },
+              });
+            }
           });
-        }
-      });
     }
   };
 
@@ -560,7 +636,7 @@ export class Index extends Component {
     return new Set(choices).size !== choices.length;
   };
 
-  isEmptyCheck = string => {
+  isEmptyCheck = (string) => {
     if (string && string.toString().trim().length !== 0) return true;
     else return false;
   };
@@ -578,7 +654,9 @@ export class Index extends Component {
     let requestBody = {
       choices: this.getChoices(),
       isHaveDescription: this.isEmptyCheck(description),
-      topicId: topicId ? topicId : null,
+      // topicId: this.props.location.state.topicId
+      //   ? this.props.location.state.topicId
+      //   : null,
       testQuestionsSetId: testQuestionSetId ? testQuestionSetId : null,
       testSectionId: sectionId ? sectionId : null,
       type: this.getType(),
@@ -599,7 +677,10 @@ export class Index extends Component {
         },
       });
     } else {
-      this.props.previewTestData(question_id, requestBody);
+      let deptName = window.sessionStorage.getItem("department");
+      deptName === "assessment_engine_admin"
+        ? this.props.aepreviewTestData(question_id, requestBody)
+        : this.props.previewTestData(question_id, requestBody);
       this.setState({ openPreview: true });
     }
   };
@@ -665,7 +746,12 @@ export class Index extends Component {
     } = this;
 
     const { history, location, match } = this.props;
-
+    const { questionId, sectionId, testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
     const difficulty = [
       { id: "Easy", title: "Easy" },
       { id: "Medium", title: "Medium" },
@@ -686,6 +772,7 @@ export class Index extends Component {
       difficulty,
       handleInputChange,
       expectedTime,
+      testQuestionSetId,
     };
 
     let answerProps = {
@@ -772,7 +859,10 @@ export class Index extends Component {
           <H1>{id !== undefined ? "Edit Test" : "Add New Test"}</H1>
           <DropDownRack {...dropDownRackProps} />
           <Question {...questionProps} />
-          <Answer {...answerProps} />
+          <Answer
+            handleDeleteChoiceClick={this.handleDeleteChoiceClick}
+            {...answerProps}
+          />
           <Explanation {...explanationProps} />
         </C2>
         <Buttons {...buttonsProps} />
@@ -783,7 +873,7 @@ export class Index extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     subjects: state.CourseMaterialReducer.subjects,
     concepts: state.CourseMaterialReducer.concepts,
@@ -799,7 +889,10 @@ export default connect(mapStateToProps, {
   getTopics2,
   putImage,
   postQuestions,
+  aepostQuestions,
   getQuestions,
+  aegetQuestions,
   cleanEditData,
   previewTestData,
+  aepreviewTestData,
 })(Index);
