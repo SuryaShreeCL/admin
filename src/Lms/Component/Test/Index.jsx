@@ -84,7 +84,7 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-      testType: "",
+      testType: null,
       topicId: "default",
       status: "default",
       order: [],
@@ -135,8 +135,8 @@ class TestLanding extends Component {
     this.setState({
       role: role,
       department: deptname,
-      testType: deptname === "assessment_engine_admin" ? "" : "default",
-      testType: "",
+      testType: deptname === "assessment_engine_admin" ? null : "default",
+      testType: null,
     });
   }
 
