@@ -113,7 +113,6 @@ export default function Menu(props) {
       arr.push(array[0]);
       arr.push(array[1]);
       arr.push(array[3]);
-      arr.push(array[4]);
       return arr;
     } else return [];
   };
@@ -129,7 +128,6 @@ export default function Menu(props) {
     name,
     activeStatus,
   } = props;
-
   if (role === ROLES.editor) {
     return (
       <MuiMenu
@@ -141,7 +139,7 @@ export default function Menu(props) {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}
       >
-        {filterMaker(makerChoices, status).map((item) => (
+        {filterMaker(makerChoices, activeStatus).map((item) => (
           <MenuItem onClick={() => handleOptions(item.text, name, topicId)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography className={"menu-item-text"}>{item.text}</Typography>
@@ -186,7 +184,7 @@ export default function Menu(props) {
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}
       >
-        {filterChecker(checkerChoices, status).map((item) => (
+        {filterChecker(checkerChoices, activeStatus).map((item) => (
           <MenuItem
             onClick={() => handleOptions(item.text, name, topicId)}
             className={"menu-item-text"}
