@@ -1080,6 +1080,8 @@ class Add extends Component {
   };
 
   renderFile = () => {
+    var deptName = window.sessionStorage.getItem("department");
+    console.log(deptName)
     if (typeof this.state.posterUrl === "string") {
       return (
         <div style={{ position: "relative" }}>
@@ -1100,6 +1102,11 @@ class Add extends Component {
       );
     } else {
       return (
+        <>
+       {
+         
+        deptName === "assessment_engine_admin" &&(
+
         <Dropzone onDrop={this.onDrop}>
           {({ getRootProps, getInputProps }) => (
             <section
@@ -1127,7 +1134,7 @@ class Add extends Component {
               </aside>
             </section>
           )}
-        </Dropzone>
+        </Dropzone>)}</>
       );
     }
   };
@@ -1360,6 +1367,7 @@ class Add extends Component {
                   )}
                 </Grid>
                 
+                {aedept === "assessment_engine_admin" && (
                 <Grid item md={4} container spacing={3}>
                   <Grid item md={12}>
                     <FormControlLabel
@@ -1425,7 +1433,7 @@ class Add extends Component {
                       </MuiPickersUtilsProvider>
                     </React.Fragment>
                   )}
-                </Grid>
+                </Grid>)}
               </>
             ) : (
               <Divider />
