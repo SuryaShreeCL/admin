@@ -424,7 +424,7 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    if(expectedTime === 0)
+    if(this.state.expectedTime === 0)
     {
       this.setState({
         alert: {
