@@ -753,6 +753,7 @@ class TestLanding extends Component {
                 <DateTimePicker
                   label="Start date and time"
                   inputVariant="outlined"
+                  disablePast
                   value={eventDate}
                   onChange={(value) => this.setState({ eventDate: value })}
                 /></MuiPickersUtilsProvider>
@@ -768,6 +769,7 @@ class TestLanding extends Component {
                 <DateTimePicker
                   label="End date and time"
                   inputVariant="outlined"
+                  disablePast
                   value={eventEndDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
                 /></MuiPickersUtilsProvider>

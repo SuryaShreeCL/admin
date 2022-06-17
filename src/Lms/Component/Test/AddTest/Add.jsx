@@ -722,6 +722,7 @@ class Add extends Component {
         });
       }
     }
+
     if (type === "AE_TEST") {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
@@ -738,19 +739,45 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
+        // this.state.scheduleTest === true ?
+        // (name &&
+        // nameDescription &&
+        // name.trim().length !== 0 &&
+        // nameDescription.trim().length !== 0 &&
+        // description.length !== 0 &&
+        // descriptionTitle.trim().length !== 0 &&
+        // cutOffScore.length !== 0 && eventDate && eventEndDate) 
+        // : 
         name &&
-        nameDescription &&
-        name.trim().length !== 0 &&
-        nameDescription.trim().length !== 0 &&
-        description.length !== 0 &&
-        descriptionTitle.trim().length !== 0 &&
-        cutOffScore.length !== 0 
-        
+          nameDescription &&
+          name.trim().length !== 0 &&
+          nameDescription.trim().length !== 0 &&
+          description.length !== 0 &&
+          descriptionTitle.trim().length !== 0 &&
+          cutOffScore.length !== 0 &&
+          ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
         // courseId !== undefined
       ) {
+
+        if(this.state.scheduleTest){
+          if (
+            moment(eventEndDate).isSameOrBefore(eventDate) ||
+            moment(eventDate).isBefore(moment()) ||
+            moment(eventEndDate).isBefore(moment())
+          ) {
+            this.setState({
+              snackOpen: true,
+              snackType: "warning",
+              message: "Please add proper timing & date",
+              loading: false,
+            });
+            // return false;
+          }
+        }
+         
+        // else{
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
-
             var calibrationTestSet = {
               id: testQuestionSetId,
               name: name,
@@ -764,6 +791,9 @@ class Add extends Component {
               eventDate,
               eventEndDate,
             };
+
+            console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -801,6 +831,7 @@ class Add extends Component {
               calibrationTestSet,
               (calibrationTestResponse) => {                
                 if (calibrationTestResponse?.success) {
+                  console.log(calibrationTestResponse,"calibrationTestResponse")
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
@@ -835,6 +866,10 @@ class Add extends Component {
               }
             );           
           }      
+
+               
+          
+
           else {
             this.setState({
               snackOpen: true,
@@ -843,20 +878,7 @@ class Add extends Component {
               loading: false,
             });
           }
-        }   
-        // else if (
-        //     moment(eventEndDate).isSameOrBefore(eventDate) ||
-        //     moment(eventDate).isBefore(moment()) ||
-        //     moment(eventEndDate).isBefore(moment())
-        //   ) {
-        //     this.setState({
-        //       snackOpen: true,
-        //       snackType: "warning",
-        //       message: "Please add proper timing & date",
-        //       loading: false,
-        //     });
-        //   }    
-        
+        }                   
         else {
           this.setState({
             snackOpen: true,
@@ -865,7 +887,9 @@ class Add extends Component {
             loading: false,
           });
         }
-      }      
+      // }
+      }   
+       
       else {
         this.setState({
           snackOpen: true,
@@ -1117,7 +1141,7 @@ class Add extends Component {
                 padding: "5% 10% 5% 10%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
+                alignItems: "center",                
               }}
             >
               <div {...getRootProps({ className: "dropzone" })}>
@@ -1181,6 +1205,11 @@ class Add extends Component {
       handleMenuItemDelete,
       handleSectionThreeDotClick,
     } = this;
+
+    // console.log(this.state.scheduleTest,"scheduleTest")
+    // console.log(this.state.eventDate,"scheduleTest")
+    // console.log(this.state.eventEndDate,"scheduleTest")
+
     return (
       <>
         <Card padding={"12px 20px"}>
@@ -1388,8 +1417,11 @@ class Add extends Component {
                             label="Start date and time"
                             inputVariant="outlined"
                             value={eventDate}
-                            onChange={(value) =>
+                            disablePast
+                            onChange={(value) => 
+                              // {
                               this.setState({ eventDate: value })
+                              // console.log(this.state.eventDate,"1111111")}
                             }
                           />
                         </Grid>
@@ -1398,6 +1430,7 @@ class Add extends Component {
                             <DateTimePicker
                               label="End date and time"
                               inputVariant="outlined"
+                              disablePast
                               value={eventEndDate}
                               onChange={(value) =>
                                 this.setState({ eventEndDate: value })
