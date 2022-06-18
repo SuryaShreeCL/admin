@@ -1058,7 +1058,7 @@ class Add extends Component {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {
-        if (response?.status === 201) {
+        if (response?.status === 202) {
           this.setState({
             posterUrl: response.data.posterUrl,
           });
