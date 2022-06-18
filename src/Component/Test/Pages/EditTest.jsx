@@ -130,19 +130,6 @@ const EditTest = () => {
   //   (post) => post?.id === test?.wallPost?.linkedEvent?.id
   // );
 
-  const validate = (values) => {
-    if (values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
-
-    return true;
-  };
-
   const validationSchema = yup.object({
     nameDescription: yup.string().required('test instructions required'),
     // cutOffScore: yup
