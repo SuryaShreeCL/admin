@@ -105,12 +105,17 @@ class TestLanding extends Component {
       openStatus: false,
       clickableStatus: "",
       department: "",
+      deptName:"",
     };
   }
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
     var deptname = window.sessionStorage.getItem("department");
+    console.log(deptname);
+    this.setState({
+      deptName:deptname
+    })
     deptname === "assessment_engine_admin"
       ? this.props.aegetFilters()
       : this.props.getFilters();
@@ -193,7 +198,7 @@ class TestLanding extends Component {
         testType:
           deptName === "assessment_engine_admin"
             ? "AE_TEST"
-            : this.state.testType !== "default"
+            : this.state.testType !== "default" && this.state.testType !== ""
             ? this.state.testType
             : null,
 
@@ -662,7 +667,7 @@ class TestLanding extends Component {
         {filterData && (
           <DropDownRack
             filterData={filterData}
-            testType={testType}
+            testType={testType ? testType : "default"}
             topicId={topicId}
             status={status}
             handleDropDownChange={handleDropDownChange}
@@ -670,6 +675,7 @@ class TestLanding extends Component {
         )}
         {tableContent && (
           <TableComp
+          deptname={this.state.deptName}
             tableContent={tableContent.content}
             handleSortNew={handleSortNew}
             field={field}
