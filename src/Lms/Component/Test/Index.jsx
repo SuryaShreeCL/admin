@@ -105,12 +105,17 @@ class TestLanding extends Component {
       openStatus: false,
       clickableStatus: "",
       department: "",
+      deptName:"",
     };
   }
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
     var deptname = window.sessionStorage.getItem("department");
+    console.log(deptname);
+    this.setState({
+      deptName:deptname
+    })
     deptname === "assessment_engine_admin"
       ? this.props.aegetFilters()
       : this.props.getFilters();
@@ -671,6 +676,7 @@ class TestLanding extends Component {
         )}
         {tableContent && (
           <TableComp
+          deptname={this.state.deptName}
             tableContent={tableContent.content}
             handleSortNew={handleSortNew}
             field={field}
