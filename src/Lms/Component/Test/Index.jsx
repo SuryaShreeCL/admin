@@ -198,7 +198,7 @@ class TestLanding extends Component {
         testType:
           deptName === "assessment_engine_admin"
             ? "AE_TEST"
-            : this.state.testType !== "default"
+            : this.state.testType !== "default" && this.state.testType !== ""
             ? this.state.testType
             : null,
 
@@ -668,7 +668,7 @@ class TestLanding extends Component {
         {filterData && (
           <DropDownRack
             filterData={filterData}
-            testType={testType}
+            testType={testType ? testType : "default"}
             topicId={topicId}
             status={status}
             handleDropDownChange={handleDropDownChange}

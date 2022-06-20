@@ -335,7 +335,7 @@ export default function TableComp(props) {
                   <BodyCell>
                     {console.log(item.status)}
                     {handleShowThreeDot(role, item.status) &&
-                      (item.status !== "Approved" && item.status !== "Expired") && (
+                       (
                         <div>
                           <IconButton
                             aria-controls={item.id}

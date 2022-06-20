@@ -66,7 +66,7 @@ export default function Menu(props) {
       return array;
     }
     if (status === "Archived") {
-      return array.splice(4, 1);
+      return array.splice(5, 1);
     }
 
     if (status === "Live") {
@@ -76,12 +76,12 @@ export default function Menu(props) {
     }
     if (status === "In Review") {
       array.splice(2, 1);
-      array.splice(3, 1);
+      array.splice(3, 2);
       return array;
     }
     if (status === "Approved") {
       array.splice(2, 1);
-      array.splice(3, 1);
+      array.splice(3, 2);
       return array;
     } else return [];
   };

@@ -18,31 +18,25 @@ export default function DropDownRack(props) {
     });
   }, []);
 
-  // console.log(testType);
 
   return (
     <Grid container spacing={3}>
-        {aedept !== "assessment_engine_admin" ?
-      <Grid item xs={12} md={4}>
-      
-        <DropDown
-          label="Test Type"
-          name="testType"
-          items={state.testTypes}
-          value={testType}
-          onChange={handleDropDownChange}
-        />
-      </Grid>:<></>
-        }
-
-
-
-      {testType !== "CALIBRATION" && aedept!== "assessment_engine_admin" ?
-        
-         
+      {aedept !== "assessment_engine_admin" ? (
         <Grid item xs={12} md={4}>
-             
-       
+          <DropDown
+            label="Test Type"
+            name="testType"
+            items={state.testTypes}
+            value={testType}
+            onChange={handleDropDownChange}
+          />
+        </Grid>
+      ) : (
+        <></>
+      )}
+
+      {testType !== "CALIBRATION" && aedept !== "assessment_engine_admin" ? (
+        <Grid item xs={12} md={4}>
           <DropDown
             label="Topic Name"
             name="topicId"
@@ -50,9 +44,11 @@ export default function DropDownRack(props) {
             value={topicId}
             onChange={handleDropDownChange}
             disabled={testType === "CALIBRATION"}
-          /> 
-        </Grid> :<></>
-      }
+          />
+        </Grid>
+      ) : (
+        <></>
+      )}
       <Grid item xs={12} md={4}>
         <DropDown
           label="Status"
