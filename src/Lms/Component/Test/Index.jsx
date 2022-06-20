@@ -105,12 +105,17 @@ class TestLanding extends Component {
       openStatus: false,
       clickableStatus: "",
       department: "",
+      deptName:"",
     };
   }
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
     var deptname = window.sessionStorage.getItem("department");
+    console.log(deptname);
+    this.setState({
+      deptName:deptname
+    })
     deptname === "assessment_engine_admin"
       ? this.props.aegetFilters()
       : this.props.getFilters();
@@ -590,8 +595,9 @@ class TestLanding extends Component {
           popupOpen: false,
         });
         let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.props.getQuestionSet(paramObj);
-        this.props.aegetQuestionSet(paramObj);
+        this.state.department !== "assessment_engine_admin"
+       ? this.props.getQuestionSet(paramObj)
+       : this.props.aegetQuestionSet(paramObj);
       } else {
         this.setState({
           alertState: true,
@@ -670,6 +676,7 @@ class TestLanding extends Component {
         )}
         {tableContent && (
           <TableComp
+          deptname={this.state.deptName}
             tableContent={tableContent.content}
             handleSortNew={handleSortNew}
             field={field}
@@ -755,6 +762,7 @@ class TestLanding extends Component {
                 <DateTimePicker
                   label="Start date and time"
                   inputVariant="outlined"
+                  disablePast
                   value={eventDate}
                   onChange={(value) => this.setState({ eventDate: value })}
                 /></MuiPickersUtilsProvider>
@@ -770,6 +778,7 @@ class TestLanding extends Component {
                 <DateTimePicker
                   label="End date and time"
                   inputVariant="outlined"
+                  disablePast
                   value={eventEndDate}
                   disabled ={eventEndDate === eventDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
