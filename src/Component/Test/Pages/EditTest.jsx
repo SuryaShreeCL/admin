@@ -91,7 +91,6 @@ const EditTest = () => {
     startDateTime: new Date(),
     endDateTime: new Date(),
     score: 0,
-    wallFiles: [],
     cutOffScore: 0,
   });
 
@@ -208,7 +207,6 @@ const EditTest = () => {
                   wallCategory:
                     values?.wallPost?.linkedEvent?.wallCategories ||
                     values.wallPost?.wallCategories,
-                  wallFiles: [],
                   testSections: values.testSection,
                 };
                 onTestUpdate(payload, testType);
@@ -273,7 +271,7 @@ const EditTest = () => {
                       </Grid>
                       <Grid item style={{ width: '30%', zIndex: '77' }}>
                         <Autocomplete
-                          options={posts?.content}
+                          options={posts}
                           getOptionLabel={(option) => option.eventTitle}
                           name='eventPost.id'
                           disableClearable

@@ -91,7 +91,6 @@ const CreateTest = () => {
     endDateTime: new Date(),
     score: 10,
     eventPost: { id: '' },
-    wallFiles: [],
     cutOffScore: 5,
   });
 
