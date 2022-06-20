@@ -590,8 +590,9 @@ class TestLanding extends Component {
           popupOpen: false,
         });
         let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.props.getQuestionSet(paramObj);
-        this.props.aegetQuestionSet(paramObj);
+        this.state.department !== "assessment_engine_admin"
+       ? this.props.getQuestionSet(paramObj)
+       : this.props.aegetQuestionSet(paramObj);
       } else {
         this.setState({
           alertState: true,
