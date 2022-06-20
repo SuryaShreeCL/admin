@@ -19,30 +19,30 @@ import Menu from "./Menu";
 let deptName = window.sessionStorage.getItem("department");
 console.log(deptName);
 
-const headText = deptName === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
-  "Name",
-  "Test Type",
-  "#  Que Assignes",
-  "# Que filled",
-  "",
-  "",
-   "Status",
+// const headText = deptName === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
+//   "Name",
+//   "Test Type",
+//   "#  Que Assignes",
+//   "# Que filled",
+//   "",
+//   "",
+//    "Status",
    
    
-  "Download",
-  "Test URL",
-  "",
-]:[
-  "Name",
-  "Test Type",
-  "#  Que Assignes",
-  "# Que filled",
-  "Course",
-  "Topic name",
-  "Status",
+//   "Download",
+//   "Test URL",
+//   "",
+// ]:[
+//   "Name",
+//   "Test Type",
+//   "#  Que Assignes",
+//   "# Que filled",
+//   "Course",
+//   "Topic name",
+//   "Status",
   
-  "",
-];
+//   "",
+// ];
 
 // const handleOpen = (itemId, popUpId, role, status) => {
 //   //
@@ -63,7 +63,34 @@ const handleShowThreeDot = (role, status) => {
 };
 
 export default function TableComp(props) {
+  console.log(props.deptname)
+  console.log(props)
   const dispatch = useDispatch();
+
+  const headText = props.deptname === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
+    "Name",
+    "Test Type",
+    "#  Que Assignes",
+    "# Que filled",
+    "",
+    "",
+     "Status",
+     
+     
+    "Download",
+    "Test URL",
+    "",
+  ]:[
+    "Name",
+    "Test Type",
+    "#  Que Assignes",
+    "# Que filled",
+    "Course",
+    "Topic name",
+    "Status",
+    
+    "",
+  ];
   const handleDownload = (testQuestionSetId, downloadpath) => {
     // setScheduler(true);
     // setData(item);
