@@ -19,7 +19,7 @@ import Menu from "./Menu";
 let deptName = window.sessionStorage.getItem("department");
 console.log(deptName);
 
-const headText = deptName === "assessment_engine_admin" ? [
+const headText = deptName === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
   "Name",
   "Test Type",
   "#  Que Assignes",

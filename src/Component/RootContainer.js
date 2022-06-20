@@ -667,6 +667,8 @@ function RootContainer(props) {
         },
       ]);
     } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department')!== 'assessment_engine_admin') {
+      var deptName = window.sessionStorage.getItem('department')
+      console.log(deptName)
       setSideNav([
         {
           icon: <></>,
@@ -712,9 +714,10 @@ function RootContainer(props) {
         },
       ]);
     }
-
+   
 
     else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department') === 'assessment_engine_admin') {
+  
       setSideNav([
         // {
         //   icon: <></>,

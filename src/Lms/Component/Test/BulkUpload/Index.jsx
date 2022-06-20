@@ -226,8 +226,10 @@ class Index extends Component {
   };
 
   handleTopicList = () => {
+    let deptName = window.sessionStorage.getItem("department");
     const { testQuestionSetId } = this.props.match.params;
-    this.props.getTopicList(testQuestionSetId, (response) => {});
+    deptName === "assessment_engine_admin"?
+    this.props.getTopicList(testQuestionSetId, (response) => {}):
     this.props.aegetTopicList(testQuestionSetId, (response) => {});
   };
 

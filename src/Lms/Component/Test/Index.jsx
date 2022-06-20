@@ -589,8 +589,9 @@ class TestLanding extends Component {
           popupOpen: false,
         });
         let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.props.getQuestionSet(paramObj);
-        this.props.aegetQuestionSet(paramObj);
+        this.state.department !== "assessment_engine_admin"
+       ? this.props.getQuestionSet(paramObj)
+       : this.props.aegetQuestionSet(paramObj);
       } else {
         this.setState({
           alertState: true,
@@ -750,14 +751,14 @@ class TestLanding extends Component {
                 alignItems="center"
                 justifyContent="center"
               >
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <DateTimePicker
-                    label="Start date and time"
-                    inputVariant="outlined"
-                    value={eventDate}
-                    onChange={(value) => this.setState({ eventDate: value })}
-                  />
-                </MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
+                <DateTimePicker
+                  label="Start date and time"
+                  inputVariant="outlined"
+                  disablePast
+                  value={eventDate}
+                  onChange={(value) => this.setState({ eventDate: value })}
+                /></MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
@@ -766,14 +767,15 @@ class TestLanding extends Component {
                 alignItems="center"
                 justifyContent="center"
               >
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <DateTimePicker
-                    label="End date and time"
-                    inputVariant="outlined"
-                    value={eventEndDate}
-                    onChange={(value) => this.setState({ eventEndDate: value })}
-                  />
-                </MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
+                <DateTimePicker
+                  label="End date and time"
+                  inputVariant="outlined"
+                  disablePast
+                  value={eventEndDate}
+                  disabled ={eventEndDate === eventDate}
+                  onChange={(value) => this.setState({ eventEndDate: value })}
+                /></MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
