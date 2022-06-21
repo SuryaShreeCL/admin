@@ -33,17 +33,17 @@ function DownloadCvTable({
           body.length !== 0 &&
           body.map(
             (
-              { comment, versionName, uploadedDate, id, path, isDelete },
+              { comment, uploadedDate,fileName,id, path, isDelete },
               index,status
             ) => (
               <tr id={`row${index}`}>
                  {status=== "Review Completed"? (
             <td>
-              {versionName}_R 
+              {fileName}
               </td>
             ):(
               <td>
-                {versionName}
+                {fileName}
               </td>)
   }
                 <td>
