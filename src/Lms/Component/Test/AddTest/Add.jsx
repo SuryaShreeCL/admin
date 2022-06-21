@@ -753,6 +753,27 @@ class Add extends Component {
         cutOffScore.length !== 0
         // courseId !== undefined
       ) {
+        console.log(eventDate, eventEndDate,"1234")
+        if (this.state.scheduleTest &&
+          moment(eventEndDate).isSameOrBefore(eventDate) 
+          // || moment(eventDate).isBefore(moment()) ||
+          // moment(eventEndDate).isBefore(moment())
+        ) {
+          this.setState({
+            snackOpen: true,
+            snackType: "warning",
+            message: "Please add proper timing & date",
+            loading: false,
+          });
+          // return false;
+        }        
+         
+        else if (!this.state.scheduleTest || (this.state.scheduleTest &&
+          !moment(eventEndDate).isSameOrBefore(eventDate))
+          // || moment(eventDate).isBefore(moment()) ||
+          // moment(eventEndDate).isBefore(moment())
+        )
+        {
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
             var calibrationTestSet = {
@@ -765,15 +786,12 @@ class Add extends Component {
               nameDescription: nameDescription,
               testSections: calibrationTestData,
               cutOffScore: parseInt(cutOffScore),
-              eventDate,
+              eventDate,           
               eventEndDate,
             };
-            //  const wrk=     eventEndDate !== eventDate ? this.setState({
-            //         snackOpen: true,
-            //         snackType: "warning",
-            //         message: "Start time and end time must not be same",
-            //         loading: false,
-            //       }):null
+
+            // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -811,6 +829,8 @@ class Add extends Component {
               calibrationTestSet,
               (calibrationTestResponse) => {
                 if (calibrationTestResponse?.success) {
+                  console.log(calibrationTestResponse,"calibrationTestResponse")
+                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
@@ -842,8 +862,10 @@ class Add extends Component {
                   });
                 }
               }
-            );
-          } else {
+            );           
+          }      
+
+          else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
@@ -859,7 +881,10 @@ class Add extends Component {
             loading: false,
           });
         }
-      } else {
+      }
+      }   
+       
+      else {
         this.setState({
           snackOpen: true,
           snackType: "warning",
@@ -1050,7 +1075,7 @@ class Add extends Component {
 
   handleBannerUpload = (testQuesSetId) => {
     const { posterUrl } = this.state;
-    if (posterUrl?.length !== 0) {
+    if (posterUrl && Array.isArray(posterUrl) && posterUrl.length !== 0) {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {
