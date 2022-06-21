@@ -36,20 +36,22 @@ import {
   getQuestionSet,
   publishTest,
   reviewTest,
-  } from "../../Redux/Action/Test";
-  import DialogComponent from "../../Utils/DialogComponent";
-  import PaginationComponent from "../../Utils/PaginationComponent";
-  import PlusButton from "../../Utils/PlusButton";
-  import DropDownRack from "./DropDownRack";
-  import TableComp from "./TableComp";
-  
-  const INITIAL_PAGE_NO = 0;
-  const NO_OF_RESPONSE = 10;
-  var testVar = window.sessionStorage.getItem("department");
-  const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
-  console.log(testVar);
-  
-  const editorConfiguration = {
+} from "../../Redux/Action/Test";
+import DialogComponent from "../../Utils/DialogComponent";
+import PaginationComponent from "../../Utils/PaginationComponent";
+import PlusButton from "../../Utils/PlusButton";
+import DropDownRack from "./DropDownRack";
+import TableComp from "./TableComp";
+import moment from "moment";
+
+
+const INITIAL_PAGE_NO = 0;
+const NO_OF_RESPONSE = 10;
+var testVar = window.sessionStorage.getItem("department");
+const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
+console.log(testVar);
+
+const editorConfiguration = {
   toolbar: [
   "heading",
   "|",
@@ -81,63 +83,68 @@ import {
   
   class TestLanding extends Component {
   constructor(props) {
-  super(props);
-  
-  this.state = {
-  testType: "",
-  topicId: "default",
-  status: "default",
-  order: [],
-  field: [],
-  role: "",
-  anchorEl: null,
-  popUpId: null,
-  dialogStatus: false,
-  dialogContent: null,
-  currentPage: 0,
-  alertState: false,
-  alertMsg: "",
-  alertSeverity: "",
-  popupOpen: false,
-  eventDate: "",
-  eventDate: new Date(),
-  eventEndDate: new Date(),
-  openStatus: false,
-  clickableStatus: "",
-  department: "",
-  };
+    super(props);
+
+    this.state = {
+      testType: "",
+      topicId: "default",
+      status: "default",
+      order: [],
+      field: [],
+      role: "",
+      anchorEl: null,
+      popUpId: null,
+      dialogStatus: false,
+      dialogContent: null,
+      currentPage: 0,
+      alertState: false,
+      alertMsg: "",
+      alertSeverity: "",
+      popupOpen: false,
+      eventDate: "",
+      eventDate: new Date(),
+      eventEndDate: new Date(),
+      openStatus: false,
+      clickableStatus: "",
+      department: "",
+      deptName:"",
+    };
   }
   
   componentDidMount() {
-  const role = sessionStorage.getItem("role");
-  var deptname = window.sessionStorage.getItem("department");
-  deptname === "assessment_engine_admin"
-  ? this.props.aegetFilters()
-  : this.props.getFilters();
-  // if (deptname === "assessment_engine_admin") {
-  // var paramObj = {
-  // page: INITIAL_PAGE_NO,
-  // size: NO_OF_RESPONSE,
-  // testType: TEST_TYPE,
-  // };
-  // } else {
-  // var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-  // }
-  var paramObj = {
-  page: INITIAL_PAGE_NO,
-  size: NO_OF_RESPONSE,
-  testType: TEST_TYPE,
-  };
-  deptname === "assessment_engine_admin"
-  ? this.props.aegetQuestionSet(paramObj)
-  : this.props.getQuestionSet(paramObj);
-  
-  this.setState({
-  role: role,
-  department: deptname,
-  testType: deptname === "assessment_engine_admin" ? "" : "default",
-  testType: "",
-  });
+    const role = sessionStorage.getItem("role");
+    var deptname = window.sessionStorage.getItem("department");
+    console.log(deptname);
+    this.setState({
+      deptName:deptname
+    })
+    deptname === "assessment_engine_admin"
+      ? this.props.aegetFilters()
+      : this.props.getFilters();
+    // if (deptname === "assessment_engine_admin") {
+    //   var paramObj = {
+    //     page: INITIAL_PAGE_NO,
+    //     size: NO_OF_RESPONSE,
+    //     testType: TEST_TYPE,
+    //   };
+    // } else {
+    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+    // }
+    var paramObj = {
+      page: INITIAL_PAGE_NO,
+      size: NO_OF_RESPONSE,
+      testType: TEST_TYPE,
+    };
+    deptname === "assessment_engine_admin"
+      ? this.props.aegetQuestionSet(paramObj)
+      : this.props.getQuestionSet(paramObj);
+
+    this.setState({
+      role: role,
+      department: deptname,
+      testType: deptname === "assessment_engine_admin" ? "" : "default",
+      testType: "",
+    });
   }
   
   handleDropDownChange = (event) => {
@@ -573,31 +580,45 @@ import {
   }
   };
   handleReschedule = () => {
-  // if (this.state.eventDate && this.state.endEventDate) {
-  console.log("reschedule")
-  let obj = {
+console.log("reschedule")
+let obj = {
   startDateTime: this.state.eventDate,
   endDateTime: this.state.eventEndDate,
-  };
+};
+
+if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate)) 
+{
+  this.setState({
+    alertState: true,
+    alertSeverity: "warning",
+    alertMsg: "Please add proper timing & date",
+    popupOpen: true,
+  });          
+} 
+
+else
+{
   rescheduleTest(this.state.popUpId, obj).then((response) => {
-  if (response?.status === 200) {
-  this.setState({
-  alertState: true,
-  alertSeverity: "success",
-  alertMsg: "Test rescheduled successfully",
-  popupOpen: false,
+    if (response?.status === 200) {                
+        this.setState({
+          alertState: true,
+          alertSeverity: "success",
+          alertMsg: "Test rescheduled successfully",
+          popupOpen: false,
+        });
+        let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+        this.state.department !== "assessment_engine_admin"
+        ? this.props.getQuestionSet(paramObj)
+        : this.props.aegetQuestionSet(paramObj);                  
+    } else {
+      this.setState({
+        alertState: true,
+        alertSeverity: "error",
+        alertMsg: response,
+      });
+    }
   });
-  let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-  this.props.getQuestionSet(paramObj);
-  this.props.aegetQuestionSet(paramObj);
-  } else {
-  this.setState({
-  alertState: true,
-  alertSeverity: "error",
-  alertMsg: response,
-  });
-  }
-  });
+}
   // }else{
   // this.setState({
   // alertState : true,

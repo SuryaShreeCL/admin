@@ -52,6 +52,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import moment from "moment";
 
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
@@ -236,14 +237,6 @@ class Add extends Component {
           posterUrl: questionSet.posterUrl,
         });
       }
-      // if(questionSet.eventDate !== questionSet.eventEndDate)
-      // {
-      //   this.setState({
-      //     snackOpen: true,
-      //     snackType: "warning",
-      //     message: "Please save the test",
-      //   }); 
-      // }
 
       if (questionSet.type === "TOPIC") {
         this.setState({
@@ -729,6 +722,7 @@ class Add extends Component {
         });
       }
     }
+
     if (type === "AE_TEST") {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
@@ -745,15 +739,31 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
-        name &&
-        nameDescription &&
-        name.trim().length !== 0 &&
-        nameDescription.trim().length !== 0 &&
-        description.length !== 0 &&
-        descriptionTitle.trim().length !== 0 &&
-        cutOffScore.length !== 0
+          name &&
+          nameDescription &&
+          name.trim().length !== 0 &&
+          nameDescription.trim().length !== 0 &&
+          description.length !== 0 &&
+          descriptionTitle.trim().length !== 0 &&
+          cutOffScore.length !== 0 &&
+          ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
         // courseId !== undefined
       ) {
+        // console.log(eventDate, eventEndDate,"1234")
+        if (this.state.scheduleTest && moment(eventEndDate).isSameOrBefore(eventDate)) 
+        {
+          this.setState({
+            snackOpen: true,
+            snackType: "warning",
+            message: "Please add proper timing & date",
+            loading: false,
+          });
+          // return false;
+        }        
+         
+        else if (!this.state.scheduleTest || (this.state.scheduleTest &&
+          !moment(eventEndDate).isSameOrBefore(eventDate)))
+        {
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
             var calibrationTestSet = {
@@ -766,15 +776,12 @@ class Add extends Component {
               nameDescription: nameDescription,
               testSections: calibrationTestData,
               cutOffScore: parseInt(cutOffScore),
-              eventDate,
+              eventDate,           
               eventEndDate,
             };
-      //  const wrk=     eventEndDate !== eventDate ? this.setState({
-      //         snackOpen: true,
-      //         snackType: "warning",
-      //         message: "Start time and end time must not be same",
-      //         loading: false,
-      //       }):null     
+
+            // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -810,8 +817,10 @@ class Add extends Component {
             // );
             this.props.aecreateTestQuestionSet(
               calibrationTestSet,
-              (calibrationTestResponse) => {
+              (calibrationTestResponse) => {                
                 if (calibrationTestResponse?.success) {
+                  console.log(calibrationTestResponse,"calibrationTestResponse")
+                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
@@ -834,17 +843,20 @@ class Add extends Component {
                     loading: false,
                   });
                   this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                } else {
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "warning",
-                    message: "Network Failed",
-                    loading: false,
-                  });
+                }                                              
+                else {                  
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "warning",
+                      message: "Network Failed",
+                      loading: false,
+                    });                                    
                 }
               }
-            );
-          } else {
+            );           
+          }      
+
+          else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
@@ -852,7 +864,8 @@ class Add extends Component {
               loading: false,
             });
           }
-        } else {
+        }                   
+        else {
           this.setState({
             snackOpen: true,
             snackType: "warning",
@@ -860,7 +873,10 @@ class Add extends Component {
             loading: false,
           });
         }
-      } else {
+      }
+      }   
+       
+      else {
         this.setState({
           snackOpen: true,
           snackType: "warning",
@@ -1054,7 +1070,7 @@ class Add extends Component {
 
   handleBannerUpload = (testQuesSetId) => {
     const { posterUrl } = this.state;
-    if (posterUrl?.length !== 0) {
+    if (posterUrl && Array.isArray(posterUrl) && posterUrl.length !== 0) {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {
@@ -1092,7 +1108,6 @@ class Add extends Component {
             style={{ position: "absolute", top: 2, right: 2 }}
             color={"secondary"}
             size="small"
-            onClick={this.handleFileDelete}
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1112,11 +1127,10 @@ class Add extends Component {
                 padding: "5% 10% 5% 10%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                cursor: "pointer" ,
+                alignItems: "center",                
               }}
             >
-              <div style={{ cursor: "pointer" }} {...getRootProps({ className: "dropzone" })}>
+              <div {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} accept={".jpg,.png,.gif"} />
                 <p style={{ cursor: "pointer" }}>
                   Drag 'n' drop some files here, or click to select files
@@ -1166,10 +1180,6 @@ class Add extends Component {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
     const aedept = window.sessionStorage.getItem("department");
-    
-      const check =  eventEndDate === eventDate ;
-      console.log(check);
-    
     const {
       handleThreeDotClick,
       handleClose,
@@ -1181,6 +1191,11 @@ class Add extends Component {
       handleMenuItemDelete,
       handleSectionThreeDotClick,
     } = this;
+
+    // console.log(this.state.scheduleTest,"scheduleTest")
+    // console.log(this.state.eventDate,"scheduleTest")
+    // console.log(this.state.eventEndDate,"scheduleTest")
+
     return (
       <>
         <Card padding={"12px 20px"}>
@@ -1326,7 +1341,7 @@ class Add extends Component {
                   </Grid>
                 )}
                 <Grid item xs={12} md={8}>
-                  <AutocompleteText 
+                  <AutocompleteText
                     autoData={{
                       label: "Test Instruction Details",
                       placeholder: "List The Instruction",
@@ -1334,7 +1349,6 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
-                    rules={{required:true}}
                   />
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -1389,8 +1403,11 @@ class Add extends Component {
                             label="Start date and time"
                             inputVariant="outlined"
                             value={eventDate}
-                            onChange={(value) =>
+                            disablePast
+                            onChange={(value) => 
+                              // {
                               this.setState({ eventDate: value })
+                              // console.log(this.state.eventDate,"1111111")}
                             }
                           />
                         </Grid>
@@ -1399,26 +1416,12 @@ class Add extends Component {
                             <DateTimePicker
                               label="End date and time"
                               inputVariant="outlined"
+                              disablePast
                               value={eventEndDate}
                               onChange={(value) =>
                                 this.setState({ eventEndDate: value })
                               }
-                              // // {eventEndDate=== eventDate}
-                              // onKeyPress = {eventDate === eventEndDate ?  this.setState({
-                              //   snackOpen: true,
-                              //   snackType: "error",
-                              //   message: "vfgefgygy",
-                              // }):"" }
-                              
                             />
-                            {eventDate === eventEndDate ? console.log("trrrrrrruuuuuuu"):console.log("falseeeee")}
-        
-        
-                           
-                          {console.log(eventDate)}
-                        {  console.log(eventEndDate)
-                        }
-                     {/* {   eventDate === eventEndDate   ? console.log("crt value"):console.log("wrong")} */}
                           </MuiPickersUtilsProvider>
                         </Grid>
                       </MuiPickersUtilsProvider>

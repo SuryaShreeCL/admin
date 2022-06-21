@@ -132,6 +132,8 @@ function DropDownRack(props) {
                     id="expectedTime"
                     value={expectedTime}
                     name="expectedTime"
+                    min="1"
+                    
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
                     endAdornment={
@@ -175,6 +177,7 @@ function DropDownRack(props) {
                     id="expectedTime"
                     value={expectedTime}
                     name="expectedTime"
+                    min={1}
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
                     endAdornment={

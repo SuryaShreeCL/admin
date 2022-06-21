@@ -1,8 +1,10 @@
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 import QueryString from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { lms_add_test } from "../../../../Component/RoutePaths";
-import { C2, H1, BackIconBox } from "../../../Assets/StyledComponents";
+import { BackIconBox, C2, H1 } from "../../../Assets/StyledComponents";
 import {
   getConcepts,
   getSubjects,
@@ -10,23 +12,21 @@ import {
   putImage,
 } from "../../../Redux/Action/CourseMaterial";
 import {
+  aegetQuestions,
+  aepostQuestions,
+  aepreviewTestData,
   cleanEditData,
   getQuestions,
-  aegetQuestions,
   postQuestions,
-  aepostQuestions,
   previewTestData,
-  aepreviewTestData,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
 import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
-import Question from "./Question";
 import QuestionPreview from "./preview/Index";
-import { IconButton } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import Question from "./Question";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -95,7 +95,7 @@ export class Index extends Component {
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
                 url: response.data.explanationVideo,
-                url: response.data.video ? response.data.video.videoUrl : "",
+                // url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
@@ -127,7 +127,7 @@ export class Index extends Component {
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                url: response.data.explanationVideo,
+                // url: response.data.explanationVideo,
                 url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
@@ -415,6 +415,7 @@ export class Index extends Component {
       text,
       url,
     } = this.state;
+    let deptName = window.sessionStorage.getItem("department");
 
     let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
       this.props.location.search,
@@ -422,33 +423,14 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    if(expectedTime === 0)
-        {
-          this.setState({
-            alert: {
-              severity: "error",
-              msg: "Expected time must not be zero",
-            },
-          });
-        }
-    
-
-  else{  if (testQuestionSetId === undefined)
-      testQuestionSetId = this.props.editData.data.testQuestionsSetId;
-
-    if (sectionId === undefined)
-      sectionId =
-        this.props.editData !== null
-          ? this.props.editData.data.testSectionId
-          : null;
-
     if (
-      activeLevel.length === 0 ||
-      (this.props.topics && this.state.expectedTime.length === 0) ||
-      question.length === 0 ||
-      answerType.length === 0 ||
-      this.choiceEmptyCheck() ||
-      this.choicesSelectEmptyCheck()
+      deptName === "assessment_engine_admin" &&
+      (activeLevel?.length === 0 ||
+        this.state.expectedTime?.length === 0 ||
+        question?.length === 0 ||
+        answerType?.length === 0 ||
+        this.choiceEmptyCheck() ||
+        this.choicesSelectEmptyCheck())
     ) {
       this.setState({
         alert: {
@@ -456,84 +438,119 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (this.hasDuplicates()) {
+    } else if (
+      deptName === "assessment_engine_admin" &&
+      Number(this.state.expectedTime <= 0)
+    ) {
       this.setState({
         alert: {
           severity: "error",
-          msg: "Please change duplicate options",
-        },
-      });
-    } else if (this.props.topics && Number(this.state.expectedTime <= 0)) {
-      this.setState({
-        alert: {
-          severity: "warning",
-          msg: "Please enter a valid expected time",
+          msg: "Expected time must not be zero",
         },
       });
     } else {
-      let deptName = window.sessionStorage.getItem("department");
-      const obj =
+      if (testQuestionSetId === undefined)
+        testQuestionSetId = this.props.editData.data.testQuestionsSetId;
+
+      if (sectionId === undefined)
+        sectionId =
+          this.props.editData !== null
+            ? this.props.editData.data.testSectionId
+            : null;
+
+      if (
+        activeLevel.length === 0 ||
+        (this.props.topics && this.state.expectedTime.length === 0) ||
+        question.length === 0 ||
+        answerType.length === 0 ||
+        this.choiceEmptyCheck() ||
+        this.choicesSelectEmptyCheck()
+      ) {
+        this.setState({
+          alert: {
+            severity: "error",
+            msg: "Please fill the required fields",
+          },
+        });
+      } else if (this.hasDuplicates()) {
+        this.setState({
+          alert: {
+            severity: "error",
+            msg: "Please change duplicate options",
+          },
+        });
+      } else if (this.props.topics && Number(this.state.expectedTime <= 0)) {
+        this.setState({
+          alert: {
+            severity: "warning",
+            msg: "Please enter a valid expected time",
+          },
+        });
+      } else {
+        let deptName = window.sessionStorage.getItem("department");
+        const obj =
+          deptName === "assessment_engine_admin"
+            ? {
+                id: questionId !== undefined ? questionId : null,
+                name: "",
+                type: this.getType(),
+                difficultyLevel: activeLevel.toUpperCase(),
+                expectedTime: expectedTime,
+                topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+                testSection: { id: sectionId },
+                question,
+                choices: this.getChoices(),
+                explanation: this.state.text,
+                explanationVideo: this.state.url,
+                video: { videoUrl: this.state.url },
+              }
+            : {
+                id: questionId !== undefined ? questionId : null,
+                name: "",
+                type: this.getType(),
+                difficultyLevel: activeLevel.toUpperCase(),
+                expectedTime: expectedTime,
+                topic: { id: activeTopic?.length === 0 ? null : activeTopic },
+                testSection: { id: sectionId },
+                question,
+                description,
+                choices: this.getChoices(),
+                explanation: this.state.text,
+                explanationVideo: this.state.url,
+                video: { videoUrl: this.state.url },
+              };
         deptName === "assessment_engine_admin"
-          ? {
-              id: questionId !== undefined ? questionId : null,
-              name: "",
-              type: this.getType(),
-              difficultyLevel: activeLevel.toUpperCase(),
-              expectedTime: expectedTime,
-              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
-              testSection: { id: sectionId },
-              question,
-              choices: this.getChoices(),
-              explanation: this.state.text,
-              explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
-            }
-          : {
-              id: questionId !== undefined ? questionId : null,
-              name: "",
-              type: this.getType(),
-              difficultyLevel: activeLevel.toUpperCase(),
-              expectedTime: expectedTime,
-              topic: { id: activeTopic?.length === 0 ? null : activeTopic },
-              testSection: { id: sectionId },
-              question,
-              description,
-              choices: this.getChoices(),
-              explanation: this.state.text,
-              explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
-            };
-      deptName === "assessment_engine_admin"
-        ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
-            if (response.success) {
-              this.props.history.push(
-                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
-              );
-            } else {
-              this.setState({
-                alert: {
-                  severity: "error",
-                  msg: response.message,
-                },
-              });
-            }
-          })
-        : this.props.postQuestions(testQuestionSetId, obj, (response) => {
-            if (response.success) {
-              this.props.history.push(
-                lms_add_test + "?testQuestionSetId=" + testQuestionSetId
-              );
-            } else {
-              this.setState({
-                alert: {
-                  severity: "error",
-                  msg: response.message,
-                },
-              });
-            }
-          });
+          ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
+              if (response.success) {
+                this.props.history.push(
+                  lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+                );
+              } else {
+                this.setState({
+                  alert: {
+                    severity: "error",
+                    msg: response.message,
+                  },
+                });
+              }
+            })
+          : this.props.postQuestions(testQuestionSetId, obj, (response) => {
+              if (response.success) {
+                this.props.history.push(
+                  lms_add_test + "?testQuestionSetId=" + testQuestionSetId
+                );
+              } else {
+                this.setState({
+                  alert: {
+                    severity: "error",
+                    msg: response.message,
+                  },
+                });
+              }
+            });
+      }
     }
-  }};
+  };
 
   handleCancelClick = () => {
     let { testQuestionSetId } = QueryString.parse(this.props.location.search, {
