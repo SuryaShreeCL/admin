@@ -95,7 +95,7 @@ export class Index extends Component {
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
                 url: response.data.explanationVideo,
-                url: response.data.video ? response.data.video.videoUrl : "",
+                // url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
