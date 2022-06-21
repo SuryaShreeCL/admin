@@ -1,8 +1,10 @@
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 import QueryString from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { lms_add_test } from "../../../../Component/RoutePaths";
-import { C2, H1, BackIconBox } from "../../../Assets/StyledComponents";
+import { BackIconBox, C2, H1 } from "../../../Assets/StyledComponents";
 import {
   getConcepts,
   getSubjects,
@@ -10,23 +12,21 @@ import {
   putImage,
 } from "../../../Redux/Action/CourseMaterial";
 import {
+  aegetQuestions,
+  aepostQuestions,
+  aepreviewTestData,
   cleanEditData,
   getQuestions,
-  aegetQuestions,
   postQuestions,
-  aepostQuestions,
   previewTestData,
-  aepreviewTestData,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
 import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
-import Question from "./Question";
 import QuestionPreview from "./preview/Index";
-import { IconButton } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import Question from "./Question";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -118,7 +118,7 @@ export class Index extends Component {
                 imgURL,
               } = response.data;
               // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
-              console.log(response.data.questionChoices)
+
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
@@ -129,7 +129,7 @@ export class Index extends Component {
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
                 url: response.data.explanationVideo,
-                
+
                 url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
@@ -424,16 +424,16 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    if(Number(this.state.expectedTime === 0))
-    {
-      this.setState({
-        alert: {
-          severity: "error",
-          msg: "Expected time must not be zero",
-        },
-      });
-    }
-    else{
+    // if(expectedTime === 0)
+    // {
+    //   this.setState({
+    //     alert: {
+    //       severity: "error",
+    //       msg: "Expected time must not be zero",
+    //     },
+    //   });
+    // }
+    // else{
 
     if (testQuestionSetId === undefined)
       testQuestionSetId = this.props.editData.data.testQuestionsSetId;
@@ -535,7 +535,7 @@ export class Index extends Component {
             }
           });
     }
-  }};
+  };
 
   handleCancelClick = () => {
     let { testQuestionSetId } = QueryString.parse(this.props.location.search, {
