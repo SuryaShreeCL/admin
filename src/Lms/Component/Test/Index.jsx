@@ -42,6 +42,8 @@ import PaginationComponent from "../../Utils/PaginationComponent";
 import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
+import moment from "moment";
+
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -581,31 +583,45 @@ class TestLanding extends Component {
   };
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
-      console.log("reschedule")
+    console.log("reschedule")
     let obj = {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
     };
-    rescheduleTest(this.state.popUpId, obj).then((response) => {
-      if (response?.status === 200) {
-        this.setState({
-          alertState: true,
-          alertSeverity: "success",
-          alertMsg: "Test rescheduled successfully",
-          popupOpen: false,
-        });
-        let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.state.department !== "assessment_engine_admin"
-       ? this.props.getQuestionSet(paramObj)
-       : this.props.aegetQuestionSet(paramObj);
-      } else {
-        this.setState({
-          alertState: true,
-          alertSeverity: "error",
-          alertMsg: response,
-        });
-      }
-    });
+
+    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate)) 
+    {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen: true,
+      });          
+    } 
+
+    else
+    {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {                
+            this.setState({
+              alertState: true,
+              alertSeverity: "success",
+              alertMsg: "Test rescheduled successfully",
+              popupOpen: false,
+            });
+            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+            this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet(paramObj)
+            : this.props.aegetQuestionSet(paramObj);                  
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
     // }else{
     //   this.setState({
     //     alertState : true,
