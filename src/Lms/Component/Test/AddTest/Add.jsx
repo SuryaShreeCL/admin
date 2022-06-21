@@ -739,15 +739,6 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
-        // this.state.scheduleTest === true ?
-        // (name &&
-        // nameDescription &&
-        // name.trim().length !== 0 &&
-        // nameDescription.trim().length !== 0 &&
-        // description.length !== 0 &&
-        // descriptionTitle.trim().length !== 0 &&
-        // cutOffScore.length !== 0 && eventDate && eventEndDate) 
-        // : 
         name &&
           nameDescription &&
           name.trim().length !== 0 &&
@@ -758,24 +749,27 @@ class Add extends Component {
           ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
         // courseId !== undefined
       ) {
-
-        if(this.state.scheduleTest){
-          if (
-            moment(eventEndDate).isSameOrBefore(eventDate) ||
-            moment(eventDate).isBefore(moment()) ||
-            moment(eventEndDate).isBefore(moment())
-          ) {
-            this.setState({
-              snackOpen: true,
-              snackType: "warning",
-              message: "Please add proper timing & date",
-              loading: false,
-            });
-            // return false;
-          }
-        }
+        console.log(eventDate, eventEndDate,"1234")
+        if (this.state.scheduleTest &&
+          moment(eventEndDate).isSameOrBefore(eventDate) 
+          // || moment(eventDate).isBefore(moment()) ||
+          // moment(eventEndDate).isBefore(moment())
+        ) {
+          this.setState({
+            snackOpen: true,
+            snackType: "warning",
+            message: "Please add proper timing & date",
+            loading: false,
+          });
+          // return false;
+        }        
          
-        // else{
+        else if (!this.state.scheduleTest || (this.state.scheduleTest &&
+          !moment(eventEndDate).isSameOrBefore(eventDate))
+          // || moment(eventDate).isBefore(moment()) ||
+          // moment(eventEndDate).isBefore(moment())
+        )
+        {
         if (calibrationTestData.length !== 0) {
           if (!calibrationTestDataTotalValidation.includes(false)) {
             var calibrationTestSet = {
@@ -788,11 +782,11 @@ class Add extends Component {
               nameDescription: nameDescription,
               testSections: calibrationTestData,
               cutOffScore: parseInt(cutOffScore),
-              eventDate,
+              eventDate,           
               eventEndDate,
             };
 
-            console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+            // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
 
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
@@ -832,6 +826,7 @@ class Add extends Component {
               (calibrationTestResponse) => {                
                 if (calibrationTestResponse?.success) {
                   console.log(calibrationTestResponse,"calibrationTestResponse")
+                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
                   var message =
                     testQuestionSetId === null ? "ADDED" : "UPDATED";
                   var tempcalibrationTestData = calibrationTestData;
@@ -867,9 +862,6 @@ class Add extends Component {
             );           
           }      
 
-               
-          
-
           else {
             this.setState({
               snackOpen: true,
@@ -887,7 +879,7 @@ class Add extends Component {
             loading: false,
           });
         }
-      // }
+      }
       }   
        
       else {
@@ -1084,7 +1076,7 @@ class Add extends Component {
 
   handleBannerUpload = (testQuesSetId) => {
     const { posterUrl } = this.state;
-    if (posterUrl?.length !== 0) {
+    if (posterUrl && Array.isArray(posterUrl) && posterUrl.length !== 0) {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {

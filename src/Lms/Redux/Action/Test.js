@@ -530,7 +530,7 @@ export const aecreateTestQuestionSet = (questionSets, callback) => {
         });
       })
       .catch(error => {
-        callback(error.response.data);
+        callback(error?.response?.data);
         console.log(error);
       });
   };
