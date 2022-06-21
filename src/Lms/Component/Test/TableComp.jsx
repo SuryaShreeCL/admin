@@ -19,30 +19,32 @@ import Menu from "./Menu";
 let deptName = window.sessionStorage.getItem("department");
 console.log(deptName);
 
-const headText = deptName === "assessment_engine_admin" ? [
-  "Name",
-  "Test Type",
-  "#  Que Assignes",
-  "# Que filled",
-  "",
-  "",
-   "Status",
-   
-   
-  "Download",
-  "Test URL",
-  "",
-]:[
-  "Name",
-  "Test Type",
-  "#  Que Assignes",
-  "# Que filled",
-  "Course",
-  "Topic name",
-  "Status",
-  
-  "",
-];
+const headText =
+  deptName === "assessment_engine_admin"
+    ? [
+        "Name",
+        "Test Type",
+        "#  Que Assignes",
+        "# Que filled",
+        "",
+        "",
+        "Status",
+
+        "Download",
+        "Test URL",
+        "",
+      ]
+    : [
+        "Name",
+        "Test Type",
+        "#  Que Assignes",
+        "# Que filled",
+        "Course",
+        "Topic name",
+        "Status",
+
+        "",
+      ];
 
 // const handleOpen = (itemId, popUpId, role, status) => {
 //   //
@@ -272,7 +274,8 @@ export default function TableComp(props) {
                   <BodyCell>{item.courseName}</BodyCell>
                   <BodyCell>{item.topicName}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
-                  {item.testType === "AE_TEST" && aedept ==="assessment_engine_admin" ? (
+                  {item.testType === "AE_TEST" &&
+                  aedept === "assessment_engine_admin" ? (
                     <>
                       <BodyCell>
                         {/* {item.uniqueUrl} */}
@@ -303,33 +306,32 @@ export default function TableComp(props) {
                     </>
                   )}
                   <BodyCell>
-                    {handleShowThreeDot(role, item.status) &&
-                       (
-                        <div>
-                          <IconButton
-                            aria-controls={item.id}
-                            aria-haspopup="true"
-                            onClick={(event) =>
-                              handleThreeDotClick(event, item.id, item.status)
-                            }
-                            style={{ padding: "0px" }}
-                          >
-                            <MoreVertRounded style={{ fill: "#1093FF" }} />
-                          </IconButton>
-                          <Menu
-                            role={role}
-                            anchorEl={anchorEl}
-                            open={openStatus}
-                            // open={handleOpen(item.id, popUpId, role, item.status)}
-                            handleClose={handleClose}
-                            status={item.status}
-                            handleOptions={handleOptions}
-                            name={item.name}
-                            topicId={item.id}
-                            activeStatus={clickedStatus}
-                          />
-                        </div>
-                      )}
+                    {handleShowThreeDot(role, item.status) && (
+                      <div>
+                        <IconButton
+                          aria-controls={item.id}
+                          aria-haspopup="true"
+                          onClick={(event) =>
+                            handleThreeDotClick(event, item.id, item.status)
+                          }
+                          style={{ padding: "0px" }}
+                        >
+                          <MoreVertRounded style={{ fill: "#1093FF" }} />
+                        </IconButton>
+                        <Menu
+                          role={role}
+                          anchorEl={anchorEl}
+                          open={openStatus}
+                          // open={handleOpen(item.id, popUpId, role, item.status)}
+                          handleClose={handleClose}
+                          status={item.status}
+                          handleOptions={handleOptions}
+                          name={item.name}
+                          topicId={item.id}
+                          activeStatus={clickedStatus}
+                        />
+                      </div>
+                    )}
                   </BodyCell>
                 </TableRow>
               );

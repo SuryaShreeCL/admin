@@ -1,17 +1,17 @@
 // import MomentUtils from "@date-io/moment";
+import MomentUtils from "@date-io/moment";
 import {
-  FormControlLabel,
+  Backdrop, FormControlLabel,
   Grid,
   IconButton,
   Switch,
-  Typography,
-  Backdrop
+  Typography
 } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import QueryString from "qs";
-import MomentUtils from '@date-io/moment';
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -20,7 +20,7 @@ import { postTestBanner } from "../../../../AsyncApiCall/Student";
 import {
   bulk_upload,
   lmsTest,
-  single_upload,
+  single_upload
 } from "../../../../Component/RoutePaths";
 import {
   Box,
@@ -28,7 +28,7 @@ import {
   Card,
   Divider,
   Save,
-  TestTitle,
+  TestTitle
 } from "../../../Assets/StyledComponents";
 import { getCourses } from "../../../Redux/Action/CourseMaterial";
 import {
@@ -40,7 +40,7 @@ import {
   deleteQuestion,
   deleteSection,
   getTestQuestionSet,
-  getTopicByCourse,
+  getTopicByCourse
 } from "../../../Redux/Action/Test";
 import { AutocompleteText } from "../../../Utils/Autocomplete";
 import DialogComponent from "../../../Utils/DialogComponent";
@@ -51,8 +51,6 @@ import { InputTextField } from "../../../Utils/TextField";
 import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
-import CircularProgress from "@material-ui/core/CircularProgress";
-
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
 const aedept = window.sessionStorage.getItem("department");
@@ -115,8 +113,7 @@ class Add extends Component {
       eventDate: null,
       eventEndDate: null,
       department: null,
-      loading : false
-
+      loading: false,
     };
   }
 
@@ -135,33 +132,34 @@ class Add extends Component {
       }
     );
     const { type } = this.state;
-   deptName !== "assessment_engine_admin" && this.props.getCourses((response) => {
-      if (response.success) {
-        if (testQuestionSetId === undefined) {
-          if (
-            type !== "CALIBRATION" &&
-            response.data[0].courseId !== undefined
-          ) {
-            this.props.getTopicByCourse(
-              response.data[0].courseId,
-              (topicResponse) => {
-                if (topicResponse.success) {
-                  this.setState({
-                    courseId: response.data[0].courseId,
-                    topicId: topicResponse.data[0].id,
-                    courseIdValue: response.data[0].id,
-                  });
+    deptName !== "assessment_engine_admin" &&
+      this.props.getCourses((response) => {
+        if (response.success) {
+          if (testQuestionSetId === undefined) {
+            if (
+              type !== "CALIBRATION" &&
+              response.data[0].courseId !== undefined
+            ) {
+              this.props.getTopicByCourse(
+                response.data[0].courseId,
+                (topicResponse) => {
+                  if (topicResponse.success) {
+                    this.setState({
+                      courseId: response.data[0].courseId,
+                      topicId: topicResponse.data[0].id,
+                      courseIdValue: response.data[0].id,
+                    });
+                  }
                 }
-              }
-            );
-          } else {
-            this.setState({
-              courseId: response.data[0].courseId,
-            });
+              );
+            } else {
+              this.setState({
+                courseId: response.data[0].courseId,
+              });
+            }
           }
         }
-      }
-    });
+      });
 
     // Editable Mode
     if (testQuestionSetId !== undefined) {
@@ -171,7 +169,7 @@ class Add extends Component {
     }
   }
 
-  componentDidUpdate(prevProps,prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -242,7 +240,7 @@ class Add extends Component {
       //     snackOpen: true,
       //     snackType: "warning",
       //     message: "Please save the test",
-      //   }); 
+      //   });
       // }
 
       if (questionSet.type === "TOPIC") {
@@ -490,8 +488,8 @@ class Add extends Component {
 
   handleSaveButton = () => {
     this.setState({
-      loading : true
-    })
+      loading: true,
+    });
     const {
       testQuestionSetId,
       type,
@@ -528,7 +526,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading : false
+                    loading: false,
                   });
                 }
               }
@@ -544,7 +542,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading:false
+                    loading: false,
                   });
                 }
               }
@@ -554,7 +552,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
-          loading:false
+          loading: false,
         });
       }
     }
@@ -769,12 +767,12 @@ class Add extends Component {
               eventDate,
               eventEndDate,
             };
-      //  const wrk=     eventEndDate !== eventDate ? this.setState({
-      //         snackOpen: true,
-      //         snackType: "warning",
-      //         message: "Start time and end time must not be same",
-      //         loading: false,
-      //       }):null     
+            //  const wrk=     eventEndDate !== eventDate ? this.setState({
+            //         snackOpen: true,
+            //         snackType: "warning",
+            //         message: "Start time and end time must not be same",
+            //         loading: false,
+            //       }):null
             // this.props.createTestQuestionSet(
             //   calibrationTestSet,
             //   (calibrationTestResponse) => {
@@ -890,9 +888,9 @@ class Add extends Component {
       this.props.history.push(
         single_upload + "?questionId=" + this.state.popUpId,
         {
-           testQuestionSetId : this.state.testQuestionSetId,
-           topicId : this.state.topicId,
-           sectionId : this.state.sectionId
+          testQuestionSetId: this.state.testQuestionSetId,
+          topicId: this.state.topicId,
+          sectionId: this.state.sectionId,
         }
       );
     }
@@ -927,8 +925,6 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    console.log(testQuestionSetId)
-    console.log(this.state.popUpId)
     this.state.department === "assessment_engine_admin"
       ? this.props.aedeleteQuestion(this.state.popUpId, (response) => {
           if (response.success) {
@@ -956,7 +952,6 @@ class Add extends Component {
   handleSectionDelete = () => {
     const { calibrationActiveSectionTab, calibrationTestData } = this.state;
     const { testQuestionSetId } = this.state;
-    console.log(testQuestionSetId)
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
         calibrationTestData[calibrationActiveSectionTab - 1]["id"];
@@ -1081,7 +1076,6 @@ class Add extends Component {
 
   renderFile = () => {
     var deptName = window.sessionStorage.getItem("department");
-    console.log(deptName)
     if (typeof this.state.posterUrl === "string") {
       return (
         <div style={{ position: "relative" }}>
@@ -1103,38 +1097,40 @@ class Add extends Component {
     } else {
       return (
         <>
-       {
-         
-        deptName === "assessment_engine_admin" &&(
-
-        <Dropzone onDrop={this.onDrop}>
-          {({ getRootProps, getInputProps }) => (
-            <section
-              style={{
-                border: "2px dashed #1792fa",
-                borderRadius: "5px",
-                margin: "auto",
-                background: "#f5fbff",
-                boxSizing: "border-box",
-                padding: "5% 10% 5% 10%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                cursor: "pointer" ,
-              }}
-            >
-              <div style={{ cursor: "pointer" }} {...getRootProps({ className: "dropzone" })}>
-                <input {...getInputProps()} accept={".jpg,.png,.gif"} />
-                <p style={{ cursor: "pointer" }}>
-                  Drag 'n' drop some files here, or click to select files
-                </p>
-              </div>
-              <aside>
-                <h5 style={{ cursor: "pointer" }}>Banner</h5>
-              </aside>
-            </section>
+          {deptName === "assessment_engine_admin" && (
+            <Dropzone onDrop={this.onDrop}>
+              {({ getRootProps, getInputProps }) => (
+                <section
+                  style={{
+                    border: "2px dashed #1792fa",
+                    borderRadius: "5px",
+                    margin: "auto",
+                    background: "#f5fbff",
+                    boxSizing: "border-box",
+                    padding: "5% 10% 5% 10%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <div
+                    style={{ cursor: "pointer" }}
+                    {...getRootProps({ className: "dropzone" })}
+                  >
+                    <input {...getInputProps()} accept={".jpg,.png,.gif"} />
+                    <p style={{ cursor: "pointer" }}>
+                      Drag 'n' drop some files here, or click to select files
+                    </p>
+                  </div>
+                  <aside>
+                    <h5 style={{ cursor: "pointer" }}>Banner</h5>
+                  </aside>
+                </section>
+              )}
+            </Dropzone>
           )}
-        </Dropzone>)}</>
+        </>
       );
     }
   };
@@ -1173,10 +1169,9 @@ class Add extends Component {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
     const aedept = window.sessionStorage.getItem("department");
-    
-      const check =  eventEndDate === eventDate ;
-      console.log(check);
-    
+
+    const check = eventEndDate === eventDate;
+
     const {
       handleThreeDotClick,
       handleClose,
@@ -1188,6 +1183,7 @@ class Add extends Component {
       handleMenuItemDelete,
       handleSectionThreeDotClick,
     } = this;
+    const deptName = window.sessionStorage.getItem("department");
     return (
       <>
         <Card padding={"12px 20px"}>
@@ -1210,56 +1206,62 @@ class Add extends Component {
             </Box>
           </Box>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
-              {/* <DropDown
-              label="Course"
-              name="courseId"
-              items={
-                (courses.length !== 0 &&
-                  courses.data.map(item => ({
-                    id: item.courseId,
-                    title: item.title,
-                  }))) ||
-                []
-              }
-              value={courseId ? courseId : undefined}
-              onChange={this.handleChange}
-              disabled={testQuestionSetId !== null ? true : false}
-              placeholder="Course"
-            /> */}
-          </Grid>
-          <Grid item xs={12} md={8}>
-
-           {aedept !== "assessment_engine_admin" ?
-            <RadioButtonsGroup
-              radioData={{
-                name: "type",
-                activeValue: type,
-                radioItemData: [
-                  { id: "CALIBRATION", label: "Calibration Test" },
-                  { id: "TOPIC", label: "Topic Test" },
-                  { id: "QUESTIONBANK", label: "Question Bank" },
-                  // { id: "AE_TEST", label: "Assessment Engine" },
-                ],
-                handleRadioChange: this.handleTestChange,
-                groupName: "Test Type",
-                marginRightValue: "56px",
-              }}
-            />:<RadioButtonsGroup
-            radioData={{
-              name: "type",
-              activeValue: type,
-              radioItemData: [
-                // { id: "CALIBRATION", label: "Calibration Test" },
-                // { id: "TOPIC", label: "Topic Test" },
-                // { id: "QUESTIONBANK", label: "Question Bank" },
-                { id: "AE_TEST", label: "Assessment Engine" },
-              ],
-              handleRadioChange: this.handleTestChange,
-              groupName: "Test Type",
-              marginRightValue: "56px",
-            }}
-          />}
+            {deptName !== "assessment_engine_admin" ? (
+              <Grid item xs={12} md={4}>
+                <DropDown
+                  label="Course"
+                  name="courseId"
+                  items={
+                    (courses.length !== 0 &&
+                      courses.data.map((item) => ({
+                        id: item.courseId,
+                        title: item.title,
+                      }))) ||
+                    []
+                  }
+                  value={courseId ? courseId : undefined}
+                  onChange={this.handleChange}
+                  disabled={testQuestionSetId !== null ? true : false}
+                  placeholder="Course"
+                />
+              </Grid>
+            ) : (
+              <Grid item xs={12} md={4}></Grid>
+            )}
+            <Grid item xs={12} md={8}>
+              {aedept !== "assessment_engine_admin" ? (
+                <RadioButtonsGroup
+                  radioData={{
+                    name: "type",
+                    activeValue: type,
+                    radioItemData: [
+                      { id: "CALIBRATION", label: "Calibration Test" },
+                      { id: "TOPIC", label: "Topic Test" },
+                      { id: "QUESTIONBANK", label: "Question Bank" },
+                      // { id: "AE_TEST", label: "Assessment Engine" },
+                    ],
+                    handleRadioChange: this.handleTestChange,
+                    groupName: "Test Type",
+                    marginRightValue: "56px",
+                  }}
+                />
+              ) : (
+                <RadioButtonsGroup
+                  radioData={{
+                    name: "type",
+                    activeValue: type,
+                    radioItemData: [
+                      // { id: "CALIBRATION", label: "Calibration Test" },
+                      // { id: "TOPIC", label: "Topic Test" },
+                      // { id: "QUESTIONBANK", label: "Question Bank" },
+                      { id: "AE_TEST", label: "Assessment Engine" },
+                    ],
+                    handleRadioChange: this.handleTestChange,
+                    groupName: "Test Type",
+                    marginRightValue: "56px",
+                  }}
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={4}>
               {type === "CALIBRATION" || type === "AE_TEST" ? (
@@ -1333,7 +1335,7 @@ class Add extends Component {
                   </Grid>
                 )}
                 <Grid item xs={12} md={8}>
-                  <AutocompleteText 
+                  <AutocompleteText
                     autoData={{
                       label: "Test Instruction Details",
                       placeholder: "List The Instruction",
@@ -1341,7 +1343,7 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
-                    rules={{required:true}}
+                    rules={{ required: true }}
                   />
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -1366,74 +1368,60 @@ class Add extends Component {
                     </span>
                   )}
                 </Grid>
-                
+
                 {aedept === "assessment_engine_admin" && (
-                <Grid item md={4} container spacing={3}>
-                  <Grid item md={12}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={scheduleTest}
-                          onChange={(e) => {
-                            if (!e.target.checked) {
-                              this.setState({
-                                eventDate: null,
-                                eventEndDate: null,
-                              });
-                            }
-                            this.setState({ scheduleTest: e.target.checked });
-                          }}
-                          name="scheduleTest"
-                          color="primary"
-                        />
-                      }
-                      label="Schedule test"
-                    />
-                  </Grid>
-                  {scheduleTest && (
-                    <React.Fragment>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Grid item md={6}>
-                          <DateTimePicker
-                            label="Start date and time"
-                            inputVariant="outlined"
-                            value={eventDate}
-                            onChange={(value) =>
-                              this.setState({ eventDate: value })
-                            }
-                          />
-                        </Grid>
-                        <Grid item md={6}>
-                          <MuiPickersUtilsProvider utils={MomentUtils}>
-                            <DateTimePicker
-                              label="End date and time"
-                              inputVariant="outlined"
-                              value={eventEndDate}
-                              onChange={(value) =>
-                                this.setState({ eventEndDate: value })
+                  <Grid item md={4} container spacing={3}>
+                    <Grid item md={12}>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={scheduleTest}
+                            onChange={(e) => {
+                              if (!e.target.checked) {
+                                this.setState({
+                                  eventDate: null,
+                                  eventEndDate: null,
+                                });
                               }
-                              // // {eventEndDate=== eventDate}
-                              // onKeyPress = {eventDate === eventEndDate ?  this.setState({
-                              //   snackOpen: true,
-                              //   snackType: "error",
-                              //   message: "vfgefgygy",
-                              // }):"" }
-                              
-                            />
-                            {eventDate === eventEndDate ? console.log("trrrrrrruuuuuuu"):console.log("falseeeee")}
-        
-        
-                           
-                          {console.log(eventDate)}
-                        {  console.log(eventEndDate)
+                              this.setState({ scheduleTest: e.target.checked });
+                            }}
+                            name="scheduleTest"
+                            color="primary"
+                          />
                         }
-                     {/* {   eventDate === eventEndDate   ? console.log("crt value"):console.log("wrong")} */}
-                          </MuiPickersUtilsProvider>
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                    </React.Fragment>
-                  )}
-                </Grid>)}
+                        label="Schedule test"
+                      />
+                    </Grid>
+                    {scheduleTest && (
+                      <React.Fragment>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <Grid item md={6}>
+                            <DateTimePicker
+                              label="Start date and time"
+                              inputVariant="outlined"
+                              value={eventDate}
+                              onChange={(value) =>
+                                this.setState({ eventDate: value })
+                              }
+                            />
+                          </Grid>
+                          <Grid item md={6}>
+                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                              <DateTimePicker
+                                label="End date and time"
+                                inputVariant="outlined"
+                                value={eventEndDate}
+                                onChange={(value) =>
+                                  this.setState({ eventEndDate: value })
+                                }
+                              />
+                            </MuiPickersUtilsProvider>
+                          </Grid>
+                        </MuiPickersUtilsProvider>
+                      </React.Fragment>
+                    )}
+                  </Grid>
+                )}
               </>
             ) : (
               <Divider />
