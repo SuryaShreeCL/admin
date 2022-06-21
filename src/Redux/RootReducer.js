@@ -18,7 +18,6 @@ import HelperReducer from "../Reducer/HelperReducer";
 import ReportReducer from "../Reducer/ReportReducer";
 import ProfileGapAnalysisReducer from "../Reducer/ProfileGapAnalysisReducer";
 import CRGReducer from "../Reducer/CRGReducer";
-import UserManagementReducer from "../Reducer/UserManagementReducer";
 import CvReviewReducer from "../Reducer/CvReviewReducer";
 import ProfileFitSpiderGraphReducer from "../Reducer/ProfileFitSpiderGraphReducer";
 import {
