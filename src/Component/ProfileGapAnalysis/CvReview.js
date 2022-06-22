@@ -301,7 +301,34 @@ function Index(props) {
           <th></th>
         </tr>
         {cvReviewList.map(
-          ({ comment, createdBy, id, path,fileName, status, isShow }) =>
+          ({ comment, createdBy, id,path,fileName,versionNo, status, isShow }) =>
+            versionNo===1 && status ==="Draft"?(
+                <tr>
+                <td>{fileName}</td>
+                  <td>{createdBy}</td>
+                  <td>
+                    {comment && comment.trim().length !== 0 && (
+                      <IconButton
+                        id={"command_icon"}
+                        className={classes.iconButtonStyle}
+                        onClick={(e) => handleClick(comment, e)}
+                      >
+                        <CommentIcon />
+                      </IconButton>
+                    )}
+                  </td>
+                  <td>
+                    <StyledButton
+                      height={"25px"}
+                      variant={"outlined"}
+                      style={customTheme.palette.outlined}
+                      onClick={() => handleDownload(id, path)}
+                    >
+                      {"Download"}
+                    </StyledButton>
+                  </td>
+                </tr>
+            ):(
              status === "Editor" ||  isShow === true?  (
               <tr>
                 {status === "Editor" ? <td>{fileName}</td> : <td>{fileName}</td>}
@@ -331,7 +358,7 @@ function Index(props) {
             ) : (
               <></>
             )
-        )}
+        ))}
       </StyledTable>
     ) : null;
   };
