@@ -240,7 +240,8 @@ class Index extends Component {
                       {" -"}
                     </TimeRemaining>
                     <QuestionCount bold={500}>
-                      {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
+                      {console.log(remainingTime)}
+                      {remainingTime >= 0 ? secondsToHms(remainingTime) : "23:59:59"}
                     </QuestionCount>
                   </Div>
                   {/* {deptName === "assessment_engine_admin" ? (
