@@ -589,7 +589,9 @@ class TestLanding extends Component {
       endDateTime: this.state.eventEndDate,
     };
 
-    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate)) 
+    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
+    moment(this.state.eventDate).isBefore(moment()) ||
+    moment(this.state.eventEndDate).isBefore(moment())) 
     {
       this.setState({
         alertState: true,
