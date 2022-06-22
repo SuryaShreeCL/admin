@@ -379,7 +379,7 @@ const CreatePost = () => {
           onSubmit={(values, { resetForm }) => {
             console.log(values, 'valuesss', validate(values));
             if (validate(values)) {
-              createPost(values, location?.postType === 'Webinar' ? 'Scheduled' : 'Live');
+              createPost(values, 'Scheduled');
               resetForm();
             }
           }}
