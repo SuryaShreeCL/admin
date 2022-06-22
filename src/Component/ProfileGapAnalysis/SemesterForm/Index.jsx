@@ -450,6 +450,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.sgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -476,6 +483,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.cgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
