@@ -289,7 +289,7 @@ const EditPost = () => {
           onSubmit={(values, { resetForm }) => {
             updatePost({
               ...values,
-              activeStatus: 'Scheduled',
+              activeStatus: values.isWebinar ? 'Scheduled' : 'Live',
               wallFiles: [...(values.wallFilesUpdate ?? [])],
             });
             resetForm();
