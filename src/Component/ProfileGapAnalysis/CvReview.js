@@ -94,13 +94,14 @@ function Index(props) {
   useEffect(() => {
     dispatch(getStudentCvList(studentId, productId));
   }, []);
-
+// console.log(studentCvList?.data?.status);
   useEffect(() => {
     if (studentCvList) {
       if (studentCvList.success) {
+        console.log(studentCvList?.data?.fileName);
         setState({
           ...state,
-          cvReviewList: studentCvList.data?.cvData || [],
+          cvReviewList: studentCvList?.data?.cvData || [],
           cvStatus: studentCvList.data?.status,
         });
       } else {
@@ -135,7 +136,6 @@ function Index(props) {
           ...customProp,
         });
         dispatch(getStudentCvList(studentId, productId));
-        console.log(getStudentCvList);
       } else {
         setState({
           ...state,
@@ -220,12 +220,12 @@ function Index(props) {
           >
             {"CV Details"}
           </Typo>
-          {file?.name && (
+          {file?.name &&(
             <div>
               <FlexEndView>
                 <Typo variant={"caption"} color={"#333333"}>
-                  {file.name}
-                </Typo>
+          {cvReviewList[cvReviewList?.length-1]?.fileName}_r                
+                </Typo>              
                 <IconButton
                   onClick={handleDelete}
                   className={classes.iconButtonStyle}
@@ -291,7 +291,7 @@ function Index(props) {
     dispatch(cvDownload(studentId, id, cvPath));
   };
   const renderTable = () => {
-    console.log(cvReviewList);
+    console.log(cvReviewList[cvReviewList?.length-1]?.fileName);
     return cvReviewList?.length !== 0 ? (
       <StyledTable>
         <tr>
