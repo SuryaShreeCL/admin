@@ -91,7 +91,6 @@ const CreateTest = () => {
     endDateTime: new Date(),
     score: 10,
     eventPost: { id: '' },
-    wallFiles: [],
     cutOffScore: 5,
   });
 
@@ -129,15 +128,6 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
-    if (values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
-
     //validation of event link
     if (values?.eventPost?.id?.length < 5) {
       setNotify({
@@ -316,7 +306,7 @@ const CreateTest = () => {
                     </Grid> */}
                     <Grid item style={{ width: '55%', zIndex: '77' }}>
                       <Autocomplete
-                        options={posts?.content}
+                        options={posts}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading}

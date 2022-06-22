@@ -91,7 +91,6 @@ const EditTest = () => {
     startDateTime: new Date(),
     endDateTime: new Date(),
     score: 0,
-    wallFiles: [],
     cutOffScore: 0,
   });
 
@@ -129,19 +128,6 @@ const EditTest = () => {
   // const filterEventFromId = posts?.content?.filter(
   //   (post) => post?.id === test?.wallPost?.linkedEvent?.id
   // );
-
-  const validate = (values) => {
-    if (values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
-
-    return true;
-  };
 
   const validationSchema = yup.object({
     nameDescription: yup.string().required('test instructions required'),
@@ -221,7 +207,6 @@ const EditTest = () => {
                   wallCategory:
                     values?.wallPost?.linkedEvent?.wallCategories ||
                     values.wallPost?.wallCategories,
-                  wallFiles: [],
                   testSections: values.testSection,
                 };
                 onTestUpdate(payload, testType);
@@ -285,7 +270,7 @@ const EditTest = () => {
                       </Grid>
                       <Grid item style={{ width: '30%', zIndex: '77' }}>
                         <Autocomplete
-                          options={posts?.content}
+                          options={posts}
                           getOptionLabel={(option) => option.eventTitle}
                           name='eventPost.id'
                           disableClearable
