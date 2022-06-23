@@ -101,6 +101,7 @@ class TestLanding extends Component {
       alertMsg: "",
       alertSeverity: "",
       popupOpen: false,
+      popupOpen1: false,
       eventDate: "",
       eventDate: new Date(),
       eventEndDate: new Date(),
@@ -364,7 +365,7 @@ class TestLanding extends Component {
       }
 
       this.setState({
-        popupOpen: true,
+        popupOpen1: true,
       });      
     }
   };
@@ -672,7 +673,7 @@ class TestLanding extends Component {
         alertState: true,
         alertSeverity: "warning",
         alertMsg: "Please add proper timing & date",
-        popupOpen: true,
+        popupOpen1: true,
       });          
     } 
 
@@ -684,7 +685,7 @@ class TestLanding extends Component {
               alertState: true,
               alertSeverity: "success",
               alertMsg: "Test Scheduled successfully",
-              popupOpen: false,
+              popupOpen1: false,
             });
             this.handleClose()
             let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
@@ -718,6 +719,7 @@ class TestLanding extends Component {
       dialogStatus,
       dialogContent,
       popupOpen,
+      popupOpen1,
       eventDate,
       eventEndDate,
     } = this.state;
@@ -735,8 +737,7 @@ class TestLanding extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
-      handleReschedule,
-      handleSchedule,
+      // handleReschedule,
     } = this;
     return (
       <Container>
@@ -904,8 +905,8 @@ class TestLanding extends Component {
 
         {/* Schedule popup */}
         <Dialog
-          open={popupOpen}
-          onClose={() => this.setState({ popupOpen: !popupOpen })}
+          open={popupOpen1}
+          onClose={() => this.setState({ popupOpen1: !popupOpen1 })}
         >
           <Box position={"relative"}>
             <Grid
@@ -973,7 +974,7 @@ class TestLanding extends Component {
                 justifyContent="flex-end"
               >
                 <Button
-                  onClick={() => this.setState({ popupOpen: !popupOpen })}
+                  onClick={() => this.setState({ popupOpen1: !popupOpen1 })}
                   variant={"outlined"}
                   color={"primary"}
                   size={"large"}
@@ -994,10 +995,6 @@ class TestLanding extends Component {
             </Grid>
           </Box>
         </Dialog>
-
-
-
-
       </Container>
     );
   }
