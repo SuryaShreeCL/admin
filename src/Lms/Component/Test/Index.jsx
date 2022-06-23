@@ -16,7 +16,7 @@ import  {DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import MomentUtils from '@date-io/moment';
-//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -101,6 +101,7 @@ class TestLanding extends Component {
       alertMsg: "",
       alertSeverity: "",
       popupOpen: false,
+      popupOpen1: false,
       eventDate: "",
       eventDate: new Date(),
       eventEndDate: new Date(),
@@ -231,6 +232,7 @@ class TestLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
+    console.log(topicName, "vvvvvvvvvvvv")
     if (text === "Edit") {
       this.props.history.push(
         lms_add_test + "?testQuestionSetId=" + this.state.popUpId
@@ -317,7 +319,8 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
-    } else if (text === "Reschedule") {
+    } 
+    else if (text === "Reschedule") {      
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
@@ -334,11 +337,36 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Reschedule")
+      }
+      this.setState({
+        popupOpen: true,
+      });      
+    }
+
+    else if (text === "Schedule") {        
+      const { data: tableContent } = this.props.testData;
+
+      if (tableContent) {
+        let findObj = tableContent.content.map(
+          (el) => el.id === this.state.popUpId
+        );
+
+        if (findObj) {
+          this.setState({
+            eventDate: findObj.eventDate ? findObj.eventDate : new Date(),
+
+            eventEndDate: findObj.eventEndDate
+              ? findObj.eventEndDate
+              : new Date(),
+          });
+        }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Schedule")
       }
 
       this.setState({
-        popupOpen: true,
-      });
+        popupOpen1: true,
+      });      
     }
   };
 
@@ -581,6 +609,8 @@ class TestLanding extends Component {
           });
     }
   };
+
+  /* For Reschedule popup */
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
     console.log("reschedule")
@@ -611,6 +641,7 @@ class TestLanding extends Component {
               alertMsg: "Test rescheduled successfully",
               popupOpen: false,
             });
+            this.handleClose()
             let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
             this.state.department !== "assessment_engine_admin"
             ? this.props.getQuestionSet(paramObj)
@@ -624,13 +655,52 @@ class TestLanding extends Component {
         }
       });
     }
-    // }else{
-    //   this.setState({
-    //     alertState : true,
-    //     alertSeverity : "error",
-    //     alertMsg : "Please fill the Required Fields"
-    //   })
-    // }
+  };
+
+  /* For Schedule popup */
+  handleSchedule = () => {   
+    console.log("schedule")
+    let obj = {
+      startDateTime: this.state.eventDate,
+      endDateTime: this.state.eventEndDate,
+    };
+
+    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
+    moment(this.state.eventDate).isBefore(moment()) ||
+    moment(this.state.eventEndDate).isBefore(moment())) 
+    {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen1: true,
+      });          
+    } 
+
+    else
+    {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {                
+            this.setState({
+              alertState: true,
+              alertSeverity: "success",
+              alertMsg: "Test Scheduled successfully",
+              popupOpen1: false,
+            });
+            this.handleClose()
+            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+            this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet(paramObj)
+            : this.props.aegetQuestionSet(paramObj);                  
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
   };
 
   render() {
@@ -646,10 +716,10 @@ class TestLanding extends Component {
       role,
       anchorEl,
       popUpId,
-
       dialogStatus,
       dialogContent,
       popupOpen,
+      popupOpen1,
       eventDate,
       eventEndDate,
     } = this.state;
@@ -667,7 +737,7 @@ class TestLanding extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
-      handleReschedule,
+      // handleReschedule,
     } = this;
     return (
       <Container>
@@ -719,7 +789,7 @@ class TestLanding extends Component {
           />
         )}
 
-        {/* PopUp Components */}
+        {/* Archive PopUp*/}
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -740,6 +810,7 @@ class TestLanding extends Component {
           </Alert>
         </Snackbar>
 
+        {/*Reschedule popup*/}
         <Dialog
           open={popupOpen}
           onClose={() => this.setState({ popupOpen: !popupOpen })}
@@ -756,8 +827,8 @@ class TestLanding extends Component {
                 container
                 alignItems="center"
                 justifyContent="center"
-              >
-                {/* <RescheduleIcon /> */}
+              >             
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
               </Grid>
               <Grid
                 item
@@ -826,6 +897,99 @@ class TestLanding extends Component {
                   color={"primary"}
                 >
                   Reschedule
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Dialog>
+
+        {/* Schedule popup */}
+        <Dialog
+          open={popupOpen1}
+          onClose={() => this.setState({ popupOpen1: !popupOpen1 })}
+        >
+          <Box position={"relative"}>
+            <Grid
+              container
+              spacing={3}
+              style={{ width: "auto", margin: 0, padding: "20px" }}
+            >              
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography variant="h4">Schedule Test</Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
+                <DateTimePicker
+                  label="Start date and time"
+                  inputVariant="outlined"
+                  disablePast
+                  value={eventDate}
+                  onChange={(value) => this.setState({ eventDate: value })}
+                /></MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MuiPickersUtilsProvider  utils={MomentUtils}>
+                <DateTimePicker
+                  label="End date and time"
+                  inputVariant="outlined"
+                  disablePast
+                  value={eventEndDate}
+                  disabled ={eventEndDate === eventDate}
+                  onChange={(value) => this.setState({ eventEndDate: value })}
+                /></MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <Button
+                  onClick={() => this.setState({ popupOpen1: !popupOpen1 })}
+                  variant={"outlined"}
+                  color={"primary"}
+                  size={"large"}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item xs={6} container alignItems="center">
+                <Button
+                  size={"large"}
+                  onClick={()=>this.handleSchedule()}
+                  variant={"contained"}
+                  color={"primary"}
+                >
+                  Schedule
                 </Button>
               </Grid>
             </Grid>
