@@ -1,52 +1,106 @@
-import {
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@material-ui/core";
+import { IconButton, Table, TableBody, TableRow } from "@material-ui/core";
 import { MoreVertRounded } from "@material-ui/icons";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import React from "react";
+import { useDispatch } from "react-redux";
 import Blue from "../../../Asset/icons/Down.svg";
 import Blur from "../../../Asset/icons/Up.png";
 import {
   BodyCell,
   BoldCell,
   Head,
+  HeadCell,
   HeadInline,
   IconBox,
   TableBox,
 } from "../../Assets/StyledTableComponents";
+import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
-import { HeadCell } from "../../Assets/StyledTableComponents";
+let deptName = window.sessionStorage.getItem("department");
+console.log(deptName);
 
-const headText = [
-  "Name",
-  "Test Type",
-  "#  Que Assignes",
-  "# Que filled",
-  "Course",
-  "Topic name",
-  "Status",
-  "",
-];
+// const headText = deptName === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
+//   "Name",
+//   "Test Type",
+//   "#  Que Assignes",
+//   "# Que filled",
+//   "",
+//   "",
+//    "Status",
+
+//   "Download",
+//   "Test URL",
+//   "",
+// ]:[
+//   "Name",
+//   "Test Type",
+//   "#  Que Assignes",
+//   "# Que filled",
+//   "Course",
+//   "Topic name",
+//   "Status",
+
+//   "",
+// ];
 
 // const handleOpen = (itemId, popUpId, role, status) => {
-//   // console.log(status);
-//   // console.log(role === 'LMSEDITOR' && status === 'Live');
+//   //
+//   //
 //   if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
 //     return false;
 //   else return itemId === popUpId;
 // };
 
 const handleShowThreeDot = (role, status) => {
+  let deptName = window.sessionStorage.getItem("department")
   return !(
-    role === "LMSEDITOR" &&
-    (status === "Live" || status === "In Review" || status === "Approved")
+    deptName === "lms_editor" &&
+    (status === "Live" ||
+      status === "In Review" ||
+      status === "Approved" ||
+      status === "Sheduled")
   );
 };
 
 export default function TableComp(props) {
+  console.log(props.deptname);
+  console.log(props);
+  const dispatch = useDispatch();
+
+  const headText =
+    props.deptname === "assessment_engine_admin" &&
+    window.sessionStorage.getItem("role") === "SUPER ADMIN"
+      ? [
+          "Name",
+          "Test Type",
+          "#  Que Assignes",
+          "# Que filled",
+          "",
+          "",
+          "Status",
+
+          "Download",
+          "Test URL",
+          "",
+        ]
+      : [
+          "Name",
+          "Test Type",
+          "#  Que Assignes",
+          "# Que filled",
+          "Course",
+          "Topic name",
+          "Status",
+
+          "",
+        ];
+  const handleDownload = (testQuestionSetId, downloadpath) => {
+    // setScheduler(true);
+    // setData(item);
+    //
+
+    dispatch(downloadTest(testQuestionSetId, downloadpath));
+  };
   const {
     tableContent,
     field,
@@ -60,7 +114,10 @@ export default function TableComp(props) {
     popUpId,
     handleClose,
     handleOptions,
+    openStatus,
+    clickedStatus,
   } = props;
+  const aedept = window.sessionStorage.getItem("department");
 
   //Sort Icons
   const renderIcons = (field, order, index) => {
@@ -231,7 +288,7 @@ export default function TableComp(props) {
         </Head>
         <TableBody>
           {tableContent &&
-            tableContent.map(item => {
+            tableContent.map((item) => {
               return (
                 <TableRow key={item.id} style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
@@ -245,13 +302,46 @@ export default function TableComp(props) {
                   <BodyCell>{item.courseName}</BodyCell>
                   <BodyCell>{item.topicName}</BodyCell>
                   <BodyCell>{item.status}</BodyCell>
+                  {item.testType === "AE_TEST" &&
+                  aedept === "assessment_engine_admin" ? (
+                    <>
+                      <BodyCell>
+                        {/* {item.uniqueUrl} */}
+
+                        {/* <Controls.ActionButton
+                      disabled={!item.attemptedStudents}
+                      href={`${process.env.REACT_APP_API_URL}`}
+                    > */}
+                        <CloudDownloadIcon
+                          fontSize="small"
+                          onClick={() => handleDownload(item.id)}
+                        />
+                        {/* </Controls.ActionButton> */}
+                        {/* <Controls.ActionButton onClick={() => onSchedule(item)}> */}
+                        {/* <ScheduleIcon fontSize='small' color='primary' /> */}
+                        {/* </Controls.ActionButton> */}
+                      </BodyCell>
+                      <BodyCell>
+                        <a href={`${item.uniqueUrl}`} target={"_blank"}>
+                          {item.uniqueUrl}
+                        </a>
+                      </BodyCell>{" "}
+                    </>
+                  ) : (
+                    <>
+                      <BodyCell></BodyCell>
+                      <BodyCell></BodyCell>
+                    </>
+                  )}
                   <BodyCell>
                     {handleShowThreeDot(role, item.status) && (
                       <div>
                         <IconButton
                           aria-controls={item.id}
                           aria-haspopup="true"
-                          onClick={event => handleThreeDotClick(event, item.id)}
+                          onClick={(event) =>
+                            handleThreeDotClick(event, item.id, item.status)
+                          }
                           style={{ padding: "0px" }}
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />
@@ -259,13 +349,14 @@ export default function TableComp(props) {
                         <Menu
                           role={role}
                           anchorEl={anchorEl}
-                          open={item.id === popUpId}
+                          open={openStatus}
                           // open={handleOpen(item.id, popUpId, role, item.status)}
                           handleClose={handleClose}
                           status={item.status}
                           handleOptions={handleOptions}
                           name={item.name}
                           topicId={item.id}
+                          activeStatus={clickedStatus}
                         />
                       </div>
                     )}

@@ -29,6 +29,7 @@ export const AutocompleteText = (props) => {
       options={[]}
       freeSolo
       value={value}
+      // rules={required:true}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip variant="outlined" label={option} {...getTagProps({ index })} />
@@ -36,7 +37,7 @@ export const AutocompleteText = (props) => {
       }
       renderInput={(params) => (
         <TextField
-          {...params}
+          {...params}required
           variant={"outlined"}
           InputLabelProps={{
             shrink: true,

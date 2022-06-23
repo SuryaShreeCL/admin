@@ -25,7 +25,41 @@ const Passage = ({
   isMulti,
 }) => {
   const { Para } = passage;
+  let deptName = window.sessionStorage.getItem("department");
   return (
+  //  deptName === "assessment_engine_admin" ? (
+  //   <Grid container id="test-container">
+  //     <Grid item md={12} id="inside-test-container-right">
+  //       <Box
+  //         minHeight={400}
+  //         className={"overflow-scroll"}
+  //         id="inside-test-container"
+  //       >
+  //         {bundle ? (
+  //           <Bundle
+  //             bundleLength={bundleLength}
+  //             choices={choices}
+  //             selectedChoice={selectedChoice}
+  //             question={para}
+  //           />
+  //         ) : subjective ? (
+  //           <TextBox
+  //             type={"text"}
+  //             placeholder={"Enter your answer here"}
+  //             value={answer}
+  //           />
+  //         ) : (
+  //           <SingleSelect
+  //             question={question}
+  //             options={choices}
+  //             selectedChoice={selectedChoice}
+  //             isMulti={isMulti}
+  //           />
+  //         )}
+  //       </Box>
+  //     </Grid>
+  //   </Grid>
+  // ) : (
     <Grid container id="test-container">
       <Grid item md={6} id="inside-test-container">
         <Box display={"flex"} className={"overflow-scroll"} height={"inherit"}>
@@ -33,9 +67,11 @@ const Passage = ({
             <Para>
               <Latex math={para} />
             </Para>
+
             <Box fontSize={16} color={"#052A4E"} lineHeight={"30px"}>
               <Latex math={description} />
             </Box>
+
             <Box>
               {imgUrl && (
                 <img src={imgUrl} alt={""} width={"100%"} height={"100%"} />
@@ -47,6 +83,7 @@ const Passage = ({
           </Box>
         </Box>
       </Grid>
+
       <Grid item md={6} id="inside-test-container-right">
         <Box
           minHeight={400}
@@ -58,6 +95,7 @@ const Passage = ({
               bundleLength={bundleLength}
               choices={choices}
               selectedChoice={selectedChoice}
+              question={para}
             />
           ) : subjective ? (
             <TextBox
@@ -76,7 +114,8 @@ const Passage = ({
         </Box>
       </Grid>
     </Grid>
-  );
+  // )
+  )
 };
 
 export default Passage;

@@ -41,13 +41,13 @@ const useStyles = makeStyles({
     width: '69%',
   },
   inputWrapper: {
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
+    width: "100%",
+    display: "flex",
+    flexWrap: "wrap",
     alignItems: 'center',
   },
   captionStyle: {
-    width: '100%',
+    width: "100%",
   },
   inputField: {
     width: 250,
@@ -234,6 +234,7 @@ const EditTest = () => {
                           style={{ width: '100%' }}
                           value={values.name}
                           onChange={handleChange}
+                          required
                         />
                       </Grid>
                       <Grid item style={{ width: '30%' }}>
@@ -304,6 +305,7 @@ const EditTest = () => {
                         }}
                         value={values.descriptionTitle}
                         onChange={handleChange}
+                        required
                       />
                     </Grid>
                     <Grid container direction='row'>
@@ -376,6 +378,7 @@ const EditTest = () => {
                             (values.cutOffScore < 1
                               ? 'Enter Only Positive Values'
                               : '') ||
+
                             (values.cutOffScore >= values.score
                               ? 'Invalid Cutoff Score'
                               : '')
@@ -405,6 +408,7 @@ const EditTest = () => {
                                 <Field
                                   className={classes.inputField}
                                   placeholder='No Of Questions'
+                                //  class="noscroll"
                                   name={`testSection.${index}.noOfQuestions`}
                                 />
                               </div>

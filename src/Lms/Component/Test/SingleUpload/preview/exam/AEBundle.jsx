@@ -5,8 +5,8 @@
 import { Box, Checkbox, FormControlLabel } from "@material-ui/core";
 import React from "react";
 import Latex from "../../../../../Utils/LatexViewer";
-import Grid from '@material-ui/core/Grid'
-const App = ({ choices, bundleLength, selectedChoice,question }) => {
+import Grid from "@material-ui/core/Grid";
+const App = ({ choices, bundleLength, selectedChoice, question }) => {
   var alphaOption = [
     "A",
     "B",
@@ -52,13 +52,31 @@ const App = ({ choices, bundleLength, selectedChoice,question }) => {
   let idxx = -1;
   return (
     <Grid container spacing={2}>
-      <Grid item md={12} sm={12} xs={12}>
+      <Grid
+        item
+        md={6}
+        sm={12}
+        xs={12}
+        style={{
+          display: "flex",
+          paddingTop: "3%",
+        }}
+      >
         <div
-          className={""}
+          style={{ fontWeight: "500" }}
           dangerouslySetInnerHTML={{ __html: question }}
         ></div>
       </Grid>
-      <Grid item md={12} sm={12} xs={12}>
+      <Grid
+        item
+        md={6}
+        sm={12}
+        xs={12}
+        style={{
+          display: "flex",
+          paddingTop: "3%",
+        }}
+      >
         <table className={"bundle__table"}>
           <thead>
             <tr>
