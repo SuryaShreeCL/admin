@@ -56,8 +56,9 @@ const getDateFormat = dateString => {
 };
 
 const handleShowThreeDot = (role, status) => {
+    let deptName = window.sessionStorage.getItem("department");
   return !(
-    role === "LMSEDITOR" &&
+    deptName === "lms_editor" &&
     (status === "Live" || status === "In Review" || status === "Approved")
   );
 };
