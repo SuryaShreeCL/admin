@@ -1,8 +1,10 @@
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 import QueryString from "qs";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { lms_add_test } from "../../../../Component/RoutePaths";
-import { C2, H1, BackIconBox } from "../../../Assets/StyledComponents";
+import { BackIconBox, C2, H1 } from "../../../Assets/StyledComponents";
 import {
   getConcepts,
   getSubjects,
@@ -10,23 +12,21 @@ import {
   putImage,
 } from "../../../Redux/Action/CourseMaterial";
 import {
+  aegetQuestions,
+  aepostQuestions,
+  aepreviewTestData,
   cleanEditData,
   getQuestions,
-  aegetQuestions,
   postQuestions,
-  aepostQuestions,
   previewTestData,
-  aepreviewTestData,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
 import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
-import Question from "./Question";
 import QuestionPreview from "./preview/Index";
-import { IconButton } from "@material-ui/core";
-import { ArrowBack } from "@material-ui/icons";
+import Question from "./Question";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -415,6 +415,7 @@ export class Index extends Component {
       text,
       url,
     } = this.state;
+    let deptName = window.sessionStorage.getItem("department");
 
     let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
       this.props.location.search,
@@ -422,8 +423,25 @@ export class Index extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    if(Number(this.state.expectedTime === 0))
-    {
+    if (
+      deptName === "assessment_engine_admin" &&
+      (activeLevel?.length === 0 ||
+        this.state.expectedTime?.length === 0 ||
+        question?.length === 0 ||
+        answerType?.length === 0 ||
+        this.choiceEmptyCheck() ||
+        this.choicesSelectEmptyCheck())
+    ) {
+      this.setState({
+        alert: {
+          severity: "error",
+          msg: "Please fill the required fields",
+        },
+      });
+    } else if (
+      deptName === "assessment_engine_admin" &&
+      Number(this.state.expectedTime <= 0)
+    ) {
       this.setState({
         alert: {
           severity: "error",
@@ -860,8 +878,8 @@ export class Index extends Component {
     return (
       <div>
         <BackIconBox>
-          <IconButton color="primary" onClick={this.handleBackIconClick}>
-            <ArrowBack color="primary" />
+          <IconButton color='primary' onClick={this.handleBackIconClick}>
+            <ArrowBack color='primary' />
           </IconButton>
         </BackIconBox>
         <C2>

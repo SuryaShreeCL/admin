@@ -52,8 +52,9 @@ console.log(deptName);
 // };
 
 const handleShowThreeDot = (role, status) => {
+  let deptName = window.sessionStorage.getItem("department")
   return !(
-    role === "LMSEDITOR" &&
+    deptName === "lms_editor" &&
     (status === "Live" ||
       status === "In Review" ||
       status === "Approved" ||
@@ -333,34 +334,32 @@ export default function TableComp(props) {
                     </>
                   )}
                   <BodyCell>
-                    {console.log(item.status)}
-                    {handleShowThreeDot(role, item.status) &&
-                       (
-                        <div>
-                          <IconButton
-                            aria-controls={item.id}
-                            aria-haspopup="true"
-                            onClick={(event) =>
-                              handleThreeDotClick(event, item.id, item.status)
-                            }
-                            style={{ padding: "0px" }}
-                          >
-                            <MoreVertRounded style={{ fill: "#1093FF" }} />
-                          </IconButton>
-                          <Menu
-                            role={role}
-                            anchorEl={anchorEl}
-                            open={openStatus}
-                            // open={handleOpen(item.id, popUpId, role, item.status)}
-                            handleClose={handleClose}
-                            status={item.status}
-                            handleOptions={handleOptions}
-                            name={item.name}
-                            topicId={item.id}
-                            activeStatus={clickedStatus}
-                          />
-                        </div>
-                      )}
+                    {handleShowThreeDot(role, item.status) && (
+                      <div>
+                        <IconButton
+                          aria-controls={item.id}
+                          aria-haspopup="true"
+                          onClick={(event) =>
+                            handleThreeDotClick(event, item.id, item.status)
+                          }
+                          style={{ padding: "0px" }}
+                        >
+                          <MoreVertRounded style={{ fill: "#1093FF" }} />
+                        </IconButton>
+                        <Menu
+                          role={role}
+                          anchorEl={anchorEl}
+                          open={openStatus}
+                          // open={handleOpen(item.id, popUpId, role, item.status)}
+                          handleClose={handleClose}
+                          status={item.status}
+                          handleOptions={handleOptions}
+                          name={item.name}
+                          topicId={item.id}
+                          activeStatus={clickedStatus}
+                        />
+                      </div>
+                    )}
                   </BodyCell>
                 </TableRow>
               );

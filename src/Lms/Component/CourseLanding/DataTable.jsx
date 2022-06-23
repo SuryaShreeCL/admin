@@ -56,8 +56,9 @@ const getDateFormat = dateString => {
 };
 
 const handleShowThreeDot = (role, status) => {
+    let deptName = window.sessionStorage.getItem("department");
   return !(
-    role === "LMSEDITOR" &&
+    deptName === "lms_editor" &&
     (status === "Live" || status === "In Review" || status === "Approved")
   );
 };
@@ -77,6 +78,7 @@ export default function DataTable(props) {
     handleSortNew,
     handleSortBlue,
     handleSortBlur,
+    clickableStatus,
   } = props;
 
   // console.log(topics);
@@ -279,7 +281,9 @@ export default function DataTable(props) {
                         <IconButton
                           aria-controls={item.id}
                           aria-haspopup="true"
-                          onClick={event => handleThreeDotClick(item.id, event)}
+                          onClick={(event) =>
+                            handleThreeDotClick(item.id, event, item.status)
+                          }
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />
                         </IconButton>
@@ -293,6 +297,7 @@ export default function DataTable(props) {
                           name={item.topicName}
                           topicId={item.id}
                           courseMaterial={true}
+                          activeStatus={clickableStatus}
                         />
                       </div>
                     )}

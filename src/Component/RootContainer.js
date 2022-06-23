@@ -347,7 +347,7 @@ function RootContainer(props) {
     ) {
       const {
         adminLinkedProductDetails: { products: productList },
-        getProductByFamilyIdList
+        getProductByFamilyIdList,
       } = props;
       let myArr = [];
       if (productList && productList.length !== 0) {
@@ -687,9 +687,12 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department')!== 'assessment_engine_admin') {
-      var deptName = window.sessionStorage.getItem('department')
-      console.log(deptName)
+    } else if (
+      window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
+      window.sessionStorage.getItem("department") !== "assessment_engine_admin"
+    ) {
+      var deptName = window.sessionStorage.getItem("department");
+      console.log(deptName);
       setSideNav([
         {
           icon: <></>,
@@ -705,13 +708,13 @@ function RootContainer(props) {
         },
         {
           icon: <></>,
-          title: 'Test',
+          title: "Test",
           path: lmsTest,
           items: [],
         },
         {
           icon: <></>,
-          title: 'College',
+          title: "College",
           path: collegePath,
           items: [],
         },
@@ -734,11 +737,10 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    }
-   
-
-    else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department') === 'assessment_engine_admin') {
-  
+    } else if (
+      window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
+      window.sessionStorage.getItem("department") === "assessment_engine_admin"
+    ) {
       setSideNav([
         // {
         //   icon: <></>,
@@ -754,7 +756,7 @@ function RootContainer(props) {
         // },
         {
           icon: <></>,
-          title: 'Test',
+          title: "Test",
           path: lmsTest,
           items: [],
         },
@@ -784,10 +786,6 @@ function RootContainer(props) {
         // },
       ]);
     }
-
-
-
-    
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
   //
@@ -843,10 +841,10 @@ function RootContainer(props) {
           <Collapse
             style={{ minHeight: "70px" }}
             in={menuOpen}
-            timeout="auto"
+            timeout='auto'
             unmountOnExit
           >
-            <List style={{ marginLeft: "25px" }} component="div" disablePadding>
+            <List style={{ marginLeft: "25px" }} component='div' disablePadding>
               {children.map((child, key) => (
                 <MenuItem key={key} item={child} />
               ))}
@@ -882,18 +880,18 @@ function RootContainer(props) {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
-          position="fixed"
-          color="default"
+          position='fixed'
+          color='default'
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
           <Toolbar>
             <IconButton
-              color="inherit"
-              aria-label="open drawer"
+              color='inherit'
+              aria-label='open drawer'
               onClick={handleDrawerOpen}
-              edge="start"
+              edge='start'
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               {/* <MenuIcon /> */}
@@ -905,34 +903,34 @@ function RootContainer(props) {
               alt='CareerLabs'
             /> */}
             <div className={classes.spacer}></div>
-            <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge color="primary">
+            <IconButton color='primary' style={{ marginRight: "10px" }}>
+              <Badge color='primary'>
                 <NotificationsNoneOutlinedIcon />
               </Badge>
             </IconButton>
             <Divider
               style={{ height: "30px", backgroundColor: "#cacaca" }}
-              orientation="vertical"
+              orientation='vertical'
             />
             {/* <GoogleBtn {...props} />       */}
-            <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge color="primary">
+            <IconButton color='primary' style={{ marginRight: "10px" }}>
+              <Badge color='primary'>
                 <InsertInvitationOutlinedIcon />
               </Badge>
             </IconButton>
             <Divider
               style={{ height: "30px", backgroundColor: "#cacaca" }}
-              orientation="vertical"
+              orientation='vertical'
             />
-            <IconButton color="primary" onClick={logout}>
+            <IconButton color='primary' onClick={logout}>
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           className={classes.drawer}
-          variant="persistent"
-          anchor="left"
+          variant='persistent'
+          anchor='left'
           open={open}
           classes={{
             paper: classes.drawerPaper,
@@ -983,7 +981,7 @@ function RootContainer(props) {
           {/* <Divider /> */}
         </Drawer>
         <main
-          id="main-container"
+          id='main-container'
           className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
@@ -1021,7 +1019,7 @@ function RootContainer(props) {
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
       {new Date().getFullYear() + " "}
       CareerLabs
