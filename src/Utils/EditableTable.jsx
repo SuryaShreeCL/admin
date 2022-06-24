@@ -39,9 +39,6 @@ export default function Editable(props) {
         headerStyle: {
           whiteSpace: "nowrap",   
         },
-        //sticky header:,
-        fixedColumns: {
-        },
         // pageSize: ,
         maxBodyHeight:300 ,
 
