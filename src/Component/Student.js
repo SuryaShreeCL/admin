@@ -1040,7 +1040,7 @@ export class Student extends Component {
                   error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
                   onKeyPress={(evt) => {
-                    if (isAlpha(evt)) evt.preventDefault();
+                    if (isAlpha(evt) && evt.key != ".") evt.preventDefault();
                   }}
                   value={this.state.lastName || null}
                   onChange={(e) => this.setState({ lastName: e.target.value })}
