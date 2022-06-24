@@ -47,9 +47,6 @@ import moment from "moment";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-var testVar = window.sessionStorage.getItem("department");
-const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
-console.log(testVar);
 
 const editorConfiguration = {
   toolbar: [
@@ -133,7 +130,7 @@ class TestLanding extends Component {
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
-      testType: TEST_TYPE,
+      testType: deptname === "assessment_engine_admin" ? "AE_TEST" : null,
     };
     deptname === "assessment_engine_admin"
       ? this.props.aegetQuestionSet(paramObj)
