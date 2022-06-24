@@ -94,7 +94,6 @@ function Index(props) {
   useEffect(() => {
     dispatch(getStudentCvList(studentId, productId));
   }, []);
-// console.log(studentCvList?.data?.status);
   useEffect(() => {
     if (studentCvList) {
       if (studentCvList.success) {
@@ -107,7 +106,7 @@ function Index(props) {
       } else {
         handleSnack(true, "error", studentCvList.message);
       }
-      dispatch(clearCustomData("studentCvList"));
+      // dispatch(clearCustomData("studentCvList"));
     }
   }, [studentCvList]);
 
@@ -224,7 +223,7 @@ function Index(props) {
             <div>
               <FlexEndView>
                 <Typo variant={"caption"} color={"#333333"}>
-          {cvReviewList[cvReviewList?.length-1]?.fileName}_r                
+          {studentCvList?.data?.fileName}             
                 </Typo>              
                 <IconButton
                   onClick={handleDelete}
