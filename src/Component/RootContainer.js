@@ -965,9 +965,9 @@ function RootContainer(props) {
           <Routes {...props} />
           {/* <LandingAdmin {...props} /> */}
         </main>
-        {/* <footer className={classes.footer}>
+        <footer className={classes.footer}>
           <Copyright />
-        </footer> */}
+        </footer>
       </div>
     </ThemeProvider>
   );
