@@ -99,7 +99,6 @@ class TestLanding extends Component {
       alertSeverity: "",
       popupOpen: false,
       popupOpen1: false,
-      eventDate: "",
       eventDate: new Date(),
       eventEndDate: new Date(),
       openStatus: false,
@@ -321,9 +320,10 @@ class TestLanding extends Component {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
-        let findObj = tableContent.content.map(
+        let findObj = tableContent.content.filter(
           (el) => el.id === this.state.popUpId
-        );
+        )[0];
+        console.log(tableContent,findObj,"findObj.eventDate")
 
         if (findObj) {
           this.setState({
