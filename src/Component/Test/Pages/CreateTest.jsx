@@ -16,7 +16,6 @@ import { Button } from '@material-ui/core';
 import * as yup from 'yup';
 import { Grid } from '@material-ui/core';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import { MultipleFileUploadField } from '../../Wall/Components/Upload/MultipleFileUploadField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import {
@@ -92,7 +91,6 @@ const CreateTest = () => {
     endDateTime: new Date(),
     score: 10,
     eventPost: { id: '' },
-    wallFiles: [],
     cutOffScore: 5,
   });
 
@@ -130,15 +128,6 @@ const CreateTest = () => {
   const [testCreated, setTestCreated] = useState(false);
 
   const validate = (values) => {
-    if (values.wallFiles.length === 0) {
-      setNotify({
-        isOpen: true,
-        message: 'Please upload image(s)',
-        type: 'error',
-      });
-      return false;
-    }
-
     //validation of event link
     if (values?.eventPost?.id?.length < 5) {
       setNotify({
@@ -319,7 +308,7 @@ const CreateTest = () => {
                     </Grid> */}
                     <Grid item style={{ width: '55%', zIndex: '77' }}>
                       <Autocomplete
-                        options={posts?.content}
+                        options={posts}
                         getOptionLabel={(option) => option.eventTitle}
                         name='eventPost.id'
                         disabled={loading}
@@ -483,15 +472,8 @@ const CreateTest = () => {
                     direction='row'
                     justify='space-between'
                     style={{ width: '100%', margin: '1rem 0' }}
-                  >
-                    <Grid item style={{ width: '38%', marginTop: '1.2rem' }}>
-                      <MultipleFileUploadField
-                        name='wallFiles'
-                        fileType='image'
-                      />
-                    </Grid>
-
-                    <Grid item style={{ width: '58%', marginTop: '1.2rem' }}>
+                  >                  
+                    <Grid item style={{ width: '100%', marginTop: '1.2rem' }}>
                       <Controls.Input
                         label='Test instructions..'
                         value={values.nameDescription}

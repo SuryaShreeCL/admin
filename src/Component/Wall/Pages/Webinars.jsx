@@ -32,9 +32,9 @@ import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
 import { renderListCategory } from "../../Utils/Helpers";
 import { isLms_Role } from "../WallLanding";
 
-const Alert = props => <MuiAlert elevation={6} variant="filled" {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   pageContent: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(2),
@@ -74,24 +74,24 @@ export default function Webinars() {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const [filterFn, setFilterFn] = useState({
-    fn: items => {
+    fn: (items) => {
       return items;
     },
   });
 
   const { loading, error, webinars } = useSelector(
-    state => state.wallWebinarListReducer
+    (state) => state.wallWebinarListReducer
   );
 
   const wallPostDeleteReducer = useSelector(
-    state => state.wallPostDeleteReducer
+    (state) => state.wallPostDeleteReducer
   );
 
   let totalPages = webinars?.totalPages;
 
   //fitering out archived webinars
   let filteredWebinars = webinars?.content?.filter(
-    webinar => webinar.activeStatus !== "Archive"
+    (webinar) => webinar.activeStatus !== "Archive"
   );
 
   const [viewData, setViewData] = useState([]);
@@ -115,20 +115,20 @@ export default function Webinars() {
     page,
   } = useTable(filteredWebinars, headCells, filterFn, totalPages);
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
-      fn: items => {
+      fn: (items) => {
         if (target.value == "") return items;
         else
-          return items.filter(x =>
+          return items.filter((x) =>
             x.eventTitle.toLowerCase().includes(target.value)
           );
       },
     });
   };
 
-  const openInPage = item => {
+  const openInPage = (item) => {
     history.push({
       pathname: editPath,
       recordForEdit: item,
@@ -139,7 +139,7 @@ export default function Webinars() {
     setOpenDrawer(false);
   };
 
-  const onDelete = id => {
+  const onDelete = (id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
@@ -174,7 +174,7 @@ export default function Webinars() {
     dispatch(listWallWebinars(page, "Live,Draft,Scheduled"));
   }, [dispatch, page]);
 
-  const handleDeleteClick = item => {
+  const handleDeleteClick = (item) => {
     if (!item.isEditable) {
       setNotify({
         isOpen: true,
@@ -237,29 +237,32 @@ export default function Webinars() {
           <TblHead />
           {filteredWebinars && (
             <TableBody>
-              {recordsAfterPagingAndSorting().map(item => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    {renderListCategory(item.wallCategories)}
-                  </TableCell>
-                  <TableCell>{`${item.eventTitle}`}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
-                  <TableCell>{item.studentWallWebinar.length}</TableCell>
-                  <TableCell>{item.createdAt.split("T")[0]}</TableCell>
-                  <TableCell>{item.createdBy}</TableCell>
-                  <TableCell>{item.activeStatus}</TableCell>
-                  <TableCell>
-                    <Controls.ActionButton onClick={() => openInPage(item)}>
-                      <EditOutlinedIcon fontSize="small" color="primary" />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton
-                      onClick={() => handleDeleteClick(item)}
-                    >
-                      <DeleteIcon fontSize="small" color="secondary" />
-                    </Controls.ActionButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {recordsAfterPagingAndSorting().map((item) => {
+                console.log(item, "item+++");
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      {renderListCategory(item.wallCategories)}
+                    </TableCell>
+                    <TableCell>{`${item.eventTitle}`}</TableCell>
+                    <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
+                    <TableCell>{item.studentWallWebinar.length}</TableCell>
+                    <TableCell>{item.createdAt.split("T")[0]}</TableCell>
+                    <TableCell>{item.createdBy}</TableCell>
+                    <TableCell>{item.activeStatus}</TableCell>
+                    <TableCell>
+                      <Controls.ActionButton onClick={() => openInPage(item)}>
+                        <EditOutlinedIcon fontSize="small" color="primary" />
+                      </Controls.ActionButton>
+                      <Controls.ActionButton
+                        onClick={() => handleDeleteClick(item)}
+                      >
+                        <DeleteIcon fontSize="small" color="secondary" />
+                      </Controls.ActionButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           )}
         </TblContainer>

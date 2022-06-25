@@ -36,7 +36,7 @@ export const listAllWallPosts = (status, type) => async (dispatch) => {
     dispatch({ type: WALL.LIST_REQUEST });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/api/v1/wallpost?isEvent=${type}&activeStatus=${status}&page=0&size=1000`,
+      `${process.env.REACT_APP_API_URL}/api/v1/wallpost/test?isEvent=${type}&activeStatus=${status}&page=0&size=1000`,
       {
         crossDomain: true,
         headers: {

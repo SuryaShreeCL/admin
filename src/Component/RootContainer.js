@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Track from '@material-ui/icons/ArtTrack';
 import ContactMail from '@material-ui/icons/ContactMail';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import LiveVideoOn from '../Asset/icons/Live_Video_On.svg';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
@@ -51,6 +52,7 @@ import {
   obOperationPath,
   premiumUsersPath,
   clsaPath,
+  thirdYear,
   productPath,
   productPunchingPath,
   reportsPath,
@@ -556,6 +558,12 @@ function RootContainer(props) {
           path: clsaPath,
           items: [],
         },
+        {
+          icon: <img src={LiveVideoOn} alt={'3rd_year_menu'} width={'28px'} />,
+          title: '3rd Year',
+          path: thirdYear,
+          items: [],
+        },
       ]);
     } else if (props.adminLinkedProductDetails.department === 'elev8_super_admin') {
       setSideNav([
@@ -660,9 +668,12 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    } else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department')!== 'assessment_engine_admin') {
-      var deptName = window.sessionStorage.getItem('department')
-      console.log(deptName)
+    } else if (
+      window.sessionStorage.getItem('role') === 'SUPER ADMIN' &&
+      window.sessionStorage.getItem('department') !== 'assessment_engine_admin'
+    ) {
+      var deptName = window.sessionStorage.getItem('department');
+      console.log(deptName);
       setSideNav([
         {
           icon: <></>,
@@ -707,11 +718,10 @@ function RootContainer(props) {
           items: [],
         },
       ]);
-    }
-   
-
-    else if (window.sessionStorage.getItem('role') === 'SUPER ADMIN' && window.sessionStorage.getItem('department') === 'assessment_engine_admin') {
-  
+    } else if (
+      window.sessionStorage.getItem('role') === 'SUPER ADMIN' &&
+      window.sessionStorage.getItem('department') === 'assessment_engine_admin'
+    ) {
       setSideNav([
         // {
         //   icon: <></>,
@@ -757,10 +767,6 @@ function RootContainer(props) {
         // },
       ]);
     }
-
-
-
-    
   }, [props.adminLinkedProductDetails, props.getProductByFamilyIdList]);
 
   //

@@ -78,7 +78,11 @@ function DriveResult() {
           {rowData.stepStatus}
         </p>
       ),
-      lookup: { Qualified: 'Qualified', 'Not Qualified': 'Not Qualified', NA: 'NA' },
+      lookup: {
+        Qualified: 'Qualified',
+        'Not Qualified': 'Not Qualified',
+        NA: 'NA',
+      },
     },
     {
       title: '10%',
@@ -224,6 +228,11 @@ function DriveResult() {
           <p>{rowData?.answers[idx] ?? '--'}</p>
         </div>
       ),
+      customFilterAndSearch: (term, rowData) =>
+        Boolean(
+          rowData?.answers[idx] &&
+            rowData?.answers[idx].toLowerCase().indexOf(term.toLowerCase()) > -1
+        ),
     });
     return columns;
   });
