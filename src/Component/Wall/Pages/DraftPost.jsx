@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Paper,
   makeStyles,
@@ -8,31 +8,35 @@ import {
   Toolbar,
   InputAdornment,
   IconButton,
-} from '@material-ui/core';
-import useTable from '../../Utils/useTable';
-import Controls from '../../Utils/controls/Controls';
-import { Search } from '@material-ui/icons';
-import AddIcon from '@material-ui/icons/Add';
-import Drawer from '@material-ui/core/Drawer';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import Notification from '../../Utils/Notification';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { useHistory } from 'react-router-dom';
-import { editPath, createPath } from '../../RoutePaths';
-import moment from 'moment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import Loader from '../../Utils/controls/Loader';
-import MuiAlert from '@material-ui/lab/Alert';
-import ConfirmDialog from '../../Utils/ConfirmDialog';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import { useSelector, useDispatch } from 'react-redux';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import Preview from '../Components/Preview';
-import { DrawerContainer } from '../Assets/Styles/WallStyles';
-import { ButtonsContainerTwo } from '../Assets/Styles/CreatePostStyles';
-import { listWallPosts, deleteWallPost, updateWallPost } from '../../../Actions/WallActions';
-import { renderListCategory } from '../../Utils/Helpers';
+} from "@material-ui/core";
+import useTable from "../../Utils/useTable";
+import Controls from "../../Utils/controls/Controls";
+import { Search } from "@material-ui/icons";
+import AddIcon from "@material-ui/icons/Add";
+import Drawer from "@material-ui/core/Drawer";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import Notification from "../../Utils/Notification";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { useHistory } from "react-router-dom";
+import { editPath, createPath } from "../../RoutePaths";
+import moment from "moment";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import Loader from "../../Utils/controls/Loader";
+import MuiAlert from "@material-ui/lab/Alert";
+import ConfirmDialog from "../../Utils/ConfirmDialog";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import { useSelector, useDispatch } from "react-redux";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Preview from "../Components/Preview";
+import { DrawerContainer } from "../Assets/Styles/WallStyles";
+import { ButtonsContainerTwo } from "../Assets/Styles/CreatePostStyles";
+import {
+  listWallPosts,
+  deleteWallPost,
+  updateWallPost,
+} from "../../../Actions/WallActions";
+import { renderListCategory } from "../../Utils/Helpers";
 
 const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -42,27 +46,27 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   searchInput: {
-    width: '65%',
+    width: "65%",
   },
   filterBtn: {
-    position: 'absolute',
-    right: '250px',
-    borderRadius: '26px',
+    position: "absolute",
+    right: "250px",
+    borderRadius: "26px",
   },
   newButton: {
-    position: 'absolute',
-    right: '20px',
-    borderRadius: '26px',
+    position: "absolute",
+    right: "20px",
+    borderRadius: "26px",
   },
 }));
 
 const headCells = [
-  { id: 'category', label: 'Category', disableSorting: true },
-  { id: 'createdAt', label: 'Published' },
-  { id: 'caption', label: 'Caption', disableSorting: true },
-  { id: 'totalLikes', label: 'Likes' },
-  { id: 'totalViews', label: 'Views' },
-  { id: 'actions', label: 'Actions', disableSorting: true },
+  { id: "category", label: "Category", disableSorting: true },
+  { id: "createdAt", label: "Published" },
+  { id: "caption", label: "Caption", disableSorting: true },
+  { id: "totalLikes", label: "Likes" },
+  { id: "totalViews", label: "Views" },
+  { id: "actions", label: "Actions", disableSorting: true },
 ];
 
 export default function DraftPost() {
@@ -77,30 +81,40 @@ export default function DraftPost() {
     },
   });
 
-  const { loading, error, posts } = useSelector((state) => state.wallPostListReducer);
+  const { loading, error, posts } = useSelector(
+    (state) => state.wallPostListReducer
+  );
   let totalPages = posts?.totalPages;
 
   const [viewData, setViewData] = useState([]);
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
-    title: '',
-    subTitle: '',
+    title: "",
+    subTitle: "",
   });
 
-  const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting, page } = useTable(
-    posts?.content,
-    headCells,
-    filterFn,
-    totalPages
-  );
+  const {
+    TblContainer,
+    TblHead,
+    TblPagination,
+    recordsAfterPagingAndSorting,
+    page,
+  } = useTable(posts?.content, headCells, filterFn, totalPages);
 
   const handleSearch = (e) => {
     let target = e.target;
     setFilterFn({
       fn: (items) => {
-        if (target.value == '') return items;
-        else return items.filter((x) => x.caption.toLowerCase().includes(target.value));
+        if (target.value == "") return items;
+        else
+          return items.filter((x) =>
+            x.caption.toLowerCase().includes(target.value)
+          );
       },
     });
   };
@@ -114,11 +128,11 @@ export default function DraftPost() {
     dispatch(updateWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: 'Post Published Successfully',
-      type: 'success',
+      message: "Post Published Successfully",
+      type: "success",
     });
     setTimeout(() => {
-      dispatch(listWallPosts('Draft', false, page));
+      dispatch(listWallPosts("Draft", false, page));
     }, 1200);
   };
 
@@ -126,7 +140,7 @@ export default function DraftPost() {
     history.push({
       pathname: editPath,
       recordForEdit: item,
-      postType: 'Draft',
+      postType: "Draft",
     });
     setOpenDrawer(false);
   };
@@ -138,17 +152,17 @@ export default function DraftPost() {
     });
     dispatch(deleteWallPost(id));
     setTimeout(() => {
-      dispatch(listWallPosts('Draft', false, page));
+      dispatch(listWallPosts("Draft", false, page));
     }, 1200);
     setNotify({
       isOpen: true,
-      message: 'Deleted Successfully',
-      type: 'error',
+      message: "Deleted Successfully",
+      type: "error",
     });
   };
 
   useEffect(() => {
-    dispatch(listWallPosts('Draft', false, page));
+    dispatch(listWallPosts("Draft", false, page));
   }, [dispatch, page]);
 
   return (
@@ -184,7 +198,7 @@ export default function DraftPost() {
               history.push({
                 pathname: createPath,
                 type: false,
-                postType: 'Post',
+                postType: "Post",
               });
             }}
           />
@@ -196,17 +210,24 @@ export default function DraftPost() {
             <TableBody>
               {recordsAfterPagingAndSorting().map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{renderListCategory(item.wallCategories)}</TableCell>
+                  <TableCell>
+                    {renderListCategory(item.wallCategories)}
+                  </TableCell>
                   <TableCell>{moment(item.createdAt).fromNow()}</TableCell>
-                  <TableCell>{`${item.caption.slice(0, 20)}...`}</TableCell>
+                  <TableCell>{`${item.caption?.slice(0, 20)}...`}</TableCell>
                   <TableCell>{item.totalLikes}</TableCell>
                   <TableCell>{item.totalViews}</TableCell>
                   <TableCell>
                     <Controls.ActionButton onClick={() => openInPopup(item)}>
                       <VisibilityIcon fontSize='small' color='default' />
                     </Controls.ActionButton>
-                    <Controls.ActionButton onClick={() => onPublish(item, 'Live')}>
-                      <CloudUploadIcon fontSize='small' style={{ color: 'green' }} />
+                    <Controls.ActionButton
+                      onClick={() => onPublish(item, "Live")}
+                    >
+                      <CloudUploadIcon
+                        fontSize='small'
+                        style={{ color: "green" }}
+                      />
                     </Controls.ActionButton>
                     <Controls.ActionButton onClick={() => openInPage(item)}>
                       <EditOutlinedIcon fontSize='small' color='primary' />
@@ -215,7 +236,7 @@ export default function DraftPost() {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: 'Are you sure to delete this post?',
+                          title: "Are you sure to delete this post?",
                           subTitle: "You can't undo this operation",
                           onConfirm: () => {
                             onDelete(item.id);
@@ -231,7 +252,7 @@ export default function DraftPost() {
             </TableBody>
           )}
         </TblContainer>
-        <div style={{ margin: '2rem auto', width: '60%' }}>
+        <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
           {error && <Alert severity='error'>{error}</Alert>}
           {!loading && posts?.content?.length === 0 && (
@@ -241,23 +262,30 @@ export default function DraftPost() {
         <TblPagination />
       </Paper>
 
-      <Drawer anchor='right' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <Drawer
+        anchor='right'
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
         <DrawerContainer>
           <Preview state={viewData} />
           <ButtonsContainerTwo>
-            <span style={{ fontSize: '1rem' }} onClick={() => openInPage(viewData)}>
+            <span
+              style={{ fontSize: "1rem" }}
+              onClick={() => openInPage(viewData)}
+            >
               <IconButton aria-label='edit'>
                 <EditIcon color='primary' size='large' />
               </IconButton>
               Edit
             </span>
             <span
-              style={{ fontSize: '1rem' }}
+              style={{ fontSize: "1rem" }}
               onClick={() => {
                 setOpenDrawer(false);
                 setConfirmDialog({
                   isOpen: true,
-                  title: 'Are you sure to delete this post?',
+                  title: "Are you sure to delete this post?",
                   subTitle: "You can't undo this operation",
                   onConfirm: () => {
                     onDelete(viewData.id);
@@ -274,7 +302,10 @@ export default function DraftPost() {
         </DrawerContainer>
       </Drawer>
       <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
     </>
   );
 }
