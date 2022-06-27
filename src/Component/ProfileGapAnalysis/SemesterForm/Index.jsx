@@ -669,6 +669,14 @@ class Index extends Component {
                   }
                   label="Type"
                   variant="standard"
+                  inputProps={{
+                    ...params.inputProps,
+                    onKeyDown: (e) => {
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                          }
+                    },
+                  }}
                 />
               )}
             />
