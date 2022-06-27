@@ -417,7 +417,7 @@ export class Student extends Component {
     ) {
       let studentObj = {
         firstName: this.state.firstName,
-        lastName: this.state.lastName ? this.state.lastName : ".",
+        lastName: this.state.lastName?.trim(" ") ? this.state.lastName : ".",
         username: this.state.eMail,
         email: this.state.eMail,
         phone: this.state.phone,
@@ -563,7 +563,9 @@ export class Student extends Component {
     ) {
       let studentObj = {
         firstName: this.state.firstName,
-        lastName: this.state.lastName ? this.state.lastName : ".",
+        lastName: this.state.lastName?.trim(" ")
+          ? this.state.lastName
+          : ".",
         college: this.state.college.id,
         department: this.state.department.id,
         email_id: this.state.eMail,
