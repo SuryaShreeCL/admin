@@ -16,6 +16,7 @@ import { pbMaster } from "./GenerateReport/PbMasterSample";
 import PbMasterReport from "./GenerateReport/PbMasterReport";
 import MbaPbReport from "./GenerateReport/MbaPbReport";
 import MimPbReport from "./GenerateReport/MimPbReport";
+import MimReport from "./GenerateReport/MimReport";
 
 class Preview extends Component {
   constructor(props) {
@@ -80,13 +81,22 @@ class Preview extends Component {
 
   renderReport = () => {
     let productId = this.props.match.params.productId;
-    if (productId === "7" || productId === "5") {
+    let productName = this.props.variantStepList.referProductCodeName;
+    console.log(productId, this.state.reportData);
+    if (
+      productName === "ACS_MBA"
+      // productId === "7" ||
+      // productId === "5" ||
+      // productId === "84a86a73-f5f1-416d-b716-4f34f4ba892e"
+    ) {
       return (
         <MbaReport
           content={this.state.reportData.contents || []}
           assessment={this.mbaReportHeader}
         />
       );
+    } else if (productName === "ACS_MIM") {
+      return <MimReport content={this.state.reportData.contents || []} />;
     } else {
       return <MsReport content={this.state.reportData.contents || []} />;
     }
@@ -107,7 +117,11 @@ class Preview extends Component {
   }
 }
 
-const mapStateToProps = (state) => {};
+const mapStateToProps = (state) => {
+  return {
+    variantStepList: state.ProductReducer.variantStepList,
+  };
+};
 
 export default connect(mapStateToProps, {
   getReportPreview,
