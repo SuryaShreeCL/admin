@@ -47,9 +47,6 @@ import moment from "moment";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-var testVar = window.sessionStorage.getItem("department");
-const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
-console.log(testVar);
 
 const editorConfiguration = {
   toolbar: [
@@ -102,7 +99,6 @@ class TestLanding extends Component {
       alertSeverity: "",
       popupOpen: false,
       popupOpen1: false,
-      eventDate: "",
       eventDate: new Date(),
       eventEndDate: new Date(),
       openStatus: false,
@@ -134,7 +130,7 @@ class TestLanding extends Component {
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
-      testType: TEST_TYPE,
+      testType: deptname === "assessment_engine_admin" ? "AE_TEST" : null,
     };
     deptname === "assessment_engine_admin"
       ? this.props.aegetQuestionSet(paramObj)
@@ -324,9 +320,10 @@ class TestLanding extends Component {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
-        let findObj = tableContent.content.map(
+        let findObj = tableContent.content.filter(
           (el) => el.id === this.state.popUpId
-        );
+        )[0];
+        console.log(tableContent,findObj,"findObj.eventDate")
 
         if (findObj) {
           this.setState({
@@ -720,8 +717,8 @@ class TestLanding extends Component {
       dialogContent,
       popupOpen,
       popupOpen1,
-      eventDate,
-      eventEndDate,
+      eventDate = new Date(),
+      eventEndDate = new Date(),
     } = this.state;
     // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
     //
@@ -869,7 +866,7 @@ class TestLanding extends Component {
                   inputVariant="outlined"
                   disablePast
                   value={eventEndDate}
-                  disabled ={eventEndDate === eventDate}
+                  // disabled ={eventEndDate === eventDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
                 /></MuiPickersUtilsProvider>
               </Grid>
