@@ -717,8 +717,8 @@ class TestLanding extends Component {
       dialogContent,
       popupOpen,
       popupOpen1,
-      eventDate,
-      eventEndDate,
+      eventDate = new Date(),
+      eventEndDate = new Date(),
     } = this.state;
     // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
     //
@@ -866,7 +866,7 @@ class TestLanding extends Component {
                   inputVariant="outlined"
                   disablePast
                   value={eventEndDate}
-                  disabled ={eventEndDate === eventDate}
+                  // disabled ={eventEndDate === eventDate}
                   onChange={(value) => this.setState({ eventEndDate: value })}
                 /></MuiPickersUtilsProvider>
               </Grid>

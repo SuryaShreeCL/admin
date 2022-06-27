@@ -113,8 +113,8 @@ class Add extends Component {
       courseIdValue: "",
       posterUrl: [],
       scheduleTest: false,
-      eventDate: null,
-      eventEndDate: null,
+      eventDate: new Date(),
+      eventEndDate: new Date(),
       department: null,
       loading : false
 
@@ -1383,7 +1383,12 @@ class Add extends Component {
                         <Switch
                           checked={scheduleTest}
                           onChange={(e) => {
-                            if (!e.target.checked) {
+                            if (e.target.checked) {
+                              this.setState({
+                                eventDate: new Date(),
+                                eventEndDate: new Date(),
+                              });
+                            }else{
                               this.setState({
                                 eventDate: null,
                                 eventEndDate: null,
