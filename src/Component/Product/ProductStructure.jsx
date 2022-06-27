@@ -111,6 +111,7 @@ class ProductStructure extends Component {
     });
   };
   handleUpdate = () => {
+    
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.stepname)
       ? this.setState({ stepnameErr: hlptxt })
@@ -168,8 +169,9 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: { id: this.state.varient ? this.state.varient?.id : null },
+        product: { id: this.state.varient ? this.state.varient : null },
       };
+      
       this.props.putproductstructure(obj);
       this.setState({
         snackMsg: "Updated Successfully",
@@ -263,7 +265,7 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: { id: this.state.varient ? this.state.varient?.id : null },
+        product: { id: this.state.varient ? this.state.varient.id : null },
       };
       this.props.postproductstructure(obj);
 
