@@ -333,7 +333,7 @@ export class Student extends Component {
       : this.setState({ firstNameHelperText: "" });
     this.state.lastName === null || this.state.lastName.length === 0 || this.state.lastName?.trim(" ")  === ""
       ? this.setState({
-          lastNameHelperText: `If there is no lastname just enter ${"."} on this field otherwise kindly enter your lastname here`,
+          lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
           isLoading: false,
         })
       : this.setState({ lastNameHelperText: "" });
@@ -500,7 +500,7 @@ export class Student extends Component {
      this.state.lastName.length === 0 ||
      this.state.lastName?.trim(" ") === ""
        ? this.setState({
-           lastNameHelperText: `If there is no lastname just enter ${"."} on this field otherwise kindly enter your lastname here`,
+           lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
            isLoading: false,
          })
        : this.setState({ lastNameHelperText: "" });
