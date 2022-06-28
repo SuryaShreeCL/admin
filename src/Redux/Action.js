@@ -120,9 +120,14 @@ export const STUDENT = {
   aspirationDegree: "aspirationDegree",
   aspirationBranch: "aspirationBranch",
   aspirationCountry: "aspirationCountry",
+  getRegions: "getRegions",
+  getDegree: "getDegree",
   AspirationCollege: "AspirationCollege",
   aspirationSpecialization: "aspirationSpecialization",
   getAllIntakeList: "getAllIntakeList",
+  opsStageComplete: "opsStageComplete",
+  getStudentStageByProductId: "getStudentStageByProductId",
+  getStepsBySubStageId: "getStepsBySubStageId",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -613,4 +618,51 @@ export const CV_REVIEW = {
   getStudentCvList: "getStudentCvList",
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
+};
+
+export const STRATEGY_SESSION = {
+  loader: "strategySessionLoader",
+  clearData: "strategySessionClearData",
+  clearCustomData: "strategySessionClearCustomData",
+  getDocumentModelBySubStageId: "getDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postFileUploadBySubStageId",
+  putDocumentBySubStageId: "putDocumentBySubStageId",
+  getDownloadByDocumentId: "getDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteDocumentByDocumentId",
+  uploadFile: "gatTestTranscriptsUploadFile",
+  getGreData: "getTestTranscriptsGreData",
+  updateGreData: "updateTestTranscriptsGreData",
+  getGmatData: "getTestTranscriptsGmatData",
+  updateGmatData: "updateTestTranscriptsGmatData",
+  getToeflData: "getTestTranscriptsToeflData",
+  updateToeflData: "updateTestTranscriptsToeflData",
+  getIeltsData: "getTestTranscriptsIeltsData",
+  updateIeltsData: "updateTestTranscriptsIeltsData",
+  getGreExpectedDate: "getTestTranscriptsGreExpectedDate",
+  getGmatExpectedDate: "getTestTranscriptsGmatExpectedDate",
+  getIeltsExpectedDate: "getTestTranscriptsIeltsExpectedDate",
+  getToelfExpectedDate: "getTestTranscriptsToelfExpectedDate",
+};
+
+export const PROFILE_MENTORING = {
+  loader: "profileMentoringLoader",
+  clearData: "profileMentoringClearData",
+  clearCustomData: "profileMentoringClearCustomData",
+  getDocumentModelBySubStageId: "getProfileMentoringDocumentModelBySubStageId",
+  postFileUpload: "postProfileMentoringFileUpload",
+  putDocumentBySubStageId: "putProfileMentoringDocumentBySubStageId",
+  getDownloadByDocumentId: "getProfileMentoringDownloadByDocumentId",
+  deleteDocumentByDocumentId: "deleteProfileMentoringDocumentByDocumentId",
+};
+
+export const APPLICATION_STAGE = {
+  loader: "applicationStageLoader",
+  clearData: "applicationStageClearData",
+  clearCustomData: "applicationStageClearCustomData",
+  getDocumentModelBySubStageId: "getApplicationStageDocumentModelBySubStageId",
+  postFileUploadBySubStageId: "postApplicationStageFileUploadBySubStageId",
+  putDocumentBySubStageId: "putApplicationStageDocumentBySubStageId",
+  getDownloadByDocumentId: "getApplicationStageDownloadByDocumentId",
+  getSchoolList: "getApplicationStageSchoolList",
+  getMiscellaneousList: "getApplicationStageMiscellaneousList",
 };

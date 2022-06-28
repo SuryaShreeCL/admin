@@ -322,7 +322,7 @@ class Index extends Component {
                       type="file"
                       accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
-                    <GreySpan>Drag & Drop your File or</GreySpan>
+                    <GreySpan>Dra & Drop your File or</GreySpan>
                     &nbsp;
                     <BlueSpan>Upload</BlueSpan>
                   </div>

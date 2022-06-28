@@ -52,11 +52,29 @@ function RadioButtons(props) {
               }
               disabled={editData}
             /></>:<></>
+}  {
+aesubject == "assessment_engine_admin" ?<> 
+            <FormControlLabel
+              value="VIDEO"
+              control={<Radio color="primary" />}
+              label={
+                <Label active={answerType === "VIDEO"}>Video Recording</Label>
+              }
+              disabled={editData}
+            /><FormControlLabel
+            value="File Upload"
+            control={<Radio color="primary" />}
+            label={
+              <Label active={answerType === "File Upload"}>File Upload</Label>
+            }
+            disabled={editData}
+          />
+            </>:<></>
 }
           </>
         )}
       </RadioGroup>
-      {answerType && <T2>Correct Answer</T2>}
+      {answerType!="VIDEO" && <T2>Correct Answer</T2>}
     </FormControl>
   );
 }
