@@ -22,6 +22,7 @@ function DropDownRack(props) {
   const location = useLocation()
   console.log(location)
   const [testType, setTestType] = useState("")
+  const [video,setVideo]=useState("120")
   const aeDept = window.sessionStorage.getItem("department");
   const {
     subjects,
@@ -37,9 +38,10 @@ function DropDownRack(props) {
     activeLevel,
     handleInputChange,
     expectedTime,
-    testQuestionSetId
+    testQuestionSetId,
+    type
   } = props;
-
+// console.log(type)
  
   // useEffect(() => {
   //   dispatch(
@@ -130,10 +132,12 @@ function DropDownRack(props) {
                       evt.preventDefault()
                     }
                     id="expectedTime"
-                    value={expectedTime}
+                  //  { type === "VIDEO"? (value={video}):
+                  //  ( value={expectedTime})}
+                  value={expectedTime}
                     name="expectedTime"
-                    min="1"
-                    
+                    disabled={type==="VIDEO"}
+
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
                     endAdornment={
@@ -177,6 +181,7 @@ function DropDownRack(props) {
                     id="expectedTime"
                     value={expectedTime}
                     name="expectedTime"
+                    disabled={type==="VIDEO"}
                     min={1}
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}

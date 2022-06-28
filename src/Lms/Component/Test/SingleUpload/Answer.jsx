@@ -56,7 +56,7 @@ function Answer(props) {
     handleTextChange,
     answerType,
   };
-
+  var aesubject = window.sessionStorage.getItem('department');
   return (
     <React.Fragment>
       <H1>Answer</H1>
@@ -76,7 +76,10 @@ function Answer(props) {
       </Div2>
       <TabComp {...tabCompProps} />
       <RadioButtons {...radioButtonProps} />
-      <Choice handleDeleteChoiceClick={handleDeleteChoiceClick} {...choiceProps} />
+      {aesubject === "assessment_engine_admin" && answerType === "VIDEO"  ?<></>:
+      <Choice handleDeleteChoiceClick={handleDeleteChoiceClick} {...choiceProps} /> 
+      }
+      
     </React.Fragment>
   );
 }

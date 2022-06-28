@@ -40,18 +40,19 @@ class CourseLanding extends Component {
       courseId: null,
       subjectId: null,
       conceptId: null,
-      searchText: '',
+      searchText: "",
       pageNo: 0,
       popUpId: null,
       dialogStatus: false,
       dialogContent: null,
-      role: '',
+      role: "",
       alertState: false,
-      alertMsg: '',
-      alertSeverity: '',
+      alertMsg: "",
+      alertSeverity: "",
       field: [],
       order: [],
       action: false,
+      clickableStatus:""
     };
   }
 
@@ -234,8 +235,12 @@ class CourseLanding extends Component {
     }
   };
 
-  handleThreeDotClick = (topicId, event) => {
-    this.setState({ anchorEl: event.currentTarget, popUpId: topicId });
+  handleThreeDotClick = (topicId, event,status) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+      popUpId: topicId,
+      clickableStatus: status,
+    });
   };
 
   handleClose = () => {
@@ -356,24 +361,24 @@ class CourseLanding extends Component {
           <Grid
             item
             container
-            alignItems='center'
-            justifyContent='space-between'
+            alignItems="center"
+            justifyContent="space-between"
             spacing={2}
-            style={{ marginBottom: '35px' }}
+            style={{ marginBottom: "35px" }}
           >
             <Grid item>
               <H1>Course Materials</H1>
             </Grid>
             <div>
-              <Grid item container alignItems='center' spacing={2}>
+              <Grid item container alignItems="center" spacing={2}>
                 <Grid item>
                   <ThemeProvider theme={textFieldTheme}>
                     <TextField
-                      style={{ height: '40px' }}
-                      variant='outlined'
-                      placeholder='Search topic name'
+                      style={{ height: "40px" }}
+                      variant="outlined"
+                      placeholder="Search topic name"
                       onChange={handleTextFieldChange}
-                      onKeyPress={e => e.key === 'Enter' && handleSearch()}
+                      onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                     />
                   </ThemeProvider>
                 </Grid>
@@ -383,7 +388,7 @@ class CourseLanding extends Component {
               </Grid>
             </div>
           </Grid>
-          <Box width='100%' marginBottom='40px'>
+          <Box width="100%" marginBottom="40px">
             <DropDownRack
               courses={courses}
               subjects={subjects}
@@ -394,7 +399,7 @@ class CourseLanding extends Component {
               conceptId={conceptId}
             />
           </Box>
-          <Box overflow='auto' width='100%' height='900px'>
+          <Box overflow="auto" width="100%" height="900px">
             <DataTable
               topics={topics}
               anchorEl={anchorEl}
@@ -411,6 +416,7 @@ class CourseLanding extends Component {
               order={order}
               handleSortBlue={handleSortBlue}
               handleSortBlur={handleSortBlur}
+              clickableStatus={this.state.clickableStatus}
             />
           </Box>
         </Grid>
@@ -426,7 +432,7 @@ class CourseLanding extends Component {
           open={this.state.alertState}
           onClose={() => this.setState({ alertState: false })}
         >
-          <Alert severity={this.state.alertSeverity} variant='filled'>
+          <Alert severity={this.state.alertSeverity} variant="filled">
             {this.state.alertMsg}
           </Alert>
         </Snackbar>
