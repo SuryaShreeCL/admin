@@ -76,7 +76,8 @@ function DropDownRack(props) {
                   items={concepts.data}
                   value={activeConcept}
                   onChange={handleConceptChange}
-                  disabled={concepts.data.length < 2}
+                  disabled={concepts.data.length <
+                     2}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
