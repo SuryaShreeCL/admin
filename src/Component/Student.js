@@ -331,12 +331,12 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
-    // this.state.lastName === null || this.state.lastName.length === 0
-    //   ? this.setState({
-    //       lastNameHelperText: "Please fill the required field",
-    //       isLoading: false,
-    //     })
-    //   : this.setState({ lastNameHelperText: "" });
+    this.state.lastName === null || this.state.lastName.length === 0 || this.state.lastName?.trim(" ")  === ""
+      ? this.setState({
+          lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
+          isLoading: false,
+        })
+      : this.setState({ lastNameHelperText: "" });
 
     this.state.college === null || this.state.college.length === 0
       ? this.setState({
@@ -396,12 +396,13 @@ export class Student extends Component {
       this.state.product.length !== 0
     )
       this.lmsProductSetState(this.state.product);
-
+    console.log(this.state)
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
-      // this.state.lastName !== null &&
-      // this.state.lastName.length !== 0 &&
+      this.state.lastName !== null &&
+      this.state.lastName.length !== 0 &&
+      this.state.lastName?.trim(" ") !== "" &&
       this.state.eMail !== null &&
       this.state.eMail.length !== 0 &&
       this.state.phone !== null &&
@@ -417,7 +418,7 @@ export class Student extends Component {
     ) {
       let studentObj = {
         firstName: this.state.firstName,
-        lastName: this.state.lastName ? this.state.lastName : ".",
+        lastName: this.state.lastName,
         username: this.state.eMail,
         email: this.state.eMail,
         phone: this.state.phone,
@@ -433,6 +434,7 @@ export class Student extends Component {
         internshipAccess: this.state.internAccess === false ? "no" : "yes",
         origin: "ADMIN Portal",
       };
+      console.log(studentObj)
       this.props.mernStudentSignUp(studentObj, (response) => {
         if (response.auth) {
           if (
@@ -494,12 +496,14 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
-    // this.state.lastName === null || this.state.lastName.length === 0
-    //   ? this.setState({
-    //       lastNameHelperText: "Please fill the required field",
-    //       isLoading: false,
-    //     })
-    //   : this.setState({ lastNameHelperText: "" });
+     this.state.lastName === null ||
+     this.state.lastName.length === 0 ||
+     this.state.lastName?.trim(" ") === ""
+       ? this.setState({
+           lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
+           isLoading: false,
+         })
+       : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({
           emailHelperText: "Please fill the required field",
@@ -545,8 +549,9 @@ export class Student extends Component {
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
-      // this.state.lastName !== null &&
-      // this.state.lastName.length !== 0 &&
+      this.state.lastName !== null &&
+      this.state.lastName.length !== 0 &&
+      this.state.lastName?.trim(" ") !== "" &&
       this.state.eMail !== null &&
       this.state.eMail.length !== 0 &&
       this.state.phone !== null &&
@@ -563,7 +568,7 @@ export class Student extends Component {
     ) {
       let studentObj = {
         firstName: this.state.firstName,
-        lastName: this.state.lastName ? this.state.lastName : ".",
+        lastName: this.state.lastName?.trim(" ") !== "" ? this.state.lastName : ".",
         college: this.state.college.id,
         department: this.state.department.id,
         email_id: this.state.eMail,
@@ -1040,7 +1045,7 @@ export class Student extends Component {
                   error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
                   onKeyPress={(evt) => {
-                    if (isAlpha(evt)) evt.preventDefault();
+                    if (isAlpha(evt) && evt.key != ".") evt.preventDefault();
                   }}
                   value={this.state.lastName || null}
                   onChange={(e) => this.setState({ lastName: e.target.value })}

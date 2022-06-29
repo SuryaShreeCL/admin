@@ -15,8 +15,8 @@ import { Alert } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from "@date-io/moment";
-//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
+import MomentUtils from '@date-io/moment';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -42,12 +42,10 @@ import PaginationComponent from "../../Utils/PaginationComponent";
 import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
+import moment from "moment";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-var testVar = window.sessionStorage.getItem("department");
-const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
-console.log(testVar);
 
 const editorConfiguration = {
   toolbar: [
@@ -84,7 +82,7 @@ class TestLanding extends Component {
     super(props);
 
     this.state = {
-      testType: null,
+      testType: "",
       topicId: "default",
       status: "default",
       order: [],
@@ -99,13 +97,13 @@ class TestLanding extends Component {
       alertMsg: "",
       alertSeverity: "",
       popupOpen: false,
-      eventDate: "",
+      popupOpen1: false,
       eventDate: new Date(),
       eventEndDate: new Date(),
       openStatus: false,
       clickableStatus: "",
       department: "",
-      deptName:"",
+      deptName: "",
     };
   }
 
@@ -114,24 +112,24 @@ class TestLanding extends Component {
     var deptname = window.sessionStorage.getItem("department");
     console.log(deptname);
     this.setState({
-      deptName:deptname
-    })
+      deptName: deptname,
+    });
     deptname === "assessment_engine_admin"
       ? this.props.aegetFilters()
       : this.props.getFilters();
     // if (deptname === "assessment_engine_admin") {
-    // var paramObj = {
-    // page: INITIAL_PAGE_NO,
-    // size: NO_OF_RESPONSE,
-    // testType: TEST_TYPE,
-    // };
+    //   var paramObj = {
+    //     page: INITIAL_PAGE_NO,
+    //     size: NO_OF_RESPONSE,
+    //     testType: TEST_TYPE,
+    //   };
     // } else {
-    // var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
     // }
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
-      testType: TEST_TYPE,
+      testType: deptname === "assessment_engine_admin" ? "AE_TEST" : null,
     };
     deptname === "assessment_engine_admin"
       ? this.props.aegetQuestionSet(paramObj)
@@ -140,8 +138,8 @@ class TestLanding extends Component {
     this.setState({
       role: role,
       department: deptname,
-      testType: deptname === "assessment_engine_admin" ? null : "default",
-      testType: null,
+      testType: deptname === "assessment_engine_admin" ? "" : "default",
+      testType: "",
     });
   }
 
@@ -198,7 +196,7 @@ class TestLanding extends Component {
         testType:
           deptName === "assessment_engine_admin"
             ? "AE_TEST"
-            : this.state.testType !== "default" && this.state.testType !== ""
+            : this.state.testType !== "default"
             ? this.state.testType
             : null,
 
@@ -229,6 +227,7 @@ class TestLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
+    console.log(topicName, "vvvvvvvvvvvv")
     if (text === "Edit") {
       this.props.history.push(
         lms_add_test + "?testQuestionSetId=" + this.state.popUpId
@@ -315,7 +314,33 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
-    } else if (text === "Reschedule") {
+    } 
+    else if (text === "Reschedule") {      
+      const { data: tableContent } = this.props.testData;
+
+      if (tableContent) {
+        let findObj = tableContent.content.filter(
+          (el) => el.id === this.state.popUpId
+        )[0];
+        console.log(tableContent,findObj,"findObj.eventDate")
+
+        if (findObj) {
+          this.setState({
+            eventDate: findObj.eventDate ? findObj.eventDate : new Date(),
+
+            eventEndDate: findObj.eventEndDate
+              ? findObj.eventEndDate
+              : new Date(),
+          });
+        }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Reschedule")
+      }
+      this.setState({
+        popupOpen: true,
+      });      
+    }
+
+    else if (text === "Schedule") {        
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
@@ -332,11 +357,12 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Schedule")
       }
 
       this.setState({
-        popupOpen: true,
-      });
+        popupOpen1: true,
+      });      
     }
   };
 
@@ -358,7 +384,6 @@ class TestLanding extends Component {
 
   handlePrimaryButtonClick = () => {
     if (this.state.dialogContent.type === "archive") {
-      this.state.department !== "assessment_engine_admin"?
       this.props.deleteTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
@@ -383,7 +408,7 @@ class TestLanding extends Component {
           });
           this.handleCloseIconClick();
         }
-      }):
+      });
       this.props.aedeleteTest(this.state.popUpId, (response) => {
         if (response.success) {
           let paramObj = {
@@ -578,6 +603,8 @@ class TestLanding extends Component {
           });
     }
   };
+
+  /* For Reschedule popup */
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
     console.log("reschedule");
@@ -585,33 +612,87 @@ class TestLanding extends Component {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
     };
-    rescheduleTest(this.state.popUpId, obj).then((response) => {
-      if (response?.status === 200) {
-        this.setState({
-          alertState: true,
-          alertSeverity: "success",
-          alertMsg: "Test rescheduled successfully",
-          popupOpen: false,
-        });
-        let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.state.department !== "assessment_engine_admin"
-       ? this.props.getQuestionSet(paramObj)
-       : this.props.aegetQuestionSet(paramObj);
-      } else {
-        this.setState({
-          alertState: true,
-          alertSeverity: "error",
-          alertMsg: response,
-        });
-      }
-    });
-    // }else{
-    // this.setState({
-    // alertState : true,
-    // alertSeverity : "error",
-    // alertMsg : "Please fill the Required Fields"
-    // })
-    // }
+
+    if (
+      moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) ||
+      moment(this.state.eventDate).isBefore(moment()) ||
+      moment(this.state.eventEndDate).isBefore(moment())
+    ) {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen: true,
+      });
+    } else {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {                
+            this.setState({
+              alertState: true,
+              alertSeverity: "success",
+              alertMsg: "Test rescheduled successfully",
+              popupOpen: false,
+            });
+            this.handleClose()
+            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+            this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet(paramObj)
+            : this.props.aegetQuestionSet(paramObj);                  
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
+  };
+
+  /* For Schedule popup */
+  handleSchedule = () => {   
+    console.log("schedule")
+    let obj = {
+      startDateTime: this.state.eventDate,
+      endDateTime: this.state.eventEndDate,
+    };
+
+    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
+    moment(this.state.eventDate).isBefore(moment()) ||
+    moment(this.state.eventEndDate).isBefore(moment())) 
+    {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen1: true,
+      });          
+    } 
+
+    else
+    {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {                
+            this.setState({
+              alertState: true,
+              alertSeverity: "success",
+              alertMsg: "Test Scheduled successfully",
+              popupOpen1: false,
+            });
+            this.handleClose()
+            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+            this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet(paramObj)
+            : this.props.aegetQuestionSet(paramObj);
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
   };
 
   render() {
@@ -627,10 +708,10 @@ class TestLanding extends Component {
       role,
       anchorEl,
       popUpId,
-
       dialogStatus,
       dialogContent,
       popupOpen,
+      popupOpen1,
       eventDate,
       eventEndDate,
     } = this.state;
@@ -648,7 +729,7 @@ class TestLanding extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
-      handleReschedule,
+      // handleReschedule,
     } = this;
     return (
       <Container>
@@ -675,7 +756,7 @@ class TestLanding extends Component {
         )}
         {tableContent && (
           <TableComp
-          deptname={this.state.deptName}
+            deptname={this.state.deptName}
             tableContent={tableContent.content}
             handleSortNew={handleSortNew}
             field={field}
@@ -700,7 +781,7 @@ class TestLanding extends Component {
           />
         )}
 
-        {/* PopUp Components */}
+        {/* Archive PopUp*/}
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -721,6 +802,7 @@ class TestLanding extends Component {
           </Alert>
         </Snackbar>
 
+        {/*Reschedule popup*/}
         <Dialog
           open={popupOpen}
           onClose={() => this.setState({ popupOpen: !popupOpen })}
@@ -737,8 +819,8 @@ class TestLanding extends Component {
                 container
                 alignItems="center"
                 justifyContent="center"
-              >
-                {/* <RescheduleIcon /> */}
+              >             
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
               </Grid>
               <Grid
                 item
@@ -748,6 +830,101 @@ class TestLanding extends Component {
                 justifyContent="center"
               >
                 <Typography variant="h4">Reschedule Test</Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label="Start date and time"
+                    inputVariant="outlined"
+                    disablePast
+                    value={eventDate}
+                    onChange={(value) => this.setState({ eventDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label="End date and time"
+                    inputVariant="outlined"
+                    disablePast
+                    value={eventEndDate}
+                    disabled={eventEndDate === eventDate}
+                    onChange={(value) => this.setState({ eventEndDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems="center"
+                justifyContent="flex-end"
+              >
+                <Button
+                  onClick={() => this.setState({ popupOpen: !popupOpen })}
+                  variant={"outlined"}
+                  color={"primary"}
+                  size={"large"}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item xs={6} container alignItems="center">
+                <Button
+                  size={"large"}
+                  onClick={() => this.handleReschedule()}
+                  variant={"contained"}
+                  color={"primary"}
+                >
+                  Reschedule
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Dialog>
+
+        {/* Schedule popup */}
+        <Dialog
+          open={popupOpen1}
+          onClose={() => this.setState({ popupOpen1: !popupOpen1 })}
+        >
+          <Box position={"relative"}>
+            <Grid
+              container
+              spacing={3}
+              style={{ width: "auto", margin: 0, padding: "20px" }}
+            >              
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography variant="h4">Schedule Test</Typography>
               </Grid>
 
               <Grid
@@ -791,7 +968,7 @@ class TestLanding extends Component {
                 justifyContent="flex-end"
               >
                 <Button
-                  onClick={() => this.setState({ popupOpen: !popupOpen })}
+                  onClick={() => this.setState({ popupOpen1: !popupOpen1 })}
                   variant={"outlined"}
                   color={"primary"}
                   size={"large"}
@@ -802,11 +979,11 @@ class TestLanding extends Component {
               <Grid item xs={6} container alignItems="center">
                 <Button
                   size={"large"}
-                  onClick={() => this.handleReschedule()}
+                  onClick={()=>this.handleSchedule()}
                   variant={"contained"}
                   color={"primary"}
                 >
-                  Reschedule
+                  Schedule
                 </Button>
               </Grid>
             </Grid>

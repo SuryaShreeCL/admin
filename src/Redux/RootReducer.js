@@ -61,7 +61,10 @@ import CourseMaterialReducer from "../Lms/Redux/Reducer/CourseMaterialReducer";
 import TestReducer from "../Lms/Redux/Reducer/TestReducer";
 import LmsStudentReducer from "../Lms/Redux/Reducer/LmsStudentReducer";
 import PgaReportReducer from "../Reducer/PgaReportReducer";
+<<<<<<< HEAD
 import UserManagementReducer from "../Reducer/UserManagementReducer";
+=======
+>>>>>>> dev-merge
 import StrategySessionReducer from "../Reducer/StrategySessionReducer";
 import ProfileMentoringReducer from "../Reducer/ProfileMentoringReducer";
 import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";

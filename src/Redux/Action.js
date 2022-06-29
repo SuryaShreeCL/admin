@@ -128,9 +128,6 @@ export const STUDENT = {
   opsStageComplete: "opsStageComplete",
   getStudentStageByProductId: "getStudentStageByProductId",
   getStepsBySubStageId: "getStepsBySubStageId",
-  AspirationCollege: "AspirationCollege",
-  aspirationSpecialization: "aspirationSpecialization",
-  getAllIntakeList: "getAllIntakeList",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -615,12 +612,6 @@ export const CV_REVIEW = {
   getStudentCvList: "getStudentCvList",
   cvUpload: "cvUpload",
   clearCustomData: "cvClearCustomData",
-};
-
-export const USERMANAGEMENT = {
-  getUserDepartment: "getUserDepartment",
-  getUserDetails: "getUserDetails",
-  editAdmin: "editAdmin",
 };
 
 export const STRATEGY_SESSION = {

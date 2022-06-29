@@ -191,19 +191,6 @@ class Index extends Component {
     return (
       <div>
         <Container>
-          {/* {deptName === "assessment_engine_admin" ? (
-            <></>
-          ) : (
-            <BookMarkContainer
-              className={
-                isQuestionBank
-                  ? "bookmark_potion_style"
-                  : "demo__bookmark__test"
-              }
-            >
-              <RenderBookMark bookMarked={false} demoBookmark={false} />
-            </BookMarkContainer>
-          )} */}
           <TitleContainer>
             <Div display={"flex"}>
               {isQuestionBank && (
@@ -219,54 +206,32 @@ class Index extends Component {
               ) : (
                 <>
                   <Div display={"flex"}>
-                    {/* {deptName === "assessment_engine_admin" ? (
-                      <></>
-                    ) : (
-                      <>
-                        <QuestionCount bold="bold">
-                          {currentQuestionNo}
-                        </QuestionCount>
-                        <QuestionCount>
-                          /
-                          {totalNoOfQuestion && totalNoOfQuestion > 0
-                            ? totalNoOfQuestion
-                            : 1}
-                        </QuestionCount>
-                      </>
-                    )} */}
                     <QuestionTitle>{conceptName}</QuestionTitle>
                     <TimeRemaining>
                       {"Time Remaining"}
                       {" -"}
                     </TimeRemaining>
                     <QuestionCount bold={500}>
-                      {remainingTime ? secondsToHms(remainingTime) : "23:59:59"}
+                      {remainingTime ? secondsToHms(remainingTime) : ""}
                     </QuestionCount>
                   </Div>
-                  {/* {deptName === "assessment_engine_admin" ? (
-                    <></>
-                  ) : (
-                    <Div>
-                      <LinearProgress variant="determinate" value={0} />
-                    </Div>
-                  )} */}
                 </>
               )}
             </TitleHeader>
           </TitleContainer>
           <Body>{this.renderQuestion()}</Body>
           <Footer>
-              <Box>
-                {window.screen.width > 1000 ? (
-                  <img src={BottomBanner} alt={"Web Image"} width={"100%"} />
-                ) : (
-                  <img
-                    src={MobileResponsiveImage}
-                    alt={"MobileImage"}
-                    width={"100%"}
-                  />
-                )}
-              </Box>
+            <Box>
+              {window.screen.width > 1000 ? (
+                <img src={BottomBanner} alt={"Web Image"} width={"100%"} />
+              ) : (
+                <img
+                  src={MobileResponsiveImage}
+                  alt={"MobileImage"}
+                  width={"100%"}
+                />
+              )}
+            </Box>
           </Footer>
         </Container>
       </div>

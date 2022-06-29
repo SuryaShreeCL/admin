@@ -1,9 +1,9 @@
+import DateFnsUtils from "@date-io/date-fns";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
-  Table,
   Grid,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
@@ -11,29 +11,27 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  getproductstructure,
-  postproductstructure,
-  putproductstructure,
-  getProductVarient,
   getAllProductFamily,
   getProductByFamilyId,
+  getproductstructure,
+  getProductVarient,
+  postproductstructure,
+  putproductstructure,
 } from "../../Actions/ProductAction";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { isEmptyString } from "../Validation";
 import MySnackBar from "../MySnackBar";
 import { productstructurePath } from "../RoutePaths";
+import { isEmptyString } from "../Validation";
 class ProductStructure extends Component {
   constructor() {
     super();
@@ -69,8 +67,6 @@ class ProductStructure extends Component {
       snackOpen: false,
       familyErr: "",
       varientErr: "",
-      stageId: "",
-      stepId: "",
     };
   }
   componentDidMount() {
@@ -88,10 +84,6 @@ class ProductStructure extends Component {
       this.props.postproductstructureList !== prevProps.postproductstructureList
     ) {
       this.props.getproductstructure();
-
-      // this.setState({
-      //   postResponse: this.props.postproductstructureList?.body?.data,
-      // });
     }
     if (
       this.props.putproductstructureList !== prevProps.putproductstructureList
@@ -115,12 +107,11 @@ class ProductStructure extends Component {
       maxtat: data.max_tat,
       drop: false,
       id: data.id,
-      varient: data.product,
-      stepId: data.stepId,
-      stageId: data.stagesId,
+      varient: data.product.id,
     });
   };
   handleUpdate = () => {
+    
     let hlptxt = "Please Fill the Required Field";
     isEmptyString(this.state.stepname)
       ? this.setState({ stepnameErr: hlptxt })
@@ -166,46 +157,27 @@ class ProductStructure extends Component {
     ) {
       let obj = {
         id: this.state.id,
-        stepId: this.state.stepId,
-        stagesId: this.state.stageId,
+        stepName: this.state.stepname,
         description: this.state.description,
+        disabled: this.state.checkedB,
         endMonth: this.state.endMonth,
+        startMonth: this.state.startMonth,
         href: this.state.href,
         image: this.state.image,
         lockImg: this.state.lockimage,
-        isChild: false,
-        isParent: true,
         max_tat: this.state.maxtat,
         min_tat: this.state.mintat,
-        orderNo: this.state.rank,
-
-        product: {
-          id: this.state.varient ? this.state.varient.id : null,
-        },
         rank: this.state.rank,
-        color: null,
-        startMonth: this.state.startMonth,
-        stepName: this.state.stepname,
-        icon: null,
-        iconCompleted: null,
+        parent: null,
+        product: { id: this.state.varient ? this.state.varient : null },
       };
-
-      this.props.putproductstructure(obj, (response) => {
-        if (response?.data?.body?.success) {
-          this.setState({
-            snackMsg: "Updated Successfully",
-            snackOpen: true,
-            snackVariant: "success",
-            open: false,
-          });
-        } else {
-          this.setState({
-            snackMsg: response.message,
-            snackOpen: true,
-            snackVariant: "error",
-            open: false,
-          });
-        }
+      
+      this.props.putproductstructure(obj);
+      this.setState({
+        snackMsg: "Updated Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+        open: false,
       });
     }
   };
@@ -232,10 +204,6 @@ class ProductStructure extends Component {
         mintat: "",
         maxtat: "",
         drop: true,
-        icon: "",
-        iconCompleted: "",
-        stepId: "",
-        stageId: "",
       });
     }
   };
@@ -285,44 +253,27 @@ class ProductStructure extends Component {
       this.state.endMonth !== null
     ) {
       let obj = {
+        stepName: this.state.stepname,
         description: this.state.description,
+        disabled: this.state.checkedB === true ? true : false,
         endMonth: this.state.endMonth,
+        startMonth: this.state.startMonth,
         href: this.state.href,
         image: this.state.image,
         lockImg: this.state.lockimage,
-        isChild: false,
-        isParent: true,
-        orderNo: this.state.rank,
-        parent: { id: null },
-        product: {
-          id: this.state.varient?.id,
-        },
-        rank: this.state.rank,
-        startMonth: this.state.startMonth,
-        stepName: this.state.stepname,
-        icon: null,
-        iconCompleted: null,
-        color: null,
         max_tat: this.state.maxtat,
         min_tat: this.state.mintat,
+        rank: this.state.rank,
+        parent: null,
+        product: { id: this.state.varient ? this.state.varient.id : null },
       };
+      this.props.postproductstructure(obj);
 
-      this.props.postproductstructure(obj, (response) => {
-        if (response?.data?.body?.success) {
-          this.setState({
-            snackMsg: "Added Successfully",
-            snackOpen: true,
-            snackVariant: "success",
-            open: false,
-          });
-        } else {
-          this.setState({
-            snackMsg: response.message,
-            snackOpen: true,
-            snackVariant: "error",
-            open: false,
-          });
-        }
+      this.setState({
+        snackMsg: "Added Successfully",
+        snackOpen: true,
+        snackVariant: "success",
+        open: false,
       });
     }
   };
@@ -426,7 +377,7 @@ class ProductStructure extends Component {
                         >
                           {eachdata.id}
                         </TableCell>
-                        <TableCell>{eachdata.product?.name}</TableCell>
+                        <TableCell>{eachdata.product.name}</TableCell>
                         <TableCell>{eachdata.stepName}</TableCell>
                         <TableCell>{eachdata.description}</TableCell>
                         <TableCell>

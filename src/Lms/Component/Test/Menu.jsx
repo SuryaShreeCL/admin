@@ -150,7 +150,7 @@ export default function Menu(props) {
     );
   }
 
-  if (role === "SUPER ADMIN") {
+  if (role === "SUPER ADMIN") {    
     return (
       <MuiMenu
         id={topicId}
@@ -166,6 +166,7 @@ export default function Menu(props) {
             onClick={() => handleOptions(item.text, name, topicId)}
             className={"menu-item-text"}
           >
+            {console.log(item,"itemmmmmmmm")}
             <ListItemIcon>{item.icon}</ListItemIcon>
             <Typography>{item.text}</Typography>
           </MenuItem>
