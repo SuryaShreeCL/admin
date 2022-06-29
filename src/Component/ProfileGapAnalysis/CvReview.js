@@ -69,7 +69,7 @@ function Index(props) {
     file,
     popperComment,
   } = state;
-  console.log(cvReviewList);
+  console.log(cvReviewList[cvReviewList?.length-1]?.versionNo);
   const params = useParams();
   const { studentId, productId } = params;
   const dispatch = useDispatch();
@@ -224,6 +224,7 @@ function Index(props) {
               <FlexEndView>
                 <Typo variant={"caption"} color={"#333333"}>
           {studentCvList?.data?.fileName}             
+          {/* {file.name} */}
                 </Typo>              
                 <IconButton
                   onClick={handleDelete}
@@ -366,7 +367,10 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let isReview = cvStatus === "REVIEW";
+  let isReview = cvStatus === "REVIEW" ||
+  cvReviewList[cvReviewList?.length-1]?.status === "Draft" && cvReviewList[cvReviewList?.length-1]?.versionNo===1;
+  console.log(  cvReviewList[cvReviewList?.length-1]?.status === "Draft" && cvReviewList[cvReviewList?.length-1]?.versionNo===1);
+  console.log(cvReviewList);
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
