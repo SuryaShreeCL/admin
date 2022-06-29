@@ -12,7 +12,11 @@ import TextEditor from "../../../Utils/TextEditor";
 function Explanation(props) {
   const classes = useStyle();
   const { text, url, handleExpTextChange, handleUrlChange } = props;
+  let deptName = window.sessionStorage.getItem("department");
+      // deptName === "assessment_engine_admin" 
   return (
+    deptName === "assessment_engine_admin" ? <></> :
+  
     <C2>
       <T4>Explanatory Answer</T4>
       <EditorBox>
