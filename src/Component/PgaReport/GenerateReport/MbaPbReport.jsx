@@ -123,6 +123,19 @@ const AllRoundActivities = ({ id, title, subDescription }) => (
   </View>
 );
 
+const SpiderGraphUrl = ({ spiderGraphUrl }) => (
+  <View style={styles.graph_card} wrap={false}>
+    <View style={styles.graph_image_view}>
+      <Image
+        source={{
+          uri: spiderGraphUrl,
+        }}
+        style={styles.graph_image}
+      />
+    </View>
+  </View>
+);
+
 function MbaPbReport({ content = [], assessment }) {
   console.log(assessment);
   let ReportDate = content.map((item) => item.content.dateTime);
@@ -207,6 +220,18 @@ function MbaPbReport({ content = [], assessment }) {
                     </Text>
 
                     <MbaReportTable data={item.table.rows} />
+                  </View>
+                )}
+
+                {item.spiderGraphUrl && (
+                  <View
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SpiderGraphUrl spiderGraphUrl={item.spiderGraphUrl} />
                   </View>
                 )}
               </View>
@@ -395,6 +420,37 @@ const styles = StyleSheet.create({
     padding: "5%",
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
+  },
+
+  graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "105%",
+    width: "70%",
+    marginLeft: "50px",
+  },
+  graph_image: {
+    height: 600,
+    width: 300,
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+  },
+
+  graph_card: {
+    border: " 2px solid #ac9eca",
+    height: "200px",
+    width: "515px",
+    borderRadius: "6px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "3px",
+    padding: "8px",
+    alignContent: "center",
     justifyContent: "center",
   },
 });

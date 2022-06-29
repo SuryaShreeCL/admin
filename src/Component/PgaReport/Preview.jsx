@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { PDFViewer } from "@react-pdf/renderer";
 import MsReport from "./GenerateReport/MsReport";
@@ -11,12 +11,15 @@ import {
   getReportStatus,
 } from "../../Actions/ProfileGapAction";
 import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import PbPlacementReport from "./GenerateReport/PbPlacementReport";
 import { pbMaster } from "./GenerateReport/PbMasterSample";
 import PbMasterReport from "./GenerateReport/PbMasterReport";
 import MbaPbReport from "./GenerateReport/MbaPbReport";
 import MimPbReport from "./GenerateReport/MimPbReport";
 import MimReport from "./GenerateReport/MimReport";
+import { postSpiderGraphImg } from "../../Actions/ProfileFitSpiderGraph";
+import { useParams } from "react-router-dom";
 
 class Preview extends Component {
   constructor(props) {
@@ -82,7 +85,12 @@ class Preview extends Component {
   renderReport = () => {
     let productId = this.props.match.params.productId;
     let productName = this.props.variantStepList.referProductCodeName;
+    let product = this.props.variantStepList.variant_SKU;
+    console.log(this.props.variantStepList.variant_SKU);
+    console.log(this.props.variantStepList.referProductCodeName);
     console.log(productId, this.state.reportData);
+    console.log(productName);
+
     if (
       productName === "ACS_MBA"
       // productId === "7" ||
@@ -97,6 +105,10 @@ class Preview extends Component {
       );
     } else if (productName === "ACS_MIM") {
       return <MimReport content={this.state.reportData.contents || []} />;
+    } else if (product === "ACS_MBA_PB") {
+      return <MbaPbReport content={this.state.reportData.contents || []} />;
+    } else if (product === "ACS_MIM_PB") {
+      return <MimPbReport content={this.state.reportData.contents || []} />;
     } else {
       return <MsReport content={this.state.reportData.contents || []} />;
     }
