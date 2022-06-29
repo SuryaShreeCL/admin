@@ -109,7 +109,36 @@ function SpecializationTrack(props) {
     });
     getDefaultCareerTrack().then((response) => {
       if (response.status === 200) {
-        setCareerTrackList(response.data.data);
+        response.data.data.map((item) => {
+          if (item.name === "Digital Marketing") {
+            let arr = careerTrackList;
+            arr.push({ ...item, label: "Marketing" });
+            setCareerTrackList(arr);
+          } else if (item.name === "UX/UI Design") {
+            let arr = careerTrackList;
+            arr.push({ ...item, label: "UI/UX" });
+            setCareerTrackList(arr);
+          } else if (item.name === "Structural Stress Engineer") {
+            let arr = careerTrackList;
+            arr.push({ ...item, label: "Structural Stress" });
+            setCareerTrackList(arr);
+          } else if (item.name === "Construction Tech") {
+            let arr = careerTrackList;
+            arr.push({
+              ...item,
+              label: "Construction Technology",
+            });
+            setCareerTrackList(arr);
+          } else if (item.name === "Design Engineer") {
+            let arr = careerTrackList;
+            let value = arr.filter((item) => item.name !== "Design Engineer");
+            setCareerTrackList(value);
+          } else {
+            let arr = careerTrackList;
+            arr.push({ ...item, label: item.name });
+            setCareerTrackList(arr);
+          }
+        });
       }
     });
     getAndSetStudentSpecializationTrack();
@@ -160,9 +189,7 @@ function SpecializationTrack(props) {
         props.match.params.productId,
         studentSpecializationTrack
       ).then((response) => {
-        console.log(response);
         if (response.status === 200) {
-          console.log("yes");
           setSnack({
             snackMsg: "Saved Successfully",
             snackColor: "success",
@@ -381,7 +408,7 @@ function SpecializationTrack(props) {
       )
     );
   };
-console.log(CourseList.map(item => item.displayName))
+console.log(careerTrackList)
   return (
     <PageWrapper>
       <div className={classes.specializationWrapper}>
@@ -444,7 +471,7 @@ console.log(CourseList.map(item => item.displayName))
                     onChange={(e, value) =>
                       handleDropDownChange(value, index, "pgaCareerTrack")
                     }
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option.label}
                     renderInput={(params) => (
                       <TextFieldComponent
                         {...params}

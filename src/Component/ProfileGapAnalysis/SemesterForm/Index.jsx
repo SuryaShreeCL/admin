@@ -33,7 +33,6 @@ import {
   getUniversity,
   getBranches,
 } from "../../../Actions/College";
-import { SentimentSatisfiedTwoTone } from "@material-ui/icons";
 import MySnackBar from "../../MySnackBar";
 import DropDown from "../../../Component/Controls/DropDown";
 import TextFieldComponent from "../../../Component/Controls/TextField";
@@ -450,6 +449,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.sgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -476,6 +482,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.cgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -493,7 +506,7 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-
+    
     // table columns
     const columns = [
       {
@@ -561,7 +574,7 @@ class Index extends Component {
         // type : "numeric",
         render: (rowData, renderType) =>
           renderType === "row" ? rowData.maximumMarks : "",
-        validate: (rowData) => {
+        validate: (rowData,e) => {
           if (!isEmptyObject(rowData)) {
             if (rowData.maximumMarks) {
               if (!isNanAndEmpty(rowData.maximumMarks)) {
@@ -656,6 +669,14 @@ class Index extends Component {
                   }
                   label="Type"
                   variant="standard"
+                  inputProps={{
+                    ...params.inputProps,
+                    onKeyDown: (e) => {
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                          }
+                    },
+                  }}
                 />
               )}
             />
@@ -739,6 +760,14 @@ class Index extends Component {
                   }
                   label="Pass/Fail"
                   variant="standard"
+                  inputProps={{
+                    ...params.inputProps,
+                    onKeyDown: (e) => {
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                          }
+                    },
+                  }}
                 />
               )}
             />

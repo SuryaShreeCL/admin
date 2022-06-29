@@ -69,7 +69,7 @@ function Index(props) {
     file,
     popperComment,
   } = state;
-  console.log(cvReviewList);
+  console.log(cvReviewList[cvReviewList?.length-1]?.versionNo);
   const params = useParams();
   const { studentId, productId } = params;
   const dispatch = useDispatch();
@@ -94,19 +94,19 @@ function Index(props) {
   useEffect(() => {
     dispatch(getStudentCvList(studentId, productId));
   }, []);
-
   useEffect(() => {
     if (studentCvList) {
       if (studentCvList.success) {
+        console.log(studentCvList?.data?.fileName);
         setState({
           ...state,
-          cvReviewList: studentCvList.data?.cvData || [],
+          cvReviewList: studentCvList?.data?.cvData || [],
           cvStatus: studentCvList.data?.status,
         });
       } else {
         handleSnack(true, "error", studentCvList.message);
       }
-      dispatch(clearCustomData("studentCvList"));
+      // dispatch(clearCustomData("studentCvList"));
     }
   }, [studentCvList]);
 
@@ -135,7 +135,6 @@ function Index(props) {
           ...customProp,
         });
         dispatch(getStudentCvList(studentId, productId));
-        console.log(getStudentCvList);
       } else {
         setState({
           ...state,
@@ -220,12 +219,13 @@ function Index(props) {
           >
             {"CV Details"}
           </Typo>
-          {file?.name && (
+          {file?.name &&(
             <div>
               <FlexEndView>
                 <Typo variant={"caption"} color={"#333333"}>
-                  {file.name}
-                </Typo>
+          {studentCvList?.data?.fileName}             
+          {/* {file.name} */}
+                </Typo>              
                 <IconButton
                   onClick={handleDelete}
                   className={classes.iconButtonStyle}
@@ -291,7 +291,7 @@ function Index(props) {
     dispatch(cvDownload(studentId, id, cvPath));
   };
   const renderTable = () => {
-    console.log(cvReviewList);
+    console.log(cvReviewList[cvReviewList?.length-1]?.fileName);
     return cvReviewList?.length !== 0 ? (
       <StyledTable>
         <tr>
@@ -367,7 +367,10 @@ function Index(props) {
     dispatch(reviewCompleted(studentId, productId));
   };
 
-  let isReview = cvStatus === "REVIEW";
+  let isReview = cvStatus === "REVIEW" ||
+  cvReviewList[cvReviewList?.length-1]?.status === "Draft" && cvReviewList[cvReviewList?.length-1]?.versionNo===1;
+  console.log(  cvReviewList[cvReviewList?.length-1]?.status === "Draft" && cvReviewList[cvReviewList?.length-1]?.versionNo===1);
+  console.log(cvReviewList);
   return (
     <Grid container>
       <Grid item sm={12} md={7}>
