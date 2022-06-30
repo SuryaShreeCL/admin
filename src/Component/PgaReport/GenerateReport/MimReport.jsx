@@ -32,6 +32,7 @@ const MyDocument = ({
   tableHelper = [],
   rowDataLength = 4,
   additionalPoint = [],
+  spiderGraphUrl,
 }) => (
   <View>
     {/* Top Color Box */}
@@ -120,6 +121,19 @@ const MyDocument = ({
         ))}
       </View>
     )}
+
+    {isEmpty(spiderGraphUrl) && (
+      <View style={styles.spider_graph_card} wrap={false}>
+        <View style={styles.spider_graph_image_view}>
+          <Image
+            source={{
+              uri: spiderGraphUrl,
+            }}
+            style={styles.sipder_graph_image}
+          />
+        </View>
+      </View>
+    )}
   </View>
 );
 
@@ -144,6 +158,7 @@ function MimReport({ content = [] }) {
             descriptionTwo,
             csfs,
             additionalPoint,
+            spiderGraphUrl,
           } = item;
           console.log(item);
           return (
@@ -173,6 +188,7 @@ function MimReport({ content = [] }) {
               list={csfs}
               additionalPoint={additionalPoint}
               isEnd={content.length - 1 === idx}
+              spiderGraphUrl={spiderGraphUrl}
             />
           );
         })}
@@ -258,6 +274,32 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   footer: { textAlign: "center", padding: 10 },
+
+  spider_graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "70%",
+  },
+  spider_graph_image: {
+    height: 300,
+    width: 200,
+    alignItems: "center",
+  },
+
+  spider_graph_card: {
+    border: " 2px solid #ac9eca",
+    height: "150px",
+    width: "515px",
+    borderRadius: "6px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "3px",
+    padding: "8px",
+  },
 });
 
 export default MimReport;

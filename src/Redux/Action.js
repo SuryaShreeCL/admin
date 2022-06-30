@@ -334,7 +334,7 @@ export const CALL_DETAILS = {
   downloadGAT: "downloadGAT",
   fileuploadGAT: "fileuploadGAT",
   completecall: "completecall",
-  skipcall:"skipcall",
+  skipcall: "skipcall",
   getIeltsCompletedExamScore: "getIeltsCompletedExamScore",
   getIntakeTermList: "getIntakeTermList",
   // getsearchlist:"getsearchlist"
@@ -591,6 +591,7 @@ export const PROFILE_FIT_SPIDER_GRAPH = {
   getSpiderDetails: "getSpiderDetails",
   getSpiderGraph: "getSpiderGraph",
   updateRemark: "updateRemark",
+  spiderGraph: "spiderGraph",
 };
 
 export const CV_REVIEW = {
