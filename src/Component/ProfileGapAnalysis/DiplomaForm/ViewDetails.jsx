@@ -1,13 +1,12 @@
 // new design
-import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
-import React, { Component, useEffect } from "react";
-import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
-import "../DiplomaForm/DiplomaForm.css";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-
-import { connect, useDispatch } from "react-redux";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
+import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
 import { isNumber } from "../../Validation";
+import "../DiplomaForm/DiplomaForm.css";
 
 class ViewDetails extends Component {
   //   college Array
@@ -144,7 +143,7 @@ class ViewDetails extends Component {
             /> */}
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="CGPA/Percentage"
+              id="CGPA"
               options={gpaScale}
               value={gpaScale.find((item) => item.value === scoreScale) || null}
               // value={gpaScale}
@@ -153,9 +152,9 @@ class ViewDetails extends Component {
               renderInput={(params) => (
                 <TextField
                   error={scoreScaleErr?.length !== 0}
-                  helperText={scoreScale || scoreScaleErr}
+                  helperText={scoreScaleErr}
                   {...params}
-                  label="CGPA/Percentage"
+                  label="CGPA"
                   variant="standard"
                   name="scoreScale"
                 />
@@ -210,7 +209,7 @@ class ViewDetails extends Component {
             <TextField
               fullWidth
               name="score"
-              label="CGPA Scale"
+              label="CGPA/Percentage"
               type="number"
               onKeyPress={(evt) => {
                 if (isNumber(evt)) {

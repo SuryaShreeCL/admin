@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import MarkSheetUpload from "./MarkSheetUpload";
-import ViewDetails from "./ViewDetails";
 import { Grid } from "@material-ui/core";
-import "./DiplomaForm.css";
-import BottomButton from "../BottomButton";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  viewAcademicDetails,
-  saveAcademicDetails,
-} from "../../../Actions/ProfileGapAction";
-import { getAcademicType, isClickedSem } from "../../../Actions/HelperAction";
-import { URL } from "../../../Actions/URL";
-import Mysnack from "../../MySnackBar";
-import {
   getAllColleges,
-  getUniversity,
   getBranches,
+  getUniversity,
 } from "../../../Actions/College";
 import { getAllDegrees } from "../../../Actions/Degree";
-import { isEmptyObject, isEmptyString } from "../../Validation";
+import { getAcademicType, isClickedSem } from "../../../Actions/HelperAction";
+import {
+  saveAcademicDetails,
+  viewAcademicDetails,
+} from "../../../Actions/ProfileGapAction";
+import { URL } from "../../../Actions/URL";
+import Mysnack from "../../MySnackBar";
+import { isEmptyString } from "../../Validation";
+import BottomButton from "../BottomButton";
+import "./DiplomaForm.css";
+import MarkSheetUpload from "./MarkSheetUpload";
+import ViewDetails from "./ViewDetails";
 
 class Index extends Component {
   constructor(props) {
@@ -53,7 +53,6 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.academicTypes);
     this.props.getAllColleges();
     this.props.getBranches();
     this.props.getUniversity();
@@ -104,15 +103,10 @@ class Index extends Component {
       ? this.setState({ scoreScaleErr: hlptxt })
       : this.setState({ scoreScaleErr: "" });
 
-    isEmptyObject(this.state.score)
+    this.state.score?.length === 0
       ? this.setState({ scoreErr: hlptxt })
       : this.setState({ scoreErr: "" });
 
-    console.log(
-      this.props.academicTypes,
-      "this.props.academicTypes",
-      this.state
-    );
     if (
       !isEmptyString(this.state.collegeName) &&
       !isEmptyString(this.state.departmentName) &&
@@ -121,7 +115,7 @@ class Index extends Component {
         !isEmptyString(this.state.degreeName)) ||
         this.props.academicTypes === "diploma") &&
       !isEmptyString(this.state.scoreScale) &&
-      !isEmptyObject(this.state.score)
+      this.state.score.length !== 0
     )
       if (this.props.academicTypes === "diploma") {
         // alert("ok");
@@ -232,7 +226,6 @@ class Index extends Component {
   };
 
   handleChange = (e) => {
-    console.log(e.target.name);
     this.setState({
       [e.target.name]: e.target.value,
     });
