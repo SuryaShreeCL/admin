@@ -113,8 +113,10 @@ class Add extends Component {
       courseIdValue: "",
       posterUrl: [],
       scheduleTest: false,
-      eventDate: new Date(),
-      eventEndDate: new Date(),
+      eventDate: null,
+      eventEndDate: null,
+      // eventDate: new Date(),
+      // eventEndDate: new Date(),
       department: null,
       loading : false
 

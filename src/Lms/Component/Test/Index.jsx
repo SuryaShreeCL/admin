@@ -712,8 +712,10 @@ class TestLanding extends Component {
       dialogContent,
       popupOpen,
       popupOpen1,
-      eventDate = new Date(),
-      eventEndDate = new Date(),
+      eventDate,
+      eventEndDate,
+      // eventDate = new Date(),
+      // eventEndDate = new Date(),
     } = this.state;
     // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
     //
