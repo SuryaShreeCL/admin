@@ -58,6 +58,7 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
+      separateScore: "",
     };
   }
 
@@ -76,6 +77,7 @@ export class Index extends Component {
               const {
                 difficultyLevel,
                 expectedTime,
+                separateScore,
                 question,
                 description,
                 type,
@@ -88,6 +90,7 @@ export class Index extends Component {
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
+                separateScore,
                 question,
                 description,
                 checked: type === "BUNDLE" ? true : false,
@@ -425,7 +428,9 @@ export class Index extends Component {
       answerType,
       text,
       url,
+      separateScore
     } = this.state;
+    let deptName = window.sessionStorage.getItem("department");
 
     let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
       this.props.location.search,
@@ -455,11 +460,13 @@ export class Index extends Component {
       (this.props.topics && this.state.expectedTime.length === 0) ||
       question.length === 0 ||
       answerType.length === 0 ||
+      ( deptName === "assessment_engine_admin" &&
+      this.state.separateScore.length === 0)||
       // this.choiceEmptyCheck() ||
       // this.choicesSelectEmptyCheck()
 (answerType!="VIDEO" &&  (this.choiceEmptyCheck()||  this.choicesSelectEmptyCheck()))
 
-    ) {
+    ){
       this.setState({
         alert: {
           severity: "error",
@@ -497,6 +504,7 @@ export class Index extends Component {
               explanation: this.state.text,
               explanationVideo: this.state.url,
               video: { videoUrl: this.state.url },
+              separateScore:separateScore,
             }
           : {
               id: questionId !== undefined ? questionId : null,
@@ -740,6 +748,7 @@ export class Index extends Component {
       openPreview: open,
       imgURL,
       previewTestDataModel,
+      separateScore
     } = this.state;
 
     const {
@@ -799,6 +808,7 @@ export class Index extends Component {
       expectedTime,
       type:answerType,
       testQuestionSetId,
+      separateScore
     };
 
     let answerProps = {
