@@ -55,6 +55,7 @@ function Index(props) {
     anchorEl: null,
     popoverComment: null,
     completedStagesList: [],
+    cvloader : false
   });
 
   const {
@@ -76,6 +77,7 @@ function Index(props) {
     anchorEl,
     popoverComment,
     completedStagesList,
+    cvloader
   } = state;
   const {
     loading,
@@ -209,6 +211,7 @@ function Index(props) {
           fileNameHelperText: "",
           commentHelperText: "",
           open: false,
+          cvloader : true
         });
         dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
         
@@ -359,6 +362,7 @@ function Index(props) {
       file: file,
       disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: true,
+      lastestCVLoading: cvloader,
       ...props,
     };
     return <DocumentComponent {...renderProps} />;

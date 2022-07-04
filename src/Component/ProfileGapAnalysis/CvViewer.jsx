@@ -29,6 +29,25 @@ function CvViewer(props) {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (props.doctype === "cv") {
+      getLatestCv(studentId, productId).then((response) => {
+        if (response.status === 200) {
+          setLatestCv(response.data);
+          if (!isEmptyObject(response.data)) {
+            setCvUrl(
+              URL +
+                "/api/v1/cv/download/cv/" +
+                studentId +
+                "/" +
+                response.data.path
+            );
+          }
+        }
+      });
+    }
+  }, [props.cvloading]);
   return (
     <PdfViewer
       cvUrl={

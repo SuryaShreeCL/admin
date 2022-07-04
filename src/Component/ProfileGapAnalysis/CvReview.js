@@ -56,6 +56,7 @@ function Index(props) {
     anchorEl: null,
     file: null,
     popperComment: "",
+    cvloader : false
   });
   const {
     snackOpen,
@@ -68,6 +69,7 @@ function Index(props) {
     anchorEl,
     file,
     popperComment,
+    cvloader
   } = state;
   console.log(cvReviewList[cvReviewList?.length-1]?.versionNo);
   const params = useParams();
@@ -132,6 +134,7 @@ function Index(props) {
           ...state,
           snackVariant: "success",
           snackMsg: CV_UPLOAD_MESSAGE,
+          cvloader : !cvloader,
           ...customProp,
         });
         dispatch(getStudentCvList(studentId, productId));
@@ -180,9 +183,7 @@ function Index(props) {
     if (file) {
       let uploadFormData = new FormData();
       uploadFormData.append("file", file);
-      console.log(uploadFormData);
       dispatch(cvUpload(studentId, productId, uploadFormData, commentText));
-      
     } else {
       handleSnack(true, "error", FILE_REQUIRED_MESSAGE);
     }
@@ -408,7 +409,7 @@ function Index(props) {
         </Container>
       </Grid>
       <Grid item sm={12} md={5}>
-        <CvViewer doctype={"cv"} {...props} />
+        <CvViewer doctype={"cv"} {...props} cvloading={cvloader} />
       </Grid>
       <Popper
         open={Boolean(anchorEl)}

@@ -25,6 +25,7 @@ function DocumentComponent({
   file,
   disabledUploadButton,
   isDisabledFileName,
+  lastestCVLoading,
   ...props
 }) {
   return (
@@ -60,7 +61,7 @@ function DocumentComponent({
       </Grid>
 
       <Grid item xs={4}>
-        <CvViewer doctype={"cv"} {...props} />
+        <CvViewer doctype={"cv"} cvloading={lastestCVLoading} {...props} />
       </Grid>
       <DocumentUploadPopup
         open={open}
