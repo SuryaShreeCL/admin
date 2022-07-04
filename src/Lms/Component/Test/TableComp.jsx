@@ -271,7 +271,7 @@ export default function TableComp(props) {
   };
 
   return (
-    <TableBox style={{height:"450px"}}>
+    <TableBox style={{height:aedept === "assessment_engine_admin"? "450px" : ""}}>
       <Table>
         <Head>
           <TableRow>
