@@ -1,77 +1,78 @@
 export const COURSE_MATERIAL = {
-  viewCourses: 'viewCourses',
-  viewSubjects: 'viewSubjects',
-  viewConcepts: 'viewConcepts',
-  viewTopics: 'viewTopics',
-  createorUpdateTopics: 'createorUpdateTopics',
-  getTopicFullDetails: 'getTopicDetails',
-  createorUpdateTask: 'reateorUpdateTask',
-  deleteTopic: 'deleteTopic',
-  createFileUpload: 'createFileUpload',
-  courseMonth: 'courseMonth',
-  viewCourses: 'viewCourses',
-  viewSubjects: 'viewSubjects',
-  viewConcepts: 'viewConcepts',
-  viewTopics: 'viewTopics',
-  createorUpdateTopics: 'createorUpdateTopics',
-  getTopicFullDetails: 'getTopicDetails',
-  createorUpdateTask: 'reateorUpdateTask',
-  deleteTopic: 'deleteTopic',
-  monthPlan: 'monthPlan',
+  viewCourses: "viewCourses",
+  viewSubjects: "viewSubjects",
+  viewConcepts: "viewConcepts",
+  viewTopics: "viewTopics",
+  createorUpdateTopics: "createorUpdateTopics",
+  getTopicFullDetails: "getTopicDetails",
+  createorUpdateTask: "reateorUpdateTask",
+  deleteTopic: "deleteTopic",
+  createFileUpload: "createFileUpload",
+  courseMonth: "courseMonth",
+  viewCourses: "viewCourses",
+  viewSubjects: "viewSubjects",
+  viewConcepts: "viewConcepts",
+  viewTopics: "viewTopics",
+  createorUpdateTopics: "createorUpdateTopics",
+  getTopicFullDetails: "getTopicDetails",
+  createorUpdateTask: "reateorUpdateTask",
+  deleteTopic: "deleteTopic",
+  monthPlan: "monthPlan",
 };
 
 export const TEST = {
-  getFilters: 'getFilters',
-  aegetFilters: 'aegetFilters',
-  
-  getQuestionSet: 'getQuestionSet',
-  aegetQuestionSet: 'aegetQuestionSet',
+  getFilters: "getFilters",
+  aegetFilters: "aegetFilters",
 
-  getQuestionType: 'getQuestionType',
-  aegetQuestionType: 'aegetQuestionType',
+  getQuestionSet: "getQuestionSet",
+  aegetQuestionSet: "aegetQuestionSet",
 
-  setQuestionData: 'setQuestionData',
-  aesetQuestionData: 'aesetQuestionData',
+  getQuestionType: "getQuestionType",
+  aegetQuestionType: "aegetQuestionType",
 
-  createTestQuestionSet: 'createTestQuestionSet',
-  aecreateTestQuestionSet: 'aecreateTestQuestionSet',
+  setQuestionData: "setQuestionData",
+  aesetQuestionData: "aesetQuestionData",
 
-  getTopicByCourse: 'getTopicByCourse',
-  aegetTopicByCourse: 'aegetTopicByCourse',
+  createTestQuestionSet: "createTestQuestionSet",
+  aecreateTestQuestionSet: "aecreateTestQuestionSet",
 
-  getTemplate: 'getTemplate',
-  aegetTemplate: 'aegetTemplate',
+  getTopicByCourse: "getTopicByCourse",
+  aegetTopicByCourse: "aegetTopicByCourse",
 
-  getSubjectsByCourse: 'getSubjectsByCourse',
-  aegetSubjectsByCourse: 'aegetSubjectsByCourse',
+  getTemplate: "getTemplate",
+  aegetTemplate: "aegetTemplate",
 
-  getTestQuestionSet: 'getTestQuestionSet',
-  aegetTestQuestionSet: 'aegetTestQuestionSet',
+  getSubjectsByCourse: "getSubjectsByCourse",
+  aegetSubjectsByCourse: "aegetSubjectsByCourse",
 
-  getQuestions: 'getQuestions',
-  aegetQuestions: 'aegetQuestions',
+  getTestQuestionSet: "getTestQuestionSet",
+  aegetTestQuestionSet: "aegetTestQuestionSet",
 
-  cleanEditData: 'cleanEditData',
-  aecleanEditData: 'aecleanEditData',
+  getQuestions: "getQuestions",
+  aegetQuestions: "aegetQuestions",
 
-  previewTestData: 'previewTestData',
-  aepreviewTestData: 'aepreviewTestData',
+  cleanEditData: "cleanEditData",
+  aecleanEditData: "aecleanEditData",
+
+  previewTestData: "previewTestData",
+  aepreviewTestData: "aepreviewTestData",
+
+  getTopicListByConceptId: "getTopicListByConceptId",
 };
 
 export const STUDENT = {
-  getTaskTopic: 'getTaskTopic',
-  getProducts: 'getProducts',
-  getLmsProducts: 'getLmsProduct',
-  getStudentProducts: 'getStudentProducts',
-  studentLmsProduct: 'studentLmsProduct',
-  studentExistProducts: 'studentExistProduct',
-  strengthWeaknessExport: 'strengthWeaknessExport',
-  studyPlanExport: 'studyPlanExport',
-  calibrationTestExport: 'calibrationTestExport',
-  topicTestExport: 'topicTestExport',
-  topicTestReportExport: 'topicTestReportExport',
+  getTaskTopic: "getTaskTopic",
+  getProducts: "getProducts",
+  getLmsProducts: "getLmsProduct",
+  getStudentProducts: "getStudentProducts",
+  studentLmsProduct: "studentLmsProduct",
+  studentExistProducts: "studentExistProduct",
+  strengthWeaknessExport: "strengthWeaknessExport",
+  studyPlanExport: "studyPlanExport",
+  calibrationTestExport: "calibrationTestExport",
+  topicTestExport: "topicTestExport",
+  topicTestReportExport: "topicTestReportExport",
 };
-export const TESTDOWNLOAD={
-  testQuestionSetId:"testQuestionSetId",
-}
-
+export const TESTDOWNLOAD = {
+  testQuestionSetId: "testQuestionSetId",
+};

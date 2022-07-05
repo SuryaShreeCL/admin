@@ -5,32 +5,77 @@ import DropDown from "../../Utils/DropDown";
 const DEFAULT_OBJ = { id: "default", title: "Select" };
 
 export default function DropDownRack(props) {
-  const { handleDropDownChange, filterData, testType, topicId, status } = props;
+  const {
+    handleDropDownChange,
+    filterData,
+    testType,
+    topicId,
+    status,
+    courses,
+    subjects,
+    concepts,
+    handleChange,
+    courseId,
+    subjectId,
+    conceptId,
+    topicOptions,
+  } = props;
   const aedept = window.sessionStorage.getItem("department");
 
-  let [state, setState] = useState({ testTypes: [], topics: [], status: [] });
+  let [state, setState] = useState({ testTypes: [], status: [] });
 
   useEffect(() => {
     setState({
       testTypes: [DEFAULT_OBJ, ...filterData.testTypes],
-      topics: [DEFAULT_OBJ, ...filterData.topics],
       status: [DEFAULT_OBJ, ...filterData.status],
     });
   }, []);
 
-
   return (
     <Grid container spacing={3}>
       {aedept !== "assessment_engine_admin" ? (
-        <Grid item xs={12} md={4}>
-          <DropDown
-            label="Test Type"
-            name="testType"
-            items={state.testTypes}
-            value={testType}
-            onChange={handleDropDownChange}
-          />
-        </Grid>
+        <>
+          {courses && subjects && concepts && (
+            <>
+              <Grid item xs={12} md={4}>
+                <DropDown
+                  label='Course'
+                  name='course'
+                  items={courses?.data}
+                  value={courseId}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <DropDown
+                  label='Subject'
+                  name='subject'
+                  items={subjects?.data}
+                  value={subjectId}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                <DropDown
+                  label='Concept'
+                  name='concept'
+                  items={concepts?.data}
+                  value={conceptId}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </>
+          )}
+          <Grid item xs={12} md={4}>
+            <DropDown
+              label='Test Type'
+              name='testType'
+              items={state.testTypes}
+              value={testType}
+              onChange={handleDropDownChange}
+            />
+          </Grid>
+        </>
       ) : (
         <></>
       )}
@@ -38,9 +83,9 @@ export default function DropDownRack(props) {
       {testType !== "CALIBRATION" && aedept !== "assessment_engine_admin" ? (
         <Grid item xs={12} md={4}>
           <DropDown
-            label="Topic Name"
-            name="topicId"
-            items={state.topics}
+            label='Topic Name'
+            name='topicId'
+            items={[DEFAULT_OBJ, ...topicOptions]}
             value={topicId}
             onChange={handleDropDownChange}
             disabled={testType === "CALIBRATION"}
@@ -51,8 +96,8 @@ export default function DropDownRack(props) {
       )}
       <Grid item xs={12} md={4}>
         <DropDown
-          label="Status"
-          name="status"
+          label='Status'
+          name='status'
           items={state.status}
           value={status}
           onChange={handleDropDownChange}
