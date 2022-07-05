@@ -1,6 +1,7 @@
 import axios from "axios";
 import { STUDENT } from "../Action";
 import { URL } from "../../../Actions/URL";
+import { errorHandler } from "../../../Component/Utils/Helpers";
 
 const DEV_LMS = URL;
 
@@ -307,6 +308,33 @@ export const getStudentProducts = (studentId, callback) => {
         callback(response.data);
       })
       .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const getStudyPlan = (studentId, courseId) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/course/${courseId}/courseTaken/studyPlan`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.studyPlanData,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.studyPlanData, error, false));
         console.log(error);
       });
   };

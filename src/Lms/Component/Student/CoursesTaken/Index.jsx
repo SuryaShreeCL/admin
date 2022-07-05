@@ -18,6 +18,7 @@ import {
   topicTestExport,
   topicTestReportExport,
 } from "../../../Redux/Action/Student";
+import StudyPlan from "./StudyPlan/StudyPlan";
 
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
@@ -137,6 +138,7 @@ class Index extends Component {
           >
             Export
           </Button>
+          <StudyPlan studentId={studentId} courseId={productId} />
         </div>
         <div hidden={tabId !== 3} className="flex-center">
           <Button
