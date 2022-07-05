@@ -111,7 +111,7 @@ export const Card = styled.div`
   background: #ffffff;
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 16px;
-  padding: ${props => props.padding || 0};
+  padding: ${(props) => props.padding || 0};
 `;
 
 // view StudyPlans
@@ -214,13 +214,21 @@ export const Box = styled(MuiBox)`
   color: #052a4e;
 `;
 
+export const FlexView = styled(MuiBox)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: ${({ gap }) => gap};
+`;
+
 export const TestTitle = styled.div`
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 29px;
   color: #052a4e;
-  flex: ${props => props.flex || 0};
+  flex: ${(props) => props.flex || 0};
 `;
 
 export const Cancel = styled(MuiButton)`
@@ -339,18 +347,18 @@ export const TabBarItem = styled(MuiBox)`
   border: none;
   padding: 20px !important;
   grid-gap: 20px;
-  border-bottom: ${props => (props.active ? "4px solid #FFE100" : "")};
+  border-bottom: ${(props) => (props.active ? "4px solid #FFE100" : "")};
 `;
 
 export const TabBarMonthItem = styled(MuiButton)`
-  background: ${props => (props.active ? "#fff" : "#fafafa")};
+  background: ${(props) => (props.active ? "#fff" : "#fafafa")};
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
-  color: ${props => (props.active ? "#1093FF" : "#052a4e")};
+  color: ${(props) => (props.active ? "#1093FF" : "#052a4e")};
   border: none;
-  border-right: ${props => (props.active ? "4px solid" : "")};
+  border-right: ${(props) => (props.active ? "4px solid" : "")};
   width: 210px;
   padding: 16px 88px 16px 13px;
   cursor: pointer;
