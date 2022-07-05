@@ -1,12 +1,11 @@
 import { Box, Grid, Typography } from "@material-ui/core";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { FlexView } from "../../../../Assets/StyledComponents";
 import { getStudyPlan } from "../../../../Redux/Action/Student";
 import { DataTable } from "../../../../Utils/DataTable";
 import { SelectDropDown } from "../../../../Utils/SelectField";
-import { React } from "react";
+import React from "react";
 
 function StudyPlan({ studentId, courseId }) {
   const columns = [
@@ -66,7 +65,6 @@ function StudyPlan({ studentId, courseId }) {
       status: "Inprogress",
     },
   ];
-  const params = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
     if (studentId && courseId) dispatch(getStudyPlan(studentId, courseId));
@@ -84,11 +82,11 @@ function StudyPlan({ studentId, courseId }) {
                 <FlexView gap={"65px"}>
                   <Box>
                     <FlexView gap={"16px"}>
-                      <Typography variant="subtitle1">
+                      <Typography variant='subtitle1'>
                         Target Exam Date:
                       </Typography>
                       <Typography
-                        variant="subtitle1"
+                        variant='subtitle1'
                         style={{ fontWeight: 600 }}
                       >
                         03/02/2022
@@ -97,11 +95,11 @@ function StudyPlan({ studentId, courseId }) {
                   </Box>
                   <Box>
                     <FlexView gap={"16px"}>
-                      <Typography variant="subtitle1">
+                      <Typography variant='subtitle1'>
                         Selected study Plan
                       </Typography>
                       <Typography
-                        variant="subtitle1"
+                        variant='subtitle1'
                         style={{ fontWeight: 600 }}
                       >
                         6 Month

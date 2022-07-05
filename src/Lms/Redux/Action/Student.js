@@ -329,12 +329,12 @@ export const getStudyPlan = (studentId, courseId) => {
       )
       .then((response) => {
         dispatch({
-          type: STUDENT.studyPlanData,
+          type: STUDENT.getStudyPlan,
           payload: response.data,
         });
       })
       .catch((error) => {
-        dispatch(errorHandler(STUDENT.studyPlanData, error, false));
+        dispatch(errorHandler(STUDENT.getStudyPlan, error, false));
         console.log(error);
       });
   };
