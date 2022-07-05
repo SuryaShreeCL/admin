@@ -6,6 +6,7 @@ import { FlexView } from "../../../../Assets/StyledComponents";
 import { getStudyPlan } from "../../../../Redux/Action/Student";
 import { DataTable } from "../../../../Utils/DataTable";
 import { SelectDropDown } from "../../../../Utils/SelectField";
+import { React } from "react";
 
 function StudyPlan({ studentId, courseId }) {
   const columns = [
