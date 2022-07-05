@@ -86,32 +86,34 @@ class Preview extends Component {
     let productId = this.props.match.params.productId;
     let productName = this.props.variantStepList.referProductCodeName;
     let product = this.props.variantStepList.variant_SKU;
-    console.log(this.props.variantStepList.variant_SKU);
-    console.log(this.props.variantStepList.referProductCodeName);
-    console.log(productId, this.state.reportData);
-    console.log(productName);
 
     if (
-      productName === "ACS_MBA"
-      // productId === "7" ||
-      // productId === "5" ||
-      // productId === "84a86a73-f5f1-416d-b716-4f34f4ba892e"
+      productName === "ACS_MIM" ||
+      productName === "ACS_MBA" ||
+      productName === "ACS_PB"
     ) {
-      return (
-        <MbaReport
-          content={this.state.reportData.contents || []}
-          assessment={this.mbaReportHeader}
-        />
-      );
-    } else if (productName === "ACS_MIM") {
-      return <MimReport content={this.state.reportData.contents || []} />;
-    } else if (product === "ACS_MBA_PB") {
-      return <MbaPbReport content={this.state.reportData.contents || []} />;
-    } else if (product === "ACS_MIM_PB") {
-      return <MimPbReport content={this.state.reportData.contents || []} />;
+      return <MbaReport content={this.state.reportData.contents || []} />;
     } else {
       return <MsReport content={this.state.reportData.contents || []} />;
     }
+    // if (productName === "ACS_MBA") {
+    //   return (
+    //     <MbaReport
+    //       content={this.state.reportData.contents || []}
+    //       assessment={this.mbaReportHeader}
+    //     />
+    //   );
+    // } else if (productName === "ACS_MIM") {
+    //   return <MimReport content={this.state.reportData.contents || []} />;
+    // } else if (product === "ACS_MBA_PB") {
+    //   return <MbaPbReport content={this.state.reportData.contents || []} />;
+    // } else if (product === "ACS_MIM_PB") {
+    //   return <MimPbReport content={this.state.reportData.contents || []} />;
+    // } else if (productName === "PBM") {
+    //   return <PbMasterReport content={this.state.reportData.contents || []} />;
+    // } else {
+    //   return <MsReport content={this.state.reportData.contents || []} />;
+    // }
   };
 
   render() {
