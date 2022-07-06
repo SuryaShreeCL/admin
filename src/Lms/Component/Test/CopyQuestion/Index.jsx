@@ -209,9 +209,9 @@ function Index() {
         <SubTitle>List of Question</SubTitle>
       </Grid> */}
       {/* {renderQuestions()} */}
-      <div style={{ display: "flex", marginLeft: "94%" }}>
+      {/* <div style={{ display: "flex", marginLeft: "94%" }}>
         <AddButton>Copy</AddButton>
-      </div>
+      </div> */}
     </>
   );
 }
