@@ -88,6 +88,7 @@ import {
   lms_course_landing,
   lms_course_taken,
   lms_study_plans,
+  lms_copy_question,
   loginPath,
   notificationPath,
   obOperationPath,
@@ -150,6 +151,7 @@ import ClsaTestPath from "../Component/Clsa/CreateTest";
 import UserManagement from "./UserManagement";
 import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
+import CopyQuestion from "../Lms/Component/Test/CopyQuestion/Index";
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -521,6 +523,7 @@ export default function Routes(props) {
       <Route exact path={lmsTest} component={TestLanding} />
       <Route exact path={lms_course_taken} component={CourseTaken} />
       <Route exact path={lms_add_test} component={AddTest} />
+      <Route exact path={lms_copy_question} component={CopyQuestion} />
       <Route
         exact
         path={bulk_upload + "/:testQuestionSetId/:sectionId?/:courseId?"}

@@ -371,12 +371,17 @@ export const Question = styled.div`
   font-size: 14px;
   line-height: 16px;
   color: #052a4e;
-  background: #ffffff;
+  background: ${({ disabled }) => (disabled ? "lightWhite" : "#ffffff")};
+
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0 16px 0;
   padding-top: 17px;
+
+  * {
+    color: ${({ disabled }) => disabled && "#BDBDBD"};
+  }
 `;
 
 export const C1 = styled.div`
