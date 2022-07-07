@@ -22,8 +22,10 @@ import {
   bulk_upload,
   lmsTest,
   single_upload,
+  lms_copy_question,
 } from "../../../../Component/RoutePaths";
-import moment from 'moment'
+
+import moment from "moment";
 import {
   Box,
   Cancel,
@@ -447,6 +449,10 @@ class Add extends Component {
     }
   };
 
+  handleCopyQuestion = () => {
+    this.props.history.push(lms_copy_question);
+  };
+
   handleCalibrationTestProperties = (index, event) => {
     const calibrationTestData = [...this.state.calibrationTestData];
     const { name, value } = event.target;
@@ -754,9 +760,10 @@ class Add extends Component {
         cutOffScore.length !== 0
         // courseId !== undefined
       ) {
-        console.log(eventDate, eventEndDate,"1234")
-        if (this.state.scheduleTest &&
-          moment(eventEndDate).isSameOrBefore(eventDate) 
+        console.log(eventDate, eventEndDate, "1234");
+        if (
+          this.state.scheduleTest &&
+          moment(eventEndDate).isSameOrBefore(eventDate)
           // || moment(eventDate).isBefore(moment()) ||
           // moment(eventEndDate).isBefore(moment())
         ) {
@@ -767,125 +774,123 @@ class Add extends Component {
             loading: false,
           });
           // return false;
-        }        
-         
-        else if (!this.state.scheduleTest || (this.state.scheduleTest &&
-          !moment(eventEndDate).isSameOrBefore(eventDate))
+        } else if (
+          !this.state.scheduleTest ||
+          (this.state.scheduleTest &&
+            !moment(eventEndDate).isSameOrBefore(eventDate))
           // || moment(eventDate).isBefore(moment()) ||
           // moment(eventEndDate).isBefore(moment())
-        )
-        {
-        if (calibrationTestData.length !== 0) {
-          if (!calibrationTestDataTotalValidation.includes(false)) {
-            var calibrationTestSet = {
-              id: testQuestionSetId,
-              name: name,
-              type: type,
-              // course: { id: courseId },
-              description: description,
-              descriptionTitle: descriptionTitle,
-              nameDescription: nameDescription,
-              testSections: calibrationTestData,
-              cutOffScore: parseInt(cutOffScore),
-              eventDate,           
-              eventEndDate,
-            };
+        ) {
+          if (calibrationTestData.length !== 0) {
+            if (!calibrationTestDataTotalValidation.includes(false)) {
+              var calibrationTestSet = {
+                id: testQuestionSetId,
+                name: name,
+                type: type,
+                // course: { id: courseId },
+                description: description,
+                descriptionTitle: descriptionTitle,
+                nameDescription: nameDescription,
+                testSections: calibrationTestData,
+                cutOffScore: parseInt(cutOffScore),
+                eventDate,
+                eventEndDate,
+              };
 
-            // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+              // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
 
-            // this.props.createTestQuestionSet(
-            //   calibrationTestSet,
-            //   (calibrationTestResponse) => {
-            //     if (calibrationTestResponse.success) {
-            //       var message =
-            //         testQuestionSetId === null ? "ADDED" : "UPDATED";
-            //       var tempcalibrationTestData = calibrationTestData;
-            //       calibrationTestResponse.data.testSection.map(
-            //         (item, index) => {
-            //           if (calibrationTestData.length > index) {
-            //             tempcalibrationTestData[index].id = item.id;
-            //           }
-            //         }
-            //       );
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "success",
-            //         message: `${type} TEST ${message} SUCCESSFULLY`,
-            //         testQuestionSetId: calibrationTestResponse.data.id,
-            //         courseIdValue: calibrationTestResponse.data.productId,
-            //         sectionId: calibrationTestResponse.data.testSection[0].id,
-            //         calibrationTestData: tempcalibrationTestData,
-            //       });
-            //       this.handleBannerUpload(calibrationTestResponse.data.id);
-            //     } else {
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "warning",
-            //         message: calibrationTestResponse.message,
-            //       });
-            //     }
-            //   }
-            // );
-            this.props.aecreateTestQuestionSet(
-              calibrationTestSet,
-              (calibrationTestResponse) => {
-                if (calibrationTestResponse?.success) {
-                  console.log(calibrationTestResponse,"calibrationTestResponse")
-                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  var tempcalibrationTestData = calibrationTestData;
-                  calibrationTestResponse.data.testSection.map(
-                    (item, index) => {
-                      if (calibrationTestData?.length > index) {
-                        tempcalibrationTestData[index].id = item.id;
+              // this.props.createTestQuestionSet(
+              //   calibrationTestSet,
+              //   (calibrationTestResponse) => {
+              //     if (calibrationTestResponse.success) {
+              //       var message =
+              //         testQuestionSetId === null ? "ADDED" : "UPDATED";
+              //       var tempcalibrationTestData = calibrationTestData;
+              //       calibrationTestResponse.data.testSection.map(
+              //         (item, index) => {
+              //           if (calibrationTestData.length > index) {
+              //             tempcalibrationTestData[index].id = item.id;
+              //           }
+              //         }
+              //       );
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "success",
+              //         message: `${type} TEST ${message} SUCCESSFULLY`,
+              //         testQuestionSetId: calibrationTestResponse.data.id,
+              //         courseIdValue: calibrationTestResponse.data.productId,
+              //         sectionId: calibrationTestResponse.data.testSection[0].id,
+              //         calibrationTestData: tempcalibrationTestData,
+              //       });
+              //       this.handleBannerUpload(calibrationTestResponse.data.id);
+              //     } else {
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "warning",
+              //         message: calibrationTestResponse.message,
+              //       });
+              //     }
+              //   }
+              // );
+              this.props.aecreateTestQuestionSet(
+                calibrationTestSet,
+                (calibrationTestResponse) => {
+                  if (calibrationTestResponse?.success) {
+                    console.log(
+                      calibrationTestResponse,
+                      "calibrationTestResponse"
+                    );
+                    // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
+                    var message =
+                      testQuestionSetId === null ? "ADDED" : "UPDATED";
+                    var tempcalibrationTestData = calibrationTestData;
+                    calibrationTestResponse.data.testSection.map(
+                      (item, index) => {
+                        if (calibrationTestData?.length > index) {
+                          tempcalibrationTestData[index].id = item.id;
+                        }
                       }
-                    }
-                  );
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: calibrationTestResponse?.data?.id,
-                    courseIdValue: calibrationTestResponse?.data?.productId,
-                    sectionId:
-                      calibrationTestResponse?.data?.testSection[0]?.id,
-                    calibrationTestData: tempcalibrationTestData,
-                    loading: false,
-                  });
-                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                } else {
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "warning",
-                    message: "Network Failed",
-                    loading: false,
-                  });
+                    );
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "success",
+                      message: `${type} TEST ${message} SUCCESSFULLY`,
+                      testQuestionSetId: calibrationTestResponse?.data?.id,
+                      courseIdValue: calibrationTestResponse?.data?.productId,
+                      sectionId:
+                        calibrationTestResponse?.data?.testSection[0]?.id,
+                      calibrationTestData: tempcalibrationTestData,
+                      loading: false,
+                    });
+                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                  } else {
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "warning",
+                      message: "Network Failed",
+                      loading: false,
+                    });
+                  }
                 }
-              }
-            );           
-          }      
-
-          else {
+              );
+            } else {
+              this.setState({
+                snackOpen: true,
+                snackType: "warning",
+                message: "Please fill all the section fields",
+                loading: false,
+              });
+            }
+          } else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
-              message: "Please fill all the section fields",
+              message: "Please add the section",
               loading: false,
             });
           }
-        } else {
-          this.setState({
-            snackOpen: true,
-            snackType: "warning",
-            message: "Please add the section",
-            loading: false,
-          });
         }
-      }
-      }   
-       
-      else {
+      } else {
         this.setState({
           snackOpen: true,
           snackType: "warning",
@@ -1209,6 +1214,7 @@ class Add extends Component {
       handleSectionDelete,
       handleMenuItemDelete,
       handleSectionThreeDotClick,
+      handleCopyQuestion,
     } = this;
     const deptName = window.sessionStorage.getItem("department");
     return (
@@ -1494,6 +1500,7 @@ class Add extends Component {
               anchorEl={anchorEl}
               popUpId={popUpId}
               handleDelete={handleDelete}
+              onCopyQuestion={handleCopyQuestion}
             />
           )}
           <DialogComponent

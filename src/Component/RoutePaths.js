@@ -92,6 +92,7 @@ export const lmsTest = rootPath.concat("/test");
 export const lms_add_test = rootPath.concat("/test/add");
 export const bulk_upload = rootPath.concat("/test/bulk-upload");
 export const single_upload = rootPath.concat("/test/single-upload");
+export const lms_copy_question = rootPath.concat("/test/copy-questions");
 
 // NAVIGATE ROUTE PATH
 export const NAVIGATE_TO = {

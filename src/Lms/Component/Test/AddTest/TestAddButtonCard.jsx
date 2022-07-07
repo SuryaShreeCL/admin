@@ -3,14 +3,19 @@
  **/
 import React, { Component } from "react";
 import { Grid, IconButton } from "@material-ui/core";
-import { AddButton } from "../../../Utils/Buttons";
+import { AddButton, FillButton } from "../../../Utils/Buttons";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
-import { CenteredImg, SubTitle } from "../../../Assets/StyledComponents";
+import {
+  CenteredImg,
+  FlexView,
+  SubTitle,
+} from "../../../Assets/StyledComponents";
 import Freepik from "../../../Assets/images/freepik.png";
 import { Question } from "../../../Assets/StyledComponents";
 import { MoreVertRounded } from "@material-ui/icons";
 import Menu from "./Menu";
 import LatexViewer from "../../../Utils/LatexViewer";
+
 class TestAddButtonCard extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +45,7 @@ class TestAddButtonCard extends Component {
                 </div>
                 <IconButton
                   style={{ padding: "3px", height: "30px", margin: "auto 0px" }}
-                  onClick={event => handleThreeDotClick(event, question.id)}
+                  onClick={(event) => handleThreeDotClick(event, question.id)}
                 >
                   <MoreVertRounded style={{ fill: "#1093ff" }} />
                 </IconButton>
@@ -74,6 +79,7 @@ class TestAddButtonCard extends Component {
       sectionData,
       tabValue,
       popUpId,
+      onCopyQuestion,
     } = this.props;
     return (
       <>
@@ -91,23 +97,29 @@ class TestAddButtonCard extends Component {
           </Grid>
           <Grid item>
             <div>
-              <AddButton
-                startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
-                onClick={addQuestion}
-                disabled={
-                  id === null
-                    ? true
-                    : type === "CALIBRATION" && sectionData.length === 0
-                    ? true
-                    : type === "CALIBRATION" &&
-                      sectionData[tabValue - 1] !== undefined &&
-                      sectionData[tabValue - 1]["id"] === null
-                    ? true
-                    : false
-                }
-              >
-                Add New Question
-              </AddButton>
+              <FlexView gap={"20px"}>
+                <FillButton onClick={onCopyQuestion}>
+                  {"Copy Question"}
+                </FillButton>
+
+                <AddButton
+                  startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
+                  onClick={addQuestion}
+                  disabled={
+                    id === null
+                      ? true
+                      : type === "CALIBRATION" && sectionData.length === 0
+                      ? true
+                      : type === "CALIBRATION" &&
+                        sectionData[tabValue - 1] !== undefined &&
+                        sectionData[tabValue - 1]["id"] === null
+                      ? true
+                      : false
+                  }
+                >
+                  Add New Question
+                </AddButton>
+              </FlexView>
             </div>
           </Grid>
         </Grid>
