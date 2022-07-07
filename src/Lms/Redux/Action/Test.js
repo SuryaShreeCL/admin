@@ -998,7 +998,7 @@ export const downloadTest = (testQuestionSetId, downloadpath) => {
   };
 };
 
-export const getTopicListByConceptId = (conceptId) => {
+export const getTopicListByConceptId = (conceptId, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -1017,9 +1017,11 @@ export const getTopicListByConceptId = (conceptId) => {
           type: TEST.getTopicListByConceptId,
           payload: response.data,
         });
+        callback(response.data);
       })
       .catch((error) => {
         dispatch(errorHandler(TEST.getTopicListByConceptId, error, false));
+        callback(error.response);
         console.log(error);
       });
   };
