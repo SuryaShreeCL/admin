@@ -50,12 +50,12 @@ class ObOperationLanding extends Component {
       prevProps.adminLinkedProductDetails
     ) {
       this.setState({
-        adminDepartment: this.props.adminLinkedProductDetails.department,
+        adminDepartment: this.props.adminLinkedProductDetails?.department,
       });
-      window.sessionStorage.setItem(
-        "adminLinkedProduct",
-        JSON.stringify(this.props.adminLinkedProductDetails)
-      );
+      // window.sessionStorage.setItem(
+      //   "adminLinkedProduct",
+      //   JSON.stringify(this.props.adminLinkedProductDetails)
+      // );
     }
   }
 
