@@ -44,6 +44,7 @@ class ObOperationLanding extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.adminLinkedProductDetails,prevProps.adminLinkedProductDetails)
     if (
       this.props.adminLinkedProductDetails !==
       prevProps.adminLinkedProductDetails
