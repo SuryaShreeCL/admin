@@ -435,11 +435,14 @@ class ProfileGapRoot extends Component {
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    style={{
+                      minWidth: "135px",
+                      paddingRight: "0px",
+                      textTransform: "none",
+                    }}
                     label={"CV"}
                     value={"cv"}
                     icon={this.renderArrowIcon("cv")}
-                    style={{ textTransform: "none" }}
                     onClick={(e) => this.handleCvMenuOpen(e, "cv")}
                   />
                 </ThemeProvider>
@@ -450,25 +453,31 @@ class ProfileGapRoot extends Component {
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    style={{
+                      minWidth: "135px",
+                      paddingRight: "0px",
+                      textTransform: "none",
+                    }}
                     label="Academic Details"
                     value={"academicDetails"}
                     // onMouseOver={(e) => {
                     //   this.menuOpen(e, 'academicDetails');
                     // }}
                     icon={this.renderArrowIcon("academicDetails")}
-                    style={{ textTransform: "none" }}
                     onClick={(e) => this.menuOpen(e, "academicDetails")}
                   />
                   <Tab
-                    style={{ minWidth: "135px", paddingRight: "0px" }}
+                    style={{
+                      minWidth: "135px",
+                      paddingRight: "0px",
+                      textTransform: "none",
+                    }}
                     label="PGA Report"
                     value={"pgaReport"}
                     // onMouseEnter={e => {
                     //   this.pgaMenuOpen(e,'pgaReport');
                     // }}
                     icon={this.renderArrowIcon("pgaReport")}
-                    style={{ textTransform: "none" }}
                     onClick={(e) => this.pgaMenuOpen(e, "pgaReport")}
                   />
                 </ThemeProvider>
