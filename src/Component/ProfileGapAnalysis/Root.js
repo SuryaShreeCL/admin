@@ -61,7 +61,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
@@ -331,8 +331,8 @@ class ProfileGapRoot extends Component {
           id={id}
           onClick={this.handlePopupClick}
           className={classes.iconButtonStyle}
-          color='primary'
-          aria-label='add to shopping cart'
+          color="primary"
+          aria-label="add to shopping cart"
         >
           <AccountCircleRoundedIcon fontSize={"large"} />
         </IconButton>
@@ -408,28 +408,28 @@ class ProfileGapRoot extends Component {
             <Paper square className={classes.paperStyle}>
               <Tabs
                 value={this.state.value}
-                indicatorColor='none'
-                textColor='primary'
+                indicatorColor="none"
+                textColor="primary"
                 onChange={(e, newValue) => this.setState({ value: newValue })}
                 // variant="scrollable"
               >
                 <Tab
-                  label='Dashboard'
+                  label="Dashboard"
                   value={"dashboard"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label='General Details'
+                  label="General Details"
                   value={"generalDetails"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label='Interest Details'
+                  label="Interest Details"
                   value={"interestDetails"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <Tab
-                  label='Test Results'
+                  label="Test Results"
                   value={"testResult"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
@@ -444,14 +444,14 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
                 <Tab
-                  label='PPGA Call Notes'
+                  label="PPGA Call Notes"
                   value={"ppgaCallNotes"}
                   style={{ textTransform: "none", minWidth: "135px" }}
                 />
                 <ThemeProvider theme={this.tabTheme}>
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label='Academic Details'
+                    label="Academic Details"
                     value={"academicDetails"}
                     // onMouseOver={(e) => {
                     //   this.menuOpen(e, 'academicDetails');
@@ -462,7 +462,7 @@ class ProfileGapRoot extends Component {
                   />
                   <Tab
                     style={{ minWidth: "135px", paddingRight: "0px" }}
-                    label='PGA Report'
+                    label="PGA Report"
                     value={"pgaReport"}
                     // onMouseEnter={e => {
                     //   this.pgaMenuOpen(e,'pgaReport');
@@ -473,7 +473,7 @@ class ProfileGapRoot extends Component {
                   />
                 </ThemeProvider>
                 <Tab
-                  label='Career Role'
+                  label="Career Role"
                   style={{ textTransform: "none", minWidth: "135px" }}
                   value={"careerRole"}
                 />
@@ -557,7 +557,7 @@ class ProfileGapRoot extends Component {
               />
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
-              <ProfileFit {...this.props} />
+              <ProfileFitSpiderGraph {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitSpiderGraph"}>
               <ProfileFitSpiderGraph {...this.props} />
