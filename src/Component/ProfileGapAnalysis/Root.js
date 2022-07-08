@@ -555,6 +555,7 @@ class ProfileGapRoot extends Component {
                 {...this.props}
                 handlePageChange={this.handlePageChange}
               />
+              {console.log(this.state.value)}
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
               <ProfileFitSpiderGraph {...this.props} />
