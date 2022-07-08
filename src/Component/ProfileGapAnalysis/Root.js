@@ -567,7 +567,7 @@ class ProfileGapRoot extends Component {
               {console.log(this.state.value)}
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
-              <ProfileFitSpiderGraph {...this.props} />
+              <ProfileFit {...this.props} />
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitSpiderGraph"}>
               <ProfileFitSpiderGraph {...this.props} />
