@@ -14,6 +14,8 @@ function FilterComponent({
   concepts,
   filterData,
   testType,
+  topicId,
+  topicList,
 }) {
   console.log(courses, "courses");
   return (
@@ -23,7 +25,7 @@ function FilterComponent({
           label="Course"
           name="course"
           value={courseId || "default"}
-          items={[DEFAULT_OBJ, ...(courses.data || [])]}
+          items={[DEFAULT_OBJ, ...(courses?.data || [])]}
           onChange={onChange}
         />
       </Grid>
@@ -33,7 +35,7 @@ function FilterComponent({
           label="Subject"
           name="subject"
           value={subjectId || "default"}
-          items={[DEFAULT_OBJ, ...(subjects.data || [])]}
+          items={[DEFAULT_OBJ, ...(subjects?.data || [])]}
           onChange={onChange}
         />
       </Grid>
@@ -43,7 +45,7 @@ function FilterComponent({
           label="Concept"
           name="concept"
           value={conceptId || "default"}
-          items={[DEFAULT_OBJ, ...(concepts.data || [])]}
+          items={[DEFAULT_OBJ, ...(concepts?.data || [])]}
           onChange={onChange}
         />
       </Grid>
@@ -59,7 +61,13 @@ function FilterComponent({
       </Grid>
 
       <Grid item xs={4} md={4}>
-        <DropDown label="TopicName" name="topicName" />
+        <DropDown
+          label="TopicName"
+          name="topic"
+          value={topicId || "default"}
+          items={[DEFAULT_OBJ, ...(topicList?.data || [])]}
+          onChange={onChange}
+        />
       </Grid>
     </Grid>
   );
