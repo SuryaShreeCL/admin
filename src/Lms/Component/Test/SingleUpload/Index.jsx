@@ -58,7 +58,7 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
-      separateScore: "",
+      separateScore: 0,
     };
   }
 
