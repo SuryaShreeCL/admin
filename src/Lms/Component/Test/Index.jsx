@@ -43,7 +43,7 @@ import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
 import moment from "moment";
-
+let deptName = window.sessionStorage.getItem("department");
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
 
@@ -743,9 +743,14 @@ class TestLanding extends Component {
           style={{ marginBottom: "35px" }}
         >
           <H1>Test</H1>
+
+          {deptName === "assessment_engine_admin"?
+          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+            Create Test
+          </PlusButton>:
           <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
             Add
-          </PlusButton>
+          </PlusButton>}
         </Grid>
         {filterData && (
           <DropDownRack

@@ -314,6 +314,7 @@ export default function TableComp(props) {
                     > */}
                         <CloudDownloadIcon
                           fontSize="small"
+                          style={{  marginLeft:"40px"}}
                           onClick={() => handleDownload(item.id)}
                         />
                         {/* </Controls.ActionButton> */}
