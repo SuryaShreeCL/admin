@@ -89,6 +89,7 @@ import {
   lms_course_taken,
   lms_study_plans,
   lms_copy_question,
+  lms_passage,
   loginPath,
   notificationPath,
   obOperationPath,
@@ -152,6 +153,7 @@ import UserManagement from "./UserManagement";
 import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
 import CopyQuestion from "../Lms/Component/Test/CopyQuestion/Index";
+import Passage from "../Lms/Component/Passage/Index";
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -524,6 +526,7 @@ export default function Routes(props) {
       <Route exact path={lms_course_taken} component={CourseTaken} />
       <Route exact path={lms_add_test} component={AddTest} />
       <Route exact path={lms_copy_question} component={CopyQuestion} />
+      <Route exact path={lms_passage} component={Passage} />
       <Route
         exact
         path={bulk_upload + "/:testQuestionSetId/:sectionId?/:courseId?"}
