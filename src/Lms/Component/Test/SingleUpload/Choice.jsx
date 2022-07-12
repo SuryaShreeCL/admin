@@ -47,24 +47,27 @@ function Choice(props) {
                 answerType={answerType}
               /> */}
               <Box flex={1}>
-                {/* <TextEditor
-                  data={choice.text}
-                  onChange={(e, editorDate) =>
-                    handleTextChange(
-                      { target: { value: editorDate.getData() } },
-                      index
-                    )
-                  }
-                  key={index}
-                /> */}
-                <TextField
-                  key={index}
-                  value={choice.text}
-                  onChange={(e) => handleTextChange(e, index)}
-                  variant={"outlined"}
-                  fullWidth
-                  multiline
-                />
+                {answerType !== "SUBJECTIVE" ? (
+                  <TextEditor
+                    data={choice.text}
+                    onChange={(e, editorDate) =>
+                      handleTextChange(
+                        { target: { value: editorDate.getData() } },
+                        index
+                      )
+                    }
+                    key={index}
+                  />
+                ) : (
+                  <TextField
+                    key={index}
+                    value={choice.text}
+                    onChange={(e) => handleTextChange(e, index)}
+                    variant={"outlined"}
+                    fullWidth
+                    multiline
+                  />
+                )}
               </Box>
               <FormControlLabel
                 disabledRipple

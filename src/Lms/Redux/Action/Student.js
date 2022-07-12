@@ -339,3 +339,33 @@ export const getStudyPlan = (studentId, courseId) => {
       });
   };
 };
+
+export const updateStudyPlan = (studentId, studyPlanId, data, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/studyPlan/${studyPlanId}`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.updateStudyPlan,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(errorHandler(STUDENT.updateStudyPlan, error, false));
+        callback(errorHandler(STUDENT.updateStudyPlan, error, false));
+      });
+  };
+};
