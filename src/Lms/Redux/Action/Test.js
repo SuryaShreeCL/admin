@@ -1017,11 +1017,11 @@ export const getTopicListByConceptId = (conceptId, callback) => {
           type: TEST.getTopicListByConceptId,
           payload: response.data,
         });
-        // callback(response.data);
+        callback(response.data);
       })
       .catch((error) => {
         dispatch(errorHandler(TEST.getTopicListByConceptId, error, false));
-        // callback(error.response);
+        callback(error.response);
         console.log(error);
       });
   };
