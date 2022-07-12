@@ -55,6 +55,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 
 
+
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
 const aedept = window.sessionStorage.getItem("department");
 const dialogContent = {
@@ -65,12 +66,15 @@ const dialogContent = {
   button2: "Yes",
 };
 
+
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
-  title: "Are you sure you want to delete this section ?",
+  title: "Are you sure you want to delete this section ",
   button1: "No",
   button2: "Yes",
+  
+  
 };
 
 class Add extends Component {
@@ -115,6 +119,7 @@ class Add extends Component {
       scheduleTest: false,
       eventDate: null,
       eventEndDate: null,
+      error:"",
       // eventDate: new Date(),
       // eventEndDate: new Date(),
       department: null,
@@ -122,7 +127,7 @@ class Add extends Component {
 
     };
   }
-
+ 
   componentDidMount() {
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
@@ -308,6 +313,7 @@ class Add extends Component {
   };
 
   handleSectionChange = () => {
+    
     const { calibrationSectionTabLabels, calibrationTestData } = this.state;
     let tabArr = [];
     let testArr = [];
@@ -482,6 +488,7 @@ class Add extends Component {
       }
     }
   };
+ 
 
   handleSaveButton = () => {
     this.setState({
@@ -501,6 +508,7 @@ class Add extends Component {
       cutOffScore,
       eventDate,
       eventEndDate,
+      
     } = this.state;
 
     if (type === "QUESTIONBANK") {
@@ -981,6 +989,7 @@ class Add extends Component {
       if (deleteSectionId !== null) {
         this.state.department === "assessment_engine_admin"
           ? this.props.aedeleteSection(deleteSectionId, (response) => {
+           
               if (response.success) {
                 this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
                   if (res.success) this.handleCloseIconClick();
@@ -1180,6 +1189,8 @@ class Add extends Component {
       eventDate,
       eventEndDate,
     } = this.state;
+    
+    const AVOID_INPUT = ["E", "e", "+", "-","."];
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
@@ -1329,7 +1340,15 @@ class Add extends Component {
                     <InputTextField
                       name="cutOffScore"
                       type={"number"}
+                      onKeyDown={evt =>
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
+                      }
                       // onChange={this.handleChange}
+                     
                       onChange={(e) => {
                         if (e.target.value.length <= 3) {
                           this.handleChange(e);

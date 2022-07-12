@@ -156,6 +156,7 @@ function DropDownRack(props) {
               <Grid item xs={12} sm={4}>
                   <FormControl fullWidth>
                     <InputLabel
+                     shrink={true}
                       style={{
                         top: "-8px",
                         left: "15px",
@@ -163,8 +164,9 @@ function DropDownRack(props) {
                         padding: "0 10px 0 8px",
                         zIndex: 1,
                       }}
-                    >
-                      Score
+                      placeholder={"Score"}
+                    >Score
+                    
                     </InputLabel>
                     <OutlinedInput
                       inputProps={{
