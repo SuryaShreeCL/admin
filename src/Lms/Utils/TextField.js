@@ -5,7 +5,8 @@ import { TextField } from "@material-ui/core";
 export const InputTextField = (props) => {
   return (
     <TextField
-      {...props}required
+      {...props}
+      required
       inputProps={{
         style: {
           color: "#052A4E",
@@ -18,7 +19,7 @@ export const InputTextField = (props) => {
           top: props.height !== undefined && "-4px",
         },
       }}
-      variant="outlined"
+      variant='outlined'
       fullWidth
     />
   );

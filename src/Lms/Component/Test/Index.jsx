@@ -15,8 +15,8 @@ import { Alert } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from '@date-io/moment';
-import ScheduleIcon from '@mui/icons-material/Schedule';
+import MomentUtils from "@date-io/moment";
+import ScheduleIcon from "@mui/icons-material/Schedule";
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -36,6 +36,7 @@ import {
   getQuestionSet,
   publishTest,
   reviewTest,
+  getTopicListByConceptId,
 } from "../../Redux/Action/Test";
 import DialogComponent from "../../Utils/DialogComponent";
 import PaginationComponent from "../../Utils/PaginationComponent";
@@ -43,7 +44,12 @@ import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
 import moment from "moment";
-let deptName = window.sessionStorage.getItem("department");
+import {
+  getConcepts,
+  getCourses,
+  getSubjects,
+} from "../../Redux/Action/CourseMaterial";
+
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
 
@@ -104,8 +110,22 @@ class TestLanding extends Component {
       clickableStatus: "",
       department: "",
       deptName: "",
+      courseId: null,
+      subjectId: null,
+      conceptId: null,
+      topicOptions: [],
+      courseValue: null,
     };
   }
+
+  findCourseValue = (course_id) => {
+    const { courses } = this.props;
+    const courseList = { data: [], ...courses }.data;
+    let newCourseValue = course_id
+      ? courseList.filter((item) => item.id === course_id)[0]?.courseId || null
+      : courseList[0]?.courseId || null;
+    return newCourseValue;
+  };
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
@@ -114,40 +134,117 @@ class TestLanding extends Component {
     this.setState({
       deptName: deptname,
     });
-    deptname === "assessment_engine_admin"
-      ? this.props.aegetFilters()
-      : this.props.getFilters();
-    // if (deptname === "assessment_engine_admin") {
-    //   var paramObj = {
-    //     page: INITIAL_PAGE_NO,
-    //     size: NO_OF_RESPONSE,
-    //     testType: TEST_TYPE,
-    //   };
-    // } else {
-    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-    // }
+
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
       testType: deptname === "assessment_engine_admin" ? "AE_TEST" : null,
     };
-    deptname === "assessment_engine_admin"
-      ? this.props.aegetQuestionSet(paramObj)
-      : this.props.getQuestionSet(paramObj);
+
+    if (deptname === "assessment_engine_admin") {
+      this.props.aegetFilters();
+      this.props.aegetQuestionSet(paramObj);
+    } else {
+      this.props.getFilters();
+      // this.props.getQuestionSet(paramObj);
+    }
 
     this.setState({
       role: role,
       department: deptname,
       testType: deptname === "assessment_engine_admin" ? "" : "default",
-      testType: "",
     });
+    if (deptname !== "assessment_engine_admin") {
+      this.props.getCourses((response) => {
+        if (response.success) {
+          this.props.getSubjects(response.data[0]?.id, (subjectResponse) => {
+            if (subjectResponse.success) {
+              this.props.getConcepts(
+                subjectResponse.data[0]?.id,
+                (conceptResponse) => {
+                  if (conceptResponse.success) {
+                    this.props.getTopicListByConceptId(
+                      conceptResponse.data[0]?.id,
+                      (topicResponse) => {
+                        this.setState({
+                          courseId: response.data[0]?.id,
+                          courseValue: this.findCourseValue(
+                            response.data[0]?.id
+                          ),
+                          subjectId: subjectResponse.data[0]?.id,
+                          conceptId: conceptResponse.data[0]?.id,
+                          topicId: topicResponse.data?.[0]?.id,
+                        });
+                      }
+                    );
+                  }
+                }
+              );
+            }
+          });
+        }
+      });
+    }
   }
 
   handleDropDownChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-      currentPage: 0,
-    });
+    const { name, value } = event.target;
+    const { topicId, courseId } = this.state;
+    if (name === "testType") {
+      var newObj = {
+        [name]: value,
+        currentPage: 0,
+      };
+      if (value === "CALIBRATION") {
+        this.setState({
+          ...newObj,
+          topicId: null,
+          subjectId: null,
+          conceptId: null,
+        });
+      } else {
+        const { courses } = this.props;
+        let newCourseId = courseId
+          ? courseId
+          : { data: [], ...courses }.data[0]?.id || null;
+        if ((newCourseId && !topicId) || topicId === "default") {
+          this.props.getSubjects(newCourseId, (subjectResponse) => {
+            if (subjectResponse.success) {
+              this.props.getConcepts(
+                subjectResponse.data[0].id,
+                (conceptResponse) => {
+                  if (conceptResponse.success) {
+                    this.props.getTopicListByConceptId(
+                      conceptResponse.data[0]?.id,
+                      (topicResponse) => {
+                        this.setState({
+                          ...newObj,
+                          courseId: newCourseId,
+                          courseValue: this.findCourseValue(newCourseId),
+                          subjectId: subjectResponse.data[0].id,
+                          conceptId: conceptResponse.data[0].id,
+                          topicId: topicResponse.data?.[0]?.id,
+                        });
+                      }
+                    );
+                  }
+                }
+              );
+            }
+          });
+        } else
+          this.setState({
+            ...newObj,
+            courseId: newCourseId,
+            courseValue: this.findCourseValue(newCourseId),
+          });
+      }
+    } else {
+      this.setState({
+        [name]: value,
+        currentPage: 0,
+      });
+    }
   };
 
   handlePageChange = (event, value) => {
@@ -189,6 +286,7 @@ class TestLanding extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const { topicList } = this.props;
     if (prevState !== this.state) {
       let deptName = window.sessionStorage.getItem("department");
       let paramObj = {
@@ -206,9 +304,49 @@ class TestLanding extends Component {
         order: this.state.order.length > 0 ? this.state.order : null,
         size: NO_OF_RESPONSE,
       };
-      this.state.department === "assessment_engine_admin"
-        ? this.props.aegetQuestionSet(paramObj)
-        : this.props.getQuestionSet(paramObj);
+      if (this.state.department === "assessment_engine_admin") {
+        this.props.aegetQuestionSet(paramObj);
+      } else {
+        const {
+          currentPage,
+          testType,
+          topicId,
+          status,
+          field,
+          order,
+          courseId,
+          courseValue,
+        } = this.state;
+        if (
+          prevState.currentPage !== currentPage ||
+          prevState.testType !== testType ||
+          prevState.topicId !== topicId ||
+          prevState.status !== status ||
+          prevState.field !== field ||
+          prevState.order !== order ||
+          prevState.courseId !== courseId
+        )
+          this.props.getQuestionSet({
+            ...paramObj,
+            courseId:
+              testType === "CALIBRATION"
+                ? courseValue
+                : courseId !== "default"
+                ? courseId
+                : null,
+          });
+      }
+    }
+    if (topicList && prevProps.topicList !== topicList) {
+      if (topicList.success) {
+        this.setState({
+          topicOptions: topicList.data,
+        });
+      } else {
+        this.setState({
+          topicOptions: [],
+        });
+      }
     }
   }
 
@@ -227,7 +365,7 @@ class TestLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
-    console.log(topicName, "vvvvvvvvvvvv")
+    console.log(topicName, "vvvvvvvvvvvv");
     if (text === "Edit") {
       this.props.history.push(
         lms_add_test + "?testQuestionSetId=" + this.state.popUpId
@@ -301,7 +439,7 @@ class TestLanding extends Component {
       var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "publish",
-        icon: <img src={PublishIcon} width="64px" height="64px" />,
+        icon: <img src={PublishIcon} width='64px' height='64px' />,
         title: "Are you sure you want to Publish? ",
         body: deptname !== "assessment_engine_admin" ? topicName : "",
         button1: "Cancel",
@@ -314,15 +452,14 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
-    } 
-    else if (text === "Reschedule") {      
+    } else if (text === "Reschedule") {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
         let findObj = tableContent.content.filter(
           (el) => el.id === this.state.popUpId
         )[0];
-        console.log(tableContent,findObj,"findObj.eventDate")
+        console.log(tableContent, findObj, "findObj.eventDate");
 
         if (findObj) {
           this.setState({
@@ -333,14 +470,17 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
-        console.log(this.props.testData,this.state.popUpId,findObj,"Reschedule")
+        console.log(
+          this.props.testData,
+          this.state.popUpId,
+          findObj,
+          "Reschedule"
+        );
       }
       this.setState({
         popupOpen: true,
-      });      
-    }
-
-    else if (text === "Schedule") {        
+      });
+    } else if (text === "Schedule") {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
@@ -357,12 +497,17 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
-        console.log(this.props.testData,this.state.popUpId,findObj,"Schedule")
+        console.log(
+          this.props.testData,
+          this.state.popUpId,
+          findObj,
+          "Schedule"
+        );
       }
 
       this.setState({
         popupOpen1: true,
-      });      
+      });
     }
   };
 
@@ -384,58 +529,81 @@ class TestLanding extends Component {
 
   handlePrimaryButtonClick = () => {
     if (this.state.dialogContent.type === "archive") {
-      this.props.deleteTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
-          });
-          this.handleCloseIconClick();
-        }
-      });
-      this.props.aedeleteTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
+      this.state.department !== "assessment_engine_admin"
+        ? this.props.deleteTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
+              this.state.department === "assessment_engine_admin"
+                ? this.props.aegetQuestionSet(paramObj)
+                : this.props.getQuestionSet({
+                    ...paramObj,
+                    courseId:
+                      this.state.testType === "CALIBRATION"
+                        ? this.state.courseValue
+                        : this.state.courseId !== "default"
+                        ? this.state.courseId
+                        : null,
+                  });
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
+          })
+        : this.props.aedeleteTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
 
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+              this.state.department === "assessment_engine_admin"
+                ? this.props.aegetQuestionSet(paramObj)
+                : this.props.getQuestionSet({
+                    ...paramObj,
+                    courseId:
+                      this.state.testType === "CALIBRATION"
+                        ? this.state.courseValue
+                        : this.state.courseId !== "default"
+                        ? this.state.courseId
+                        : null,
+                  });
 
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
           });
-          this.handleCloseIconClick();
-        }
-      });
     } else if (this.state.dialogContent.type === "review") {
       this.props.reviewTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -450,7 +618,15 @@ class TestLanding extends Component {
           };
           this.state.department === "assessment_engine_admin"
             ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+            : this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
           this.handleCloseIconClick();
         }
       });
@@ -487,7 +663,15 @@ class TestLanding extends Component {
 
           this.state.department === "assessment_engine_admin"
             ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+            : this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
           this.handleCloseIconClick();
         }
       });
@@ -505,7 +689,15 @@ class TestLanding extends Component {
 
           this.state.department === "assessment_engine_admin"
             ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+            : this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
           this.handleCloseIconClick();
         }
       });
@@ -524,7 +716,15 @@ class TestLanding extends Component {
 
           this.state.department === "assessment_engine_admin"
             ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+            : this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
           this.handleCloseIconClick();
         }
       });
@@ -542,7 +742,15 @@ class TestLanding extends Component {
 
           this.state.department === "assessment_engine_admin"
             ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+            : this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
           this.handleCloseIconClick();
         }
       });
@@ -589,7 +797,15 @@ class TestLanding extends Component {
                   this.state.status !== "default" ? this.state.status : null,
               };
 
-              this.props.getQuestionSet(paramObj);
+              this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              });
               this.handleCloseIconClick();
             } else {
               //
@@ -626,63 +842,25 @@ class TestLanding extends Component {
       });
     } else {
       rescheduleTest(this.state.popUpId, obj).then((response) => {
-        if (response?.status === 200) {                
-            this.setState({
-              alertState: true,
-              alertSeverity: "success",
-              alertMsg: "Test rescheduled successfully",
-              popupOpen: false,
-            });
-            this.handleClose()
-            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-            this.state.department !== "assessment_engine_admin"
-            ? this.props.getQuestionSet(paramObj)
-            : this.props.aegetQuestionSet(paramObj);                  
-        } else {
+        if (response?.status === 200) {
           this.setState({
             alertState: true,
-            alertSeverity: "error",
-            alertMsg: response,
+            alertSeverity: "success",
+            alertMsg: "Test rescheduled successfully",
+            popupOpen: false,
           });
-        }
-      });
-    }
-  };
-
-  /* For Schedule popup */
-  handleSchedule = () => {   
-    console.log("schedule")
-    let obj = {
-      startDateTime: this.state.eventDate,
-      endDateTime: this.state.eventEndDate,
-    };
-
-    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
-    moment(this.state.eventDate).isBefore(moment()) ||
-    moment(this.state.eventEndDate).isBefore(moment())) 
-    {
-      this.setState({
-        alertState: true,
-        alertSeverity: "warning",
-        alertMsg: "Please add proper timing & date",
-        popupOpen1: true,
-      });          
-    } 
-
-    else
-    {
-      rescheduleTest(this.state.popUpId, obj).then((response) => {
-        if (response?.status === 200) {                
-            this.setState({
-              alertState: true,
-              alertSeverity: "success",
-              alertMsg: "Test Scheduled successfully",
-              popupOpen1: false,
-            });
-            this.handleClose()
-            let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-            this.state.department !== "assessment_engine_admin"
-            ? this.props.getQuestionSet(paramObj)
+          this.handleClose();
+          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+          this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              })
             : this.props.aegetQuestionSet(paramObj);
         } else {
           this.setState({
@@ -695,9 +873,127 @@ class TestLanding extends Component {
     }
   };
 
+  /* For Schedule popup */
+  handleSchedule = () => {
+    console.log("schedule");
+    let obj = {
+      startDateTime: this.state.eventDate,
+      endDateTime: this.state.eventEndDate,
+    };
+
+    if (
+      moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) ||
+      moment(this.state.eventDate).isBefore(moment()) ||
+      moment(this.state.eventEndDate).isBefore(moment())
+    ) {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen1: true,
+      });
+    } else {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {
+          this.setState({
+            alertState: true,
+            alertSeverity: "success",
+            alertMsg: "Test rescheduled successfully",
+            popupOpen: false,
+          });
+          this.handleClose();
+          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+          this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              })
+            : this.props.aegetQuestionSet(paramObj);
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
+  };
+
+  handleChange = (event) => {
+    if (event.target.name === "course") {
+      if (this.state.testType !== "CALIBRATION") {
+        this.props.getSubjects(event.target.value, (subjectResponse) => {
+          if (subjectResponse.success) {
+            this.props.getConcepts(
+              subjectResponse.data[0].id,
+              (conceptResponse) => {
+                if (conceptResponse.success) {
+                  this.props.getTopicListByConceptId(
+                    conceptResponse.data[0]?.id,
+                    (topicResponse) => {
+                      this.setState({
+                        courseId: event.target.value,
+                        courseValue: this.findCourseValue(event.target.value),
+                        subjectId: subjectResponse.data[0].id,
+                        conceptId: conceptResponse.data[0].id,
+                        topicId: topicResponse.data?.[0]?.id,
+                        currentPage: 0,
+                      });
+                    }
+                  );
+                }
+              }
+            );
+          }
+        });
+      } else {
+        this.setState({
+          courseId:
+            event.target.value !== "default" ? event.target.value : null,
+          courseValue: this.findCourseValue(event.target.value),
+          currentPage: 0,
+        });
+      }
+    } else if (event.target.name === "subject")
+      this.props.getConcepts(event.target.value, (conceptResponse) => {
+        if (conceptResponse.success) {
+          this.props.getTopicListByConceptId(
+            conceptResponse.data[0]?.id,
+            (topicResponse) => {
+              this.setState({
+                subjectId: event.target.value,
+                conceptId: conceptResponse.data[0].id,
+                topicId: topicResponse.data?.[0]?.id,
+                currentPage: 0,
+              });
+            }
+          );
+        }
+      });
+    else {
+      this.props.getTopicListByConceptId(
+        event.target.value,
+        (topicResponse) => {
+          this.setState({
+            conceptId: event.target.value,
+            topicId: topicResponse.data?.[0]?.id,
+            currentPage: 0,
+          });
+        }
+      );
+    }
+  };
+
   render() {
     const { data: filterData } = this.props.filterData;
     const { data: tableContent } = this.props.testData;
+    const { courses, subjects, concepts } = this.props;
 
     const {
       testType,
@@ -714,8 +1010,10 @@ class TestLanding extends Component {
       popupOpen1,
       eventDate,
       eventEndDate,
-      // eventDate = new Date(),
-      // eventEndDate = new Date(),
+      courseId,
+      subjectId,
+      conceptId,
+      topicOptions,
     } = this.state;
     // var filterAE = this.props.testData?.filter(item=>item.type === "AE_TEST")
     //
@@ -732,33 +1030,47 @@ class TestLanding extends Component {
       handleCloseIconClick,
       handlePrimaryButtonClick,
       // handleReschedule,
+      handleChange,
     } = this;
+
+    let deptName = window.sessionStorage.getItem("department");
+
     return (
       <Container>
         <Grid
           item
           container
-          alignItems="center"
-          justifyContent="space-between"
+          alignItems='center'
+          justifyContent='space-between'
           style={{ marginBottom: "35px" }}
         >
           <H1>Test</H1>
 
-          {deptName === "assessment_engine_admin"?
-          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
-            Create Test
-          </PlusButton>:
-          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
-            Add
-          </PlusButton>}
+          {deptName === "assessment_engine_admin" ? (
+            <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+              Create Test
+            </PlusButton>
+          ) : (
+            <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+              Add
+            </PlusButton>
+          )}
         </Grid>
         {filterData && (
           <DropDownRack
             filterData={filterData}
             testType={testType ? testType : "default"}
-            topicId={topicId}
+            topicId={topicId || "default"}
             status={status}
             handleDropDownChange={handleDropDownChange}
+            courses={courses}
+            subjects={subjects}
+            concepts={concepts}
+            handleChange={handleChange}
+            courseId={courseId || "default"}
+            subjectId={subjectId || "default"}
+            conceptId={conceptId || "default"}
+            topicOptions={topicOptions}
           />
         )}
         {tableContent && (
@@ -803,7 +1115,7 @@ class TestLanding extends Component {
           <Alert
             onClose={() => this.setState({ alertState: false })}
             severity={this.state.alertSeverity}
-            variant="filled"
+            variant='filled'
           >
             {this.state.alertMsg}
           </Alert>
@@ -824,32 +1136,32 @@ class TestLanding extends Component {
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
-              >             
+                alignItems='center'
+                justifyContent='center'
+              >
                 <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
               </Grid>
               <Grid
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <Typography variant="h4">Reschedule Test</Typography>
+                <Typography variant='h4'>Reschedule Test</Typography>
               </Grid>
 
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <DateTimePicker
-                    label="Start date and time"
-                    inputVariant="outlined"
+                    label='Start date and time'
+                    inputVariant='outlined'
                     disablePast
                     value={eventDate}
                     onChange={(value) => this.setState({ eventDate: value })}
@@ -860,13 +1172,13 @@ class TestLanding extends Component {
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <DateTimePicker
-                    label="End date and time"
-                    inputVariant="outlined"
+                    label='End date and time'
+                    inputVariant='outlined'
                     disablePast
                     value={eventEndDate}
                     disabled={eventEndDate === eventDate}
@@ -878,8 +1190,8 @@ class TestLanding extends Component {
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="flex-end"
+                alignItems='center'
+                justifyContent='flex-end'
               >
                 <Button
                   onClick={() => this.setState({ popupOpen: !popupOpen })}
@@ -890,7 +1202,7 @@ class TestLanding extends Component {
                   Cancel
                 </Button>
               </Grid>
-              <Grid item xs={6} container alignItems="center">
+              <Grid item xs={6} container alignItems='center'>
                 <Button
                   size={"large"}
                   onClick={() => this.handleReschedule()}
@@ -914,13 +1226,13 @@ class TestLanding extends Component {
               container
               spacing={3}
               style={{ width: "auto", margin: 0, padding: "20px" }}
-            >              
+            >
               <Grid
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
                 <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
               </Grid>
@@ -928,51 +1240,53 @@ class TestLanding extends Component {
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <Typography variant="h4">Schedule Test</Typography>
+                <Typography variant='h4'>Schedule Test</Typography>
               </Grid>
 
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <MuiPickersUtilsProvider  utils={MomentUtils}>
-                <DateTimePicker
-                  label="Start date and time"
-                  inputVariant="outlined"
-                  disablePast
-                  value={eventDate}
-                  onChange={(value) => this.setState({ eventDate: value })}
-                /></MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='Start date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventDate}
+                    onChange={(value) => this.setState({ eventDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <MuiPickersUtilsProvider  utils={MomentUtils}>
-                <DateTimePicker
-                  label="End date and time"
-                  inputVariant="outlined"
-                  disablePast
-                  value={eventEndDate}
-                  disabled ={eventEndDate === eventDate}
-                  onChange={(value) => this.setState({ eventEndDate: value })}
-                /></MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='End date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventEndDate}
+                    disabled={eventEndDate === eventDate}
+                    onChange={(value) => this.setState({ eventEndDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="flex-end"
+                alignItems='center'
+                justifyContent='flex-end'
               >
                 <Button
                   onClick={() => this.setState({ popupOpen1: !popupOpen1 })}
@@ -983,10 +1297,10 @@ class TestLanding extends Component {
                   Cancel
                 </Button>
               </Grid>
-              <Grid item xs={6} container alignItems="center">
+              <Grid item xs={6} container alignItems='center'>
                 <Button
                   size={"large"}
-                  onClick={()=>this.handleSchedule()}
+                  onClick={() => this.handleSchedule()}
                   variant={"contained"}
                   color={"primary"}
                 >
@@ -1005,10 +1319,17 @@ const mapStateToProps = (state) => {
   return {
     filterData: state.TestReducer.filterData,
     testData: state.TestReducer.testData,
+    courses: state.CourseMaterialReducer.courses,
+    subjects: state.CourseMaterialReducer.subjects,
+    concepts: state.CourseMaterialReducer.concepts,
+    topicList: state.TestReducer.topicList,
   };
 };
 
 export default connect(mapStateToProps, {
+  getCourses,
+  getSubjects,
+  getConcepts,
   getFilters,
   aegetFilters,
   getQuestionSet,
@@ -1023,4 +1344,5 @@ export default connect(mapStateToProps, {
   aepublishTest,
   draftTest,
   aedraftTest,
+  getTopicListByConceptId,
 })(TestLanding);

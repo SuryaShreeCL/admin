@@ -3,6 +3,7 @@ import {
   Button,
   createTheme,
   IconButton,
+  TextField,
   ThemeProvider,
 } from "@material-ui/core";
 import { AddRounded, DeleteRounded } from "@material-ui/icons";
@@ -46,16 +47,27 @@ function Choice(props) {
                 answerType={answerType}
               /> */}
               <Box flex={1}>
-                <TextEditor
-                  data={choice.text}
-                  onChange={(e, editorDate) =>
-                    handleTextChange(
-                      { target: { value: editorDate.getData() } },
-                      index
-                    )
-                  }
-                  key={index}
-                />
+                {answerType !== "SUBJECTIVE" ? (
+                  <TextEditor
+                    data={choice.text}
+                    onChange={(e, editorDate) =>
+                      handleTextChange(
+                        { target: { value: editorDate.getData() } },
+                        index
+                      )
+                    }
+                    key={index}
+                  />
+                ) : (
+                  <TextField
+                    key={index}
+                    value={choice.text}
+                    onChange={(e) => handleTextChange(e, index)}
+                    variant={"outlined"}
+                    fullWidth
+                    multiline
+                  />
+                )}
               </Box>
               <FormControlLabel
                 disabledRipple
@@ -65,25 +77,30 @@ function Choice(props) {
                     checked={choice.selected}
                     onChange={(e) => handleCheckBoxes(e)}
                     disableRipple
-                    icon={<img src={UnCheckedIcon} alt="" />}
-                    checkedIcon={<img src={CheckedIcon} alt="" />}
+                    icon={<img src={UnCheckedIcon} alt='' />}
+                    checkedIcon={<img src={CheckedIcon} alt='' />}
                   />
                 }
               />
 
-              {aedept==="assessment_engine_admin" ? 
-
-              <IconButton color="secondary" onClick={()=> handleDeleteChoiceClick(index)} style={{marginTop : "-9px"}}>
-                <DeleteRounded />
-              </IconButton>
-               :<></>} 
+              {aedept === "assessment_engine_admin" ? (
+                <IconButton
+                  color='secondary'
+                  onClick={() => handleDeleteChoiceClick(index)}
+                  style={{ marginTop: "-9px" }}
+                >
+                  <DeleteRounded />
+                </IconButton>
+              ) : (
+                <></>
+              )}
             </C1>
           );
         })}
         {answerType !== "SUBJECTIVE" && (
           <ThemeProvider theme={buttonTheme}>
             <Button
-              variant="text"
+              variant='text'
               startIcon={<AddRounded />}
               onClick={handleAddOption}
             >

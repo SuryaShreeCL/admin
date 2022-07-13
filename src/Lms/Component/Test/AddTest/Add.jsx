@@ -5,13 +5,13 @@ import {
   IconButton,
   Switch,
   Typography,
-  Backdrop
+  Backdrop,
 } from "@material-ui/core";
 import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import QueryString from "qs";
-import MomentUtils from '@date-io/moment';
+import MomentUtils from "@date-io/moment";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -21,7 +21,10 @@ import {
   bulk_upload,
   lmsTest,
   single_upload,
+  lms_copy_question,
 } from "../../../../Component/RoutePaths";
+
+import moment from "moment";
 import {
   Box,
   Cancel,
@@ -52,9 +55,6 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import moment from "moment";
-
-
 
 // import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
 const aedept = window.sessionStorage.getItem("department");
@@ -66,15 +66,12 @@ const dialogContent = {
   button2: "Yes",
 };
 
-
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
   title: "Are you sure you want to delete this section ",
   button1: "No",
   button2: "Yes",
-  
-  
 };
 
 class Add extends Component {
@@ -119,15 +116,16 @@ class Add extends Component {
       scheduleTest: false,
       eventDate: null,
       eventEndDate: null,
-      error:"",
+      error: "",
       // eventDate: new Date(),
       // eventEndDate: new Date(),
       department: null,
-      loading : false
-
+      loading: false,
+      calibrationTestCopyContent: [],
+      topicTestCopySections: {},
     };
   }
- 
+
   componentDidMount() {
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
@@ -143,33 +141,34 @@ class Add extends Component {
       }
     );
     const { type } = this.state;
-   deptName !== "assessment_engine_admin" && this.props.getCourses((response) => {
-      if (response.success) {
-        if (testQuestionSetId === undefined) {
-          if (
-            type !== "CALIBRATION" &&
-            response.data[0].courseId !== undefined
-          ) {
-            this.props.getTopicByCourse(
-              response.data[0].courseId,
-              (topicResponse) => {
-                if (topicResponse.success) {
-                  this.setState({
-                    courseId: response.data[0].courseId,
-                    topicId: topicResponse.data[0].id,
-                    courseIdValue: response.data[0].id,
-                  });
+    deptName !== "assessment_engine_admin" &&
+      this.props.getCourses((response) => {
+        if (response.success) {
+          if (testQuestionSetId === undefined) {
+            if (
+              type !== "CALIBRATION" &&
+              response.data[0].courseId !== undefined
+            ) {
+              this.props.getTopicByCourse(
+                response.data[0].courseId,
+                (topicResponse) => {
+                  if (topicResponse.success) {
+                    this.setState({
+                      courseId: response.data[0].courseId,
+                      topicId: topicResponse.data[0].id,
+                      courseIdValue: response.data[0].id,
+                    });
+                  }
                 }
-              }
-            );
-          } else {
-            this.setState({
-              courseId: response.data[0].courseId,
-            });
+              );
+            } else {
+              this.setState({
+                courseId: response.data[0].courseId,
+              });
+            }
           }
         }
-      }
-    });
+      });
 
     // Editable Mode
     if (testQuestionSetId !== undefined) {
@@ -179,7 +178,7 @@ class Add extends Component {
     }
   }
 
-  componentDidUpdate(prevProps,prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -208,6 +207,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
+          calibrationTestCopyContent: JSON.parse(
+            JSON.stringify(questionSet.testSection)
+          ),
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
@@ -231,6 +233,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
+          calibrationTestCopyContent: JSON.parse(
+            JSON.stringify(questionSet.testSection)
+          ),
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
@@ -254,6 +259,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           topicTestSections: questionSet.testSection[0],
+          topicTestCopySections: JSON.parse(
+            JSON.stringify(questionSet.testSection[0])
+          ),
           sectionId: questionSet.testSection[0].id,
           courseIdValue: questionSet.productId,
         });
@@ -313,7 +321,6 @@ class Add extends Component {
   };
 
   handleSectionChange = () => {
-    
     const { calibrationSectionTabLabels, calibrationTestData } = this.state;
     let tabArr = [];
     let testArr = [];
@@ -448,6 +455,48 @@ class Add extends Component {
     }
   };
 
+  handleCopyQuestion = () => {
+    const {
+      testQuestionSetId,
+      sectionId,
+      type,
+      calibrationActiveSectionTab,
+      calibrationTestData,
+      calibrationTestCopyContent,
+      topicTestCopySections,
+    } = this.state;
+
+    if (type === "QUESTIONBANK") {
+      this.props.history.push(`${lms_copy_question}/${testQuestionSetId}`);
+    } else {
+      if (type === "CALIBRATION") {
+        let limit =
+          parseInt(
+            calibrationTestCopyContent[calibrationActiveSectionTab - 1][
+              "noOfQuestions"
+            ]
+          ) -
+          calibrationTestCopyContent[calibrationActiveSectionTab - 1][
+            "questions"
+          ].length;
+        var calibrationSectionId =
+          (calibrationTestData.length !== 0 &&
+            calibrationTestData[calibrationActiveSectionTab - 1].id) ||
+          "";
+        this.props.history.push(
+          `${lms_copy_question}/${testQuestionSetId}/${calibrationSectionId}?limit=${limit}`
+        );
+      } else {
+        let limit =
+          parseInt(topicTestCopySections["noOfQuestions"]) -
+          topicTestCopySections["questions"].length;
+        this.props.history.push(
+          `${lms_copy_question}/${testQuestionSetId}/${sectionId}?limit=${limit}`
+        );
+      }
+    }
+  };
+
   handleCalibrationTestProperties = (index, event) => {
     const calibrationTestData = [...this.state.calibrationTestData];
     const { name, value } = event.target;
@@ -488,12 +537,11 @@ class Add extends Component {
       }
     }
   };
- 
 
   handleSaveButton = () => {
     this.setState({
-      loading : true
-    })
+      loading: true,
+    });
     const {
       testQuestionSetId,
       type,
@@ -508,7 +556,6 @@ class Add extends Component {
       cutOffScore,
       eventDate,
       eventEndDate,
-      
     } = this.state;
 
     if (type === "QUESTIONBANK") {
@@ -531,7 +578,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading : false
+                    loading: false,
                   });
                 }
               }
@@ -547,7 +594,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading:false
+                    loading: false,
                   });
                 }
               }
@@ -557,7 +604,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
-          loading:false
+          loading: false,
         });
       }
     }
@@ -601,6 +648,10 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    topicTestCopySections: JSON.parse(
+                      JSON.stringify(tempTopicTestSections)
+                    ),
+
                     loading: false,
                   });
                 }
@@ -622,6 +673,9 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    topicTestCopySections: JSON.parse(
+                      JSON.stringify(tempTopicTestSections)
+                    ),
                     loading: false,
                   });
                 }
@@ -695,6 +749,9 @@ class Add extends Component {
                     courseIdValue: calibrationTestResponse.data.productId,
 
                     calibrationTestData: tempcalibrationTestData,
+                    calibrationTestCopyContent: JSON.parse(
+                      JSON.stringify(tempcalibrationTestData)
+                    ),
                     loading: false,
                   });
                 } else {
@@ -749,19 +806,22 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
-          name &&
-          nameDescription &&
-          name.trim().length !== 0 &&
-          nameDescription.trim().length !== 0 &&
-          description.length !== 0 &&
-          descriptionTitle.trim().length !== 0 &&
-          cutOffScore.length !== 0 &&
-          ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
+        name &&
+        nameDescription &&
+        name.trim().length !== 0 &&
+        nameDescription.trim().length !== 0 &&
+        description.length !== 0 &&
+        descriptionTitle.trim().length !== 0 &&
+        cutOffScore.length !== 0 &&
+        ((this.state.scheduleTest && eventDate && eventEndDate) ||
+          !this.state.scheduleTest)
         // courseId !== undefined
       ) {
         // console.log(eventDate, eventEndDate,"1234")
-        if (this.state.scheduleTest && moment(eventEndDate).isSameOrBefore(eventDate)) 
-        {
+        if (
+          this.state.scheduleTest &&
+          moment(eventEndDate).isSameOrBefore(eventDate)
+        ) {
           this.setState({
             snackOpen: true,
             snackType: "warning",
@@ -769,124 +829,124 @@ class Add extends Component {
             loading: false,
           });
           // return false;
-        }        
-         
-        else if (!this.state.scheduleTest || (this.state.scheduleTest &&
-          !moment(eventEndDate).isSameOrBefore(eventDate)))
-        {
-        if (calibrationTestData.length !== 0) {
-          if (!calibrationTestDataTotalValidation.includes(false)) {
-            var calibrationTestSet = {
-              id: testQuestionSetId,
-              name: name,
-              type: type,
-              // course: { id: courseId },
-              description: description,
-              descriptionTitle: descriptionTitle,
-              nameDescription: nameDescription,
-              testSections: calibrationTestData,
-              cutOffScore: parseInt(cutOffScore),
-              eventDate,           
-              eventEndDate,
-            };
+        } else if (
+          !this.state.scheduleTest ||
+          (this.state.scheduleTest &&
+            !moment(eventEndDate).isSameOrBefore(eventDate))
+        ) {
+          if (calibrationTestData.length !== 0) {
+            if (!calibrationTestDataTotalValidation.includes(false)) {
+              var calibrationTestSet = {
+                id: testQuestionSetId,
+                name: name,
+                type: type,
+                // course: { id: courseId },
+                description: description,
+                descriptionTitle: descriptionTitle,
+                nameDescription: nameDescription,
+                testSections: calibrationTestData,
+                cutOffScore: parseInt(cutOffScore),
+                eventDate,
+                eventEndDate,
+              };
 
-            // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
+              // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
 
-            // this.props.createTestQuestionSet(
-            //   calibrationTestSet,
-            //   (calibrationTestResponse) => {
-            //     if (calibrationTestResponse.success) {
-            //       var message =
-            //         testQuestionSetId === null ? "ADDED" : "UPDATED";
-            //       var tempcalibrationTestData = calibrationTestData;
-            //       calibrationTestResponse.data.testSection.map(
-            //         (item, index) => {
-            //           if (calibrationTestData.length > index) {
-            //             tempcalibrationTestData[index].id = item.id;
-            //           }
-            //         }
-            //       );
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "success",
-            //         message: `${type} TEST ${message} SUCCESSFULLY`,
-            //         testQuestionSetId: calibrationTestResponse.data.id,
-            //         courseIdValue: calibrationTestResponse.data.productId,
-            //         sectionId: calibrationTestResponse.data.testSection[0].id,
-            //         calibrationTestData: tempcalibrationTestData,
-            //       });
-            //       this.handleBannerUpload(calibrationTestResponse.data.id);
-            //     } else {
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "warning",
-            //         message: calibrationTestResponse.message,
-            //       });
-            //     }
-            //   }
-            // );
-            this.props.aecreateTestQuestionSet(
-              calibrationTestSet,
-              (calibrationTestResponse) => {                
-                if (calibrationTestResponse?.success) {
-                  console.log(calibrationTestResponse,"calibrationTestResponse")
-                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  var tempcalibrationTestData = calibrationTestData;
-                  calibrationTestResponse.data.testSection.map(
-                    (item, index) => {
-                      if (calibrationTestData?.length > index) {
-                        tempcalibrationTestData[index].id = item.id;
+              // this.props.createTestQuestionSet(
+              //   calibrationTestSet,
+              //   (calibrationTestResponse) => {
+              //     if (calibrationTestResponse.success) {
+              //       var message =
+              //         testQuestionSetId === null ? "ADDED" : "UPDATED";
+              //       var tempcalibrationTestData = calibrationTestData;
+              //       calibrationTestResponse.data.testSection.map(
+              //         (item, index) => {
+              //           if (calibrationTestData.length > index) {
+              //             tempcalibrationTestData[index].id = item.id;
+              //           }
+              //         }
+              //       );
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "success",
+              //         message: `${type} TEST ${message} SUCCESSFULLY`,
+              //         testQuestionSetId: calibrationTestResponse.data.id,
+              //         courseIdValue: calibrationTestResponse.data.productId,
+              //         sectionId: calibrationTestResponse.data.testSection[0].id,
+              //         calibrationTestData: tempcalibrationTestData,
+              //       });
+              //       this.handleBannerUpload(calibrationTestResponse.data.id);
+              //     } else {
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "warning",
+              //         message: calibrationTestResponse.message,
+              //       });
+              //     }
+              //   }
+              // );
+              this.props.aecreateTestQuestionSet(
+                calibrationTestSet,
+                (calibrationTestResponse) => {
+                  if (calibrationTestResponse?.success) {
+                    console.log(
+                      calibrationTestResponse,
+                      "calibrationTestResponse"
+                    );
+                    // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
+                    var message =
+                      testQuestionSetId === null ? "ADDED" : "UPDATED";
+                    var tempcalibrationTestData = calibrationTestData;
+                    calibrationTestResponse.data.testSection.map(
+                      (item, index) => {
+                        if (calibrationTestData?.length > index) {
+                          tempcalibrationTestData[index].id = item.id;
+                        }
                       }
-                    }
-                  );
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: calibrationTestResponse?.data?.id,
-                    courseIdValue: calibrationTestResponse?.data?.productId,
-                    sectionId:
-                      calibrationTestResponse?.data?.testSection[0]?.id,
-                    calibrationTestData: tempcalibrationTestData,
-                    loading: false,
-                  });
-                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                }                                              
-                else {                  
+                    );
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "success",
+                      message: `${type} TEST ${message} SUCCESSFULLY`,
+                      testQuestionSetId: calibrationTestResponse?.data?.id,
+                      courseIdValue: calibrationTestResponse?.data?.productId,
+                      sectionId:
+                        calibrationTestResponse?.data?.testSection[0]?.id,
+                      calibrationTestData: tempcalibrationTestData,
+                      calibrationTestCopyContent: JSON.parse(
+                        JSON.stringify(tempcalibrationTestData)
+                      ),
+                      loading: false,
+                    });
+                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                  } else {
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
                       message: "Network Failed",
                       loading: false,
-                    });                                    
+                    });
+                  }
                 }
-              }
-            );           
-          }      
-
-          else {
+              );
+            } else {
+              this.setState({
+                snackOpen: true,
+                snackType: "warning",
+                message: "Please fill all the section fields",
+                loading: false,
+              });
+            }
+          } else {
             this.setState({
               snackOpen: true,
               snackType: "warning",
-              message: "Please fill all the section fields",
+              message: "Please add the section",
               loading: false,
             });
           }
-        }                   
-        else {
-          this.setState({
-            snackOpen: true,
-            snackType: "warning",
-            message: "Please add the section",
-            loading: false,
-          });
         }
-      }
-      }   
-       
-      else {
+      } else {
         this.setState({
           snackOpen: true,
           snackType: "warning",
@@ -916,9 +976,9 @@ class Add extends Component {
       this.props.history.push(
         single_upload + "?questionId=" + this.state.popUpId,
         {
-           testQuestionSetId : this.state.testQuestionSetId,
-           topicId : this.state.topicId,
-           sectionId : this.state.sectionId
+          testQuestionSetId: this.state.testQuestionSetId,
+          topicId: this.state.topicId,
+          sectionId: this.state.sectionId,
         }
       );
     }
@@ -953,8 +1013,8 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    console.log(testQuestionSetId)
-    console.log(this.state.popUpId)
+    console.log(testQuestionSetId);
+    console.log(this.state.popUpId);
     this.state.department === "assessment_engine_admin"
       ? this.props.aedeleteQuestion(this.state.popUpId, (response) => {
           if (response.success) {
@@ -982,14 +1042,13 @@ class Add extends Component {
   handleSectionDelete = () => {
     const { calibrationActiveSectionTab, calibrationTestData } = this.state;
     const { testQuestionSetId } = this.state;
-    console.log(testQuestionSetId)
+    console.log(testQuestionSetId);
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
         calibrationTestData[calibrationActiveSectionTab - 1]["id"];
       if (deleteSectionId !== null) {
         this.state.department === "assessment_engine_admin"
           ? this.props.aedeleteSection(deleteSectionId, (response) => {
-           
               if (response.success) {
                 this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
                   if (res.success) this.handleCloseIconClick();
@@ -1118,10 +1177,8 @@ class Add extends Component {
           <IconButton
             style={{ position: "absolute", top: 2, right: 2 }}
             color={"secondary"}
-            size="small"
+            size='small'
             onClick={this.handleFileDelete}
-
-
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1141,7 +1198,7 @@ class Add extends Component {
                 padding: "5% 10% 5% 10%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",                
+                alignItems: "center",
               }}
             >
               <div {...getRootProps({ className: "dropzone" })}>
@@ -1188,9 +1245,12 @@ class Add extends Component {
       scheduleTest,
       eventDate,
       eventEndDate,
+      department,
+      calibrationTestCopyContent,
+      topicTestCopySections,
     } = this.state;
-    
-    const AVOID_INPUT = ["E", "e", "+", "-","."];
+
+    const AVOID_INPUT = ["E", "e", "+", "-", "."];
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
@@ -1206,6 +1266,7 @@ class Add extends Component {
       handleSectionDelete,
       handleMenuItemDelete,
       handleSectionThreeDotClick,
+      handleCopyQuestion,
     } = this;
 
     // console.log(this.state.scheduleTest,"scheduleTest")
@@ -1251,61 +1312,63 @@ class Add extends Component {
               disabled={testQuestionSetId !== null ? true : false}
               placeholder="Course"
             /> */}
-          </Grid>
-          <Grid item xs={12} md={8}>
-
-           {aedept !== "assessment_engine_admin" ?
-            <RadioButtonsGroup
-              radioData={{
-                name: "type",
-                activeValue: type,
-                radioItemData: [
-                  { id: "CALIBRATION", label: "Calibration Test" },
-                  { id: "TOPIC", label: "Topic Test" },
-                  { id: "QUESTIONBANK", label: "Question Bank" },
-                  // { id: "AE_TEST", label: "Assessment Engine" },
-                ],
-                handleRadioChange: this.handleTestChange,
-                groupName: "Test Type",
-                marginRightValue: "56px",
-              }}
-            />:<RadioButtonsGroup
-            radioData={{
-              name: "type",
-              activeValue: type,
-              radioItemData: [
-                // { id: "CALIBRATION", label: "Calibration Test" },
-                // { id: "TOPIC", label: "Topic Test" },
-                // { id: "QUESTIONBANK", label: "Question Bank" },
-                { id: "AE_TEST", label: "Assessment Engine" },
-              ],
-              handleRadioChange: this.handleTestChange,
-              groupName: "Test Type",
-              marginRightValue: "56px",
-            }}
-          />}
+            </Grid>
+            <Grid item xs={12} md={8}>
+              {aedept !== "assessment_engine_admin" ? (
+                <RadioButtonsGroup
+                  radioData={{
+                    name: "type",
+                    activeValue: type,
+                    radioItemData: [
+                      { id: "CALIBRATION", label: "Calibration Test" },
+                      { id: "TOPIC", label: "Topic Test" },
+                      { id: "QUESTIONBANK", label: "Question Bank" },
+                      // { id: "AE_TEST", label: "Assessment Engine" },
+                    ],
+                    handleRadioChange: this.handleTestChange,
+                    groupName: "Test Type",
+                    marginRightValue: "56px",
+                  }}
+                />
+              ) : (
+                <RadioButtonsGroup
+                  radioData={{
+                    name: "type",
+                    activeValue: type,
+                    radioItemData: [
+                      // { id: "CALIBRATION", label: "Calibration Test" },
+                      // { id: "TOPIC", label: "Topic Test" },
+                      // { id: "QUESTIONBANK", label: "Question Bank" },
+                      { id: "AE_TEST", label: "Assessment Engine" },
+                    ],
+                    handleRadioChange: this.handleTestChange,
+                    groupName: "Test Type",
+                    marginRightValue: "56px",
+                  }}
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={4}>
               {type === "CALIBRATION" || type === "AE_TEST" ? (
                 <div>
                   <InputTextField
-                    name="name"
+                    name='name'
                     onChange={this.handleChange}
                     value={name}
                     label={"Test name"}
-                    height="11px"
+                    height='11px'
                     placeholder={"Test name"}
                     required
                   />
                 </div>
               ) : (
                 <DropDown
-                  label="Topic"
-                  name="topicId"
+                  label='Topic'
+                  name='topicId'
                   items={topics.data}
                   value={topicId}
                   onChange={this.handleChange}
-                  placeholder="Topic"
+                  placeholder='Topic'
                   disabled={testQuestionSetId !== null ? true : false}
                 />
               )}
@@ -1314,33 +1377,33 @@ class Add extends Component {
               <>
                 <Grid item xs={12} md={8}>
                   <InputTextField
-                    name="nameDescription"
+                    name='nameDescription'
                     onChange={this.handleChange}
                     value={nameDescription}
-                    label="Description"
+                    label='Description'
                     multiline
                     rows={3}
-                    placeholder="Description"
+                    placeholder='Description'
                     required
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <InputTextField
-                    name="descriptionTitle"
+                    name='descriptionTitle'
                     onChange={this.handleChange}
                     value={descriptionTitle}
-                    label="Test Instruction heading"
-                    height="11px"
-                    placeholder="Test Instruction heading"
+                    label='Test Instruction heading'
+                    height='11px'
+                    placeholder='Test Instruction heading'
                     required
                   />
                 </Grid>
                 {type === "AE_TEST" && (
                   <Grid item xs={12} md={4}>
                     <InputTextField
-                      name="cutOffScore"
+                      name='cutOffScore'
                       type={"number"}
-                      onKeyDown={evt =>
+                      onKeyDown={(evt) =>
                         (AVOID_INPUT.includes(evt.key) ||
                           // Up arrow and down arrow disabling
                           evt.keyCode === 38 ||
@@ -1348,7 +1411,7 @@ class Add extends Component {
                         evt.preventDefault()
                       }
                       // onChange={this.handleChange}
-                     
+
                       onChange={(e) => {
                         if (e.target.value.length <= 3) {
                           this.handleChange(e);
@@ -1358,7 +1421,7 @@ class Add extends Component {
                       }}
                       value={cutOffScore}
                       label={"Cut Off"}
-                      height="11px"
+                      height='11px'
                       placeholder={"Cut Off"}
                       required
                     />
@@ -1375,88 +1438,95 @@ class Add extends Component {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} md={8}>
-                  {this.renderFile()}
-                  {this.renderFileName() && (
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        marginTop: "5px",
-                      }}
-                    >
-                      <Typography>{this.renderFileName()}</Typography>
-                      <IconButton
-                        color={"secondary"}
-                        size="small"
-                        onClick={this.handleFileDelete}
+
+                {aedept === "assessment_engine_admin" && (
+                  <Grid item xs={12} md={8}>
+                    {this.renderFile()}
+                    {this.renderFileName() && (
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "5px",
+                          marginTop: "5px",
+                        }}
                       >
-                        <DeleteRoundedIcon />
-                      </IconButton>
-                    </span>
-                  )}
-                </Grid>
-                <Grid item md={4} container spacing={3}>
-                  <Grid item md={12}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={scheduleTest}
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              this.setState({
-                                eventDate: new Date(),
-                                eventEndDate: new Date(),
-                              });
-                            }else{
-                              this.setState({
-                                eventDate: null,
-                                eventEndDate: null,
-                              });
-                            }
-                            this.setState({ scheduleTest: e.target.checked });
-                          }}
-                          name="scheduleTest"
-                          color="primary"
-                        />
-                      }
-                      label="Schedule test"
-                    />
+                        <Typography>{this.renderFileName()}</Typography>
+                        <IconButton
+                          color={"secondary"}
+                          size='small'
+                          onClick={this.handleFileDelete}
+                        >
+                          <DeleteRoundedIcon />
+                        </IconButton>
+                      </span>
+                    )}
                   </Grid>
-                  {scheduleTest && (
-                    <React.Fragment>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Grid item md={6}>
-                          <DateTimePicker
-                            label="Start date and time"
-                            inputVariant="outlined"
-                            value={eventDate}
-                            disablePast
-                            onChange={(value) => 
-                              // {
-                              this.setState({ eventDate: value })
-                              // console.log(this.state.eventDate,"1111111")}
-                            }
+                )}
+
+                {aedept === "assessment_engine_admin" && (
+                  <Grid item md={4} container spacing={3}>
+                    <Grid item md={12}>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={scheduleTest}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                this.setState({
+                                  eventDate: new Date(),
+                                  eventEndDate: new Date(),
+                                });
+                              } else {
+                                this.setState({
+                                  eventDate: null,
+                                  eventEndDate: null,
+                                });
+                              }
+                              this.setState({ scheduleTest: e.target.checked });
+                            }}
+                            name='scheduleTest'
+                            color='primary'
                           />
-                        </Grid>
-                        <Grid item md={6}>
-                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                        }
+                        label='Schedule test'
+                      />
+                    </Grid>
+                    {scheduleTest && (
+                      <React.Fragment>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <Grid item md={6}>
                             <DateTimePicker
-                              label="End date and time"
-                              inputVariant="outlined"
+                              label='Start date and time'
+                              inputVariant='outlined'
+                              value={eventDate}
                               disablePast
-                              value={eventEndDate}
-                              onChange={(value) =>
-                                this.setState({ eventEndDate: value })
+                              onChange={
+                                (value) =>
+                                  // {
+                                  this.setState({ eventDate: value })
+                                // console.log(this.state.eventDate,"1111111")}
                               }
                             />
-                          </MuiPickersUtilsProvider>
-                        </Grid>
-                      </MuiPickersUtilsProvider>
-                    </React.Fragment>
-                  )}
-                </Grid>
+                          </Grid>
+                          <Grid item md={6}>
+                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                              <DateTimePicker
+                                label='End date and time'
+                                inputVariant='outlined'
+                                disablePast
+                                value={eventEndDate}
+                                onChange={(value) =>
+                                  this.setState({ eventEndDate: value })
+                                }
+                              />
+                            </MuiPickersUtilsProvider>
+                          </Grid>
+                        </MuiPickersUtilsProvider>
+                      </React.Fragment>
+                    )}
+                  </Grid>
+                )}
               </>
             ) : (
               <Divider />
@@ -1502,6 +1572,10 @@ class Add extends Component {
               anchorEl={anchorEl}
               popUpId={popUpId}
               handleDelete={handleDelete}
+              onCopyQuestion={handleCopyQuestion}
+              department={department}
+              calibrationTestCopyContent={calibrationTestCopyContent}
+              topicTestCopySections={topicTestCopySections}
             />
           )}
           <DialogComponent
@@ -1536,7 +1610,7 @@ class Add extends Component {
           }}
           open={this.state.loading}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress color='inherit' />
           {/* hello */}
         </Backdrop>
       </>
