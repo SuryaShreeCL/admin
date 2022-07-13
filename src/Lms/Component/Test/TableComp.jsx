@@ -122,9 +122,10 @@ export default function TableComp(props) {
   //Sort Icons
   const renderIcons = (field, order, index) => {
     const typeIndex = field.indexOf("type");
+    const queIndex = field.indexOf("queValue");
     const courseNameIndex = field.indexOf("courseName");
     const statusIndex = field.indexOf("wkStatusValue");
-    const fields = ["type", "courseName", "wkStatusValue"];
+    const fields = ["type", "courseName", "wkStatusValue","queValue"];
     if (index === 1 && order[typeIndex] === "ASC") {
       return (
         <IconBox>
@@ -207,7 +208,49 @@ export default function TableComp(props) {
           />
         </IconBox>
       );
-    } else if (index === 6 && order[statusIndex] === "ASC") {
+    } 
+
+
+    else if (index === 3 && order[ queIndex ] === "ASC") {
+      return (
+        <IconBox>
+          <img
+            src={Blue}
+            alt="Up arrow"
+            className={"up_arrow rotate"}
+            id={"queValue"}
+            onClick={() => handleSortBlue( queIndex )}
+          />
+          <img
+            src={Blur}
+            alt="Down arrow"
+            className={"down_arrow rotate"}
+            id={"queValue"}
+            onClick={() => handleSortBlur( queIndex )}
+          />
+        </IconBox>
+      );
+    } else if (index === 3 && order[ queIndex ] === "DESC") {
+      return (
+        <IconBox>
+          <img
+            src={Blur}
+            alt="Up arrow"
+            className={"up_arrow"}
+            id={"queValue"}
+            onClick={() => handleSortBlur( queIndex )}
+          />
+          <img
+            src={Blue}
+            alt="Down arrow"
+            className={"down_arrow"}
+            id={"queValue"}
+            onClick={() => handleSortBlue( queIndex )}
+          />
+        </IconBox>
+      );
+    } 
+    else if (index === 6 && order[statusIndex] === "ASC") {
       return (
         <IconBox>
           <img
@@ -279,8 +322,10 @@ export default function TableComp(props) {
               <HeadCell>
                 <HeadInline>
                   {item}
-                  {(index === 1 || index === 4 || index === 6) &&
-                    renderIcons(field, order, index)}
+                  {aedept !== "assessment_engine_admin" ?
+                  ((index === 1 || index === 4 || index === 6) &&
+                    renderIcons(field, order, index)): ((index === 1 || index === 6) &&
+                    renderIcons(field, order, index))}
                 </HeadInline>
               </HeadCell>
             ))}
@@ -337,6 +382,7 @@ export default function TableComp(props) {
                   <BodyCell>
                     {handleShowThreeDot(role, item.status) && (
                       <div>
+                        {item.status !== "Expired" ?
                         <IconButton
                           aria-controls={item.id}
                           aria-haspopup="true"
@@ -346,7 +392,7 @@ export default function TableComp(props) {
                           style={{ padding: "0px" }}
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />
-                        </IconButton>
+                        </IconButton>:<></>}
                         <Menu
                           role={role}
                           anchorEl={anchorEl}

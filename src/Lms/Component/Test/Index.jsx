@@ -217,10 +217,13 @@ class TestLanding extends Component {
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
-      openStatus: !this.state.openStatus,
+      openStatus:status === "Expired"? false:!this.state.openStatus,
       clickableStatus: status,
+      
     });
+    
   };
+
 
   handleClose = () => {
     this.setState({ anchorEl: null, popUpId: null, openStatus: false });
@@ -234,11 +237,12 @@ class TestLanding extends Component {
       );
     }
     if (text === "Archive") {
+      var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "archive",
         icon: <ArchiveIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
         title: "Are you sure you want to Archive?",
-        body: topicName,
+        body: deptname !== "assessment_engine_admin"? topicName : "",
         button1: "No",
         button2: "Yes",
       };

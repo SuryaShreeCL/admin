@@ -180,6 +180,7 @@ class CourseLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
+    var deptname = window.sessionStorage.getItem("department");
     if (text === 'Edit') {
       this.props.history.push(lms_add_topic + '?topic_id=' + topicId);
     } else if (text === 'Archive') {
@@ -187,7 +188,7 @@ class CourseLanding extends Component {
         type: 'archive',
         icon: <UnarchiveIcon style={{ fontSize: '48px', fill: '#1093FF' }} />,
         title: 'Are you sure you want to Archive?',
-        body: topicName,
+        body: deptname !== "assessment_engine_admin"? topicName : "",
         button1: 'No',
         button2: 'Yes',
       };

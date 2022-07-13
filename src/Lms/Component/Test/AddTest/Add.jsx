@@ -70,7 +70,8 @@ const dialogContent = {
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
-  title: "Are you sure you want to delete this section ",
+  title: "Are you sure you want to delete this section ?",
+  // body: calibrationSectionTabLabels,
   button1: "No",
   button2: "Yes",
   
@@ -126,9 +127,11 @@ class Add extends Component {
       loading : false
 
     };
+   
   }
  
   componentDidMount() {
+   
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
       this.setState({
@@ -171,6 +174,8 @@ class Add extends Component {
       }
     });
 
+
+
     // Editable Mode
     if (testQuestionSetId !== undefined) {
       deptName === "assessment_engine_admin"
@@ -180,6 +185,8 @@ class Add extends Component {
   }
 
   componentDidUpdate(prevProps,prevState) {
+
+    
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -217,11 +224,14 @@ class Add extends Component {
 
       if (questionSet.type === "AE_TEST") {
         let tabArr = [];
+       
         questionSet.testSection.map((i, index) => {
           tabArr.push({
             tabLabel: `Section ${index + 1}`,
           });
+        
         });
+        console.log(tabArr);
         this.setState({
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
@@ -854,11 +864,12 @@ class Add extends Component {
                   });
                   this.handleBannerUpload(calibrationTestResponse?.data?.id);
                 }                                              
-                else {                  
+                else { 
+                  const aedept = window.sessionStorage.getItem("department");                 
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
-                      message: "Network Failed",
+                      message:aedept !== "assessment_engine_admin"? "Network Failed":"Session Expired",
                       loading: false,
                     });                                    
                 }

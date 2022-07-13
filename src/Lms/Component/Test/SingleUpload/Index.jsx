@@ -409,6 +409,7 @@ export class Index extends Component {
   };
 
   handleDeleteChoiceClick = (ind) => {
+    console.log(ind,"ind");
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
@@ -897,6 +898,8 @@ export class Index extends Component {
           <Question {...questionProps} />
           <Answer
             handleDeleteChoiceClick={this.handleDeleteChoiceClick}
+            
+            
             {...answerProps}
           />
           <Explanation {...explanationProps} />
