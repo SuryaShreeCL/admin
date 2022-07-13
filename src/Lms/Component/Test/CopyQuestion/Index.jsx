@@ -86,7 +86,7 @@ function Index() {
     (state) => state.TestReducer
   );
   const tableData = testData;
-  console.log(testData, "testData");
+  console.log(filterData, "testData");
 
   useEffect(() => {
     dispatch(getFilters());

@@ -77,3 +77,9 @@ export const STUDENT = {
 export const TESTDOWNLOAD = {
   testQuestionSetId: "testQuestionSetId",
 };
+
+export const PASSAGE = {
+  getAllPassages: "getAllPassages",
+  postAdd: "postAdd",
+  postEdit: "postEdit",
+};
