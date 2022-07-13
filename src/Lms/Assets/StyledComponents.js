@@ -379,7 +379,7 @@ export const Question = styled.div`
   padding-top: 17px;
   position: relative;
   opacity: ${({ disabled }) => disabled && 0.5};
-  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  cursor: ${({ pointer }) => (pointer ? "pointer" : "default")};
 
   &::before {
     content: " ";
@@ -388,7 +388,7 @@ export const Question = styled.div`
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: ${({ disabled }) => disabled && 1};
     border-radius: 8px;
     background: ${({ disabled }) => disabled && "rgba(0, 0, 0, 0.1)"};
   }

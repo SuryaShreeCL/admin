@@ -687,15 +687,13 @@ function RootContainer(props) {
           path: wallPath,
           items: [],
         },
-      ];
-      if (window.sessionStorage.getItem("role") === "LMSCHECKER") {
-        lms_nav_items.push({
+        {
           icon: <></>,
           title: "Passage",
           path: lms_passage,
           items: [],
-        });
-      }
+        },
+      ];
       setSideNav(lms_nav_items);
     } else if (
       window.sessionStorage.getItem("role") === "SUPER ADMIN" &&

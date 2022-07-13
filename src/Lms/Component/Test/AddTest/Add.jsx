@@ -817,7 +817,6 @@ class Add extends Component {
           !this.state.scheduleTest)
         // courseId !== undefined
       ) {
-        // console.log(eventDate, eventEndDate,"1234")
         if (
           this.state.scheduleTest &&
           moment(eventEndDate).isSameOrBefore(eventDate)
@@ -889,10 +888,6 @@ class Add extends Component {
                 calibrationTestSet,
                 (calibrationTestResponse) => {
                   if (calibrationTestResponse?.success) {
-                    console.log(
-                      calibrationTestResponse,
-                      "calibrationTestResponse"
-                    );
                     // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
                     var message =
                       testQuestionSetId === null ? "ADDED" : "UPDATED";

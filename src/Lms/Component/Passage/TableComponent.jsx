@@ -8,8 +8,8 @@ import {
   HeadInline,
   TableBox,
 } from "../../Assets/StyledTableComponents";
+import LatexViewer from "../../Utils/LatexViewer";
 import Menu from "./Menu";
-import { TableData } from "./TableData";
 
 const handleShowThreeDot = (role, passage) => {
   let deptName = window.sessionStorage.getItem("department");
@@ -22,8 +22,9 @@ function TableComponent({
   handleOptions,
   anchorEl,
   passageId,
+  passageData,
 }) {
-  const headText = ["Passage Name", "Date", "Action"];
+  const headText = ["Passage Name", "Description", "Action"];
 
   return (
     <TableBox>
@@ -40,29 +41,35 @@ function TableComponent({
           </TableRow>
         </Head>
         <TableBody>
-          {TableData.map((item, index) => {
-            return (
-              <TableRow style={{ border: "0 0 0 0" }}>
-                <BoldCell>{item.passageName}</BoldCell>
-                <BoldCell>{item.date}</BoldCell>
-                <BoldCell>
-                  {handleShowThreeDot() && (
-                    <>
-                      <IconButton
-                        aria-controls={item.id}
-                        aria-haspopup="true"
-                        onClick={handleThreeDotClick}
-                        id={item.id}
-                        style={{ padding: "0px" }}
-                      >
-                        <MoreVertRounded style={{ fill: "#1093FF" }} />
-                      </IconButton>
-                    </>
-                  )}
-                </BoldCell>
-              </TableRow>
-            );
-          })}
+          {passageData &&
+            passageData.length !== 0 &&
+            passageData.map((item) => {
+              return (
+                <TableRow style={{ border: "0 0 0 0" }}>
+                  <BoldCell>{item.name}</BoldCell>
+                  <BoldCell>
+                    <div style={{ flexGrow: 1 }}>
+                      <LatexViewer math={item.content} />
+                    </div>
+                  </BoldCell>
+                  <BoldCell>
+                    {handleShowThreeDot() && (
+                      <>
+                        <IconButton
+                          aria-controls={item.id}
+                          aria-haspopup='true'
+                          onClick={(e) => handleThreeDotClick(e, item)}
+                          id={item.id}
+                          style={{ padding: "0px" }}
+                        >
+                          <MoreVertRounded style={{ fill: "#1093FF" }} />
+                        </IconButton>
+                      </>
+                    )}
+                  </BoldCell>
+                </TableRow>
+              );
+            })}
         </TableBody>
       </Table>
       <Menu

@@ -1,164 +1,194 @@
 import {
+  Box,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
   TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
-import { Container, Divider, H1, H2 } from "../../Assets/StyledComponents";
-import PlusButton from "../../Utils/PlusButton";
-import TableComponent from "./TableComponent";
-import { Dialog } from "@material-ui/core";
-import { InputTextField } from "../../Utils/TextField";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import MySnackBar from "../../../Component/MySnackBar";
 import { isEmptyString } from "../../../Component/Validation";
+import {
+  Container,
+  Divider,
+  FlexView,
+  H1,
+  H2,
+} from "../../Assets/StyledComponents";
+import { EditorBox } from "../../Assets/StyledTest";
+import { getAllPassages, postAdd } from "../../Redux/Action/Passage";
+import PlusButton from "../../Utils/PlusButton";
+import TextEditor from "../../Utils/TextEditor";
+import TableComponent from "./TableComponent";
+import React from "react";
 
 function Index() {
-  //   const handleOptions = (text, topicName, topicId) => {
-  //     if (text === "Edit") {
-  //       this.props.history.push(lms_add_topic + "?topic_id=" + topicId);
-  //     }
-  //   };
   const [state, setState] = useState({
     show: false,
-    passageErr: "",
-    descriptionErr: "",
-    passage: "",
-    description: "",
-    openStatus: false,
-    clickableStatus: false,
+    name: null,
+    content: null,
+    text: "",
     passageId: null,
     anchorEl: null,
+    snackMsg: null,
+    snackVariant: null,
+    snackOpen: false,
   });
   const {
     show,
-    passageErr,
-    descriptionErr,
-    passage,
-    description,
-    openStatus,
-    clickableStatus,
+    name,
+    content,
     passageId,
     anchorEl,
+    text,
+    snackMsg,
+    snackVariant,
+    snackOpen,
   } = state;
-  const handleClickOpen = (e) => {
+
+  const { nameList } = useSelector((state) => state.PassageReducer);
+  const passageData = nameList;
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllPassages());
+  }, []);
+
+  const handleClickOpen = () => {
     setState({
       ...state,
       show: true,
+      name: null,
+      content: null,
+      text: "Add",
     });
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = () => {
     setState({
+      ...state,
       show: false,
     });
   };
 
-  const handleThreeDotClick = (event) => {
-    // console.log(event.target.id, "dfghjk");
+  const handleThreeDotClick = (event, data) => {
     setState({
       ...state,
       anchorEl: event.currentTarget,
       passageId: event.currentTarget.id,
+      name: data.name,
+      content: data.content,
     });
   };
 
   const handleClose = () => {
-    this.setState({ anchorEl: null, passageId: null });
+    setState({
+      ...state,
+      anchorEl: null,
+      passageId: null,
+      name: null,
+      content: null,
+    });
   };
 
-  const handleOptions = (text, passageId) => {
-    if (text === "Edit") {
+  const handleOptions = (name, passageId) => {
+    if (name === "Edit") {
       setState({
         ...state,
         show: true,
         anchorEl: null,
         passageId: passageId,
+        text: "Edit",
       });
     }
   };
 
   const handleSave = () => {
     let helperTxt = "Please fill the Required Field";
-    isEmptyString(passage)
-      ? setState({ passageErr: helperTxt })
-      : setState({ passageErr: "" });
 
-    isEmptyString(description)
-      ? setState({ descriptionErr: helperTxt })
-      : setState({ descriptionErr: "" });
-
-    // if (
-    //   !isEmptyString(this.state.username) &&
-    //   !isEmptyString(this.state.password) &&
-    //   !isEmptyArray(this.state.department)
-    // ) {
-    //   let reqBody = {
-    //     id: null, // if updating the user details mean pass the id
-    //     username: this.state.username,
-    //     password: this.state.password,
-    //     userDetails: this.state.department,
-    //   };
-    //       setState({
-    //         snackMsg: "Add sucessfully",
-    //         snackOpen: true,
-    //         snackVariant: "success",
-    //         show: false,
-    //       });
-    //       this.props.editAdmin(reqBody);
-    //       console.log(reqBody);
+    if (!isEmptyString(name) && !isEmptyString(content)) {
+      let reqBody = {
+        name: name,
+        content: content,
+      };
+      dispatch(
+        postAdd(reqBody, (res) => {
+          if (res.success) {
+            dispatch(getAllPassages());
+            setState({
+              ...state,
+              snackMsg: "Added Successfully",
+              snackOpen: true,
+              snackVariant: "success",
+              show: false,
+            });
+          } else {
+            setState({
+              ...state,
+              snackMsg: res.message,
+              snackOpen: true,
+              snackVariant: "error",
+            });
+          }
+        })
+      );
+    } else {
+      setState({
+        ...state,
+        snackOpen: true,
+        snackMsg: helperTxt,
+        snackVariant: "error",
+      });
+    }
   };
 
   const handleUpdate = () => {
-    let helperTxt = "Please fill the Required Field";
-    isEmptyString(passage)
-      ? setState({ passageErr: helperTxt })
-      : setState({ passageErr: "" });
+    let helperTxt = "Please fill the required field";
+    if (!isEmptyString(name) && !isEmptyString(content)) {
+      let responseBody = {
+        id: passageId,
+        name: name,
+        content: content,
+      };
 
-    isEmptyString(description)
-      ? setState({ descriptionErr: helperTxt })
-      : setState({ descriptionErr: "" });
-
-    // if (
-    //   !isEmptyString(this.state.username) &&
-    //   !isEmptyArray(this.state.department)
-    // ) {
-    //   let reqBody = {
-    //     id: this.state.id, // if updating the user details mean pass the id
-    //     username: this.state.username,
-    //     password: this.state.password,
-    //     userDetails: this.state.department,
-    //   };
-    //   this.setState({
-    //     snackMsg: "Update sucessfully",
-    //     snackOpen: true,
-    //     snackVariant: "success",
-    //     show: false,
-    //   });
-    //   this.props.editAdmin(reqBody);
-
-    //   console.log(reqBody);
-    // }
+      dispatch(
+        postAdd(responseBody, (res) => {
+          if (res.success) {
+            dispatch(getAllPassages());
+            setState({
+              ...state,
+              snackMsg: "Updated Successfully",
+              snackOpen: true,
+              snackVariant: "success",
+              show: false,
+            });
+          } else {
+            setState({
+              ...state,
+              snackMsg: res.message,
+              snackOpen: true,
+              snackVariant: "error",
+            });
+          }
+        })
+      );
+    } else {
+      setState({
+        ...state,
+        snackOpen: true,
+        snackMsg: helperTxt,
+        snackVariant: "error",
+      });
+    }
   };
 
-  const handleEdit = () => {
-    // console.log(data, "________________");
-    setState({
-      passage: passage,
-      description: description,
-      show: true,
-      passageErr: "",
-      descriptionErr: "",
-      //   id: data.id,
-      //   username: data.username,
-      //   department: data.departments,
-      //   show: true,
-      //   passwordEnable: true,
-      //   passwordErr: "",
-      //   usernameErr: "",
-      //   departmentErr: "",
-    });
+  const handleDescriptionChange = (e, editor) => {
+    const data = editor.getData();
+    setState({ ...state, content: data });
   };
 
   return (
@@ -168,19 +198,18 @@ function Index() {
           <Grid
             item
             container
-            alignItems="center"
-            justifyContent="space-between"
+            alignItems='center'
+            justifyContent='space-between'
             spacing={2}
-            style={{ marginBottom: "35px" }}
           >
             <Grid item>
-              <H1>Passages</H1>
+              <H1>{"Passage"}</H1>
             </Grid>
             <div>
-              <Grid item container alignItems="center" spacing={2}>
+              <Grid item container alignItems='center' spacing={2}>
                 <Grid item>
                   <PlusButton onClick={(e) => handleClickOpen()}>
-                    Add Passage
+                    {"Add Passage"}
                   </PlusButton>
                 </Grid>
               </Grid>
@@ -190,74 +219,86 @@ function Index() {
           <Grid item>
             <H2>List of Passages</H2>
           </Grid>
-          <TableComponent
-            handleThreeDotClick={handleThreeDotClick}
-            handleOptions={handleOptions}
-            handleClose={handleClose}
-            anchorEl={anchorEl}
-            passageId={passageId}
-          />
+          {passageData && (
+            <TableComponent
+              handleThreeDotClick={handleThreeDotClick}
+              handleOptions={handleOptions}
+              handleClose={handleClose}
+              anchorEl={anchorEl}
+              passageId={passageId}
+              passageData={passageData.data}
+            />
+          )}
+          <Box height={"30px"} />
         </Grid>
       </Container>
-      {console.log(passageId, "ERDFGHJ")}
-      <Dialog open={show} maxWidth="sm" fullWidth>
+      <Dialog open={show} maxWidth='md' fullWidth>
         <DialogTitle>
-          <H1>{passageId !== null ? "Edit Passage" : "Add Passage"}</H1>
+          <H1>{`${text} Passage`}</H1>
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item md={12}>
               <TextField
-                variant="outlined"
-                color="primary"
-                label="Passage Name"
+                variant='outlined'
+                color='primary'
+                label='Passage Name'
+                value={name}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    name: e.target.value,
+                  })
+                }
                 fullWidth
-                // error={passageErr?.length > 0}
-                // helperText={passageErr}
-                // value={passage}
-                // onChange={(e) =>
-                //   setState({ passage: e.target.value, passageErr: "" })
-                // }
               />
             </Grid>
             <Grid item md={12}>
-              <TextField
-                variant="outlined"
-                label="Description"
-                fullWidth
-                multiline
-                rows={3}
-                // error={descriptionErr?.length > 0}
-                // helperText={descriptionErr}
-                // onChange={(e) =>
-                //   setState({
-                //     description: e.target.value,
-                //     descriptionErr: "",
-                //   })
-                // }
-              />
+              <EditorBox>
+                <TextEditor
+                  onChange={(event, editor) =>
+                    handleDescriptionChange(event, editor)
+                  }
+                  data={content}
+                />
+              </EditorBox>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="small"
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <div style={{ width: "20px" }} />
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={passageId !== null ? handleUpdate : handleSave}
-          >
-            {passageId !== null ? "Update" : "Save"}
-          </Button>
+          <FlexView gap={"20px"} padding={"20px !important"} width={"300px"}>
+            <Button
+              color={"primary"}
+              variant={"outlined"}
+              onClick={handleCancel}
+              fullWidth
+            >
+              {"Cancel"}
+            </Button>
+            <Button
+              color={"primary"}
+              variant={"contained"}
+              onClick={passageId !== null ? handleUpdate : handleSave}
+              fullWidth
+            >
+              {text === "Edit" ? "Update" : "Save"}
+            </Button>
+          </FlexView>
         </DialogActions>
       </Dialog>
+      <MySnackBar
+        snackMsg={snackMsg}
+        snackVariant={snackVariant}
+        snackOpen={snackOpen}
+        onClose={() =>
+          setState({
+            ...state,
+            snackOpen: false,
+            snackMsg: "",
+            snackVariant: "",
+          })
+        }
+      />
     </>
   );
 }

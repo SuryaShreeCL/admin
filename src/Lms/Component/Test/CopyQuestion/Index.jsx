@@ -91,7 +91,7 @@ function Index() {
   };
 
   const location = useLocation();
-  const { testQuestionSetId } = useParams();
+  const { testQuestionSetId, sectionId } = useParams();
   const history = useHistory();
   const { courses, subjects, concepts } = useSelector(
     (state) => state.CourseMaterialReducer
@@ -339,9 +339,10 @@ function Index() {
               <Question
                 id={item.id}
                 disabled={disabledQuestion(item.id)}
+                pointer={disabledQuestion(item.id)}
                 onClick={handleCheckboxClick}
               >
-                <div className='flex-filler'>
+                <div className="flex-filler">
                   {index + 1}. &nbsp;&nbsp;
                   <div style={{ flexGrow: 1 }}>
                     <LatexViewer math={item.question} />
@@ -429,32 +430,34 @@ function Index() {
   };
 
   const handleCopy = () => {
+    let requestBody = {
+      testQuestionSetId: testQuestionSetId,
+      questionList: selectedQuestions,
+      testSectionId: sectionId ? sectionId : null,
+    };
+
     dispatch(
-      copyQuestion(
-        testQuestionSetId,
-        { questionList: selectedQuestions },
-        (res) => {
-          if (res.success) {
-            handleClose();
-            setSnack({
-              snackOpen: true,
-              message: res.message,
-              color: "success",
-            });
-            setTimeout(() => {
-              history.push(
-                `${lms_add_test}?testQuestionSetId=${testQuestionSetId}`
-              );
-            }, 3000);
-          } else {
-            setSnack({
-              snackOpen: true,
-              message: res.message,
-              color: "error",
-            });
-          }
+      copyQuestion(requestBody, (res) => {
+        if (res.success) {
+          handleClose();
+          setSnack({
+            snackOpen: true,
+            message: res.message,
+            color: "success",
+          });
+          setTimeout(() => {
+            history.push(
+              `${lms_add_test}?testQuestionSetId=${testQuestionSetId}`
+            );
+          }, 3000);
+        } else {
+          setSnack({
+            snackOpen: true,
+            message: res.message,
+            color: "error",
+          });
         }
-      )
+      })
     );
   };
 
@@ -501,7 +504,7 @@ function Index() {
         )}
       </Container>
 
-      <Dialog open={open} maxWidth='lg' fullWidth>
+      <Dialog open={open} maxWidth="lg" fullWidth>
         <DialogTitle style={{ padding: "24px" }}>
           <SubTitle>{"List of Question"}</SubTitle>
         </DialogTitle>
@@ -515,8 +518,8 @@ function Index() {
             minWidth={"300px"}
           >
             <Button
-              color='primary'
-              variant='outlined'
+              color="primary"
+              variant="outlined"
               className={"button-style"}
               onClick={handleClose}
               fullWidth
@@ -524,8 +527,8 @@ function Index() {
               {"Cancel"}
             </Button>
             <Button
-              color='primary'
-              variant='contained'
+              color="primary"
+              variant="contained"
               className={"button-style"}
               onClick={handleCopy}
               disabled={selectedQuestions.length === 0}
