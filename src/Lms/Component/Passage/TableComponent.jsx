@@ -43,7 +43,6 @@ function TableComponent({
           {passageData &&
             passageData.length !== 0 &&
             passageData.map((item) => {
-              console.log(passageData, "fghjk");
               return (
                 <TableRow style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>

@@ -130,9 +130,9 @@ function Index() {
 
     if (!isEmptyString(name) && !isEmptyString(content)) {
       let responseBody = {
+        id: passageId,
         name: name,
         content: content,
-        passageId: passageId,
       };
       setState({
         ...state,
