@@ -151,7 +151,7 @@ function StudyPlan({ studentId, courseId }) {
           date: moment(new Date(newData.date)).format("YYYY-MM-DD"),
         };
         dispatch(
-          updateStudyPlan(studentId, oldData.id, obj, (res) => {
+          updateStudyPlan(studentId, oldData.id, oldData.taskId, obj, (res) => {
             if (res.success) {
               // setState({
               //   ...state,

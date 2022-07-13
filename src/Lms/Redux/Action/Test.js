@@ -1027,11 +1027,11 @@ export const getTopicListByConceptId = (conceptId, callback) => {
   };
 };
 
-export const copyQuestion = (testSectionId, data, callback) => {
+export const copyQuestion = (data, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return () => {
     axios
-      .put(`${URL}/api/v1/lms/test/testQuestionSet/${testSectionId}`, data, {
+      .put(`${URL}/api/v1/lms/test/testQuestionSet`, data, {
         crossDomain: true,
         headers: {
           admin: "yes",

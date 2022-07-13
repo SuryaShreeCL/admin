@@ -91,7 +91,7 @@ function Index() {
   };
 
   const location = useLocation();
-  const { testQuestionSetId } = useParams();
+  const { testQuestionSetId, sectionId } = useParams();
   const history = useHistory();
   const { courses, subjects, concepts } = useSelector(
     (state) => state.CourseMaterialReducer
@@ -339,6 +339,7 @@ function Index() {
               <Question
                 id={item.id}
                 disabled={disabledQuestion(item.id)}
+                pointer={disabledQuestion(item.id)}
                 onClick={handleCheckboxClick}
               >
                 <div className='flex-filler'>
@@ -429,32 +430,34 @@ function Index() {
   };
 
   const handleCopy = () => {
+    let requestBody = {
+      testQuestionSetId: testQuestionSetId,
+      questionList: selectedQuestions,
+      testSectionId: sectionId ? sectionId : null,
+    };
+
     dispatch(
-      copyQuestion(
-        testQuestionSetId,
-        { questionList: selectedQuestions },
-        (res) => {
-          if (res.success) {
-            handleClose();
-            setSnack({
-              snackOpen: true,
-              message: res.message,
-              color: "success",
-            });
-            setTimeout(() => {
-              history.push(
-                `${lms_add_test}?testQuestionSetId=${testQuestionSetId}`
-              );
-            }, 3000);
-          } else {
-            setSnack({
-              snackOpen: true,
-              message: res.message,
-              color: "error",
-            });
-          }
+      copyQuestion(requestBody, (res) => {
+        if (res.success) {
+          handleClose();
+          setSnack({
+            snackOpen: true,
+            message: res.message,
+            color: "success",
+          });
+          setTimeout(() => {
+            history.push(
+              `${lms_add_test}?testQuestionSetId=${testQuestionSetId}`
+            );
+          }, 3000);
+        } else {
+          setSnack({
+            snackOpen: true,
+            message: res.message,
+            color: "error",
+          });
         }
-      )
+      })
     );
   };
 

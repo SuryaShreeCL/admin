@@ -340,12 +340,18 @@ export const getStudyPlan = (studentId, courseId) => {
   };
 };
 
-export const updateStudyPlan = (studentId, studyPlanId, data, callback) => {
+export const updateStudyPlan = (
+  studentId,
+  studyPlanId,
+  taskId,
+  data,
+  callback
+) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .put(
-        `${DEV_LMS}/api/v1/lms/student/${studentId}/studyPlan/${studyPlanId}`,
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/studyPlan/${studyPlanId}/task/${taskId}`,
         data,
         {
           crossDomain: true,

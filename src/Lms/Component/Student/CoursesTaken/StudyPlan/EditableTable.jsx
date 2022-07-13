@@ -27,6 +27,11 @@ const COLUMNS = [
     hidden: true,
   },
   {
+    field: "taskId",
+    title: "TaskId",
+    hidden: true,
+  },
+  {
     field: "date",
     title: "Date",
     sorting: false,
