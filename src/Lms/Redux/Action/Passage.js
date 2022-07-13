@@ -1,6 +1,7 @@
 import axios from "axios";
 import { PASSAGE } from "../Action";
 import { URL } from "../../../Actions/URL";
+import { catchError } from "../../../Component/Utils/Helpers";
 
 export const getAllPassages = () => {
   let accessToken = sessionStorage.getItem("accessToken");
@@ -27,7 +28,7 @@ export const getAllPassages = () => {
   };
 };
 
-export const postAdd = (data) => {
+export const postAdd = (data, callback) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -39,39 +40,14 @@ export const postAdd = (data) => {
         },
       })
       .then((response) => {
-        // callback(response.data);
+        callback(response.data);
         dispatch({
           type: PASSAGE.postAdd,
           payload: response.data,
         });
       })
       .catch((error) => {
-        // callback(error?.response?.data);
-        console.log(error);
-      });
-  };
-};
-
-export const postEdit = (data) => {
-  let accessToken = sessionStorage.getItem("accessToken");
-  return (dispatch) => {
-    axios
-      .post(`${URL}/api/v1/lms/add/passage`, data, {
-        crossDomain: true,
-        headers: {
-          admin: "yes",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        // callback(response.data);
-        dispatch({
-          type: PASSAGE.postEdit,
-          payload: response.data,
-        });
-      })
-      .catch((error) => {
-        // callback(error?.response?.data);
+        callback(catchError(error));
         console.log(error);
       });
   };

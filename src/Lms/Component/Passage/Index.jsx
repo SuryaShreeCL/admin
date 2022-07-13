@@ -1,28 +1,34 @@
 import {
+  Box,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
   TextField,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { Container, Divider, H1, H2 } from "../../Assets/StyledComponents";
-import PlusButton from "../../Utils/PlusButton";
-import TableComponent from "./TableComponent";
-import { Dialog } from "@material-ui/core";
-import { isEmptyString } from "../../../Component/Validation";
-import { getAllPassages, postAdd, postEdit } from "../../Redux/Action/Passage";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TextEditor from "../../Utils/TextEditor";
-import { EditorBox } from "../../Assets/StyledTest";
 import MySnackBar from "../../../Component/MySnackBar";
+import { isEmptyString } from "../../../Component/Validation";
+import {
+  Container,
+  Divider,
+  FlexView,
+  H1,
+  H2,
+} from "../../Assets/StyledComponents";
+import { EditorBox } from "../../Assets/StyledTest";
+import { getAllPassages, postAdd } from "../../Redux/Action/Passage";
+import PlusButton from "../../Utils/PlusButton";
+import TextEditor from "../../Utils/TextEditor";
+import TableComponent from "./TableComponent";
+import React from "react";
 
 function Index() {
   const [state, setState] = useState({
     show: false,
-    nameErr: null,
-    contentErr: null,
     name: null,
     content: null,
     text: "",
@@ -34,8 +40,6 @@ function Index() {
   });
   const {
     show,
-    nameErr,
-    contentErr,
     name,
     content,
     passageId,
@@ -47,107 +51,144 @@ function Index() {
   } = state;
 
   const { nameList } = useSelector((state) => state.PassageReducer);
-  console.log(nameList);
   const passageData = nameList;
-  console.log(passageData);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllPassages());
   }, []);
 
-  const handleClickOpen = (e) => {
+  const handleClickOpen = () => {
     setState({
       ...state,
       show: true,
+      name: null,
+      content: null,
+      text: "Add",
     });
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = () => {
     setState({
+      ...state,
       show: false,
     });
   };
 
-  const handleThreeDotClick = (event) => {
+  const handleThreeDotClick = (event, data) => {
     setState({
       ...state,
       anchorEl: event.currentTarget,
       passageId: event.currentTarget.id,
+      name: data.name,
+      content: data.content,
     });
   };
 
   const handleClose = () => {
-    setState({ anchorEl: null, passageId: null });
+    setState({
+      ...state,
+      anchorEl: null,
+      passageId: null,
+      name: null,
+      content: null,
+    });
   };
 
-  const handleOptions = (text, passageId) => {
-    if (text === "Edit") {
+  const handleOptions = (name, passageId) => {
+    if (name === "Edit") {
       setState({
         ...state,
         show: true,
         anchorEl: null,
         passageId: passageId,
+        text: "Edit",
       });
     }
   };
 
   const handleSave = () => {
     let helperTxt = "Please fill the Required Field";
-    isEmptyString(name)
-      ? setState({ ...state, nameErr: helperTxt })
-      : setState({ ...state, nameErr: "" });
-
-    isEmptyString(content)
-      ? setState({ ...state, contentErr: helperTxt })
-      : setState({ ...state, contentErr: "" });
 
     if (!isEmptyString(name) && !isEmptyString(content)) {
       let reqBody = {
         name: name,
         content: content,
       };
+      dispatch(
+        postAdd(reqBody, (res) => {
+          if (res.success) {
+            dispatch(getAllPassages());
+            setState({
+              ...state,
+              snackMsg: "Added Successfully",
+              snackOpen: true,
+              snackVariant: "success",
+              show: false,
+            });
+          } else {
+            setState({
+              ...state,
+              snackMsg: res.message,
+              snackOpen: true,
+              snackVariant: "error",
+            });
+          }
+        })
+      );
+    } else {
       setState({
         ...state,
-        snackMsg: "Add sucessfully",
         snackOpen: true,
-        snackVariant: "success",
-        show: true,
+        snackMsg: helperTxt,
+        snackVariant: "error",
       });
-      dispatch(postAdd(reqBody));
     }
   };
 
   const handleUpdate = () => {
-    let helperTxt = "Please fill the Required Field";
-    isEmptyString(name)
-      ? setState({ nameErr: helperTxt })
-      : setState({ nameErr: "" });
-
-    isEmptyString(content)
-      ? setState({ contentErr: helperTxt })
-      : setState({ contentErr: "" });
-
+    let helperTxt = "Please fill the required field";
     if (!isEmptyString(name) && !isEmptyString(content)) {
       let responseBody = {
         id: passageId,
         name: name,
         content: content,
       };
+
+      dispatch(
+        postAdd(responseBody, (res) => {
+          if (res.success) {
+            dispatch(getAllPassages());
+            setState({
+              ...state,
+              snackMsg: "Updated Successfully",
+              snackOpen: true,
+              snackVariant: "success",
+              show: false,
+            });
+          } else {
+            setState({
+              ...state,
+              snackMsg: res.message,
+              snackOpen: true,
+              snackVariant: "error",
+            });
+          }
+        })
+      );
+    } else {
       setState({
         ...state,
-        snackMsg: "Update sucessfully",
         snackOpen: true,
-        snackVariant: "success",
-        show: true,
+        snackMsg: helperTxt,
+        snackVariant: "error",
       });
-      dispatch(postAdd(responseBody));
     }
   };
 
   const handleDescriptionChange = (e, editor) => {
     const data = editor.getData();
-    setState({ ...state, content: data, contentErr: "" });
+    setState({ ...state, content: data });
   };
 
   return (
@@ -157,19 +198,18 @@ function Index() {
           <Grid
             item
             container
-            alignItems="center"
-            justifyContent="space-between"
+            alignItems='center'
+            justifyContent='space-between'
             spacing={2}
-            style={{ marginBottom: "35px" }}
           >
             <Grid item>
-              <H1>Passages</H1>
+              <H1>{"Passage"}</H1>
             </Grid>
             <div>
-              <Grid item container alignItems="center" spacing={2}>
+              <Grid item container alignItems='center' spacing={2}>
                 <Grid item>
                   <PlusButton onClick={(e) => handleClickOpen()}>
-                    Add Passage
+                    {"Add Passage"}
                   </PlusButton>
                 </Grid>
               </Grid>
@@ -189,37 +229,35 @@ function Index() {
               passageData={passageData.data}
             />
           )}
+          <Box height={"30px"} />
         </Grid>
       </Container>
-      <Dialog open={show} maxWidth="md" fullWidth>
+      <Dialog open={show} maxWidth='md' fullWidth>
         <DialogTitle>
-          <H1>{passageId !== null ? "Edit Passage" : "Add Passage"}</H1>
+          <H1>{`${text} Passage`}</H1>
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item md={12}>
               <TextField
-                variant="outlined"
-                color="primary"
-                label="Passage Name"
-                fullWidth
-                error={nameErr?.length > 0}
-                helperText={nameErr}
+                variant='outlined'
+                color='primary'
+                label='Passage Name'
                 value={name}
                 onChange={(e) =>
                   setState({
                     ...state,
                     name: e.target.value,
-                    nameErr: null,
                   })
                 }
+                fullWidth
               />
             </Grid>
             <Grid item md={12}>
               <EditorBox>
                 <TextEditor
-                  onChange={(event, editor, contentErr) =>
-                    handleDescriptionChange(event, editor, contentErr)
+                  onChange={(event, editor) =>
+                    handleDescriptionChange(event, editor)
                   }
                   data={content}
                 />
@@ -228,29 +266,38 @@ function Index() {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            color="primary"
-            variant="outlined"
-            size="small"
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <div style={{ width: "20px" }} />
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={passageId !== null ? handleUpdate : handleSave}
-          >
-            {passageId !== null ? "Update" : "Save"}
-          </Button>
+          <FlexView gap={"20px"} padding={"20px !important"} width={"300px"}>
+            <Button
+              color={"primary"}
+              variant={"outlined"}
+              onClick={handleCancel}
+              fullWidth
+            >
+              {"Cancel"}
+            </Button>
+            <Button
+              color={"primary"}
+              variant={"contained"}
+              onClick={passageId !== null ? handleUpdate : handleSave}
+              fullWidth
+            >
+              {text === "Edit" ? "Update" : "Save"}
+            </Button>
+          </FlexView>
         </DialogActions>
       </Dialog>
       <MySnackBar
         snackMsg={snackMsg}
         snackVariant={snackVariant}
         snackOpen={snackOpen}
-        onClose={() => setState({ snackOpen: false })}
+        onClose={() =>
+          setState({
+            ...state,
+            snackOpen: false,
+            snackMsg: "",
+            snackVariant: "",
+          })
+        }
       />
     </>
   );

@@ -8,6 +8,7 @@ import {
   HeadInline,
   TableBox,
 } from "../../Assets/StyledTableComponents";
+import LatexViewer from "../../Utils/LatexViewer";
 import Menu from "./Menu";
 
 const handleShowThreeDot = (role, passage) => {
@@ -46,14 +47,18 @@ function TableComponent({
               return (
                 <TableRow style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
-                  <BoldCell>{item.content}</BoldCell>
+                  <BoldCell>
+                    <div style={{ flexGrow: 1 }}>
+                      <LatexViewer math={item.content} />
+                    </div>
+                  </BoldCell>
                   <BoldCell>
                     {handleShowThreeDot() && (
                       <>
                         <IconButton
                           aria-controls={item.id}
-                          aria-haspopup="true"
-                          onClick={handleThreeDotClick}
+                          aria-haspopup='true'
+                          onClick={(e) => handleThreeDotClick(e, item)}
                           id={item.id}
                           style={{ padding: "0px" }}
                         >

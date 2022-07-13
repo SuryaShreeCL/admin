@@ -22,7 +22,6 @@ function FilterComponent({
   topicList,
   onChange,
 }) {
-  console.log(courseId, subjectId, conceptId, testType, topicId);
   return (
     <Grid container spacing={3}>
       <Grid item xs={4} md={4}>
