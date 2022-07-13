@@ -342,7 +342,7 @@ function Index() {
                 pointer={disabledQuestion(item.id)}
                 onClick={handleCheckboxClick}
               >
-                <div className='flex-filler'>
+                <div className="flex-filler">
                   {index + 1}. &nbsp;&nbsp;
                   <div style={{ flexGrow: 1 }}>
                     <LatexViewer math={item.question} />
@@ -504,7 +504,7 @@ function Index() {
         )}
       </Container>
 
-      <Dialog open={open} maxWidth='lg' fullWidth>
+      <Dialog open={open} maxWidth="lg" fullWidth>
         <DialogTitle style={{ padding: "24px" }}>
           <SubTitle>{"List of Question"}</SubTitle>
         </DialogTitle>
@@ -518,8 +518,8 @@ function Index() {
             minWidth={"300px"}
           >
             <Button
-              color='primary'
-              variant='outlined'
+              color="primary"
+              variant="outlined"
               className={"button-style"}
               onClick={handleClose}
               fullWidth
@@ -527,8 +527,8 @@ function Index() {
               {"Cancel"}
             </Button>
             <Button
-              color='primary'
-              variant='contained'
+              color="primary"
+              variant="contained"
               className={"button-style"}
               onClick={handleCopy}
               disabled={selectedQuestions.length === 0}

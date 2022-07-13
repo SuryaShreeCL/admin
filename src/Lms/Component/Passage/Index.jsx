@@ -6,42 +6,56 @@ import {
   Grid,
   TextField,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Divider, H1, H2 } from "../../Assets/StyledComponents";
 import PlusButton from "../../Utils/PlusButton";
 import TableComponent from "./TableComponent";
 import { Dialog } from "@material-ui/core";
-import { InputTextField } from "../../Utils/TextField";
 import { isEmptyString } from "../../../Component/Validation";
+import { getAllPassages, postAdd, postEdit } from "../../Redux/Action/Passage";
+import { useDispatch, useSelector } from "react-redux";
+import TextEditor from "../../Utils/TextEditor";
+import { EditorBox } from "../../Assets/StyledTest";
+import MySnackBar from "../../../Component/MySnackBar";
 
 function Index() {
-  //   const handleOptions = (text, topicName, topicId) => {
-  //     if (text === "Edit") {
-  //       this.props.history.push(lms_add_topic + "?topic_id=" + topicId);
-  //     }
-  //   };
   const [state, setState] = useState({
     show: false,
-    passageErr: "",
-    descriptionErr: "",
-    passage: "",
-    description: "",
-    openStatus: false,
-    clickableStatus: false,
+    nameErr: null,
+    contentErr: null,
+    name: null,
+    content: null,
+    text: "",
     passageId: null,
     anchorEl: null,
+    snackMsg: null,
+    snackVariant: null,
+    snackOpen: false,
   });
   const {
     show,
-    passageErr,
-    descriptionErr,
-    passage,
-    description,
-    openStatus,
-    clickableStatus,
+    nameErr,
+    contentErr,
+    name,
+    content,
     passageId,
     anchorEl,
+    text,
+    snackMsg,
+    snackVariant,
+    snackOpen,
   } = state;
+
+  const { nameList } = useSelector((state) => state.PassageReducer);
+  console.log(nameList);
+  const passageData = nameList;
+  console.log(passageData);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllPassages());
+  }, []);
+
   const handleClickOpen = (e) => {
     setState({
       ...state,
@@ -56,7 +70,6 @@ function Index() {
   };
 
   const handleThreeDotClick = (event) => {
-    // console.log(event.target.id, "dfghjk");
     setState({
       ...state,
       anchorEl: event.currentTarget,
@@ -65,7 +78,7 @@ function Index() {
   };
 
   const handleClose = () => {
-    this.setState({ anchorEl: null, passageId: null });
+    setState({ anchorEl: null, passageId: null });
   };
 
   const handleOptions = (text, passageId) => {
@@ -81,84 +94,60 @@ function Index() {
 
   const handleSave = () => {
     let helperTxt = "Please fill the Required Field";
-    isEmptyString(passage)
-      ? setState({ passageErr: helperTxt })
-      : setState({ passageErr: "" });
+    isEmptyString(name)
+      ? setState({ ...state, nameErr: helperTxt })
+      : setState({ ...state, nameErr: "" });
 
-    isEmptyString(description)
-      ? setState({ descriptionErr: helperTxt })
-      : setState({ descriptionErr: "" });
+    isEmptyString(content)
+      ? setState({ ...state, contentErr: helperTxt })
+      : setState({ ...state, contentErr: "" });
 
-    // if (
-    //   !isEmptyString(this.state.username) &&
-    //   !isEmptyString(this.state.password) &&
-    //   !isEmptyArray(this.state.department)
-    // ) {
-    //   let reqBody = {
-    //     id: null, // if updating the user details mean pass the id
-    //     username: this.state.username,
-    //     password: this.state.password,
-    //     userDetails: this.state.department,
-    //   };
-    //       setState({
-    //         snackMsg: "Add sucessfully",
-    //         snackOpen: true,
-    //         snackVariant: "success",
-    //         show: false,
-    //       });
-    //       this.props.editAdmin(reqBody);
-    //       console.log(reqBody);
+    if (!isEmptyString(name) && !isEmptyString(content)) {
+      let reqBody = {
+        name: name,
+        content: content,
+      };
+      setState({
+        ...state,
+        snackMsg: "Add sucessfully",
+        snackOpen: true,
+        snackVariant: "success",
+        show: true,
+      });
+      dispatch(postAdd(reqBody));
+    }
   };
 
   const handleUpdate = () => {
     let helperTxt = "Please fill the Required Field";
-    isEmptyString(passage)
-      ? setState({ passageErr: helperTxt })
-      : setState({ passageErr: "" });
+    isEmptyString(name)
+      ? setState({ nameErr: helperTxt })
+      : setState({ nameErr: "" });
 
-    isEmptyString(description)
-      ? setState({ descriptionErr: helperTxt })
-      : setState({ descriptionErr: "" });
+    isEmptyString(content)
+      ? setState({ contentErr: helperTxt })
+      : setState({ contentErr: "" });
 
-    // if (
-    //   !isEmptyString(this.state.username) &&
-    //   !isEmptyArray(this.state.department)
-    // ) {
-    //   let reqBody = {
-    //     id: this.state.id, // if updating the user details mean pass the id
-    //     username: this.state.username,
-    //     password: this.state.password,
-    //     userDetails: this.state.department,
-    //   };
-    //   this.setState({
-    //     snackMsg: "Update sucessfully",
-    //     snackOpen: true,
-    //     snackVariant: "success",
-    //     show: false,
-    //   });
-    //   this.props.editAdmin(reqBody);
-
-    //   console.log(reqBody);
-    // }
+    if (!isEmptyString(name) && !isEmptyString(content)) {
+      let responseBody = {
+        id: passageId,
+        name: name,
+        content: content,
+      };
+      setState({
+        ...state,
+        snackMsg: "Update sucessfully",
+        snackOpen: true,
+        snackVariant: "success",
+        show: true,
+      });
+      dispatch(postAdd(responseBody));
+    }
   };
 
-  const handleEdit = () => {
-    // console.log(data, "________________");
-    setState({
-      passage: passage,
-      description: description,
-      show: true,
-      passageErr: "",
-      descriptionErr: "",
-      //   id: data.id,
-      //   username: data.username,
-      //   department: data.departments,
-      //   show: true,
-      //   passwordEnable: true,
-      //   passwordErr: "",
-      //   usernameErr: "",
-      //   departmentErr: "",
-    });
+  const handleDescriptionChange = (e, editor) => {
+    const data = editor.getData();
+    setState({ ...state, content: data, contentErr: "" });
   };
 
   return (
@@ -190,17 +179,19 @@ function Index() {
           <Grid item>
             <H2>List of Passages</H2>
           </Grid>
-          <TableComponent
-            handleThreeDotClick={handleThreeDotClick}
-            handleOptions={handleOptions}
-            handleClose={handleClose}
-            anchorEl={anchorEl}
-            passageId={passageId}
-          />
+          {passageData && (
+            <TableComponent
+              handleThreeDotClick={handleThreeDotClick}
+              handleOptions={handleOptions}
+              handleClose={handleClose}
+              anchorEl={anchorEl}
+              passageId={passageId}
+              passageData={passageData.data}
+            />
+          )}
         </Grid>
       </Container>
-      {console.log(passageId, "ERDFGHJ")}
-      <Dialog open={show} maxWidth="sm" fullWidth>
+      <Dialog open={show} maxWidth="md" fullWidth>
         <DialogTitle>
           <H1>{passageId !== null ? "Edit Passage" : "Add Passage"}</H1>
         </DialogTitle>
@@ -212,30 +203,27 @@ function Index() {
                 color="primary"
                 label="Passage Name"
                 fullWidth
-                // error={passageErr?.length > 0}
-                // helperText={passageErr}
-                // value={passage}
-                // onChange={(e) =>
-                //   setState({ passage: e.target.value, passageErr: "" })
-                // }
+                error={nameErr?.length > 0}
+                helperText={nameErr}
+                value={name}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    name: e.target.value,
+                    nameErr: null,
+                  })
+                }
               />
             </Grid>
             <Grid item md={12}>
-              <TextField
-                variant="outlined"
-                label="Description"
-                fullWidth
-                multiline
-                rows={3}
-                // error={descriptionErr?.length > 0}
-                // helperText={descriptionErr}
-                // onChange={(e) =>
-                //   setState({
-                //     description: e.target.value,
-                //     descriptionErr: "",
-                //   })
-                // }
-              />
+              <EditorBox>
+                <TextEditor
+                  onChange={(event, editor, contentErr) =>
+                    handleDescriptionChange(event, editor, contentErr)
+                  }
+                  data={content}
+                />
+              </EditorBox>
             </Grid>
           </Grid>
         </DialogContent>
@@ -258,6 +246,12 @@ function Index() {
           </Button>
         </DialogActions>
       </Dialog>
+      <MySnackBar
+        snackMsg={snackMsg}
+        snackVariant={snackVariant}
+        snackOpen={snackOpen}
+        onClose={() => setState({ snackOpen: false })}
+      />
     </>
   );
 }
