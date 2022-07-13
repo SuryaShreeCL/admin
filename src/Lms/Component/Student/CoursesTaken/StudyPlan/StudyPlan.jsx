@@ -18,6 +18,8 @@ const DEFAULT_SELECT_OBJECT = {
   title: "Select",
 };
 
+const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
+
 function StudyPlan({ studentId, courseId }) {
   const dispatch = useDispatch();
   const { studyPlanData } = useSelector((state) => state.LmsStudentReducer);
@@ -61,6 +63,8 @@ function StudyPlan({ studentId, courseId }) {
   useEffect(() => {
     if (studentId && courseId) dispatch(getStudyPlan(studentId, courseId));
   }, [studentId, courseId]);
+
+  const role = sessionStorage.getItem("role");
 
   useEffect(() => {
     if (studyPlanData) {
@@ -232,7 +236,7 @@ function StudyPlan({ studentId, courseId }) {
         <Grid item xs={12}>
           <EditableTable
             tableRef={tableRef}
-            onRowUpdate={onRowUpdate}
+            onRowUpdate={ROLES.checker === role ? onRowUpdate : null}
             data={(query) => {
               return new Promise((resolve, reject) => {
                 const { pageSize } = query;
