@@ -525,7 +525,11 @@ export default function Routes(props) {
       <Route exact path={lmsTest} component={TestLanding} />
       <Route exact path={lms_course_taken} component={CourseTaken} />
       <Route exact path={lms_add_test} component={AddTest} />
-      <Route exact path={lms_copy_question} component={CopyQuestion} />
+      <Route
+        exact
+        path={`${lms_copy_question}/:testQuestionSetId/:sectionId?`}
+        component={CopyQuestion}
+      />
       <Route exact path={lms_passage} component={Passage} />
       <Route
         exact

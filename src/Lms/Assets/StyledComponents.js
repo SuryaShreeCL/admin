@@ -220,6 +220,7 @@ export const FlexView = styled(MuiBox)`
   justify-content: space-between;
   align-items: center;
   gap: ${({ gap }) => gap};
+  padding: ${({ padding }) => padding};
 `;
 
 export const TestTitle = styled.div`
@@ -371,16 +372,25 @@ export const Question = styled.div`
   font-size: 14px;
   line-height: 16px;
   color: #052a4e;
-  background: ${({ disabled }) => (disabled ? "lightWhite" : "#ffffff")};
-
   box-shadow: 0px 0px 7px rgba(183, 222, 255, 0.5);
   border-radius: 8px;
   padding: 16px;
   margin: 16px 0 16px 0;
   padding-top: 17px;
+  position: relative;
+  opacity: ${({ disabled }) => disabled && 0.5};
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
 
-  * {
-    color: ${({ disabled }) => disabled && "#BDBDBD"};
+  &::before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    border-radius: 8px;
+    background: ${({ disabled }) => disabled && "rgba(0, 0, 0, 0.1)"};
   }
 `;
 

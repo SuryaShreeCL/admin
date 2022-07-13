@@ -650,7 +650,7 @@ function RootContainer(props) {
       window.sessionStorage.getItem("role") === "LMSCHECKER" ||
       window.sessionStorage.getItem("role") === "LMSEDITOR"
     ) {
-      setSideNav([
+      let lms_nav_items = [
         {
           icon: <></>,
           title: "Student",
@@ -681,14 +681,16 @@ function RootContainer(props) {
           path: wallPath,
           items: [],
         },
-
-        {
+      ];
+      if (window.sessionStorage.getItem("role") === "LMSCHECKER") {
+        lms_nav_items.push({
           icon: <></>,
           title: "Passage",
           path: lms_passage,
           items: [],
-        },
-      ]);
+        });
+      }
+      setSideNav(lms_nav_items);
     } else if (
       window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
       window.sessionStorage.getItem("department") !== "assessment_engine_admin"
@@ -843,10 +845,10 @@ function RootContainer(props) {
           <Collapse
             style={{ minHeight: "70px" }}
             in={menuOpen}
-            timeout="auto"
+            timeout='auto'
             unmountOnExit
           >
-            <List style={{ marginLeft: "25px" }} component="div" disablePadding>
+            <List style={{ marginLeft: "25px" }} component='div' disablePadding>
               {children.map((child, key) => (
                 <MenuItem key={key} item={child} />
               ))}
@@ -880,18 +882,18 @@ function RootContainer(props) {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
-          position="fixed"
-          color="default"
+          position='fixed'
+          color='default'
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
           <Toolbar>
             <IconButton
-              color="inherit"
-              aria-label="open drawer"
+              color='inherit'
+              aria-label='open drawer'
               onClick={handleDrawerOpen}
-              edge="start"
+              edge='start'
               className={clsx(classes.menuButton, open && classes.hide)}
             >
               {/* <MenuIcon /> */}
@@ -903,34 +905,34 @@ function RootContainer(props) {
               alt='CareerLabs'
             /> */}
             <div className={classes.spacer}></div>
-            <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge color="primary">
+            <IconButton color='primary' style={{ marginRight: "10px" }}>
+              <Badge color='primary'>
                 <NotificationsNoneOutlinedIcon />
               </Badge>
             </IconButton>
             <Divider
               style={{ height: "30px", backgroundColor: "#cacaca" }}
-              orientation="vertical"
+              orientation='vertical'
             />
             {/* <GoogleBtn {...props} />       */}
-            <IconButton color="primary" style={{ marginRight: "10px" }}>
-              <Badge color="primary">
+            <IconButton color='primary' style={{ marginRight: "10px" }}>
+              <Badge color='primary'>
                 <InsertInvitationOutlinedIcon />
               </Badge>
             </IconButton>
             <Divider
               style={{ height: "30px", backgroundColor: "#cacaca" }}
-              orientation="vertical"
+              orientation='vertical'
             />
-            <IconButton color="primary" onClick={logout}>
+            <IconButton color='primary' onClick={logout}>
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer
           className={classes.drawer}
-          variant="persistent"
-          anchor="left"
+          variant='persistent'
+          anchor='left'
           open={open}
           classes={{
             paper: classes.drawerPaper,
@@ -981,7 +983,7 @@ function RootContainer(props) {
           {/* <Divider /> */}
         </Drawer>
         <main
-          id="main-container"
+          id='main-container'
           className={clsx(classes.content, {
             [classes.contentShift]: open,
           })}
@@ -1019,7 +1021,7 @@ function RootContainer(props) {
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
       {new Date().getFullYear() + " "}
       CareerLabs

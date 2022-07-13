@@ -69,7 +69,7 @@ function Index() {
     });
   };
 
-  const handleThreeDotClick = (event, data) => {
+  const handleThreeDotClick = (event) => {
     setState({
       ...state,
       anchorEl: event.currentTarget,

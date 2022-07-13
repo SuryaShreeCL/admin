@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import DropDown from "../../Utils/DropDown";
 
 const DEFAULT_OBJ = { id: "default", title: "Select" };
+const SELECT_DEFAULT_OBJECT = {
+  id: "default",
+  title: "Select",
+  disabled: true,
+};
 
 export default function DropDownRack(props) {
   const {
@@ -39,7 +44,12 @@ export default function DropDownRack(props) {
             <DropDown
               label='Course'
               name='course'
-              items={[DEFAULT_OBJ, ...(courses?.data || [])]}
+              items={[
+                testType === "CALIBRATION"
+                  ? DEFAULT_OBJ
+                  : SELECT_DEFAULT_OBJECT,
+                ...(courses?.data || []),
+              ]}
               value={courseId}
               onChange={handleChange}
             />
@@ -48,7 +58,7 @@ export default function DropDownRack(props) {
             <DropDown
               label='Subject'
               name='subject'
-              items={[DEFAULT_OBJ, ...(subjects?.data || [])]}
+              items={[SELECT_DEFAULT_OBJECT, ...(subjects?.data || [])]}
               value={subjectId}
               onChange={handleChange}
               disabled={testType === "CALIBRATION"}
@@ -58,7 +68,7 @@ export default function DropDownRack(props) {
             <DropDown
               label='Concept'
               name='concept'
-              items={[DEFAULT_OBJ, ...(concepts?.data || [])]}
+              items={[SELECT_DEFAULT_OBJECT, ...(concepts?.data || [])]}
               value={conceptId}
               onChange={handleChange}
               disabled={testType === "CALIBRATION"}
@@ -77,7 +87,7 @@ export default function DropDownRack(props) {
             <DropDown
               label='Topic Name'
               name='topicId'
-              items={[DEFAULT_OBJ, ...topicOptions]}
+              items={[SELECT_DEFAULT_OBJECT, ...topicOptions]}
               value={topicId}
               onChange={handleDropDownChange}
               disabled={testType === "CALIBRATION"}

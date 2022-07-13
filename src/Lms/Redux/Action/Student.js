@@ -1,7 +1,7 @@
 import axios from "axios";
 import { STUDENT } from "../Action";
 import { URL } from "../../../Actions/URL";
-import { errorHandler } from "../../../Component/Utils/Helpers";
+import { catchError, errorHandler } from "../../../Component/Utils/Helpers";
 
 const DEV_LMS = URL;
 
@@ -336,6 +336,36 @@ export const getStudyPlan = (studentId, courseId) => {
       .catch((error) => {
         dispatch(errorHandler(STUDENT.getStudyPlan, error, false));
         console.log(error);
+      });
+  };
+};
+
+export const updateStudyPlan = (studentId, studyPlanId, data, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/studyPlan/${studyPlanId}`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.updateStudyPlan,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(errorHandler(STUDENT.updateStudyPlan, error, false));
+        callback(catchError(error.response));
       });
   };
 };

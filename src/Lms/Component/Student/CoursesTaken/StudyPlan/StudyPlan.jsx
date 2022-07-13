@@ -1,77 +1,29 @@
 import { Box, Grid, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FlexView } from "../../../../Assets/StyledComponents";
-import { getStudyPlan } from "../../../../Redux/Action/Student";
-import { DataTable } from "../../../../Utils/DataTable";
+import {
+  getStudyPlan,
+  updateStudyPlan,
+} from "../../../../Redux/Action/Student";
+import { customDateFormat } from "../../../../Utils/HelperFunction";
 import { SelectDropDown } from "../../../../Utils/SelectField";
+import EditableTable from "./EditableTable";
 import React from "react";
-
-const DEFAULT_OBJECT = {
-  id: "default",
-  date: null,
-  topicName: null,
-  conceptName: null,
-  taskName: null,
-  duration: null,
-  status: null,
-};
+import moment from "moment";
+import { SnackBar } from "../../../../Utils/SnackBar";
 
 const DEFAULT_SELECT_OBJECT = {
   id: "all",
   title: "Select",
 };
 
+const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
+
 function StudyPlan({ studentId, courseId }) {
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      hide: true,
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      sortable: false,
-      width: 150,
-    },
-    {
-      field: "topicName",
-      headerName: "Topic Name",
-      sortable: false,
-      width: 360,
-    },
-    {
-      field: "conceptName",
-      headerName: "Concept Name",
-      sortable: false,
-      width: 360,
-    },
-    {
-      field: "taskName",
-      headerName: "Task Name",
-      sortable: false,
-      width: 360,
-    },
-    {
-      field: "duration",
-      headerName: "Duration",
-      sortable: false,
-      headerAlign: "center",
-      align: "center",
-      width: 160,
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      sortable: true,
-      headerAlign: "center",
-      align: "center",
-      width: 160,
-    },
-  ];
   const dispatch = useDispatch();
   const { studyPlanData } = useSelector((state) => state.LmsStudentReducer);
+  const tableRef = useRef();
   const [state, setState] = useState({
     targetDate: null,
     selectedStudyPlan: null,
@@ -79,7 +31,15 @@ function StudyPlan({ studentId, courseId }) {
     filterStudyPlanData: [],
     monthOptions: [],
     month: null,
+    page: 0,
   });
+
+  const [snack, setSnack] = useState({
+    open: false,
+    message: "",
+    color: "",
+  });
+
   const {
     targetDate,
     selectedStudyPlan,
@@ -87,11 +47,24 @@ function StudyPlan({ studentId, courseId }) {
     filterStudyPlanData,
     monthOptions,
     month,
+    page,
   } = state;
+
+  const { open, message, color } = snack;
+
+  const handleSnackClose = () => {
+    setSnack({
+      open: false,
+      message: "",
+      color: "",
+    });
+  };
 
   useEffect(() => {
     if (studentId && courseId) dispatch(getStudyPlan(studentId, courseId));
   }, [studentId, courseId]);
+
+  const role = sessionStorage.getItem("role");
 
   useEffect(() => {
     if (studyPlanData) {
@@ -107,11 +80,14 @@ function StudyPlan({ studentId, courseId }) {
             : [];
         let studyPlanArr =
           data.studyPlanModelList.length !== 0
-            ? data.studyPlanModelList.map((a, i) => ({ id: i + 1, ...a }))
+            ? data.studyPlanModelList.map((a, i) => ({
+                ...a,
+                date: customDateFormat(a.date, "DD/MM/YYYY"),
+              }))
             : [];
-        let monthValue = monthArr[0]?.id;
+        let monthValue = month || monthArr[0]?.id;
         let filterArr = studyPlanArr.filter((a) =>
-          monthValue ? a.month === monthValue : true
+          monthValue && monthValue !== "all" ? a.month === monthValue : true
         );
         setState({
           ...state,
@@ -121,6 +97,7 @@ function StudyPlan({ studentId, courseId }) {
           filterStudyPlanData: filterArr,
           monthOptions: monthArr,
           month: monthValue,
+          page: 0,
         });
       } else {
         setState({
@@ -131,16 +108,79 @@ function StudyPlan({ studentId, courseId }) {
           filterStudyPlanData: [],
           monthOptions: [],
           month: null,
+          page: 0,
         });
       }
+      tableRef.current.onQueryChange();
     }
   }, [studyPlanData]);
 
   const handleChange = (event) => {
-    const { value, name } = event.target;
-    let arr = [...studyPlanList];
-    arr = arr.filter((a) => a.month === value || value === "all");
-    setState({ ...state, [name]: value, filterStudyPlanData: arr });
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        try {
+          const { value, name } = event.target;
+          let arr = [...studyPlanList];
+          arr = arr.filter((a) => a.month === value || value === "all");
+          setState({
+            ...state,
+            [name]: value,
+            filterStudyPlanData: arr,
+            page: 0,
+          });
+          tableRef.current.onQueryChange();
+        } catch (error) {
+          console.log(error);
+        }
+        resolve();
+      }, 1000);
+    });
+  };
+
+  const onRowUpdate = (newData, oldData) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // let dataUpdate = [...studyPlanList];
+        // let index = dataUpdate.findIndex((a) => a.id === oldData.id);
+        // dataUpdate[index] = newData;
+        // let arr = dataUpdate.filter(
+        //   (a) => a.month === month || month === "all"
+        // );
+
+        let obj = {
+          date: moment(new Date(newData.date)).format("YYYY-MM-DD"),
+        };
+        dispatch(
+          updateStudyPlan(studentId, oldData.id, obj, (res) => {
+            if (res.success) {
+              // setState({
+              //   ...state,
+              //   studyPlanList: [...dataUpdate],
+              //   filterStudyPlanData: arr,
+              // });
+              // tableRef.current.onQueryChange();
+              dispatch(getStudyPlan(studentId, courseId));
+            } else {
+              setSnack({
+                open: true,
+                color: "error",
+                message: res.message,
+              });
+            }
+          })
+        );
+        resolve();
+      }, 1000);
+    });
+  };
+
+  const handlePageChange = (newPage) => {
+    if (page !== newPage)
+      setState({
+        ...state,
+        page: newPage,
+      });
+    tableRef.current.onQueryChange();
   };
 
   return (
@@ -169,7 +209,7 @@ function StudyPlan({ studentId, courseId }) {
                         variant='subtitle1'
                         style={{ fontWeight: 600 }}
                       >
-                        {targetDate ? targetDate : "NA"}
+                        {customDateFormat(targetDate, "DD/MM/YYYY") || "NA"}
                       </Typography>
                     </FlexView>
                   </Box>
@@ -194,17 +234,39 @@ function StudyPlan({ studentId, courseId }) {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <DataTable
-            dataTable={{
-              rows:
-                studyPlanList.length !== 0
-                  ? filterStudyPlanData
-                  : [DEFAULT_OBJECT],
-              columns: columns,
+          <EditableTable
+            tableRef={tableRef}
+            onRowUpdate={ROLES.checker === role ? onRowUpdate : null}
+            data={(query) => {
+              return new Promise((resolve, reject) => {
+                const { pageSize } = query;
+                const newPage = page;
+                const totalCount = filterStudyPlanData.length;
+                const startIndex = newPage * pageSize;
+                const selectedItems = filterStudyPlanData.slice(
+                  startIndex,
+                  startIndex + pageSize
+                );
+                resolve({
+                  ...query,
+                  data: selectedItems,
+                  totalCount: totalCount,
+                  page: newPage,
+                });
+              });
             }}
+            onChangePage={handlePageChange}
           />
         </Grid>
       </Grid>
+      <SnackBar
+        snackData={{
+          open,
+          snackClose: handleSnackClose,
+          snackType: color,
+          message: message,
+        }}
+      />
     </>
   );
 }

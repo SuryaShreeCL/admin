@@ -73,6 +73,7 @@ export const STUDENT = {
   topicTestExport: "topicTestExport",
   topicTestReportExport: "topicTestReportExport",
   getStudyPlan: "getStudyPlan",
+  updateStudyPlan: "updateStudyPlan",
 };
 export const TESTDOWNLOAD = {
   testQuestionSetId: "testQuestionSetId",
