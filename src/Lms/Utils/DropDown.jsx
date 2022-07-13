@@ -90,7 +90,11 @@ export default function DropDown(props) {
             >
               {props.items !== undefined &&
                 props.items.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
+                  <MenuItem
+                    key={item.id}
+                    value={item.id}
+                    disabled={item.disabled}
+                  >
                     {item.title}
                   </MenuItem>
                 ))}

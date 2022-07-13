@@ -39,7 +39,7 @@ class TestAddButtonCard extends Component {
           {questions.map((question, index) => {
             return (
               <Question id={question.id}>
-                <div className="flex-filler">
+                <div className='flex-filler'>
                   {index + 1}. &nbsp;&nbsp;
                   <LatexViewer math={question.question} />
                 </div>
@@ -80,7 +80,30 @@ class TestAddButtonCard extends Component {
       tabValue,
       popUpId,
       onCopyQuestion,
+      department,
+      calibrationTestCopyContent,
+      topicTestCopySections,
     } = this.props;
+
+    let disabled =
+      id === null
+        ? true
+        : type === "CALIBRATION" && sectionData.length === 0
+        ? true
+        : type === "CALIBRATION" &&
+          sectionData[tabValue - 1] !== undefined &&
+          sectionData[tabValue - 1]["id"] === null
+        ? true
+        : type === "CALIBRATION" &&
+          parseInt(
+            calibrationTestCopyContent[tabValue - 1]["noOfQuestions"]
+          ) === calibrationTestCopyContent[tabValue - 1]["questions"]?.length
+        ? true
+        : type === "TOPIC" &&
+          (parseInt(topicTestCopySections["noOfQuestions"] || 0) < 1 ||
+            parseInt(topicTestCopySections["noOfQuestions"] || 0) ===
+              topicTestCopySections["questions"]?.length);
+
     return (
       <>
         <Grid
@@ -98,26 +121,18 @@ class TestAddButtonCard extends Component {
           <Grid item>
             <div>
               <FlexView gap={"20px"}>
-                <FillButton onClick={onCopyQuestion}>
-                  {"Copy Question"}
-                </FillButton>
+                {department !== "assessment_engine_admin" && (
+                  <FillButton disabled={disabled} onClick={onCopyQuestion}>
+                    {"Copy Question"}
+                  </FillButton>
+                )}
 
                 <AddButton
                   startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}
                   onClick={addQuestion}
-                  disabled={
-                    id === null
-                      ? true
-                      : type === "CALIBRATION" && sectionData.length === 0
-                      ? true
-                      : type === "CALIBRATION" &&
-                        sectionData[tabValue - 1] !== undefined &&
-                        sectionData[tabValue - 1]["id"] === null
-                      ? true
-                      : false
-                  }
+                  disabled={disabled}
                 >
-                  Add New Question
+                  {"Add New Question"}
                 </AddButton>
               </FlexView>
             </div>

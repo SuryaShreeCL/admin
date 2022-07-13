@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TEST, TESTDOWNLOAD } from "../Action";
 import { URL } from "../../../Actions/URL";
-import { errorHandler } from "../../../Component/Utils/Helpers";
+import { catchError, errorHandler } from "../../../Component/Utils/Helpers";
 
 export const getFilters = () => {
   let accessToken = sessionStorage.getItem("accessToken");
@@ -1021,7 +1021,28 @@ export const getTopicListByConceptId = (conceptId, callback) => {
       })
       .catch((error) => {
         dispatch(errorHandler(TEST.getTopicListByConceptId, error, false));
-        callback(error.response);
+        callback(catchError(error.response));
+        console.log(error);
+      });
+  };
+};
+
+export const copyQuestion = (testSectionId, data, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return () => {
+    axios
+      .put(`${URL}/api/v1/lms/test/testQuestionSet/${testSectionId}`, data, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => {
+        callback(catchError(error.response));
         console.log(error);
       });
   };

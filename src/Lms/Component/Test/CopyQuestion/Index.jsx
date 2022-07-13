@@ -5,15 +5,17 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   Grid,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  ButtonBox,
   Container,
+  Divider,
+  FlexView,
+  H1,
   Question,
+  SubTitle,
 } from "../../../Assets/StyledComponents";
 import {
   getConcepts,
@@ -22,62 +24,75 @@ import {
 } from "../../../Redux/Action/CourseMaterial";
 import {
   getFilters,
-  getTopicListByConceptId,
-  getTestQuestionSet,
   getQuestionSet,
+  getTestQuestionSet,
+  getTopicListByConceptId,
+  copyQuestion,
 } from "../../../Redux/Action/Test";
-import { AddButton } from "../../../Utils/Buttons";
 import LatexViewer from "../../../Utils/LatexViewer";
-import { Data } from "./Data";
+import PaginationComponent from "../../../Utils/PaginationComponent";
 import FilterComponent from "./FilterComponent";
 import TableComponent from "./Table";
 import React from "react";
-import { setPoperAnchorEl } from "../../../../Actions/HelperAction";
-import PaginationComponent from "../../../Utils/PaginationComponent";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import { lms_add_test } from "../../../../Component/RoutePaths";
+import { SnackBar } from "../../../Utils/SnackBar";
 
-const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
+
 function Index() {
   const dispatch = useDispatch();
   const [state, setState] = useState({
-    courseId: null,
+    courseId: "default",
     subjectId: null,
     conceptId: null,
-    testTypeId: null,
+    testType: null,
     selectedQuestions: [],
-    selectionLimit: 3,
     open: false,
-    close: false,
     questionSetId: null,
-    scroll: false,
     topicId: null,
-    topicList: null,
     currentPage: 0,
     questionsList: [],
     questionDetails: [],
     field: [],
     order: [],
-    status: null,
+    courseValue: null,
   });
+
+  const [snack, setSnack] = useState({
+    snackOpen: false,
+    message: "",
+    color: "",
+  });
+
   const {
     courseId,
     subjectId,
     conceptId,
-    testTypeId,
+    testType,
     topicId,
     selectedQuestions,
-    selectionLimit,
     open,
-    questionSetId,
-    scroll,
-    close,
     currentPage,
     questionsList,
     field,
     order,
-    status,
+    courseValue,
   } = state;
 
+  const { snackOpen, message, color } = snack;
+
+  const handleSnackClose = () => {
+    setSnack({
+      snackOpen: false,
+      message: "",
+      color: "",
+    });
+  };
+
+  const location = useLocation();
+  const { testQuestionSetId } = useParams();
+  const history = useHistory();
   const { courses, subjects, concepts } = useSelector(
     (state) => state.CourseMaterialReducer
   );
@@ -85,27 +100,42 @@ function Index() {
   const { filterData, topicList, testData } = useSelector(
     (state) => state.TestReducer
   );
-  const tableData = testData;
-  console.log(testData, "testData");
+
+  const findCourseValue = (course_id) => {
+    const courseList = { data: [], ...courses }.data;
+    let newCourseValue = course_id
+      ? courseList.filter((item) => item.id === course_id)[0]?.courseId || null
+      : courseList[0]?.courseId || null;
+    return newCourseValue;
+  };
 
   useEffect(() => {
     dispatch(getFilters());
   }, []);
 
-  useEffect(() => {
-    let paramObj = {
-      page: currentPage,
-      testType: testTypeId !== "default" ? testTypeId : null,
-      topicId: topicId !== "default" ? topicId : null,
-      status: status !== "default" ? status : null,
-      field: field.length > 0 ? field : null,
-      order: order.length > 0 ? order : null,
-      size: NO_OF_RESPONSE,
-      courseId: courseId,
-    };
+  let params = new URLSearchParams(location.search);
+  let selectionLimit = params.get("limit");
 
-    dispatch(getQuestionSet(paramObj));
-  }, [testTypeId, topicId, status, field, courseId, order]);
+  useEffect(() => {
+    if (courseId !== "default") {
+      let paramObj = {
+        page: currentPage,
+        testType: testType !== "default" ? testType : null,
+        topicId: topicId !== "default" ? topicId : null,
+        status: null,
+        field: field.length > 0 ? field : null,
+        order: order.length > 0 ? order : null,
+        size: NO_OF_RESPONSE,
+        courseId:
+          testType === "CALIBRATION"
+            ? courseValue
+            : courseId !== "default"
+            ? courseId
+            : null,
+      };
+      dispatch(getQuestionSet(paramObj));
+    }
+  }, [currentPage, testType, topicId, field, courseId, order]);
 
   useEffect(() => {
     dispatch(
@@ -120,14 +150,22 @@ function Index() {
                     (conceptResponse) => {
                       if (conceptResponse.success) {
                         dispatch(
-                          getTopicListByConceptId(conceptResponse.data[0]?.id)
+                          getTopicListByConceptId(
+                            conceptResponse.data[0]?.id,
+                            (topicResponse) => {
+                              setState({
+                                ...state,
+                                courseId: response.data[0]?.id,
+                                courseValue: findCourseValue(
+                                  response.data[0]?.id
+                                ),
+                                subjectId: subjectResponse.data[0]?.id,
+                                conceptId: conceptResponse.data[0]?.id,
+                                topicId: topicResponse.data[0]?.id || null,
+                              });
+                            }
+                          )
                         );
-                        setState({
-                          ...state,
-                          courseId: response.data[0]?.id,
-                          subjectId: subjectResponse.data[0]?.id,
-                          conceptId: conceptResponse.data[0]?.id,
-                        });
                       }
                     }
                   )
@@ -141,36 +179,45 @@ function Index() {
   }, []);
 
   const handleChange = (event) => {
-    console.log(event, "event");
     const { name, value } = event.target;
     if (name === "course") {
-      dispatch(
-        getSubjects(value, (subjectResponse) => {
-          if (subjectResponse.success) {
-            dispatch(
-              getConcepts(subjectResponse.data[0].id, (conceptResponse) => {
-                if (conceptResponse.success) {
-                  dispatch(
-                    getTopicListByConceptId(
-                      conceptResponse.data[0]?.id,
-                      (topicResponse) => {
-                        setState({
-                          ...state,
-                          courseId: value,
-                          subjectId: subjectResponse.data[0].id,
-                          conceptId: conceptResponse.data[0].id,
-                          topicId: topicResponse.data?.[0]?.id,
-                          currentPage: 0,
-                        });
-                      }
-                    )
-                  );
-                }
-              })
-            );
-          }
-        })
-      );
+      if (testType !== "CALIBRATION") {
+        dispatch(
+          getSubjects(value, (subjectResponse) => {
+            if (subjectResponse.success) {
+              dispatch(
+                getConcepts(subjectResponse.data[0].id, (conceptResponse) => {
+                  if (conceptResponse.success) {
+                    dispatch(
+                      getTopicListByConceptId(
+                        conceptResponse.data[0]?.id,
+                        (topicResponse) => {
+                          setState({
+                            ...state,
+                            courseId: value,
+                            courseValue: findCourseValue(value),
+                            subjectId: subjectResponse.data[0].id,
+                            conceptId: conceptResponse.data[0].id,
+                            topicId: topicResponse.data[0]?.id || null,
+                            currentPage: 0,
+                          });
+                        }
+                      )
+                    );
+                  }
+                })
+              );
+            }
+          })
+        );
+      } else {
+        setState({
+          ...state,
+          courseId: value !== "default" ? value : null,
+          courseValue: findCourseValue(value),
+          currentPage: 0,
+        });
+      }
     } else if (name === "subject") {
       dispatch(
         getConcepts(value, (conceptResponse) => {
@@ -183,7 +230,7 @@ function Index() {
                     ...state,
                     subjectId: value,
                     conceptId: conceptResponse.data[0].id,
-                    topicId: topicResponse.data?.[0]?.id,
+                    topicId: topicResponse.data[0]?.id || null,
                     currentPage: 0,
                   });
                 }
@@ -193,30 +240,58 @@ function Index() {
         })
       );
     } else if (name === "testType") {
-      setState({
+      var newObj = {
         ...state,
-        testTypeId: value,
+        [name]: value,
         currentPage: 0,
-      });
-      // var newObj = {
-      //   [name]: value,
-      // };
-      // if (value === "CALIBRATION") {
-      //   setState({ ...newObj, topicId: "default" });
-      // } else {
-      //   setState({
-      //     ...newObj,
-      //     topicId:
-      //       topicId !== "default" ? topicId : topicOptions[0]?.id || "default",
-      //   });
-      // }
-    } else if (name === "topic") {
-      setState({
-        ...state,
-        topicId: value,
-        currentPage: 0,
-      });
-    } else {
+      };
+      if (value === "CALIBRATION") {
+        setState({
+          ...newObj,
+          topicId: null,
+          subjectId: null,
+          conceptId: null,
+        });
+      } else {
+        let newCourseId = courseId
+          ? courseId
+          : { data: [], ...courses }.data[0]?.id || null;
+        if ((newCourseId && !topicId) || topicId === "default") {
+          dispatch(
+            getSubjects(newCourseId, (subjectResponse) => {
+              if (subjectResponse.success) {
+                dispatch(
+                  getConcepts(subjectResponse.data[0].id, (conceptResponse) => {
+                    if (conceptResponse.success) {
+                      dispatch(
+                        getTopicListByConceptId(
+                          conceptResponse.data[0]?.id,
+                          (topicResponse) => {
+                            setState({
+                              ...newObj,
+                              courseId: newCourseId,
+                              courseValue: findCourseValue(newCourseId),
+                              subjectId: subjectResponse.data[0].id,
+                              conceptId: conceptResponse.data[0].id,
+                              topicId: topicResponse.data?.[0]?.id,
+                            });
+                          }
+                        )
+                      );
+                    }
+                  })
+                );
+              }
+            })
+          );
+        } else
+          setState({
+            ...newObj,
+            courseId: newCourseId,
+            courseValue: findCourseValue(newCourseId),
+          });
+      }
+    } else if (name === "concept") {
       dispatch(
         getTopicListByConceptId(value, (topicResponse) => {
           setState({
@@ -227,21 +302,13 @@ function Index() {
           });
         })
       );
+    } else {
+      setState({
+        ...state,
+        [name]: value,
+        currentPage: 0,
+      });
     }
-  };
-
-  const filterProps = {
-    courses: { ...courses },
-    courseId: courseId,
-    subjects: { ...subjects },
-    subjectId: subjectId,
-    concepts: { ...concepts },
-    conceptId: conceptId,
-    testType: testTypeId,
-    filterData: { ...filterData },
-    topicId: topicId,
-    topicList: { ...topicList },
-    onChange: handleChange,
   };
 
   const handleCheckboxClick = (event) => {
@@ -255,11 +322,12 @@ function Index() {
       selectedQuestions: arr,
     });
   };
-  console.log(selectedQuestions);
 
   const disabledQuestion = (id) => {
     let arr = [...selectedQuestions];
-    return !arr.includes(id) && selectionLimit === arr.length;
+    return selectionLimit
+      ? !arr.includes(id) && parseInt(selectionLimit) === arr.length
+      : false;
   };
 
   const renderQuestions = () => {
@@ -268,8 +336,12 @@ function Index() {
         {questionsList.length !== 0 &&
           questionsList.map((item, index) => {
             return (
-              <Question id={item.id} disabled={disabledQuestion(item.id)}>
-                <div className="flex-filler">
+              <Question
+                id={item.id}
+                disabled={disabledQuestion(item.id)}
+                onClick={handleCheckboxClick}
+              >
+                <div className='flex-filler'>
                   {index + 1}. &nbsp;&nbsp;
                   <div style={{ flexGrow: 1 }}>
                     <LatexViewer math={item.question} />
@@ -302,15 +374,12 @@ function Index() {
             ...state,
             questionSetId: id,
             open: true,
-            scroll: true,
             questionDetails: response.data,
             questionsList: response.data.questions,
           });
         }
       })
     );
-
-    console.log(id, "+++++++");
   };
 
   const handleClose = () => {
@@ -323,60 +392,158 @@ function Index() {
 
   const handlePageChange = (event, value) => {
     window.scroll(0, 0);
-    this.setState({ currentPage: value - 1 });
-    // let paramObj = { page: value - 1, size: NO_OF_RESPONSE };
-    // this.props.getQuestionSet(paramObj);
+    setState({ ...state, currentPage: value - 1 });
   };
+
+  const handleSortNew = (index, order) => {
+    const fields = { 1: "type", 4: "courseName", 6: "wkStatusValue" };
+    setState({
+      ...state,
+      field: field.concat(fields[index]),
+      order: state.order.concat(order),
+    });
+  };
+
+  const handleSortBlue = (fieldIndex) => {
+    setState({
+      ...state,
+      field: field.filter((item, index) => {
+        if (index !== fieldIndex) return item;
+      }),
+      order: order.filter((item, index) => {
+        if (index !== fieldIndex) return item;
+      }),
+    });
+  };
+
+  const handleSortBlur = (fieldIndex) => {
+    if (order[fieldIndex] === "ASC") {
+      let newOrder = order;
+      newOrder.splice(fieldIndex, 1, "DESC");
+      setState({ ...state, order: newOrder });
+    } else {
+      let newOrder = order;
+      newOrder.splice(fieldIndex, 1, "ASC");
+      setState({ ...state, order: newOrder });
+    }
+  };
+
+  const handleCopy = () => {
+    dispatch(
+      copyQuestion(
+        testQuestionSetId,
+        { questionList: selectedQuestions },
+        (res) => {
+          if (res.success) {
+            handleClose();
+            setSnack({
+              snackOpen: true,
+              message: res.message,
+              color: "success",
+            });
+            setTimeout(() => {
+              history.push(
+                `${lms_add_test}?testQuestionSetId=${testQuestionSetId}`
+              );
+            }, 3000);
+          } else {
+            setSnack({
+              snackOpen: true,
+              message: res.message,
+              color: "error",
+            });
+          }
+        }
+      )
+    );
+  };
+
+  const filterProps = {
+    courses: { ...courses },
+    courseId: courseId,
+    subjects: { ...subjects },
+    subjectId: subjectId,
+    concepts: { ...concepts },
+    conceptId: conceptId,
+    testType: testType,
+    filterData: { ...filterData },
+    topicId: topicId,
+    topicList: topicList,
+    onChange: handleChange,
+  };
+
+  var tableData = { data: {}, ...testData }.data;
+
   return (
     <>
       <Container>
-        <FilterComponent {...filterProps} />
+        <Grid container>
+          <H1 style={{ marginBottom: "35px" }}>{"Copy Question"}</H1>
+        </Grid>
 
+        <FilterComponent {...filterProps} />
         {tableData && (
           <TableComponent
             handleTableRowClick={handleTableRowClick}
             tableData={tableData.content}
+            handleSortBlue={handleSortBlue}
+            handleSortBlur={handleSortBlur}
+            handleSortNew={handleSortNew}
             field={field}
             order={order}
           />
         )}
-
         {tableData !== undefined && (
           <PaginationComponent
-            pageCount={tableData?.totalPages}
+            pageCount={tableData.totalPages}
             onPageChange={handlePageChange}
           />
         )}
       </Container>
-      {/* <Divider />
-      <Grid item>
-        <SubTitle>List of Question</SubTitle>
-      </Grid> */}
-      <Dialog open={open} maxWidth="lg" fullWidth>
-        <DialogContent> {renderQuestions()}</DialogContent>
+
+      <Dialog open={open} maxWidth='lg' fullWidth>
+        <DialogTitle style={{ padding: "24px" }}>
+          <SubTitle>{"List of Question"}</SubTitle>
+        </DialogTitle>
+        <Divider style={{ margin: 0 }} />
+        <DialogContent>{renderQuestions()}</DialogContent>
+        <Divider style={{ margin: 0 }} />
         <DialogActions>
-          <Button
-            color="primary"
-            variant="outlined"
-            className={"button-style"}
-            onClick={handleClose}
+          <FlexView
+            gap={"25px"}
+            padding={"15px 20px !important"}
+            minWidth={"300px"}
           >
-            cancel
-          </Button>
-          <div style={{ width: "20px" }} />
-          <Button
-            color="primary"
-            variant="contained"
-            className={"button-style"}
-          >
-            copy
-          </Button>
+            <Button
+              color='primary'
+              variant='outlined'
+              className={"button-style"}
+              onClick={handleClose}
+              fullWidth
+            >
+              {"Cancel"}
+            </Button>
+            <Button
+              color='primary'
+              variant='contained'
+              className={"button-style"}
+              onClick={handleCopy}
+              disabled={selectedQuestions.length === 0}
+              fullWidth
+            >
+              {"copy"}
+            </Button>
+          </FlexView>
         </DialogActions>
       </Dialog>
-      {/* {renderQuestions()} */}
-      {/* <div style={{ display: "flex", marginLeft: "94%" }}>
-        <AddButton>Copy</AddButton>
-      </div> */}
+      <SnackBar
+        snackData={{
+          open: snackOpen,
+          snackClose: handleSnackClose,
+          snackType: color,
+          message: message,
+        }}
+      />
     </>
   );
 }

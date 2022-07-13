@@ -116,8 +116,18 @@ class TestLanding extends Component {
       subjectId: null,
       conceptId: null,
       topicOptions: [],
+      courseValue: null,
     };
   }
+
+  findCourseValue = (course_id) => {
+    const { courses } = this.props;
+    const courseList = { data: [], ...courses }.data;
+    let newCourseValue = course_id
+      ? courseList.filter((item) => item.id === course_id)[0]?.courseId || null
+      : courseList[0]?.courseId || null;
+    return newCourseValue;
+  };
 
   componentDidMount() {
     const role = sessionStorage.getItem("role");
@@ -170,6 +180,9 @@ class TestLanding extends Component {
                       (topicResponse) => {
                         this.setState({
                           courseId: response.data[0]?.id,
+                          courseValue: this.findCourseValue(
+                            response.data[0]?.id
+                          ),
                           subjectId: subjectResponse.data[0]?.id,
                           conceptId: conceptResponse.data[0]?.id,
                           topicId: topicResponse.data?.[0]?.id,
@@ -202,8 +215,12 @@ class TestLanding extends Component {
           conceptId: null,
         });
       } else {
-        if (!topicId || topicId === "default") {
-          this.props.getSubjects(courseId, (subjectResponse) => {
+        const { courses } = this.props;
+        let newCourseId = courseId
+          ? courseId
+          : { data: [], ...courses }.data[0]?.id || null;
+        if ((newCourseId && !topicId) || topicId === "default") {
+          this.props.getSubjects(newCourseId, (subjectResponse) => {
             if (subjectResponse.success) {
               this.props.getConcepts(
                 subjectResponse.data[0].id,
@@ -214,6 +231,8 @@ class TestLanding extends Component {
                       (topicResponse) => {
                         this.setState({
                           ...newObj,
+                          courseId: newCourseId,
+                          courseValue: this.findCourseValue(newCourseId),
                           subjectId: subjectResponse.data[0].id,
                           conceptId: conceptResponse.data[0].id,
                           topicId: topicResponse.data?.[0]?.id,
@@ -225,7 +244,12 @@ class TestLanding extends Component {
               );
             }
           });
-        } else this.setState(newObj);
+        } else
+          this.setState({
+            ...newObj,
+            courseId: newCourseId,
+            courseValue: this.findCourseValue(newCourseId),
+          });
       }
     } else {
       this.setState({
@@ -303,6 +327,7 @@ class TestLanding extends Component {
           field,
           order,
           courseId,
+          courseValue,
         } = this.state;
         if (
           prevState.currentPage !== currentPage ||
@@ -313,7 +338,15 @@ class TestLanding extends Component {
           prevState.order !== order ||
           prevState.courseId !== courseId
         )
-          this.props.getQuestionSet({ ...paramObj, courseId: courseId });
+          this.props.getQuestionSet({
+            ...paramObj,
+            courseId:
+              testType === "CALIBRATION"
+                ? courseValue
+                : courseId !== "default"
+                ? courseId
+                : null,
+          });
       }
     }
     if (topicList && prevProps.topicList !== topicList) {
@@ -492,7 +525,12 @@ class TestLanding extends Component {
                 ? this.props.aegetQuestionSet(paramObj)
                 : this.props.getQuestionSet({
                     ...paramObj,
-                    courseId: this.state.courseId,
+                    courseId:
+                      this.state.testType === "CALIBRATION"
+                        ? this.state.courseValue
+                        : this.state.courseId !== "default"
+                        ? this.state.courseId
+                        : null,
                   });
               this.handleCloseIconClick();
             } else {
@@ -524,7 +562,12 @@ class TestLanding extends Component {
                 ? this.props.aegetQuestionSet(paramObj)
                 : this.props.getQuestionSet({
                     ...paramObj,
-                    courseId: this.state.courseId,
+                    courseId:
+                      this.state.testType === "CALIBRATION"
+                        ? this.state.courseValue
+                        : this.state.courseId !== "default"
+                        ? this.state.courseId
+                        : null,
                   });
 
               this.handleCloseIconClick();
@@ -554,7 +597,12 @@ class TestLanding extends Component {
             ? this.props.aegetQuestionSet(paramObj)
             : this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
           this.handleCloseIconClick();
         }
@@ -594,7 +642,12 @@ class TestLanding extends Component {
             ? this.props.aegetQuestionSet(paramObj)
             : this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
           this.handleCloseIconClick();
         }
@@ -615,7 +668,12 @@ class TestLanding extends Component {
             ? this.props.aegetQuestionSet(paramObj)
             : this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
           this.handleCloseIconClick();
         }
@@ -637,7 +695,12 @@ class TestLanding extends Component {
             ? this.props.aegetQuestionSet(paramObj)
             : this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
           this.handleCloseIconClick();
         }
@@ -658,7 +721,12 @@ class TestLanding extends Component {
             ? this.props.aegetQuestionSet(paramObj)
             : this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
           this.handleCloseIconClick();
         }
@@ -708,7 +776,12 @@ class TestLanding extends Component {
 
               this.props.getQuestionSet({
                 ...paramObj,
-                courseId: this.state.courseId,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
               });
               this.handleCloseIconClick();
             } else {
@@ -743,7 +816,12 @@ class TestLanding extends Component {
         this.state.department !== "assessment_engine_admin"
           ? this.props.getQuestionSet({
               ...paramObj,
-              courseId: this.state.courseId,
+              courseId:
+                this.state.testType === "CALIBRATION"
+                  ? this.state.courseValue
+                  : this.state.courseId !== "default"
+                  ? this.state.courseId
+                  : null,
             })
           : this.props.aegetQuestionSet(paramObj);
       } else {
@@ -777,6 +855,7 @@ class TestLanding extends Component {
                     (topicResponse) => {
                       this.setState({
                         courseId: event.target.value,
+                        courseValue: this.findCourseValue(event.target.value),
                         subjectId: subjectResponse.data[0].id,
                         conceptId: conceptResponse.data[0].id,
                         topicId: topicResponse.data?.[0]?.id,
@@ -791,7 +870,9 @@ class TestLanding extends Component {
         });
       } else {
         this.setState({
-          courseId: event.target.value,
+          courseId:
+            event.target.value !== "default" ? event.target.value : null,
+          courseValue: this.findCourseValue(event.target.value),
           currentPage: 0,
         });
       }

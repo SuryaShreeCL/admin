@@ -1,7 +1,7 @@
 import axios from "axios";
 import { STUDENT } from "../Action";
 import { URL } from "../../../Actions/URL";
-import { errorHandler } from "../../../Component/Utils/Helpers";
+import { catchError, errorHandler } from "../../../Component/Utils/Helpers";
 
 const DEV_LMS = URL;
 
@@ -365,7 +365,7 @@ export const updateStudyPlan = (studentId, studyPlanId, data, callback) => {
       .catch((error) => {
         console.log(error);
         dispatch(errorHandler(STUDENT.updateStudyPlan, error, false));
-        callback(errorHandler(STUDENT.updateStudyPlan, error, false));
+        callback(catchError(error.response));
       });
   };
 };

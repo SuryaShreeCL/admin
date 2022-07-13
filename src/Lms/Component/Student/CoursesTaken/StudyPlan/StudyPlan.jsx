@@ -29,6 +29,7 @@ function StudyPlan({ studentId, courseId }) {
     filterStudyPlanData: [],
     monthOptions: [],
     month: null,
+    page: 0,
   });
 
   const [snack, setSnack] = useState({
@@ -44,6 +45,7 @@ function StudyPlan({ studentId, courseId }) {
     filterStudyPlanData,
     monthOptions,
     month,
+    page,
   } = state;
 
   const { open, message, color } = snack;
@@ -79,9 +81,9 @@ function StudyPlan({ studentId, courseId }) {
                 date: customDateFormat(a.date, "DD/MM/YYYY"),
               }))
             : [];
-        let monthValue = monthArr[0]?.id;
+        let monthValue = month || monthArr[0]?.id;
         let filterArr = studyPlanArr.filter((a) =>
-          monthValue ? a.month === monthValue : true
+          monthValue && monthValue !== "all" ? a.month === monthValue : true
         );
         setState({
           ...state,
@@ -91,6 +93,7 @@ function StudyPlan({ studentId, courseId }) {
           filterStudyPlanData: filterArr,
           monthOptions: monthArr,
           month: monthValue,
+          page: 0,
         });
       } else {
         setState({
@@ -101,6 +104,7 @@ function StudyPlan({ studentId, courseId }) {
           filterStudyPlanData: [],
           monthOptions: [],
           month: null,
+          page: 0,
         });
       }
       tableRef.current.onQueryChange();
@@ -118,6 +122,7 @@ function StudyPlan({ studentId, courseId }) {
             ...state,
             [name]: value,
             filterStudyPlanData: arr,
+            page: 0,
           });
           tableRef.current.onQueryChange();
         } catch (error) {
@@ -131,12 +136,12 @@ function StudyPlan({ studentId, courseId }) {
   const onRowUpdate = (newData, oldData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        let dataUpdate = [...studyPlanList];
-        let index = dataUpdate.findIndex((a) => a.id === oldData.id);
-        dataUpdate[index] = newData;
-        let arr = dataUpdate.filter(
-          (a) => a.month === month || month === "all"
-        );
+        // let dataUpdate = [...studyPlanList];
+        // let index = dataUpdate.findIndex((a) => a.id === oldData.id);
+        // dataUpdate[index] = newData;
+        // let arr = dataUpdate.filter(
+        //   (a) => a.month === month || month === "all"
+        // );
 
         let obj = {
           date: moment(new Date(newData.date)).format("YYYY-MM-DD"),
@@ -144,11 +149,13 @@ function StudyPlan({ studentId, courseId }) {
         dispatch(
           updateStudyPlan(studentId, oldData.id, obj, (res) => {
             if (res.success) {
-              setState({
-                ...state,
-                studyPlanList: [...dataUpdate],
-                filterStudyPlanData: arr,
-              });
+              // setState({
+              //   ...state,
+              //   studyPlanList: [...dataUpdate],
+              //   filterStudyPlanData: arr,
+              // });
+              // tableRef.current.onQueryChange();
+              dispatch(getStudyPlan(studentId, courseId));
             } else {
               setSnack({
                 open: true,
@@ -158,10 +165,18 @@ function StudyPlan({ studentId, courseId }) {
             }
           })
         );
-        tableRef.current.onQueryChange();
         resolve();
       }, 1000);
     });
+  };
+
+  const handlePageChange = (newPage) => {
+    if (page !== newPage)
+      setState({
+        ...state,
+        page: newPage,
+      });
+    tableRef.current.onQueryChange();
   };
 
   return (
@@ -220,9 +235,10 @@ function StudyPlan({ studentId, courseId }) {
             onRowUpdate={onRowUpdate}
             data={(query) => {
               return new Promise((resolve, reject) => {
-                const { page, pageSize } = query;
+                const { pageSize } = query;
+                const newPage = page;
                 const totalCount = filterStudyPlanData.length;
-                const startIndex = page * pageSize;
+                const startIndex = newPage * pageSize;
                 const selectedItems = filterStudyPlanData.slice(
                   startIndex,
                   startIndex + pageSize
@@ -231,9 +247,11 @@ function StudyPlan({ studentId, courseId }) {
                   ...query,
                   data: selectedItems,
                   totalCount: totalCount,
+                  page: newPage,
                 });
               });
             }}
+            onChangePage={handlePageChange}
           />
         </Grid>
       </Grid>

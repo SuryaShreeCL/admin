@@ -118,6 +118,8 @@ class Add extends Component {
       eventEndDate: null,
       department: null,
       loading: false,
+      calibrationTestCopyContent: [],
+      topicTestCopySections: {},
     };
   }
 
@@ -202,6 +204,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
+          calibrationTestCopyContent: JSON.parse(
+            JSON.stringify(questionSet.testSection)
+          ),
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
@@ -225,6 +230,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
+          calibrationTestCopyContent: JSON.parse(
+            JSON.stringify(questionSet.testSection)
+          ),
           calibrationSectionTabLabels: tabArr,
           calibrationActiveSectionTab: 1,
           calibrationTotalSection: questionSet.testSection.length,
@@ -256,6 +264,9 @@ class Add extends Component {
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           topicTestSections: questionSet.testSection[0],
+          topicTestCopySections: JSON.parse(
+            JSON.stringify(questionSet.testSection[0])
+          ),
           sectionId: questionSet.testSection[0].id,
           courseIdValue: questionSet.productId,
         });
@@ -450,7 +461,45 @@ class Add extends Component {
   };
 
   handleCopyQuestion = () => {
-    this.props.history.push(lms_copy_question);
+    const {
+      testQuestionSetId,
+      sectionId,
+      type,
+      calibrationActiveSectionTab,
+      calibrationTestData,
+      calibrationTestCopyContent,
+      topicTestCopySections,
+    } = this.state;
+
+    if (type === "QUESTIONBANK") {
+      this.props.history.push(`${lms_copy_question}/${testQuestionSetId}`);
+    } else {
+      if (type === "CALIBRATION") {
+        let limit =
+          parseInt(
+            calibrationTestCopyContent[calibrationActiveSectionTab - 1][
+              "noOfQuestions"
+            ]
+          ) -
+          calibrationTestCopyContent[calibrationActiveSectionTab - 1][
+            "questions"
+          ].length;
+        var calibrationSectionId =
+          (calibrationTestData.length !== 0 &&
+            calibrationTestData[calibrationActiveSectionTab - 1].id) ||
+          "";
+        this.props.history.push(
+          `${lms_copy_question}/${testQuestionSetId}/${calibrationSectionId}?limit=${limit}`
+        );
+      } else {
+        let limit =
+          parseInt(topicTestCopySections["noOfQuestions"]) -
+          topicTestCopySections["questions"].length;
+        this.props.history.push(
+          `${lms_copy_question}/${testQuestionSetId}/${sectionId}?limit=${limit}`
+        );
+      }
+    }
   };
 
   handleCalibrationTestProperties = (index, event) => {
@@ -604,6 +653,10 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    topicTestCopySections: JSON.parse(
+                      JSON.stringify(tempTopicTestSections)
+                    ),
+
                     loading: false,
                   });
                 }
@@ -625,6 +678,9 @@ class Add extends Component {
                     testQuestionSetId: topicTestResponse.data.id,
                     sectionId: topicTestResponse.data.testSection[0].id,
                     topicTestSections: tempTopicTestSections,
+                    topicTestCopySections: JSON.parse(
+                      JSON.stringify(tempTopicTestSections)
+                    ),
                     loading: false,
                   });
                 }
@@ -698,6 +754,9 @@ class Add extends Component {
                     courseIdValue: calibrationTestResponse.data.productId,
 
                     calibrationTestData: tempcalibrationTestData,
+                    calibrationTestCopyContent: JSON.parse(
+                      JSON.stringify(tempcalibrationTestData)
+                    ),
                     loading: false,
                   });
                 } else {
@@ -860,6 +919,9 @@ class Add extends Component {
                       sectionId:
                         calibrationTestResponse?.data?.testSection[0]?.id,
                       calibrationTestData: tempcalibrationTestData,
+                      calibrationTestCopyContent: JSON.parse(
+                        JSON.stringify(tempcalibrationTestData)
+                      ),
                       loading: false,
                     });
                     this.handleBannerUpload(calibrationTestResponse?.data?.id);
@@ -1119,7 +1181,7 @@ class Add extends Component {
           <IconButton
             style={{ position: "absolute", top: 2, right: 2 }}
             color={"secondary"}
-            size="small"
+            size='small'
             onClick={this.handleFileDelete}
           >
             <DeleteRoundedIcon />
@@ -1195,6 +1257,9 @@ class Add extends Component {
       scheduleTest,
       eventDate,
       eventEndDate,
+      department,
+      calibrationTestCopyContent,
+      topicTestCopySections,
     } = this.state;
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
@@ -1242,8 +1307,8 @@ class Add extends Component {
             {deptName !== "assessment_engine_admin" ? (
               <Grid item xs={12} md={4}>
                 <DropDown
-                  label="Course"
-                  name="courseId"
+                  label='Course'
+                  name='courseId'
                   items={
                     (courses.length !== 0 &&
                       courses.data.map((item) => ({
@@ -1255,7 +1320,7 @@ class Add extends Component {
                   value={courseId ? courseId : undefined}
                   onChange={this.handleChange}
                   disabled={testQuestionSetId !== null ? true : false}
-                  placeholder="Course"
+                  placeholder='Course'
                 />
               </Grid>
             ) : (
@@ -1300,23 +1365,23 @@ class Add extends Component {
               {type === "CALIBRATION" || type === "AE_TEST" ? (
                 <div>
                   <InputTextField
-                    name="name"
+                    name='name'
                     onChange={this.handleChange}
                     value={name}
                     label={"Test name"}
-                    height="11px"
+                    height='11px'
                     placeholder={"Test name"}
                     required
                   />
                 </div>
               ) : (
                 <DropDown
-                  label="Topic"
-                  name="topicId"
+                  label='Topic'
+                  name='topicId'
                   items={topics.data}
                   value={topicId}
                   onChange={this.handleChange}
-                  placeholder="Topic"
+                  placeholder='Topic'
                   disabled={testQuestionSetId !== null ? true : false}
                 />
               )}
@@ -1325,31 +1390,31 @@ class Add extends Component {
               <>
                 <Grid item xs={12} md={8}>
                   <InputTextField
-                    name="nameDescription"
+                    name='nameDescription'
                     onChange={this.handleChange}
                     value={nameDescription}
-                    label="Description"
+                    label='Description'
                     multiline
                     rows={3}
-                    placeholder="Description"
+                    placeholder='Description'
                     required
                   />
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <InputTextField
-                    name="descriptionTitle"
+                    name='descriptionTitle'
                     onChange={this.handleChange}
                     value={descriptionTitle}
-                    label="Test Instruction heading"
-                    height="11px"
-                    placeholder="Test Instruction heading"
+                    label='Test Instruction heading'
+                    height='11px'
+                    placeholder='Test Instruction heading'
                     required
                   />
                 </Grid>
                 {type === "AE_TEST" && (
                   <Grid item xs={12} md={4}>
                     <InputTextField
-                      name="cutOffScore"
+                      name='cutOffScore'
                       type={"number"}
                       // onChange={this.handleChange}
                       onChange={(e) => {
@@ -1361,7 +1426,7 @@ class Add extends Component {
                       }}
                       value={cutOffScore}
                       label={"Cut Off"}
-                      height="11px"
+                      height='11px'
                       placeholder={"Cut Off"}
                       required
                     />
@@ -1393,7 +1458,7 @@ class Add extends Component {
                       <Typography>{this.renderFileName()}</Typography>
                       <IconButton
                         color={"secondary"}
-                        size="small"
+                        size='small'
                         onClick={this.handleFileDelete}
                       >
                         <DeleteRoundedIcon />
@@ -1418,11 +1483,11 @@ class Add extends Component {
                               }
                               this.setState({ scheduleTest: e.target.checked });
                             }}
-                            name="scheduleTest"
-                            color="primary"
+                            name='scheduleTest'
+                            color='primary'
                           />
                         }
-                        label="Schedule test"
+                        label='Schedule test'
                       />
                     </Grid>
                     {scheduleTest && (
@@ -1430,8 +1495,8 @@ class Add extends Component {
                         <MuiPickersUtilsProvider utils={MomentUtils}>
                           <Grid item md={6}>
                             <DateTimePicker
-                              label="Start date and time"
-                              inputVariant="outlined"
+                              label='Start date and time'
+                              inputVariant='outlined'
                               value={eventDate}
                               onChange={(value) =>
                                 this.setState({ eventDate: value })
@@ -1441,8 +1506,8 @@ class Add extends Component {
                           <Grid item md={6}>
                             <MuiPickersUtilsProvider utils={MomentUtils}>
                               <DateTimePicker
-                                label="End date and time"
-                                inputVariant="outlined"
+                                label='End date and time'
+                                inputVariant='outlined'
                                 value={eventEndDate}
                                 onChange={(value) =>
                                   this.setState({ eventEndDate: value })
@@ -1501,6 +1566,9 @@ class Add extends Component {
               popUpId={popUpId}
               handleDelete={handleDelete}
               onCopyQuestion={handleCopyQuestion}
+              department={department}
+              calibrationTestCopyContent={calibrationTestCopyContent}
+              topicTestCopySections={topicTestCopySections}
             />
           )}
           <DialogComponent
@@ -1535,7 +1603,7 @@ class Add extends Component {
           }}
           open={this.state.loading}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress color='inherit' />
           {/* hello */}
         </Backdrop>
       </>
