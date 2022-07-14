@@ -63,6 +63,7 @@ import TestReducer from "../Lms/Redux/Reducer/TestReducer";
 import LmsStudentReducer from "../Lms/Redux/Reducer/LmsStudentReducer";
 import PgaReportReducer from "../Reducer/PgaReportReducer";
 import { thirdYearWebinarListReducer } from "../Reducer/ThirdWebinarReducer";
+import PassageReducer from "../Lms/Redux/Reducer/PassageReducer";
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -121,6 +122,7 @@ export default combineReducers({
   CourseMaterialReducer: CourseMaterialReducer,
   TestReducer: TestReducer,
   LmsStudentReducer: LmsStudentReducer,
+  PassageReducer: PassageReducer,
 
   //elev8 clsa
   ClsaReducer: ClsaReducer,

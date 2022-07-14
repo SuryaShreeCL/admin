@@ -1,4 +1,5 @@
-import { TextField, ThemeProvider } from "@material-ui/core";
+import { Box, Button, Grid, TextField, ThemeProvider } from "@material-ui/core";
+import { AddRounded, RemoveRounded } from "@material-ui/icons";
 import React from "react";
 import {
   C2,
@@ -9,9 +10,71 @@ import {
 } from "../../../Assets/StyledTest";
 import TextEditor from "../../../Utils/TextEditor";
 
+const DEPT_NAMES = {
+  assessment_engine_admin: "assessment_engine_admin",
+};
+
 function Explanation(props) {
   const classes = useStyle();
-  const { text, url, handleExpTextChange, handleUrlChange } = props;
+  const {
+    text,
+    url,
+    handleExpTextChange,
+    handleUrlChange,
+    handleVideoContentAdd,
+    handleVideoContentDelete,
+    handleVideoContentChange,
+    videoContent = [],
+    deptName,
+  } = props;
+
+  const renderExplanationVideoContent = () => {
+    return (
+      <>
+        {videoContent.length !== 0 && (
+          <ThemeProvider theme={textFieldTheme}>
+            {videoContent.map((item, index) => {
+              return (
+                <TextField
+                  style={{ marginTop: "24px" }}
+                  variant={"outlined"}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  key={`video-explanatory-${index + 1}`}
+                  id={index}
+                  label={`Video Explanatory Answer ${index + 1}`}
+                  value={item.videoUrl}
+                  onChange={handleVideoContentChange}
+                />
+              );
+            })}
+          </ThemeProvider>
+        )}
+        <Box paddingTop={"10px !important"}>
+          <Grid item container justifyContent={"space-between"}>
+            <Button
+              startIcon={<AddRounded />}
+              onClick={handleVideoContentAdd}
+              color={"primary"}
+            >
+              {"Add Video"}
+            </Button>
+
+            <Button
+              startIcon={<RemoveRounded />}
+              color={"secondary"}
+              onClick={handleVideoContentDelete}
+              disabled={videoContent.length <= 1}
+            >
+              {"Remove Video"}
+            </Button>
+          </Grid>
+        </Box>
+      </>
+    );
+  };
+
   return (
     <C2>
       <T4>Explanatory Answer</T4>
@@ -21,19 +84,22 @@ function Explanation(props) {
           data={text}
         />
       </EditorBox>
-
-      <ThemeProvider theme={textFieldTheme}>
-        <TextField
-          style={{ marginTop: "24px" }}
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          label="Video Explanatory Answer"
-          value={url}
-          onChange={handleUrlChange}
-        />
-      </ThemeProvider>
+      {deptName === DEPT_NAMES.assessment_engine_admin ? (
+        <ThemeProvider theme={textFieldTheme}>
+          <TextField
+            style={{ marginTop: "24px" }}
+            variant='outlined'
+            InputLabelProps={{
+              shrink: true,
+            }}
+            label='Video Explanatory Answer'
+            value={url}
+            onChange={handleUrlChange}
+          />
+        </ThemeProvider>
+      ) : (
+        renderExplanationVideoContent()
+      )}
     </C2>
   );
 }

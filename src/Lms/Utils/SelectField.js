@@ -1,11 +1,11 @@
 import React from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
-export const SelectDropDown = props => {
+export const SelectDropDown = (props) => {
   const { label, name, items, value, handleChange, disabled } = props;
 
   return (
-    <FormControl variant="outlined" fullWidth>
+    <FormControl variant='outlined' fullWidth>
       <InputLabel
         htmlFor={name}
         shrink={value ? true : false}
@@ -21,8 +21,12 @@ export const SelectDropDown = props => {
         disabled={disabled}
       >
         {items !== undefined &&
-          items.map(item => {
-            return <MenuItem value={item.id}>{item.title}</MenuItem>;
+          items.map((item) => {
+            return (
+              <MenuItem value={item.id} disabled={item.disabled}>
+                {item.title}
+              </MenuItem>
+            );
           })}
       </Select>
     </FormControl>
