@@ -95,13 +95,12 @@ class TestAddButtonCard extends Component {
           sectionData[tabValue - 1]["id"] === null
         ? true
         : type === "CALIBRATION" &&
-          parseInt(
-            calibrationTestCopyContent[tabValue - 1]["noOfQuestions"]
-          ) === calibrationTestCopyContent[tabValue - 1]["questions"]?.length
+          parseInt(calibrationTestCopyContent[tabValue - 1]["noOfQuestions"]) <=
+            calibrationTestCopyContent[tabValue - 1]["questions"]?.length
         ? true
         : type === "TOPIC" &&
           (parseInt(topicTestCopySections["noOfQuestions"] || 0) < 1 ||
-            parseInt(topicTestCopySections["noOfQuestions"] || 0) ===
+            parseInt(topicTestCopySections["noOfQuestions"] || 0) <=
               topicTestCopySections["questions"]?.length);
 
     return (

@@ -236,7 +236,7 @@ function Index() {
         <DialogTitle>
           <H1>{`${text} Passage`}</H1>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ overflowX: "hidden" }}>
           <Grid container spacing={3}>
             <Grid item md={12}>
               <TextField
@@ -265,6 +265,7 @@ function Index() {
             </Grid>
           </Grid>
         </DialogContent>
+        <Divider style={{ margin: 0 }} />
         <DialogActions>
           <FlexView gap={"20px"} padding={"20px !important"} width={"300px"}>
             <Button
