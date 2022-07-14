@@ -183,13 +183,9 @@ class Add extends Component {
     }
   }
 
-<<<<<<< HEAD
-  componentDidUpdate(prevProps, prevState) {
-=======
   componentDidUpdate(prevProps,prevState) {
 
     
->>>>>>> release-v1.4.6-bugfixing-suryashree
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -912,7 +908,7 @@ class Add extends Component {
                           tempcalibrationTestData[index].id = item.id;
                         }
                       }
-                    }
+                    // }
                   );
                   this.setState({
                     snackOpen: true,
