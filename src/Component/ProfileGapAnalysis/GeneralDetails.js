@@ -48,6 +48,11 @@ import {
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
 import CvViewer from "./CvViewer";
+import {
+  getAspirationLocation,
+  getAspirationPackage,
+  getAspirationWork,
+} from "../../Actions/Student";
 const theme = createTheme({
   overrides: {
     MuiGrid: {
@@ -123,7 +128,10 @@ class GeneralDetails extends Component {
       aspdegree: "",
       aspfieldofstudy: "",
       buttonStatus: false,
-
+      isThreeFieldOnly: "",
+      preferredWork: {},
+      preferredLocation: {},
+      preferredPackage: {},
       commentUpdateList: [],
       fieldname: {
         fieldOfStudy: "Field Of Study",
@@ -204,6 +212,19 @@ class GeneralDetails extends Component {
         }
       }
     );
+    this.props.getAspirationLocation(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id
+    );
+    // this.props.getAspirationWork(
+    //   this.props.match.params.studentId,
+    //   this.props.variantStepList.id,
+    //   null
+    // );
+    this.props.getAspirationPackage(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id
+    );
 
     this.fetchCommentHistory();
 
@@ -238,6 +259,10 @@ class GeneralDetails extends Component {
             round: response.data.packageDetails.round,
             aspdegree: response.data.aspirationDetails.aspirationDegrees,
             aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
+            isThreeFieldOnly: response.data.aspirationDetails?.isThreeFieldOnly,
+            preferredLocation: response.data.aspirationDetails?.jobLocation,
+            preferredWork: response.data.aspirationDetails?.workProfile,
+            preferredPackage: response.data.aspirationDetails?.preferredPackage,
           });
         }
       }
@@ -431,7 +456,7 @@ class GeneralDetails extends Component {
   handleopen = () => {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       if (
         this.state.firstname !== "" &&
@@ -819,7 +844,7 @@ class GeneralDetails extends Component {
   renderhigherdetails() {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       return (
         <Grid container spacing={3}>
@@ -942,6 +967,74 @@ class GeneralDetails extends Component {
               onChange={(e, newValue) =>
                 this.setState({ prefschool: newValue })
               }
+            />
+          </Grid>
+        </Grid>
+      );
+    } else if (this.state.isThreeFieldOnly) {
+      return (
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getWorkList || []}
+              getOptionLabel={(option) => option.workProfile}
+              value={this.state.preferredWork || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredWork"
+                  label="Preferred Work"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getlocationList || []}
+              getOptionLabel={(option) => option.jobLocation}
+              value={this.state.preferredLocation || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredLocation"
+                  label="Preferred Location"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getPackagelist || []}
+              getOptionLabel={(option) => option.preferredPackage}
+              value={this.state.preferredPackage || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredPackage"
+                  label="Preferred Package"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
             />
           </Grid>
         </Grid>
@@ -1092,7 +1185,7 @@ class GeneralDetails extends Component {
   handlesaved = () => {
     if (
       this.props.StudentStepDetailsList.referProductCodeName === "ACS_MBA" ||
-      this.props.StudentStepDetailsList.referProductCodeName === "ACS_MIM"
+      this.props.StudentStepDetailsList.referProductCodeName === "ACS MIM"
     ) {
       let pgadataarr = [];
       this.state.commentshistory.map((eachdata) => {
@@ -1167,7 +1260,7 @@ class GeneralDetails extends Component {
             }
           }
         );
-        this.setState({ dialog: false, commenthistory: [],commentshistory : [] });
+        this.setState({ dialog: false, commenthistory: [] });
       } else {
         this.setState({
           snackMsg: "Please Fill the Required Field",
@@ -1246,10 +1339,7 @@ class GeneralDetails extends Component {
               }
             }
           );
-          this.setState({
-            dialog: false,
-            commentshistory: [],
-           });
+          this.setState({ dialog: false, commentshistory: [] });
         } else {
           this.setState({
             snackMsg: "Please Fill the Required Field",
@@ -1661,7 +1751,7 @@ class GeneralDetails extends Component {
                   {this.props.StudentStepDetailsList.referProductCodeName ===
                     "ACS_MBA" ||
                   this.props.StudentStepDetailsList.referProductCodeName ===
-                    "ACS_MIM" ? (
+                    "ACS MIM" ? (
                     <Grid item md={4}>
                       <div
                         style={{
@@ -2084,6 +2174,9 @@ const mapStateToProps = (state) => {
     getAllBranchList: state.AspirationReducer.allBranchList,
     getAllDegreeList: state.AspirationReducer.allDegreeList,
     StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
+    getlocationList: state.StudentReducer.aspirationLocation,
+    getPackagelist: state.StudentReducer.aspirationPackage,
+    getWorkList: state.StudentReducer.aspirationWork,
   };
 };
 export default connect(mapStateToProps, {
@@ -2102,4 +2195,7 @@ export default connect(mapStateToProps, {
   getAllBranch,
   getAllDegree,
   StudentStepDetails,
+  getAspirationLocation,
+  getAspirationPackage,
+  getAspirationWork,
 })(withStyles(useStyles)(GeneralDetails));
