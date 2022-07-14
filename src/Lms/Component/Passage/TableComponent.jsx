@@ -24,7 +24,7 @@ function TableComponent({
   passageId,
   passageData,
 }) {
-  const headText = ["Passage Name", "Description", "Action"];
+  const headText = ["Passage Name", "Updated by", "Created Date", "Action"];
 
   return (
     <TableBox>
@@ -47,11 +47,8 @@ function TableComponent({
               return (
                 <TableRow style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
-                  <BoldCell>
-                    <div style={{ flexGrow: 1 }}>
-                      <LatexViewer math={item.content} />
-                    </div>
-                  </BoldCell>
+                  <BoldCell>{item.updatedBy}</BoldCell>
+                  <BoldCell>{item.createdAt}</BoldCell>
                   <BoldCell>
                     {handleShowThreeDot() && (
                       <>

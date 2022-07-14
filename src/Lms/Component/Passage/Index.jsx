@@ -202,12 +202,13 @@ function Index() {
             alignItems='center'
             justifyContent='space-between'
             spacing={2}
+            style={{ paddingBottom: "26px" }}
           >
             <Grid item>
               <H1>{"Passage"}</H1>
             </Grid>
             <div>
-              <Grid item container alignItems='center' spacing={2}>
+              <Grid container alignItems='center' spacing={2}>
                 <Grid item>
                   <PlusButton onClick={(e) => handleClickOpen()}>
                     {"Add Passage"}
@@ -216,10 +217,7 @@ function Index() {
               </Grid>
             </div>
           </Grid>
-          <Divider />
-          <Grid item>
-            <H2>List of Passages</H2>
-          </Grid>
+          <Divider style={{ margin: 0 }} />
           {passageData && (
             <TableComponent
               handleThreeDotClick={handleThreeDotClick}
