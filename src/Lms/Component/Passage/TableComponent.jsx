@@ -24,7 +24,7 @@ function TableComponent({
   passageId,
   passageData,
 }) {
-  const headText = ["Passage Name", "Updated by", "Created Date", "Action"];
+  const headText = ["Passage Name", "Updated by", "Updated at", "Action"];
 
   return (
     <TableBox>
@@ -48,7 +48,7 @@ function TableComponent({
                 <TableRow style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
                   <BoldCell>{item.updatedBy}</BoldCell>
-                  <BoldCell>{item.createdAt}</BoldCell>
+                  <BoldCell>{item.updatedAt}</BoldCell>
                   <BoldCell>
                     {handleShowThreeDot() && (
                       <>
