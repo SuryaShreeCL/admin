@@ -154,8 +154,8 @@ class GeneralDetails extends Component {
     filterarr.push({
       fieldName: name,
       oldValue:
-        this.props.getgeneraldetailsList.studentDetails[name] &&
-        this.props.getgeneraldetailsList.studentDetails[name],
+        this.props.getgeneraldetailsList?.studentDetails[name] &&
+        this.props.getgeneraldetailsList?.studentDetails[name],
       newValue: value,
       comment: "",
     });
@@ -248,17 +248,17 @@ class GeneralDetails extends Component {
             fieldofstudy: response.data.studentDetails.fieldOfStudy,
             sem: response.data.studentDetails.currentSem,
             areaofspecialisation:
-              response.data.aspirationDetails.aspirationAreaOfSpecializations,
+              response.data.aspirationDetails?.aspirationAreaOfSpecializations,
             package: response.data.packageDetails.packagedPurchased,
             product: response.data.packageDetails.pgaProduct,
             intake: response.data.packageDetails.pgaIntake && {
               title: response.data.packageDetails.pgaIntake,
             },
             enrollmentdate: response.data.packageDetails.enrollmentDate,
-            prefschool: response.data.aspirationDetails.aspirationUniversities,
+            prefschool: response.data.aspirationDetails?.aspirationUniversities,
             round: response.data.packageDetails.round,
-            aspdegree: response.data.aspirationDetails.aspirationDegrees,
-            aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
+            aspdegree: response.data.aspirationDetails?.aspirationDegrees,
+            aspfieldofstudy: response.data.aspirationDetails?.aspirationBranches,
             isThreeFieldOnly: response.data.aspirationDetails?.isThreeFieldOnly,
             preferredLocation: response.data.aspirationDetails?.jobLocation,
             preferredWork: response.data.aspirationDetails?.workProfile,
@@ -274,40 +274,40 @@ class GeneralDetails extends Component {
 
     if (prevProps.getgeneraldetailsList !== this.props.getgeneraldetailsList) {
       this.setState({
-        clsid: this.props.getgeneraldetailsList.studentDetails?.clsId,
-        firstname: this.props.getgeneraldetailsList.studentDetails?.firstName,
-        lastname: this.props.getgeneraldetailsList.studentDetails?.lastName,
-        phone: this.props.getgeneraldetailsList.studentDetails?.phoneNumber,
-        email: this.props.getgeneraldetailsList.studentDetails?.emailId,
-        workexp: this.props.getgeneraldetailsList.studentDetails
+        clsid: this.props.getgeneraldetailsList?.studentDetails?.clsId,
+        firstname: this.props.getgeneraldetailsList?.studentDetails?.firstName,
+        lastname: this.props.getgeneraldetailsList?.studentDetails?.lastName,
+        phone: this.props.getgeneraldetailsList?.studentDetails?.phoneNumber,
+        email: this.props.getgeneraldetailsList?.studentDetails?.emailId,
+        workexp: this.props.getgeneraldetailsList?.studentDetails
           ?.workExperience,
-        pgcollege: this.props.getgeneraldetailsList.studentDetails
+        pgcollege: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateCollege,
-        pgdegree: this.props.getgeneraldetailsList.studentDetails
+        pgdegree: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateDegree,
-        pguniversity: this.props.getgeneraldetailsList.studentDetails
+        pguniversity: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateUniversity,
-        college: this.props.getgeneraldetailsList.studentDetails?.college,
-        degree: this.props.getgeneraldetailsList.studentDetails?.degree,
-        fieldofstudy: this.props.getgeneraldetailsList.studentDetails
+        college: this.props.getgeneraldetailsList?.studentDetails?.college,
+        degree: this.props.getgeneraldetailsList?.studentDetails?.degree,
+        fieldofstudy: this.props.getgeneraldetailsList?.studentDetails
           ?.fieldOfStudy,
-        sem: this.props.getgeneraldetailsList.studentDetails?.currentSem,
-        areaofspecialisation: this.props.getgeneraldetailsList.aspirationDetails
+        sem: this.props.getgeneraldetailsList?.studentDetails?.currentSem,
+        areaofspecialisation: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationAreaOfSpecializations,
-        package: this.props.getgeneraldetailsList.packageDetails
+        package: this.props.getgeneraldetailsList?.packageDetails
           ?.packagedPurchased,
-        product: this.props.getgeneraldetailsList.packageDetails?.pgaProduct,
-        intake: this.props.getgeneraldetailsList.packageDetails?.pgaIntake && {
-          title: this.props.getgeneraldetailsList.packageDetails?.pgaIntake,
+        product: this.props.getgeneraldetailsList?.packageDetails?.pgaProduct,
+        intake: this.props.getgeneraldetailsList?.packageDetails?.pgaIntake && {
+          title: this.props.getgeneraldetailsList?.packageDetails?.pgaIntake,
         },
-        enrollmentdate: this.props.getgeneraldetailsList.packageDetails
+        enrollmentdate: this.props.getgeneraldetailsList?.packageDetails
           ?.enrollmentDate,
-        prefschool: this.props.getgeneraldetailsList.aspirationDetails
+        prefschool: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationUniversities,
-        round: this.props.getgeneraldetailsList.packageDetails?.round,
-        aspdegree: this.props.getgeneraldetailsList.aspirationDetails
+        round: this.props.getgeneraldetailsList?.packageDetails?.round,
+        aspdegree: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationDegrees,
-        aspfieldofstudy: this.props.getgeneraldetailsList.aspirationDetails
+        aspfieldofstudy: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationBranches,
       });
     }
