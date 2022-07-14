@@ -64,6 +64,7 @@ function Index() {
       show: true,
       name: null,
       content: null,
+      passageId: null,
       text: "Add",
     });
   };
@@ -279,7 +280,7 @@ function Index() {
             <Button
               color={"primary"}
               variant={"contained"}
-              onClick={passageId !== null ? handleUpdate : handleSave}
+              onClick={text === "Edit" ? handleUpdate : handleSave}
               fullWidth
             >
               {text === "Edit" ? "Update" : "Save"}
