@@ -15,8 +15,8 @@ import { Alert } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from "@date-io/moment";
-//import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
+import MomentUtils from '@date-io/moment';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -49,11 +49,10 @@ import {
   getSubjects,
 } from "../../Redux/Action/CourseMaterial";
 
+import moment from "moment";
+
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
-var testVar = window.sessionStorage.getItem("department");
-const TEST_TYPE = testVar === "assessment_engine_admin" ? "AE_TEST" : null;
-console.log(testVar);
 
 const editorConfiguration = {
   toolbar: [
@@ -105,7 +104,7 @@ class TestLanding extends Component {
       alertMsg: "",
       alertSeverity: "",
       popupOpen: false,
-      eventDate: "",
+      popupOpen1: false,
       eventDate: new Date(),
       eventEndDate: new Date(),
       openStatus: false,
@@ -137,19 +136,10 @@ class TestLanding extends Component {
       deptName: deptname,
     });
 
-    // if (deptname === "assessment_engine_admin") {
-    //   var paramObj = {
-    //     page: INITIAL_PAGE_NO,
-    //     size: NO_OF_RESPONSE,
-    //     testType: TEST_TYPE,
-    //   };
-    // } else {
-    //   var paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-    // }
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
-      testType: TEST_TYPE,
+      testType: deptname === "assessment_engine_admin" ? "AE_TEST" : null,
     };
 
     if (deptname === "assessment_engine_admin") {
@@ -164,7 +154,6 @@ class TestLanding extends Component {
       role: role,
       department: deptname,
       testType: deptname === "assessment_engine_admin" ? "" : "default",
-      testType: "",
     });
     if (deptname !== "assessment_engine_admin") {
       this.props.getCourses((response) => {
@@ -306,7 +295,7 @@ class TestLanding extends Component {
         testType:
           deptName === "assessment_engine_admin"
             ? "AE_TEST"
-            : this.state.testType !== "default" && this.state.testType !== ""
+            : this.state.testType !== "default"
             ? this.state.testType
             : null,
 
@@ -367,27 +356,32 @@ class TestLanding extends Component {
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
-      openStatus: !this.state.openStatus,
+      openStatus:status === "Expired"? false:!this.state.openStatus,
       clickableStatus: status,
+      
     });
+    
   };
+
 
   handleClose = () => {
     this.setState({ anchorEl: null, popUpId: null, openStatus: false });
   };
 
   handleOptions = (text, topicName, topicId) => {
+    console.log(topicName, "vvvvvvvvvvvv")
     if (text === "Edit") {
       this.props.history.push(
         lms_add_test + "?testQuestionSetId=" + this.state.popUpId
       );
     }
     if (text === "Archive") {
+      var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "archive",
         icon: <ArchiveIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
         title: "Are you sure you want to Archive?",
-        body: topicName,
+        body: deptname !== "assessment_engine_admin"? topicName : "",
         button1: "No",
         button2: "Yes",
       };
@@ -463,7 +457,33 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
-    } else if (text === "Reschedule") {
+    } 
+    else if (text === "Reschedule") {      
+      const { data: tableContent } = this.props.testData;
+
+      if (tableContent) {
+        let findObj = tableContent.content.filter(
+          (el) => el.id === this.state.popUpId
+        )[0];
+        console.log(tableContent,findObj,"findObj.eventDate")
+
+        if (findObj) {
+          this.setState({
+            eventDate: findObj.eventDate ? findObj.eventDate : new Date(),
+
+            eventEndDate: findObj.eventEndDate
+              ? findObj.eventEndDate
+              : new Date(),
+          });
+        }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Reschedule")
+      }
+      this.setState({
+        popupOpen: true,
+      });      
+    }
+
+    else if (text === "Schedule") {        
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
@@ -480,11 +500,12 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
+        console.log(this.props.testData,this.state.popUpId,findObj,"Schedule")
       }
 
       this.setState({
-        popupOpen: true,
-      });
+        popupOpen1: true,
+      });      
     }
   };
 
@@ -608,22 +629,22 @@ class TestLanding extends Component {
         }
       });
       // this.props.aereviewTest(this.state.popUpId, (response) => {
-      //   if (response.success) {
-      //     let paramObj = {
-      //       page: INITIAL_PAGE_NO,
-      //       size: NO_OF_RESPONSE,
-      //       testType:
-      //         this.state.testType !== "default" ? this.state.testType : null,
-      //       topicId:
-      //         this.state.topicId !== "default" ? this.state.topicId : null,
-      //       status: this.state.status !== "default" ? this.state.status : null,
-      //     };
-      //     this.state.department === "assessment_engine_admin"
-      //       ? this.props.aegetQuestionSet(paramObj)
-      //       : this.props.getQuestionSet(paramObj);
+      // if (response.success) {
+      // let paramObj = {
+      // page: INITIAL_PAGE_NO,
+      // size: NO_OF_RESPONSE,
+      // testType:
+      // this.state.testType !== "default" ? this.state.testType : null,
+      // topicId:
+      // this.state.topicId !== "default" ? this.state.topicId : null,
+      // status: this.state.status !== "default" ? this.state.status : null,
+      // };
+      // this.state.department === "assessment_engine_admin"
+      // ? this.props.aegetQuestionSet(paramObj)
+      // : this.props.getQuestionSet(paramObj);
 
-      //     this.handleCloseIconClick();
-      //   }
+      // this.handleCloseIconClick();
+      // }
       // });
     } else if (this.state.dialogContent.type === "unarchive") {
       this.props.draftTest(this.state.popUpId, (response) => {
@@ -797,6 +818,7 @@ class TestLanding extends Component {
     }
   };
 
+  /* For Reschedule popup */
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
     console.log("reschedule");
@@ -804,41 +826,102 @@ class TestLanding extends Component {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
     };
-    rescheduleTest(this.state.popUpId, obj).then((response) => {
-      if (response?.status === 200) {
-        this.setState({
-          alertState: true,
-          alertSeverity: "success",
-          alertMsg: "Test rescheduled successfully",
-          popupOpen: false,
-        });
-        let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
-        this.state.department !== "assessment_engine_admin"
-          ? this.props.getQuestionSet({
-              ...paramObj,
-              courseId:
-                this.state.testType === "CALIBRATION"
-                  ? this.state.courseValue
-                  : this.state.courseId !== "default"
-                  ? this.state.courseId
-                  : null,
-            })
-          : this.props.aegetQuestionSet(paramObj);
-      } else {
-        this.setState({
-          alertState: true,
-          alertSeverity: "error",
-          alertMsg: response,
-        });
-      }
-    });
-    // }else{
-    //   this.setState({
-    //     alertState : true,
-    //     alertSeverity : "error",
-    //     alertMsg : "Please fill the Required Fields"
-    //   })
-    // }
+    if (
+      moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) ||
+      moment(this.state.eventDate).isBefore(moment()) ||
+      moment(this.state.eventEndDate).isBefore(moment())
+    ) {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen: true,
+      });
+    } else {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {
+          this.setState({
+            alertState: true,
+            alertSeverity: "success",
+            alertMsg: "Test rescheduled successfully",
+            popupOpen: false,
+          });
+          this.handleClose()
+          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+          this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              })
+            : this.props.aegetQuestionSet(paramObj);
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
+  };
+
+  /* For Schedule popup */
+  handleSchedule = () => {   
+    console.log("schedule")
+    let obj = {
+      startDateTime: this.state.eventDate,
+      endDateTime: this.state.eventEndDate,
+    };
+
+    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
+    moment(this.state.eventDate).isBefore(moment()) ||
+    moment(this.state.eventEndDate).isBefore(moment())) 
+    {
+      this.setState({
+        alertState: true,
+        alertSeverity: "warning",
+        alertMsg: "Please add proper timing & date",
+        popupOpen1: true,
+      });          
+    } 
+
+    else
+    {
+      rescheduleTest(this.state.popUpId, obj).then((response) => {
+        if (response?.status === 200) {
+          this.setState({
+            alertState: true,
+            alertSeverity: "success",
+            alertMsg: "Test rescheduled successfully",
+            popupOpen: false,
+          });
+          this.handleClose()
+          let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
+          this.state.department !== "assessment_engine_admin"
+            ? this.props.getQuestionSet({
+                ...paramObj,
+                courseId:
+                  this.state.testType === "CALIBRATION"
+                    ? this.state.courseValue
+                    : this.state.courseId !== "default"
+                    ? this.state.courseId
+                    : null,
+              })
+            : this.props.aegetQuestionSet(paramObj);
+        } else {
+          this.setState({
+            alertState: true,
+            alertSeverity: "error",
+            alertMsg: response,
+          });
+        }
+      });
+    }
   };
 
   handleChange = (event) => {
@@ -923,6 +1006,7 @@ class TestLanding extends Component {
       dialogStatus,
       dialogContent,
       popupOpen,
+      popupOpen1,
       eventDate,
       eventEndDate,
       courseId,
@@ -947,6 +1031,9 @@ class TestLanding extends Component {
       handleReschedule,
       handleChange,
     } = this;
+
+    var deptName = window.sessionStorage.getItem("department");
+
     return (
       <Container>
         <Grid
@@ -957,9 +1044,14 @@ class TestLanding extends Component {
           style={{ marginBottom: "35px" }}
         >
           <H1>Test</H1>
+
+          {deptName === "assessment_engine_admin"?
+          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+            Create Test
+          </PlusButton>:
           <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
             Add
-          </PlusButton>
+          </PlusButton>}
         </Grid>
         {filterData && (
           <DropDownRack
@@ -1005,7 +1097,7 @@ class TestLanding extends Component {
           />
         )}
 
-        {/* PopUp Components */}
+        {/* Archive PopUp*/}
         <DialogComponent
           open={dialogStatus}
           dialogContent={dialogContent}
@@ -1026,6 +1118,7 @@ class TestLanding extends Component {
           </Alert>
         </Snackbar>
 
+        {/*Reschedule popup*/}
         <Dialog
           open={popupOpen}
           onClose={() => this.setState({ popupOpen: !popupOpen })}
@@ -1043,7 +1136,7 @@ class TestLanding extends Component {
                 alignItems='center'
                 justifyContent='center'
               >
-                {/* <RescheduleIcon /> */}
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
               </Grid>
               <Grid
                 item
@@ -1114,6 +1207,101 @@ class TestLanding extends Component {
                   color={"primary"}
                 >
                   Reschedule
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Dialog>
+
+        {/* Schedule popup */}
+        <Dialog
+          open={popupOpen1}
+          onClose={() => this.setState({ popupOpen1: !popupOpen1 })}
+        >
+          <Box position={"relative"}>
+            <Grid
+              container
+              spacing={3}
+              style={{ width: "auto", margin: 0, padding: "20px" }}
+            >
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems='center'
+                justifyContent='center'
+              >
+                <ScheduleIcon style={{ fontSize: "48px", fill: "#1093FF" }} />
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                alignItems='center'
+                justifyContent='center'
+              >
+                <Typography variant='h4'>Schedule Test</Typography>
+              </Grid>
+
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems='center'
+                justifyContent='center'
+              >
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='Start date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventDate}
+                    onChange={(value) => this.setState({ eventDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems='center'
+                justifyContent='center'
+              >
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='End date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventEndDate}
+                    disabled={eventEndDate === eventDate}
+                    onChange={(value) => this.setState({ eventEndDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                alignItems='center'
+                justifyContent='flex-end'
+              >
+                <Button
+                  onClick={() => this.setState({ popupOpen1: !popupOpen1 })}
+                  variant={"outlined"}
+                  color={"primary"}
+                  size={"large"}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item xs={6} container alignItems='center'>
+                <Button
+                  size={"large"}
+                  onClick={() => this.handleSchedule()}
+                  variant={"contained"}
+                  color={"primary"}
+                >
+                  Schedule
                 </Button>
               </Grid>
             </Grid>

@@ -1,18 +1,17 @@
 // import MomentUtils from "@date-io/moment";
-import MomentUtils from "@date-io/moment";
 import {
-  Backdrop,
   FormControlLabel,
   Grid,
   IconButton,
   Switch,
   Typography,
+  Backdrop
 } from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import QueryString from "qs";
+import MomentUtils from '@date-io/moment';
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -55,9 +54,8 @@ import { InputTextField } from "../../../Utils/TextField";
 import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-// import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
-const aedept = window.sessionStorage.getItem("department");
 const dialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
@@ -66,12 +64,16 @@ const dialogContent = {
   button2: "Yes",
 };
 
+
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
   title: "Are you sure you want to delete this section ?",
+  // body: calibrationSectionTabLabels,
   button1: "No",
   button2: "Yes",
+  
+  
 };
 
 class Add extends Component {
@@ -116,14 +118,19 @@ class Add extends Component {
       scheduleTest: false,
       eventDate: null,
       eventEndDate: null,
+      error:"",
+      // eventDate: new Date(),
+      // eventEndDate: new Date(),
       department: null,
       loading: false,
       calibrationTestCopyContent: [],
       topicTestCopySections: {},
     };
+   
   }
-
+ 
   componentDidMount() {
+   
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
       this.setState({
@@ -138,34 +145,35 @@ class Add extends Component {
       }
     );
     const { type } = this.state;
-    deptName !== "assessment_engine_admin" &&
-      this.props.getCourses((response) => {
-        if (response.success) {
-          if (testQuestionSetId === undefined) {
-            if (
-              type !== "CALIBRATION" &&
-              response.data[0].courseId !== undefined
-            ) {
-              this.props.getTopicByCourse(
-                response.data[0].courseId,
-                (topicResponse) => {
-                  if (topicResponse.success) {
-                    this.setState({
-                      courseId: response.data[0].courseId,
-                      topicId: topicResponse.data[0].id,
-                      courseIdValue: response.data[0].id,
-                    });
-                  }
+   deptName !== "assessment_engine_admin" && this.props.getCourses((response) => {
+      if (response.success) {
+        if (testQuestionSetId === undefined) {
+          if (
+            type !== "CALIBRATION" &&
+            response.data[0].courseId !== undefined
+          ) {
+            this.props.getTopicByCourse(
+              response.data[0].courseId,
+              (topicResponse) => {
+                if (topicResponse.success) {
+                  this.setState({
+                    courseId: response.data[0].courseId,
+                    topicId: topicResponse.data[0].id,
+                    courseIdValue: response.data[0].id,
+                  });
                 }
-              );
-            } else {
-              this.setState({
-                courseId: response.data[0].courseId,
-              });
-            }
+              }
+            );
+          } else {
+            this.setState({
+              courseId: response.data[0].courseId,
+            });
           }
         }
-      });
+      }
+    });
+
+
 
     // Editable Mode
     if (testQuestionSetId !== undefined) {
@@ -175,7 +183,9 @@ class Add extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps,prevState) {
+
+    
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -216,11 +226,14 @@ class Add extends Component {
 
       if (questionSet.type === "AE_TEST") {
         let tabArr = [];
+       
         questionSet.testSection.map((i, index) => {
           tabArr.push({
             tabLabel: `Section ${index + 1}`,
           });
+        
         });
+        console.log(tabArr);
         this.setState({
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
@@ -246,14 +259,6 @@ class Add extends Component {
           posterUrl: questionSet.posterUrl,
         });
       }
-      // if(questionSet.eventDate !== questionSet.eventEndDate)
-      // {
-      //   this.setState({
-      //     snackOpen: true,
-      //     snackType: "warning",
-      //     message: "Please save the test",
-      //   });
-      // }
 
       if (questionSet.type === "TOPIC") {
         this.setState({
@@ -542,11 +547,12 @@ class Add extends Component {
       }
     }
   };
+ 
 
   handleSaveButton = () => {
     this.setState({
-      loading: true,
-    });
+      loading : true
+    })
     const {
       testQuestionSetId,
       type,
@@ -561,6 +567,7 @@ class Add extends Component {
       cutOffScore,
       eventDate,
       eventEndDate,
+      
     } = this.state;
 
     if (type === "QUESTIONBANK") {
@@ -583,7 +590,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading: false,
+                    loading : false
                   });
                 }
               }
@@ -599,7 +606,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading: false,
+                    loading:false
                   });
                 }
               }
@@ -609,7 +616,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
-          loading: false,
+          loading:false
         });
       }
     }
@@ -794,6 +801,7 @@ class Add extends Component {
         });
       }
     }
+
     if (type === "AE_TEST") {
       // CALIBRATION Save action
       var calibrationTestDataTotalValidation = calibrationTestData.map(
@@ -810,13 +818,14 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
-        name &&
-        nameDescription &&
-        name.trim().length !== 0 &&
-        nameDescription.trim().length !== 0 &&
-        description.length !== 0 &&
-        descriptionTitle.trim().length !== 0 &&
-        cutOffScore.length !== 0
+          name &&
+          nameDescription &&
+          name.trim().length !== 0 &&
+          nameDescription.trim().length !== 0 &&
+          description.length !== 0 &&
+          descriptionTitle.trim().length !== 0 &&
+          cutOffScore.length !== 0 &&
+          ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
         // courseId !== undefined
       ) {
         if (
@@ -857,77 +866,80 @@ class Add extends Component {
 
               // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
 
-              // this.props.createTestQuestionSet(
-              //   calibrationTestSet,
-              //   (calibrationTestResponse) => {
-              //     if (calibrationTestResponse.success) {
-              //       var message =
-              //         testQuestionSetId === null ? "ADDED" : "UPDATED";
-              //       var tempcalibrationTestData = calibrationTestData;
-              //       calibrationTestResponse.data.testSection.map(
-              //         (item, index) => {
-              //           if (calibrationTestData.length > index) {
-              //             tempcalibrationTestData[index].id = item.id;
-              //           }
-              //         }
-              //       );
-              //       this.setState({
-              //         snackOpen: true,
-              //         snackType: "success",
-              //         message: `${type} TEST ${message} SUCCESSFULLY`,
-              //         testQuestionSetId: calibrationTestResponse.data.id,
-              //         courseIdValue: calibrationTestResponse.data.productId,
-              //         sectionId: calibrationTestResponse.data.testSection[0].id,
-              //         calibrationTestData: tempcalibrationTestData,
-              //       });
-              //       this.handleBannerUpload(calibrationTestResponse.data.id);
-              //     } else {
-              //       this.setState({
-              //         snackOpen: true,
-              //         snackType: "warning",
-              //         message: calibrationTestResponse.message,
-              //       });
-              //     }
-              //   }
-              // );
-              this.props.aecreateTestQuestionSet(
-                calibrationTestSet,
-                (calibrationTestResponse) => {
-                  if (calibrationTestResponse?.success) {
-                    // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
-                    var message =
-                      testQuestionSetId === null ? "ADDED" : "UPDATED";
-                    var tempcalibrationTestData = calibrationTestData;
-                    calibrationTestResponse.data.testSection.map(
-                      (item, index) => {
-                        if (calibrationTestData?.length > index) {
-                          tempcalibrationTestData[index].id = item.id;
-                        }
+            // this.props.createTestQuestionSet(
+            //   calibrationTestSet,
+            //   (calibrationTestResponse) => {
+            //     if (calibrationTestResponse.success) {
+            //       var message =
+            //         testQuestionSetId === null ? "ADDED" : "UPDATED";
+            //       var tempcalibrationTestData = calibrationTestData;
+            //       calibrationTestResponse.data.testSection.map(
+            //         (item, index) => {
+            //           if (calibrationTestData.length > index) {
+            //             tempcalibrationTestData[index].id = item.id;
+            //           }
+            //         }
+            //       );
+            //       this.setState({
+            //         snackOpen: true,
+            //         snackType: "success",
+            //         message: `${type} TEST ${message} SUCCESSFULLY`,
+            //         testQuestionSetId: calibrationTestResponse.data.id,
+            //         courseIdValue: calibrationTestResponse.data.productId,
+            //         sectionId: calibrationTestResponse.data.testSection[0].id,
+            //         calibrationTestData: tempcalibrationTestData,
+            //       });
+            //       this.handleBannerUpload(calibrationTestResponse.data.id);
+            //     } else {
+            //       this.setState({
+            //         snackOpen: true,
+            //         snackType: "warning",
+            //         message: calibrationTestResponse.message,
+            //       });
+            //     }
+            //   }
+            // );
+            this.props.aecreateTestQuestionSet(
+              calibrationTestSet,
+              (calibrationTestResponse) => {                
+                if (calibrationTestResponse?.success) {
+                  console.log(calibrationTestResponse,"calibrationTestResponse")
+                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
+                  var message =
+                    testQuestionSetId === null ? "ADDED" : "UPDATED";
+                  var tempcalibrationTestData = calibrationTestData;
+                  calibrationTestResponse.data.testSection.map(
+                    (item, index) => {
+                      if (calibrationTestData?.length > index) {
+                        tempcalibrationTestData[index].id = item.id;
                       }
-                    );
-                    this.setState({
-                      snackOpen: true,
-                      snackType: "success",
-                      message: `${type} TEST ${message} SUCCESSFULLY`,
-                      testQuestionSetId: calibrationTestResponse?.data?.id,
-                      courseIdValue: calibrationTestResponse?.data?.productId,
-                      sectionId:
-                        calibrationTestResponse?.data?.testSection[0]?.id,
-                      calibrationTestData: tempcalibrationTestData,
-                      calibrationTestCopyContent: JSON.parse(
-                        JSON.stringify(tempcalibrationTestData)
-                      ),
-                      loading: false,
-                    });
-                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                  } else {
+                    }
+                  );
+                  this.setState({
+                    snackOpen: true,
+                    snackType: "success",
+                    message: `${type} TEST ${message} SUCCESSFULLY`,
+                    testQuestionSetId: calibrationTestResponse?.data?.id,
+                    courseIdValue: calibrationTestResponse?.data?.productId,
+                    sectionId:
+                      calibrationTestResponse?.data?.testSection[0]?.id,
+                    calibrationTestData: tempcalibrationTestData,
+                    calibrationTestCopyContent: JSON.parse(
+                      JSON.stringify(tempcalibrationTestData)
+                    ),
+                    loading: false,
+                  });
+                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                }                                              
+                else { 
+                  const aedept = window.sessionStorage.getItem("department");                 
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
-                      message: "Network Failed",
+                      message:aedept !== "assessment_engine_admin"? "Network Failed":"Session Expired",
                       loading: false,
-                    });
-                  }
+                    });    
+                  }                                
                 }
               );
             } else {
@@ -977,9 +989,9 @@ class Add extends Component {
       this.props.history.push(
         single_upload + "?questionId=" + this.state.popUpId,
         {
-          testQuestionSetId: this.state.testQuestionSetId,
-          topicId: this.state.topicId,
-          sectionId: this.state.sectionId,
+           testQuestionSetId : this.state.testQuestionSetId,
+           topicId : this.state.topicId,
+           sectionId : this.state.sectionId
         }
       );
     }
@@ -1014,6 +1026,8 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
+    console.log(testQuestionSetId)
+    console.log(this.state.popUpId)
     this.state.department === "assessment_engine_admin"
       ? this.props.aedeleteQuestion(this.state.popUpId, (response) => {
           if (response.success) {
@@ -1041,12 +1055,14 @@ class Add extends Component {
   handleSectionDelete = () => {
     const { calibrationActiveSectionTab, calibrationTestData } = this.state;
     const { testQuestionSetId } = this.state;
+    console.log(testQuestionSetId)
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
         calibrationTestData[calibrationActiveSectionTab - 1]["id"];
       if (deleteSectionId !== null) {
         this.state.department === "assessment_engine_admin"
           ? this.props.aedeleteSection(deleteSectionId, (response) => {
+           
               if (response.success) {
                 this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
                   if (res.success) this.handleCloseIconClick();
@@ -1142,7 +1158,7 @@ class Add extends Component {
       const formData = new FormData();
       formData.append("file", posterUrl[0], posterUrl[0].name);
       postTestBanner(testQuesSetId, formData).then((response) => {
-        if (response?.status === 201) {
+        if (response?.status === 202) {
           this.setState({
             posterUrl: response.data.posterUrl,
           });
@@ -1164,7 +1180,6 @@ class Add extends Component {
   };
 
   renderFile = () => {
-    var deptName = window.sessionStorage.getItem("department");
     if (typeof this.state.posterUrl === "string") {
       return (
         <div style={{ position: "relative" }}>
@@ -1178,6 +1193,8 @@ class Add extends Component {
             color={"secondary"}
             size='small'
             onClick={this.handleFileDelete}
+
+
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1185,41 +1202,33 @@ class Add extends Component {
       );
     } else {
       return (
-        <>
-          {deptName === "assessment_engine_admin" && (
-            <Dropzone onDrop={this.onDrop}>
-              {({ getRootProps, getInputProps }) => (
-                <section
-                  style={{
-                    border: "2px dashed #1792fa",
-                    borderRadius: "5px",
-                    margin: "auto",
-                    background: "#f5fbff",
-                    boxSizing: "border-box",
-                    padding: "5% 10% 5% 10%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    cursor: "pointer",
-                  }}
-                >
-                  <div
-                    style={{ cursor: "pointer" }}
-                    {...getRootProps({ className: "dropzone" })}
-                  >
-                    <input {...getInputProps()} accept={".jpg,.png,.gif"} />
-                    <p style={{ cursor: "pointer" }}>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  </div>
-                  <aside>
-                    <h5 style={{ cursor: "pointer" }}>Banner</h5>
-                  </aside>
-                </section>
-              )}
-            </Dropzone>
+        <Dropzone onDrop={this.onDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <section
+              style={{
+                border: "2px dashed #1792fa",
+                borderRadius: "5px",
+                margin: "auto",
+                background: "#f5fbff",
+                boxSizing: "border-box",
+                padding: "5% 10% 5% 10%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",                
+              }}
+            >
+              <div {...getRootProps({ className: "dropzone" })}>
+                <input {...getInputProps()} accept={".jpg,.png,.gif"} />
+                <p style={{ cursor: "pointer" }}>
+                  Drag 'n' drop some files here, or click to select files
+                </p>
+              </div>
+              <aside>
+                <h5 style={{ cursor: "pointer" }}>Banner</h5>
+              </aside>
+            </section>
           )}
-        </>
+        </Dropzone>
       );
     }
   };
@@ -1256,14 +1265,13 @@ class Add extends Component {
       calibrationTestCopyContent,
       topicTestCopySections,
     } = this.state;
+    
+    const AVOID_INPUT = ["E", "e", "+", "-","."];
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
     const aedept = window.sessionStorage.getItem("department");
-
-    const check = eventEndDate === eventDate;
-
     const {
       handleThreeDotClick,
       handleClose,
@@ -1276,7 +1284,11 @@ class Add extends Component {
       handleSectionThreeDotClick,
       handleCopyQuestion,
     } = this;
-    const deptName = window.sessionStorage.getItem("department");
+
+    // console.log(this.state.scheduleTest,"scheduleTest")
+    // console.log(this.state.eventDate,"scheduleTest")
+    // console.log(this.state.eventEndDate,"scheduleTest")
+
     return (
       <>
         <Card padding={"12px 20px"}>
@@ -1299,28 +1311,24 @@ class Add extends Component {
             </Box>
           </Box>
           <Grid container spacing={3}>
-            {deptName !== "assessment_engine_admin" ? (
-              <Grid item xs={12} md={4}>
-                <DropDown
-                  label='Course'
-                  name='courseId'
-                  items={
-                    (courses.length !== 0 &&
-                      courses.data.map((item) => ({
-                        id: item.courseId,
-                        title: item.title,
-                      }))) ||
-                    []
-                  }
-                  value={courseId ? courseId : undefined}
-                  onChange={this.handleChange}
-                  disabled={testQuestionSetId !== null ? true : false}
-                  placeholder='Course'
-                />
-              </Grid>
-            ) : (
-              <Grid item xs={12} md={4}></Grid>
-            )}
+          <Grid item xs={12} md={4}>
+              {/* <DropDown
+              label="Course"
+              name="courseId"
+              items={
+                (courses.length !== 0 &&
+                  courses.data.map(item => ({
+                    id: item.courseId,
+                    title: item.title,
+                  }))) ||
+                []
+              }
+              value={courseId ? courseId : undefined}
+              onChange={this.handleChange}
+              disabled={testQuestionSetId !== null ? true : false}
+              placeholder="Course"
+            /> */}
+            </Grid>
             <Grid item xs={12} md={8}>
               {aedept !== "assessment_engine_admin" ? (
                 <RadioButtonsGroup
@@ -1411,7 +1419,15 @@ class Add extends Component {
                     <InputTextField
                       name='cutOffScore'
                       type={"number"}
+                      onKeyDown={(evt) =>
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
+                      }
                       // onChange={this.handleChange}
+
                       onChange={(e) => {
                         if (e.target.value.length <= 3) {
                           this.handleChange(e);
@@ -1436,31 +1452,33 @@ class Add extends Component {
                       value: description !== null ? description : [],
                       onChange: this.handleInstructionChange,
                     }}
-                    rules={{ required: true }}
                   />
                 </Grid>
-                <Grid item xs={12} md={8}>
-                  {this.renderFile()}
-                  {this.renderFileName() && (
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
-                        marginTop: "5px",
-                      }}
-                    >
-                      <Typography>{this.renderFileName()}</Typography>
-                      <IconButton
-                        color={"secondary"}
-                        size='small'
-                        onClick={this.handleFileDelete}
+
+                {aedept === "assessment_engine_admin" && (
+                  <Grid item xs={12} md={8}>
+                    {this.renderFile()}
+                    {this.renderFileName() && (
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "5px",
+                          marginTop: "5px",
+                        }}
                       >
-                        <DeleteRoundedIcon />
-                      </IconButton>
-                    </span>
-                  )}
-                </Grid>
+                        <Typography>{this.renderFileName()}</Typography>
+                        <IconButton
+                          color={"secondary"}
+                          size='small'
+                          onClick={this.handleFileDelete}
+                        >
+                          <DeleteRoundedIcon />
+                        </IconButton>
+                      </span>
+                    )}
+                  </Grid>
+                )}
 
                 {aedept === "assessment_engine_admin" && (
                   <Grid item md={4} container spacing={3}>
@@ -1470,7 +1488,12 @@ class Add extends Component {
                           <Switch
                             checked={scheduleTest}
                             onChange={(e) => {
-                              if (!e.target.checked) {
+                              if (e.target.checked) {
+                                this.setState({
+                                  eventDate: new Date(),
+                                  eventEndDate: new Date(),
+                                });
+                              } else {
                                 this.setState({
                                   eventDate: null,
                                   eventEndDate: null,
@@ -1493,8 +1516,12 @@ class Add extends Component {
                               label='Start date and time'
                               inputVariant='outlined'
                               value={eventDate}
-                              onChange={(value) =>
-                                this.setState({ eventDate: value })
+                              disablePast
+                              onChange={
+                                (value) =>
+                                  // {
+                                  this.setState({ eventDate: value })
+                                // console.log(this.state.eventDate,"1111111")}
                               }
                             />
                           </Grid>
@@ -1503,6 +1530,7 @@ class Add extends Component {
                               <DateTimePicker
                                 label='End date and time'
                                 inputVariant='outlined'
+                                disablePast
                                 value={eventEndDate}
                                 onChange={(value) =>
                                   this.setState({ eventEndDate: value })

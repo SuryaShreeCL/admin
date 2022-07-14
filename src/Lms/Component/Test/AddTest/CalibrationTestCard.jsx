@@ -12,6 +12,7 @@ import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import { MoreVertRounded } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import Menu from "../../CourseMaterials/Menu";
+import { TestTitle } from "../../../Assets/StyledComponents";
 import {
   FormControl,
   OutlinedInput,
@@ -20,6 +21,8 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 import { AVOID_INPUT } from "../../../Constants";
+const aedept = window.sessionStorage.getItem("department");
+const exceptThisSymbols = ["e", "E", "+", "-", "."];
 class CalibrationTestCard extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +45,10 @@ class CalibrationTestCard extends Component {
     return (
       <>
         <Divider />
+        {aedept === "assessment_engine_admin" ?
+      <TestTitle>Add New Section</TestTitle> :<></>
+        }
+        
         <Grid container spacing={3} justifyContent={"flex-end"}>
           <AddButton
             style={{

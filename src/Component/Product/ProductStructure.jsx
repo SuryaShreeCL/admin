@@ -570,6 +570,7 @@ class ProductStructure extends Component {
                   onChange={(e) => this.setState({ rank: e.target.value })}
                 />
               </Grid>
+
               {/* <Grid item md={6}>
                   <Autocomplete
                     id="combo-box-demo"

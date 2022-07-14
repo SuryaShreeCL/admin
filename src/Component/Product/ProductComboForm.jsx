@@ -4,26 +4,26 @@ import {
   TextField,
   Typography,
   Breadcrumbs,
-} from '@material-ui/core';
-import React, { Component } from 'react';
-import { Autocomplete } from '@material-ui/lab';
-import PrimaryButton from '../../Utils/PrimaryButton';
+} from "@material-ui/core";
+import React, { Component } from "react";
+import { Autocomplete } from "@material-ui/lab";
+import PrimaryButton from "../../Utils/PrimaryButton";
 import {
   getAllProductFamily,
   getProductByFamilyId,
   addproductcombo,
-} from '../../Actions/ProductAction';
-import DateFnsUtils from '@date-io/date-fns';
-import MySnackBar from '../MySnackBar';
+} from "../../Actions/ProductAction";
+import DateFnsUtils from "@date-io/date-fns";
+import MySnackBar from "../MySnackBar";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import { connect } from 'react-redux';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import BackButton from '../../Asset/Images/backbutton.svg';
-import { studentPath } from '../RoutePaths';
+} from "@material-ui/pickers";
+import { connect } from "react-redux";
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import BackButton from "../../Asset/Images/backbutton.svg";
+import { studentPath } from "../RoutePaths";
 class ProductComboForm extends Component {
   constructor() {
     super();
@@ -31,25 +31,25 @@ class ProductComboForm extends Component {
       family: null,
       varient: null,
       combo: [],
-      comboname: '',
-      comboshortcode: '',
-      combosku: '',
-      validity: '',
+      comboname: "",
+      comboshortcode: "",
+      combosku: "",
+      validity: "",
       endofenrollment: null,
-      combocostprice: '',
+      combocostprice: "",
       updateddate: new Date(),
-      combonameErr: '',
-      validityErr: '',
-      comboskuErr: '',
-      costPriceErr: '',
-      combosellprice: '',
-      combosellpriceErr: '',
-      comboshortcodeErr: '',
-      snackMsg: '',
-      snackVariant: '',
+      combonameErr: "",
+      validityErr: "",
+      comboskuErr: "",
+      costPriceErr: "",
+      combosellprice: "",
+      combosellpriceErr: "",
+      comboshortcodeErr: "",
+      snackMsg: "",
+      snackVariant: "",
       snackOpen: false,
-      familyErr: '',
-      varientErr: '',
+      familyErr: "",
+      varientErr: "",
     };
   }
   componentDidMount() {
@@ -58,18 +58,18 @@ class ProductComboForm extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.family !== prevState.family) {
       this.props.getProductByFamilyId(
-        this.state.family !== null ? this.state.family.id : ''
+        this.state.family !== null ? this.state.family.id : ""
       );
     }
   }
   handleAdd = () => {
-    let hlptxt = 'Please fill the required field';
+    let hlptxt = "Please fill the required field";
     this.state.varient === null
       ? this.setState({ varientErr: hlptxt })
-      : this.setState({ varientErr: '' });
+      : this.setState({ varientErr: "" });
     this.state.family === null
       ? this.setState({ familyErr: hlptxt })
-      : this.setState({ familyErr: '' });
+      : this.setState({ familyErr: "" });
     if (this.state.varient !== null) {
       let arr = this.state.combo;
       arr.push({
@@ -87,38 +87,38 @@ class ProductComboForm extends Component {
     }
   };
   handelSaved = () => {
-    let hlptxt = 'Please fill the required field';
-    this.state.comboname === ''
+    let hlptxt = "Please fill the required field";
+    this.state.comboname === ""
       ? this.setState({ combonameErr: hlptxt })
-      : this.setState({ combonameErr: '' });
-    this.state.validity === ''
+      : this.setState({ combonameErr: "" });
+    this.state.validity === ""
       ? this.setState({ validityErr: hlptxt })
-      : this.setState({ validityErr: '' });
-    this.state.combosku === ''
+      : this.setState({ validityErr: "" });
+    this.state.combosku === ""
       ? this.setState({ comboskuErr: hlptxt })
-      : this.setState({ comboskuErr: '' });
-    this.state.combocostprice === ''
+      : this.setState({ comboskuErr: "" });
+    this.state.combocostprice === ""
       ? this.setState({ costPriceErr: hlptxt })
-      : this.setState({ costPriceErr: '' });
-    this.state.combosellprice === ''
+      : this.setState({ costPriceErr: "" });
+    this.state.combosellprice === ""
       ? this.setState({ combosellpriceErr: hlptxt })
-      : this.setState({ combosellpriceErr: '' });
-    this.state.comboshortcode === ''
+      : this.setState({ combosellpriceErr: "" });
+    this.state.comboshortcode === ""
       ? this.setState({ comboshortcodeErr: hlptxt })
-      : this.setState({ comboshortcodeErr: '' });
+      : this.setState({ comboshortcodeErr: "" });
     this.state.varient === null
       ? this.setState({ varientErr: hlptxt })
-      : this.setState({ varientErr: '' });
+      : this.setState({ varientErr: "" });
     this.state.family === null
       ? this.setState({ familyErr: hlptxt })
-      : this.setState({ familyErr: '' });
+      : this.setState({ familyErr: "" });
     if (
-      this.state.comboname !== '' &&
-      this.state.validity !== '' &&
-      this.state.combosku !== '' &&
-      this.state.combocostprice !== '' &&
-      this.state.combosellprice !== '' &&
-      this.state.comboshortcode !== '' &&
+      this.state.comboname !== "" &&
+      this.state.validity !== "" &&
+      this.state.combosku !== "" &&
+      this.state.combocostprice !== "" &&
+      this.state.combosellprice !== "" &&
+      this.state.comboshortcode !== "" &&
       this.state.validity !== null &&
       this.state.family !== null
     ) {
@@ -129,21 +129,21 @@ class ProductComboForm extends Component {
         comboName: this.state.comboname,
         comboShortCode: this.state.comboshortcode,
         comboSKU: this.state.combosku,
-        validity: '365',
+        validity: "365",
         endOfEnrollment: this.state.validity,
         comboCostPrice: this.state.combocostprice,
         comboSellingPrice: this.state.combosellprice,
         dateOfCreation: new Date(),
-        createdBy: window.sessionStorage.getItem('role'),
-        updatedBy: window.sessionStorage.getItem('role'),
+        createdBy: window.sessionStorage.getItem("role"),
+        updatedBy: window.sessionStorage.getItem("role"),
         dateOfUpdate: new Date(),
         products: productid,
       };
       this.props.addproductcombo(obj);
       this.setState({
-        snackMsg: 'Added Successfully',
+        snackMsg: "Added Successfully",
         snackOpen: true,
-        snackVariant: 'success',
+        snackVariant: "success",
       });
       this.props.history.goBack();
     }
@@ -156,30 +156,30 @@ class ProductComboForm extends Component {
     console.log(this.state);
     return (
       <div>
-        <div style={{ display: 'flex', flexDirection: 'row', margin: '10px' }}>
+        <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
           <img
             src={BackButton}
-            style={{ cursor: 'pointer', marginTop: '-10px' }}
+            style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
           <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
             <Typography
               style={{
-                cursor: 'pointer',
-                fontWeight: '600',
-                marginLeft: '10px',
+                cursor: "pointer",
+                fontWeight: "600",
+                marginLeft: "10px",
               }}
               onClick={() => this.props.history.push(studentPath)}
             >
               Home
             </Typography>
             <Typography
-              style={{ cursor: 'pointer', fontWeight: '600' }}
+              style={{ cursor: "pointer", fontWeight: "600" }}
               onClick={() => this.props.history.goBack()}
             >
               Product
             </Typography>
-            <Typography style={{ cursor: 'pointer', fontWeight: '600' }}>
+            <Typography style={{ cursor: "pointer", fontWeight: "600" }}>
               Product Combo
             </Typography>
           </Breadcrumbs>
@@ -192,7 +192,7 @@ class ProductComboForm extends Component {
               id='combo-box-demo'
               options={this.props.getAllProductFamilyList}
               getOptionLabel={(option) =>
-                option.productName === 'LMS' ? 'Test Prep' : option.productName
+                option.productName === "LMS" ? "Test Prep" : option.productName
               }
               onChange={(e, newValue) => this.setState({ family: newValue })}
               renderInput={(params) => (
@@ -225,8 +225,8 @@ class ProductComboForm extends Component {
           </Grid>
           <Grid item md={4}>
             <PrimaryButton
-              color={'primary'}
-              variant={'contained'}
+              color={"primary"}
+              variant={"contained"}
               onClick={() => this.handleAdd()}
             >
               Add
@@ -241,16 +241,16 @@ class ProductComboForm extends Component {
           let servicemonth = new Date(data.endofservice).getMonth();
           let serviceyear = new Date(data.endofservice).getFullYear();
           let endofservicedate =
-            servicedate + '-' + servicemonth + '-' + serviceyear;
+            servicedate + "-" + servicemonth + "-" + serviceyear;
           let enrolldate = new Date(data.endofenrollment).getDate();
           let enrollmonth = new Date(data.endofenrollment).getMonth();
           let enrollyear = new Date(data.endofenrollment).getFullYear();
           let endofenrollment =
-            enrolldate + '-' + enrollmonth + '-' + enrollyear;
+            enrolldate + "-" + enrollmonth + "-" + enrollyear;
           return (
             <Grid container spacing={2}>
               <Grid item md={12}>
-                <Typography style={{ color: '#1093FF', fontWeight: 'bold' }}>
+                <Typography style={{ color: "#1093FF", fontWeight: "bold" }}>
                   Product
                 </Typography>
               </Grid>
@@ -325,7 +325,7 @@ class ProductComboForm extends Component {
         })}
         <Grid container spacing={2}>
           <Grid item md={12}>
-            <Typography style={{ color: '#1093FF', fontWeight: 'bold' }}>
+            <Typography style={{ color: "#1093FF", fontWeight: "bold" }}>
               Combo Details
             </Typography>
           </Grid>
@@ -362,7 +362,7 @@ class ProductComboForm extends Component {
                   this.setState({ validity: newValue })
                 }
                 KeyboardButtonProps={{
-                  'aria-label': 'change date',
+                  "aria-label": "change date",
                 }}
                 InputLabelProps={{
                   shrink: true,
@@ -406,8 +406,8 @@ class ProductComboForm extends Component {
           </Grid>
           <Grid item md={12} align='center'>
             <PrimaryButton
-              color={'primary'}
-              variant={'contained'}
+              color={"primary"}
+              variant={"contained"}
               onClick={() => this.handelSaved()}
             >
               Create Combo

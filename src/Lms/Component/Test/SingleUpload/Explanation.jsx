@@ -76,6 +76,8 @@ function Explanation(props) {
   };
 
   return (
+    deptName === "assessment_engine_admin" ? <></> :
+  
     <C2>
       <T4>Explanatory Answer</T4>
       <EditorBox>

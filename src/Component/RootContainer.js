@@ -342,11 +342,17 @@ function RootContainer(props) {
     //   items: newListArr,
     // }])
 
-    if (props.adminLinkedProductDetails.department === "Acsoperations") {
-      const { getProductByFamilyIdList } = props;
+    if (
+      props.adminLinkedProductDetails.department === "Acsoperations" ||
+      props.adminLinkedProductDetails.department === "mentor"
+    ) {
+      const {
+        adminLinkedProductDetails: { products: productList },
+        getProductByFamilyIdList,
+      } = props;
       let myArr = [];
-      if (getProductByFamilyIdList && getProductByFamilyIdList.length !== 0) {
-        getProductByFamilyIdList.map((eachItem) => {
+      if (productList && productList.length !== 0) {
+        productList.map((eachItem) => {
           if (eachItem.isProduct) {
             myArr.push({
               title: eachItem.shortName,
@@ -875,6 +881,8 @@ function RootContainer(props) {
     return true;
   };
 
+  console.log(props.adminLinkedProductDetails, "++++++++++++++");
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -1009,9 +1017,9 @@ function RootContainer(props) {
           <Routes {...props} />
           {/* <LandingAdmin {...props} /> */}
         </main>
-        {/* <footer className={classes.footer}>
+        <footer className={classes.footer}>
           <Copyright />
-        </footer> */}
+        </footer>
       </div>
     </ThemeProvider>
   );

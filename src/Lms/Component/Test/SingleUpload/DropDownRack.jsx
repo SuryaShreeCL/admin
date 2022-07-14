@@ -22,6 +22,7 @@ function DropDownRack(props) {
   const location = useLocation()
   console.log(location)
   const [testType, setTestType] = useState("")
+  const [video,setVideo]=useState("120")
   const aeDept = window.sessionStorage.getItem("department");
   const {
     subjects,
@@ -37,9 +38,12 @@ function DropDownRack(props) {
     activeLevel,
     handleInputChange,
     expectedTime,
-    testQuestionSetId
-  } = props;
+    testQuestionSetId,
+    type,
+    separateScore
 
+  } = props;
+// console.log(type)
  
   // useEffect(() => {
   //   dispatch(
@@ -74,7 +78,8 @@ function DropDownRack(props) {
                   items={concepts.data}
                   value={activeConcept}
                   onChange={handleConceptChange}
-                  disabled={concepts.data.length < 2}
+                  disabled={concepts.data.length <
+                     2}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -101,6 +106,7 @@ function DropDownRack(props) {
               />
             </Grid>
             {aeDept === "assessment_engine_admin" && (
+              <>
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel
@@ -130,10 +136,12 @@ function DropDownRack(props) {
                       evt.preventDefault()
                     }
                     id="expectedTime"
-                    value={expectedTime}
+                  //  { type === "VIDEO"? (value={video}):
+                  //  ( value={expectedTime})}
+                  value={expectedTime}
                     name="expectedTime"
-                    min="1"
-                    
+                    disabled={type==="VIDEO"}
+
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
                     endAdornment={
@@ -143,6 +151,49 @@ function DropDownRack(props) {
                   { console.log(expectedTime)}
                 </FormControl>
               </Grid>
+             
+              
+              <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                     shrink={true}
+                      style={{
+                        top: "-8px",
+                        left: "15px",
+                        background: "#FFFFFF",
+                        padding: "0 10px 0 8px",
+                        zIndex: 1,
+                      }}
+                      placeholder={"Score"}
+                    >Score
+                    
+                    </InputLabel>
+                    <OutlinedInput
+                      inputProps={{
+                        style: {
+                          height: "11px",
+                        },
+                      }}
+                      type={"number"}
+                      onKeyDown={(evt) =>
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
+                      }
+                      id="separateScore"
+                      value={separateScore}
+                      name="separateScore"
+                      min="0"
+                      // placeholder='Expected time for completion'
+                      onChange={handleInputChange}
+                    />
+                  </FormControl>
+                  {/* {console.log(score)} */}
+                </Grid>
+  
+              </>
             )}
 
             {topics !== null && (
@@ -177,6 +228,7 @@ function DropDownRack(props) {
                     id="expectedTime"
                     value={expectedTime}
                     name="expectedTime"
+                    disabled={type==="VIDEO"}
                     min={1}
                     // placeholder='Expected time for completion'
                     onChange={handleInputChange}
