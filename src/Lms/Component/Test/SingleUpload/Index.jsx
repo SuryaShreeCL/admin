@@ -504,7 +504,7 @@ export class Index extends Component {
               choices: this.getChoices(),
               explanation: this.state.text,
               explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
+             // video: { videoUrl: this.state.url },
               separateScore:separateScore,
             }
           : {
