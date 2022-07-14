@@ -33,11 +33,14 @@ function Choice(props) {
   if (answerType) {
     return (
       <div>
-        {bucketArray[activeTab].choices.map((choice, index) => {
-          return (
-            <C1>
-              {answerType !== "SUBJECTIVE" && <T1>{LETTERS[index]}</T1>}
-              {/* <InputBox
+        {bucketArray[activeTab] &&
+          bucketArray[activeTab].choices &&
+          bucketArray[activeTab].choices.length !== 0 &&
+          bucketArray[activeTab].choices.map((choice, index) => {
+            return (
+              <C1>
+                {answerType !== "SUBJECTIVE" && <T1>{LETTERS[index]}</T1>}
+                {/* <InputBox
                 choice={choice}
                 image={choice.image}
                 handleImageUpload={handleImageUpload}
@@ -46,57 +49,57 @@ function Choice(props) {
                 handleTextChange={handleTextChange}
                 answerType={answerType}
               /> */}
-              <Box flex={1}>
-                {answerType !== "SUBJECTIVE" ? (
-                  <TextEditor
-                    data={choice.text}
-                    onChange={(e, editorDate) =>
-                      handleTextChange(
-                        { target: { value: editorDate.getData() } },
-                        index
-                      )
-                    }
-                    key={index}
-                  />
-                ) : (
-                  <TextField
-                    key={index}
-                    value={choice.text}
-                    onChange={(e) => handleTextChange(e, index)}
-                    variant={"outlined"}
-                    fullWidth
-                    multiline
-                  />
-                )}
-              </Box>
-              <FormControlLabel
-                disabledRipple
-                control={
-                  <Checkbox
-                    value={index}
-                    checked={choice.selected}
-                    onChange={(e) => handleCheckBoxes(e)}
-                    disableRipple
-                    icon={<img src={UnCheckedIcon} alt='' />}
-                    checkedIcon={<img src={CheckedIcon} alt='' />}
-                  />
-                }
-              />
+                <Box flex={1}>
+                  {answerType !== "SUBJECTIVE" ? (
+                    <TextEditor
+                      data={choice.text}
+                      onChange={(e, editorDate) =>
+                        handleTextChange(
+                          { target: { value: editorDate.getData() } },
+                          index
+                        )
+                      }
+                      key={index}
+                    />
+                  ) : (
+                    <TextField
+                      key={index}
+                      value={choice.text}
+                      onChange={(e) => handleTextChange(e, index)}
+                      variant={"outlined"}
+                      fullWidth
+                      multiline
+                    />
+                  )}
+                </Box>
+                <FormControlLabel
+                  disabledRipple
+                  control={
+                    <Checkbox
+                      value={index}
+                      checked={choice.selected}
+                      onChange={(e) => handleCheckBoxes(e)}
+                      disableRipple
+                      icon={<img src={UnCheckedIcon} alt='' />}
+                      checkedIcon={<img src={CheckedIcon} alt='' />}
+                    />
+                  }
+                />
 
-              {aedept === "assessment_engine_admin" ? (
-                <IconButton
-                  color='secondary'
-                  onClick={() => handleDeleteChoiceClick(index)}
-                  style={{ marginTop: "-9px" }}
-                >
-                  <DeleteRounded />
-                </IconButton>
-              ) : (
-                <></>
-              )}
-            </C1>
-          );
-        })}
+                {aedept === "assessment_engine_admin" ? (
+                  <IconButton
+                    color='secondary'
+                    onClick={() => handleDeleteChoiceClick(index)}
+                    style={{ marginTop: "-9px" }}
+                  >
+                    <DeleteRounded />
+                  </IconButton>
+                ) : (
+                  <></>
+                )}
+              </C1>
+            );
+          })}
         {answerType !== "SUBJECTIVE" && (
           <ThemeProvider theme={buttonTheme}>
             <Button
