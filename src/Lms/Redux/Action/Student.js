@@ -371,7 +371,7 @@ export const updateStudyPlan = (
       .catch((error) => {
         console.log(error);
         dispatch(errorHandler(STUDENT.updateStudyPlan, error, false));
-        callback(catchError(error.response));
+        callback(catchError(error));
       });
   };
 };

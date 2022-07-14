@@ -1021,7 +1021,7 @@ export const getTopicListByConceptId = (conceptId, callback) => {
       })
       .catch((error) => {
         dispatch(errorHandler(TEST.getTopicListByConceptId, error, false));
-        callback(catchError(error.response));
+        callback(catchError(error));
         console.log(error);
       });
   };
@@ -1042,7 +1042,7 @@ export const copyQuestion = (data, callback) => {
         callback(response.data);
       })
       .catch((error) => {
-        callback(catchError(error.response));
+        callback(catchError(error));
         console.log(error);
       });
   };
