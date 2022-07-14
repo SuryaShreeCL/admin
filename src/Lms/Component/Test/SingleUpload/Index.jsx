@@ -27,6 +27,7 @@ import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import QuestionPreview from "./preview/Index";
 import Question from "./Question";
+import { getAllPassages } from "../../../Redux/Action/Passage";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -165,6 +166,9 @@ export class Index extends Component {
           );
         }
       });
+    }
+    if (deptName !== "assessment_engine_admin") {
+      this.props.getAllPassages();
     }
   }
 
@@ -748,8 +752,12 @@ export class Index extends Component {
     this.setState({ videoContent: arr });
   };
 
+  handlePassage = (e, newValue) => {
+    this.setState({ description: newValue?.content });
+  };
+
   render() {
-    const { subjects, concepts, topics, editData } = this.props;
+    const { subjects, concepts, topics, editData, passageOptions } = this.props;
 
     const {
       activeSubject,
@@ -802,6 +810,7 @@ export class Index extends Component {
       handleVideoContentAdd,
       handleVideoContentDelete,
       handleVideoContentChange,
+      handlePassage,
     } = this;
 
     const { history, location, match } = this.props;
@@ -880,6 +889,8 @@ export class Index extends Component {
       handleDescriptionChange,
       question,
       description,
+      passageOptions: { data: [], ...passageOptions }.data,
+      handlePassage,
     };
 
     const popUpProps = {
@@ -950,6 +961,7 @@ const mapStateToProps = (state) => {
     topics: state.CourseMaterialReducer.topics,
     editData: state.TestReducer.editData,
     previewData: state.TestReducer.previewData,
+    passageOptions: state.PassageReducer.nameList,
   };
 };
 
@@ -965,4 +977,5 @@ export default connect(mapStateToProps, {
   cleanEditData,
   previewTestData,
   aepreviewTestData,
+  getAllPassages,
 })(Index);
