@@ -8,6 +8,7 @@ import {
   HeadInline,
   TableBox,
 } from "../../Assets/StyledTableComponents";
+import { customDateFormat } from "../../Utils/HelperFunction";
 import LatexViewer from "../../Utils/LatexViewer";
 import Menu from "./Menu";
 
@@ -48,7 +49,9 @@ function TableComponent({
                 <TableRow style={{ border: "0 0 0 0" }}>
                   <BoldCell>{item.name}</BoldCell>
                   <BoldCell>{item.updatedBy}</BoldCell>
-                  <BoldCell>{item.updatedAt}</BoldCell>
+                  <BoldCell>
+                    {customDateFormat(item.updatedAt, "DD MMM YYYY")}
+                  </BoldCell>
                   <BoldCell>
                     {handleShowThreeDot() && (
                       <>
