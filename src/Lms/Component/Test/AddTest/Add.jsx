@@ -69,7 +69,8 @@ const dialogContent = {
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
-  title: "Are you sure you want to delete this section ",
+  title: "Are you sure you want to delete this section ?",
+  // body: calibrationSectionTabLabels,
   button1: "No",
   button2: "Yes",
 };
@@ -124,9 +125,11 @@ class Add extends Component {
       calibrationTestCopyContent: [],
       topicTestCopySections: {},
     };
+   
   }
 
   componentDidMount() {
+   
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
       this.setState({
@@ -170,6 +173,8 @@ class Add extends Component {
         }
       });
 
+
+
     // Editable Mode
     if (testQuestionSetId !== undefined) {
       deptName === "assessment_engine_admin"
@@ -178,7 +183,13 @@ class Add extends Component {
     }
   }
 
+<<<<<<< HEAD
   componentDidUpdate(prevProps, prevState) {
+=======
+  componentDidUpdate(prevProps,prevState) {
+
+    
+>>>>>>> release-v1.4.6-bugfixing-suryashree
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -219,11 +230,14 @@ class Add extends Component {
 
       if (questionSet.type === "AE_TEST") {
         let tabArr = [];
+       
         questionSet.testSection.map((i, index) => {
           tabArr.push({
             tabLabel: `Section ${index + 1}`,
           });
+        
         });
+        console.log(tabArr);
         this.setState({
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
@@ -898,27 +912,27 @@ class Add extends Component {
                           tempcalibrationTestData[index].id = item.id;
                         }
                       }
-                    );
-                    this.setState({
-                      snackOpen: true,
-                      snackType: "success",
-                      message: `${type} TEST ${message} SUCCESSFULLY`,
-                      testQuestionSetId: calibrationTestResponse?.data?.id,
-                      courseIdValue: calibrationTestResponse?.data?.productId,
-                      sectionId:
-                        calibrationTestResponse?.data?.testSection[0]?.id,
-                      calibrationTestData: tempcalibrationTestData,
-                      calibrationTestCopyContent: JSON.parse(
-                        JSON.stringify(tempcalibrationTestData)
-                      ),
-                      loading: false,
-                    });
-                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                  } else {
+                    }
+                  );
+                  this.setState({
+                    snackOpen: true,
+                    snackType: "success",
+                    message: `${type} TEST ${message} SUCCESSFULLY`,
+                    testQuestionSetId: calibrationTestResponse?.data?.id,
+                    courseIdValue: calibrationTestResponse?.data?.productId,
+                    sectionId:
+                      calibrationTestResponse?.data?.testSection[0]?.id,
+                    calibrationTestData: tempcalibrationTestData,
+                    loading: false,
+                  });
+                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                }                                              
+                else { 
+                  const aedept = window.sessionStorage.getItem("department");                 
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
-                      message: "Network Failed",
+                      message:aedept !== "assessment_engine_admin"? "Network Failed":"Session Expired",
                       loading: false,
                     });
                   }

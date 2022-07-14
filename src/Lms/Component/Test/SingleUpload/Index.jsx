@@ -416,6 +416,7 @@ export class Index extends Component {
   };
 
   handleDeleteChoiceClick = (ind) => {
+    console.log(ind,"ind");
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
@@ -510,8 +511,8 @@ export class Index extends Component {
               choices: this.getChoices(),
               explanation: this.state.text,
               explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
-              separateScore: separateScore,
+             // video: { videoUrl: this.state.url },
+              separateScore:separateScore,
             }
           : {
               id: questionId !== undefined ? questionId : null,
@@ -950,6 +951,8 @@ export class Index extends Component {
           <Question {...questionProps} />
           <Answer
             handleDeleteChoiceClick={this.handleDeleteChoiceClick}
+            
+            
             {...answerProps}
           />
           <Explanation {...explanationProps} />

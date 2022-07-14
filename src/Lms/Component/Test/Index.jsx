@@ -355,10 +355,13 @@ class TestLanding extends Component {
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
-      openStatus: !this.state.openStatus,
+      openStatus:status === "Expired"? false:!this.state.openStatus,
       clickableStatus: status,
+      
     });
+    
   };
+
 
   handleClose = () => {
     this.setState({ anchorEl: null, popUpId: null, openStatus: false });
@@ -372,11 +375,12 @@ class TestLanding extends Component {
       );
     }
     if (text === "Archive") {
+      var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "archive",
         icon: <ArchiveIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
         title: "Are you sure you want to Archive?",
-        body: topicName,
+        body: deptname !== "assessment_engine_admin"? topicName : "",
         button1: "No",
         button2: "Yes",
       };
@@ -529,57 +533,43 @@ class TestLanding extends Component {
 
   handlePrimaryButtonClick = () => {
     if (this.state.dialogContent.type === "archive") {
-      this.state.department !== "assessment_engine_admin"
-        ? this.props.deleteTest(this.state.popUpId, (response) => {
-            if (response.success) {
-              let paramObj = {
-                page: INITIAL_PAGE_NO,
-                size: NO_OF_RESPONSE,
-                testType:
-                  this.state.testType !== "default"
-                    ? this.state.testType
-                    : null,
-                topicId:
-                  this.state.topicId !== "default" ? this.state.topicId : null,
-                status:
-                  this.state.status !== "default" ? this.state.status : null,
-              };
-              this.state.department === "assessment_engine_admin"
-                ? this.props.aegetQuestionSet(paramObj)
-                : this.props.getQuestionSet({
-                    ...paramObj,
-                    courseId:
-                      this.state.testType === "CALIBRATION"
-                        ? this.state.courseValue
-                        : this.state.courseId !== "default"
-                        ? this.state.courseId
-                        : null,
-                  });
-              this.handleCloseIconClick();
-            } else {
-              //
-              this.setState({
-                alertState: true,
-                alertMsg: response.message,
-                alertSeverity: "error",
-              });
-              this.handleCloseIconClick();
-            }
-          })
-        : this.props.aedeleteTest(this.state.popUpId, (response) => {
-            if (response.success) {
-              let paramObj = {
-                page: INITIAL_PAGE_NO,
-                size: NO_OF_RESPONSE,
-                testType:
-                  this.state.testType !== "default"
-                    ? this.state.testType
-                    : null,
-                topicId:
-                  this.state.topicId !== "default" ? this.state.topicId : null,
-                status:
-                  this.state.status !== "default" ? this.state.status : null,
-              };
+      this.state.department !== "assessment_engine_admin"?
+      this.props.deleteTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        } else {
+          //
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: "error",
+          });
+          this.handleCloseIconClick();
+        }
+      }):
+      this.props.aedeleteTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
 
               this.state.department === "assessment_engine_admin"
                 ? this.props.aegetQuestionSet(paramObj)
