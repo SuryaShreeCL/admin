@@ -477,7 +477,9 @@ function Index(props) {
   };
 
   const handleDownload = (path, id, e) => {
-    dispatch(getDownloadByDocumentId(studentId, sectionId, path,schoolId,schoolType));
+    dispatch(
+      getDownloadByDocumentId(studentId, sectionId, path, schoolId, schoolType)
+    );
   };
 
   const handleDelete = (id, path, e) => {};
@@ -643,7 +645,7 @@ function Index(props) {
   };
 
   const isMiscellaneous = Boolean(miscellaneousSelectedValue);
-  const disabledUploadButton = isStageCompleted() || documentList.length === 0;
+  const disabledUploadButton = isStageCompleted();
 
   return (
     <div className={classes.stageBoxLayoutStyle}>
