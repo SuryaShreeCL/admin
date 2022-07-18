@@ -5,13 +5,13 @@ import {
   IconButton,
   Switch,
   Typography,
-  Backdrop
+  Backdrop,
 } from "@material-ui/core";
 import { DeleteRounded } from "@material-ui/icons";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import QueryString from "qs";
-import MomentUtils from '@date-io/moment';
+import MomentUtils from "@date-io/moment";
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
@@ -64,7 +64,6 @@ const dialogContent = {
   button2: "Yes",
 };
 
-
 const sectionDialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
@@ -72,8 +71,6 @@ const sectionDialogContent = {
   // body: calibrationSectionTabLabels,
   button1: "No",
   button2: "Yes",
-  
-  
 };
 
 class Add extends Component {
@@ -118,7 +115,7 @@ class Add extends Component {
       scheduleTest: false,
       eventDate: null,
       eventEndDate: null,
-      error:"",
+      error: "",
       // eventDate: new Date(),
       // eventEndDate: new Date(),
       department: null,
@@ -126,11 +123,9 @@ class Add extends Component {
       calibrationTestCopyContent: [],
       topicTestCopySections: {},
     };
-   
   }
- 
+
   componentDidMount() {
-   
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
       this.setState({
@@ -145,35 +140,34 @@ class Add extends Component {
       }
     );
     const { type } = this.state;
-   deptName !== "assessment_engine_admin" && this.props.getCourses((response) => {
-      if (response.success) {
-        if (testQuestionSetId === undefined) {
-          if (
-            type !== "CALIBRATION" &&
-            response.data[0].courseId !== undefined
-          ) {
-            this.props.getTopicByCourse(
-              response.data[0].courseId,
-              (topicResponse) => {
-                if (topicResponse.success) {
-                  this.setState({
-                    courseId: response.data[0].courseId,
-                    topicId: topicResponse.data[0].id,
-                    courseIdValue: response.data[0].id,
-                  });
+    deptName !== "assessment_engine_admin" &&
+      this.props.getCourses((response) => {
+        if (response.success) {
+          if (testQuestionSetId === undefined) {
+            if (
+              type !== "CALIBRATION" &&
+              response.data[0].courseId !== undefined
+            ) {
+              this.props.getTopicByCourse(
+                response.data[0].courseId,
+                (topicResponse) => {
+                  if (topicResponse.success) {
+                    this.setState({
+                      courseId: response.data[0].courseId,
+                      topicId: topicResponse.data[0].id,
+                      courseIdValue: response.data[0].id,
+                    });
+                  }
                 }
-              }
-            );
-          } else {
-            this.setState({
-              courseId: response.data[0].courseId,
-            });
+              );
+            } else {
+              this.setState({
+                courseId: response.data[0].courseId,
+              });
+            }
           }
         }
-      }
-    });
-
-
+      });
 
     // Editable Mode
     if (testQuestionSetId !== undefined) {
@@ -183,9 +177,7 @@ class Add extends Component {
     }
   }
 
-  componentDidUpdate(prevProps,prevState) {
-
-    
+  componentDidUpdate(prevProps, prevState) {
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -236,12 +228,11 @@ class Add extends Component {
 
       if (questionSet.type === "AE_TEST") {
         let tabArr = [];
-       
+
         questionSet.testSection.map((i, index) => {
           tabArr.push({
             tabLabel: `Section ${index + 1}`,
           });
-        
         });
         console.log(tabArr);
         this.setState({
@@ -559,12 +550,11 @@ class Add extends Component {
       }
     }
   };
- 
 
   handleSaveButton = () => {
     this.setState({
-      loading : true
-    })
+      loading: true,
+    });
     const {
       testQuestionSetId,
       type,
@@ -579,7 +569,6 @@ class Add extends Component {
       cutOffScore,
       eventDate,
       eventEndDate,
-      
     } = this.state;
 
     if (type === "QUESTIONBANK") {
@@ -602,7 +591,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading : false
+                    loading: false,
                   });
                 }
               }
@@ -618,7 +607,7 @@ class Add extends Component {
                     snackType: "success",
                     message: `${type} TEST ${message} SUCCESSFULLY`,
                     testQuestionSetId: questionBankResponse?.data?.id,
-                    loading:false
+                    loading: false,
                   });
                 }
               }
@@ -628,7 +617,7 @@ class Add extends Component {
           snackOpen: true,
           snackType: "warning",
           message: "Please fill all the fields",
-          loading:false
+          loading: false,
         });
       }
     }
@@ -830,14 +819,15 @@ class Add extends Component {
           item.descriptionTitle.trim().length !== 0
       );
       if (
-          name &&
-          nameDescription &&
-          name.trim().length !== 0 &&
-          nameDescription.trim().length !== 0 &&
-          description.length !== 0 &&
-          descriptionTitle.trim().length !== 0 &&
-          cutOffScore.length !== 0 &&
-          ((this.state.scheduleTest && eventDate && eventEndDate) || !this.state.scheduleTest)
+        name &&
+        nameDescription &&
+        name.trim().length !== 0 &&
+        nameDescription.trim().length !== 0 &&
+        description.length !== 0 &&
+        descriptionTitle.trim().length !== 0 &&
+        cutOffScore.length !== 0 &&
+        ((this.state.scheduleTest && eventDate && eventEndDate) ||
+          !this.state.scheduleTest)
         // courseId !== undefined
       ) {
         if (
@@ -878,80 +868,85 @@ class Add extends Component {
 
               // console.log(eventDate, eventEndDate, calibrationTestSet,"1234")
 
-            // this.props.createTestQuestionSet(
-            //   calibrationTestSet,
-            //   (calibrationTestResponse) => {
-            //     if (calibrationTestResponse.success) {
-            //       var message =
-            //         testQuestionSetId === null ? "ADDED" : "UPDATED";
-            //       var tempcalibrationTestData = calibrationTestData;
-            //       calibrationTestResponse.data.testSection.map(
-            //         (item, index) => {
-            //           if (calibrationTestData.length > index) {
-            //             tempcalibrationTestData[index].id = item.id;
-            //           }
-            //         }
-            //       );
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "success",
-            //         message: `${type} TEST ${message} SUCCESSFULLY`,
-            //         testQuestionSetId: calibrationTestResponse.data.id,
-            //         courseIdValue: calibrationTestResponse.data.productId,
-            //         sectionId: calibrationTestResponse.data.testSection[0].id,
-            //         calibrationTestData: tempcalibrationTestData,
-            //       });
-            //       this.handleBannerUpload(calibrationTestResponse.data.id);
-            //     } else {
-            //       this.setState({
-            //         snackOpen: true,
-            //         snackType: "warning",
-            //         message: calibrationTestResponse.message,
-            //       });
-            //     }
-            //   }
-            // );
-            this.props.aecreateTestQuestionSet(
-              calibrationTestSet,
-              (calibrationTestResponse) => {                
-                if (calibrationTestResponse?.success) {
-                  console.log(calibrationTestResponse,"calibrationTestResponse")
-                  // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  var tempcalibrationTestData = calibrationTestData;
-                  calibrationTestResponse.data.testSection.map(
-                    (item, index) => {
-                      if (calibrationTestData?.length > index) {
-                        tempcalibrationTestData[index].id = item.id;
+              // this.props.createTestQuestionSet(
+              //   calibrationTestSet,
+              //   (calibrationTestResponse) => {
+              //     if (calibrationTestResponse.success) {
+              //       var message =
+              //         testQuestionSetId === null ? "ADDED" : "UPDATED";
+              //       var tempcalibrationTestData = calibrationTestData;
+              //       calibrationTestResponse.data.testSection.map(
+              //         (item, index) => {
+              //           if (calibrationTestData.length > index) {
+              //             tempcalibrationTestData[index].id = item.id;
+              //           }
+              //         }
+              //       );
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "success",
+              //         message: `${type} TEST ${message} SUCCESSFULLY`,
+              //         testQuestionSetId: calibrationTestResponse.data.id,
+              //         courseIdValue: calibrationTestResponse.data.productId,
+              //         sectionId: calibrationTestResponse.data.testSection[0].id,
+              //         calibrationTestData: tempcalibrationTestData,
+              //       });
+              //       this.handleBannerUpload(calibrationTestResponse.data.id);
+              //     } else {
+              //       this.setState({
+              //         snackOpen: true,
+              //         snackType: "warning",
+              //         message: calibrationTestResponse.message,
+              //       });
+              //     }
+              //   }
+              // );
+              this.props.aecreateTestQuestionSet(
+                calibrationTestSet,
+                (calibrationTestResponse) => {
+                  if (calibrationTestResponse?.success) {
+                    console.log(
+                      calibrationTestResponse,
+                      "calibrationTestResponse"
+                    );
+                    // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
+                    var message =
+                      testQuestionSetId === null ? "ADDED" : "UPDATED";
+                    var tempcalibrationTestData = calibrationTestData;
+                    calibrationTestResponse.data.testSection.map(
+                      (item, index) => {
+                        if (calibrationTestData?.length > index) {
+                          tempcalibrationTestData[index].id = item.id;
+                        }
                       }
-                    }
-                  );
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: calibrationTestResponse?.data?.id,
-                    courseIdValue: calibrationTestResponse?.data?.productId,
-                    sectionId:
-                      calibrationTestResponse?.data?.testSection[0]?.id,
-                    calibrationTestData: tempcalibrationTestData,
-                    calibrationTestCopyContent: JSON.parse(
-                      JSON.stringify(tempcalibrationTestData)
-                    ),
-                    loading: false,
-                  });
-                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                }                                              
-                else { 
-                  const aedept = window.sessionStorage.getItem("department");                 
+                    );
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "success",
+                      message: `${type} TEST ${message} SUCCESSFULLY`,
+                      testQuestionSetId: calibrationTestResponse?.data?.id,
+                      courseIdValue: calibrationTestResponse?.data?.productId,
+                      sectionId:
+                        calibrationTestResponse?.data?.testSection[0]?.id,
+                      calibrationTestData: tempcalibrationTestData,
+                      calibrationTestCopyContent: JSON.parse(
+                        JSON.stringify(tempcalibrationTestData)
+                      ),
+                      loading: false,
+                    });
+                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                  } else {
+                    const aedept = window.sessionStorage.getItem("department");
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
-                      message:aedept !== "assessment_engine_admin"? "Network Failed":"Session Expired",
+                      message:
+                        aedept !== "assessment_engine_admin"
+                          ? "Network Failed"
+                          : "Session Expired",
                       loading: false,
-                    });    
-                  }                                
+                    });
+                  }
                 }
               );
             } else {
@@ -1001,9 +996,9 @@ class Add extends Component {
       this.props.history.push(
         single_upload + "?questionId=" + this.state.popUpId,
         {
-           testQuestionSetId : this.state.testQuestionSetId,
-           topicId : this.state.topicId,
-           sectionId : this.state.sectionId
+          testQuestionSetId: this.state.testQuestionSetId,
+          topicId: this.state.topicId,
+          sectionId: this.state.sectionId,
         }
       );
     }
@@ -1038,8 +1033,8 @@ class Add extends Component {
         ignoreQueryPrefix: true,
       }
     );
-    console.log(testQuestionSetId)
-    console.log(this.state.popUpId)
+    console.log(testQuestionSetId);
+    console.log(this.state.popUpId);
     this.state.department === "assessment_engine_admin"
       ? this.props.aedeleteQuestion(this.state.popUpId, (response) => {
           if (response.success) {
@@ -1063,14 +1058,13 @@ class Add extends Component {
   handleSectionDelete = () => {
     const { calibrationActiveSectionTab, calibrationTestData } = this.state;
     const { testQuestionSetId } = this.state;
-    console.log(testQuestionSetId)
+    console.log(testQuestionSetId);
     if (calibrationTestData.length !== 0) {
       var deleteSectionId =
         calibrationTestData[calibrationActiveSectionTab - 1]["id"];
       if (deleteSectionId !== null) {
         this.state.department === "assessment_engine_admin"
           ? this.props.aedeleteSection(deleteSectionId, (response) => {
-           
               if (response.success) {
                 this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
                   if (res.success) this.handleCloseIconClick();
@@ -1199,8 +1193,6 @@ class Add extends Component {
             color={"secondary"}
             size='small'
             onClick={this.handleFileDelete}
-
-
           >
             <DeleteRoundedIcon />
           </IconButton>
@@ -1220,7 +1212,7 @@ class Add extends Component {
                 padding: "5% 10% 5% 10%",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",                
+                alignItems: "center",
               }}
             >
               <div {...getRootProps({ className: "dropzone" })}>
@@ -1271,8 +1263,8 @@ class Add extends Component {
       calibrationTestCopyContent,
       topicTestCopySections,
     } = this.state;
-    
-    const AVOID_INPUT = ["E", "e", "+", "-","."];
+
+    const AVOID_INPUT = ["E", "e", "+", "-", "."];
     const { courses, topics } = this.props;
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
@@ -1317,23 +1309,25 @@ class Add extends Component {
             </Box>
           </Box>
           <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-              {/* <DropDown
-              label="Course"
-              name="courseId"
-              items={
-                (courses.length !== 0 &&
-                  courses.data.map(item => ({
-                    id: item.courseId,
-                    title: item.title,
-                  }))) ||
-                []
-              }
-              value={courseId ? courseId : undefined}
-              onChange={this.handleChange}
-              disabled={testQuestionSetId !== null ? true : false}
-              placeholder="Course"
-            /> */}
+            <Grid item xs={12} md={4}>
+              {aedept !== "assessment_engine_admin" && (
+                <DropDown
+                  label='Course'
+                  name='courseId'
+                  items={
+                    (courses.length !== 0 &&
+                      courses.data.map((item) => ({
+                        id: item.courseId,
+                        title: item.title,
+                      }))) ||
+                    []
+                  }
+                  value={courseId ? courseId : undefined}
+                  onChange={this.handleChange}
+                  disabled={testQuestionSetId !== null ? true : false}
+                  placeholder='Course'
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={8}>
               {aedept !== "assessment_engine_admin" ? (
