@@ -198,6 +198,15 @@ class Add extends Component {
       const questionSet =
         (testQuestionSet.length !== 0 && testQuestionSet.data) || false;
 
+      var defaultCloseObj = {
+        popUpId: null,
+        anchorEl: null,
+        sectionAnchorEl: null,
+        dialogStatus: false,
+        dialogContent: null,
+        sectionDialogOpen: false,
+      };
+
       if (questionSet.type === "CALIBRATION") {
         let tabArr = [];
         questionSet.testSection.map((i, index) => {
@@ -206,6 +215,7 @@ class Add extends Component {
           });
         });
         this.setState({
+          ...defaultCloseObj,
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
           name: questionSet.name,
@@ -262,6 +272,7 @@ class Add extends Component {
 
       if (questionSet.type === "TOPIC") {
         this.setState({
+          ...defaultCloseObj,
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
           type: questionSet.type,
@@ -279,6 +290,7 @@ class Add extends Component {
 
       if (questionSet.type === "QUESTIONBANK") {
         this.setState({
+          ...defaultCloseObj,
           testQuestionSetId: questionSet.id,
           courseId: questionSet.course,
           type: questionSet.type,
@@ -372,11 +384,11 @@ class Add extends Component {
 
   handleCloseIconClick = () => {
     this.setState({
+      popUpId: null,
+      anchorEl: null,
+      sectionAnchorEl: null,
       dialogStatus: false,
       dialogContent: null,
-      anchorEl: null,
-      popUpId: null,
-      sectionAnchorEl: null,
       sectionDialogOpen: false,
     });
   };
@@ -1035,11 +1047,7 @@ class Add extends Component {
         })
       : this.props.deleteQuestion(this.state.popUpId, (response) => {
           if (response.success) {
-            this.props.getTestQuestionSet(testQuestionSetId, (testResponse) => {
-              if (testResponse.success) {
-                this.handleCloseIconClick();
-              }
-            });
+            this.props.getTestQuestionSet(testQuestionSetId, () => {});
           }
         });
   };
@@ -1062,9 +1070,7 @@ class Add extends Component {
             })
           : this.props.deleteSection(deleteSectionId, (response) => {
               if (response.success) {
-                this.props.getTestQuestionSet(testQuestionSetId, (res) => {
-                  if (res.success) this.handleCloseIconClick();
-                });
+                this.props.getTestQuestionSet(testQuestionSetId, () => {});
               }
             });
       } else {
