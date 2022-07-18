@@ -125,11 +125,9 @@ class Add extends Component {
       calibrationTestCopyContent: [],
       topicTestCopySections: {},
     };
-   
   }
 
   componentDidMount() {
-   
     var deptName = window.sessionStorage.getItem("department");
     if (deptName === "assessment_engine_admin") {
       this.setState({
@@ -173,8 +171,6 @@ class Add extends Component {
         }
       });
 
-
-
     // Editable Mode
     if (testQuestionSetId !== undefined) {
       deptName === "assessment_engine_admin"
@@ -183,9 +179,7 @@ class Add extends Component {
     }
   }
 
-  componentDidUpdate(prevProps,prevState) {
-
-    
+  componentDidUpdate(prevProps, prevState) {
     const id = QueryString.parse(this.props.location.search, {
       ignoreQueryPrefix: true,
     }).testQuestionSetId;
@@ -236,12 +230,11 @@ class Add extends Component {
 
       if (questionSet.type === "AE_TEST") {
         let tabArr = [];
-       
+
         questionSet.testSection.map((i, index) => {
           tabArr.push({
             tabLabel: `Section ${index + 1}`,
           });
-        
         });
         console.log(tabArr);
         this.setState({
@@ -920,27 +913,29 @@ class Add extends Component {
                           tempcalibrationTestData[index].id = item.id;
                         }
                       }
-                    // }
-                  );
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: calibrationTestResponse?.data?.id,
-                    courseIdValue: calibrationTestResponse?.data?.productId,
-                    sectionId:
-                      calibrationTestResponse?.data?.testSection[0]?.id,
-                    calibrationTestData: tempcalibrationTestData,
-                    loading: false,
-                  });
-                  this.handleBannerUpload(calibrationTestResponse?.data?.id);
-                }                                              
-                else { 
-                  const aedept = window.sessionStorage.getItem("department");                 
+                      // }
+                    );
+                    this.setState({
+                      snackOpen: true,
+                      snackType: "success",
+                      message: `${type} TEST ${message} SUCCESSFULLY`,
+                      testQuestionSetId: calibrationTestResponse?.data?.id,
+                      courseIdValue: calibrationTestResponse?.data?.productId,
+                      sectionId:
+                        calibrationTestResponse?.data?.testSection[0]?.id,
+                      calibrationTestData: tempcalibrationTestData,
+                      loading: false,
+                    });
+                    this.handleBannerUpload(calibrationTestResponse?.data?.id);
+                  } else {
+                    const aedept = window.sessionStorage.getItem("department");
                     this.setState({
                       snackOpen: true,
                       snackType: "warning",
-                      message:aedept !== "assessment_engine_admin"? "Network Failed":"Session Expired",
+                      message:
+                        aedept !== "assessment_engine_admin"
+                          ? "Network Failed"
+                          : "Session Expired",
                       loading: false,
                     });
                   }
@@ -1307,22 +1302,24 @@ class Add extends Component {
           </Box>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
-              {/* <DropDown
-              label="Course"
-              name="courseId"
-              items={
-                (courses.length !== 0 &&
-                  courses.data.map(item => ({
-                    id: item.courseId,
-                    title: item.title,
-                  }))) ||
-                []
-              }
-              value={courseId ? courseId : undefined}
-              onChange={this.handleChange}
-              disabled={testQuestionSetId !== null ? true : false}
-              placeholder="Course"
-            /> */}
+              {aedept !== "assessment_engine_admin" && (
+                <DropDown
+                  label='Course'
+                  name='courseId'
+                  items={
+                    (courses.length !== 0 &&
+                      courses.data.map((item) => ({
+                        id: item.courseId,
+                        title: item.title,
+                      }))) ||
+                    []
+                  }
+                  value={courseId ? courseId : undefined}
+                  onChange={this.handleChange}
+                  disabled={testQuestionSetId !== null ? true : false}
+                  placeholder='Course'
+                />
+              )}
             </Grid>
             <Grid item xs={12} md={8}>
               {aedept !== "assessment_engine_admin" ? (
