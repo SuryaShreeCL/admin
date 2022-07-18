@@ -26,6 +26,7 @@ function Explanation(props) {
     handleVideoContentChange,
     videoContent = [],
     deptName,
+    videoContentLimit,
   } = props;
 
   const renderExplanationVideoContent = () => {
@@ -57,6 +58,7 @@ function Explanation(props) {
               startIcon={<AddRounded />}
               onClick={handleVideoContentAdd}
               color={"primary"}
+              disabled={videoContent.length >= videoContentLimit}
             >
               {"Add Video"}
             </Button>

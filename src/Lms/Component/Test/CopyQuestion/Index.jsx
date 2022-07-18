@@ -6,10 +6,12 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  BackIconBox,
   Container,
   Divider,
   FlexView,
@@ -37,6 +39,7 @@ import React from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { lms_add_test } from "../../../../Component/RoutePaths";
 import { SnackBar } from "../../../Utils/SnackBar";
+import { ArrowBack } from "@material-ui/icons";
 
 const NO_OF_RESPONSE = 10;
 
@@ -442,7 +445,8 @@ function Index() {
           handleClose();
           setSnack({
             snackOpen: true,
-            message: res.message,
+            // message: res.message,
+            message: "Questions Copied Successfully",
             color: "success",
           });
           setTimeout(() => {
@@ -477,8 +481,17 @@ function Index() {
 
   var tableData = { data: {}, ...testData }.data;
 
+  const handleBackIconClick = () => {
+    history.goBack();
+  };
+
   return (
     <>
+      <BackIconBox>
+        <IconButton color='primary' onClick={handleBackIconClick}>
+          <ArrowBack color='primary' />
+        </IconButton>
+      </BackIconBox>
       <Container>
         <Grid container>
           <H1 style={{ marginBottom: "35px" }}>{"Copy Question"}</H1>
