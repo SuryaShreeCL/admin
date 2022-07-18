@@ -39,6 +39,7 @@ const DEPT_NAMES = {
   assessment_engine_admin: "assessment_engine_admin",
 };
 
+const EXPLANATION_VIDEO_LIMIT = 5;
 export class Index extends Component {
   constructor(props) {
     super(props);
@@ -733,8 +734,10 @@ export class Index extends Component {
 
   handleVideoContentAdd = () => {
     const { videoContent } = this.state;
-    let arr = [...videoContent, { id: null, videoUrl: "" }];
-    this.setState({ videoContent: arr });
+    if (videoContent.length < EXPLANATION_VIDEO_LIMIT) {
+      let arr = [...videoContent, { id: null, videoUrl: "" }];
+      this.setState({ videoContent: arr });
+    }
   };
 
   handleVideoContentDelete = (index, event) => {
@@ -876,6 +879,7 @@ export class Index extends Component {
       handleVideoContentChange,
       videoContent,
       deptName,
+      videoContentLimit: EXPLANATION_VIDEO_LIMIT,
     };
 
     const buttonsProps = {

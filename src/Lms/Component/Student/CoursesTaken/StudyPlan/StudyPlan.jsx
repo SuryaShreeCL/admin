@@ -20,6 +20,25 @@ const DEFAULT_SELECT_OBJECT = {
 
 const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
 
+const MONTH_ARRAY = [
+  "JANUARY",
+  "FEBRUARY",
+  "MARCH",
+  "APRIL",
+  "MAY",
+  "JUNE",
+  "JULY",
+  "AUGUST",
+  "SEPTEMBER",
+  "OCTOBER",
+  "NOVEMBER",
+  "DECEMBER",
+];
+
+const CURRENT_MONTH = moment()
+  .format("MMMM")
+  .toUpperCase();
+
 function StudyPlan({ studentId, courseId }) {
   const dispatch = useDispatch();
   const { studyPlanData } = useSelector((state) => state.LmsStudentReducer);
@@ -78,6 +97,9 @@ function StudyPlan({ studentId, courseId }) {
           monthArr.length !== 0
             ? monthArr.map((a) => ({ id: a.month, title: a.month }))
             : [];
+        monthArr.sort(function(a, b) {
+          return MONTH_ARRAY.indexOf(a.title) - MONTH_ARRAY.indexOf(b.title);
+        });
         let studyPlanArr =
           data.studyPlanModelList.length !== 0
             ? data.studyPlanModelList.map((a, i) => ({
@@ -85,10 +107,14 @@ function StudyPlan({ studentId, courseId }) {
                 date: customDateFormat(a.date, "DD/MM/YYYY"),
               }))
             : [];
-        let monthValue = month || monthArr[0]?.id;
+        let monthValue =
+          (monthArr.some((item) => item.id === month) && month) ||
+          monthArr.filter((item) => item.id === CURRENT_MONTH)[0]?.id ||
+          monthArr[0]?.id;
         let filterArr = studyPlanArr.filter((a) =>
           monthValue && monthValue !== "all" ? a.month === monthValue : true
         );
+
         setState({
           ...state,
           targetDate: data.targetDate,
@@ -140,25 +166,12 @@ function StudyPlan({ studentId, courseId }) {
   const onRowUpdate = (newData, oldData) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        // let dataUpdate = [...studyPlanList];
-        // let index = dataUpdate.findIndex((a) => a.id === oldData.id);
-        // dataUpdate[index] = newData;
-        // let arr = dataUpdate.filter(
-        //   (a) => a.month === month || month === "all"
-        // );
-
         let obj = {
           date: moment(new Date(newData.date)).format("YYYY-MM-DD"),
         };
         dispatch(
           updateStudyPlan(studentId, oldData.id, oldData.taskId, obj, (res) => {
             if (res.success) {
-              // setState({
-              //   ...state,
-              //   studyPlanList: [...dataUpdate],
-              //   filterStudyPlanData: arr,
-              // });
-              // tableRef.current.onQueryChange();
               dispatch(getStudyPlan(studentId, courseId));
             } else {
               setSnack({
