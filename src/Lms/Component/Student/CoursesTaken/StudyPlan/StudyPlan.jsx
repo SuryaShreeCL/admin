@@ -100,13 +100,7 @@ function StudyPlan({ studentId, courseId }) {
         monthArr.sort(function(a, b) {
           return MONTH_ARRAY.indexOf(a.title) - MONTH_ARRAY.indexOf(b.title);
         });
-        let studyPlanArr =
-          data.studyPlanModelList.length !== 0
-            ? data.studyPlanModelList.map((a, i) => ({
-                ...a,
-                date: customDateFormat(a.date, "DD/MM/YYYY"),
-              }))
-            : [];
+        let studyPlanArr = data.studyPlanModelList;
         let monthValue =
           (monthArr.some((item) => item.id === month) && month) ||
           monthArr.filter((item) => item.id === CURRENT_MONTH)[0]?.id ||
@@ -196,6 +190,21 @@ function StudyPlan({ studentId, courseId }) {
     tableRef.current.onQueryChange();
   };
 
+  const sortedArray = (order, data) => {
+    let arr = [...data];
+    arr.sort((a1, b1) => {
+      switch (order) {
+        case "asc":
+          return a1.status.localeCompare(b1.status);
+        case "desc":
+          return b1.status.localeCompare(a1.status);
+        default:
+          return 0;
+      }
+    });
+    return arr;
+  };
+
   return (
     <>
       <Grid container spacing={4}>
@@ -252,7 +261,7 @@ function StudyPlan({ studentId, courseId }) {
             onRowUpdate={ROLES.checker === role ? onRowUpdate : null}
             data={(query) => {
               return new Promise((resolve, reject) => {
-                const { pageSize } = query;
+                const { pageSize, orderDirection } = query;
                 const newPage = page;
                 const totalCount = filterStudyPlanData.length;
                 const startIndex = newPage * pageSize;
@@ -262,7 +271,7 @@ function StudyPlan({ studentId, courseId }) {
                 );
                 resolve({
                   ...query,
-                  data: selectedItems,
+                  data: sortedArray(orderDirection, selectedItems),
                   totalCount: totalCount,
                   page: newPage,
                 });
