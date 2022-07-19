@@ -76,7 +76,7 @@ function Answer(props) {
       </Div2>
       <TabComp {...tabCompProps} />
       <RadioButtons {...radioButtonProps} />
-      {aesubject === "assessment_engine_admin" && answerType === "VIDEO"  ?<></>:
+      {aesubject === "assessment_engine_admin" && answerType === "VIDEO" || aesubject === "assessment_engine_admin" && answerType === "FILE_UPLOAD"  ?<></>:
       <Choice handleDeleteChoiceClick={handleDeleteChoiceClick} {...choiceProps} /> 
       }
       

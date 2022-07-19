@@ -473,8 +473,9 @@ export class Index extends Component {
         this.state.separateScore.length === 0) ||
       // this.choiceEmptyCheck() ||
       // this.choicesSelectEmptyCheck()
-      (answerType != "VIDEO" &&
-        (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
+      ((answerType!=="VIDEO" && answerType!=="FILE_UPLOAD")  &&(this.choiceEmptyCheck()||  this.choicesSelectEmptyCheck()))
+
+
     ) {
       this.setState({
         alert: {
@@ -482,7 +483,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (answerType !== "VIDEO" && this.hasDuplicates()) {
+    } else if (answerType!=("VIDEO" &&"FILE_UPLOAD") && this.hasDuplicates()) {
       this.setState({
         alert: {
           severity: "error",
