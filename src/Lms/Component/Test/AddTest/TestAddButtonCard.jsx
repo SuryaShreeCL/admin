@@ -120,11 +120,12 @@ class TestAddButtonCard extends Component {
           <Grid item>
             <div>
               <FlexView gap={"20px"}>
-                {department !== "assessment_engine_admin" && (
-                  <FillButton disabled={disabled} onClick={onCopyQuestion}>
-                    {"Copy Question"}
-                  </FillButton>
-                )}
+                {department !== "assessment_engine_admin" &&
+                  type !== "CALIBRATION" && (
+                    <FillButton disabled={disabled} onClick={onCopyQuestion}>
+                      {"Copy Question"}
+                    </FillButton>
+                  )}
 
                 <AddButton
                   startIcon={<AddRoundedIcon style={{ marginLeft: 6 }} />}

@@ -49,7 +49,8 @@ const COLUMNS = [
       fontWeight: 500,
     },
     dateSetting: {
-      format: "dd/MM/yyyy",
+      format: "MM/dd/yyyy",
+      locale: "en-US",
     },
     filterComponent: (props) => (
       <CustomDatePicker
