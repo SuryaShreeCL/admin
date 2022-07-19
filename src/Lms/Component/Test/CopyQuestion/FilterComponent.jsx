@@ -21,6 +21,7 @@ function FilterComponent({
   topicId,
   topicList,
   onChange,
+  status,
 }) {
   return (
     <Grid container spacing={3}>
@@ -77,6 +78,16 @@ function FilterComponent({
           items={[SELECT_DEFAULT_OBJECT, ...(topicList ? topicList.data : [])]}
           onChange={onChange}
           disabled={testType === "CALIBRATION"}
+        />
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <DropDown
+          label='Status'
+          name='status'
+          items={[DEFAULT_OBJ, ...(filterData?.data?.status || [])]}
+          value={status || "default"}
+          onChange={onChange}
         />
       </Grid>
     </Grid>
