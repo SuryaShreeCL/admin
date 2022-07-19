@@ -69,6 +69,11 @@ export class Index extends Component {
     };
   }
 
+  videoContentArray(data) {
+    if (data && Array.isArray(data) && data.length !== 0) return data;
+    else return [{ id: null, videoUrl: "" }];
+  }
+
   componentDidMount() {
     var deptName = window.sessionStorage.getItem("department");
     const { questionId, courseId } = QueryString.parse(
@@ -127,7 +132,7 @@ export class Index extends Component {
                 imgURL,
               } = response.data;
               // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
-              console.log(response.data.questionChoices)
+              console.log(response.data.questionChoices);
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
@@ -137,9 +142,7 @@ export class Index extends Component {
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                videoContent: response.data.video,
-                url: response.data.explanationVideo,
-                url: response.data.video ? response.data.video.videoUrl : "",
+                videoContent: this.videoContentArray(response.data.video),
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
@@ -289,16 +292,14 @@ export class Index extends Component {
           },
         ],
       });
-    }
-    else if(e.target.value === "VIDEO"){
-     
+    } else if (e.target.value === "VIDEO") {
       this.setState({
-        answerType:e.target.value,
-        expectedTime:120,
-      })
+        answerType: e.target.value,
+        expectedTime: 120,
+      });
     }
-     else
     //  window.location.reload(false);
+    else
       this.setState({
         answerType: e.target.value,
         bucketArray: [
@@ -418,7 +419,7 @@ export class Index extends Component {
   };
 
   handleDeleteChoiceClick = (ind) => {
-    console.log(ind,"ind");
+    console.log(ind, "ind");
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
@@ -789,7 +790,7 @@ export class Index extends Component {
       imgURL,
       previewTestDataModel,
       videoContent,
-      separateScore
+      separateScore,
     } = this.state;
 
     const {
@@ -853,9 +854,9 @@ export class Index extends Component {
       difficulty,
       handleInputChange,
       expectedTime,
-      type:answerType,
+      type: answerType,
       testQuestionSetId,
-      separateScore
+      separateScore,
     };
 
     let answerProps = {
@@ -956,8 +957,6 @@ export class Index extends Component {
           <Question {...questionProps} />
           <Answer
             handleDeleteChoiceClick={this.handleDeleteChoiceClick}
-            
-            
             {...answerProps}
           />
           <Explanation {...explanationProps} />
@@ -995,4 +994,3 @@ export default connect(mapStateToProps, {
   aepreviewTestData,
   getAllPassages,
 })(Index);
-
