@@ -47,6 +47,7 @@ function Index() {
   const dispatch = useDispatch();
   const [state, setState] = useState({
     courseId: "default",
+    status: "default",
     subjectId: null,
     conceptId: null,
     testType: null,
@@ -81,6 +82,7 @@ function Index() {
     field,
     order,
     courseValue,
+    status,
   } = state;
 
   const { snackOpen, message, color } = snack;
@@ -125,7 +127,7 @@ function Index() {
         page: currentPage,
         testType: testType !== "default" ? testType : null,
         topicId: topicId !== "default" ? topicId : null,
-        status: null,
+        status: status !== "default" ? status : null,
         field: field.length > 0 ? field : null,
         order: order.length > 0 ? order : null,
         size: NO_OF_RESPONSE,
@@ -138,7 +140,7 @@ function Index() {
       };
       dispatch(getQuestionSet(paramObj));
     }
-  }, [currentPage, testType, topicId, field, courseId, order]);
+  }, [currentPage, testType, topicId, field, courseId, order, status]);
 
   useEffect(() => {
     dispatch(
@@ -476,6 +478,7 @@ function Index() {
     filterData: { ...filterData },
     topicId: topicId,
     topicList: topicList,
+    status: status,
     onChange: handleChange,
   };
 
