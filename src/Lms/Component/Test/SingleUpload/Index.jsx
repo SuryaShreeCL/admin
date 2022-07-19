@@ -68,6 +68,11 @@ export class Index extends Component {
     };
   }
 
+  videoContentArray(data) {
+    if (data && Array.isArray(data) && data.length !== 0) return data;
+    else return [{ id: null, videoUrl: "" }];
+  }
+
   componentDidMount() {
     var deptName = window.sessionStorage.getItem("department");
     const { questionId, courseId } = QueryString.parse(
@@ -134,7 +139,7 @@ export class Index extends Component {
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                videoContent: response.data.video,
+                videoContent: this.videoContentArray(response.data.video),
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
