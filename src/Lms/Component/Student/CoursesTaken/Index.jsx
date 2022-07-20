@@ -44,7 +44,7 @@ class Index extends Component {
     this.category = {
       taskAndTopic: "taskTopic",
       studyPlan: "studyPlans/monthlyDetails",
-      strengthAndWeekNess: "strengthWeakness",
+      strengthAndWeakNess: "strengthWeakness",
       calibrationReport: "calibrationReport",
     };
   }

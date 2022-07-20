@@ -1,6 +1,7 @@
 import axios from "axios";
 import { STUDENT } from "../Action";
 import { URL } from "../../../Actions/URL";
+import { errorHandler } from "../../../Component/Utils/Helpers";
 
 const DEV_LMS = URL;
 
@@ -312,7 +313,7 @@ export const getStudentProducts = (studentId, callback) => {
   };
 };
 
-export const getStrengthAndWeekness = (studentId, productId, callback) => {
+export const getStrengthAndWeakness = (studentId, productId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -329,12 +330,12 @@ export const getStrengthAndWeekness = (studentId, productId, callback) => {
       )
       .then((response) => {
         dispatch({
-          type: STUDENT.getStrengthAndWeekness,
+          type: STUDENT.getStrengthAndWeakness,
           payload: response.data,
         });
-        // callback(response.data);
       })
       .catch((error) => {
+        dispatch(errorHandler(STUDENT.getStrengthAndWeakness, error, false));
         console.log(error);
       });
   };

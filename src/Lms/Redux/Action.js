@@ -70,8 +70,9 @@ export const STUDENT = {
   calibrationTestExport: "calibrationTestExport",
   topicTestExport: "topicTestExport",
   topicTestReportExport: "topicTestReportExport",
-  getStrengthAndWeekness: "getStrengthAndWeekness",
+  getStrengthAndWeakness: "getStrengthAndWeakness",
 };
+
 export const TESTDOWNLOAD = {
   testQuestionSetId: "testQuestionSetId",
 };

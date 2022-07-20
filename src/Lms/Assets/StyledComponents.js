@@ -215,10 +215,19 @@ export const Box = styled(MuiBox)`
 `;
 
 export const FlexView = styled(MuiBox)`
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
   align-items: center;
+  gap: ${({ gap }) => gap};
+  padding: ${({ padding }) => padding};
+`;
+
+export const FlexColumnView = styled(MuiBox)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: ${({ gap }) => gap};
   padding: ${({ padding }) => padding};
 `;
@@ -268,6 +277,16 @@ export const Divider = styled.div`
   opacity: 0.3;
   border: 1px solid #1093ff;
   margin: 24px 0px 30px 0px;
+`;
+
+export const VerticalDivider = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0px;
+  height: 100%;
+  opacity: 0.3;
+  border: 1px solid #1093ff;
 `;
 
 export const DropDownBox = styled.div`
@@ -440,16 +459,22 @@ export const SideIcon = styled.img`
 `;
 
 export const SideContent = styled.div`
-  display: flex;
-  font-size: 17px;
+  font-weight: 400;
+  font-size: 14px;
   color: #052a4e;
-  padding: 5px 5px 6px 30px;
 `;
 
 export const RightContent = styled.div`
   font-weight: 600;
-  font-size: 17px;
+  font-size: 14px;
   color: #052a4e;
+`;
+
+export const LevelContent = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  color: #052a4e;
+  margin-top: 3px;
 `;
 
 export const TypeContainer = styled.div`
@@ -466,4 +491,13 @@ export const InsideContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const CenterText = styled(MuiBox)`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 39px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.4);
 `;
