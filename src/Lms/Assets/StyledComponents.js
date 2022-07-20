@@ -214,6 +214,15 @@ export const Box = styled(MuiBox)`
   color: #052a4e;
 `;
 
+export const FlexView = styled(MuiBox)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: ${({ gap }) => gap};
+  padding: ${({ padding }) => padding};
+`;
+
 export const TestTitle = styled.div`
   font-style: normal;
   font-weight: 600;

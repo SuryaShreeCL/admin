@@ -18,10 +18,11 @@ import {
   topicTestExport,
   topicTestReportExport,
 } from "../../../Redux/Action/Student";
-import StrengthAndWeekness from "./StrengthAndWeekness/Index";
+import StrengthAndWeakness from "./StrengthAndWeakness/Index";
 
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
+import CalibrationTest from "./CalibrationTest/Index";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -60,6 +61,91 @@ class Index extends Component {
       }
     });
   }
+
+  renderComponent = () => {
+    const { productId, studentId, tabId } = this.state;
+    switch (tabId) {
+      case 0:
+        return (
+          <TasksAndTopic
+            productId={productId}
+            studentId={studentId}
+            category={this.category.taskAndTopic}
+          />
+        );
+      case 1:
+        return (
+          <Box padding={"20px !important"}>
+            <Box textAlign={"right"} padding={"0 0 10px !important"}>
+              <Button
+                variant='contained'
+                onClick={() =>
+                  this.props.strengthWeaknessExport(studentId, productId)
+                }
+              >
+                {"Export"}
+              </Button>
+            </Box>
+            <StrengthAndWeakness courseId={productId} studentId={studentId} />
+          </Box>
+        );
+      case 2:
+        return (
+          <div className='flex-center'>
+            <Button
+              variant='contained'
+              onClick={() => this.props.studyPlanExport(studentId, productId)}
+            >
+              {"Export"}
+            </Button>
+          </div>
+        );
+      case 3:
+        return (
+          <Box padding={"20px !important"}>
+            <Box textAlign={"right"} padding={"0 0 10px !important"}>
+              <Button
+                variant='contained'
+                onClick={() =>
+                  this.props.calibrationTestExport(studentId, productId)
+                }
+              >
+                {"Export"}
+              </Button>
+            </Box>
+            <CalibrationTest courseId={productId} studentId={studentId} />
+          </Box>
+        );
+      case 4:
+        return (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              padding: "32px",
+            }}
+          >
+            <Button
+              variant='contained'
+              onClick={() => this.props.topicTestExport(studentId, productId)}
+            >
+              {"Export TopicTest"}
+            </Button>
+            <Button
+              variant='contained'
+              onClick={() =>
+                this.props.topicTestReportExport(studentId, productId)
+              }
+            >
+              {"Export TopicTestReport"}
+            </Button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   render() {
     const { productId, studentId, tabId } = this.state;
@@ -106,77 +192,7 @@ class Index extends Component {
           />
           <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
         </CourseTabs>
-        <div hidden={tabId !== 0}>
-          <TasksAndTopic
-            productId={productId}
-            studentId={studentId}
-            category={this.category.taskAndTopic}
-          />
-        </div>
-        <div hidden={tabId !== 1} className="flex-center">
-          <StrengthAndWeekness productId={productId} studentId={studentId} />
-
-          {/* <Button
-            variant="contained"
-            onClick={() =>
-              this.props.strengthWeaknessExport(studentId, productId)
-            }
-
-            // onClick={() => {
-            //   this.props.getTaskTopic(
-            //     studentId,
-            //     productId,
-            //     this.category.strengthAndWeekNess
-            //   );
-            // }}
-          >
-            Export
-          </Button> */}
-        </div>
-
-        <div hidden={tabId !== 2} className="flex-center">
-          <Button
-            variant="contained"
-            onClick={() => this.props.studyPlanExport(studentId, productId)}
-          >
-            Export
-          </Button>
-        </div>
-        <div hidden={tabId !== 3} className="flex-center">
-          <Button
-            variant="contained"
-            onClick={() =>
-              this.props.calibrationTestExport(studentId, productId)
-            }
-          >
-            Export
-          </Button>
-        </div>
-        <div
-          hidden={tabId !== 4}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            padding: "32px",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={() => this.props.topicTestExport(studentId, productId)}
-          >
-            Export TopicTest
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() =>
-              this.props.topicTestReportExport(studentId, productId)
-            }
-          >
-            Export TopicTestReport
-          </Button>
-        </div>
-        {/* <div hidden={tabId !== 5}></div> */}
+        {this.renderComponent()}
       </CourseContainer>
     );
   }
