@@ -1,4 +1,4 @@
-import { Button, Grid } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -18,6 +18,7 @@ import {
   topicTestExport,
   topicTestReportExport,
 } from "../../../Redux/Action/Student";
+import StrengthAndWeekness from "./StrengthAndWeekness/Index";
 
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
@@ -113,11 +114,14 @@ class Index extends Component {
           />
         </div>
         <div hidden={tabId !== 1} className="flex-center">
-          <Button
+          <StrengthAndWeekness productId={productId} studentId={studentId} />
+
+          {/* <Button
             variant="contained"
             onClick={() =>
               this.props.strengthWeaknessExport(studentId, productId)
             }
+
             // onClick={() => {
             //   this.props.getTaskTopic(
             //     studentId,
@@ -127,7 +131,7 @@ class Index extends Component {
             // }}
           >
             Export
-          </Button>
+          </Button> */}
         </div>
 
         <div hidden={tabId !== 2} className="flex-center">

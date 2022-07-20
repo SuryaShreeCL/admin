@@ -11,6 +11,7 @@ const initialState = {
   topicTest: null,
   topicTestReport: null,
   studentProducts: {},
+  strengthAndWeekness: [],
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -74,6 +75,13 @@ const LmsStudentReducer = (state = initialState, action) => {
         studentProducts: action.payload,
       };
     }
+    case STUDENT.getStrengthAndWeekness: {
+      return {
+        ...state,
+        strengthAndWeekness: action.payload,
+      };
+    }
+
     default:
       break;
   }

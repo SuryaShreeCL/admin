@@ -311,3 +311,31 @@ export const getStudentProducts = (studentId, callback) => {
       });
   };
 };
+
+export const getStrengthAndWeekness = (studentId, productId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        DEV_LMS +
+          `/api/v1/lms/student/${studentId}/product/${productId}/strengthWeakness?export=false`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getStrengthAndWeekness,
+          payload: response.data,
+        });
+        // callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
