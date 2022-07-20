@@ -282,7 +282,7 @@ export class Index extends Component {
      
       this.setState({
         answerType:e.target.value,
-        expectedTime:120,
+        expectedTime:180,
       })
     }
      else
