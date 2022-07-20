@@ -4,7 +4,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import "../Asset/EditCourse.css";
 import $ from "jquery";
 import Select from "react-select";
-import { coursePath } from './RoutePaths'
+import { coursePath } from "./RoutePaths";
 import { connect } from "react-redux";
 import { addCourses } from "../Actions/Course";
 
@@ -24,7 +24,7 @@ export class AddCourse extends Component {
       displayImageUrl: "",
       thumbnailUrl: "",
       courseLevel: "",
-      courseCategory:"",
+      courseCategory: "",
       domains: "",
       parentBranchVal: "",
       branchVal: "",
@@ -61,25 +61,25 @@ export class AddCourse extends Component {
     });
   }
 
-  newCourse(e){
-      let newObj={
-        courseId: this.state.id,
-        name: this.state.name,
-        description: this.state.description,
-        lmsURL: this.state.lmsUrl,
-        displayImageURL: this.state.displayImageUrl,
-        thumnailImageURL: this.state.thumbnailUrl,
-        courseLevel: this.state.courseLevel,
-        courseCategory:this.state.courseCategory,
-        domains: this.state.domains,
-        parentBranchVal: this.state.parentBranchVal,
-        branchVal: this.state.branchVal,
-        preRequisiteName: this.state.preRequisiteName,
-      };
-      if(this.state.name !==''){
-          this.props.addCourses(newObj);
-          this.props.history.push(coursePath)
-      }
+  newCourse(e) {
+    let newObj = {
+      courseId: this.state.id,
+      name: this.state.name,
+      description: this.state.description,
+      lmsURL: this.state.lmsUrl,
+      displayImageURL: this.state.displayImageUrl,
+      thumnailImageURL: this.state.thumbnailUrl,
+      courseLevel: this.state.courseLevel,
+      courseCategory: this.state.courseCategory,
+      domains: this.state.domains,
+      parentBranchVal: this.state.parentBranchVal,
+      branchVal: this.state.branchVal,
+      preRequisiteName: this.state.preRequisiteName,
+    };
+    if (this.state.name !== "") {
+      this.props.addCourses(newObj);
+      this.props.history.push(coursePath);
+    }
   }
 
   render() {
@@ -103,7 +103,7 @@ export class AddCourse extends Component {
                   className="edit-text-box t1 col-xs-
                   12"
                   value={this.state.id}
-                  onChange={(e)=>this.setState({id:e.target.value})}
+                  onChange={(e) => this.setState({ id: e.target.value })}
                 />
                 <TextField
                   id="filled-search"
@@ -113,7 +113,7 @@ export class AddCourse extends Component {
                   size="small"
                   className="edit-text-box t2"
                   value={this.state.name}
-                  onChange={(e)=>this.setState({name:e.target.value})}
+                  onChange={(e) => this.setState({ name: e.target.value })}
                 />
               </div>
               <div className="edit-row-2 ">
@@ -127,7 +127,9 @@ export class AddCourse extends Component {
                   multiline
                   className="course-desc"
                   value={this.state.description}
-                  onChange={(e)=>this.setState({description:e.target.value})}
+                  onChange={(e) =>
+                    this.setState({ description: e.target.value })
+                  }
                 />
               </div>
               <div className="edit-row-3">
@@ -140,7 +142,7 @@ export class AddCourse extends Component {
                     multiline
                     className="course-desc"
                     value={this.state.lmsUrl}
-                    onChange={(e) => this.setState({ lmsUrl: e.target.value })}                    
+                    onChange={(e) => this.setState({ lmsUrl: e.target.value })}
                   />
                 </div>
 
@@ -156,7 +158,7 @@ export class AddCourse extends Component {
                     onChange={(e) =>
                       this.setState({ displayImageUrl: e.target.value })
                     }
-                    value={this.state.displayImageUrl}
+                    // value={this.state.displayImageUrl}
                   />
                 </div>
 
@@ -172,7 +174,7 @@ export class AddCourse extends Component {
                     onChange={(e) =>
                       this.setState({ thumbnailUrl: e.target.value })
                     }
-                    value={this.state.thumbnailUrl}
+                    // value={this.state.thumbnailUrl}
                   />
                 </div>
               </div>
@@ -223,18 +225,18 @@ export class AddCourse extends Component {
                 />
               </div>
               <div className="edit-row-7">
-              <Button
+                <Button
                   variant="contained"
-                  color="secondary"                                    
-                  size="medium"    
-                  onClick={(e)=>this.props.history.push(coursePath)}                            
+                  color="secondary"
+                  size="medium"
+                  onClick={(e) => this.props.history.push(coursePath)}
                 >
-                 Cancel
+                  Cancel
                 </Button>
 
                 <Button
                   variant="contained"
-                  color="primary"                  
+                  color="primary"
                   className="edit-save-btn btn-blue margin-left-space"
                   size="medium"
                   startIcon={<AddCircleOutlineIcon />}

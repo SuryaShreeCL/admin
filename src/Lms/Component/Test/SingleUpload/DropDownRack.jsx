@@ -39,7 +39,9 @@ function DropDownRack(props) {
     handleInputChange,
     expectedTime,
     testQuestionSetId,
-    type
+    type,
+    separateScore
+
   } = props;
 // console.log(type)
  
@@ -104,6 +106,7 @@ function DropDownRack(props) {
               />
             </Grid>
             {aeDept === "assessment_engine_admin" && (
+              <>
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel
@@ -148,6 +151,49 @@ function DropDownRack(props) {
                   { console.log(expectedTime)}
                 </FormControl>
               </Grid>
+             
+              
+              <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                     shrink={true}
+                      style={{
+                        top: "-8px",
+                        left: "15px",
+                        background: "#FFFFFF",
+                        padding: "0 10px 0 8px",
+                        zIndex: 1,
+                      }}
+                      placeholder={"Score"}
+                    >Score
+                    
+                    </InputLabel>
+                    <OutlinedInput
+                      inputProps={{
+                        style: {
+                          height: "11px",
+                        },
+                      }}
+                      type={"number"}
+                      onKeyDown={(evt) =>
+                        (AVOID_INPUT.includes(evt.key) ||
+                          // Up arrow and down arrow disabling
+                          evt.keyCode === 38 ||
+                          evt.keyCode === 40) &&
+                        evt.preventDefault()
+                      }
+                      id="separateScore"
+                      value={separateScore}
+                      name="separateScore"
+                      min="0"
+                      // placeholder='Expected time for completion'
+                      onChange={handleInputChange}
+                    />
+                  </FormControl>
+                  {/* {console.log(score)} */}
+                </Grid>
+  
+              </>
             )}
 
             {topics !== null && (

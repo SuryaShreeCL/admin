@@ -1,4 +1,7 @@
+import { Box, TextField } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import React from "react";
+import { FlexView } from "../../../Assets/StyledComponents";
 import { EditorBox, QDiv, T4 } from "../../../Assets/StyledTest";
 import TextEditor from "../../../Utils/TextEditor";
 
@@ -8,8 +11,10 @@ function Question(props) {
     question,
     handleDescriptionChange,
     description,
+    passageOptions = [],
+    handlePassage,
   } = props;
-  const deptName = window.sessionStorage.getItem("department")
+  const deptName = window.sessionStorage.getItem("department");
 
   return (
     <QDiv>
@@ -22,7 +27,25 @@ function Question(props) {
       </EditorBox>
       {deptName !== "assessment_engine_admin" && (
         <>
-          <T4>Description</T4>
+          <FlexView>
+            <T4>Description</T4>
+            <Box width={"300px"}>
+              <Autocomplete
+                id={"passage-options"}
+                options={passageOptions}
+                getOptionLabel={(option) => option.name}
+                onChange={handlePassage}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Passage"}
+                    variant={"outlined"}
+                    fullWidth
+                  />
+                )}
+              />
+            </Box>
+          </FlexView>
           <EditorBox>
             <TextEditor
               onChange={(event, editor) =>

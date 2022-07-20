@@ -11,6 +11,8 @@ const initialState = {
   topicTest: null,
   topicTestReport: null,
   studentProducts: {},
+  studyPlanData: null,
+  updateStudyPlanStatus: null,
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -72,6 +74,18 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         studentProducts: action.payload,
+      };
+    }
+    case STUDENT.getStudyPlan: {
+      return {
+        ...state,
+        studyPlanData: action.payload,
+      };
+    }
+    case STUDENT.updateStudyPlan: {
+      return {
+        ...state,
+        updateStudyPlanStatus: action.payload,
       };
     }
     default:

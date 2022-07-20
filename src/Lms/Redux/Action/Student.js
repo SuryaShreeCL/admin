@@ -1,6 +1,7 @@
 import axios from "axios";
 import { STUDENT } from "../Action";
 import { URL } from "../../../Actions/URL";
+import { catchError, errorHandler } from "../../../Component/Utils/Helpers";
 
 const DEV_LMS = URL;
 
@@ -308,6 +309,69 @@ export const getStudentProducts = (studentId, callback) => {
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+};
+
+export const getStudyPlan = (studentId, courseId) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/course/${courseId}/courseTaken/studyPlan`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getStudyPlan,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getStudyPlan, error, false));
+        console.log(error);
+      });
+  };
+};
+
+export const updateStudyPlan = (
+  studentId,
+  studyPlanId,
+  taskId,
+  data,
+  callback
+) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .put(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/studyPlan/${studyPlanId}/task/${taskId}`,
+        data,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.updateStudyPlan,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(errorHandler(STUDENT.updateStudyPlan, error, false));
+        callback(catchError(error));
       });
   };
 };

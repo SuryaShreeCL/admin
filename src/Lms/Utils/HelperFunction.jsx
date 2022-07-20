@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const secondsToHms = (second) => {
   if (second > 0) {
     let d = Number(second);
@@ -14,4 +16,10 @@ export const secondsToHms = (second) => {
   else{
      return null;
   }
+};
+
+export const customDateFormat = (date, format) => {
+  var newDate = null;
+  if (date) newDate = moment(new Date(date)).format(format);
+  return newDate;
 };

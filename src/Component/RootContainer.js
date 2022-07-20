@@ -54,6 +54,7 @@ import {
   lmsTest,
   lms_course_landing,
   lms_study_plans,
+  lms_passage,
   NAVIGATE_TO,
   notificationPath,
   obOperationPath,
@@ -591,6 +592,12 @@ function RootContainer(props) {
           items: [],
         },
         {
+          icon: <NextWeekOutlined />,
+          title: "Placement Drives",
+          path: placementDrives,
+          items: [],
+        },
+        {
           icon: <AssignmentIcon />,
           title: "Tests",
           path: testPath,
@@ -600,6 +607,24 @@ function RootContainer(props) {
           icon: <Track />,
           title: "Career Track",
           path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <ContactMail />,
+          title: "Premium Users Data",
+          path: premiumUsersPath,
+          items: [],
+        },
+        {
+          icon: <AssignmentIcon />,
+          title: "CLSA",
+          path: clsaPath,
+          items: [],
+        },
+        {
+          icon: <img src={LiveVideoOn} alt={"3rd_year_menu"} width={"28px"} />,
+          title: "3rd Year",
+          path: thirdYear,
           items: [],
         },
         {
@@ -655,7 +680,7 @@ function RootContainer(props) {
       window.sessionStorage.getItem("role") === "LMSCHECKER" ||
       window.sessionStorage.getItem("role") === "LMSEDITOR"
     ) {
-      setSideNav([
+      let lms_nav_items = [
         {
           icon: <></>,
           title: "Student",
@@ -686,7 +711,14 @@ function RootContainer(props) {
           path: wallPath,
           items: [],
         },
-      ]);
+        {
+          icon: <></>,
+          title: "Passage",
+          path: lms_passage,
+          items: [],
+        },
+      ];
+      setSideNav(lms_nav_items);
     } else if (
       window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
       window.sessionStorage.getItem("department") !== "assessment_engine_admin"

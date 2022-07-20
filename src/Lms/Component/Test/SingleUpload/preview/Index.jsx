@@ -6,7 +6,7 @@ import "../../../../Assets/css/Preview/Preview.css";
 import GrePreview from "./gre/Test";
 import DefaultPreview from "./exam/Index";
 import Explanation from "./Explanation";
-import AeDefualtPreview from './exam/AeIndex'
+import AeDefualtPreview from "./exam/AeIndex";
 
 function Index(props) {
   useEffect(() => {
@@ -48,7 +48,7 @@ function Index(props) {
       break;
     }
     default:
-      let deptName = window.sessionStorage.getItem("department")
+      let deptName = window.sessionStorage.getItem("department");
       return (
         <Dialog fullScreen TransitionComponent={Transition} open={props.open}>
           {deptName === "assessment_engine_admin" ? (

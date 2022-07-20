@@ -1,0 +1,161 @@
+.carousel .slick-dots {
+  text-align: left !important;
+}
+
+.carousel li.slick-active {
+  opacity: 1 !important;
+}
+
+.carousel .slick__slider__container {
+  padding: 10px;
+}
+
+.carousel .slick-dots .slick-active .ft-slick__dots--custom {
+  background-color: #1093ff;
+}
+
+.carousel .slider__height {
+  height: 130px;
+}
+
+.carousel .slick-dots li {
+  background: #1093ff;
+  opacity: 0.2;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 12px;
+}
+
+.carousel .slick-dots li button {
+  opacity: 0;
+}
+
+.carousel .slick-slide img {
+  margin: auto;
+}
+
+.carousel .magic-dots.slick-dots ul {
+  padding: 0;
+  display: flex;
+  transition: all 0.2s;
+  position: relative;
+  margin: 0px;
+  align-items: center;
+}
+
+.carousel .magic-dots.slick-dots li.slick-active button::before {
+  color: #00558b;
+}
+
+.carousel .magic-dots.slick-dots li button::before {
+  transition: font-size 0.35s;
+  font-size: 12px;
+  content: "\2022";
+}
+
+.carousel .magic-dots.slick-dots li.small button::before {
+  font-size: 8px;
+  line-height: 20px;
+}
+
+.carousel .slick-prev {
+  left: -40px;
+}
+
+.carousel .slick-next {
+  right: -40px;
+}
+
+.carousel .slick-next,
+.carousel .slick-prev {
+  width: 24px;
+  height: 24px;
+}
+
+.carousel .slick-next.slick-disabled,
+.carousel .slick-prev.slick-disabled {
+  display: none !important;
+}
+
+.carousel .slick-dots {
+  bottom: -5px;
+}
+
+.carousel .slick-next:before,
+.carousel .slick-prev:before {
+  font-size: 24px;
+  line-height: 1;
+  opacity: 1;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.carousel .slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.carousel .slick-dots li.small {
+  width: 7px;
+  height: 7px;
+  margin: 3px 6px;
+}
+
+.carousel:before {
+  position: absolute;
+  content: attr(content);
+  z-index: 1;
+  left: 8px;
+  top: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/* Explain Video */
+
+.explain_video .carousel:before {
+  position: absolute;
+  content: attr(content);
+  z-index: 1;
+  left: 14px;
+  top: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 3px;
+}
+
+.explain_video .carousel .slick-prev {
+  left: -46px;
+}
+
+.explain_video .carousel .slick-next {
+  right: -46px;
+}
+
+.explain_video .carousel .slick-next,
+.explain_video .carousel .slick-prev {
+  width: 32px;
+  height: 32px;
+}
+
+.explain_video .carousel .slick-next:before,
+.explain_video .carousel .slick-prev:before {
+  font-size: 32px;
+  line-height: 1;
+  opacity: 1;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.explain_video .carousel .slick-dots {
+  bottom: -14px;
+}
