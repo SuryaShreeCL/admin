@@ -340,3 +340,30 @@ export const getStrengthAndWeakness = (studentId, productId) => {
       });
   };
 };
+
+export const getCalibrationTestReport = (studentId, productId) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/calibrationReport?export=false`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getCalibrationTestReport,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getCalibrationTestReport, error, false));
+        console.log(error);
+      });
+  };
+};

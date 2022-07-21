@@ -501,3 +501,11 @@ export const CenterText = styled(MuiBox)`
   text-align: center;
   color: rgba(0, 0, 0, 0.4);
 `;
+
+export const InsightSubTitle = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #1093ff;
+`;

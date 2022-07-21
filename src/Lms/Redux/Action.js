@@ -71,6 +71,7 @@ export const STUDENT = {
   topicTestExport: "topicTestExport",
   topicTestReportExport: "topicTestReportExport",
   getStrengthAndWeakness: "getStrengthAndWeakness",
+  getCalibrationTestReport: "getCalibrationTestReport",
 };
 
 export const TESTDOWNLOAD = {
