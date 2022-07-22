@@ -83,7 +83,7 @@ class Add extends Component {
       type: "CALIBRATION",
       description: [],
       descriptionTitle: "",
-      proctor:null,
+      proctor:false,
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
