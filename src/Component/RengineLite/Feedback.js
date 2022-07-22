@@ -6,7 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 import "../../Asset/All.css";
 import { connect } from "react-redux";
@@ -36,7 +36,7 @@ export class Feedback extends Component {
 
   breakpoints = createBreakpoints({});
   feedbackTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiInputLabel: {
           shrink: {

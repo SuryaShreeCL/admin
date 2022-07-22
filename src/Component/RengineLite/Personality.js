@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { ThemeProvider, createTheme } from "@material-ui/core";
 import { Card, CardContent, CardMedia } from "@material-ui/core";
 import a1 from "../../Asset/Images/a1.png";
 import a2 from "../../Asset/Images/a2.png";
@@ -21,7 +21,7 @@ export class Personality extends Component {
   }
 
   careercardTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCard: {
           root: {
@@ -78,11 +78,11 @@ export class Personality extends Component {
       return q.id;
     });
     let stuData = JSON.parse(window.sessionStorage.getItem("personality"));
-    if(stuData !=null){
+    if (stuData != null) {
       if (stuData.choices.length !== 0) {
-        if(this.state.choices.length===0){
+        if (this.state.choices.length === 0) {
           this.state.choices = stuData.choices;
-          this.state.active=this.state.choices[0];
+          this.state.active = this.state.choices[0];
         }
       }
     }

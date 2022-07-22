@@ -1,7 +1,7 @@
 import {
   Breadcrumbs,
   CircularProgress,
-  createMuiTheme,
+  createTheme,
   Table,
   TableBody,
   TableCell,
@@ -60,7 +60,7 @@ const AntTabs = withStyles({
   },
 })(Tabs);
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiInputLabel: {
       root: {

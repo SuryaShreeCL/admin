@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Card,
-  createMuiTheme,
+  createTheme,
   Dialog,
   DialogContent,
   Table,
@@ -65,7 +65,7 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import * as moment from "moment";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {

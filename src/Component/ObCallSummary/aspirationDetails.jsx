@@ -1,6 +1,6 @@
 import {
   Checkbox,
-  createMuiTheme,
+  createTheme,
   FormControlLabel,
   Grid,
   TextField,
@@ -52,7 +52,7 @@ import {
   getAspirationTerms,
 } from "../../Actions/Student";
 import { isEmptyArray, isEmptyString, isEmptyObject } from "../Validation";
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiRadio: {
       colorSecondary: {

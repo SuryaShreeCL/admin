@@ -63,6 +63,9 @@ import StrategySessionReducer from "../Reducer/StrategySessionReducer";
 import ProfileMentoringReducer from "../Reducer/ProfileMentoringReducer";
 import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";
 
+//School Research
+import SchoolResearchReducer from "../Reducer/SchoolResearchReducer";
+
 export default combineReducers({
   CourseReducer: CourseReducer,
   QuestionsReducer: QuestionsReducer,
@@ -123,4 +126,5 @@ export default combineReducers({
   TestReducer: TestReducer,
   LmsStudentReducer: LmsStudentReducer,
   UserManagementReducer: UserManagementReducer,
+  SchoolResearchReducer: SchoolResearchReducer,
 });

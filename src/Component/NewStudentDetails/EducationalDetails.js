@@ -9,7 +9,7 @@ import {
   TextField,
   IconButton,
   CircularProgress,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   Tooltip,
   Button,
@@ -174,7 +174,7 @@ export class EducationalDetails extends Component {
       });
     }
   }
-  theme = createMuiTheme({
+  theme = createTheme({
     overrides: {
       MuiSvgIcon: {
         root: {

@@ -4,7 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Card,
-  createMuiTheme,
+  createTheme,
   Grid,
   IconButton,
   TextField,
@@ -53,7 +53,7 @@ import MySnackBar from "../MySnackBar";
 import { ErrorMessage,isNumber,isSpace, spaceRemoveRegex } from "../Validation";
 import * as moment from "moment";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {

@@ -11,7 +11,7 @@ import {
   CircularProgress,
   TextField,
   IconButton,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   Tooltip,
   Button,
@@ -124,7 +124,7 @@ export class AccountStatus extends Component {
       });
     }
   }
-  theme = createMuiTheme({
+  theme = createTheme({
     overrides: {
       MuiSvgIcon: {
         root: {

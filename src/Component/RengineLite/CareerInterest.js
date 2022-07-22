@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { ThemeProvider, createTheme } from "@material-ui/core";
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ export class CareerInterest extends Component {
   }
 
   careercardTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCard: {
           root: {
@@ -82,12 +82,14 @@ export class CareerInterest extends Component {
     let questionId = this.props.QuestionList.map((q) => {
       return q.id;
     });
-    let stuData = JSON.parse(window.sessionStorage.getItem("careerInterestRole"));
-    if(stuData !=null){
+    let stuData = JSON.parse(
+      window.sessionStorage.getItem("careerInterestRole")
+    );
+    if (stuData != null) {
       if (stuData.choices.length !== 0) {
-        if(this.state.choices.length===0){
+        if (this.state.choices.length === 0) {
           this.state.choices = stuData.choices;
-          this.state.active=this.state.choices[0];
+          this.state.active = this.state.choices[0];
         }
       }
     }

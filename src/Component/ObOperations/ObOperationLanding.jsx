@@ -1,5 +1,5 @@
 import {
-  createMuiTheme,
+  createTheme,
   Divider,
   Grid,
   Typography,
@@ -28,7 +28,7 @@ class ObOperationLanding extends Component {
       adminDepartment: null,
     };
   }
-  theme = createMuiTheme({
+  theme = createTheme({
     overrides: {
       MuiDivider: {
         root: {

@@ -8,7 +8,7 @@ import axios from "axios"
 import {URL} from "../Actions/URL"
 import MuiAlert from '@material-ui/lab/Alert';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
   Grid,
   Paper,
@@ -55,7 +55,7 @@ export default class Aspiration extends Component {
     };
   }
   getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",

@@ -14,7 +14,7 @@ import {
 } from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar";
 import {
-  createMuiTheme,
+  createTheme,
   MuiThemeProvider,
   ThemeProvider,
 } from "@material-ui/core/styles";
@@ -253,7 +253,7 @@ export class Student extends Component {
   };
 
   getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiTypography: {
           h6: {
@@ -263,7 +263,7 @@ export class Student extends Component {
       },
     });
   spinnerTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {
