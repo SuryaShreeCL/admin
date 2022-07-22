@@ -83,6 +83,7 @@ class Add extends Component {
       type: "CALIBRATION",
       description: [],
       descriptionTitle: "",
+      proctor:null,
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
@@ -243,6 +244,7 @@ class Add extends Component {
           name: questionSet.name,
           type: questionSet.type,
           description: questionSet.description,
+          proctor:questionSet.proctor,
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
@@ -319,7 +321,11 @@ class Add extends Component {
       });
     }
   };
+  handleProctoringChange=(event)=>{
+    const { value } = event.target;
+    this.setState({proctor:true});
 
+  }
   handleInstructionChange = (e, newValue) => {
     this.setState({ description: newValue });
   };
@@ -565,6 +571,7 @@ class Add extends Component {
       descriptionTitle,
       nameDescription,
       topicTestSections,
+      proctor,
       name,
       courseId,
       calibrationTestData,
@@ -854,6 +861,7 @@ class Add extends Component {
                 id: testQuestionSetId,
                 name: name,
                 type: type,
+                proctor:proctor,
                 // course: { id: courseId },
                 description: description,
                 descriptionTitle: descriptionTitle,
@@ -1226,6 +1234,7 @@ class Add extends Component {
   render() {
     const {
       type,
+      proctor,
       description,
       calibrationTestData,
       testQuestionSetId,
@@ -1287,6 +1296,20 @@ class Add extends Component {
             <TestTitle flex={1}>
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
+            {aedept === "assessment_engine_admin" ?(
+            <RadioButtonsGroup
+                  radioData={{
+                    name: "proctor",
+                    // activeValue: type,
+                    activevalue:proctor,
+                    radioItemData: [
+                      {  id:"AE_TEST",label: "Proctoring" },
+                    ],
+                    handleRadioChange: this.handleProctoringChange,
+                    
+                    marginRightValue: "753px",
+                  }}
+                />) :<></>}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
               {/* cancel */}
               <Cancel

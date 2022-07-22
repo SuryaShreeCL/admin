@@ -197,6 +197,7 @@ const EditTest = () => {
                   id: values.id,
                   name: values.name,
                   type: 'EVENT',
+                  proctor:null,
                   description: values.description,
                   descriptionTitle: values.descriptionTitle,
                   nameDescription: values.nameDescription,
