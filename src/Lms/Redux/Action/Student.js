@@ -367,3 +367,30 @@ export const getCalibrationTestReport = (studentId, productId) => {
       });
   };
 };
+
+export const getTopicName = (studentId, courseId) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/course/${courseId}/topics`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getTopicName,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getTopicName, error, false));
+        console.log(error);
+      });
+  };
+};

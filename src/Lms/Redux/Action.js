@@ -72,6 +72,7 @@ export const STUDENT = {
   topicTestReportExport: "topicTestReportExport",
   getStrengthAndWeakness: "getStrengthAndWeakness",
   getCalibrationTestReport: "getCalibrationTestReport",
+  getTopicName: "getTopicName",
 };
 
 export const TESTDOWNLOAD = {
