@@ -1307,7 +1307,7 @@ class Add extends Component {
                     ],
                     handleRadioChange: this.handleProctoringChange,
                     
-                    marginRightValue: "753px",
+                    marginRightValue: "553px",
                   }}
                 />) :<></>}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>

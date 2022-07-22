@@ -187,7 +187,14 @@ function DropDownRack(props) {
                       name="separateScore"
                       min="0"
                       // placeholder='Expected time for completion'
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
+                      onChange={(e)=>{
+                        if(e.target.value.length<=4){
+                        handleInputChange(e);}
+                      else{
+                        e.preventDefault();
+                      }
+                      }}
                     />
                   </FormControl>
                   {/* {console.log(score)} */}
