@@ -2,6 +2,7 @@ import { Box, Button, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  CardContainer,
   CourseContainer,
   CourseTabs,
   CourseTabsDuplicateCard,
@@ -24,6 +25,7 @@ import TopicTest from "./TopicTest/Index";
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
 import CalibrationTest from "./CalibrationTest/Index";
+import Review from "./CalibrationTest/Review";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
@@ -41,6 +43,7 @@ class Index extends Component {
       productId: "",
       studentId: "",
       tabId: 0,
+      review: [],
     };
     this.category = {
       taskAndTopic: "taskTopic",
@@ -61,6 +64,24 @@ class Index extends Component {
         this.setState({ productId: this.props.products.data[0].id });
       }
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { calibrationTestReport } = this.props;
+    if (
+      calibrationTestReport &&
+      calibrationTestReport !== prevProps.calibrationTestReport
+    ) {
+      if (calibrationTestReport.success) {
+        this.setState({
+          review: calibrationTestReport.data?.review || [],
+        });
+      } else {
+        this.setState({
+          review: [],
+        });
+      }
+    }
   }
 
   renderComponent = () => {
@@ -156,52 +177,59 @@ class Index extends Component {
   };
 
   render() {
-    const { productId, studentId, tabId } = this.state;
+    const { productId, studentId, tabId, review } = this.state;
     const { products } = this.props;
 
     return (
-      <CourseContainer>
-        <Grid
-          container
-          spacing={2}
-          justifyContent={"flex-end"}
-          alignItems={"center"}
-          style={{ paddingRight: 36, height: 56 }}
-        >
-          <RadioButtonsGroup
-            radioData={{
-              name: "Course",
-              activeValue: productId,
-              handleRadioChange: (e) => {
-                this.setState({ productId: e.target.value });
-              },
-              radioItemData:
-                (products.length !== 0 &&
-                  products.data.map((item) => ({
-                    id: item.id,
-                    label: item.productName,
-                  }))) ||
-                [],
-            }}
-          />
-        </Grid>
-        <CourseTabs>
-          <StyledTaps
-            tabsData={{
-              tabId: tabId,
-              handleTabChange: (e, newValue) => {
-                this.setState({ tabId: newValue });
-              },
-              tabsBackColor: "#FFE100",
-              tabData: tabsLabels,
-              activeClass: "course__task__tab",
-              styleName: "courseTaken",
-            }}
-          />
-          <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
-        </CourseTabs>
-        {this.renderComponent()}
-      </CourseContainer>
+      <>
+        <CourseContainer>
+          <Grid
+            container
+            spacing={2}
+            justifyContent={"flex-end"}
+            alignItems={"center"}
+            style={{ paddingRight: 36, height: 56 }}
+          >
+            <RadioButtonsGroup
+              radioData={{
+                name: "Course",
+                activeValue: productId,
+                handleRadioChange: (e) => {
+                  this.setState({ productId: e.target.value });
+                },
+                radioItemData:
+                  (products.length !== 0 &&
+                    products.data.map((item) => ({
+                      id: item.id,
+                      label: item.productName,
+                    }))) ||
+                  [],
+              }}
+            />
+          </Grid>
+          <CourseTabs>
+            <StyledTaps
+              tabsData={{
+                tabId: tabId,
+                handleTabChange: (e, newValue) => {
+                  this.setState({ tabId: newValue });
+                },
+                tabsBackColor: "#FFE100",
+                tabData: tabsLabels,
+                activeClass: "course__task__tab",
+                styleName: "courseTaken",
+              }}
+            />
+            <CourseTabsDuplicateCard></CourseTabsDuplicateCard>
+          </CourseTabs>
+          {this.renderComponent()}
+        </CourseContainer>
+        {tabId === 3 && review && review.length !== 0 && (
+          <CardContainer marginTop={"10px"}>
+            <Review data={review} />
+          </CardContainer>
+        )}
+      </>
     );
   }
 }

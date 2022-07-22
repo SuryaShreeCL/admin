@@ -40,5 +40,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   subText: {
     color: "#002D18 !important",
+    fontWeight: "500 !important",
+  },
+  subLeftText: {
+    color: "#052A4E !important",
+  },
+  subRightText: {
+    color: "#052A4E !important",
+    fontWeight: "500 !important",
   },
 }));
