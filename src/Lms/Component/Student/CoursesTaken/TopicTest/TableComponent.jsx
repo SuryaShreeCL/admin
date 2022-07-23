@@ -22,7 +22,6 @@ const ICONS = {
 
 function TableComponent({ handleTableRowClick, tableData }) {
   const headText = [
-    "#",
     "Topic name",
     "Start Date",
     "End Date",
@@ -48,17 +47,17 @@ function TableComponent({ handleTableRowClick, tableData }) {
         </Head>
         <TableBody>
           {tableData &&
+            tableData.length !== 0 &&
             tableData.map((item) => {
               return (
                 <TableRow
                   onClick={handleTableRowClick}
                   style={{ border: "0 0 0 0", cursor: "pointer" }}
                 >
-                  <BoldCell>{item.id}</BoldCell>
                   <BoldCell>{item.topicName}</BoldCell>
                   <BoldCell>{item.startDate}</BoldCell>
                   <BodyCell>{item.endDate}</BodyCell>
-                  <BodyCell>{item.test}</BodyCell>
+                  <BodyCell>{item.testName}</BodyCell>
                   <BodyCell>{item.queAttempt}</BodyCell>
                   <BodyCell>{item.duration}</BodyCell>
                   <BodyCell>{item.score}</BodyCell>
