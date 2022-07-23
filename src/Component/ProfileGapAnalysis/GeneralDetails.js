@@ -255,10 +255,14 @@ class GeneralDetails extends Component {
               title: response.data.packageDetails.pgaIntake,
             },
             enrollmentdate: response.data.packageDetails.enrollmentDate,
-            prefschool: response.data.aspirationDetails?.aspirationUniversities,
+            prefschool:
+              response.data.schoolType === "ASPIRATION_BS"
+                ? response.data.aspirationDetails.aspirationBschool
+                : response.data.aspirationDetails.aspirationUniversities,
             round: response.data.packageDetails.round,
             aspdegree: response.data.aspirationDetails?.aspirationDegrees,
-            aspfieldofstudy: response.data.aspirationDetails?.aspirationBranches,
+            aspfieldofstudy:
+              response.data.aspirationDetails?.aspirationBranches,
             isThreeFieldOnly: response.data.aspirationDetails?.isThreeFieldOnly,
             preferredLocation: response.data.aspirationDetails?.jobLocation,
             preferredWork: response.data.aspirationDetails?.workProfile,
@@ -268,7 +272,6 @@ class GeneralDetails extends Component {
       }
     );
   }
-
   componentDidUpdate(prevProps) {
     const { commentHistory } = this.props;
 
@@ -292,8 +295,8 @@ class GeneralDetails extends Component {
         fieldofstudy: this.props.getgeneraldetailsList?.studentDetails
           ?.fieldOfStudy,
         sem: this.props.getgeneraldetailsList?.studentDetails?.currentSem,
-        areaofspecialisation: this.props.getgeneraldetailsList?.aspirationDetails
-          ?.aspirationAreaOfSpecializations,
+        areaofspecialisation: this.props.getgeneraldetailsList
+          ?.aspirationDetails?.aspirationAreaOfSpecializations,
         package: this.props.getgeneraldetailsList?.packageDetails
           ?.packagedPurchased,
         product: this.props.getgeneraldetailsList?.packageDetails?.pgaProduct,
@@ -302,8 +305,12 @@ class GeneralDetails extends Component {
         },
         enrollmentdate: this.props.getgeneraldetailsList?.packageDetails
           ?.enrollmentDate,
-        prefschool: this.props.getgeneraldetailsList?.aspirationDetails
-          ?.aspirationUniversities,
+        prefschool:
+          this.props.getgeneraldetailsList?.schoolType === "ASPIRATION_BS"
+            ? this.props.getgeneraldetailsList?.aspirationDetails
+                ?.aspirationBschool
+            : this.props.getgeneraldetailsList?.aspirationDetails
+                ?.aspirationUniversities,
         round: this.props.getgeneraldetailsList?.packageDetails?.round,
         aspdegree: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationDegrees,
