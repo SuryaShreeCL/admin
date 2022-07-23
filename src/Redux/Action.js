@@ -17,6 +17,12 @@ export const COURSES = {
   deleteCourse: "deleteCourse",
   getPaginateCourse: "getPaginateCourse",
 };
+export const USERMANAGEMENT = {
+  getUserDepartment: "getUserDepartment",
+  getUserDetails: "getUserDetails",
+  editAdmin: "editAdmin",
+};
+
 
 export const QUESTIONS = {
   getQuestions: "getQuestions",

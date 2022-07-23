@@ -24,6 +24,7 @@ import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import Question from "./Question";
+import { getAllPassages } from "../../../Redux/Action/Passage";
 import QuestionPreview from "./preview/Index";
 import { IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
@@ -34,6 +35,11 @@ function toTitleCase(str) {
   });
 }
 
+const DEPT_NAMES = {
+  assessment_engine_admin: "assessment_engine_admin",
+};
+
+const EXPLANATION_VIDEO_LIMIT = 5;
 export class Index extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +64,14 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
+      videoContent: [{ id: null, videoUrl: "" }],
+      separateScore: 0,
     };
+  }
+
+  videoContentArray(data) {
+    if (data && Array.isArray(data) && data.length !== 0) return data;
+    else return [{ id: null, videoUrl: "" }];
   }
 
   componentDidMount() {
@@ -76,6 +89,7 @@ export class Index extends Component {
               const {
                 difficultyLevel,
                 expectedTime,
+                separateScore,
                 question,
                 description,
                 type,
@@ -88,13 +102,13 @@ export class Index extends Component {
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
+                separateScore,
                 question,
                 description,
                 checked: type === "BUNDLE" ? true : false,
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                url: response.data.explanationVideo,
                 url: response.data.video ? response.data.video.videoUrl : "",
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
@@ -118,7 +132,7 @@ export class Index extends Component {
                 imgURL,
               } = response.data;
               // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
-              console.log(response.data.questionChoices)
+              console.log(response.data.questionChoices);
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
@@ -128,9 +142,7 @@ export class Index extends Component {
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                url: response.data.explanationVideo,
-                
-                url: response.data.video ? response.data.video.videoUrl : "",
+                videoContent: this.videoContentArray(response.data.video),
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
@@ -163,6 +175,9 @@ export class Index extends Component {
           );
         }
       });
+    }
+    if (deptName !== "assessment_engine_admin") {
+      this.props.getAllPassages();
     }
   }
 
@@ -277,16 +292,14 @@ export class Index extends Component {
           },
         ],
       });
-    }
-    else if(e.target.value === "VIDEO"){
-     
+    } else if (e.target.value === "VIDEO") {
       this.setState({
-        answerType:e.target.value,
-        expectedTime:120,
-      })
+        answerType: e.target.value,
+        expectedTime: 360,
+      });
     }
-     else
     //  window.location.reload(false);
+    else
       this.setState({
         answerType: e.target.value,
         bucketArray: [
@@ -406,6 +419,7 @@ export class Index extends Component {
   };
 
   handleDeleteChoiceClick = (ind) => {
+    console.log(ind, "ind");
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
@@ -425,7 +439,9 @@ export class Index extends Component {
       answerType,
       text,
       url,
+      separateScore,
     } = this.state;
+    let deptName = window.sessionStorage.getItem("department");
 
     let { questionId, sectionId, testQuestionSetId } = QueryString.parse(
       this.props.location.search,
@@ -444,21 +460,24 @@ export class Index extends Component {
           : null;
 
     if (
-//       activeLevel.length === 0 ||
-//       (this.props.topics && this.state.expectedTime.length === 0) ||
-//       question.length === 0 ||
-//       answerType.length === 0 && 
-// (answerType!=="VIDEO" &&  this.choiceEmptyCheck()||  this.choicesSelectEmptyCheck())
-      // this.choiceEmptyCheck()|| 
+      //       activeLevel.length === 0 ||
+      //       (this.props.topics && this.state.expectedTime.length === 0) ||
+      //       question.length === 0 ||
+      //       answerType.length === 0 &&
+      // (answerType!=="VIDEO" &&  this.choiceEmptyCheck()||  this.choicesSelectEmptyCheck())
+      // this.choiceEmptyCheck()||
       // this.choicesSelectEmptyCheck()
       activeLevel.length === 0 ||
       (this.props.topics && this.state.expectedTime.length === 0) ||
       question.length === 0 ||
       answerType.length === 0 ||
+      (deptName === "assessment_engine_admin" &&
+        this.state.separateScore.length === 0) ||
       // this.choiceEmptyCheck() ||
       // this.choicesSelectEmptyCheck()
-(answerType!="VIDEO" &&  (this.choiceEmptyCheck()||  this.choicesSelectEmptyCheck()))
-
+      (answerType !== "VIDEO" &&
+        answerType !== "FILE_UPLOAD" &&
+        (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
     ) {
       this.setState({
         alert: {
@@ -466,7 +485,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (answerType!=="VIDEO"&& this.hasDuplicates()) {
+    } else if (answerType !== ("VIDEO" && "FILE_UPLOAD") && this.hasDuplicates()) {
       this.setState({
         alert: {
           severity: "error",
@@ -496,7 +515,8 @@ export class Index extends Component {
               choices: this.getChoices(),
               explanation: this.state.text,
               explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
+              // video: { videoUrl: this.state.url },
+              separateScore: separateScore,
             }
           : {
               id: questionId !== undefined ? questionId : null,
@@ -511,13 +531,13 @@ export class Index extends Component {
               choices: this.getChoices(),
               explanation: this.state.text,
               explanationVideo: this.state.url,
-              video: { videoUrl: this.state.url },
+              video: this.state.videoContent,
             };
-            if(deptName==="assessment_engine_admin" && answerType==="VIDEO")
-            {
-              delete obj.choices;
-            }
-           
+
+      if (deptName === "assessment_engine_admin" && answerType === "VIDEO") {
+        delete obj.choices;
+      }
+
       deptName === "assessment_engine_admin"
         ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
             if (response.success) {
@@ -594,6 +614,8 @@ export class Index extends Component {
           text:
             arr[i].choices[j].text === null
               ? arr[i].choices[j].image.fileName
+              : this.state.answerType === "SUBJECTIVE"
+              ? arr[i].choices[j].text?.trim()
               : arr[i].choices[j].text,
           orderNo: j + 1,
           bundleNo: arr.length > 1 ? i + 1 : null,
@@ -611,7 +633,8 @@ export class Index extends Component {
       for (let j = 0; j < arr[i].choices.length; j++) {
         if (
           (arr[i].choices[j].text === null ||
-            arr[i].choices[j].text.length === 0) &&
+            (arr[i].choices[j].text &&
+              arr[i].choices[j].text.trim().length === 0)) &&
           arr[i].choices[j].image === null
         ) {
           return true;
@@ -718,8 +741,35 @@ export class Index extends Component {
     this.props.history.goBack();
   };
 
+  handleVideoContentAdd = () => {
+    const { videoContent } = this.state;
+    if (videoContent.length < EXPLANATION_VIDEO_LIMIT) {
+      let arr = [...videoContent, { id: null, videoUrl: "" }];
+      this.setState({ videoContent: arr });
+    }
+  };
+
+  handleVideoContentDelete = (index, event) => {
+    const { videoContent } = this.state;
+    let arr = [...videoContent];
+    if (arr.length > 1) arr.pop();
+    this.setState({ videoContent: arr });
+  };
+
+  handleVideoContentChange = (e) => {
+    const { id, value } = e.target;
+    const { videoContent } = this.state;
+    let arr = [...videoContent];
+    arr[id].videoUrl = value;
+    this.setState({ videoContent: arr });
+  };
+
+  handlePassage = (e, newValue) => {
+    this.setState({ description: newValue?.content });
+  };
+
   render() {
-    const { subjects, concepts, topics, editData } = this.props;
+    const { subjects, concepts, topics, editData, passageOptions } = this.props;
 
     const {
       activeSubject,
@@ -740,6 +790,8 @@ export class Index extends Component {
       openPreview: open,
       imgURL,
       previewTestDataModel,
+      videoContent,
+      separateScore,
     } = this.state;
 
     const {
@@ -768,6 +820,10 @@ export class Index extends Component {
       handlePopUpClose,
       handlePreviewClick,
       handleClosePreview,
+      handleVideoContentAdd,
+      handleVideoContentDelete,
+      handleVideoContentChange,
+      handlePassage,
     } = this;
 
     const { history, location, match } = this.props;
@@ -783,6 +839,8 @@ export class Index extends Component {
       { id: "Hard", title: "Hard" },
     ];
 
+    let deptName = window.sessionStorage.getItem("department");
+
     let dropDownRackProps = {
       subjects,
       concepts,
@@ -797,8 +855,9 @@ export class Index extends Component {
       difficulty,
       handleInputChange,
       expectedTime,
-      type:answerType,
+      type: answerType,
       testQuestionSetId,
+      separateScore,
     };
 
     let answerProps = {
@@ -827,6 +886,12 @@ export class Index extends Component {
       url,
       handleExpTextChange,
       handleUrlChange,
+      handleVideoContentAdd,
+      handleVideoContentDelete,
+      handleVideoContentChange,
+      videoContent,
+      deptName,
+      videoContentLimit: EXPLANATION_VIDEO_LIMIT,
     };
 
     const buttonsProps = {
@@ -840,6 +905,8 @@ export class Index extends Component {
       handleDescriptionChange,
       question,
       description,
+      passageOptions: { data: [], ...passageOptions }.data,
+      handlePassage,
     };
 
     const popUpProps = {
@@ -864,8 +931,12 @@ export class Index extends Component {
           imgURL,
           isHaveImage: false,
           ...previewTestDataModel,
-          video: url,
+          video:
+            deptName === DEPT_NAMES.assessment_engine_admin
+              ? url
+              : videoContent,
           videoExplanation: text,
+          deptName,
         },
       },
     };
@@ -877,8 +948,8 @@ export class Index extends Component {
     return (
       <div>
         <BackIconBox>
-          <IconButton color="primary" onClick={this.handleBackIconClick}>
-            <ArrowBack color="primary" />
+          <IconButton color='primary' onClick={this.handleBackIconClick}>
+            <ArrowBack color='primary' />
           </IconButton>
         </BackIconBox>
         <C2>
@@ -906,6 +977,7 @@ const mapStateToProps = (state) => {
     topics: state.CourseMaterialReducer.topics,
     editData: state.TestReducer.editData,
     previewData: state.TestReducer.previewData,
+    passageOptions: state.PassageReducer.nameList,
   };
 };
 
@@ -921,4 +993,5 @@ export default connect(mapStateToProps, {
   cleanEditData,
   previewTestData,
   aepreviewTestData,
+  getAllPassages,
 })(Index);

@@ -2,10 +2,10 @@
  * (c) CareerLabs. All rights reserved.
  **/
 // import Button from "../../../utils/components/Button";
-import { Button, IconButton } from '@material-ui/core';
-import styled from 'styled-components';
-import { Divider as MuiDivider } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
+import { Button, IconButton } from "@material-ui/core";
+import styled from "styled-components";
+import { Divider as MuiDivider } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
 
 export const Container = styled.div`
   padding: 5vh 10vh;
@@ -42,14 +42,14 @@ export const TitleContainer = styled.div`
 
 export const QuestionCount = styled.div`
   font-style: normal;
-  font-weight: ${props => props.bold || '400'};
+  font-weight: ${(props) => props.bold || "400"};
   font-size: 24px;
   line-height: 30px;
   color: #052a4e;
 `;
 
 export const Div = styled.div`
-  display: ${props => props.display || 'unset'};
+  display: ${(props) => props.display || "unset"};
   align-items: center;
   overflow: hidden;
 
@@ -78,8 +78,8 @@ export const QuestionTitle = styled.div`
   font-size: 14px;
   line-height: 18px;
   color: #052a4e;
-  padding-left: ${({ padding }) => (padding ? padding : '20px')};
-  flex: ${props => props.flex || 1};
+  padding-left: ${({ padding }) => (padding ? padding : "20px")};
+  flex: ${(props) => props.flex || 1};
 `;
 
 export const TimeRemaining = styled.div`
@@ -127,18 +127,18 @@ export const SingleSelect = {
     align-items: center;
     margin: 12px 0px;
     padding: 8px;
-    background: ${props => (props.active ? '#f2f9ff' : '')};
+    background: ${(props) => (props.active ? "#f2f9ff" : "")};
   `,
   OptionBox: styled.div`
     width: 32px;
     height: 32px;
-    background: ${props => (props.active ? '#1093FF' : '#c4c4c445')};
+    background: ${(props) => (props.active ? "#1093FF" : "#c4c4c445")};
     border-radius: 5px;
     font-style: normal;
-    font-weight: ${props => (props.active ? 500 : 'normal')};
+    font-weight: ${(props) => (props.active ? 500 : "normal")};
     font-size: 16px;
     line-height: 114.7%;
-    color: ${props => (props.active ? '#fff' : '#000000')};
+    color: ${(props) => (props.active ? "#fff" : "#000000")};
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -148,7 +148,7 @@ export const SingleSelect = {
   OptionTitle: styled.div`
     font-style: normal;
     font-style: normal;
-    font-weight: ${props => (props.active ? 500 : 'normal')};
+    font-weight: ${(props) => (props.active ? 500 : "normal")};
     font-size: 16px;
     line-height: 24px;
     color: #052a4e;
@@ -197,20 +197,21 @@ export const Icon = styled.img`
 
 export const Next = withStyles({
   root: {
-    width: '200px',
-    borderRadius: '30px',
-    fontWeight: '500',
-    fontSize: '18px',
-    lineHeight: '16px',
-    textAlign: 'center',
-    padding: '10px',
-    height: '48px',
-    color: '#ffffff !important',
-    backgroundColor: '#1093FF !important',
+    marginTop: "10px",
+    width: "200px",
+    borderRadius: "30px",
+    fontWeight: "500",
+    fontSize: "18px",
+    lineHeight: "16px",
+    textAlign: "center",
+    padding: "10px",
+    height: "48px",
+    color: "#ffffff !important",
+    backgroundColor: "#1093FF !important",
   },
   disabled: {
-    background: 'gba(0, 0, 0, 0.26)',
-    opacity: '0.6',
+    background: "gba(0, 0, 0, 0.26)",
+    opacity: "0.6",
   },
 })(Button);
 
@@ -324,7 +325,7 @@ export const H1 = styled.div`
 
 export const Divider = withStyles({
   root: {
-    border: '1px solid #CCCCCC',
+    border: "1px solid #CCCCCC",
   },
 })(MuiDivider);
 
@@ -367,7 +368,7 @@ export const Grey = styled.span`
   font-size: 14px;
   line-height: 20px;
   color: #686868;
-  padding: ${props => props.p};
+  padding: ${(props) => props.p};
 `;
 
 export const BookMarkContainer = styled.div`
@@ -381,14 +382,14 @@ export const Main = styled.div`
 
 export const BookmarkButton = withStyles({
   root: {
-    width: '32px',
-    height: '32px',
-    background: 'rgb(16 147 255 / 10%)',
-    '&:hover': {
-      background: 'rgb(16 147 255 / 15%)',
+    width: "32px",
+    height: "32px",
+    background: "rgb(16 147 255 / 10%)",
+    "&:hover": {
+      background: "rgb(16 147 255 / 15%)",
     },
-    '&:active': {
-      background: 'rgb(16 147 255 / 10%)',
+    "&:active": {
+      background: "rgb(16 147 255 / 10%)",
     },
   },
 })(IconButton);

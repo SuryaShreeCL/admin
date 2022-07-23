@@ -1,4 +1,4 @@
-import { TEST } from '../Action';
+import { TEST } from "../Action";
 
 const initialState = {
   filterData: [],
@@ -11,6 +11,7 @@ const initialState = {
   subjects: [],
   editData: null,
   previewData: null,
+  topicList: null,
 };
 
 const TestReducer = (state = initialState, action) => {
@@ -147,6 +148,12 @@ const TestReducer = (state = initialState, action) => {
       return {
         ...state,
         previewData: action.payload,
+      };
+    }
+    case TEST.getTopicListByConceptId: {
+      return {
+        ...state,
+        topicList: action.payload,
       };
     }
 

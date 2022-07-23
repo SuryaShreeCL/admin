@@ -194,7 +194,7 @@ class StageBasedLayout extends Component {
           </Grid>
         </Grid>
       );
-    } else if (this.state.othersstatus === "Verified") {
+    } else if (this.state.othersStatus === "Verified") {
       return (
         <Grid container>
           <Grid item md={12}>
@@ -315,7 +315,7 @@ class StageBasedLayout extends Component {
             {"Onboarding Incomplete"}
           </Button>
         );
-      } else if (this.state.othersstatus === "Verified") {
+      } else if (this.state.othersStatus === "Verified") {
         return (
           <PrimaryButton
             color={"primary"}
@@ -405,7 +405,7 @@ class StageBasedLayout extends Component {
           ? sortedArr[0].steps[rank]
           : sortedArr[0].steps[0],
       });
-
+console.log(stage)
       let incompletearr = stage.steps.filter(
         (el) => el.verificationStatus === "Mismatched"
       );
@@ -421,7 +421,7 @@ class StageBasedLayout extends Component {
       let mismatchArr = stage.steps.filter(
         (nvData) => nvData.verificationStatus === "Mismatched"
       );
-
+console.log(verifyArr,nvArr,mismatchArr)
       if (
         verifyArr.length > 0 &&
         nvArr.length === 0 &&
@@ -679,7 +679,6 @@ class StageBasedLayout extends Component {
         ? componentList[this.state.selectedItem.stepName]
         : componentList[this.state.selectedItem];
     var Page = obj[selectedComponent];
-    console.log(this.state.tabCount, "++++++++++++++++");
     return (
       <div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
