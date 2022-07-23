@@ -15,8 +15,8 @@ import { Alert } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from "@date-io/moment";
-import ScheduleIcon from "@mui/icons-material/Schedule";
+import MomentUtils from '@date-io/moment';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -43,12 +43,13 @@ import PaginationComponent from "../../Utils/PaginationComponent";
 import PlusButton from "../../Utils/PlusButton";
 import DropDownRack from "./DropDownRack";
 import TableComp from "./TableComp";
-import moment from "moment";
 import {
   getConcepts,
   getCourses,
   getSubjects,
 } from "../../Redux/Action/CourseMaterial";
+
+import moment from "moment";
 
 const INITIAL_PAGE_NO = 0;
 const NO_OF_RESPONSE = 10;
@@ -818,7 +819,6 @@ class TestLanding extends Component {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
     };
-
     if (
       moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) ||
       moment(this.state.eventDate).isBefore(moment()) ||
@@ -839,7 +839,7 @@ class TestLanding extends Component {
             alertMsg: "Test rescheduled successfully",
             popupOpen: false,
           });
-          this.handleClose();
+          this.handleClose()
           let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
           this.state.department !== "assessment_engine_admin"
             ? this.props.getQuestionSet({
@@ -891,7 +891,7 @@ class TestLanding extends Component {
             alertMsg: "Test rescheduled successfully",
             popupOpen: false,
           });
-          this.handleClose();
+          this.handleClose()
           let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
           this.state.department !== "assessment_engine_admin"
             ? this.props.getQuestionSet({
@@ -1019,11 +1019,11 @@ class TestLanding extends Component {
       handleButton1Click,
       handleCloseIconClick,
       handlePrimaryButtonClick,
-      // handleReschedule,
+      handleReschedule,
       handleChange,
     } = this;
 
-    let deptName = window.sessionStorage.getItem("department");
+    var deptName = window.sessionStorage.getItem("department");
 
     return (
       <Container>

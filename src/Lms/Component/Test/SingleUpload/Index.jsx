@@ -24,10 +24,10 @@ import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import Question from "./Question";
+import { getAllPassages } from "../../../Redux/Action/Passage";
 import QuestionPreview from "./preview/Index";
 import { IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import { getAllPassages } from "../../../Redux/Action/Passage";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -64,8 +64,8 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
-      separateScore: 0,
       videoContent: [{ id: null, videoUrl: "" }],
+      separateScore: 0,
     };
   }
 
@@ -295,7 +295,7 @@ export class Index extends Component {
     } else if (e.target.value === "VIDEO") {
       this.setState({
         answerType: e.target.value,
-        expectedTime: 120,
+        expectedTime: 360,
       });
     }
     //  window.location.reload(false);
@@ -485,10 +485,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (
-      answerType != ("VIDEO" && "FILE_UPLOAD") &&
-      this.hasDuplicates()
-    ) {
+    } else if (answerType !== ("VIDEO" && "FILE_UPLOAD") && this.hasDuplicates()) {
       this.setState({
         alert: {
           severity: "error",
@@ -793,8 +790,8 @@ export class Index extends Component {
       openPreview: open,
       imgURL,
       previewTestDataModel,
-      separateScore,
       videoContent,
+      separateScore,
     } = this.state;
 
     const {

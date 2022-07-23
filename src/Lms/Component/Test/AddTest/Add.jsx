@@ -56,8 +56,6 @@ import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-// import { dataURLtoFile, toDataURL } from "../../../../Utils/HelperFunction";
-const aedept = window.sessionStorage.getItem("department");
 const dialogContent = {
   type: "delete",
   icon: <DeleteRounded style={{ fontSize: "48px", fill: "#1093FF" }} />,
@@ -911,6 +909,10 @@ class Add extends Component {
                 calibrationTestSet,
                 (calibrationTestResponse) => {
                   if (calibrationTestResponse?.success) {
+                    console.log(
+                      calibrationTestResponse,
+                      "calibrationTestResponse"
+                    );
                     // console.log(moment(),moment.utc(),moment.parseZone,"momenttttt")
                     var message =
                       testQuestionSetId === null ? "ADDED" : "UPDATED";
@@ -1307,7 +1309,7 @@ class Add extends Component {
                     ],
                     handleRadioChange: this.handleProctoringChange,
                     
-                    marginRightValue: "553px",
+                    marginRightValue: "733px",
                   }}
                 />) :<></>}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>

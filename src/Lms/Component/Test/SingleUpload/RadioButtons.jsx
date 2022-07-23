@@ -65,7 +65,7 @@ aesubject == "assessment_engine_admin" ?<>
             value="FILE_UPLOAD"
             control={<Radio color="primary" />}
             label={
-              <Label active={answerType === "FILE_UPLOAD"}>File Upload</Label>
+              <Label active={answerType === "FILE_UPLOAD"}> File Upload</Label>
             }
             disabled={editData}
           />
