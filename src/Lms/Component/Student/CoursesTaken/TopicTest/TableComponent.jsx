@@ -15,8 +15,8 @@ import { ReactComponent as OnGoing } from "../../../../Assets/icons/Progress.svg
 import { FlexView, LevelContent } from "../../../../Assets/StyledComponents";
 
 const ICONS = {
-  complete: <Complete />,
-  yettostart: <YetToStart />,
+  Completed: <Complete />,
+  "Yet to Started": <YetToStart />,
   ongoing: <OnGoing />,
 };
 
@@ -52,18 +52,33 @@ function TableComponent({ handleTableRowClick, tableData }) {
               return (
                 <TableRow
                   onClick={handleTableRowClick}
+                  id={item.id}
                   style={{ border: "0 0 0 0", cursor: "pointer" }}
                 >
                   <BoldCell>{item.topicName}</BoldCell>
-                  <BoldCell>{item.startDate}</BoldCell>
-                  <BodyCell>{item.endDate}</BodyCell>
+                  <BoldCell>
+                    {item.status === "Completed" ? `${item.startDate}` : "-"}
+                  </BoldCell>
+                  <BodyCell>
+                    {item.status === "Completed" ? `${item.endDate}` : "-"}
+                  </BodyCell>
                   <BodyCell>{item.testName}</BodyCell>
-                  <BodyCell>{item.queAttempt}</BodyCell>
-                  <BodyCell>{item.duration}</BodyCell>
-                  <BodyCell>{item.score}</BodyCell>
+                  <BodyCell>
+                    {item.status === "Completed"
+                      ? `${item.attemptQuestions}/${item.nnoOfQuestions}`
+                      : "-"}
+                  </BodyCell>
+                  <BodyCell>
+                    {item.status === "Completed" ? `${item.duration}` : "-"}
+                  </BodyCell>
+                  <BodyCell>
+                    {item.status === "Completed"
+                      ? `${item.score}/${item.TotalScore}`
+                      : "-"}
+                  </BodyCell>
                   <BodyCell>
                     <FlexView justifyContent={"start"} gap={"13px"}>
-                      {ICONS[item.icon]}
+                      {ICONS[item.status]}
                       {item.status}
                     </FlexView>
                   </BodyCell>

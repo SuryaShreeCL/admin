@@ -68,6 +68,10 @@ function Index({ studentId, courseId }) {
     }
   };
 
+  const handleTableRowClick = (event) => {
+    const { id } = event.currentTarget;
+    console.log(id);
+  };
   const handlePageChange = (event, value) => {
     window.scroll(0, 0);
     setState({ ...state, currentPage: value - 1 });
@@ -102,7 +106,12 @@ function Index({ studentId, courseId }) {
             onChange={handleChange}
           />
         </Grid>
-        {tableData && <TableComponent tableData={tableData.content} />}
+        {tableData && (
+          <TableComponent
+            tableData={tableData.content}
+            handleTableRowClick={handleTableRowClick}
+          />
+        )}
         {tableData !== undefined && (
           <PaginationComponent
             pageCount={tableData.totalPages}
