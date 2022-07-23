@@ -295,7 +295,7 @@ export class Index extends Component {
     } else if (e.target.value === "VIDEO") {
       this.setState({
         answerType: e.target.value,
-        expectedTime: 120,
+        expectedTime: 360,
       });
     }
     //  window.location.reload(false);
