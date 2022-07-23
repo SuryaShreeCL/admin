@@ -65,7 +65,7 @@ function TableComponent({ handleTableRowClick, tableData }) {
                   <BodyCell>{item.testName}</BodyCell>
                   <BodyCell>
                     {item.status === "Completed"
-                      ? `${item.attemptQuestions}/${item.nnoOfQuestions}`
+                      ? `${item.attemptQuestions}/${item.noOfQuestions}`
                       : "-"}
                   </BodyCell>
                   <BodyCell>
