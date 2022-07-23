@@ -88,8 +88,11 @@ class Preview extends Component {
     let product = this.props.variantStepList.variant_SKU;
 
     if (
+      productId === "5" ||
+      productId === "7" ||
       productName === "ACS_MIM" ||
       productName === "ACS_MBA" ||
+      
       productName === "ACS_PB"
     ) {
       return <MbaReport content={this.state.reportData.contents || []} />;
