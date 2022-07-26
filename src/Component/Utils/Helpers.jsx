@@ -51,6 +51,34 @@ export const errorHandler = (type, error, loading) => {
   };
 };
 
+/**
+ *
+ * @param {Object} error
+ * @returns Object
+ */
+export const catchError = (error) => {
+  var message = "Expectation Failed";
+  if (error) {
+    if (
+      error.response &&
+      typeof error.response.data === "string" &&
+      error.response.data.length !== 0
+    )
+      message = error.response.data;
+    else if (
+      error.response &&
+      error.response.data.message &&
+      error.response.data.message.length !== 0
+    )
+      message = error.response.data.message;
+  }
+  return {
+    success: false,
+    message: message,
+    ...error?.response,
+  };
+}
+
 /** Unified Portal */
 export const getSubStageSteps = (variantStepList, stageName, subStageName) => {
   let arr = [];
@@ -101,32 +129,4 @@ export const textToDownloadFile = (text, fileName, format) => {
 
 export const isImageURL = (url) => {
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
-};
-
-/**
- *
- * @param {Object} error
- * @returns Object
- */
-export const catchError = (error) => {
-  var message = "Expectation Failed";
-  if (error) {
-    if (
-      error.response &&
-      typeof error.response.data === "string" &&
-      error.response.data.length !== 0
-    )
-      message = error.response.data;
-    else if (
-      error.response &&
-      error.response.data.message &&
-      error.response.data.message.length !== 0
-    )
-      message = error.response.data.message;
-  }
-  return {
-    success: false,
-    message: message,
-    ...error?.response,
-  };
 };

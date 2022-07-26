@@ -592,6 +592,12 @@ function RootContainer(props) {
           items: [],
         },
         {
+          icon: <NextWeekOutlined />,
+          title: "Placement Drives",
+          path: placementDrives,
+          items: [],
+        },
+        {
           icon: <AssignmentIcon />,
           title: "Tests",
           path: testPath,
@@ -601,6 +607,24 @@ function RootContainer(props) {
           icon: <Track />,
           title: "Career Track",
           path: careerTrackPath,
+          items: [],
+        },
+        {
+          icon: <ContactMail />,
+          title: "Premium Users Data",
+          path: premiumUsersPath,
+          items: [],
+        },
+        {
+          icon: <AssignmentIcon />,
+          title: "CLSA",
+          path: clsaPath,
+          items: [],
+        },
+        {
+          icon: <img src={LiveVideoOn} alt={"3rd_year_menu"} width={"28px"} />,
+          title: "3rd Year",
+          path: thirdYear,
           items: [],
         },
         {

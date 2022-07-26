@@ -24,10 +24,10 @@ import DropDownRack from "./DropDownRack";
 import Explanation from "./Explanation";
 import PopUps from "./PopUps";
 import Question from "./Question";
+import { getAllPassages } from "../../../Redux/Action/Passage";
 import QuestionPreview from "./preview/Index";
 import { IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import { getAllPassages } from "../../../Redux/Action/Passage";
 
 function toTitleCase(str) {
   return str.replace(/\w\S*/g, function(txt) {
@@ -64,8 +64,8 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
-      separateScore: 0,
       videoContent: [{ id: null, videoUrl: "" }],
+      separateScore: 0,
     };
   }
 
@@ -89,9 +89,9 @@ export class Index extends Component {
               const {
                 difficultyLevel,
                 expectedTime,
-                separateScore,
                 question,
                 description,
+                separateScore,
                 type,
                 subject,
                 concept,
@@ -104,6 +104,7 @@ export class Index extends Component {
                 expectedTime,
                 separateScore,
                 question,
+                // separateScore,
                 description,
                 checked: type === "BUNDLE" ? true : false,
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
@@ -298,6 +299,18 @@ export class Index extends Component {
         expectedTime: 360,
       });
     }
+    // else if(e.target.value === "FILE_UPLOAD" ){
+    //   this.setState({
+    //     answerType:e.target.value,
+    //     separateScore:0,
+    //   })
+    // }
+    else if(e.target.value === "VIDEO" ){
+      this.setState({
+        answerType:e.target.value,
+        separateScore:0,
+      })
+    }
     //  window.location.reload(false);
     else
       this.setState({
@@ -468,16 +481,21 @@ export class Index extends Component {
       // this.choiceEmptyCheck()||
       // this.choicesSelectEmptyCheck()
       activeLevel.length === 0 ||
-      (this.props.topics && this.state.expectedTime.length === 0) ||
+      (this.props.topics && this.state.expectedTime.length === 0 && this.state.separateScore.length === 0) ||
       question.length === 0 ||
       answerType.length === 0 ||
-      (deptName === "assessment_engine_admin" &&
-        this.state.separateScore.length === 0) ||
+      // (deptName === "assessment_engine_admin" 
+      // &&
+        // this.state.separateScore.length === 0
+        // )
+        
       // this.choiceEmptyCheck() ||
       // this.choicesSelectEmptyCheck()
       (answerType !== "VIDEO" &&
         answerType !== "FILE_UPLOAD" &&
         (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
+        // ||
+        // this.state.separateScore.length === 0
     ) {
       this.setState({
         alert: {
@@ -485,10 +503,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (
-      answerType != ("VIDEO" && "FILE_UPLOAD") &&
-      this.hasDuplicates()
-    ) {
+    } else if (answerType !== ("VIDEO" && "FILE_UPLOAD") && this.hasDuplicates()) {
       this.setState({
         alert: {
           severity: "error",
@@ -793,8 +808,8 @@ export class Index extends Component {
       openPreview: open,
       imgURL,
       previewTestDataModel,
-      separateScore,
       videoContent,
+      separateScore,
     } = this.state;
 
     const {
@@ -861,6 +876,7 @@ export class Index extends Component {
       type: answerType,
       testQuestionSetId,
       separateScore,
+      
     };
 
     let answerProps = {

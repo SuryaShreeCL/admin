@@ -18,7 +18,6 @@ import HelperReducer from "../Reducer/HelperReducer";
 import ReportReducer from "../Reducer/ReportReducer";
 import ProfileGapAnalysisReducer from "../Reducer/ProfileGapAnalysisReducer";
 import CRGReducer from "../Reducer/CRGReducer";
-import UserManagementReducer from "../Reducer/UserManagementReducer";
 import CvReviewReducer from "../Reducer/CvReviewReducer";
 import ProfileFitSpiderGraphReducer from "../Reducer/ProfileFitSpiderGraphReducer";
 import {
@@ -66,6 +65,7 @@ import StrategySessionReducer from "../Reducer/StrategySessionReducer";
 import ProfileMentoringReducer from "../Reducer/ProfileMentoringReducer";
 import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";
 import { thirdYearWebinarListReducer } from "../Reducer/ThirdWebinarReducer";
+import UserManagementReducer from "../Reducer/UserManagementReducer";
 import PassageReducer from "../Lms/Redux/Reducer/PassageReducer";
 
 export default combineReducers({
