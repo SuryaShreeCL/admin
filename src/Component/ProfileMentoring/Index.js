@@ -18,6 +18,7 @@ import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
 import { getVariantStepsById } from "../../Actions/ProductAction"; 
+import PreferenceIndex from "../SchoolResearchPreferenceList/Index";
 import {
   bytesToMegaBytes,
   getSubStageByStage,
@@ -393,6 +394,7 @@ function Index(props) {
 
     }
      if(activeTabValue === "School Research"){
+      <PreferenceIndex/>;
 
      }
     
