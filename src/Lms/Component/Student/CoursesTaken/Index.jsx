@@ -20,6 +20,7 @@ import {
   topicTestReportExport,
 } from "../../../Redux/Action/Student";
 import StrengthAndWeakness from "./StrengthAndWeakness/Index";
+import TopicTest from "./TopicTest/Index";
 
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
@@ -99,7 +100,7 @@ class Index extends Component {
           <Box padding={"20px !important"}>
             <Box textAlign={"right"} padding={"0 0 10px !important"}>
               <Button
-                variant='contained'
+                variant="contained"
                 onClick={() =>
                   this.props.strengthWeaknessExport(studentId, productId)
                 }
@@ -112,9 +113,9 @@ class Index extends Component {
         );
       case 2:
         return (
-          <div className='flex-center'>
+          <div className="flex-center">
             <Button
-              variant='contained'
+              variant="contained"
               onClick={() => this.props.studyPlanExport(studentId, productId)}
             >
               {"Export"}
@@ -126,7 +127,7 @@ class Index extends Component {
           <Box padding={"20px !important"}>
             <Box textAlign={"right"} padding={"0 0 10px !important"}>
               <Button
-                variant='contained'
+                variant="contained"
                 onClick={() =>
                   this.props.calibrationTestExport(studentId, productId)
                 }
@@ -139,29 +140,36 @@ class Index extends Component {
         );
       case 4:
         return (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              padding: "32px",
-            }}
-          >
-            <Button
-              variant='contained'
-              onClick={() => this.props.topicTestExport(studentId, productId)}
-            >
-              {"Export TopicTest"}
-            </Button>
-            <Button
-              variant='contained'
-              onClick={() =>
-                this.props.topicTestReportExport(studentId, productId)
-              }
-            >
-              {"Export TopicTestReport"}
-            </Button>
-          </div>
+          // <div
+          //   style={{
+          //     display: "flex",
+          //     flexDirection: "row",
+          //     justifyContent: "space-evenly",
+          //     padding: "32px",
+          //   }}
+          // >
+          // {" "}
+          <Box padding={"20px !important"}>
+            <Box textAlign={"right"} padding={"0 0 10px !important"}>
+              <Button
+                variant="contained"
+                onClick={() => this.props.topicTestExport(studentId, productId)}
+              >
+                {"Export TopicTest"}
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  this.props.topicTestReportExport(studentId, productId)
+                }
+              >
+                {"Export TopicTestReport"}
+              </Button>
+            </Box>
+            <TopicTest studentId={studentId} courseId={productId} />
+          </Box>
+
+          // </div>
         );
       default:
         return null;

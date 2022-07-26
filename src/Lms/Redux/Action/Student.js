@@ -367,3 +367,57 @@ export const getCalibrationTestReport = (studentId, productId) => {
       });
   };
 };
+
+export const getTopicName = (studentId, productId) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/topics`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getTopicName,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getTopicName, error, false));
+        console.log(error);
+      });
+  };
+};
+
+export const postTopicTestList = (studentId, productId, bodyObj) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .post(
+        `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/studentTopicTests`,
+        bodyObj,
+        {
+          // crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.postTopicTestList,
+          payload: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
