@@ -115,3 +115,34 @@ export const addRecommendationAction = (
       });
   };
 };
+
+export const getStageCompleteCall = (studentId, productId) => {
+  let stepName = "Choose Preferences";
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  // let studentId = window.sessionStorage.getItem("studentId");
+  // let productId = window.sessionStorage.getItem("productId");
+  return async (dispatch) => {
+    try {
+      await axios
+        .get(
+          `${URL}/api/v1/students/${studentId}/products/${productId}/schoolresearch/stagestatus?stepName=${stepName}`,
+          {
+            crossDomain: true,
+            headers: {
+              Admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((result) => {
+          dispatch({
+            type: SCHOOL_RESEARCH.getStageComplete,
+            payload: result.data,
+            loading: false,
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(SCHOOL_RESEARCH.getStageComplete, error, false));
+    }
+  };
+};

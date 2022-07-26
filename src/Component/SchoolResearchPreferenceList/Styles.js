@@ -66,6 +66,16 @@ export const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  bottomPanel: {
+    display: "flex",
+    alignItems: "center",
+    position: "sticky",
+    justifyContent: "flex-end",
+    padding: "15px",
+    gap: "15px",
+    borderTop: "1px solid #E7E7E7",
+    marginBottom: "0px",
+  },
   stepLabel: {
     color: `${COLORS.white} !important`,
   },
