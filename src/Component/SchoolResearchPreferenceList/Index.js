@@ -18,6 +18,7 @@ import PreferenceTabTable from "./PreferenceTable";
 import { StyledButton } from "../Utils/controls/Styles";
 import BottomContainer from "../../CommonComponents/BottomComponent";
 export default function PreferenceIndex(props) {
+  console.log(props?.props, "we have to get the props here");
   const [tabList, setTabList] = useState([]);
   const [tabId, setTabId] = useState("");
   const [tableData, setTabData] = useState([]);
@@ -54,18 +55,15 @@ export default function PreferenceIndex(props) {
   useEffect(() => {
     dispatch(
       getPreferenceListBasedOnPreferenceIDAction(
-        "3c3b4bee-aab8-462b-9222-9fe30a576734",
-        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646",
+        props?.props?.studentId,
+        props?.props?.productId,
         currentTab
       )
     );
   }, [currentTab]);
   const shareRecommendations = () => {
     dispatch(
-      getStageCompleteCall(
-        "3c3b4bee-aab8-462b-9222-9fe30a576734",
-        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646"
-      )
+      getStageCompleteCall(props?.props?.studentId, props?.props?.productId)
     );
     console.log("share recommendations");
   };
