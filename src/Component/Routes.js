@@ -88,6 +88,7 @@ import {
   lms_course_landing,
   lms_course_taken,
   lms_study_plans,
+  lms_view_study_plan,
   loginPath,
   notificationPath,
   obOperationPath,
@@ -150,6 +151,7 @@ import ClsaTestPath from "../Component/Clsa/CreateTest";
 import UserManagement from "./UserManagement";
 import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
+import ViewStudyPlan from "../Lms/Component/StudyPlans/ViewStudyPlan";
 // import PersonaInfo from './Utils/DoccumentCard'
 export default function Routes(props) {
   return (
@@ -494,6 +496,12 @@ export default function Routes(props) {
         // path={`${careerTrackPath}${careerTrackVideoSetPath}/:id${careerTrackVideoPath}`}
         path={lms_add_study_plan}
         render={(props) => <AddStudyPlans {...props} />}
+      />
+
+      <Route
+        exact
+        path={lms_view_study_plan}
+        render={(props) => <ViewStudyPlan {...props} />}
       />
 
       <Route

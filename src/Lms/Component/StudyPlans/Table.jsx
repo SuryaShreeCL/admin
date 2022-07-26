@@ -1,19 +1,10 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { TableCells, Head, HeadCell } from "../../Assets/StyledTableComponents";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import { Pagination } from "@material-ui/lab";
+import TableRow from "@material-ui/core/TableRow";
+import React from "react";
+import { Head, HeadCell, TableCells } from "../../Assets/StyledTableComponents";
 import PaginationComponent from "../../Utils/PaginationComponent";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Popover from "./Popover";
 
 const useStyles = makeStyles({
   leftAlign: {
@@ -24,7 +15,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    height: "850px",
+    minHeight: "650px",
   },
 });
 
@@ -33,7 +24,6 @@ const columns = ["#Day", "Topic", "Tasks", "Time Required", ""];
 export default function DataTable(props) {
   const classes = useStyles();
 
-  const [start, setStart] = React.useState(0);
   const [end, setEnd] = React.useState(10);
   const { item } = props;
 
@@ -56,31 +46,26 @@ export default function DataTable(props) {
             {item &&
               item.slice(end - 10, end).map((month, index) => {
                 return (
-                  <TableRow
-                  // style={{ border: "0 0 0 0" }}
-                  >
+                  <TableRow>
                     <TableCells>Day {month.day}</TableCells>
                     <TableCells>{month.topicName}</TableCells>
                     <TableCells>{month.taskName}</TableCells>
                     <TableCells style={{ textAlign: "center" }}>
                       {month.duration} min
                     </TableCells>
-                    <TableCells style={{ textAlign: "center" }}>
-                      {/* <Popover options={['Edit']} /> */}
-                    </TableCells>
+                    <TableCells style={{ textAlign: "center" }}></TableCells>
                   </TableRow>
                 );
               })}
           </TableBody>
         </Table>
         <PaginationComponent
-          variant="outlined"
+          variant='outlined'
           pageCount={Math.ceil(item.length / 10)}
           onPageChange={(e, page) => {
-            // setStart(start * 10);
             setEnd(page * 10);
           }}
-          shape="rounded"
+          shape='rounded'
         />
       </div>
     );

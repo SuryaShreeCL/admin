@@ -18,6 +18,7 @@ export const COURSE_MATERIAL = {
   createorUpdateTask: "reateorUpdateTask",
   deleteTopic: "deleteTopic",
   monthPlan: "monthPlan",
+  getStudyPlan: "getStudyPlan",
 };
 
 export const TEST = {

@@ -34,7 +34,7 @@ function Review({ data }) {
     return {
       ...state,
       content: selectedItems,
-      count: Math.round(totalCount / SIZE),
+      count: Math.ceil(totalCount / SIZE),
     };
   };
 

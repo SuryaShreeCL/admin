@@ -222,6 +222,7 @@ export const FlexView = styled(MuiBox)`
   align-items: center;
   gap: ${({ gap }) => gap};
   padding: ${({ padding }) => padding};
+  min-width: ${({ minWidth }) => minWidth};
 `;
 
 export const FlexColumnView = styled(MuiBox)`

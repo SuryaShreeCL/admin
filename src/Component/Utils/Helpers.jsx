@@ -50,3 +50,49 @@ export const errorHandler = (type, error, loading) => {
     loading: loading,
   };
 };
+
+/**
+ *
+ * @param {Object} error
+ * @returns Object
+ */
+export const catchError = (error) => {
+  var message = "Expectation Failed";
+  if (error) {
+    if (
+      error.response &&
+      typeof error.response.data === "string" &&
+      error.response.data.length !== 0
+    )
+      message = error.response.data;
+    else if (
+      error.response &&
+      error.response.data.message &&
+      error.response.data.message.length !== 0
+    )
+      message = error.response.data.message;
+  }
+  return {
+    success: false,
+    message: message,
+    ...error?.response,
+  };
+};
+
+/**
+ *
+ * @param {String} text
+ * @param {String} fileName
+ * @param {String} format
+ */
+export const textToDownloadFile = (text, fileName, format) => {
+  let existType = fileName?.split(".").pop() === format;
+  let newPath = existType ? fileName : `${fileName}.${format || "docx"}`;
+  const downloadUrl = window.URL.createObjectURL(new Blob([text]));
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.setAttribute("download", newPath);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
