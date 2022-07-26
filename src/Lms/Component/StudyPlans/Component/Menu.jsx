@@ -20,6 +20,8 @@ export default function Menu({
 
   const makerChoices = [
     { text: "View", icon: <Visibility style={{ fill: "#1093ff" }} /> },
+    { text: "Upload", icon: <CloudUpload style={{ fill: "#1093FF" }} /> },
+    { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
   ];
 
   const checkerChoices = [
@@ -31,7 +33,24 @@ export default function Menu({
   ];
 
   const filterMaker = (array) => {
-    return array;
+    const { status, isUploaded } = studyPlanDetails;
+    if (status === "Draft") {
+      if (isUploaded) array.splice(1, 1);
+      else {
+        array.splice(0, 1);
+        array.splice(1, 1);
+      }
+      return array;
+    } else if (status === "Live" && isUploaded) {
+      array.length = 1;
+      return array;
+    } else if (status === "Approved" && isUploaded) {
+      array.splice(1, 1);
+      return array;
+    } else {
+      array.length = 1;
+      return array;
+    }
   };
 
   const filterChecker = (array) => {

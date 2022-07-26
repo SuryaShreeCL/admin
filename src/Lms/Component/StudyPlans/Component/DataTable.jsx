@@ -57,7 +57,7 @@ const getDateFormat = (dateString) => {
 
 const handleShowThreeDot = (status, isUploaded) => {
   let deptName = window.sessionStorage.getItem("department");
-  return !(deptName === "lms_editor" && !isUploaded);
+  return true;
 };
 
 const CENTER_ALIGN_INDEXES = [0, 3, 4];
@@ -138,7 +138,9 @@ export default function DataTable({
                       {item.uploadedBy || "-"}
                     </BodyCell>
                     <BodyCell>{item.wkStatus.value}</BodyCell>
-                    <BodyCell>{getDateFormat(item.createdAt)}</BodyCell>
+                    <BodyCell>
+                      {item.createdAt ? getDateFormat(item.createdAt) : "NA"}
+                    </BodyCell>
                     <BlueCell>
                       {handleShowThreeDot(
                         item.wkStatus.value,
