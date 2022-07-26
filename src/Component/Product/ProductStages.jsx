@@ -18,7 +18,7 @@ import { connect } from "react-redux";
 import {
   postproductstructure,
   putproductstructure,
-  getproductsteps,
+  getproductstepsCall,
 } from "../../Actions/ProductAction";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -571,5 +571,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   postproductstructure,
   putproductstructure,
-  getproductsteps,
+  getproductstepsCall,
 })(ProductStages);

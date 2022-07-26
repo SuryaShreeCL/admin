@@ -1093,11 +1093,11 @@ export const putproductstructure = (data, callback) => {
   };
 };
 
-export const getproductsteps = (id) => {
+export const getproductstepsCall = (id) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/steps/" + id, {
+      .get(URL + `/api/v1/get/steps/${id}`, {
         crossDomain: true,
         headers: {
           admin: "yes",

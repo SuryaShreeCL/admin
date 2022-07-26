@@ -17,6 +17,7 @@ import MySnackBar from "../MySnackBar";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
+import { getVariantStepsById } from "../../Actions/ProductAction"; 
 import {
   bytesToMegaBytes,
   getSubStageByStage,
@@ -24,6 +25,7 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { useStyles } from "./Styles";
+import { getproductstepsCall } from "../../Actions/ProductAction";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -36,6 +38,7 @@ function Index(props) {
   const dispatch = useDispatch();
   const params = useParams();
   const { studentId, productId } = params;
+  const[stageDetails,setStageDetails] = useState("")
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -89,10 +92,26 @@ function Index(props) {
   const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
+  const{getproductsteps} = useSelector(
+    (state) => state.ProductReducer
+  );
+
+  console.log(getVariantStepsById)
 
   useEffect(() => {
     dispatch(getStudentStageByProductId(studentId, productId));
+    dispatch(getVariantStepsById(productId, (response => {setStageDetails(response) })));
+   
   }, []);
+  useEffect(() => {
+    console.log(stageDetails)
+    let id=stageDetails?.steps?.find(el => el.stepName === "Profile Mentoring").id
+    console.log(id)
+     dispatch(getproductstepsCall(id))
+  }, [stageDetails]);
+
+  console.log(stageDetails)
+  console.log(getproductsteps)
 
   useEffect(() => {
     if (studentStages) {
@@ -135,7 +154,7 @@ function Index(props) {
           setState({
             ...state,
             steps: arr,
-            activeTabValue: arr.length !== 0 && arr[0]["sectionName"],
+            activeTabValue: arr.length !== 0 && arr[0]["CV"],
             sectionId: arr.length !== 0 && arr[0]["id"],
           });
         }
@@ -151,7 +170,7 @@ function Index(props) {
   }, [subStageSteps]);
 
   useEffect(() => {
-    if (sectionId) {
+    if (sectionId && activeTabValue === "QPMC 1") {
       dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
     }
   }, [sectionId]);
@@ -365,24 +384,49 @@ function Index(props) {
       lastestCVLoading: cvloader,
       ...props,
     };
-    return <DocumentComponent {...renderProps} />;
+
+    if(activeTabValue === "QPMC 1"){
+      
+      return <DocumentComponent {...renderProps} />;
+    }
+     if(activeTabValue === "QPMC 2"){
+
+    }
+     if(activeTabValue === "School Research"){
+
+     }
+    
   };
 
   const handleTabChange = (e, newValue) => {
-    let arr = steps.filter(({ sectionName }) => sectionName === newValue);
+    if(newValue === "QPMC 1"){
+      let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
     setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    }
+    else{
+    let Tabsteps = getproductsteps?.steps?.find(el => el.stepName === "Completed Cv").steps;
+    let arr = Tabsteps.filter(({ stepName }) => stepName === newValue);
+    let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
+    setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    }
+   
+    
   };
 
   const renderTabs = () => {
-    return steps.length !== 0
-      ? steps.map(({ sectionName, id }, index) => (
+    console.log(getproductsteps?.steps?.find(el => el.stepName === "Completed Cv").steps)
+    let Tabsteps = getproductsteps?.steps?.find(el => el.stepName === "Completed Cv").steps;
+    return Tabsteps !== 0
+      ? Tabsteps?.map(({ sectionName, id ,stepName}, index) => (
+       
           <CustomTab
-            value={sectionName}
-            label={sectionName}
+            value={stepName}
+            label={stepName}
             id={`${id}${index}`}
             minHeight={"72px"}
           />
+          
         ))
       : null;
   };
