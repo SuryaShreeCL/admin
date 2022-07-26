@@ -4,19 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getNumberOfPreferences,
   getPreferenceListBasedOnPreferenceIDAction,
+  getStageCompleteCall,
 } from "../../Actions/SchoolResearchAction";
 import {
   PreferenceDetails,
   Wrapper,
 } from "../../Asset/StyledComponents/Styles";
 import RightContainer from "../../CommonComponents/RightContainer";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { preferenceTableDummyData, tabList } from "../../Utils/Data";
 import CustomTabs from "./CustomTabs";
 import PreferenceTabTable from "./PreferenceTable";
+import { StyledButton } from "../Utils/controls/Styles";
+import BottomContainer from "../../CommonComponents/BottomComponent";
 export default function PreferenceIndex(props) {
   const [tabList, setTabList] = useState([]);
   const [tabId, setTabId] = useState("");
   const [tableData, setTabData] = useState([]);
+  const matches = useMediaQuery("(max-width:1500px)");
   useEffect(() => {
     if (tabList?.length > 0) {
       let tabId = tabList[0]?.id;
@@ -55,7 +60,15 @@ export default function PreferenceIndex(props) {
       )
     );
   }, [currentTab]);
-
+  const shareRecommendations = () => {
+    dispatch(
+      getStageCompleteCall(
+        "3c3b4bee-aab8-462b-9222-9fe30a576734",
+        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646"
+      )
+    );
+    console.log("share recommendations");
+  };
   return (
     <div style={{ height: "600px", position: "relative" }}>
       <Wrapper>
@@ -84,7 +97,7 @@ export default function PreferenceIndex(props) {
                       display: "flex",
                       marginTop: "20px",
                       marginBottom: "20px",
-                      width: "65%",
+                      width: matches ? "80%" : "65%",
                       // backgroundColor: "red",
                     }}
                   >
@@ -92,7 +105,7 @@ export default function PreferenceIndex(props) {
                       <span className="MasterHeading">Master</span>
                       <span className="DegreeHeading">Degree</span>
                     </div> */}
-                    <Grid item xs={2} sm={2} md={2} xl={2} lg={2}>
+                    <Grid item xs={2} sm={2} md={2} xl={2} lg={3}>
                       <div
                         style={{
                           justifyContent: "right",
@@ -100,6 +113,7 @@ export default function PreferenceIndex(props) {
                           fontSize: "12px",
                           paddingRight: "10px",
                           color: "#666666",
+                          textAlign: "right",
                         }}
                       >
                         Degree
@@ -116,7 +130,7 @@ export default function PreferenceIndex(props) {
                         {cardData?.degreeName}
                       </div>
                     </Grid>
-                    <Grid item={2} sm={2} md={2} xl={2} lg={2}>
+                    <Grid item={2} sm={2} md={2} xl={2} lg={3}>
                       <div
                         style={{
                           justifyContent: "right",
@@ -124,6 +138,7 @@ export default function PreferenceIndex(props) {
                           fontSize: "12px",
                           paddingRight: "10px",
                           color: "#666666",
+                          textAlign: "right",
                         }}
                       >
                         Field of Study
@@ -146,10 +161,10 @@ export default function PreferenceIndex(props) {
                   <div
                     style={{
                       display: "flex",
-                      width: "65%",
+                      width: matches ? "80%" : "65%",
                     }}
                   >
-                    <Grid item xs={2} sm={2} md={2} xl={2} lg={2}>
+                    <Grid item xs={2} sm={2} md={2} xl={2} lg={3}>
                       <div
                         style={{
                           justifyContent: "right",
@@ -157,6 +172,7 @@ export default function PreferenceIndex(props) {
                           display: "flex",
                           paddingRight: "10px",
                           color: "#666666",
+                          textAlign: "right",
                         }}
                       >
                         Area of Specialization
@@ -173,7 +189,7 @@ export default function PreferenceIndex(props) {
                         {cardData?.areaOfSpecializationName}
                       </div>
                     </Grid>
-                    <Grid item={2} sm={2} md={2} xl={2} lg={2}>
+                    <Grid item={2} sm={2} md={2} xl={2} lg={3}>
                       <div
                         style={{
                           justifyContent: "right",
@@ -181,6 +197,7 @@ export default function PreferenceIndex(props) {
                           fontSize: "12px",
                           paddingRight: "10px",
                           color: "#666666",
+                          textAlign: "right",
                         }}
                       >
                         Preferred Region
@@ -212,7 +229,7 @@ export default function PreferenceIndex(props) {
             </div>
           </div>
           {tableData?.length > 0 ? (
-            <div style={{ margin: "1rem" }}>
+            <div style={{ margin: "1rem 2rem 1rem 1rem" }}>
               <PreferenceTabTable
                 tableData={tableData}
                 currentTab={currentTab}
@@ -221,6 +238,50 @@ export default function PreferenceIndex(props) {
           ) : (
             "No Data Found"
           )}
+          <BottomContainer
+            children={
+              <div>
+                <Grid container justifyContent="center" alignItems="center">
+                  <Grid
+                    item
+                    xl={12}
+                    lg={12}
+                    xs={12}
+                    md={12}
+                    sm={12}
+                    align="right"
+                    justifyContent={"right"}
+                  >
+                    <StyledButton
+                      variant={"contained"}
+                      style={{
+                        backgroundColor: "#18AAE7",
+                        color: "#FFF",
+                        fontSize: "12px",
+                      }}
+                      onClick={() => shareRecommendations()}
+                    >
+                      {"Share Recommendations"}
+                    </StyledButton>
+                  </Grid>
+                </Grid>
+              </div>
+            }
+          />
+
+          {/* <StyledButton
+              variant={"contained"}
+              // style={
+              //   customTheme["palette"][
+              //     disabledUploadButton ? "disabled" : "contained"
+              //   ]
+              // }
+              // onClick={handleUploadClick}
+              // disabled={disabledUploadButton}
+            >
+              {"Upload"}
+            </StyledButton> */}
+          {/* </BottomContainer> */}
         </RightContainer>
       </Wrapper>
     </div>
