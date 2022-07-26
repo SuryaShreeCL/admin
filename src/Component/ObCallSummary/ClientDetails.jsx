@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
-  createMuiTheme,
+  createTheme,
   Dialog,
   DialogActions,
   DialogContent,
@@ -45,7 +45,7 @@ import PrimaryButton from "../../Utils/PrimaryButton";
 import Mysnack from "../MySnackBar";
 import { isEmptyString } from "../Validation";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiInputLabel: {
       root: {

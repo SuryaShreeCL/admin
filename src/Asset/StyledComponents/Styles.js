@@ -24,6 +24,16 @@ export const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 1,
     background: "none",
   },
+  rightContainer: {
+    border: "1px solid #C8C8C8",
+    width: "99.5%",
+    height: "100%",
+    borderRadius: "4px",
+    overflow: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
 }));
 
 export const customTheme = createTheme({
@@ -156,4 +166,161 @@ export const StyledMenuPaper = styled.div`
   background: #ffffff;
   right: 3px;
   position: relative;
+`;
+export const Wrapper = styled.div`
+  border: 1px solid #e7e7e7;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+export const PreferenceDetails = styled.div`
+  width: 100%;
+  height: 95px;
+  background: #e5efff 0% 0% no-repeat padding-box;
+  opacity: 1;
+`;
+export const VerticalTable = styled.table`
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #488dff;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: auto !important;
+  left: 0px;
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 52px;
+  }
+
+  tr th,
+  tr td {
+    border-left: 2px solid #488dff;
+    border-bottom: 2px solid #488dff;
+    padding: 5px;
+  }
+
+  tr th:first-child,
+  tr td:first-child {
+    border-left: none;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:first-child th {
+    border-top-left-radius: 10px;
+  }
+
+  tr:last-child td {
+    border-bottom-left-radius: 10px;
+  }
+
+  tr:last-child th {
+    border-bottom: none !important;
+  }
+
+  tr:first-child td {
+    border-top-left-radius: 10px;
+  }
+`;
+export const VerticalTableHead = styled.th`
+  text-align: center;
+  font-size: 14px;
+  color: #488dff;
+  padding: 5px 0px !important;
+  width: 400px;
+  padding: 14px !important;
+`;
+export const UniversityName = styled.th`
+  text-align: center;
+  font-size: 14px;
+  color: #488dff;
+  padding: 5px 0px !important;
+`;
+export const TableData = styled.td`
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  padding: 9 !important;
+  align-items: center;
+  width: 20%;
+`;
+export const AddedData = styled.td`
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  padding: 9 !important;
+  align-items: center;
+  width: 5%;
+`;
+export const UniversityNameList = styled.td`
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: center;
+  width: 40%;
+`;
+export const NoDataFound = styled.td`
+  text-align: left;
+  font-size: 16px;
+  font-weight: 500;
+  align-items: center;
+  width: 100%;
+`;
+export const CollegeData = styled.td`
+  text-align: left;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  padding: 14px !important;
+`;
+export const TableRow = styled.tr``;
+export const TableRows = styled.tr`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 50px;
+  font-size: 20px;
+  z-index: 1;
+`;
+export const TableHead = styled.th`
+  text-align: center;
+  font-size: 16px;
+  color: #488dff;
+  padding: 18px !important;
+`;
+export const PaddingBottom = styled.div`
+  padding-bottom: 1em;
+`;
+export const PaddingBottomWithAlignment = styled.div`
+  padding-bottom: 1em;
+`;
+export const LeftContainerFlexibility = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  border-top: 1px solid #fff;
+`;
+export const LeftContainerDataFlexibility = styled.div`
+  margin: 1em;
+  margin-top: 1em;
+`;
+export const Sticky = styled.div`
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: yellow;
+  padding: 50px;
+  font-size: 20px;
+`;
+export const Category = styled.td`
+  text-align: center;
+  font-size: 14px;
+  align-items: center;
+  width: 10%;
 `;

@@ -1,6 +1,6 @@
 import {
   CircularProgress,
-  createMuiTheme,
+  createTheme,
   Slide,
   ThemeProvider,
 } from "@material-ui/core";
@@ -69,7 +69,7 @@ export class College extends Component {
   };
 
   tableTheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",
@@ -93,7 +93,7 @@ export class College extends Component {
     });
 
   modeltheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiDialog: {
           paperWidthSm: {
@@ -137,7 +137,7 @@ export class College extends Component {
       },
     });
   spinnerTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {

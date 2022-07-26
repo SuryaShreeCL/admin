@@ -6,13 +6,13 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from '@material-ui/core/CardActions'
+import CardActions from "@material-ui/core/CardActions";
 import { Typography } from "@material-ui/core";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
 import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { IconButton } from "@material-ui/core";
 import "../../Asset/RengineNew.css";
 import { connect } from "react-redux";
@@ -29,14 +29,14 @@ export class CarousolSlide extends Component {
   ];
 
   componentDidMount() {
-    console.log(window.sessionStorage.getItem('TestExecutionId'))
+    console.log(window.sessionStorage.getItem("TestExecutionId"));
     //this.props.getRecommendedCourses();
     this.props.getPopularCourses();
     //this.props.getSimilarCourses();
   }
 
   cardTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCard: {
           root: {
@@ -46,7 +46,7 @@ export class CarousolSlide extends Component {
       },
     });
 
-  render() {    
+  render() {
     const settings = {
       dots: false,
       infinite: false,
@@ -151,34 +151,33 @@ export class CarousolSlide extends Component {
           </div>
           <ThemeProvider theme={this.cardTheme()}>
             <Slider {...settings}>
-            
               {this.props.PopularCourseList.map((popular) => (
-              <Grid item>
-                 <Card>               
-               <CardMedia
-                 className=''
-                 image={popular.displayImageURL}
-                 title="Paella dish"
-                 height= '40vh'
-               />
-               <CardContent>
-                 <Typography variant="body2" color="textSecondary" component="p">
-                   This impressive paella is a perfect party dish and a fun meal to cook together with your
-                   guests. Add 1 cup of frozen peas along with the mussels, if you like.
-                 </Typography>
-               </CardContent>
-               <CardActions disableSpacing>
-                 <IconButton aria-label="add to favorites">
-                   
-                 </IconButton>
-                 <IconButton aria-label="share">
-                   
-                 </IconButton>        
-               </CardActions>      
-             </Card>
-              </Grid>
+                <Grid item>
+                  <Card>
+                    <CardMedia
+                      className=""
+                      image={popular.displayImageURL}
+                      title="Paella dish"
+                      height="40vh"
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                      >
+                        This impressive paella is a perfect party dish and a fun
+                        meal to cook together with your guests. Add 1 cup of
+                        frozen peas along with the mussels, if you like.
+                      </Typography>
+                    </CardContent>
+                    <CardActions disableSpacing>
+                      <IconButton aria-label="add to favorites"></IconButton>
+                      <IconButton aria-label="share"></IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
               ))}
-              
             </Slider>
           </ThemeProvider>
         </div>
@@ -244,5 +243,3 @@ export default connect(mapStateToprops, {
   getPopularCourses,
   getSimilarCourses,
 })(CarousolSlide);
-
-

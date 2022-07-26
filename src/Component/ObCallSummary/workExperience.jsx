@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  createMuiTheme,
+  createTheme,
   Grid,
   IconButton,
   TextField,
@@ -29,7 +29,7 @@ import Mysnack from "../MySnackBar";
 import DoccumentCard from "../Utils/DoccumentCard";
 import Model from "../Utils/SectionModel";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiInputLabel: {
       root: {
