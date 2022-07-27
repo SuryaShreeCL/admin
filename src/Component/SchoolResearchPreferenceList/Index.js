@@ -18,6 +18,7 @@ import PreferenceTabTable from "./PreferenceTable";
 import { StyledButton } from "../Utils/controls/Styles";
 import BottomContainer from "../../CommonComponents/BottomComponent";
 import MySnackBar from "../MySnackBar";
+import CustomizedSnackBars from "../CustomizedSnackBars";
 export default function PreferenceIndex(props) {
   console.log(props, "we have to get the props here");
   const [tabList, setTabList] = useState([]);
@@ -324,7 +325,7 @@ export default function PreferenceIndex(props) {
           {/* </BottomContainer> */}
         </RightContainer>
       </Wrapper>
-      <MySnackBar
+      <CustomizedSnackBars
         open={snackbar.snackOpen}
         severity={snackbar.snackVariant}
         message={snackbar.snackMsg}
