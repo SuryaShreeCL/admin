@@ -67,6 +67,7 @@ import ProfileMentoringReducer from "../Reducer/ProfileMentoringReducer";
 import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";
 import { thirdYearWebinarListReducer } from "../Reducer/ThirdWebinarReducer";
 import PassageReducer from "../Lms/Redux/Reducer/PassageReducer";
+import LmsConceptReducer from "../Lms/Redux/Reducer/ConceptReducer";
 
 export default combineReducers({
   CourseReducer: CourseReducer,
@@ -129,6 +130,7 @@ export default combineReducers({
   TestReducer: TestReducer,
   LmsStudentReducer: LmsStudentReducer,
   PassageReducer: PassageReducer,
+  LmsConceptReducer: LmsConceptReducer,
 
   //elev8 clsa
   ClsaReducer: ClsaReducer,

@@ -13,6 +13,11 @@ const initialState = {
   studentProducts: {},
   studyPlanData: null,
   updateStudyPlanStatus: null,
+  strengthAndWeakness: null,
+  calibrationTestReport: null,
+  topics: [],
+  topicList: [],
+  topicReport: [],
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -88,6 +93,39 @@ const LmsStudentReducer = (state = initialState, action) => {
         updateStudyPlanStatus: action.payload,
       };
     }
+    case STUDENT.getStrengthAndWeakness: {
+      return {
+        ...state,
+        strengthAndWeakness: action.payload,
+      };
+    }
+    case STUDENT.getCalibrationTestReport: {
+      return {
+        ...state,
+        calibrationTestReport: action.payload,
+      };
+    }
+    case STUDENT.getTopicName: {
+      return {
+        ...state,
+        topics: action.payload,
+      };
+    }
+
+    case STUDENT.postTopicTestList: {
+      return {
+        ...state,
+        topicList: action.payload,
+      };
+    }
+
+    case STUDENT.getTopicTestReport: {
+      return {
+        ...state,
+        topicReport: action.payload,
+      };
+    }
+
     default:
       break;
   }

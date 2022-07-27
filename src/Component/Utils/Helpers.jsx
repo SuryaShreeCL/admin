@@ -77,7 +77,7 @@ export const catchError = (error) => {
     message: message,
     ...error?.response,
   };
-}
+};
 
 /** Unified Portal */
 export const getSubStageSteps = (variantStepList, stageName, subStageName) => {

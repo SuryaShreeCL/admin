@@ -73,6 +73,7 @@ import {
   webinarPath,
   userManagementPath,
   placementDrives,
+  lms_concept,
 } from "./RoutePaths";
 import Routes from "./Routes";
 
@@ -715,6 +716,12 @@ function RootContainer(props) {
           icon: <></>,
           title: "Passage",
           path: lms_passage,
+          items: [],
+        },
+        {
+          icon: <></>,
+          title: "Concept",
+          path: lms_concept,
           items: [],
         },
       ];

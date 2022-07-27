@@ -215,10 +215,20 @@ export const Box = styled(MuiBox)`
 `;
 
 export const FlexView = styled(MuiBox)`
+  position: relative;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({ justifyContent }) => justifyContent || "space-between"};
   align-items: center;
+  gap: ${({ gap }) => gap};
+  padding: ${({ padding }) => padding};
+  min-width: ${({ minWidth }) => minWidth};
+`;
+
+export const FlexColumnView = styled(MuiBox)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: ${({ gap }) => gap};
   padding: ${({ padding }) => padding};
 `;
@@ -268,6 +278,16 @@ export const Divider = styled.div`
   opacity: 0.3;
   border: 1px solid #1093ff;
   margin: 24px 0px 30px 0px;
+`;
+
+export const VerticalDivider = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0px;
+  height: 100%;
+  opacity: 0.3;
+  border: 1px solid #1093ff;
 `;
 
 export const DropDownBox = styled.div`
@@ -443,4 +463,64 @@ export const DropDownDiv = styled.div`
 
 export const BackIconBox = styled.div`
   margin-bottom: 1rem;
+`;
+
+export const SideIcon = styled.img`
+  width: ${(props) => (props.size === true ? "16px" : "24px")};
+  height: ${(props) => (props.size === true ? "16px" : "24px")};
+  margin: ${(props) =>
+    props.size === true ? "0px 19px 0px 4px" : "0px 15px 0px 0px"};
+  min-height: 24px;
+`;
+
+export const SideContent = styled.div`
+  font-weight: 400;
+  font-size: 14px;
+  color: #052a4e;
+`;
+
+export const RightContent = styled.div`
+  font-weight: 600;
+  font-size: 14px;
+  color: #052a4e;
+`;
+
+export const LevelContent = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  color: #052a4e;
+  margin-top: 3px;
+`;
+
+export const TypeContainer = styled.div`
+  padding: 16px 15px 6px 15px;
+  align-items: center;
+`;
+
+export const SideContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const InsideContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const CenterText = styled(MuiBox)`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 39px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.4);
+`;
+
+export const InsightSubTitle = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #1093ff;
 `;

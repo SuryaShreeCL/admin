@@ -18,6 +18,7 @@ export const COURSE_MATERIAL = {
   createorUpdateTask: "reateorUpdateTask",
   deleteTopic: "deleteTopic",
   monthPlan: "monthPlan",
+  getStudyPlan: "getStudyPlan",
 };
 
 export const TEST = {
@@ -74,7 +75,13 @@ export const STUDENT = {
   topicTestReportExport: "topicTestReportExport",
   getStudyPlan: "getStudyPlan",
   updateStudyPlan: "updateStudyPlan",
+  getStrengthAndWeakness: "getStrengthAndWeakness",
+  getCalibrationTestReport: "getCalibrationTestReport",
+  getTopicName: "getTopicName",
+  postTopicTestList: "postTopicTestList",
+  getTopicTestReport: "getTopicTestReport",
 };
+
 export const TESTDOWNLOAD = {
   testQuestionSetId: "testQuestionSetId",
 };
@@ -83,4 +90,8 @@ export const PASSAGE = {
   getAllPassages: "getAllPassages",
   postAdd: "postAdd",
   postEdit: "postEdit",
+};
+
+export const LMS_CONCEPT = {
+  getConcept: "getConcept",
 };
