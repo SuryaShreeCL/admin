@@ -80,3 +80,7 @@ export const STUDENT = {
 export const TESTDOWNLOAD = {
   testQuestionSetId: "testQuestionSetId",
 };
+
+export const LMS_CONCEPT = {
+  getConcept: "getConcept",
+};

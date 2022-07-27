@@ -603,7 +603,7 @@ export const updateStudyPlanStatus = (studyPlanId, status, callback) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return () => {
     axios
-      .post(
+      .put(
         `${DEV_LMS}/api/v1/lms/studyPlanMaster/${studyPlanId}/status/${status}`,
         null,
         {

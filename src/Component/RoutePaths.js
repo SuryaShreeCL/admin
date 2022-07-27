@@ -90,6 +90,7 @@ export const lms_add_study_plan = rootPath.concat("/add-study-plans");
 export const lms_view_study_plan = rootPath.concat(
   "/view-study-plan/:studyPlanId"
 );
+export const lms_concept = rootPath.concat("/concept");
 export const lms_course_taken = rootPath.concat("/course-taken");
 export const lmsTest = rootPath.concat("/test");
 export const lms_add_test = rootPath.concat("/test/add");

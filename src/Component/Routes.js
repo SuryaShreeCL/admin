@@ -130,6 +130,7 @@ import {
   thirdYear,
   createWebinarPath,
   editWebinarPath,
+  lms_concept,
 } from "./RoutePaths";
 import Student from "./Student";
 import Student_data from "./StudentData";
@@ -152,7 +153,9 @@ import UserManagement from "./UserManagement";
 import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
 import ViewStudyPlan from "../Lms/Component/StudyPlans/ViewStudyPlan";
+import LmsConcept from "../Lms/Component/Concept/Index";
 // import PersonaInfo from './Utils/DoccumentCard'
+
 export default function Routes(props) {
   return (
     <Switch>
@@ -535,6 +538,7 @@ export default function Routes(props) {
         component={BulkUpload}
       />
       <Route export exact path={single_upload} component={SingleUpload} />
+      <Route export exact path={lms_concept} component={LmsConcept} />
       <Route
         exact
         path={clsaPath}

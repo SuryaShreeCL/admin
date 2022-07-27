@@ -38,9 +38,7 @@ const MONTH = [
 
 const columns = [
   "No.",
-  "Plan Name",
-  "Plan Duration",
-  "Plan Uploaded",
+  "Concept Name",
   "Uploaded by",
   "Status",
   "Created Date",
@@ -55,12 +53,15 @@ const getDateFormat = (dateString) => {
   return day + " " + month + " " + year;
 };
 
-const handleShowThreeDot = (status, isUploaded) => {
+const handleShowThreeDot = (status) => {
   let deptName = window.sessionStorage.getItem("department");
-  return true;
+  return !(
+    deptName === "lms_editor" &&
+    (status === "Live" || status === "In Review" || status === "Approved")
+  );
 };
 
-const CENTER_ALIGN_INDEXES = [0, 3, 4];
+const CENTER_ALIGN_INDEXES = [0];
 
 export default function DataTable({
   data,
@@ -71,11 +72,12 @@ export default function DataTable({
   handleOptions,
   order,
   handleSort,
-  studyPlanDetails,
+  status,
+  size,
 }) {
   //Sort Icons
   const renderIcons = (index) => {
-    if (index === 5) {
+    if (index === 3) {
       return (
         <IconBox>
           <img
@@ -125,27 +127,16 @@ export default function DataTable({
                 return (
                   <TableRow key={index} style={{ border: "0 0 0 0" }}>
                     <BodyCell className={"table_center_align"}>
-                      {pageNo * 10 + index + 1}
+                      {pageNo * size + index + 1}
                     </BodyCell>
-                    <BodyCell>{item.name}</BodyCell>
-                    <BlueCell>
-                      {item.duration ? `${item.duration} month` : "-"}
-                    </BlueCell>
-                    <BodyCell className={"table_center_align"}>
-                      {item.isUploaded ? "Yes" : "No"}
-                    </BodyCell>
-                    <BodyCell className={"table_center_align"}>
-                      {item.uploadedBy}
-                    </BodyCell>
+                    <BlueCell>{item.name}</BlueCell>
+                    <BodyCell>{item.updatedAt}</BodyCell>
                     <BodyCell>{item.wkStatus.value}</BodyCell>
                     <BodyCell>
                       {item.createdAt ? getDateFormat(item.createdAt) : ""}
                     </BodyCell>
                     <BlueCell>
-                      {handleShowThreeDot(
-                        item.wkStatus.value,
-                        item.isUploaded
-                      ) && (
+                      {handleShowThreeDot(item.wkStatus.value) && (
                         <div>
                           <IconButton
                             id={item.wkStatus.id}
@@ -173,7 +164,7 @@ export default function DataTable({
         open={Boolean(anchorEl)}
         handleClose={handleClose}
         handleOptions={handleOptions}
-        studyPlanDetails={studyPlanDetails}
+        status={status}
       />
     </React.Fragment>
   );

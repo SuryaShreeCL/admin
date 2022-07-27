@@ -454,7 +454,11 @@ class Index extends Component {
   };
 
   handleButton2Click = () => {
-    const { id, dialogContent, courseValue } = this.state.studyPlanDetails;
+    const {
+      studyPlanDetails: { id },
+      dialogContent,
+      courseValue,
+    } = this.state;
     this.props.updateStudyPlanStatus(id, dialogContent.name, (response) => {
       if (response.success) {
         this.props.getStudyPlan(courseValue.id, 0, SIZE);
