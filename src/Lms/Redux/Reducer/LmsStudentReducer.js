@@ -15,6 +15,7 @@ const initialState = {
   calibrationTestReport: null,
   topics: [],
   topicList: [],
+  topicReport: [],
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -101,6 +102,13 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         topicList: action.payload,
+      };
+    }
+
+    case STUDENT.getTopicTestReport: {
+      return {
+        ...state,
+        topicReport: action.payload,
       };
     }
 
