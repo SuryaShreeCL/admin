@@ -10,6 +10,7 @@ export const getNumberOfPreferencesAction = (
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return async (dispatch) => {
+    console.log("get number of preferences");
     try {
       //   dispatch({ type: SCHOOL_RESEARCH.loader });
       await axios
@@ -103,8 +104,8 @@ export const addRecommendationAction = (
         if (result?.data?.success === true) {
           dispatch(
             getPreferenceListBasedOnPreferenceIDAction(
-              "3c3b4bee-aab8-462b-9222-9fe30a576734",
-              "c46ccdff-0ce7-4b60-95d7-fc6b8a109646",
+              studentId,
+              productId,
               currentTab
             )
           );
@@ -113,5 +114,42 @@ export const addRecommendationAction = (
       .catch((error) => {
         console.log(error);
       });
+  };
+};
+
+export const getStageCompleteCall = (studentId, productId) => {
+  let stepName = "Choose Preferences";
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  // let studentId = window.sessionStorage.getItem("studentId");
+  // let productId = window.sessionStorage.getItem("productId");
+  return async (dispatch) => {
+    try {
+      await axios
+        .get(
+          `${URL}/api/v1/students/${studentId}/products/${productId}/schoolresearch/stagestatus?stepName=${stepName}`,
+          {
+            crossDomain: true,
+            headers: {
+              Admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((result) => {
+          dispatch({
+            type: SCHOOL_RESEARCH.getStageComplete,
+            payload: result.data,
+            loading: false,
+          });
+        });
+    } catch (error) {
+      console.log(error, "&&&&&&&&&&&&&&&&&&&&&&");
+      // dispatch({
+      //   type: SCHOOL_RESEARCH.getStageComplete,
+      //   payload: result.data,
+      //   loading: false,
+      // });
+      dispatch(errorHandler(SCHOOL_RESEARCH.getStageComplete, error, false));
+    }
   };
 };

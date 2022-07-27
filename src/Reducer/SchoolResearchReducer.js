@@ -3,6 +3,7 @@ const initialState = {
   getNumberOfPreferences: null,
   getPreferenceListBasedOnPreferenceID: null,
   addRecommendation: null,
+  getStageComplete: null,
 };
 
 const SchoolResearchReducer = (state = initialState, action) => {
@@ -22,7 +23,11 @@ const SchoolResearchReducer = (state = initialState, action) => {
         ...state,
         addRecommendation: action.payload,
       };
-
+    case SCHOOL_RESEARCH.getStageComplete:
+      return {
+        ...state,
+        getStageComplete: action.payload,
+      };
     // case SCHOOL_RESEARCH.clearCustomData:
     //   return {
     //     ...state,

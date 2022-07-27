@@ -3,6 +3,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
 function MySnackBar(props) {
+  console.log(props,"&&&&&&&&&&&&&&&&&&&&&&&&&")
     return (
         <Snackbar
         open={props.snackOpen}
