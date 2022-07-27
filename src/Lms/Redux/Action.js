@@ -75,6 +75,7 @@ export const STUDENT = {
   getCalibrationTestReport: "getCalibrationTestReport",
   getTopicName: "getTopicName",
   postTopicTestList: "postTopicTestList",
+  getTopicTestReport: "getTopicTestReport",
 };
 
 export const TESTDOWNLOAD = {

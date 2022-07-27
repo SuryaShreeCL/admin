@@ -13,14 +13,25 @@ import { ReactComponent as Complete } from "../../../../Assets/icons/complete.sv
 import { ReactComponent as YetToStart } from "../../../../Assets/icons/NotStarted.svg";
 import { ReactComponent as OnGoing } from "../../../../Assets/icons/Progress.svg";
 import { FlexView, LevelContent } from "../../../../Assets/StyledComponents";
+import { makeStyles } from "@material-ui/core";
 
 const ICONS = {
   Completed: <Complete />,
-  "Yet to Started": <YetToStart />,
-  ongoing: <OnGoing />,
+  "Yet to Start": <YetToStart />,
+  "On Going": <OnGoing />,
 };
 
+const useStyles = makeStyles((theme) => ({
+  complete: {
+    cursor: "pointer",
+  },
+  incomplete: {
+    cursor: "default",
+  },
+}));
+
 function TableComponent({ handleTableRowClick, tableData }) {
+  const classes = useStyles();
   const headText = [
     "Topic name",
     "Start Date",
@@ -52,8 +63,12 @@ function TableComponent({ handleTableRowClick, tableData }) {
               return (
                 <TableRow
                   onClick={handleTableRowClick}
-                  id={item.id}
-                  style={{ border: "0 0 0 0", cursor: "pointer" }}
+                  id={item.testExecutionId}
+                  className={
+                    item.status === "Completed"
+                      ? classes.complete
+                      : classes.incomplete
+                  }
                 >
                   <BoldCell>{item.topicName}</BoldCell>
                   <BoldCell>

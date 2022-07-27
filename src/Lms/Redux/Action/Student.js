@@ -395,18 +395,28 @@ export const getTopicName = (studentId, productId) => {
   };
 };
 
-export const postTopicTestList = (studentId, productId, bodyObj) => {
+export const postTopicTestList = (
+  studentId,
+  productId,
+  data,
+  status,
+  topicId
+) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
       .post(
         `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/studentTopicTests`,
-        bodyObj,
+        data,
         {
-          // crossDomain: true,
+          crossDomain: true,
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            status: status,
+            topicId: topicId,
           },
         }
       )
@@ -417,6 +427,34 @@ export const postTopicTestList = (studentId, productId, bodyObj) => {
         });
       })
       .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const getTopicTestReport = (studentId, testExecutionId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(
+        `${DEV_LMS}/api/v1/lms/students/${studentId}/testExecution/${testExecutionId}/topicTestReport`,
+        {
+          crossDomain: true,
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: STUDENT.getTopicTestReport,
+          payload: response.data,
+        });
+        callback(response.data);
+      })
+      .catch((error) => {
+        dispatch(errorHandler(STUDENT.getTopicTestReport, error, false));
         console.log(error);
       });
   };
