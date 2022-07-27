@@ -17,6 +17,7 @@ import CustomTabs from "./CustomTabs";
 import PreferenceTabTable from "./PreferenceTable";
 import { StyledButton } from "../Utils/controls/Styles";
 import BottomContainer from "../../CommonComponents/BottomComponent";
+import MySnackBar from "../MySnackBar";
 export default function PreferenceIndex(props) {
   console.log(props, "we have to get the props here");
   const [tabList, setTabList] = useState([]);
@@ -58,7 +59,14 @@ export default function PreferenceIndex(props) {
     snackOpen: false,
     snackVariant: "",
   });
-
+  const handleSnackClose = () => {
+    setSnackbar({
+      ...snackbar,
+      snackOpen: false,
+      snackMsg: "",
+      snackVariant: "",
+    });
+  };
   useEffect(() => {
     if (currentTab !== "") {
       if (props?.studentId !== null) {
@@ -300,6 +308,7 @@ export default function PreferenceIndex(props) {
               }
             />
           </div>
+
           {/* <StyledButton
               variant={"contained"}
               // style={
@@ -315,6 +324,12 @@ export default function PreferenceIndex(props) {
           {/* </BottomContainer> */}
         </RightContainer>
       </Wrapper>
+      <MySnackBar
+        open={snackbar.snackOpen}
+        severity={snackbar.snackVariant}
+        message={snackbar.snackMsg}
+        onClose={handleSnackClose}
+      />
     </div>
   );
 }
