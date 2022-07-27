@@ -733,8 +733,12 @@ export class Index extends Component {
       question.length === 0 ||
       answerType.length === 0 ||
       activeLevel.length === 0 ||
-      this.choiceEmptyCheck() ||
-      this.choicesSelectEmptyCheck()
+      // this.choiceEmptyCheck() ||
+      // this.choicesSelectEmptyCheck()
+      (answerType !== "VIDEO" &&
+        answerType !== "FILE_UPLOAD" &&
+        (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
+        
     ) {
       this.setState({
         alert: {
