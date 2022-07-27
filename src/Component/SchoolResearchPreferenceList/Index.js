@@ -18,7 +18,7 @@ import PreferenceTabTable from "./PreferenceTable";
 import { StyledButton } from "../Utils/controls/Styles";
 import BottomContainer from "../../CommonComponents/BottomComponent";
 export default function PreferenceIndex(props) {
-  console.log(props?.props, "we have to get the props here");
+  console.log(props, "we have to get the props here");
   const [tabList, setTabList] = useState([]);
   const [tabId, setTabId] = useState("");
   const [tableData, setTabData] = useState([]);
@@ -41,9 +41,10 @@ export default function PreferenceIndex(props) {
   };
   const dispatch = useDispatch();
   const [cardData, setCardData] = useState({});
-  const { getPreferenceListBasedOnPreferenceID } = useSelector(
-    (state) => state.SchoolResearchReducer
-  );
+  const {
+    getPreferenceListBasedOnPreferenceID,
+    getStageComplete,
+  } = useSelector((state) => state.SchoolResearchReducer);
   useEffect(() => {
     if (getPreferenceListBasedOnPreferenceID)
       setCardData(getPreferenceListBasedOnPreferenceID?.data);
@@ -52,16 +53,25 @@ export default function PreferenceIndex(props) {
     );
   }, [getPreferenceListBasedOnPreferenceID]);
   console.log(tableData, "KIDJ***");
+  const [snackbar, setSnackbar] = useState({
+    snackMsg: "",
+    snackOpen: false,
+    snackVariant: "",
+  });
+
   useEffect(() => {
-    dispatch(
-      getPreferenceListBasedOnPreferenceIDAction(
-        // props?.props?.studentId,
-        // props?.props?.productId,
-        "3c3b4bee-aab8-462b-9222-9fe30a576734",
-        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646",
-        currentTab
-      )
-    );
+    if (currentTab !== "") {
+      if (props?.studentId !== null) {
+        dispatch(
+          getPreferenceListBasedOnPreferenceIDAction(
+            props?.studentId,
+            props?.productId,
+
+            currentTab
+          )
+        );
+      }
+    }
   }, [currentTab]);
   const shareRecommendations = () => {
     dispatch(
@@ -69,9 +79,28 @@ export default function PreferenceIndex(props) {
     );
     console.log("share recommendations");
   };
-  console.log(tabList, "******************************tablist");
+  console.log(getStageComplete, "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+  useEffect(() => {
+    if (getStageComplete) {
+      if (getStageComplete?.success) {
+        setSnackbar({
+          ...snackbar,
+          snackOpen: true,
+          snackMsg: "Stage Complete Successfully",
+          snackVariant: "success",
+        });
+      } else {
+        setSnackbar({
+          ...snackbar,
+          snackOpen: true,
+          snackMsg: "Stage Completion Failed",
+          snackVariant: "error",
+        });
+      }
+    }
+  }, [getStageComplete]);
   return (
-    <div style={{ height: "600px", position: "relative" }}>
+    <div style={{ height: "800px", position: "relative" }}>
       <Wrapper>
         <RightContainer style={{ position: "20px", height: "100px" }}>
           <div
@@ -239,7 +268,7 @@ export default function PreferenceIndex(props) {
           ) : (
             "No Data Found"
           )}
-          <div style={{ marginTop: "310px" }}>
+          <div style={{ marginTop: "500px" }}>
             <BottomContainer
               children={
                 <div>
