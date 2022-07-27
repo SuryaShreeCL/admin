@@ -55,8 +55,10 @@ export default function PreferenceIndex(props) {
   useEffect(() => {
     dispatch(
       getPreferenceListBasedOnPreferenceIDAction(
-        props?.props?.studentId,
-        props?.props?.productId,
+        // props?.props?.studentId,
+        // props?.props?.productId,
+        "3c3b4bee-aab8-462b-9222-9fe30a576734",
+        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646",
         currentTab
       )
     );
@@ -67,6 +69,7 @@ export default function PreferenceIndex(props) {
     );
     console.log("share recommendations");
   };
+  console.log(tabList, "******************************tablist");
   return (
     <div style={{ height: "600px", position: "relative" }}>
       <Wrapper>
@@ -82,7 +85,7 @@ export default function PreferenceIndex(props) {
           ></div>
 
           <CustomTabs
-            tabList={tabList}
+            tabList={tabList?.data}
             handleChange={handleChange}
             value={currentTab}
           />
@@ -236,37 +239,38 @@ export default function PreferenceIndex(props) {
           ) : (
             "No Data Found"
           )}
-          <BottomContainer
-            children={
-              <div>
-                <Grid container justifyContent="center" alignItems="center">
-                  <Grid
-                    item
-                    xl={12}
-                    lg={12}
-                    xs={12}
-                    md={12}
-                    sm={12}
-                    align="right"
-                    justifyContent={"right"}
-                  >
-                    <StyledButton
-                      variant={"contained"}
-                      style={{
-                        backgroundColor: "#18AAE7",
-                        color: "#FFF",
-                        fontSize: "12px",
-                      }}
-                      onClick={() => shareRecommendations()}
+          <div style={{ marginTop: "310px" }}>
+            <BottomContainer
+              children={
+                <div>
+                  <Grid container justifyContent="center" alignItems="center">
+                    <Grid
+                      item
+                      xl={12}
+                      lg={12}
+                      xs={12}
+                      md={12}
+                      sm={12}
+                      align="right"
+                      justifyContent={"right"}
                     >
-                      {"Share Recommendations"}
-                    </StyledButton>
+                      <StyledButton
+                        variant={"contained"}
+                        style={{
+                          backgroundColor: "#18AAE7",
+                          color: "#FFF",
+                          fontSize: "12px",
+                        }}
+                        onClick={() => shareRecommendations()}
+                      >
+                        {"Share Recommendations"}
+                      </StyledButton>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
-            }
-          />
-
+                </div>
+              }
+            />
+          </div>
           {/* <StyledButton
               variant={"contained"}
               // style={
