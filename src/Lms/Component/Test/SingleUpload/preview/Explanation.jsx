@@ -32,7 +32,7 @@ function Explanation({ testResponse }) {
           <LatexViewer math={videoExplanation} />
         </ExpDiv>
         {video && video.length !== 0 && (
-          <Box p={"1rem 2rem !important"} className={"explain_video"}>
+          <Box p={"1rem 3.5rem !important"} className={"explain_video"}>
             {renderVideo()}
           </Box>
         )}

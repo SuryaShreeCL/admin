@@ -60,11 +60,11 @@
 }
 
 .carousel .slick-prev {
-  left: -40px;
+  left: -50px;
 }
 
 .carousel .slick-next {
-  right: -40px;
+  right: -50px;
 }
 
 .carousel .slick-next,
@@ -87,6 +87,26 @@
   font-size: 24px;
   line-height: 1;
   opacity: 1;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.carousel .slick-next:after {
+  position: absolute;
+  left: calc(50% - 13px);
+  bottom: -8px;
+  content: "Next";
+  font-size: 12px;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.carousel .slick-prev:after {
+  position: absolute;
+  left: calc(50% - 27px);
+  bottom: -8px;
+  content: "Previous";
+  font-size: 12px;
   color: #1093ff;
   font-weight: 600;
 }
@@ -134,11 +154,11 @@
 }
 
 .explain_video .carousel .slick-prev {
-  left: -46px;
+  left: -60px;
 }
 
 .explain_video .carousel .slick-next {
-  right: -46px;
+  right: -60px;
 }
 
 .explain_video .carousel .slick-next,
@@ -152,6 +172,26 @@
   font-size: 32px;
   line-height: 1;
   opacity: 1;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.explain_video .carousel .slick-next:after {
+  position: absolute;
+  left: calc(50% - 15px);
+  bottom: -8px;
+  content: "Next";
+  font-size: 14px;
+  color: #1093ff;
+  font-weight: 600;
+}
+
+.explain_video .carousel .slick-prev:after {
+  position: absolute;
+  left: calc(50% - 29px);
+  bottom: -8px;
+  content: "Previous";
+  font-size: 14px;
   color: #1093ff;
   font-weight: 600;
 }

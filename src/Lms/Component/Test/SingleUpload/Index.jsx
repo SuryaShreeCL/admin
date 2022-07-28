@@ -292,9 +292,15 @@ export class Index extends Component {
     else if(e.target.value === "VIDEO"){
      
       this.setState({
+<<<<<<< HEAD
         answerType:e.target.value,
         expectedTime:360,
       })
+=======
+        answerType: e.target.value,
+        expectedTime: 360,
+      });
+>>>>>>> 315ba0e2625870c7c37350c7c871ab9c0484828f
     }
      else
     //  window.location.reload(false);
