@@ -51,10 +51,10 @@ class ObOperationLanding extends Component {
       this.setState({
         adminDepartment: this.props.adminLinkedProductDetails.department,
       });
-      window.sessionStorage.setItem(
-        "adminLinkedProduct",
-        JSON.stringify(this.props.adminLinkedProductDetails)
-      );
+      // window.sessionStorage.setItem(
+      //   "adminLinkedProduct",
+      //   JSON.stringify(this.props.adminLinkedProductDetails)
+      // );
     }
   }
 

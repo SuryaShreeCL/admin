@@ -4,7 +4,10 @@ import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { IconButton } from "@material-ui/core";
+import { ArrowBack } from "@material-ui/icons";
 import { ThemeProvider } from "styled-components";
+import {  BackIconBox } from "../../../Assets/StyledComponents";
 import { lmsTest, lms_add_test, single_upload } from "../../../../Component/RoutePaths";
 import {
   B1, BlueSpan, C1, C2, ColorScheme, DropDownBox, FileName, GreySpan, H1,
@@ -82,7 +85,18 @@ class Index extends Component {
         alertMsg: "Please upload a file",
         alertSeverity: "error",
       });
-    } else if (this.state.files.length > 0) {
+    } 
+  //   else if  (this.state.files.length > 0){
+  //   this.setState({
+                    
+  //     files: [],
+  //     alertState: true,
+  //     alertMsg: "Question Upload Successful!",
+  //     alertSeverity: "success",
+  //   }
+  //   );
+  // }
+    else if (this.state.files.length > 0) {
       const { testQuestionSetId, sectionId } = this.props.match.params;
       const formData = new FormData();
       formData.append("file", this.state.files[0]);
@@ -94,13 +108,18 @@ class Index extends Component {
               sectionId,
               formData,
               (response) => {
+                console.log(response);
                 if (response.success) {
+                
+                  console.log(response.message)
                   this.setState({
+                    
                     files: [],
                     alertState: true,
                     alertMsg: response.message,
                     alertSeverity: "success",
-                  });
+                  }
+                  );
 
                   this.props.history.push(
                     lms_add_test +
@@ -156,8 +175,13 @@ class Index extends Component {
                 if (response.success) {
                   this.setState({
                     files: [],
+                    
+                      // snackMsg : "Uploaded Successfully",
+                      // snackOpen : true,
+                      // snackVariant : "success"
+                
                     alertState: true,
-                    alertMsg: response.message,
+                    alertMsg: "sdfs",
                     alertSeverity: "success",
                   });
                   this.props.history.push(
@@ -209,7 +233,9 @@ class Index extends Component {
   handleClose = () => {
     this.setState({ alertState: false });
   };
-
+  handleBackIconClick = () => {
+    this.props.history.goBack();
+  };
   handleTemplateClick = () => {
     if (this.state.selectedType === "") {
       this.setState({
@@ -248,6 +274,7 @@ class Index extends Component {
         handleTemplateClick,
         handleCancelClick,
         handleTopicList,
+        handleBackIconClick
       } = this;
 
       const radioData = {
@@ -257,6 +284,7 @@ class Index extends Component {
           { id: 1, label: "By Single Question" },
           { id: 2, label: "Bulk Upload" },
         ],
+        
         handleRadioChange: (event, name) => {
           const value = parseInt(event.target.value);
           this.setState({ activeValue: value });
@@ -277,9 +305,14 @@ class Index extends Component {
         },
         groupName: "Question Pattern",
       };
-
+      
       return (
         <React.Fragment>
+           <BackIconBox>
+          <IconButton color='primary' onClick={this.handleBackIconClick}>
+            <ArrowBack color='primary' />
+          </IconButton>
+        </BackIconBox>
           <C2>
             <H1>Add new Question</H1>
             <DropDownBox>
@@ -362,6 +395,7 @@ class Index extends Component {
               variant="filled"
             >
               {this.state.alertMsg}
+             { console.log(this.state.alertMsg)}
             </Alert>
           </Snackbar>
         </React.Fragment>

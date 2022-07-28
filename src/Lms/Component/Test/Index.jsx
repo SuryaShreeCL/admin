@@ -369,7 +369,7 @@ class TestLanding extends Component {
   };
 
   handleOptions = (text, topicName, topicId) => {
-    console.log(topicName, "vvvvvvvvvvvv")
+    console.log(topicName, "vvvvvvvvvvvv");
     if (text === "Edit") {
       this.props.history.push(
         lms_add_test + "?testQuestionSetId=" + this.state.popUpId
@@ -457,15 +457,14 @@ class TestLanding extends Component {
         openStatus: !this.state.openStatus,
         clickableStatus: null,
       });
-    } 
-    else if (text === "Reschedule") {      
+    } else if (text === "Reschedule") {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
         let findObj = tableContent.content.filter(
           (el) => el.id === this.state.popUpId
         )[0];
-        console.log(tableContent,findObj,"findObj.eventDate")
+        console.log(tableContent, findObj, "findObj.eventDate");
 
         if (findObj) {
           this.setState({
@@ -476,14 +475,17 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
-        console.log(this.props.testData,this.state.popUpId,findObj,"Reschedule")
+        console.log(
+          this.props.testData,
+          this.state.popUpId,
+          findObj,
+          "Reschedule"
+        );
       }
       this.setState({
         popupOpen: true,
-      });      
-    }
-
-    else if (text === "Schedule") {        
+      });
+    } else if (text === "Schedule") {
       const { data: tableContent } = this.props.testData;
 
       if (tableContent) {
@@ -500,12 +502,17 @@ class TestLanding extends Component {
               : new Date(),
           });
         }
-        console.log(this.props.testData,this.state.popUpId,findObj,"Schedule")
+        console.log(
+          this.props.testData,
+          this.state.popUpId,
+          findObj,
+          "Schedule"
+        );
       }
 
       this.setState({
         popupOpen1: true,
-      });      
+      });
     }
   };
 
@@ -527,57 +534,43 @@ class TestLanding extends Component {
 
   handlePrimaryButtonClick = () => {
     if (this.state.dialogContent.type === "archive") {
-      this.state.department !== "assessment_engine_admin"
-        ? this.props.deleteTest(this.state.popUpId, (response) => {
-            if (response.success) {
-              let paramObj = {
-                page: INITIAL_PAGE_NO,
-                size: NO_OF_RESPONSE,
-                testType:
-                  this.state.testType !== "default"
-                    ? this.state.testType
-                    : null,
-                topicId:
-                  this.state.topicId !== "default" ? this.state.topicId : null,
-                status:
-                  this.state.status !== "default" ? this.state.status : null,
-              };
-              this.state.department === "assessment_engine_admin"
-                ? this.props.aegetQuestionSet(paramObj)
-                : this.props.getQuestionSet({
-                    ...paramObj,
-                    courseId:
-                      this.state.testType === "CALIBRATION"
-                        ? this.state.courseValue
-                        : this.state.courseId !== "default"
-                        ? this.state.courseId
-                        : null,
-                  });
-              this.handleCloseIconClick();
-            } else {
-              //
-              this.setState({
-                alertState: true,
-                alertMsg: response.message,
-                alertSeverity: "error",
-              });
-              this.handleCloseIconClick();
-            }
-          })
-        : this.props.aedeleteTest(this.state.popUpId, (response) => {
-            if (response.success) {
-              let paramObj = {
-                page: INITIAL_PAGE_NO,
-                size: NO_OF_RESPONSE,
-                testType:
-                  this.state.testType !== "default"
-                    ? this.state.testType
-                    : null,
-                topicId:
-                  this.state.topicId !== "default" ? this.state.topicId : null,
-                status:
-                  this.state.status !== "default" ? this.state.status : null,
-              };
+      this.state.department !== "assessment_engine_admin"?
+      this.props.deleteTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
+          this.state.department === "assessment_engine_admin"
+            ? this.props.aegetQuestionSet(paramObj)
+            : this.props.getQuestionSet(paramObj);
+          this.handleCloseIconClick();
+        } else {
+          //
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: "error",
+          });
+          this.handleCloseIconClick();
+        }
+      }):
+      this.props.aedeleteTest(this.state.popUpId, (response) => {
+        if (response.success) {
+          let paramObj = {
+            page: INITIAL_PAGE_NO,
+            size: NO_OF_RESPONSE,
+            testType:
+              this.state.testType !== "default" ? this.state.testType : null,
+            topicId:
+              this.state.topicId !== "default" ? this.state.topicId : null,
+            status: this.state.status !== "default" ? this.state.status : null,
+          };
 
               this.state.department === "assessment_engine_admin"
                 ? this.props.aegetQuestionSet(paramObj)
@@ -871,27 +864,25 @@ class TestLanding extends Component {
   };
 
   /* For Schedule popup */
-  handleSchedule = () => {   
-    console.log("schedule")
+  handleSchedule = () => {
+    console.log("schedule");
     let obj = {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
     };
 
-    if(moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) || 
-    moment(this.state.eventDate).isBefore(moment()) ||
-    moment(this.state.eventEndDate).isBefore(moment())) 
-    {
+    if (
+      moment(this.state.eventEndDate).isSameOrBefore(this.state.eventDate) ||
+      moment(this.state.eventDate).isBefore(moment()) ||
+      moment(this.state.eventEndDate).isBefore(moment())
+    ) {
       this.setState({
         alertState: true,
         alertSeverity: "warning",
         alertMsg: "Please add proper timing & date",
         popupOpen1: true,
-      });          
-    } 
-
-    else
-    {
+      });
+    } else {
       rescheduleTest(this.state.popUpId, obj).then((response) => {
         if (response?.status === 200) {
           this.setState({
@@ -1045,13 +1036,15 @@ class TestLanding extends Component {
         >
           <H1>Test</H1>
 
-          {deptName === "assessment_engine_admin"?
-          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
-            Create Test
-          </PlusButton>:
-          <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
-            Add
-          </PlusButton>}
+          {deptName === "assessment_engine_admin" ? (
+            <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+              Create Test
+            </PlusButton>
+          ) : (
+            <PlusButton onClick={() => this.props.history.push(lms_add_test)}>
+              Add
+            </PlusButton>
+          )}
         </Grid>
         {filterData && (
           <DropDownRack

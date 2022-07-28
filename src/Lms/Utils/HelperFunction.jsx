@@ -10,11 +10,10 @@ export const secondsToHms = (second) => {
     return `${h > 10 ? h : `0${h}`}:${m > 10 ? m : `0${m}`}:${
       s > 10 ? s : `0${s}`
     }`;
-  } else if(second === 0) {
-    return `00:00:00`
-  }
-  else{
-     return null;
+  } else if (second === 0) {
+    return `00:00:00`;
+  } else {
+    return null;
   }
 };
 

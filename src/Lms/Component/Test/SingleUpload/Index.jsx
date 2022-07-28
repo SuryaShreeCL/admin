@@ -83,9 +83,9 @@ export class Index extends Component {
               const {
                 difficultyLevel,
                 expectedTime,
-                separateScore,
                 question,
                 description,
+                separateScore,
                 type,
                 subject,
                 concept,
@@ -98,6 +98,7 @@ export class Index extends Component {
                 expectedTime,
                 separateScore,
                 question,
+                // separateScore,
                 description,
                 checked: type === "BUNDLE" ? true : false,
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
@@ -302,7 +303,22 @@ export class Index extends Component {
       });
 >>>>>>> 315ba0e2625870c7c37350c7c871ab9c0484828f
     }
+<<<<<<< HEAD
      else
+=======
+    // else if(e.target.value === "FILE_UPLOAD" ){
+    //   this.setState({
+    //     answerType:e.target.value,
+    //     separateScore:0,
+    //   })
+    // }
+    else if(e.target.value === "VIDEO" ){
+      this.setState({
+        answerType:e.target.value,
+        separateScore:0,
+      })
+    }
+>>>>>>> qa-bug-fixing-v1.4.7-sneha
     //  window.location.reload(false);
       this.setState({
         answerType: e.target.value,
@@ -472,15 +488,21 @@ export class Index extends Component {
       // this.choiceEmptyCheck()||
       // this.choicesSelectEmptyCheck()
       activeLevel.length === 0 ||
-      (this.props.topics && this.state.expectedTime.length === 0) ||
+      (this.props.topics && this.state.expectedTime.length === 0 && this.state.separateScore.length === 0) ||
       question.length === 0 ||
       answerType.length === 0 ||
-      (deptName === "assessment_engine_admin" &&
-        this.state.separateScore.length === 0) ||
+      // (deptName === "assessment_engine_admin" 
+      // &&
+        // this.state.separateScore.length === 0
+        // )
+        
       // this.choiceEmptyCheck() ||
       // this.choicesSelectEmptyCheck()
-      (answerType != "VIDEO" &&
+      (answerType !== "VIDEO" &&
+        answerType !== "FILE_UPLOAD" &&
         (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
+        // ||
+        // this.state.separateScore.length === 0
     ) {
       this.setState({
         alert: {
@@ -488,7 +510,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (answerType !== "VIDEO" && this.hasDuplicates()) {
+    } else if (answerType !== ("VIDEO" && "FILE_UPLOAD") && this.hasDuplicates()) {
       this.setState({
         alert: {
           severity: "error",
@@ -718,8 +740,12 @@ export class Index extends Component {
       question.length === 0 ||
       answerType.length === 0 ||
       activeLevel.length === 0 ||
-      this.choiceEmptyCheck() ||
-      this.choicesSelectEmptyCheck()
+      // this.choiceEmptyCheck() ||
+      // this.choicesSelectEmptyCheck()
+      (answerType !== "VIDEO" &&
+        answerType !== "FILE_UPLOAD" &&
+        (this.choiceEmptyCheck() || this.choicesSelectEmptyCheck()))
+        
     ) {
       this.setState({
         alert: {
@@ -858,7 +884,12 @@ export class Index extends Component {
       expectedTime,
       type:answerType,
       testQuestionSetId,
+<<<<<<< HEAD
       separateScore
+=======
+      separateScore,
+      
+>>>>>>> qa-bug-fixing-v1.4.7-sneha
     };
 
     let answerProps = {
@@ -997,4 +1028,7 @@ export default connect(mapStateToProps, {
   aepreviewTestData,
   getAllPassages,
 })(Index);
+<<<<<<< HEAD
 
+=======
+>>>>>>> qa-bug-fixing-v1.4.7-sneha
