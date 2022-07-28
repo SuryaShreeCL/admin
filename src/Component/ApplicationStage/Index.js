@@ -48,6 +48,8 @@ function Index(props) {
   const dispatch = useDispatch();
   const params = useParams();
   const { studentId, productId } = params;
+  const [neededValue,setNeededValue] = useState("");
+  const [schoolNeededValue,setSchoolNeededValue] = useState("")
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -74,6 +76,7 @@ function Index(props) {
     miscellaneousAnchorEl: null,
     miscellaneousSelectedValue: null,
     programLink: null,
+   
     deadline: null,
     completedStagesList: [],
   });
@@ -236,16 +239,15 @@ function Index(props) {
           setState({ ...state, schoolSteps: [] });
         }
       } else {
-        // setState({
-        //   ...state,
-        //   snackOpen: true,
-        //   snackVariant: "error",
-        //   snackMsg: schoolList.message,
-        //   schoolSteps: [],
-        //   schoolId: null,
-        //   schoolType: null,
-        //   schoolName: null,
-        // });
+        setState({
+          ...state,
+          
+          
+          schoolSteps: [],
+          schoolId: null,
+          schoolType: null,
+          schoolName: null,
+        });
       }
       dispatch(clearCustomData("schoolList"));
     }
@@ -397,6 +399,7 @@ function Index(props) {
       open: false,
     });
   };
+  console.log(schoolList)
 
   const handleUpload = () => {
     let error = false;
@@ -557,9 +560,10 @@ function Index(props) {
   };
 
   const handleTabChange = (e, newValue) => {
+    
     let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
-
+    setNeededValue(newValue)
     setState({
       ...state,
       activeTabValue: newValue,
@@ -569,14 +573,17 @@ function Index(props) {
   };
 
   const handleSchoolTabChange = (e, newValue) => {
+    
     let arr = schoolSteps.filter(({ id }) => id === newValue);
     let newSchoolType = arr.length !== 0 ? arr[0]["type"] : null;
     let newSchoolName = arr.length !== 0 ? arr[0]["name"] : null;
+    setSchoolNeededValue(newSchoolName)
     setState({
       ...state,
       schoolId: newValue,
       schoolType: newSchoolType,
       schoolName: newSchoolName,
+     
     });
   };
 
@@ -594,7 +601,9 @@ function Index(props) {
   };
 
   const renderSchoolTab = () => {
-    return schoolSteps.length !== 0
+    // console.log(neededValue,schoolNeededValue,schoolSteps)
+    console.log(schoolList?.message !== "School List is Empty")
+    return schoolSteps?.length !== 0
       ? schoolSteps.map(({ name, id }, index) => (
           <CustomTab
             value={id}
