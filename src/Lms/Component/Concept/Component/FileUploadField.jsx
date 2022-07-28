@@ -4,7 +4,13 @@ import { useDropzone } from "react-dropzone";
 import { SingleFileUploadWithProgress } from "../../../Utils/Upload/SingleFileUploadWithProgress";
 import { UploadError } from "../../../Utils/Upload/UploadError";
 
-export function FileUploadField({ imageUrl, fileType, disable, setImageUrl }) {
+export function FileUploadField({
+  imageUrl,
+  fileType,
+  fileSize,
+  disable,
+  setFile,
+}) {
   const useStyles = makeStyles((theme) => ({
     dropzone: {
       border: `2px dashed ${theme.palette.primary.main}`,
@@ -27,14 +33,14 @@ export function FileUploadField({ imageUrl, fileType, disable, setImageUrl }) {
 
   const classes = useStyles();
 
-  const [file, setFile] = useState(null);
+  const [fileData, setFileData] = useState(null);
   const [url, setUrl] = useState("");
   const [isUpload, setIsUpload] = useState(false);
   const [error, setError] = useState({ isError: false });
 
   const onDrop = (files) => {
     if (files && files.length !== 0) {
-      setFile(files[0]);
+      setFileData(files[0]);
       setIsUpload(true);
     }
   };
@@ -42,22 +48,21 @@ export function FileUploadField({ imageUrl, fileType, disable, setImageUrl }) {
   useEffect(() => {
     if (imageUrl) {
       setUrl(`${process.env.REACT_APP_ASSETS}/lms/conceptTopic/${imageUrl}`);
-      setFile({ name: imageUrl });
+      setFileData({ name: imageUrl, size: fileSize });
     }
-  }, [imageUrl]);
+  }, [imageUrl, fileSize]);
 
   function onUpload(file, data) {
     if (isUpload) {
       setIsUpload(false);
-      console.log(data, "datata");
       if (data.success) {
-        setImageUrl(data.data.fileName);
+        setFile({ name: data.data.fileName, size: file?.size });
         setUrl(data.data.url);
-        setFile({ ...file, name: data.data.fileName });
+        setFileData({ name: data.data.fileName, size: file?.size });
         setError({ isError: false });
       } else {
         setError({ isError: true, ...data });
-        setImageUrl(null);
+        setFile({ name: null, size: null });
         setUrl(null);
       }
     } else {
@@ -66,8 +71,8 @@ export function FileUploadField({ imageUrl, fileType, disable, setImageUrl }) {
   }
 
   function onDelete() {
-    setFile(null);
-    setImageUrl(null);
+    setFileData(null);
+    setFile({ name: null, size: null });
     setIsUpload(false);
     setError({ isError: false });
     setUrl(null);
@@ -81,14 +86,14 @@ export function FileUploadField({ imageUrl, fileType, disable, setImageUrl }) {
 
   return (
     <React.Fragment>
-      {file ? (
+      {fileData ? (
         error.isError ? (
-          <UploadError file={file} onDelete={onDelete} error={error} />
+          <UploadError file={fileData} onDelete={onDelete} error={error} />
         ) : (
           <SingleFileUploadWithProgress
             onDelete={onDelete}
             onUpload={onUpload}
-            file={file}
+            file={fileData}
             url={url}
             fileType={fileType}
             isUpload={isUpload}

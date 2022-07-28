@@ -9,7 +9,7 @@ function Question(props) {
     handleDescriptionChange,
     description,
   } = props;
-  const deptName = window.sessionStorage.getItem("department")
+  const deptName = window.sessionStorage.getItem("department");
 
   return (
     <QDiv>

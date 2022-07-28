@@ -19,6 +19,8 @@ import {
   getQuestions,
   postQuestions,
   previewTestData,
+  getCourseByTestQuestionSetId,
+  getQuestionTypeList,
 } from "../../../Redux/Action/Test";
 import Answer from "./Answer";
 import Buttons from "./Buttons";
@@ -58,8 +60,39 @@ export class Index extends Component {
       openPreview: false,
       imgURL: "",
       previewTestDataModel: null,
+      isValidCourse: false,
+      isCalibration: false,
+      questionType: null,
+      subjectName: null,
+      courseName: null,
+      questionTypeOptions: [],
+      test_question_set_id: null,
     };
   }
+
+  isShowQuestionDropDown = () => {
+    const deptName = window.sessionStorage.getItem("department");
+    const {
+      isValidCourse,
+      subjectName,
+      courseName,
+      answerType,
+      checked,
+    } = this.state;
+    const validSubject = "Quant";
+    const choiceTypes = ["SINGLE_SELECT", "MULTI_CHOICE", "SUBJECTIVE"];
+    var newSubjectName = subjectName || "";
+    let isValidSubject = newSubjectName.includes(validSubject);
+    return Boolean(
+      deptName !== "assessment_engine_admin" &&
+        isValidCourse &&
+        isValidSubject &&
+        !checked &&
+        answerType &&
+        ((courseName === "GMAT" && answerType === choiceTypes[0]) ||
+          courseName === "GRE")
+    );
+  };
 
   componentDidMount() {
     var deptName = window.sessionStorage.getItem("department");
@@ -136,6 +169,7 @@ export class Index extends Component {
                 activeTopic: topic !== null ? topic.id : null,
                 imgURL: imgURL,
                 // editableData: { response },
+                questionType: response.data.optionalType,
               });
             }
           });
@@ -166,15 +200,95 @@ export class Index extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { previewTestDataModel } = this.state;
-    const { previewData } = this.props;
+  componentDidUpdate(prevProps, prevState) {
+    var deptName = window.sessionStorage.getItem("department");
+    const { testQuestionSetId } = QueryString.parse(
+      this.props.location.search,
+      {
+        ignoreQueryPrefix: true,
+      }
+    );
+    var newTestQuestionSetId =
+      testQuestionSetId || this.props.editData?.data?.testQuestionsSetId;
+
+    const {
+      previewTestDataModel,
+      isCalibration,
+      activeSubject,
+      subjectName,
+      answerType,
+      questionType,
+      test_question_set_id,
+    } = this.state;
+    const { previewData, subjects } = this.props;
     if (
       previewData &&
       previewData.success &&
       previewData !== prevProps.previewData
     ) {
       this.setState({ previewTestDataModel: previewData.data });
+    }
+
+    if (isCalibration && prevState.activeSubject !== activeSubject) {
+      var newSubjectName = "";
+      const subjectsList =
+        subjects && subjects.data && Array.isArray(subjects.data)
+          ? subjects.data
+          : [];
+      let obj = subjectsList.filter(({ id }) => id === activeSubject)[0];
+      newSubjectName = obj?.title || "";
+      if (subjectName !== newSubjectName) {
+        this.setState({
+          subjectName: newSubjectName,
+        });
+      }
+    }
+    if (
+      deptName !== "assessment_engine_admin" &&
+      newTestQuestionSetId &&
+      newTestQuestionSetId !== test_question_set_id
+    ) {
+      this.setState({ test_question_set_id: newTestQuestionSetId });
+      this.props.getCourseByTestQuestionSetId(newTestQuestionSetId, (res) => {
+        if (res.success) {
+          this.setState({
+            isValidCourse: res.data.isValidCourse,
+            isCalibration: !Boolean(res.data.subjectName),
+            subjectName: res.data.subjectName || "",
+            courseName: res.data.courseName || "",
+          });
+        }
+      });
+    }
+
+    if (
+      this.isShowQuestionDropDown() &&
+      (prevState.answerType !== answerType ||
+        prevState.activeSubject !== activeSubject ||
+        prevState.subjectName !== subjectName)
+    ) {
+      this.props.getQuestionTypeList(
+        newTestQuestionSetId,
+        subjectName,
+        answerType,
+        (res) => {
+          if (res.success) {
+            let newQuestionType = res.data.some(
+              ({ name }) => name === questionType
+            )
+              ? questionType
+              : res.data[0]?.name;
+            this.setState({
+              questionType: newQuestionType,
+              questionTypeOptions: res.data,
+            });
+          } else {
+            this.setState({
+              questionTypeOptions: [],
+            });
+          }
+        }
+      );
     }
   }
 
@@ -520,6 +634,9 @@ export class Index extends Component {
                 explanation: this.state.text,
                 explanationVideo: this.state.url,
                 video: { videoUrl: this.state.url },
+                optionalType: this.isShowQuestionDropDown()
+                  ? this.state.questionType
+                  : null,
               };
         deptName === "assessment_engine_admin"
           ? this.props.aepostQuestions(testQuestionSetId, obj, (response) => {
@@ -722,6 +839,13 @@ export class Index extends Component {
     this.props.history.goBack();
   };
 
+  handleQuestionType = (e, val) => {
+    const { questionType } = this.state;
+    this.setState({
+      questionType: val?.name || questionType,
+    });
+  };
+
   render() {
     const { subjects, concepts, topics, editData } = this.props;
 
@@ -744,6 +868,8 @@ export class Index extends Component {
       openPreview: open,
       imgURL,
       previewTestDataModel,
+      questionType,
+      questionTypeOptions,
     } = this.state;
 
     const {
@@ -772,6 +898,8 @@ export class Index extends Component {
       handlePopUpClose,
       handlePreviewClick,
       handleClosePreview,
+      isShowQuestionDropDown,
+      handleQuestionType,
     } = this;
 
     const { history, location, match } = this.props;
@@ -823,6 +951,10 @@ export class Index extends Component {
       handleDeleteIconClick,
       handleTextChange,
       editData,
+      isShowQuestionDropDown: isShowQuestionDropDown(),
+      questionType,
+      questionTypeOptions,
+      handleQuestionType,
     };
 
     const explanationProps = {
@@ -880,8 +1012,8 @@ export class Index extends Component {
     return (
       <div>
         <BackIconBox>
-          <IconButton color="primary" onClick={this.handleBackIconClick}>
-            <ArrowBack color="primary" />
+          <IconButton color='primary' onClick={this.handleBackIconClick}>
+            <ArrowBack color='primary' />
           </IconButton>
         </BackIconBox>
         <C2>
@@ -924,4 +1056,6 @@ export default connect(mapStateToProps, {
   cleanEditData,
   previewTestData,
   aepreviewTestData,
+  getCourseByTestQuestionSetId,
+  getQuestionTypeList,
 })(Index);

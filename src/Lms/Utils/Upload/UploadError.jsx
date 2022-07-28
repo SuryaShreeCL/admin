@@ -41,7 +41,7 @@ export function UploadError({ file, onDelete, error }) {
         </div>
         <div className='img-info'>
           <Typography variant='caption' color='textSecondary'>
-            {/* {bytesToSize(file.size)} */}
+            {file.size ? bytesToSize(file.size) : ""}
           </Typography>
           <div>
             <Typography color='error'>{error?.message}</Typography>

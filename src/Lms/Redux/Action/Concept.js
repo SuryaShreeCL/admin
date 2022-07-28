@@ -5,7 +5,7 @@ import { catchError, errorHandler } from "../../../Component/Utils/Helpers";
 
 const BASE_URL = `${URL}/api/v1`;
 
-export const getConcept = (coursesId, subjectId, page, size) => {
+export const getConcept = (coursesId, subjectId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
@@ -14,10 +14,6 @@ export const getConcept = (coursesId, subjectId, page, size) => {
         headers: {
           admin: "yes",
           Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          page: page,
-          size: size,
         },
       })
       .then((response) => {
