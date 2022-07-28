@@ -130,20 +130,20 @@ export default function DataTable({
                       {pageNo * size + index + 1}
                     </BodyCell>
                     <BlueCell>{item.name}</BlueCell>
-                    <BodyCell>{item.updatedAt}</BodyCell>
-                    <BodyCell>{item.wkStatus.value}</BodyCell>
+                    <BodyCell>{item.updatedBy}</BodyCell>
+                    <BodyCell>{item.wkStatus}</BodyCell>
                     <BodyCell>
                       {item.createdAt ? getDateFormat(item.createdAt) : ""}
                     </BodyCell>
                     <BlueCell>
-                      {handleShowThreeDot(item.wkStatus.value) && (
+                      {handleShowThreeDot(item.wkStatus) && (
                         <div>
                           <IconButton
-                            id={item.wkStatus.id}
+                            id={item.id}
                             onClick={(event) =>
                               handleThreeDotClick(event, {
                                 ...item,
-                                status: item.wkStatus.value,
+                                status: item.wkStatus,
                               })
                             }
                           >

@@ -40,7 +40,7 @@ export function FileProgress({ file, onDelete, url, progress }) {
         </div>
         <div className='img-info'>
           <Typography variant='caption' color='textSecondary'>
-            {/* {bytesToSize(file.size)} */}
+            {file.size ? bytesToSize(file.size) : ""}
           </Typography>
           {!isNaN(Math.round(progress)) && (
             <Typography variant='caption' color='textSecondary'>{`${Math.round(

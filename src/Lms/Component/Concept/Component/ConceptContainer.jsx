@@ -12,8 +12,9 @@ function ConceptContainer({
   onChange,
   imageUrl,
   isEdit,
-  setImageUrl,
+  setFile,
   conceptDescription,
+  fileSize,
 }) {
   const getEventObjectModel = (name, value) => {
     return {
@@ -82,7 +83,8 @@ function ConceptContainer({
           <FileUploadField
             fileType={"image"}
             imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
+            setFile={setFile}
+            fileSize={fileSize}
           />
         </Grid>
       </Grid>

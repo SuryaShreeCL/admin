@@ -1,48 +1,23 @@
-import { Box, Grid, TextField, ThemeProvider } from "@material-ui/core";
-import ArchiveIcon from "@material-ui/icons/Archive";
-import ShareIcon from "@material-ui/icons/Share";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import React, { Component } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { lms_add_topic } from "../../../Component/RoutePaths";
-import PublishIcon from "../../Assets/icons/Publish.svg";
-import {
-  Container,
-  FlexView,
-  H1,
-  textFieldTheme,
-} from "../../Assets/StyledComponents";
-import {
-  deleteTopic,
-  getConcepts,
-  getCourses,
-  getSubjects,
-  getTopics,
-  publishTopic,
-  reviewTopic,
-  approveTopic,
-  draftTopic,
-} from "../../Redux/Action/CourseMaterial";
-import DialogComponent from "../../Utils/DialogComponent";
-import PaginationComponent from "../../Utils/PaginationComponent";
-import PlusButton from "../../Utils/PlusButton";
-import DataTable from "./Component/DataTable";
-import FilterContainer from "./Component/FilterContainer";
-import { Snackbar } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import UnarchiveIcon from "@material-ui/icons/Unarchive";
-import { useState } from "react";
-import { SnackBar } from "../../Utils/SnackBar";
-import { useEffect } from "react";
+import { Box, Grid } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Container, FlexView, H1 } from "../../Assets/StyledComponents";
 import {
   addConcept,
   getConcept,
   updateConcept,
   updateConceptStatus,
 } from "../../Redux/Action/Concept";
-import { STATUS_POPUP_CONTENT } from "./Component/StatusPopupContent";
-import Popup from "./Component/Popup";
+import { getCourses, getSubjects } from "../../Redux/Action/CourseMaterial";
+import DialogComponent from "../../Utils/DialogComponent";
+import PaginationComponent from "../../Utils/PaginationComponent";
+import PlusButton from "../../Utils/PlusButton";
+import { SnackBar } from "../../Utils/SnackBar";
 import ConceptContainer from "./Component/ConceptContainer";
+import DataTable from "./Component/DataTable";
+import FilterContainer from "./Component/FilterContainer";
+import Popup from "./Component/Popup";
+import { STATUS_POPUP_CONTENT } from "./Component/StatusPopupContent";
 
 const SIZE = 10;
 
@@ -73,6 +48,7 @@ function Index(props) {
     imageUrl: null,
     conceptDescription: null,
     conceptData: [],
+    fileSize: null,
   });
 
   const {
@@ -100,6 +76,7 @@ function Index(props) {
     imageUrl,
     conceptDescription,
     conceptData,
+    fileSize,
   } = state;
 
   const { conceptList } = useSelector((state) => state.LmsConceptReducer);
@@ -109,9 +86,9 @@ function Index(props) {
     arr.sort((a1, b1) => {
       switch (newOrder) {
         case "ASC":
-          return a1.wkStatus.value.localeCompare(b1.wkStatus.value);
+          return a1.wkStatus.localeCompare(b1.wkStatus);
         case "DESC":
-          return b1.wkStatus.value.localeCompare(a1.wkStatus.value);
+          return b1.wkStatus.localeCompare(a1.wkStatus);
         default:
           return 0;
       }
@@ -119,16 +96,16 @@ function Index(props) {
     return arr;
   };
 
-  // const getDataModel = (newPage, data) => {
-  //   const totalCount = data.length;
-  //   const startIndex = newPage * SIZE;
-  //   const selectedItems = data.slice(startIndex, startIndex + SIZE);
-  //   return {
-  //     ...state,
-  //     content: selectedItems,
-  //     totalPages: Math.ceil(totalCount / SIZE),
-  //   };
-  // };
+  const getDataModel = (newOrder, newPage, data) => {
+    const totalCount = data.length;
+    const startIndex = newPage * SIZE;
+    const selectedItems = data.slice(startIndex, startIndex + SIZE);
+    return {
+      ...state,
+      conceptData: sortedArray(newOrder, selectedItems),
+      totalPages: Math.ceil(totalCount / SIZE),
+    };
+  };
 
   useEffect(() => {
     dispatch(
@@ -140,9 +117,7 @@ function Index(props) {
                 dispatch(
                   getConcept(
                     response.data[0]?.courseId,
-                    subjectResponse.data[0]?.id,
-                    0,
-                    SIZE
+                    subjectResponse.data[0]?.id
                   )
                 );
                 setState({
@@ -163,21 +138,16 @@ function Index(props) {
   useEffect(() => {
     if (conceptList) {
       if (conceptList.success) {
-        // const { content, totalPages } = conceptList.data;
         setState({
-          ...state,
-          // content: content,
+          ...getDataModel(order, page, conceptList.data),
           content: conceptList.data,
-          totalPages: totalPages,
-          // conceptData: sortedArray(order, content),
-          conceptData: sortedArray(order, conceptList.data),
         });
       } else {
         setState({
           ...state,
           snackOpen: true,
-          snackMessage: "error",
-          snackColor: conceptList.message,
+          snackColor: "error",
+          snackMessage: conceptList.message,
           content: [],
           conceptData: [],
           totalPages: 0,
@@ -195,12 +165,7 @@ function Index(props) {
           getSubjects(value.id, (subjectResponse) => {
             if (subjectResponse.success) {
               dispatch(
-                getConcept(
-                  value?.courseId,
-                  subjectResponse.data[0]?.id,
-                  0,
-                  SIZE
-                )
+                getConcept(value?.courseId, subjectResponse.data[0]?.id)
               );
               setState({
                 ...state,
@@ -220,7 +185,7 @@ function Index(props) {
           subjectValue: value,
           page: 0,
         });
-        dispatch(getConcept(courseValue.courseId, subjectValue.id, 0, SIZE));
+        dispatch(getConcept(courseValue.courseId, value.id));
       }
     } else if (name === "conceptCourseValue") {
       if (value) {
@@ -277,9 +242,7 @@ function Index(props) {
     dispatch(
       updateConceptStatus(id, dialogContent?.name, (response) => {
         if (response.success) {
-          dispatch(
-            getConcept(courseValue?.courseId, subjectValue?.id, 0, SIZE)
-          );
+          dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
           handleSuccess(response);
         } else handleFail(response);
       })
@@ -291,10 +254,7 @@ function Index(props) {
   };
 
   const handlePageChange = (event, value) => {
-    setState({ ...state, page: value - 1 });
-    dispatch(
-      getConcept(courseValue?.courseId, subjectValue?.id, value - 1, SIZE)
-    );
+    setState({ ...getDataModel(order, value - 1, content), page: value - 1 });
   };
 
   const handleButton1Click = () => {
@@ -330,7 +290,13 @@ function Index(props) {
   };
 
   const handleOptions = (name) => {
-    const { name: conceptName, id, description, imageUrl } = conceptDetails;
+    const {
+      name: conceptName,
+      id,
+      description,
+      imageUrl,
+      document,
+    } = conceptDetails;
     switch (name) {
       case "Edit": {
         setState({
@@ -344,6 +310,7 @@ function Index(props) {
           conceptDescription: description,
           imageUrl: imageUrl,
           anchorEl: null,
+          fileSize: document?.size,
         });
         break;
       }
@@ -414,10 +381,19 @@ function Index(props) {
       conceptSubjectOptions: [],
       conceptDescription: null,
       imageUrl: null,
+      fileSize: null,
     });
   };
 
   const handleSave = () => {
+    console.log(
+      conceptSubjectValue?.id,
+      conceptName,
+      conceptName.trim(),
+      conceptDescription,
+      conceptDescription.trim(),
+      imageUrl
+    );
     if (
       conceptSubjectValue?.id &&
       conceptName &&
@@ -431,6 +407,7 @@ function Index(props) {
         description: conceptDescription,
         imageUrl: imageUrl,
         subject: { id: conceptSubjectValue.id },
+        fileSize: fileSize,
       };
       const defaultObj = {
         ...state,
@@ -445,6 +422,7 @@ function Index(props) {
         conceptPopupOpen: false,
         popupName: "",
         page: 0,
+        fileSize: null,
       };
       if (popupName === "Add") {
         dispatch(
@@ -456,9 +434,7 @@ function Index(props) {
                   snackMessage: "Concept Created Successfully",
                 });
               }, 500);
-              dispatch(
-                getConcept(courseValue?.courseId, subjectValue?.id, 0, SIZE)
-              );
+              dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
             } else {
               setState({
                 ...state,
@@ -479,9 +455,7 @@ function Index(props) {
                   snackMessage: "Concept Updated Successfully",
                 });
               }, 500);
-              dispatch(
-                getConcept(courseValue?.courseId, subjectValue?.id, 0, SIZE)
-              );
+              dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
             } else {
               setState({
                 ...state,
@@ -503,10 +477,11 @@ function Index(props) {
     }
   };
 
-  const setImageUrl = (fileName) => {
+  const setFile = (file) => {
     setState({
       ...state,
-      imageUrl: fileName,
+      imageUrl: file.name,
+      fileSize: file.size,
     });
   };
 
@@ -578,7 +553,8 @@ function Index(props) {
             isEdit={popupName === "Edit"}
             onChange={handleChange}
             imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
+            fileSize={fileSize}
+            setFile={setFile}
             conceptDescription={conceptDescription}
           />
         }
