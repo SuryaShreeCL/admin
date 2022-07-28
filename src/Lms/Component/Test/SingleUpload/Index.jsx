@@ -39,6 +39,7 @@ const DEPT_NAMES = {
   assessment_engine_admin: "assessment_engine_admin",
 };
 
+const EXPLANATION_VIDEO_LIMIT = 5;
 export class Index extends Component {
   constructor(props) {
     super(props);
@@ -66,6 +67,11 @@ export class Index extends Component {
       videoContent: [{ id: null, videoUrl: "" }],
       separateScore: 0,
     };
+  }
+
+  videoContentArray(data) {
+    if (data && Array.isArray(data) && data.length !== 0) return data;
+    else return [{ id: null, videoUrl: "" }];
   }
 
   componentDidMount() {
@@ -127,7 +133,7 @@ export class Index extends Component {
                 imgURL,
               } = response.data;
               // let diff = response.data.difficultyLevel[0] + response.data.difficultyLevel
-              console.log(response.data.questionChoices)
+              console.log(response.data.questionChoices);
               this.setState({
                 activeLevel: toTitleCase(difficultyLevel),
                 expectedTime,
@@ -137,9 +143,7 @@ export class Index extends Component {
                 answerType: type === "BUNDLE" ? "SINGLE_SELECT" : type,
                 bucketArray: response.data.questionChoices,
                 text: response.data.explanation,
-                videoContent: response.data.video,
-                url: response.data.explanationVideo,
-                url: response.data.video ? response.data.video.videoUrl : "",
+                videoContent: this.videoContentArray(response.data.video),
                 activeSubject: subject !== null ? subject.id : null,
                 activeConcept: concept !== null ? concept.id : null,
                 activeTopic: topic !== null ? topic.id : null,
@@ -289,23 +293,12 @@ export class Index extends Component {
           },
         ],
       });
-    }
-    else if(e.target.value === "VIDEO"){
-     
+    } else if (e.target.value === "VIDEO") {
       this.setState({
-<<<<<<< HEAD
-        answerType:e.target.value,
-        expectedTime:360,
-      })
-=======
         answerType: e.target.value,
         expectedTime: 360,
       });
->>>>>>> 315ba0e2625870c7c37350c7c871ab9c0484828f
     }
-<<<<<<< HEAD
-     else
-=======
     // else if(e.target.value === "FILE_UPLOAD" ){
     //   this.setState({
     //     answerType:e.target.value,
@@ -318,8 +311,8 @@ export class Index extends Component {
         separateScore:0,
       })
     }
->>>>>>> qa-bug-fixing-v1.4.7-sneha
     //  window.location.reload(false);
+    else
       this.setState({
         answerType: e.target.value,
         bucketArray: [
@@ -439,7 +432,7 @@ export class Index extends Component {
   };
 
   handleDeleteChoiceClick = (ind) => {
-    console.log(ind,"ind");
+    console.log(ind, "ind");
     let copyOfBucketArr = [...this.state.bucketArray];
     copyOfBucketArr[this.state.activeTab].choices.splice(ind, 1);
     this.setState({
@@ -772,8 +765,10 @@ export class Index extends Component {
 
   handleVideoContentAdd = () => {
     const { videoContent } = this.state;
-    let arr = [...videoContent, { id: null, videoUrl: "" }];
-    this.setState({ videoContent: arr });
+    if (videoContent.length < EXPLANATION_VIDEO_LIMIT) {
+      let arr = [...videoContent, { id: null, videoUrl: "" }];
+      this.setState({ videoContent: arr });
+    }
   };
 
   handleVideoContentDelete = (index, event) => {
@@ -818,7 +813,7 @@ export class Index extends Component {
       imgURL,
       previewTestDataModel,
       videoContent,
-      separateScore
+      separateScore,
     } = this.state;
 
     const {
@@ -882,14 +877,10 @@ export class Index extends Component {
       difficulty,
       handleInputChange,
       expectedTime,
-      type:answerType,
+      type: answerType,
       testQuestionSetId,
-<<<<<<< HEAD
-      separateScore
-=======
       separateScore,
       
->>>>>>> qa-bug-fixing-v1.4.7-sneha
     };
 
     let answerProps = {
@@ -923,6 +914,7 @@ export class Index extends Component {
       handleVideoContentChange,
       videoContent,
       deptName,
+      videoContentLimit: EXPLANATION_VIDEO_LIMIT,
     };
 
     const buttonsProps = {
@@ -989,8 +981,6 @@ export class Index extends Component {
           <Question {...questionProps} />
           <Answer
             handleDeleteChoiceClick={this.handleDeleteChoiceClick}
-            
-            
             {...answerProps}
           />
           <Explanation {...explanationProps} />
@@ -1028,7 +1018,3 @@ export default connect(mapStateToProps, {
   aepreviewTestData,
   getAllPassages,
 })(Index);
-<<<<<<< HEAD
-
-=======
->>>>>>> qa-bug-fixing-v1.4.7-sneha
