@@ -45,7 +45,8 @@ export const STATUS_POPUP_CONTENT = (planName) => ({
     type: "publish",
     name: "Live",
     icon: <img src={PublishIcon} width='64px' height='64px' />,
-    title: "Are you sure you want to Publish? ",
+    title:
+      "Are you sure you want to Publish, because if any study plan with this same month and it's on Publish then it's move to Archive and this study plan will be on Publish?",
     body: planName,
     button1: "Cancel",
     button2: "Publish now",

@@ -12,10 +12,10 @@ import ShareIcon from "@material-ui/icons/Share";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import { Alert } from "@material-ui/lab";
-import  {DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from '@date-io/moment';
+import MomentUtils from "@date-io/moment";
 //import { ReactComponent as RescheduleIcon } from "../../../Asset/icons/BigReschedule.svg";
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
@@ -105,17 +105,17 @@ class TestLanding extends Component {
       openStatus: false,
       clickableStatus: "",
       department: "",
-      deptName:"",
+      deptName: "",
     };
   }
 
   componentDidMount() {
-    const role = sessionStorage.getItem("role");
+    const role = sessionStorage.getItem("department");
     var deptname = window.sessionStorage.getItem("department");
     console.log(deptname);
     this.setState({
-      deptName:deptname
-    })
+      deptName: deptname,
+    });
     deptname === "assessment_engine_admin"
       ? this.props.aegetFilters()
       : this.props.getFilters();
@@ -302,9 +302,9 @@ class TestLanding extends Component {
       var deptname = window.sessionStorage.getItem("department");
       const dialogContent = {
         type: "publish",
-        icon: <img src={PublishIcon} width="64px" height="64px" />,
+        icon: <img src={PublishIcon} width='64px' height='64px' />,
         title: "Are you sure you want to Publish? ",
-        body: deptname !== "assessment_engine_admin"?topicName:"",
+        body: deptname !== "assessment_engine_admin" ? topicName : "",
         button1: "Cancel",
         button2: "Publish now",
       };
@@ -357,61 +357,66 @@ class TestLanding extends Component {
   };
 
   handlePrimaryButtonClick = () => {
-    
     if (this.state.dialogContent.type === "archive") {
-      this.state.department !== "assessment_engine_admin"?
-      this.props.deleteTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
-          });
-          this.handleCloseIconClick();
-        }
-      }):
-      this.props.aedeleteTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
+      this.state.department !== "assessment_engine_admin"
+        ? this.props.deleteTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
+              this.state.department === "assessment_engine_admin"
+                ? this.props.aegetQuestionSet(paramObj)
+                : this.props.getQuestionSet(paramObj);
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
+          })
+        : this.props.aedeleteTest(this.state.popUpId, (response) => {
+            if (response.success) {
+              let paramObj = {
+                page: INITIAL_PAGE_NO,
+                size: NO_OF_RESPONSE,
+                testType:
+                  this.state.testType !== "default"
+                    ? this.state.testType
+                    : null,
+                topicId:
+                  this.state.topicId !== "default" ? this.state.topicId : null,
+                status:
+                  this.state.status !== "default" ? this.state.status : null,
+              };
 
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet(paramObj);
+              this.state.department === "assessment_engine_admin"
+                ? this.props.aegetQuestionSet(paramObj)
+                : this.props.getQuestionSet(paramObj);
 
-          this.handleCloseIconClick();
-        } else {
-          //
-          this.setState({
-            alertState: true,
-            alertMsg: response.message,
-            alertSeverity: "error",
+              this.handleCloseIconClick();
+            } else {
+              //
+              this.setState({
+                alertState: true,
+                alertMsg: response.message,
+                alertSeverity: "error",
+              });
+              this.handleCloseIconClick();
+            }
           });
-          this.handleCloseIconClick();
-        }
-      });
     } else if (this.state.dialogContent.type === "review") {
       this.props.reviewTest(this.state.popUpId, (response) => {
         if (response.success) {
@@ -581,7 +586,7 @@ class TestLanding extends Component {
   };
   handleReschedule = () => {
     // if (this.state.eventDate && this.state.endEventDate) {
-      console.log("reschedule")
+    console.log("reschedule");
     let obj = {
       startDateTime: this.state.eventDate,
       endDateTime: this.state.eventEndDate,
@@ -596,8 +601,8 @@ class TestLanding extends Component {
         });
         let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
         this.state.department !== "assessment_engine_admin"
-       ? this.props.getQuestionSet(paramObj)
-       : this.props.aegetQuestionSet(paramObj);
+          ? this.props.getQuestionSet(paramObj)
+          : this.props.aegetQuestionSet(paramObj);
       } else {
         this.setState({
           alertState: true,
@@ -656,8 +661,8 @@ class TestLanding extends Component {
         <Grid
           item
           container
-          alignItems="center"
-          justifyContent="space-between"
+          alignItems='center'
+          justifyContent='space-between'
           style={{ marginBottom: "35px" }}
         >
           <H1>Test</H1>
@@ -676,7 +681,7 @@ class TestLanding extends Component {
         )}
         {tableContent && (
           <TableComp
-          deptname={this.state.deptName}
+            deptname={this.state.deptName}
             tableContent={tableContent.content}
             handleSortNew={handleSortNew}
             field={field}
@@ -693,8 +698,8 @@ class TestLanding extends Component {
             clickedStatus={this.state.clickableStatus}
           />
         )}
-        
-        {tableContent !== undefined && (          
+
+        {tableContent !== undefined && (
           <PaginationComponent
             pageCount={tableContent?.totalPages}
             onPageChange={handlePageChange}
@@ -716,7 +721,7 @@ class TestLanding extends Component {
           <Alert
             onClose={() => this.setState({ alertState: false })}
             severity={this.state.alertSeverity}
-            variant="filled"
+            variant='filled'
           >
             {this.state.alertMsg}
           </Alert>
@@ -736,8 +741,8 @@ class TestLanding extends Component {
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
                 {/* <RescheduleIcon /> */}
               </Grid>
@@ -745,51 +750,53 @@ class TestLanding extends Component {
                 item
                 xs={12}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <Typography variant="h4">Reschedule Test</Typography>
+                <Typography variant='h4'>Reschedule Test</Typography>
               </Grid>
 
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <MuiPickersUtilsProvider  utils={MomentUtils}>
-                <DateTimePicker
-                  label="Start date and time"
-                  inputVariant="outlined"
-                  disablePast
-                  value={eventDate}
-                  onChange={(value) => this.setState({ eventDate: value })}
-                /></MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='Start date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventDate}
+                    onChange={(value) => this.setState({ eventDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
               >
-                <MuiPickersUtilsProvider  utils={MomentUtils}>
-                <DateTimePicker
-                  label="End date and time"
-                  inputVariant="outlined"
-                  disablePast
-                  value={eventEndDate}
-                  disabled ={eventEndDate === eventDate}
-                  onChange={(value) => this.setState({ eventEndDate: value })}
-                /></MuiPickersUtilsProvider>
+                <MuiPickersUtilsProvider utils={MomentUtils}>
+                  <DateTimePicker
+                    label='End date and time'
+                    inputVariant='outlined'
+                    disablePast
+                    value={eventEndDate}
+                    disabled={eventEndDate === eventDate}
+                    onChange={(value) => this.setState({ eventEndDate: value })}
+                  />
+                </MuiPickersUtilsProvider>
               </Grid>
               <Grid
                 item
                 xs={6}
                 container
-                alignItems="center"
-                justifyContent="flex-end"
+                alignItems='center'
+                justifyContent='flex-end'
               >
                 <Button
                   onClick={() => this.setState({ popupOpen: !popupOpen })}
@@ -800,10 +807,10 @@ class TestLanding extends Component {
                   Cancel
                 </Button>
               </Grid>
-              <Grid item xs={6} container alignItems="center">
+              <Grid item xs={6} container alignItems='center'>
                 <Button
                   size={"large"}
-                  onClick={()=>this.handleReschedule()}
+                  onClick={() => this.handleReschedule()}
                   variant={"contained"}
                   color={"primary"}
                 >

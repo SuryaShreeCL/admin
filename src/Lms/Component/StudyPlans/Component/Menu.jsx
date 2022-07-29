@@ -7,6 +7,7 @@ import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import React from "react";
 import PublishIcon from "../../../Assets/icons/Publish.svg";
 import { MuiMenu } from "../../../Assets/StyledTableComponents";
+import { ROLES } from "../../../Constants";
 
 export default function Menu({
   role,
@@ -16,8 +17,6 @@ export default function Menu({
   studyPlanDetails,
   handleOptions,
 }) {
-  const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
-
   const makerChoices = [
     { text: "View", icon: <Visibility style={{ fill: "#1093ff" }} /> },
     { text: "Upload", icon: <CloudUpload style={{ fill: "#1093FF" }} /> },
@@ -45,7 +44,7 @@ export default function Menu({
       array.length = 1;
       return array;
     } else if (status === "Approved" && isUploaded) {
-      array.splice(1, 1);
+      array.length = 1;
       return array;
     } else {
       array.length = 1;
@@ -75,7 +74,7 @@ export default function Menu({
     }
   };
 
-  if (role === ROLES.editor) {
+  if (role === ROLES.lms_editor) {
     return (
       <MuiMenu
         open={open}
@@ -95,7 +94,7 @@ export default function Menu({
     );
   }
 
-  if (role === ROLES.checker) {
+  if (role === ROLES.lms_checker) {
     return (
       <MuiMenu
         open={open}

@@ -19,8 +19,6 @@ import {
 } from "../../Assets/StyledTableComponents";
 import Menu from "../Test/Menu";
 
-const role = sessionStorage.getItem("role");
-
 const MONTH = [
   "Jan",
   "Feb",
@@ -47,7 +45,7 @@ const columns = [
   "",
 ];
 
-const getDateFormat = dateString => {
+const getDateFormat = (dateString) => {
   let date = new Date(dateString);
   let day = date.getDate();
   let month = MONTH[date.getMonth()];
@@ -56,7 +54,7 @@ const getDateFormat = dateString => {
 };
 
 const handleShowThreeDot = (role, status) => {
-    let deptName = window.sessionStorage.getItem("department");
+  let deptName = window.sessionStorage.getItem("department");
   return !(
     deptName === "lms_editor" &&
     (status === "Live" || status === "In Review" || status === "Approved")
@@ -96,18 +94,18 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
-            id="name"
+            id='name'
             onClick={() => {
               handleSortBlue(nameIndex);
             }}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
-            id="name"
+            id='name'
             onClick={() => {
               handleSortBlur(nameIndex);
             }}
@@ -119,18 +117,18 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
-            id="name"
+            id='name'
             onClick={() => {
               handleSortBlur(nameIndex);
             }}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
-            id="name"
+            id='name'
             onClick={() => handleSortBlue(nameIndex)}
           />
         </IconBox>
@@ -140,14 +138,14 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlue(statusIndex)}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlur(statusIndex)}
@@ -159,14 +157,14 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlur(statusIndex)}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlue(statusIndex)}
@@ -178,14 +176,14 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
             id={"createdAt"}
             onClick={() => handleSortBlue(createdIndex)}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             id={"createdAt"}
             onClick={() => handleSortBlur(createdIndex)}
@@ -197,14 +195,14 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlur(createdIndex)}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlue(createdIndex)}
@@ -218,7 +216,7 @@ export default function DataTable(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             onClick={() => {
               handleSortNew(index, "ASC");
@@ -226,7 +224,7 @@ export default function DataTable(props) {
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             onClick={() => {
               handleSortNew(index, "DESC");
@@ -280,7 +278,7 @@ export default function DataTable(props) {
                       <div>
                         <IconButton
                           aria-controls={item.id}
-                          aria-haspopup="true"
+                          aria-haspopup='true'
                           onClick={(event) =>
                             handleThreeDotClick(item.id, event, item.status)
                           }

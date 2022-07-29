@@ -8,10 +8,9 @@ import UnarchiveIcon from "@material-ui/icons/Unarchive";
 import React from "react";
 import PublishIcon from "../../Assets/icons/Publish.svg";
 import { MuiMenu } from "../../Assets/StyledTableComponents";
+import { ROLES } from "../../Constants";
 
 export default function Menu(props) {
-  const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
-
   const makerChoices = [
     { text: "Send Review", icon: <ShareIcon style={{ fill: "#1093ff" }} /> },
     { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
@@ -21,7 +20,7 @@ export default function Menu(props) {
   const aeChecker = [
     { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
     { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
-    { text: "Publish Now", icon: <img src={PublishIcon} alt="Publish" /> },
+    { text: "Publish Now", icon: <img src={PublishIcon} alt='Publish' /> },
     { text: "Approve", icon: <ThumbUpIcon style={{ fill: "#1093ff" }} /> },
     {
       text: "Reschedule",
@@ -37,7 +36,7 @@ export default function Menu(props) {
     { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
     { text: "Archive", icon: <ArchiveIcon style={{ fill: "#1093ff" }} /> },
     { text: "Approve", icon: <ThumbUpIcon style={{ fill: "#1093ff" }} /> },
-    { text: "Publish Now", icon: <img src={PublishIcon} alt="Publish" /> },
+    { text: "Publish Now", icon: <img src={PublishIcon} alt='Publish' /> },
     {
       text: "Reschedule",
       icon: <AccessTimeOutlinedIcon style={{ fill: "#1093ff" }} />,
@@ -115,7 +114,6 @@ export default function Menu(props) {
       arr.push(array[4]);
       return arr;
     } else return [];
-    
   };
 
   const {
@@ -129,7 +127,7 @@ export default function Menu(props) {
     name,
     activeStatus,
   } = props;
-  if (role === ROLES.editor) {
+  if (role === ROLES.lms_editor) {
     return (
       <MuiMenu
         id={topicId}
@@ -150,7 +148,7 @@ export default function Menu(props) {
     );
   }
 
-  if (role === "SUPER ADMIN") {
+  if (role === ROLES.assessment_engine_admin) {
     return (
       <MuiMenu
         id={topicId}
@@ -174,7 +172,7 @@ export default function Menu(props) {
     );
   }
 
-  if (role === ROLES.checker) {
+  if (role === ROLES.lms_checker) {
     return (
       <MuiMenu
         id={topicId}

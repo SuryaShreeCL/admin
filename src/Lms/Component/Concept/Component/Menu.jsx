@@ -8,6 +8,7 @@ import React from "react";
 import PublishIcon from "../../../Assets/icons/Publish.svg";
 import { MuiMenu } from "../../../Assets/StyledTableComponents";
 import EditIcon from "@material-ui/icons/Edit";
+import { ROLES } from "../../../Constants";
 
 export default function Menu({
   role,
@@ -17,8 +18,6 @@ export default function Menu({
   status,
   handleOptions,
 }) {
-  const ROLES = { editor: "LMSEDITOR", checker: "LMSCHECKER" };
-
   const makerChoices = [
     { text: "Send Review", icon: <ShareIcon style={{ fill: "#1093ff" }} /> },
     { text: "Edit", icon: <EditIcon style={{ fill: "#1093FF" }} /> },
@@ -68,12 +67,12 @@ export default function Menu({
     } else return [];
   };
 
-  if (role === ROLES.editor) {
+  if (role === ROLES.lms_editor) {
     return (
       <MuiMenu
         open={open}
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
+        getContentAnchorEl={anchorEl}
         anchorOrigin={{ vertical: "center", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}
@@ -88,7 +87,7 @@ export default function Menu({
     );
   }
 
-  if (role === ROLES.checker) {
+  if (role === ROLES.lms_checker) {
     return (
       <MuiMenu
         open={open}

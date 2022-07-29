@@ -75,6 +75,7 @@ import {
   lms_concept,
 } from "./RoutePaths";
 import Routes from "./Routes";
+import { LMS_ROLES } from "../Lms/Constants";
 
 const drawerWidth = 240;
 
@@ -647,8 +648,7 @@ function RootContainer(props) {
         },
       ]);
     } else if (
-      window.sessionStorage.getItem("role") === "LMSCHECKER" ||
-      window.sessionStorage.getItem("role") === "LMSEDITOR"
+      LMS_ROLES.includes(window.sessionStorage.getItem("department"))
     ) {
       setSideNav([
         {
