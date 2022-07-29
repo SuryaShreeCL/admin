@@ -10,6 +10,7 @@ import {
   getCourses,
   getStudyPlan,
   updateStudyPlanStatus,
+  getThisMonthStudyPlanLive,
 } from "../../Redux/Action/CourseMaterial";
 import { getCsvTemplate } from "../../Redux/Action/Student";
 import DialogComponent from "../../Utils/DialogComponent";
@@ -271,8 +272,7 @@ class Index extends Component {
     this.setState({ anchorEl: null, studyPlanDetails: {} });
   };
 
-  handleOptions = (name) => {
-    const { name: planName, id } = this.state.studyPlanDetails;
+  renderOption(name, planName, id, isThisMonthStudyPlanLive) {
     switch (name) {
       case "Upload": {
         this.setState({
@@ -316,12 +316,27 @@ class Index extends Component {
       case "Publish Now": {
         this.setState({
           dialogOpen: true,
-          dialogContent: STATUS_POPUP_CONTENT(planName)["Publish Now"],
+          dialogContent: STATUS_POPUP_CONTENT(
+            planName,
+            isThisMonthStudyPlanLive
+          )["Publish Now"],
         });
         break;
       }
       default:
         break;
+    }
+  }
+
+  handleOptions = (statusTest) => {
+    const { name: planName, id } = this.state.studyPlanDetails;
+    if (statusTest === "Publish Now") {
+      this.props.getThisMonthStudyPlanLive(id, (val) => {
+        console.log(val);
+        this.renderOption(statusTest, planName, id, val);
+      });
+    } else {
+      this.renderOption(statusTest, planName, id, false);
     }
   };
 
@@ -591,4 +606,5 @@ export default connect(mapStateToProps, {
   getCsvTemplate,
   updateStudyPlanStatus,
   createFileUpload,
+  getThisMonthStudyPlanLive,
 })(Index);
