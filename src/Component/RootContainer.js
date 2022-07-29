@@ -76,7 +76,7 @@ import {
   lms_concept,
 } from "./RoutePaths";
 import Routes from "./Routes";
-import { LMS_ROLES } from "../Lms/Constants";
+import { LMS_ROLES, ROLES } from "../Lms/Constants";
 
 const drawerWidth = 240;
 
@@ -726,12 +726,7 @@ function RootContainer(props) {
         },
       ];
       setSideNav(lms_nav_items);
-    } else if (
-      window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
-      window.sessionStorage.getItem("department") !== "assessment_engine_admin"
-    ) {
-      var deptName = window.sessionStorage.getItem("department");
-      console.log(deptName);
+    } else if (window.sessionStorage.getItem("department").match(ROLES.admin)) {
       setSideNav([
         {
           icon: <></>,
