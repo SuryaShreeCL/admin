@@ -1,6 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
+  CircularProgress,
   createMuiTheme,
   Dialog,
   DialogActions,
@@ -150,6 +151,7 @@ class ClientDetails extends Component {
       dialogOpen: false,
       yearChange: false,
       termChange: false,
+      load: false,
     };
   }
   componentDidMount() {
@@ -424,6 +426,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
+    this.setState({ isLoading: true });
 
     if (
       !isEmptyString(this.state.name) &&
@@ -453,9 +456,15 @@ class ClientDetails extends Component {
       if (this.state.yearChange || this.state.termChange) {
         this.setState({
           dialogOpen: true,
+          isLoading: false,
+
         });
       } else {
         this.handleAddClick();
+        this.setState({
+          isLoading: true,
+
+        });
       }
     }
   };
@@ -494,21 +503,21 @@ class ClientDetails extends Component {
 
       aspirationDegrees:
         window.sessionStorage.getItem("adminUserId") === "115" &&
-        this.state.appdegree
+          this.state.appdegree
           ? [
-              {
-                id: this.state.appdegree?.id,
-              },
-            ]
+            {
+              id: this.state.appdegree?.id,
+            },
+          ]
           : [],
       aspirationCountries:
         window.sessionStorage.getItem("adminUserId") === "115" &&
-        this.state.countries
+          this.state.countries
           ? [
-              {
-                id: this.state.countries?.id,
-              },
-            ]
+            {
+              id: this.state.countries?.id,
+            },
+          ]
           : [],
       term: this.state.term ? this.state.term.title : null,
       enrollmentDate: new Date(this.state.enrolldate),
@@ -560,6 +569,8 @@ class ClientDetails extends Component {
             snackvariant: "success",
             snackopen: true,
             dialogOpen: false,
+            isLoading: false,
+
           });
         } else {
           this.setState({
@@ -686,7 +697,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.ugdegreeErr.length > 0}
                       helperText={this.state.ugdegreeErr}
-                      required 
+                      required
                     />
                   )}
                 />
@@ -996,7 +1007,7 @@ class ClientDetails extends Component {
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                  // format="dd/MM/yyyy HH:mm"
+                // format="dd/MM/yyyy HH:mm"
                 />
               </Grid>
               <Grid item md={4}>
@@ -1569,12 +1580,33 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12} align="center">
-                <PrimaryButton
+                {/* <PrimaryButton
                   style={{ width: "130px" }}
                   color={"primary"}
                   variant={"contained"}
                   onClick={() => this.handleSaved()}
+
                 >
+                  Save
+                </PrimaryButton> */}
+                <PrimaryButton
+                  onClick={() => this.handleSaved()}
+                  variant={"contained"}
+                  color={"primary"}
+                  disabled={this.state.isLoading}
+                  style={{ textTransform: "none" }}
+                >
+                  {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
                   Save
                 </PrimaryButton>
               </Grid>
