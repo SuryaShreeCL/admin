@@ -621,3 +621,22 @@ export const updateStudyPlanStatus = (studyPlanId, status, callback) => {
       });
   };
 };
+
+export const getThisMonthStudyPlanLive = (studyPlanId, callback) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return () => {
+    axios
+      .get(`${DEV_LMS}/api/v1/studyPlan/isLive/${studyPlanId}`, {
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        callback(Boolean(result.data?.data?.isThisMonthStudyPlanLive));
+      })
+      .catch(() => {
+        callback(false);
+      });
+  };
+};

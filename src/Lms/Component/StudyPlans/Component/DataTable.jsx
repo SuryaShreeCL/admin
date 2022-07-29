@@ -168,6 +168,7 @@ export default function DataTable({
         </Table>
       </TableContainer>
       <Menu
+        id={studyPlanDetails?.id}
         role={role}
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}

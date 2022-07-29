@@ -10,6 +10,7 @@ import { MuiMenu } from "../../../Assets/StyledTableComponents";
 import { ROLES } from "../../../Constants";
 
 export default function Menu({
+  id,
   role,
   open,
   anchorEl,
@@ -77,6 +78,7 @@ export default function Menu({
   if (role === ROLES.lms_editor) {
     return (
       <MuiMenu
+        id={id}
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}
@@ -97,6 +99,7 @@ export default function Menu({
   if (role === ROLES.lms_checker) {
     return (
       <MuiMenu
+        id={id}
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}

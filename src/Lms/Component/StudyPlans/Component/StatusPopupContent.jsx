@@ -4,7 +4,10 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import PublishIcon from "../../../Assets/icons/Publish.svg";
 import React from "react";
 
-export const STATUS_POPUP_CONTENT = (planName) => ({
+export const STATUS_POPUP_CONTENT = (
+  planName,
+  isAlreadyStudyPlanMonthLive
+) => ({
   Archive: {
     type: "archive",
     name: "Archive",
@@ -45,8 +48,9 @@ export const STATUS_POPUP_CONTENT = (planName) => ({
     type: "publish",
     name: "Live",
     icon: <img src={PublishIcon} width='64px' height='64px' />,
-    title:
-      "Are you sure you want to Publish, because if any study plan with this same month and it's on Publish then it's move to Archive and this study plan will be on Publish?",
+    title: isAlreadyStudyPlanMonthLive
+      ? "Already a study plan is on live for this month, if you publish new study plan the older one will be moved to the archive. Do you still want to publish this new study plan?"
+      : "This study plan will be moved to live if you publish, do you want to publish this now?",
     body: planName,
     button1: "Cancel",
     button2: "Publish now",
