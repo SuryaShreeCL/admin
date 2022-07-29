@@ -12,6 +12,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import Pagination from "@material-ui/lab/Pagination";
 import React, { Component } from "react";
+import { LMS_ROLES } from "../../Lms/Constants";
 import Spinner from "./Utils/Spinner";
 export default class TableComponent extends Component {
   constructor(props) {
@@ -60,9 +61,8 @@ export default class TableComponent extends Component {
   hasAccess = () => {
     var role = window.sessionStorage.getItem("role");
     if (
+      LMS_ROLES.includes(window.sessionStorage.getItem("department")) ||
       role === "SUPER ADMIN" ||
-      role === "LMSCHECKER" ||
-      role === "LMSEDITOR" ||
       role === "GLOBAL ADMIN"
     ) {
       return false;
@@ -76,9 +76,8 @@ export default class TableComponent extends Component {
     if (this.props.disableDelete) {
       return true;
     } else if (
+      LMS_ROLES.includes(window.sessionStorage.getItem("department")) ||
       role === "SUPER ADMIN" ||
-      role === "LMSCHECKER" ||
-      role === "LMSEDITOR" ||
       role === "GLOBAL ADMIN"
     ) {
       return false;
@@ -149,10 +148,10 @@ export default class TableComponent extends Component {
         {this.props.onEdit ? (
           <td style={body.td}>
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               disabled={this.hasAccess()}
-              name="action"
+              name='action'
               onClick={(e) => {
                 e.stopPropagation();
                 if (typeof this.props.onEditClick === "function") {
@@ -168,9 +167,9 @@ export default class TableComponent extends Component {
         {this.props.onDelete ? (
           <td style={body.td}>
             <Button
-              variant="contained"
+              variant='contained'
               disabled={this.disableDelete()}
-              color="secondary"
+              color='secondary'
               onClick={(e) => {
                 e.stopPropagation();
                 if (typeof this.props.onDeleteClick === "function") {
@@ -256,8 +255,8 @@ export default class TableComponent extends Component {
           <label style={footer.perPageLabel}>Rows per page:</label>
           <FormControl>
             <Select
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
+              labelId='demo-simple-select-autowidth-label'
+              id='demo-simple-select-autowidth'
               value={this.state.rowCount}
               onChange={(e) => this.setState({ rowCount: e.target.value })}
               autoWidth
@@ -290,11 +289,11 @@ export default class TableComponent extends Component {
               </div>
               <div>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   onKeyUp={this.props.onKeyUp}
-                  color="primary"
-                  label="search"
+                  color='primary'
+                  label='search'
                   value={this.state.searchKeyword}
                   onChange={(e) =>
                     this.setState({
@@ -314,9 +313,9 @@ export default class TableComponent extends Component {
                   <IconButton
                     style={{ marginLeft: "8px" }}
                     onClick={this.props.onSearchClick}
-                    color="primary"
+                    color='primary'
                     id={"search"}
-                    aria-label="search"
+                    aria-label='search'
                   >
                     <SearchRoundedIcon />
                   </IconButton>
@@ -325,8 +324,8 @@ export default class TableComponent extends Component {
               {this.props.add ? (
                 <div style={header.search.button}>
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     disabled={this.hasAccess()}
                     onClick={(e) =>
                       typeof this.props.onAddClick === "function"
@@ -343,7 +342,7 @@ export default class TableComponent extends Component {
 
             {/* Table Body */}
             <Grid item md={12} style={body.container}>
-              <table border="1px solid" style={body.table} cellPadding="10px">
+              <table border='1px solid' style={body.table} cellPadding='10px'>
                 {this.state.tableData !== null ? (
                   <>
                     <thead style={body.thead}>

@@ -19,7 +19,7 @@ import {
 } from "../../../Assets/StyledTableComponents";
 import Menu from "./Menu";
 
-const role = sessionStorage.getItem("role");
+const role = sessionStorage.getItem("department");
 
 const MONTH = [
   "Jan",

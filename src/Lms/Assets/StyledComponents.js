@@ -124,6 +124,7 @@ export const CardTitle = styled.div`
 `;
 
 export const DialogDiv = styled.div`
+  gap: 30px;
   padding: 20px 20px;
   min-height: 365px;
   display: flex;
