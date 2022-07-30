@@ -2,6 +2,7 @@ import { Backdrop, Box, Divider, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {withRouter} from 'react-router-dom';
 import {
   clearCustomData,
   getDocumentModelBySubStageId,
@@ -53,6 +54,8 @@ function Index(props) {
     status: null,
     anchorEl: null,
     popoverComment: null,
+    completedStagesList: [],
+    cvloader : false
   });
 
   const {
@@ -73,6 +76,8 @@ function Index(props) {
     status,
     anchorEl,
     popoverComment,
+    completedStagesList,
+    cvloader
   } = state;
   const {
     loading,
@@ -81,7 +86,7 @@ function Index(props) {
     downloadFileResponse,
   } = useSelector((state) => state.ProfileMentoringReducer);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
@@ -96,7 +101,7 @@ function Index(props) {
         let subStage = getSubStageByStage(
           data,
           "Profile Mentoring",
-          "Complete Cv"
+          "Completed Cv"
         );
         if (subStage.length !== 0) {
           dispatch(
@@ -152,6 +157,22 @@ function Index(props) {
   }, [sectionId]);
 
   useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
+
+  useEffect(() => {
     if (documentModel) {
       if (documentModel.success) {
         const { data } = documentModel;
@@ -190,8 +211,11 @@ function Index(props) {
           fileNameHelperText: "",
           commentHelperText: "",
           open: false,
+          cvloader : true
         });
         dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
+        
+       
       } else {
         setState({
           ...state,
@@ -261,6 +285,7 @@ function Index(props) {
       let uploadFormData = new FormData();
       uploadFormData.append("file", newFile);
       dispatch(uploadFile(studentId, productId, uploadFormData, comment));
+      
     }
   };
 
@@ -302,8 +327,8 @@ function Index(props) {
     });
   };
 
-  const handleDownload = (path, e) => {
-    dispatch(getDownloadByDocumentId(studentId, path));
+  const handleDownload = (path, id, e) => {
+    dispatch(getDownloadByDocumentId(studentId, id, path));
   };
 
   const handleDelete = (id, path, e) => {};
@@ -311,6 +336,10 @@ function Index(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
+  };
+
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Profile Mentoring");
   };
 
   const renderComponent = () => {
@@ -331,8 +360,9 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: Boolean(status),
+      disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: true,
+      lastestCVLoading: cvloader,
       ...props,
     };
     return <DocumentComponent {...renderProps} />;

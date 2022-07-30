@@ -41,7 +41,7 @@ export class StrategyManageStudent extends Component {
     this.props.getManageStudentByStages(
       productId,
       "strategySession",
-      "StrategySession",
+      "Strategy Session",
       size || 20,
       page || 0,
       intake?.year,

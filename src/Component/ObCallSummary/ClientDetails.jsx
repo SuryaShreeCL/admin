@@ -1,6 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Button,
+  CircularProgress,
   createMuiTheme,
   Dialog,
   DialogActions,
@@ -114,7 +115,7 @@ class ClientDetails extends Component {
       agentErr: "",
       callstatus: "",
       callstatusErr: "",
-      callbacktime: new Date(),
+      callbacktime: "",
       callbacktimeErr: "",
       spedays: "",
       speDaysErr: "",
@@ -150,6 +151,7 @@ class ClientDetails extends Component {
       dialogOpen: false,
       yearChange: false,
       termChange: false,
+      load: false,
     };
   }
   componentDidMount() {
@@ -258,7 +260,7 @@ class ClientDetails extends Component {
         calltime: obCallTime,
         agent: agent,
         callstatus: { title: callStatus },
-        callbacktime: new Date(callBackTime),
+        callbacktime: callBackTime ? new Date(callBackTime) : "",
         spedays: { title: specificDays },
         spetime: specificTime,
         enrolldate: this.props.getClientInfoList.enrollmentDate,
@@ -427,6 +429,7 @@ class ClientDetails extends Component {
     isEmptyString(this.state.workexp)
       ? this.setState({ workexpErr: hlptxt })
       : this.setState({ workexpErr: "" });
+    this.setState({ isLoading: true });
 
     if (
       !isEmptyString(this.state.name) &&
@@ -456,9 +459,15 @@ class ClientDetails extends Component {
       if (this.state.yearChange || this.state.termChange) {
         this.setState({
           dialogOpen: true,
+          isLoading: false,
+
         });
       } else {
         this.handleAddClick();
+        this.setState({
+          isLoading: true,
+
+        });
       }
     }
   };
@@ -497,21 +506,21 @@ class ClientDetails extends Component {
 
       aspirationDegrees:
         window.sessionStorage.getItem("adminUserId") === "115" &&
-        this.state.appdegree
+          this.state.appdegree
           ? [
-              {
-                id: this.state.appdegree?.id,
-              },
-            ]
+            {
+              id: this.state.appdegree?.id,
+            },
+          ]
           : [],
       aspirationCountries:
         window.sessionStorage.getItem("adminUserId") === "115" &&
-        this.state.countries
+          this.state.countries
           ? [
-              {
-                id: this.state.countries?.id,
-              },
-            ]
+            {
+              id: this.state.countries?.id,
+            },
+          ]
           : [],
       term: this.state.term ? this.state.term.title : null,
       enrollmentDate: new Date(this.state.enrolldate),
@@ -563,6 +572,8 @@ class ClientDetails extends Component {
             snackvariant: "success",
             snackopen: true,
             dialogOpen: false,
+            isLoading: false,
+
           });
         } else {
           this.setState({
@@ -689,6 +700,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.ugdegreeErr.length > 0}
                       helperText={this.state.ugdegreeErr}
+                      required
                     />
                   )}
                 />
@@ -751,6 +763,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.collegeErr.length > 0}
                       helperText={this.state.collegeErr}
+                      required
                     />
                   )}
                 />
@@ -813,6 +826,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.departmentErr.length > 0}
                       helperText={this.state.departmentErr}
+                      required
                     />
                   )}
                 />
@@ -825,6 +839,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ sem: e.target.value })}
                   error={this.state.semErr.length > 0}
                   helperText={this.state.semErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -837,6 +852,7 @@ class ClientDetails extends Component {
                   }
                   error={this.state.activebacklogsErr.length > 0}
                   helperText={this.state.activebacklogsErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -847,6 +863,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ cgpa: e.target.value })}
                   error={this.state.cgpaErr.length > 0}
                   helperText={this.state.cgpaErr}
+                  required
                 />
               </Grid>
               <Grid item md={6}></Grid>
@@ -993,7 +1010,7 @@ class ClientDetails extends Component {
                   KeyboardButtonProps={{
                     "aria-label": "change time",
                   }}
-                  // format="dd/MM/yyyy HH:mm"
+                // format="dd/MM/yyyy HH:mm"
                 />
               </Grid>
               <Grid item md={4}>
@@ -1029,7 +1046,7 @@ class ClientDetails extends Component {
               </Grid>
               <Grid item md={4}>
                 <KeyboardDateTimePicker
-                  variant="inline"
+                  variant="dialog"
                   ampm={false}
                   label="Call Back Time"
                   disabled={
@@ -1047,6 +1064,9 @@ class ClientDetails extends Component {
                   onError={console.log}
                   // disablePast
                   format="dd/MM/yyyy HH:mm"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item md={4}>
@@ -1324,6 +1344,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.ugdegreeErr.length > 0}
                       helperText={this.state.ugdegreeErr}
+                      required
                     />
                   )}
                 />
@@ -1386,6 +1407,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.collegeErr.length > 0}
                       helperText={this.state.collegeErr}
+                      required
                     />
                   )}
                 />
@@ -1448,6 +1470,7 @@ class ClientDetails extends Component {
                       variant="standard"
                       error={this.state.departmentErr.length > 0}
                       helperText={this.state.departmentErr}
+                      required
                     />
                   )}
                 />
@@ -1460,6 +1483,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ sem: e.target.value })}
                   error={this.state.semErr.length > 0}
                   helperText={this.state.semErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -1470,6 +1494,7 @@ class ClientDetails extends Component {
                   onChange={(e) => this.setState({ cgpa: e.target.value })}
                   error={this.state.cgpaErr.length > 0}
                   helperText={this.state.cgpaErr}
+                  required
                 />
               </Grid>
               <Grid item md={3}>
@@ -1482,6 +1507,7 @@ class ClientDetails extends Component {
                   }
                   error={this.state.activebacklogsErr.length > 0}
                   helperText={this.state.activebacklogsErr}
+                  required
                 />
               </Grid>
               <Grid item md={12}>
@@ -1557,12 +1583,33 @@ class ClientDetails extends Component {
                 />
               </Grid>
               <Grid item md={12} align="center">
-                <PrimaryButton
+                {/* <PrimaryButton
                   style={{ width: "130px" }}
                   color={"primary"}
                   variant={"contained"}
                   onClick={() => this.handleSaved()}
+
                 >
+                  Save
+                </PrimaryButton> */}
+                <PrimaryButton
+                  onClick={() => this.handleSaved()}
+                  variant={"contained"}
+                  color={"primary"}
+                  disabled={this.state.isLoading}
+                  style={{ textTransform: "none" }}
+                >
+                  {this.state.isLoading && (
+                    <CircularProgress
+                      disableShrink
+                      style={{
+                        color: "#fff",
+                        width: 20,
+                        height: 20,
+                        marginRight: 10,
+                      }}
+                    />
+                  )}
                   Save
                 </PrimaryButton>
               </Grid>

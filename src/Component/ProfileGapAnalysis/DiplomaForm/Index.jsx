@@ -1,22 +1,24 @@
-import React, { Component } from "react";
-import MarkSheetUpload from "./MarkSheetUpload";
-import ViewDetails from "./ViewDetails";
 import { Grid } from "@material-ui/core";
-import "./DiplomaForm.css";
-import BottomButton from "../BottomButton";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  viewAcademicDetails,
-  saveAcademicDetails,
-} from "../../../Actions/ProfileGapAction";
+  getAllColleges,
+  getBranches,
+  getUniversity,
+} from "../../../Actions/College";
+import { getAllDegrees } from "../../../Actions/Degree";
 import { getAcademicType, isClickedSem } from "../../../Actions/HelperAction";
+import {
+  saveAcademicDetails,
+  viewAcademicDetails,
+} from "../../../Actions/ProfileGapAction";
 import { URL } from "../../../Actions/URL";
 import Mysnack from "../../MySnackBar";
-import {
-  getAllColleges,
-  getUniversity,
-  getBranches,
-} from "../../../Actions/College";
+import { isEmptyString } from "../../Validation";
+import BottomButton from "../BottomButton";
+import "./DiplomaForm.css";
+import MarkSheetUpload from "./MarkSheetUpload";
+import ViewDetails from "./ViewDetails";
 
 class Index extends Component {
   constructor(props) {
@@ -29,13 +31,20 @@ class Index extends Component {
       scoreScale: {},
       universityName: "",
       Batch: "",
-      degree: "",
+      degreeName: "",
       score: "",
+      scoreScale: "",
       list: {
         diploma: "Diploma",
         ug: "Undergraduate",
         pg: "Postgraduate",
       },
+      scoreScaleErr: "",
+      collegeNameErr: "",
+      departmentNameErr: "",
+      universityNameErr: "",
+      scoreErr: "",
+      degreeNameErr: "",
       // snack message
       snackMsg: "",
       snackVariant: "",
@@ -44,10 +53,10 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.academicTypes);
     this.props.getAllColleges();
     this.props.getBranches();
     this.props.getUniversity();
+    this.props.getAllDegrees();
     this.props.viewAcademicDetails(
       this.props.match.params.studentId,
       this.props.academicTypes,
@@ -59,7 +68,7 @@ class Index extends Component {
           universityName: response && response.data.university,
           scoreScale: response && response.data.scoreScale,
           score: response && response.data.score,
-          degree: response && response.data.degree,
+          degreeName: response && response.data.degree,
         });
       }
     );
@@ -73,96 +82,132 @@ class Index extends Component {
   ];
 
   handleSaveClick = () => {
-    if (this.props.academicTypes === "diploma") {
-      let requestBody = {
-        college: {
-          name: this.state.collegeName.name,
-        },
-        university: {
-          name: this.state.universityName.name,
-        },
-        department: {
-          name: this.state.departmentName.name,
-        },
-        //  degree:{
-        //      id: this.state.degree.id
-        //  },
-        scoreScale: parseInt(this.state.scoreScale),
-        score: parseInt(this.state.score),
-      };
-      this.props.saveAcademicDetails(
-        this.props.match.params.studentId,
-        this.props.academicTypes,
-        requestBody,
-        (response) => {
-          this.setState({
-            snackMsg: "Saved Successfully",
-            snackVariant: "success",
-            snackOpen: true,
-          });
-          this.props.viewAcademicDetails(
-            this.props.match.params.studentId,
-            this.props.academicTypes,
-            (response) => {
-              this.setState({
-                data: response && response.data,
-                collegeName: response && response.data.college,
-                departmentName: response && response.data.department,
-                universityName: response && response.data.university,
-                scoreScale: response && response.data.scoreScale,
-                score: response && response.data.score,
-                degree: response && response.data.degree,
-              });
-            }
-          );
-        }
-      );
-    } else {
-      let requestBody = {
-        college: {
-          name: this.state.collegeName.name,
-        },
-        university: {
-          name: this.state.universityName.name,
-        },
-        department: {
-          name: this.state.departmentName.name,
-        },
-        degree: {
-          id: this.state.degree.id,
-          name: this.state.degree.name,
-        },
-        scoreScale: parseInt(this.state.scoreScale),
-        score: parseInt(this.state.score),
-      };
-      this.props.saveAcademicDetails(
-        this.props.match.params.studentId,
-        this.props.academicTypes,
-        requestBody,
-        (response) => {
-          this.setState({
-            snackMsg: "Saved Successfully",
-            snackVariant: "success",
-            snackOpen: true,
-          });
-          this.props.viewAcademicDetails(
-            this.props.match.params.studentId,
-            this.props.academicTypes,
-            (response) => {
-              this.setState({
-                data: response && response.data,
-                collegeName: response && response.data.college,
-                departmentName: response && response.data.department,
-                universityName: response && response.data.university,
-                scoreScale: response && response.data.scoreScale,
-                score: response && response.data.score,
-                degree: response && response.data.degree,
-              });
-            }
-          );
-        }
-      );
-    }
+    let hlptxt = "Please fill the required field";
+    isEmptyString(this.state.collegeName)
+      ? this.setState({ collegeNameErr: hlptxt })
+      : this.setState({ collegeNameErr: "" });
+
+    isEmptyString(this.state.departmentName)
+      ? this.setState({ departmentNameErr: hlptxt })
+      : this.setState({ departmentNameErr: "" });
+
+    isEmptyString(this.state.universityName)
+      ? this.setState({ universityNameErr: hlptxt })
+      : this.setState({ universityNameErr: "" });
+
+    isEmptyString(this.state.degreeName)
+      ? this.setState({ degreeNameErr: hlptxt })
+      : this.setState({ degreeNameErr: "" });
+
+    isEmptyString(this.state.scoreScale)
+      ? this.setState({ scoreScaleErr: hlptxt })
+      : this.setState({ scoreScaleErr: "" });
+
+    this.state.score?.length === 0
+      ? this.setState({ scoreErr: hlptxt })
+      : this.setState({ scoreErr: "" });
+
+    if (
+      !isEmptyString(this.state.collegeName) &&
+      !isEmptyString(this.state.departmentName) &&
+      !isEmptyString(this.state.universityName) &&
+      ((this.props.academicTypes !== "diploma" &&
+        !isEmptyString(this.state.degreeName)) ||
+        this.props.academicTypes === "diploma") &&
+      !isEmptyString(this.state.scoreScale) &&
+      this.state.score.length !== 0
+    )
+      if (this.props.academicTypes === "diploma") {
+        // alert("ok");
+        let requestBody = {
+          college: {
+            name: this.state.collegeName.name,
+          },
+          university: {
+            name: this.state.universityName.name,
+          },
+          department: {
+            name: this.state.departmentName.name,
+          },
+          //  degree:{
+          //      id: this.state.degree.id
+          //  },
+          scoreScale: parseInt(this.state.scoreScale),
+          score: parseInt(this.state.score),
+        };
+        this.props.saveAcademicDetails(
+          this.props.match.params.studentId,
+          this.props.academicTypes,
+          requestBody,
+          (response) => {
+            this.setState({
+              snackMsg: "Saved Successfully",
+              snackVariant: "success",
+              snackOpen: true,
+            });
+            this.props.viewAcademicDetails(
+              this.props.match.params.studentId,
+              this.props.academicTypes,
+              (response) => {
+                this.setState({
+                  data: response && response.data,
+                  collegeName: response && response.data.college,
+                  departmentName: response && response.data.department,
+                  universityName: response && response.data.university,
+                  scoreScale: response && response.data.scoreScale,
+                  score: response && response.data.score,
+                  degree: response && response.data.degree,
+                });
+              }
+            );
+          }
+        );
+      } else {
+        let requestBody = {
+          college: {
+            name: this.state.collegeName?.name,
+          },
+          university: {
+            name: this.state.universityName?.name,
+          },
+          department: {
+            name: this.state.departmentName?.name,
+          },
+          degree: {
+            id: this.state.degreeName?.id,
+            name: this.state.degreeName?.name,
+          },
+          scoreScale: parseInt(this.state.scoreScale),
+          score: parseInt(this.state.score),
+        };
+        this.props.saveAcademicDetails(
+          this.props.match.params.studentId,
+          this.props.academicTypes,
+          requestBody,
+          (response) => {
+            this.setState({
+              snackMsg: "Saved Successfully",
+              snackVariant: "success",
+              snackOpen: true,
+            });
+            this.props.viewAcademicDetails(
+              this.props.match.params.studentId,
+              this.props.academicTypes,
+              (response) => {
+                this.setState({
+                  data: response && response.data,
+                  collegeName: response && response.data.college,
+                  departmentName: response && response.data.department,
+                  universityName: response && response.data.university,
+                  scoreScale: response && response.data.scoreScale,
+                  score: response && response.data.score,
+                  degree: response && response.data.degree,
+                });
+              }
+            );
+          }
+        );
+      }
   };
 
   //  markSheet(click) handle function
@@ -209,7 +254,7 @@ class Index extends Component {
 
   handlePercentageChange = (e, newValue) => {
     this.setState({
-      scoreScale: newValue.value,
+      scoreScale: newValue?.value,
     });
   };
 
@@ -230,7 +275,8 @@ class Index extends Component {
                   universityName={this.state.universityName}
                   scoreScale={this.state.scoreScale}
                   score={this.state.score}
-                  degreeName={this.state.degree}
+                  degreeName={this.state.degreeName}
+                  allDegrees={this.props.allDegrees}
                   handleChange={(e) => this.handleChange(e)}
                   collegeResponse={this.props.collegeResponse}
                   departmentResponse={this.props.departmentResponse}
@@ -250,6 +296,12 @@ class Index extends Component {
                   handlePercentageChange={(e, newValue) =>
                     this.handlePercentageChange(e, newValue)
                   }
+                  collegeNameErr={this.state.collegeNameErr}
+                  universityNameErr={this.state.universityNameErr}
+                  departmentNameErr={this.state.departmentNameErr}
+                  degreeNameErr={this.state.degreeNameErr}
+                  scoreScaleErr={this.state.scoreScaleErr}
+                  scoreErr={this.state.scoreErr}
                 />
               </Grid>
 
@@ -332,6 +384,7 @@ const mapStateToProps = (state) => {
     collegeResponse: state.CollegeReducer.allCollegeList,
     universityResponse: state.CollegeReducer.University,
     departmentResponse: state.CollegeReducer.BranchList,
+    allDegrees: state.DegreeReducer.allDegreeList,
   };
 };
 export default connect(mapStateToProps, {
@@ -343,4 +396,5 @@ export default connect(mapStateToProps, {
   getUniversity,
   getBranches,
   getAcademicType,
+  getAllDegrees,
 })(Index);

@@ -7,6 +7,7 @@ import Dropzone from "react-dropzone";
 import PrimaryButton from "../../../Utils/PrimaryButton";
 import { Typo } from "../../Utils/controls/Styles";
 import { useStyles } from "./Styles";
+import * as moment from "moment";
 
 function GreDialogContent({
   handleChange,
@@ -30,6 +31,7 @@ function GreDialogContent({
       return <li key={name}>{size ? `${name} - ${size} bytes` : name}</li>;
     } else return null;
   };
+  let greDateFinal = moment(date).format("YYYY-MM-DD");
 
   const classes = useStyles({ isFileError: Boolean(fileError) });
   return (
@@ -48,7 +50,6 @@ function GreDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "attempt", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}
@@ -59,12 +60,13 @@ function GreDialogContent({
           />
         </Grid>
         <Grid item xs={12} md={6}>
+          {console.log(date)}
           <TextField
             disableFuture
             margin={"normal"}
             label={"Exam Date"}
             value={date}
-            type={"month"}
+            type={"date"}
             name={"date"}
             onChange={handleChange}
             InputLabelProps={{
@@ -130,7 +132,6 @@ function GreDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "analytical", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}
@@ -145,7 +146,7 @@ function GreDialogContent({
           />
         </Grid>
         <Grid item md={6} sm={5} xs={5}>
-          <Dropzone onDrop={handleDrop}>
+          <Dropzone onDrop={handleDrop} accept={".pdf"}>
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div {...getRootProps({ className: classes.dropZoneLayout })}>

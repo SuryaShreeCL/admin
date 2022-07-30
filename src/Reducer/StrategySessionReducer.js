@@ -14,12 +14,10 @@ const initialState = {
   gmatList: null,
   updateIeltsResponse: null,
   ieltsList: null,
-  updateToelfResponse: null,
-  toelfList: null,
-  greExpectedDate: null,
-  gmatExpectedDate: null,
-  toelfExpectedDate: null,
-  ieltsExpectedDate: null,
+  updateToeflResponse: null,
+  toeflList: null,
+  testTranscriptFiles: null,
+  fileObject: null,
 };
 
 const StrategySessionReducer = (state = initialState, action) => {
@@ -102,13 +100,13 @@ const StrategySessionReducer = (state = initialState, action) => {
     case STRATEGY_SESSION.updateToeflData:
       return {
         ...state,
-        updateToelfResponse: action.payload,
+        updateToeflResponse: action.payload,
         loading: action.loading,
       };
     case STRATEGY_SESSION.getToeflData:
       return {
         ...state,
-        toelfList: action.payload,
+        toeflList: action.payload,
         loading: action.loading,
       };
     case STRATEGY_SESSION.uploadFile:
@@ -117,28 +115,17 @@ const StrategySessionReducer = (state = initialState, action) => {
         uploadFileResponse: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.getGreExpectedDate:
+    case STRATEGY_SESSION.getTestTranscriptFiles:
       return {
         ...state,
-        greExpectedDate: action.payload,
+        testTranscriptFiles: action.payload,
         loading: action.loading,
       };
-    case STRATEGY_SESSION.getGmatExpectedDate:
+
+    case STRATEGY_SESSION.getFilePath:
       return {
         ...state,
-        gmatExpectedDate: action.payload,
-        loading: action.loading,
-      };
-    case STRATEGY_SESSION.getToelfExpectedDate:
-      return {
-        ...state,
-        toelfExpectedDate: action.payload,
-        loading: action.loading,
-      };
-    case STRATEGY_SESSION.getIeltsExpectedDate:
-      return {
-        ...state,
-        ieltsExpectedDate: action.payload,
+        fileObject: action.payload,
         loading: action.loading,
       };
     default:

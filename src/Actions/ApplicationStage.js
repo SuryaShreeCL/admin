@@ -32,7 +32,7 @@ export const getDocumentModelBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/applicationStage`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/schoolDetails/applicationStage`,
           {
             headers: {
               admin: "yes",
@@ -41,6 +41,7 @@ export const getDocumentModelBySubStageId = (
             params: {
               schoolId: schoolId,
               type: schoolType,
+              admin: true
             },
           }
         )
@@ -77,7 +78,7 @@ export const uploadFileBySubStageId = (
     try {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
-        .post(
+        .put(
           `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/${schoolId}/fileUpload`,
           data,
           {
@@ -109,6 +110,8 @@ export const uploadDocumentBySubStageId = (
   studentId,
   productId,
   subStageId,
+  schoolId,
+  schoolType,
   data
 ) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
@@ -118,12 +121,15 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/product/${productId}/subStages/${subStageId}/${schoolId}/applicationStage/fileUploadDetails`,
           data,
           {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              type: schoolType,
             },
           }
         )
@@ -142,7 +148,7 @@ export const uploadDocumentBySubStageId = (
   };
 };
 
-export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
+export const getDownloadByDocumentId = (studentId, subStageId, fileName,schoolId,schoolType) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
@@ -150,13 +156,16 @@ export const getDownloadByDocumentId = (studentId, subStageId, fileName) => {
       dispatch({ type: APPLICATION_STAGE.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${fileName}`,
+          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${schoolId}/${fileName}`,
           {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
             responseType: "blob",
+            params: {
+              type: schoolType,
+            },
           }
         )
         .then((response) => {

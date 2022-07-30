@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
 import "../DiplomaForm/DiplomaForm.css";
+import { isNumber } from "../../Validation";
 
 class ViewMarks extends Component {
   render() {
@@ -33,7 +34,7 @@ class ViewMarks extends Component {
             InputLabelProps={{
               shrink: true,
             }}
-            type="number"
+            // type="number"
           />
         </Grid>
 
@@ -61,6 +62,9 @@ class ViewMarks extends Component {
             InputLabelProps={{
               shrink: true,
             }}
+            onKeyPress={(evt) => {
+              if (isNumber(evt)) evt.preventDefault();
+            }}
             name="formulaEmployed"
             classes={{ root: classes.textRoot }}
             onChange={this.props.handleChange}
@@ -75,6 +79,9 @@ class ViewMarks extends Component {
             value={percentage}
             InputLabelProps={{
               shrink: true,
+            }}
+            onKeyPress={(evt) => {
+              if (isNumber(evt)) evt.preventDefault();
             }}
             name="percentage"
             classes={{ root: classes.textRoot }}

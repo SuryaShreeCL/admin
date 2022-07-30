@@ -41,7 +41,7 @@ export class ApplicationStageManageStudent extends Component {
     this.props.getManageStudentByStages(
       productId,
       "applicationStage",
-      "ApplicationStage",
+      "Application Stage",
       size || 20,
       page || 0,
       intake?.year,

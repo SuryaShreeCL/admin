@@ -1,35 +1,35 @@
-import axios from 'axios';
-import { PROFILE_FIT_SPIDER_GRAPH } from '../Redux/Action';
-import { URL } from './URL';
-import { errorHandler } from '../Component/Utils/Helpers';
+import axios from "axios";
+import { PROFILE_FIT_SPIDER_GRAPH } from "../Redux/Action";
+import { URL } from "./URL";
+import { errorHandler } from "../Component/Utils/Helpers";
 
 const BASE_URL = `${URL}/api/v1`;
 
 export const getSpiderGraphQuestions = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
     dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
     axios
       .get(
         `${BASE_URL}/students/${studentId}/product/${productId}/profilementoring/questions`,
         {
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
-            product: 'mba',
+            product: "mba",
           },
         }
       )
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: PROFILE_FIT_SPIDER_GRAPH.getSpiderGraphQuestions,
           payload: result.data,
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(
           errorHandler(
             PROFILE_FIT_SPIDER_GRAPH.getSpiderGraphQuestions,
@@ -42,8 +42,8 @@ export const getSpiderGraphQuestions = (studentId, productId) => {
 };
 
 export const putSpiderGraphAnswers = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
     dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
     axios
       .put(
@@ -51,19 +51,19 @@ export const putSpiderGraphAnswers = (studentId, productId, data) => {
         data,
         {
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: PROFILE_FIT_SPIDER_GRAPH.putSpiderGraphAnswers,
           payload: result.data,
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(
           errorHandler(
             PROFILE_FIT_SPIDER_GRAPH.putSpiderGraphAnswers,
@@ -76,27 +76,27 @@ export const putSpiderGraphAnswers = (studentId, productId, data) => {
 };
 
 export const getDetails = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
     dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
     axios
       .get(
         `${BASE_URL}/students/${studentId}/product/${productId}/pgareportdetails`,
         {
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: PROFILE_FIT_SPIDER_GRAPH.getSpiderDetails,
           payload: result.data,
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(
           errorHandler(PROFILE_FIT_SPIDER_GRAPH.getSpiderDetails, error, false)
         );
@@ -105,30 +105,30 @@ export const getDetails = (studentId, productId) => {
 };
 
 export const getSpiderGraph = (studentId, productId) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
     dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
     axios
       .get(
         `${BASE_URL}/students/${studentId}/product/${productId}/profilementoring/spidergraph`,
         {
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
           params: {
-            product: 'mba',
+            product: "mba",
           },
         }
       )
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: PROFILE_FIT_SPIDER_GRAPH.getSpiderGraph,
           payload: result.data,
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(
           errorHandler(PROFILE_FIT_SPIDER_GRAPH.getSpiderGraph, error, false)
         );
@@ -137,8 +137,8 @@ export const getSpiderGraph = (studentId, productId) => {
 };
 
 export const putRemarks = (studentId, productId, data) => {
-  let accessToken = window.sessionStorage.getItem('accessToken');
-  return dispatch => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
     dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
     axios
       .put(
@@ -146,21 +146,51 @@ export const putRemarks = (studentId, productId, data) => {
         data,
         {
           headers: {
-            admin: 'yes',
+            admin: "yes",
             Authorization: `Bearer ${accessToken}`,
           },
         }
       )
-      .then(result => {
+      .then((result) => {
         dispatch({
           type: PROFILE_FIT_SPIDER_GRAPH.updateRemark,
           payload: result.data,
           loading: false,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(
           errorHandler(PROFILE_FIT_SPIDER_GRAPH.updateRemark, error, false)
+        );
+      });
+  };
+};
+
+export const postSpiderGraphImg = (studentId, productId, formData) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    dispatch({ type: PROFILE_FIT_SPIDER_GRAPH.loader });
+    axios
+      .post(
+        `${BASE_URL}/students/${studentId}/product/${productId}/uploadSpiderGraphImage `,
+        formData,
+        {
+          headers: {
+            admin: "yes",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((result) => {
+        dispatch({
+          type: PROFILE_FIT_SPIDER_GRAPH.spiderGraph,
+          payload: result.data,
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        dispatch(
+          errorHandler(PROFILE_FIT_SPIDER_GRAPH.spiderGraph, error, false)
         );
       });
   };

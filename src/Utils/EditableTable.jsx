@@ -5,7 +5,7 @@ import { tableIcons } from "./TableRefs";
 export default function Editable(props) {
   const StyledEditRow = withStyles((theme) => ({
     root: {
-      //h6 is the delete text HTML element that you wanna style
+    //h6 is the delete text HTML element that you wanna style
       "& h6": {
         fontSize: "unset",
       },
@@ -37,8 +37,10 @@ export default function Editable(props) {
       data={props.data}
       options={{
         headerStyle: {
-          whiteSpace: "nowrap",
+          whiteSpace: "nowrap",   
         },
+        // pageSize: ,
+        maxBodyHeight:300 ,
 
         // actionsColumnIndex: -1,
         search: false,

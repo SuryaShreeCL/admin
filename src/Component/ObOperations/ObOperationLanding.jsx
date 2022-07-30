@@ -44,17 +44,18 @@ class ObOperationLanding extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.adminLinkedProductDetails,prevProps.adminLinkedProductDetails)
     if (
       this.props.adminLinkedProductDetails !==
       prevProps.adminLinkedProductDetails
     ) {
       this.setState({
-        adminDepartment: this.props.adminLinkedProductDetails.department,
+        adminDepartment: this.props.adminLinkedProductDetails?.department,
       });
-      window.sessionStorage.setItem(
-        "adminLinkedProduct",
-        JSON.stringify(this.props.adminLinkedProductDetails)
-      );
+      // window.sessionStorage.setItem(
+      //   "adminLinkedProduct",
+      //   JSON.stringify(this.props.adminLinkedProductDetails)
+      // );
     }
   }
 

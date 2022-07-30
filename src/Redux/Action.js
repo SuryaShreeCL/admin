@@ -128,6 +128,8 @@ export const STUDENT = {
   opsStageComplete: "opsStageComplete",
   getStudentStageByProductId: "getStudentStageByProductId",
   getStepsBySubStageId: "getStepsBySubStageId",
+  getCompletedStages: "getCompletedStages",
+  getStageLockStatus: "getStageLockStatus",
 };
 export const CHOICE_ANSWER = {
   getChoiceAnswer: "getChoiceAnswer",
@@ -609,6 +611,7 @@ export const PROFILE_FIT_SPIDER_GRAPH = {
   getSpiderDetails: "getSpiderDetails",
   getSpiderGraph: "getSpiderGraph",
   updateRemark: "updateRemark",
+  spiderGraph: "spiderGraph",
 };
 
 export const CV_REVIEW = {
@@ -638,10 +641,8 @@ export const STRATEGY_SESSION = {
   updateToeflData: "updateTestTranscriptsToeflData",
   getIeltsData: "getTestTranscriptsIeltsData",
   updateIeltsData: "updateTestTranscriptsIeltsData",
-  getGreExpectedDate: "getTestTranscriptsGreExpectedDate",
-  getGmatExpectedDate: "getTestTranscriptsGmatExpectedDate",
-  getIeltsExpectedDate: "getTestTranscriptsIeltsExpectedDate",
-  getToelfExpectedDate: "getTestTranscriptsToelfExpectedDate",
+  getTestTranscriptFiles: "getTestTranscriptFiles",
+  getFilePath: "getFilePath",
 };
 
 export const PROFILE_MENTORING = {
@@ -653,6 +654,7 @@ export const PROFILE_MENTORING = {
   putDocumentBySubStageId: "putProfileMentoringDocumentBySubStageId",
   getDownloadByDocumentId: "getProfileMentoringDownloadByDocumentId",
   deleteDocumentByDocumentId: "deleteProfileMentoringDocumentByDocumentId",
+  getCvId: "getCvId",
 };
 
 export const APPLICATION_STAGE = {

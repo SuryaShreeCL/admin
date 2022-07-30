@@ -169,15 +169,24 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: { id: this.state.varient ? this.state.varient : null },
+        product: { id: this.state.varient },
       };
-      
-      this.props.putproductstructure(obj);
-      this.setState({
-        snackMsg: "Updated Successfully",
-        snackOpen: true,
-        snackVariant: "success",
-        open: false,
+      this.props.putproductstructure(obj, (response) => {
+        if (response.status === 200) {
+          this.setState({
+            snackMsg: "Updated Successfully",
+            snackOpen: true,
+            snackVariant: "success",
+            open: false,
+          });
+        } else {
+          this.setState({
+            snackMsg: "Network Failed",
+            snackOpen: true,
+            snackVariant: "error",
+            open: false,
+          });
+        }
       });
     }
   };
@@ -265,7 +274,7 @@ class ProductStructure extends Component {
         min_tat: this.state.mintat,
         rank: this.state.rank,
         parent: null,
-        product: { id: this.state.varient ? this.state.varient.id : null },
+        product: { id: this.state.varient.id },
       };
       this.props.postproductstructure(obj);
 
@@ -570,7 +579,6 @@ class ProductStructure extends Component {
                   onChange={(e) => this.setState({ rank: e.target.value })}
                 />
               </Grid>
-
               {/* <Grid item md={6}>
                   <Autocomplete
                     id="combo-box-demo"

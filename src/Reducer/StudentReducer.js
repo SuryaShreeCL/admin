@@ -49,6 +49,8 @@ const initialState = {
   opsStageCompleteStatus: null,
   studentStages: null,
   subStageSteps: null,
+  completedStages: null,
+  stageLockStatus: null,
 };
 
 export default (state = initialState, action) => {
@@ -339,6 +341,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         studentStages: action.payload,
+      };
+    case STUDENT.getCompletedStages:
+      return {
+        ...state,
+        completedStages: action.payload,
+      };
+    case STUDENT.getStageLockStatus:
+      return {
+        ...state,
+        stageLockStatus: action.payload,
       };
     default:
       break;
