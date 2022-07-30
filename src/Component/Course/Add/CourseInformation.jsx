@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from '@material-ui/core/Typography'
 import Grid from "@material-ui/core/Grid";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import Footer from "../Footer";
 
 export default class CourseInformation extends Component {
@@ -195,7 +195,7 @@ const cardTheme={
     padding:4,
 }
 const rootTheme = () =>
-  createMuiTheme({
+  createTheme({
     overrides: {
       MuiCard: {
         root: {

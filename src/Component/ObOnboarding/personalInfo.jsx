@@ -1038,3 +1038,6 @@ export default connect(mapStateToProps, {
   getDocumentList,
   getVariantStepsById,
 })(personalInfo);
+
+
+

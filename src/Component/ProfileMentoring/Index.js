@@ -2,7 +2,7 @@ import { Backdrop, Box, Divider, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 import {
   clearCustomData,
   getDocumentModelBySubStageId,
@@ -17,6 +17,8 @@ import MySnackBar from "../MySnackBar";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
+import { getVariantStepsById } from "../../Actions/ProductAction";
+import PreferenceIndex from "../SchoolResearchPreferenceList/Index";
 import {
   bytesToMegaBytes,
   getSubStageByStage,
@@ -24,6 +26,8 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { useStyles } from "./Styles";
+import { getproductstepsCall } from "../../Actions/ProductAction";
+import PreferenceList from "../SchoolResearchPreferenceList/PreferenceList";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -36,6 +40,7 @@ function Index(props) {
   const dispatch = useDispatch();
   const params = useParams();
   const { studentId, productId } = params;
+  const [stageDetails, setStageDetails] = useState("");
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -55,7 +60,7 @@ function Index(props) {
     anchorEl: null,
     popoverComment: null,
     completedStagesList: [],
-    cvloader : false
+    cvloader: false,
   });
 
   const {
@@ -77,7 +82,7 @@ function Index(props) {
     anchorEl,
     popoverComment,
     completedStagesList,
-    cvloader
+    cvloader,
   } = state;
   const {
     loading,
@@ -89,10 +94,29 @@ function Index(props) {
   const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
+  const { getproductsteps } = useSelector((state) => state.ProductReducer);
+
+  console.log(getVariantStepsById);
 
   useEffect(() => {
     dispatch(getStudentStageByProductId(studentId, productId));
+    dispatch(
+      getVariantStepsById(productId, (response) => {
+        setStageDetails(response);
+      })
+    );
   }, []);
+  useEffect(() => {
+    console.log(stageDetails);
+    let id = stageDetails?.steps?.find(
+      (el) => el.stepName === "Profile Mentoring"
+    ).id;
+    console.log(id);
+    dispatch(getproductstepsCall(id));
+  }, [stageDetails]);
+
+  console.log(stageDetails);
+  console.log(getproductsteps);
 
   useEffect(() => {
     if (studentStages) {
@@ -135,7 +159,7 @@ function Index(props) {
           setState({
             ...state,
             steps: arr,
-            activeTabValue: arr.length !== 0 && arr[0]["sectionName"],
+            activeTabValue: arr.length !== 0 && arr[0]["CV"],
             sectionId: arr.length !== 0 && arr[0]["id"],
           });
         }
@@ -151,7 +175,7 @@ function Index(props) {
   }, [subStageSteps]);
 
   useEffect(() => {
-    if (sectionId) {
+    if (sectionId && activeTabValue === "QPMC 1") {
       dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
     }
   }, [sectionId]);
@@ -211,11 +235,9 @@ function Index(props) {
           fileNameHelperText: "",
           commentHelperText: "",
           open: false,
-          cvloader : true
+          cvloader: true,
         });
         dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
-        
-       
       } else {
         setState({
           ...state,
@@ -285,7 +307,6 @@ function Index(props) {
       let uploadFormData = new FormData();
       uploadFormData.append("file", newFile);
       dispatch(uploadFile(studentId, productId, uploadFormData, comment));
-      
     }
   };
 
@@ -365,21 +386,44 @@ function Index(props) {
       lastestCVLoading: cvloader,
       ...props,
     };
-    return <DocumentComponent {...renderProps} />;
+
+    if (activeTabValue === "QPMC 1") {
+      return <DocumentComponent {...renderProps} />;
+    }
+    if (activeTabValue === "QPMC 2") {
+    }
+    if (activeTabValue === "School Research") {
+      return <PreferenceList studentId={studentId} productId={productId} />;
+    }
   };
 
   const handleTabChange = (e, newValue) => {
-    let arr = steps.filter(({ sectionName }) => sectionName === newValue);
-    let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
-    setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    if (newValue === "QPMC 1") {
+      let arr = steps.filter(({ sectionName }) => sectionName === newValue);
+      let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
+      setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    } else {
+      let Tabsteps = getproductsteps?.steps?.find(
+        (el) => el.stepName === "Completed Cv"
+      ).steps;
+      let arr = Tabsteps.filter(({ stepName }) => stepName === newValue);
+      let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
+      setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
+    }
   };
 
   const renderTabs = () => {
-    return steps.length !== 0
-      ? steps.map(({ sectionName, id }, index) => (
+    console.log(
+      getproductsteps?.steps?.find((el) => el.stepName === "Completed Cv").steps
+    );
+    let Tabsteps = getproductsteps?.steps?.find(
+      (el) => el.stepName === "Completed Cv"
+    ).steps;
+    return Tabsteps !== 0
+      ? Tabsteps?.map(({ sectionName, id, stepName }, index) => (
           <CustomTab
-            value={sectionName}
-            label={sectionName}
+            value={stepName}
+            label={stepName}
             id={`${id}${index}`}
             minHeight={"72px"}
           />
@@ -398,7 +442,7 @@ function Index(props) {
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
       <Grid container>
-        <Grid item lg={12}>
+        <Grid item lg={12} xs={12} xl={12} md={12} sm={12}>
           <Box display={"flex"} alignItems={"center"}>
             <Box flex={1}>
               <CustomTabs value={activeTabValue} onChange={handleTabChange}>
@@ -408,7 +452,7 @@ function Index(props) {
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>
-        <Grid item lg={12}>
+        <Grid item lg={12} xs={12} xl={12} md={12} sm={12}>
           {renderComponent()}
         </Grid>
       </Grid>

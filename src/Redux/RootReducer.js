@@ -68,6 +68,9 @@ import ApplicationStageReducer from "../Reducer/ApplicationStageReducer";
 import { thirdYearWebinarListReducer } from "../Reducer/ThirdWebinarReducer";
 import PassageReducer from "../Lms/Redux/Reducer/PassageReducer";
 
+//School Research
+import SchoolResearchReducer from "../Reducer/SchoolResearchReducer";
+
 export default combineReducers({
   CourseReducer: CourseReducer,
   QuestionsReducer: QuestionsReducer,
@@ -133,4 +136,5 @@ export default combineReducers({
   //elev8 clsa
   ClsaReducer: ClsaReducer,
   UserManagementReducer: UserManagementReducer,
+  SchoolResearchReducer: SchoolResearchReducer,
 });

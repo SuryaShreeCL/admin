@@ -26,6 +26,7 @@ import {
   getproductsteps,
   postproductstructure,
   putproductstructure,
+  getproductstepsCall,
 } from "../../Actions/ProductAction";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -567,5 +568,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   postproductstructure,
   putproductstructure,
-  getproductsteps,
+  getproductstepsCall,
 })(ProductStages);

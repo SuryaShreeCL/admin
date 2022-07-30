@@ -1,33 +1,37 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Hidden from '@material-ui/core/Hidden';
-import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
-import Navigator from './Navigator';
-import Content from './Content';
-import Header from './Header';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  createTheme,
+  ThemeProvider,
+  withStyles,
+} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Hidden from "@material-ui/core/Hidden";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
+import Navigator from "./Navigator";
+import Content from "./Content";
+import Header from "./Header";
 
 function Copyright() {
   return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href='https://material-ui.com/'>
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
-let theme = createMuiTheme({
+let theme = createTheme({
   palette: {
     primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
+      light: "#63ccff",
+      main: "#009be5",
+      dark: "#006db3",
     },
   },
   typography: {
@@ -57,17 +61,17 @@ theme = {
   overrides: {
     MuiDrawer: {
       paper: {
-        backgroundColor: '#18202c',
+        backgroundColor: "#18202c",
       },
     },
     MuiButton: {
       label: {
-        textTransform: 'none',
+        textTransform: "none",
       },
       contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
+        boxShadow: "none",
+        "&:active": {
+          boxShadow: "none",
         },
       },
     },
@@ -84,11 +88,11 @@ theme = {
     },
     MuiTab: {
       root: {
-        textTransform: 'none',
-        margin: '0 16px',
+        textTransform: "none",
+        margin: "0 16px",
         minWidth: 0,
         padding: 0,
-        [theme.breakpoints.up('md')]: {
+        [theme.breakpoints.up("md")]: {
           padding: 0,
           minWidth: 0,
         },
@@ -106,7 +110,7 @@ theme = {
     },
     MuiDivider: {
       root: {
-        backgroundColor: '#404854',
+        backgroundColor: "#404854",
       },
     },
     MuiListItemText: {
@@ -116,9 +120,9 @@ theme = {
     },
     MuiListItemIcon: {
       root: {
-        color: 'inherit',
+        color: "inherit",
         marginRight: 0,
-        '& svg': {
+        "& svg": {
           fontSize: 20,
         },
       },
@@ -136,26 +140,26 @@ const drawerWidth = 256;
 
 const styles = {
   root: {
-    display: 'flex',
-    minHeight: '100vh',
+    display: "flex",
+    minHeight: "100vh",
   },
   drawer: {
     width: 0,
     flexShrink: 0,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     // [theme.breakpoints.up('sm')]: {
     //   width: drawerWidth,
     //   flexShrink: 0,
     // },
   },
   hide: {
-    display: 'none',
+    display: "none",
   },
   app: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    transition: theme.transitions.create(['margin', 'width'], {
+    display: "flex",
+    flexDirection: "column",
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
@@ -163,11 +167,11 @@ const styles = {
   main: {
     flex: 1,
     padding: theme.spacing(6, 4),
-    background: '#eaeff1',
+    background: "#eaeff1",
   },
   footer: {
     padding: theme.spacing(2),
-    background: '#eaeff1',
+    background: "#eaeff1",
   },
 };
 

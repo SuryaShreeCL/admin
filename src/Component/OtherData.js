@@ -1,65 +1,64 @@
-import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.css'
-import { getStudentsById } from '../Actions/Student';
-import { connect } from 'react-redux';
-import BasicInformation from './Table/StudentDetail/ProfileInfoComponents/BasicInformation';
-import  EnrollmentDetail  from './Table/StudentDetail/ProfileInfoComponents/EnrollmentDetail';
-import { createMuiTheme,ThemeProvider } from '@material-ui/core/styles'
-import  DetailsOfHigherEducation  from './Table/StudentDetail/ProfileInfoComponents/DetailsOfHigherEducation';
-import Aspiration from './Table/StudentDetail/ProfileInfoComponents/Aspiration';
-import  DiagnosticTestType  from './Table/StudentDetail/ProfileInfoComponents/DiagnosticTestType';
-import { StudentUploadedDocuments } from './Table/StudentDetail/ProfileInfoComponents/StudentUploadedDocument';
-import { ProfileInfo } from './Table/StudentDetail/ProfileInfo';
-
+import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import { getStudentsById } from "../Actions/Student";
+import { connect } from "react-redux";
+import BasicInformation from "./Table/StudentDetail/ProfileInfoComponents/BasicInformation";
+import EnrollmentDetail from "./Table/StudentDetail/ProfileInfoComponents/EnrollmentDetail";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import DetailsOfHigherEducation from "./Table/StudentDetail/ProfileInfoComponents/DetailsOfHigherEducation";
+import Aspiration from "./Table/StudentDetail/ProfileInfoComponents/Aspiration";
+import DiagnosticTestType from "./Table/StudentDetail/ProfileInfoComponents/DiagnosticTestType";
+import { StudentUploadedDocuments } from "./Table/StudentDetail/ProfileInfoComponents/StudentUploadedDocument";
+import { ProfileInfo } from "./Table/StudentDetail/ProfileInfo";
 
 export class Other_data extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+    };
+  }
 
-    others = [
-        'Alternative Phone Number',
-        'Alternative Email ID',
-        'Department',
-        'Number of Active Backlogs',
-        'Number of Cleared Backlogs',
-        'Present Semester',
-        'Personality Code',
-        'What are your top three favorite subjects in your undergraduate field of study?',
-        'What electives are you taking in the current semester or will be taking in the coming semester?',
-        'What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?',
-        'What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?[Other]',
-        'What are your top three hobbies?',
-        'What was your favourite subject in 11th /12th grade?',
-        'Top 3 Subjects in UG',
-        'Do you like to code?',
-        'Do you like talking to people?',
-        'UG Degree',
-        'UG GPA Scale',
-        'UG GPA',
-        'University',
-        'Student ID',
-        'First Name',
-        'Full Name',
-        'Email Id',    
-        'Phone Number',
-        'Is Active',
-        'Last Name'
-    ];
+  others = [
+    "Alternative Phone Number",
+    "Alternative Email ID",
+    "Department",
+    "Number of Active Backlogs",
+    "Number of Cleared Backlogs",
+    "Present Semester",
+    "Personality Code",
+    "What are your top three favorite subjects in your undergraduate field of study?",
+    "What electives are you taking in the current semester or will be taking in the coming semester?",
+    "What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?",
+    "What outcomes do you want from your journey with the CareerLabs Profile Builder for Placement ?[Other]",
+    "What are your top three hobbies?",
+    "What was your favourite subject in 11th /12th grade?",
+    "Top 3 Subjects in UG",
+    "Do you like to code?",
+    "Do you like talking to people?",
+    "UG Degree",
+    "UG GPA Scale",
+    "UG GPA",
+    "University",
+    "Student ID",
+    "First Name",
+    "Full Name",
+    "Email Id",
+    "Phone Number",
+    "Is Active",
+    "Last Name",
+  ];
 
-    componentDidMount() { 
-    //    this.props.getStudentsById(this.props.id)    
-    }
-    
-    render() {                
-        return (
-            <ThemeProvider theme={theme}>
-            <div>
-                <div className="container">                    
-                    {/* <div className="table-responsive">
+  componentDidMount() {
+    //    this.props.getStudentsById(this.props.id)
+  }
+
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
+        <div>
+          <div className="container">
+            {/* <div className="table-responsive">
                         {(student !==undefined ) ?                         
                         <table className="table">   
                         <tbody>
@@ -278,52 +277,53 @@ export class Other_data extends Component {
 
                : null }
                     </div> */}
-                     {/* <div className={item_classes}>
+            {/* <div className={item_classes}>
                     <ProfileInfo id={this.props.id} /> 
                     </div>  */}
-                    <div className={item_classes}>
-                    <BasicInformation id={this.props.id} /> 
-                    </div>                    
-                    <div className={item_classes}>
-                    <EnrollmentDetail id={this.props.id} /> 
-                    </div>
-                    <div className={item_classes}>
-                    <DetailsOfHigherEducation id={this.props.id} />
-                    </div>  
-                    <div className={item_classes}>
-                    <StudentUploadedDocuments id={this.props.id} />
-                    </div>
-                    <div className={item_classes}>
-                    <Aspiration id={this.props.id} />
-                    </div> 
-
-                    <div className={item_classes}>
-                    <DiagnosticTestType />
-                    </div>                                                                                           
-                </div>
+            <div className={item_classes}>
+              <BasicInformation id={this.props.id} />
             </div>
-            </ThemeProvider>
-        )
-    }
+            <div className={item_classes}>
+              <EnrollmentDetail id={this.props.id} />
+            </div>
+            <div className={item_classes}>
+              <DetailsOfHigherEducation id={this.props.id} />
+            </div>
+            <div className={item_classes}>
+              <StudentUploadedDocuments id={this.props.id} />
+            </div>
+            <div className={item_classes}>
+              <Aspiration id={this.props.id} />
+            </div>
+
+            <div className={item_classes}>
+              <DiagnosticTestType />
+            </div>
+          </div>
+        </div>
+      </ThemeProvider>
+    );
+  }
 }
 
-const mapStateToProps=state=>{
-    return{ 
-        StudentDetails:state.StudentReducer.StudentList,
-     }
-}
+const mapStateToProps = (state) => {
+  return {
+    StudentDetails: state.StudentReducer.StudentList,
+  };
+};
 
-const theme = ()=>createMuiTheme({
-    overrides:{    
-        MuiBox:{
-            root:{
-                padding:0,
-                paddingTop:10,
-            }
-        }    
-    }
-})
+const theme = () =>
+  createTheme({
+    overrides: {
+      MuiBox: {
+        root: {
+          padding: 0,
+          paddingTop: 10,
+        },
+      },
+    },
+  });
 
-const item_classes='text-margin-bottom';
+const item_classes = "text-margin-bottom";
 
-export default connect(mapStateToProps,{getStudentsById})(Other_data)
+export default connect(mapStateToProps, { getStudentsById })(Other_data);

@@ -668,3 +668,10 @@ export const APPLICATION_STAGE = {
   getSchoolList: "getApplicationStageSchoolList",
   getMiscellaneousList: "getApplicationStageMiscellaneousList",
 };
+
+export const SCHOOL_RESEARCH = {
+  getNumberOfPreferences: "getNumberOfPreferences",
+  getPreferenceListBasedOnPreferenceID: "getPreferenceListBasedOnPreferenceID",
+  addRecommendation: "addRecommendation",
+  getStageComplete: "getStageComplete",
+};
