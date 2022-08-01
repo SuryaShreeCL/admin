@@ -6,13 +6,12 @@ import {
   Head,
   HeadCell,
   HeadInline,
-  IconBox,
   TableBox,
 } from "../../../../Assets/StyledTableComponents";
 import { ReactComponent as Complete } from "../../../../Assets/icons/complete.svg";
 import { ReactComponent as YetToStart } from "../../../../Assets/icons/NotStarted.svg";
 import { ReactComponent as OnGoing } from "../../../../Assets/icons/Progress.svg";
-import { FlexView, LevelContent } from "../../../../Assets/StyledComponents";
+import { FlexView } from "../../../../Assets/StyledComponents";
 import { makeStyles } from "@material-ui/core";
 
 const ICONS = {

@@ -1,9 +1,10 @@
-import { Box, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FlexView } from "../../../../Assets/StyledComponents";
 import {
   getStudyPlan,
+  studyPlanExport,
   updateStudyPlan,
 } from "../../../../Redux/Action/Student";
 import { customDateFormat } from "../../../../Utils/HelperFunction";
@@ -12,6 +13,7 @@ import EditableTable from "./EditableTable";
 import React from "react";
 import moment from "moment";
 import { SnackBar } from "../../../../Utils/SnackBar";
+import LoadingSpinner from "../../../../Utils/LoadingSpinner";
 
 const DEFAULT_SELECT_OBJECT = {
   id: "all",
@@ -41,9 +43,12 @@ const CURRENT_MONTH = moment()
 
 function StudyPlan({ studentId, courseId }) {
   const dispatch = useDispatch();
-  const { studyPlanData } = useSelector((state) => state.LmsStudentReducer);
-  const tableRef = useRef();
-  const [state, setState] = useState({
+  const { studyPlanData, loading } = useSelector(
+    (state) => state.LmsStudentReducer
+  );
+  const tableRef = useRef("");
+
+  const defaultState = {
     targetDate: null,
     selectedStudyPlan: null,
     studyPlanList: [],
@@ -51,6 +56,10 @@ function StudyPlan({ studentId, courseId }) {
     monthOptions: [],
     month: null,
     page: 0,
+  };
+
+  const [state, setState] = useState({
+    ...defaultState,
   });
 
   const [snack, setSnack] = useState({
@@ -80,7 +89,13 @@ function StudyPlan({ studentId, courseId }) {
   };
 
   useEffect(() => {
-    if (studentId && courseId) dispatch(getStudyPlan(studentId, courseId));
+    if (studentId && courseId) {
+      setState({
+        ...state,
+        ...defaultState,
+      });
+      dispatch(getStudyPlan(studentId, courseId, true));
+    }
   }, [studentId, courseId]);
 
   const role = sessionStorage.getItem("role");
@@ -130,8 +145,23 @@ function StudyPlan({ studentId, courseId }) {
           month: null,
           page: 0,
         });
+        setSnack({
+          open: true,
+          color: "error",
+          message: studyPlanData.message,
+        });
       }
-      tableRef.current.onQueryChange();
+
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          try {
+            tableRef.current.onQueryChange();
+          } catch (error) {
+            console.log(error);
+          }
+          resolve();
+        }, 500);
+      });
     }
   }, [studyPlanData]);
 
@@ -166,7 +196,7 @@ function StudyPlan({ studentId, courseId }) {
         dispatch(
           updateStudyPlan(studentId, oldData.id, oldData.taskId, obj, (res) => {
             if (res.success) {
-              dispatch(getStudyPlan(studentId, courseId));
+              dispatch(getStudyPlan(studentId, courseId, false));
             } else {
               setSnack({
                 open: true,
@@ -205,8 +235,22 @@ function StudyPlan({ studentId, courseId }) {
     return arr;
   };
 
+  const handleExport = () => {
+    dispatch(studyPlanExport(studentId, courseId));
+  };
+
   return (
     <>
+      <Box textAlign={"right"} padding={"0 0 10px !important"}>
+        {loading && <LoadingSpinner loading={loading} />}
+        <Button
+          variant='contained'
+          onClick={handleExport}
+          disabled={studyPlanList.length === 0}
+        >
+          {"Export"}
+        </Button>
+      </Box>
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Box>
@@ -218,6 +262,7 @@ function StudyPlan({ studentId, courseId }) {
                   items={[DEFAULT_SELECT_OBJECT, ...monthOptions]}
                   value={month || "all"}
                   handleChange={handleChange}
+                  disabled={studyPlanList.length === 0}
                 />
               </Box>
               <Box>

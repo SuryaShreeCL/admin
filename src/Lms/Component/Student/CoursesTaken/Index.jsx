@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
@@ -10,15 +10,7 @@ import {
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
-import {
-  getTaskTopic,
-  getProducts,
-  strengthWeaknessExport,
-  studyPlanExport,
-  calibrationTestExport,
-  topicTestExport,
-  topicTestReportExport,
-} from "../../../Redux/Action/Student";
+import { getProducts } from "../../../Redux/Action/Student";
 import StudyPlan from "./StudyPlan/StudyPlan";
 import StrengthAndWeakness from "./StrengthAndWeakness/Index";
 import TopicTest from "./TopicTest/Index";
@@ -29,7 +21,7 @@ import Review from "./CalibrationTest/Review";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
-  { tabLabel: "Strength & Weakness" },
+  { tabLabel: "Strengths & Weakness" },
   { tabLabel: "Study Plan" },
   { tabLabel: "Calibration Test" },
   { tabLabel: "Topic Test" },
@@ -97,68 +89,24 @@ class Index extends Component {
       case 1:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant='contained'
-                onClick={() =>
-                  this.props.strengthWeaknessExport(studentId, productId)
-                }
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <StrengthAndWeakness courseId={productId} studentId={studentId} />
           </Box>
         );
       case 2:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant='contained'
-                onClick={() => this.props.studyPlanExport(studentId, productId)}
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <StudyPlan studentId={studentId} courseId={productId} />
           </Box>
         );
       case 3:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant='contained'
-                onClick={() =>
-                  this.props.calibrationTestExport(studentId, productId)
-                }
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <CalibrationTest courseId={productId} studentId={studentId} />
           </Box>
         );
       case 4:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant='contained'
-                onClick={() => this.props.topicTestExport(studentId, productId)}
-              >
-                {"Export TopicTest"}
-              </Button>
-              <Button
-                variant='contained'
-                onClick={() =>
-                  this.props.topicTestReportExport(studentId, productId)
-                }
-              >
-                {"Export TopicTestReport"}
-              </Button>
-            </Box>
             <TopicTest studentId={studentId} courseId={productId} />
           </Box>
         );
@@ -168,8 +116,8 @@ class Index extends Component {
   };
 
   render() {
-    const { productId, studentId, tabId, review } = this.state;
-    const { products } = this.props;
+    const { productId, tabId, review } = this.state;
+    const { products, loading } = this.props;
 
     return (
       <>
@@ -215,7 +163,7 @@ class Index extends Component {
           </CourseTabs>
           {this.renderComponent()}
         </CourseContainer>
-        {tabId === 3 && review && review.length !== 0 && (
+        {!loading && tabId === 3 && review && review.length !== 0 && (
           <CardContainer marginTop={"10px"}>
             <Review data={review} />
           </CardContainer>
@@ -232,10 +180,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getProducts,
-  getTaskTopic,
-  strengthWeaknessExport,
-  studyPlanExport,
-  calibrationTestExport,
-  topicTestExport,
-  topicTestReportExport,
 })(withRouter(Index));

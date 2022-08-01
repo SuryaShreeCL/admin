@@ -72,7 +72,7 @@ export default function Menu({
       <MuiMenu
         open={open}
         anchorEl={anchorEl}
-        getContentAnchorEl={anchorEl}
+        getContentAnchorEl={null}
         anchorOrigin={{ vertical: "center", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         onClose={handleClose}

@@ -76,6 +76,8 @@ function ConceptContainer({
             variant={"outlined"}
             value={conceptDescription}
             onChange={onChange}
+            maxRows={3}
+            multiline
             fullWidth
           />
         </Grid>

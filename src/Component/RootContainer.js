@@ -726,7 +726,7 @@ function RootContainer(props) {
         },
       ];
       setSideNav(lms_nav_items);
-    } else if (window.sessionStorage.getItem("department").match(ROLES.admin)) {
+    } else if (window.sessionStorage.getItem("department") === ROLES.admin) {
       setSideNav([
         {
           icon: <></>,

@@ -80,6 +80,8 @@ export const STUDENT = {
   getTopicName: "getTopicName",
   postTopicTestList: "postTopicTestList",
   getTopicTestReport: "getTopicTestReport",
+  clearFieldValue: "lmsStudentClearFieldValue",
+  loader: "lmsStudentLoader",
 };
 
 export const TESTDOWNLOAD = {

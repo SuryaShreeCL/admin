@@ -139,8 +139,8 @@ function Index(props) {
     if (conceptList) {
       if (conceptList.success) {
         setState({
-          ...getDataModel(order, page, conceptList.data),
-          content: conceptList.data,
+          ...getDataModel(order, page, [...conceptList.data]),
+          content: [...conceptList.data],
         });
       } else {
         setState({
@@ -285,7 +285,7 @@ function Index(props) {
     setState({
       ...state,
       anchorEl: e.currentTarget,
-      conceptDetails: val,
+      conceptDetails: { ...val },
     });
   };
 
@@ -386,14 +386,6 @@ function Index(props) {
   };
 
   const handleSave = () => {
-    console.log(
-      conceptSubjectValue?.id,
-      conceptName,
-      conceptName.trim(),
-      conceptDescription,
-      conceptDescription.trim(),
-      imageUrl
-    );
     if (
       conceptSubjectValue?.id &&
       conceptName &&
@@ -433,8 +425,8 @@ function Index(props) {
                   ...defaultObj,
                   snackMessage: "Concept Created Successfully",
                 });
+                dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
               }, 500);
-              dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
             } else {
               setState({
                 ...state,
@@ -454,8 +446,8 @@ function Index(props) {
                   ...defaultObj,
                   snackMessage: "Concept Updated Successfully",
                 });
+                dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
               }, 500);
-              dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
             } else {
               setState({
                 ...state,

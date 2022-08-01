@@ -52,12 +52,14 @@ class Index extends Component {
       studyPlanData: [],
       order: "",
       anchorEl: null,
+      anchorId: null,
       dialogOpen: false,
       dialogContent: {},
       snackOpen: false,
       snackColor: "",
       snackMessage: "",
     };
+    this.handleThreeDotClick = this.handleThreeDotClick.bind(this);
   }
 
   sortedArray = (order, data) => {
@@ -76,7 +78,7 @@ class Index extends Component {
   };
 
   componentDidMount() {
-    this.props.getCourses();
+    this.props.getCourses(() => {});
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -140,6 +142,7 @@ class Index extends Component {
       studyPlanPopupOpen: false,
       popupName: "",
       anchorEl: null,
+      anchorId: null,
       studyPlanDetails: {},
     });
   };
@@ -261,15 +264,16 @@ class Index extends Component {
     });
   };
 
-  handleThreeDotClick = (e, item) => {
+  handleThreeDotClick(e, item) {
     this.setState({
       anchorEl: e.currentTarget,
+      anchorId: e.currentTarget.id,
       studyPlanDetails: item,
     });
-  };
+  }
 
   handleClose = () => {
-    this.setState({ anchorEl: null, studyPlanDetails: {} });
+    this.setState({ anchorEl: null, anchorId: null, studyPlanDetails: {} });
   };
 
   renderOption(name, planName, id, isThisMonthStudyPlanLive) {
@@ -332,7 +336,6 @@ class Index extends Component {
     const { name: planName, id } = this.state.studyPlanDetails;
     if (statusTest === "Publish Now") {
       this.props.getThisMonthStudyPlanLive(id, (val) => {
-        console.log(val);
         this.renderOption(statusTest, planName, id, val);
       });
     } else {
@@ -439,6 +442,7 @@ class Index extends Component {
       dialogOpen: false,
       dialogContent: null,
       anchorEl: null,
+      anchorId: null,
       studyPlanDetails: {},
     });
   };
@@ -451,6 +455,7 @@ class Index extends Component {
       dialogOpen: false,
       dialogContent: null,
       anchorEl: null,
+      anchorId: null,
       studyPlanDetails: {},
       page: 0,
     });
@@ -464,6 +469,7 @@ class Index extends Component {
       dialogOpen: false,
       dialogContent: null,
       anchorEl: null,
+      anchorId: null,
       studyPlanDetails: {},
     });
   };
@@ -494,6 +500,7 @@ class Index extends Component {
       totalPage,
       page,
       anchorEl,
+      anchorId,
       studyPlanDetails,
       dialogContent,
       dialogOpen,
@@ -554,6 +561,7 @@ class Index extends Component {
                   pageNo={page}
                   data={studyPlanData}
                   anchorEl={anchorEl}
+                  anchorId={anchorId}
                   handleThreeDotClick={handleThreeDotClick}
                   handleClose={handleClose}
                   handleOptions={handleOptions}

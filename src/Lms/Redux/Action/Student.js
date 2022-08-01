@@ -29,9 +29,10 @@ export const getProducts = (studentId, callback) => {
   };
 };
 
-export const getTaskTopic = (studentId, productId, category, callback) => {
+export const getTaskTopic = (studentId, productId, category) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
+    dispatch({ type: STUDENT.loader });
     axios
       .get(
         DEV_LMS +
@@ -49,10 +50,10 @@ export const getTaskTopic = (studentId, productId, category, callback) => {
           type: STUDENT.getTaskTopic,
           payload: response.data,
         });
-        callback(response.data);
       })
       .catch((error) => {
         console.log(error);
+        dispatch(errorHandler(STUDENT.getTaskTopic, error, false));
       });
   };
 };
@@ -313,9 +314,10 @@ export const getStudentProducts = (studentId, callback) => {
   };
 };
 
-export const getStudyPlan = (studentId, courseId) => {
+export const getStudyPlan = (studentId, courseId, loader) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
+    if (loader) dispatch({ type: STUDENT.loader });
     axios
       .get(
         `${DEV_LMS}/api/v1/lms/student/${studentId}/course/${courseId}/courseTaken/studyPlan`,
@@ -379,6 +381,7 @@ export const updateStudyPlan = (
 export const getStrengthAndWeakness = (studentId, productId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
+    dispatch({ type: STUDENT.loader });
     axios
       .get(
         DEV_LMS +
@@ -407,6 +410,7 @@ export const getStrengthAndWeakness = (studentId, productId) => {
 export const getCalibrationTestReport = (studentId, productId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
+    dispatch({ type: STUDENT.loader });
     axios
       .get(
         `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/calibrationReport?export=false`,
@@ -434,6 +438,7 @@ export const getCalibrationTestReport = (studentId, productId) => {
 export const getTopicName = (studentId, productId) => {
   let accessToken = sessionStorage.getItem("accessToken");
   return (dispatch) => {
+    dispatch({ type: STUDENT.loader });
     axios
       .get(
         `${DEV_LMS}/api/v1/lms/student/${studentId}/product/${productId}/topics`,
@@ -452,8 +457,8 @@ export const getTopicName = (studentId, productId) => {
         });
       })
       .catch((error) => {
-        dispatch(errorHandler(STUDENT.getTopicName, error, false));
         console.log(error);
+        dispatch(errorHandler(STUDENT.getTopicName, error, false));
       });
   };
 };
@@ -491,6 +496,7 @@ export const postTopicTestList = (
       })
       .catch((error) => {
         console.log(error);
+        dispatch(errorHandler(STUDENT.postTopicTestList, error, false));
       });
   };
 };
@@ -520,5 +526,14 @@ export const getTopicTestReport = (studentId, testExecutionId, callback) => {
         dispatch(errorHandler(STUDENT.getTopicTestReport, error, false));
         console.log(error);
       });
+  };
+};
+
+export const clearFieldValue = (fieldName) => {
+  return (dispatch) => {
+    dispatch({
+      type: STUDENT.clearFieldValue,
+      fieldName: fieldName,
+    });
   };
 };

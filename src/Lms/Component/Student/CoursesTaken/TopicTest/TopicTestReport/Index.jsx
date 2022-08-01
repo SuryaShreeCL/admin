@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import { useStyles } from "./Style";
 import {
@@ -9,24 +9,16 @@ import {
 } from "../../../../../Assets/StyledComponents";
 import TableComp from "./TableComp";
 import { minutesToTime } from "../../../../../Utils/HelperFunction";
-import TopicTest from "../Index";
 
 const BOX_COLOR = "rgba(254, 187, 44, 0.5)";
 
 function TopicTestReport({ data, handleClickBack }) {
   const classes = useStyles();
   const tableData = data?.review || [];
-  //   const customCardObj = {
-  //     title: data.insights.cards.title,
-  //     events: data.insights.cards.events,
-  //   };
   const customCardListArr = data?.insights?.cards || [];
 
   return (
     <Box padding={"0 20px !important"}>
-      {/* {isReport ? (
-        <TopicTest studentId={studentId} courseId={productId} />
-      ) : ( */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Box>
