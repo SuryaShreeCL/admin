@@ -19,8 +19,6 @@ import {
 } from "../../../Assets/StyledTableComponents";
 import Menu from "./Menu";
 
-const role = sessionStorage.getItem("department");
-
 const MONTH = [
   "Jan",
   "Feb",
@@ -55,16 +53,12 @@ const getDateFormat = (dateString) => {
   return day + " " + month + " " + year;
 };
 
-const handleShowThreeDot = (status, isUploaded) => {
-  let deptName = window.sessionStorage.getItem("department");
-  return true;
-};
-
 const CENTER_ALIGN_INDEXES = [0, 3, 4];
 
 export default function DataTable({
   data,
   anchorEl,
+  anchorId,
   handleThreeDotClick,
   handleClose,
   pageNo,
@@ -95,87 +89,92 @@ export default function DataTable({
     } else return null;
   };
 
+  const role = sessionStorage.getItem("department");
+
+  const handleShowThreeDot = (status, isUploaded) => {
+    let deptName = window.sessionStorage.getItem("department");
+    return true;
+  };
+
   return (
-    <React.Fragment>
-      <TableContainer style={{ maxHeight: 870, minHeight: 870 }}>
-        <Table stickyHeader>
-          <Head>
-            <TableRow>
-              {columns.map((item, index) => (
-                <HeadCell
-                  className={
-                    CENTER_ALIGN_INDEXES.includes(index)
-                      ? "table_center_align"
-                      : ""
-                  }
-                  key={index}
-                >
-                  <HeadInline>
-                    {item}
-                    {renderIcons(index)}
-                  </HeadInline>
-                </HeadCell>
-              ))}
-            </TableRow>
-          </Head>
-          <TableBody>
-            {data &&
-              data.length !== 0 &&
-              data.map((item, index) => {
-                return (
-                  <TableRow key={index} style={{ border: "0 0 0 0" }}>
-                    <BodyCell className={"table_center_align"}>
-                      {pageNo * 10 + index + 1}
-                    </BodyCell>
-                    <BodyCell>{item.name}</BodyCell>
-                    <BlueCell>
-                      {item.duration ? `${item.duration} month` : "-"}
-                    </BlueCell>
-                    <BodyCell className={"table_center_align"}>
-                      {item.isUploaded ? "Yes" : "No"}
-                    </BodyCell>
-                    <BodyCell className={"table_center_align"}>
-                      {item.uploadedBy}
-                    </BodyCell>
-                    <BodyCell>{item.wkStatus.value}</BodyCell>
-                    <BodyCell>
-                      {item.createdAt ? getDateFormat(item.createdAt) : ""}
-                    </BodyCell>
-                    <BlueCell>
-                      {handleShowThreeDot(
-                        item.wkStatus.value,
-                        item.isUploaded
-                      ) && (
-                        <div>
-                          <IconButton
-                            id={item.wkStatus.id}
-                            onClick={(event) =>
-                              handleThreeDotClick(event, {
-                                ...item,
-                                status: item.wkStatus.value,
-                              })
-                            }
-                          >
-                            <MoreVertRounded style={{ fill: "#1093FF" }} />
-                          </IconButton>
-                        </div>
-                      )}
-                    </BlueCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <TableContainer style={{ maxHeight: 870, minHeight: 870 }}>
+      <Table stickyHeader>
+        <Head>
+          <TableRow>
+            {columns.map((item, index) => (
+              <HeadCell
+                className={
+                  CENTER_ALIGN_INDEXES.includes(index)
+                    ? "table_center_align"
+                    : ""
+                }
+                key={index}
+              >
+                <HeadInline>
+                  {item}
+                  {renderIcons(index)}
+                </HeadInline>
+              </HeadCell>
+            ))}
+          </TableRow>
+        </Head>
+        <TableBody>
+          {data &&
+            data.length !== 0 &&
+            data.map((item, index) => {
+              return (
+                <TableRow key={index} style={{ border: "0 0 0 0" }}>
+                  <BodyCell className={"table_center_align"}>
+                    {pageNo * 10 + index + 1}
+                  </BodyCell>
+                  <BodyCell>{item.name}</BodyCell>
+                  <BlueCell>
+                    {item.duration ? `${item.duration} month` : "-"}
+                  </BlueCell>
+                  <BodyCell className={"table_center_align"}>
+                    {item.isUploaded ? "Yes" : "No"}
+                  </BodyCell>
+                  <BodyCell className={"table_center_align"}>
+                    {item.uploadedBy}
+                  </BodyCell>
+                  <BodyCell>{item.wkStatus.value}</BodyCell>
+                  <BodyCell>
+                    {item.createdAt ? getDateFormat(item.createdAt) : ""}
+                  </BodyCell>
+                  <BlueCell>
+                    {handleShowThreeDot(
+                      item.wkStatus.value,
+                      item.isUploaded
+                    ) && (
+                      <IconButton
+                        aria-controls={item.id}
+                        aria-haspopup={"true"}
+                        id={item.id}
+                        onClick={(event) =>
+                          handleThreeDotClick(event, {
+                            ...item,
+                            status: item.wkStatus.value,
+                          })
+                        }
+                      >
+                        <MoreVertRounded style={{ fill: "#1093FF" }} />
+                      </IconButton>
+                    )}
+                  </BlueCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
+      </Table>
       <Menu
-        id={studyPlanDetails?.id}
         role={role}
         anchorEl={anchorEl}
+        anchorId={anchorId}
         open={Boolean(anchorEl)}
         handleClose={handleClose}
         handleOptions={handleOptions}
         studyPlanDetails={studyPlanDetails}
       />
-    </React.Fragment>
+    </TableContainer>
   );
 }

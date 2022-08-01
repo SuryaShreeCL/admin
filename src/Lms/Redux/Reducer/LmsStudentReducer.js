@@ -1,4 +1,3 @@
-import Student from "../../../Component/Student";
 import { STUDENT } from "../Action";
 
 const initialState = {
@@ -13,9 +12,10 @@ const initialState = {
   studentProducts: {},
   strengthAndWeakness: null,
   calibrationTestReport: null,
-  topics: [],
-  topicList: [],
-  topicReport: [],
+  topics: null,
+  topicList: null,
+  topicReport: null,
+  loading: false,
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -30,6 +30,7 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         taskTopic: action.payload,
+        loading: action.loading || false,
       };
     }
     case STUDENT.getLmsProducts: {
@@ -83,18 +84,21 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         strengthAndWeakness: action.payload,
+        loading: action.loading || false,
       };
     }
     case STUDENT.getCalibrationTestReport: {
       return {
         ...state,
         calibrationTestReport: action.payload,
+        loading: action.loading || false,
       };
     }
     case STUDENT.getTopicName: {
       return {
         ...state,
         topics: action.payload,
+        loading: action.loading || false,
       };
     }
 
@@ -109,6 +113,18 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         topicReport: action.payload,
+      };
+    }
+    case STUDENT.clearFieldValue: {
+      return {
+        ...state,
+        [action.fieldName]: null,
+      };
+    }
+    case STUDENT.loader: {
+      return {
+        ...state,
+        loading: true,
       };
     }
 

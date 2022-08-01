@@ -1,81 +1,107 @@
-import { Box, Grid } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import TableComponent from "./TableComponent";
 import PaginationComponent from "../../../../Utils/PaginationComponent";
 import {
+  clearFieldValue,
   getTopicName,
   getTopicTestReport,
   postTopicTestList,
+  topicTestExport,
+  topicTestReportExport,
 } from "../../../../Redux/Action/Student";
 import { useDispatch, useSelector } from "react-redux";
 import DropDown from "../../../../Utils/DropDown";
 import TopicTestReport from "./TopicTestReport/Index";
+import { CenterText, FlexView } from "../../../../Assets/StyledComponents";
+import LoadingSpinner from "../../../../Utils/LoadingSpinner";
+import { SnackBar } from "../../../../Utils/SnackBar";
 
 const NO_OF_RESPONSE = 10;
+
 const DEFAULT_OBJ = { id: "default", title: "Select" };
+
 const STATUS = [
   { id: "Completed", title: "Completed" },
   { id: "Yet to start", title: "Yet to start" },
   { id: "On going", title: "On going" },
 ];
+
+const defaultState = {
+  topicId: null,
+  status: null,
+  isReport: false,
+  currentPage: 0,
+};
+
 function Index({ studentId, courseId }) {
   const [state, setState] = useState({
-    currentPage: 0,
-    status: null,
-    topicId: null,
-    topicValue: null,
-    isReport: false,
-    field: [],
-    order: [],
+    ...defaultState,
   });
+
   const { currentPage, topicId, status, isReport } = state;
 
+  const [snack, setSnack] = useState({
+    open: false,
+    message: "",
+    color: "",
+  });
+
+  const { open, message, color } = snack;
+
+  const { topics, topicList, topicReport, loading } = useSelector(
+    (state) => state.LmsStudentReducer
+  );
+
+  const dispatch = useDispatch();
+
+  const handleSnackClose = () => {
+    setSnack({
+      open: false,
+      message: "",
+      color: "",
+    });
+  };
+
+  const getTopicList = (status, topicId, page) => {
+    let paramObj = {
+      page: page,
+      size: NO_OF_RESPONSE,
+    };
+    dispatch(postTopicTestList(studentId, courseId, paramObj, status, topicId));
+  };
+
   useEffect(() => {
-    if (studentId && courseId)
-      dispatch(
-        getTopicName(studentId, courseId, (response) => {
-          setState({
-            ...state,
-            topicId: response.data[0].id,
-          });
-        })
-      );
+    if (studentId && courseId) {
+      setState({ ...state, ...defaultState });
+      dispatch(clearFieldValue("topics"));
+      dispatch(clearFieldValue("topicList"));
+      dispatch(clearFieldValue("topicReport"));
+      dispatch(getTopicName(studentId, courseId));
+      getTopicList(null, null, 0);
+    }
   }, [studentId, courseId]);
 
   useEffect(() => {
-    if (status !== "default")
-      if (topicId !== "default") {
-        let paramObj = {
-          page: currentPage,
-          size: NO_OF_RESPONSE,
-        };
-        dispatch(
-          postTopicTestList(studentId, courseId, paramObj, status, topicId)
-        );
-      }
-  }, [studentId, courseId, status, topicId, currentPage]);
+    if (topicList && !topicList.success) {
+      setSnack({
+        open: true,
+        message: topicList.message,
+        color: "error",
+      });
+    }
+  }, [topicList]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "status") {
-      setState({
-        ...state,
-        status: value,
-        currentPage: 0,
-      });
-    } else if (name === "topicName") {
-      setState({
-        ...state,
-        topicId: value,
-        currentPage: 0,
-      });
-    } else {
-      setState({
-        ...state,
-        [name]: value,
-        currentPage: 0,
-      });
-    }
+    const newVal = value === "default" ? null : value;
+    setState({
+      ...state,
+      [name]: newVal,
+      currentPage: 0,
+    });
+    if (name === "status") getTopicList(newVal, topicId, 0);
+    else getTopicList(status, newVal, 0);
   };
 
   const handleTableRowClick = (event) => {
@@ -83,7 +109,6 @@ function Index({ studentId, courseId }) {
     dispatch(
       getTopicTestReport(studentId, id, (response) => {
         if (response.success) {
-          console.log(response, "xdfgvhjnkml,;.");
           setState({
             ...state,
             isReport: true,
@@ -98,63 +123,98 @@ function Index({ studentId, courseId }) {
       ...state,
       isReport: false,
     });
+    dispatch(clearFieldValue("topicReport"));
   };
+
   const handlePageChange = (event, value) => {
     window.scroll(0, 0);
     setState({ ...state, currentPage: value - 1 });
+    getTopicList(status, topicId, value - 1);
   };
-  const dispatch = useDispatch();
 
-  const { topics, topicList, topicReport } = useSelector(
-    (state) => state.LmsStudentReducer
-  );
-  const data = topicReport.data;
-  const tableData = topicList.data;
+  const handleTopicTestExport = () => {
+    dispatch(topicTestExport(studentId, courseId));
+  };
+
+  const handleTopicTestReportExport = () => {
+    dispatch(topicTestReportExport(studentId, courseId));
+  };
+
+  const data = topicReport?.data || {};
+  const tableData = topicList?.data || {};
+
   return (
-    <Box padding={"0 20px !important"}>
-      {isReport ? (
-        data && (
-          <TopicTestReport data={data} handleClickBack={handleClickBack} />
-        )
-      ) : (
-        <Grid
-          container
-          spacing={3}
-          style={{ dispaly: "flex", marginTop: "20px" }}
-        >
-          <Grid item xs={4} md={4}>
-            <DropDown
-              label={"Status"}
-              name={"status"}
-              items={[DEFAULT_OBJ, ...STATUS]}
-              value={status || "default"}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={4} md={4}>
-            <DropDown
-              label={"Topic Name"}
-              name={"topicName"}
-              items={[DEFAULT_OBJ, ...(topics?.data || [])]}
-              value={topicId || "default"}
-              onChange={handleChange}
-            />
-          </Grid>
-          {tableData && (
-            <TableComponent
-              tableData={tableData.content}
-              handleTableRowClick={handleTableRowClick}
-            />
-          )}
-          {tableData !== undefined && (
-            <PaginationComponent
-              pageCount={tableData.totalPages}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </Grid>
+    <>
+      {!loading && (topics?.data || []).length !== 0 && (
+        <Box padding={"0 0 10px !important"}>
+          <FlexView gap={"20px"} justifyContent={"end"}>
+            <Button variant='contained' onClick={handleTopicTestExport}>
+              {"Export TopicTest"}
+            </Button>
+            <Button variant='contained' onClick={handleTopicTestReportExport}>
+              {"Export TopicTestReport"}
+            </Button>
+          </FlexView>
+        </Box>
       )}
-    </Box>
+      <Box padding={"0 20px !important"} position={"relative"}>
+        {loading ? (
+          <LoadingSpinner loading={loading} />
+        ) : (topics?.data || []).length === 0 ? (
+          <CenterText paddingTop={"200px !important"}>
+            {"Topic Test not yet Initiated"}
+          </CenterText>
+        ) : (
+          <>
+            {isReport ? (
+              <TopicTestReport data={data} handleClickBack={handleClickBack} />
+            ) : (
+              <Grid container spacing={3} style={{ marginTop: "20px" }}>
+                <Grid item xs={4} md={4}>
+                  <DropDown
+                    label={"Status"}
+                    name={"status"}
+                    items={[DEFAULT_OBJ, ...STATUS]}
+                    value={status || "default"}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={4} md={4}>
+                  <DropDown
+                    label={"Topic Name"}
+                    name={"topicId"}
+                    items={[DEFAULT_OBJ, ...(topics?.data || [])]}
+                    value={topicId || "default"}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                {tableData && (
+                  <TableComponent
+                    tableData={tableData.content}
+                    handleTableRowClick={handleTableRowClick}
+                  />
+                )}
+                {tableData && tableData.content && (
+                  <PaginationComponent
+                    page={currentPage + 1}
+                    pageCount={tableData.totalPages}
+                    onPageChange={handlePageChange}
+                  />
+                )}
+              </Grid>
+            )}
+          </>
+        )}
+        <SnackBar
+          snackData={{
+            open,
+            snackClose: handleSnackClose,
+            snackType: color,
+            message: message,
+          }}
+        />
+      </Box>
+    </>
   );
 }
 export default Index;

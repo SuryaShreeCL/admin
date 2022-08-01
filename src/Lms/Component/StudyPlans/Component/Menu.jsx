@@ -10,10 +10,10 @@ import { MuiMenu } from "../../../Assets/StyledTableComponents";
 import { ROLES } from "../../../Constants";
 
 export default function Menu({
-  id,
   role,
-  open,
   anchorEl,
+  anchorId,
+  open,
   handleClose,
   studyPlanDetails,
   handleOptions,
@@ -48,8 +48,7 @@ export default function Menu({
       array.length = 1;
       return array;
     } else {
-      array.length = 1;
-      return array;
+      return [];
     }
   };
 
@@ -70,15 +69,14 @@ export default function Menu({
       array.splice(2, 1);
       return array;
     } else {
-      array.length = 1;
-      return array;
+      return [];
     }
   };
 
   if (role === ROLES.lms_editor) {
     return (
       <MuiMenu
-        id={id}
+        id={anchorId}
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}
@@ -99,7 +97,7 @@ export default function Menu({
   if (role === ROLES.lms_checker) {
     return (
       <MuiMenu
-        id={id}
+        id={anchorId}
         open={open}
         anchorEl={anchorEl}
         getContentAnchorEl={null}

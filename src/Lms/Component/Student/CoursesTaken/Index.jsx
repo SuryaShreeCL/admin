@@ -11,7 +11,6 @@ import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
 import {
-  getTaskTopic,
   getProducts,
   strengthWeaknessExport,
   studyPlanExport,
@@ -26,10 +25,11 @@ import QueryString from "qs";
 import { withRouter } from "react-router-dom";
 import CalibrationTest from "./CalibrationTest/Index";
 import Review from "./CalibrationTest/Review";
+import { FlexView } from "../../../Assets/StyledComponents";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
-  { tabLabel: "Strength & Weakness" },
+  { tabLabel: "Strengths & Weakness" },
   { tabLabel: "Study Plan" },
   { tabLabel: "Calibration Test" },
   { tabLabel: "Topic Test" },
@@ -98,24 +98,14 @@ class Index extends Component {
       case 1:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  this.props.strengthWeaknessExport(studentId, productId)
-                }
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <StrengthAndWeakness courseId={productId} studentId={studentId} />
           </Box>
         );
       case 2:
         return (
-          <div className="flex-center">
+          <div className='flex-center'>
             <Button
-              variant="contained"
+              variant='contained'
               onClick={() => this.props.studyPlanExport(studentId, productId)}
             >
               {"Export"}
@@ -125,51 +115,14 @@ class Index extends Component {
       case 3:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  this.props.calibrationTestExport(studentId, productId)
-                }
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <CalibrationTest courseId={productId} studentId={studentId} />
           </Box>
         );
       case 4:
         return (
-          // <div
-          //   style={{
-          //     display: "flex",
-          //     flexDirection: "row",
-          //     justifyContent: "space-evenly",
-          //     padding: "32px",
-          //   }}
-          // >
-          // {" "}
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant="contained"
-                onClick={() => this.props.topicTestExport(studentId, productId)}
-              >
-                {"Export TopicTest"}
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() =>
-                  this.props.topicTestReportExport(studentId, productId)
-                }
-              >
-                {"Export TopicTestReport"}
-              </Button>
-            </Box>
             <TopicTest studentId={studentId} courseId={productId} />
           </Box>
-
-          // </div>
         );
       default:
         return null;
@@ -177,7 +130,7 @@ class Index extends Component {
   };
 
   render() {
-    const { productId, studentId, tabId, review } = this.state;
+    const { productId, tabId, review } = this.state;
     const { products } = this.props;
 
     return (
@@ -241,7 +194,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getProducts,
-  getTaskTopic,
   strengthWeaknessExport,
   studyPlanExport,
   calibrationTestExport,

@@ -19,8 +19,6 @@ import {
 } from "../../../Assets/StyledTableComponents";
 import Menu from "./Menu";
 
-const role = sessionStorage.getItem("department");
-
 const MONTH = [
   "Jan",
   "Feb",
@@ -75,6 +73,8 @@ export default function DataTable({
   status,
   size,
 }) {
+  const role = sessionStorage.getItem("department");
+
   //Sort Icons
   const renderIcons = (index) => {
     if (index === 3) {

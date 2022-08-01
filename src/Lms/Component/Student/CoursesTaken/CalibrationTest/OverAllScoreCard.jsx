@@ -74,7 +74,12 @@ function OverAllScoreCard({ insights }) {
         <Grid container spacing={2}>
           {insights.donut.total.length !== 0 &&
             insights.donut.total.map((item, index) => (
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={insights.donut.total.length > 3 ? 3 : 4}
+              >
                 <Box bgcolor={BOX_COLOR} padding={"24px !important"}>
                   <FlexView gap={"10px"}>
                     <Typography
