@@ -293,7 +293,7 @@ function Index(props) {
     const {
       name: conceptName,
       id,
-      description,
+      descriptions,
       imageUrl,
       document,
     } = conceptDetails;
@@ -307,7 +307,7 @@ function Index(props) {
           conceptSubjectValue: subjectValue,
           conceptSubjectOptions: [...subjectOptions],
           conceptName: conceptName,
-          conceptDescription: description,
+          conceptDescription: descriptions,
           imageUrl: imageUrl,
           anchorEl: null,
           fileSize: document?.size,
@@ -396,7 +396,7 @@ function Index(props) {
     ) {
       let obj = {
         name: conceptName,
-        description: conceptDescription,
+        descriptions: conceptDescription,
         imageUrl: imageUrl,
         subject: { id: conceptSubjectValue.id },
         fileSize: fileSize,
