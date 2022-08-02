@@ -3,6 +3,7 @@ import {
   FormControlLabel,
   Grid,
   IconButton,
+  FormGroup,Checkbox,
   Switch,
   Typography,
   Backdrop,
@@ -55,6 +56,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { CheckedButtonsGroup } from "../../../Utils/CheckButton";
 
 const dialogContent = {
   type: "delete",
@@ -322,6 +324,12 @@ class Add extends Component {
   handleProctoringChange=(event)=>{
     const { value } = event.target;
     this.setState({proctor:true});
+    // if(value === "AE_TEST"){
+    // this.setState({proctor:true});
+    // }
+    // else{
+    //   this.setState({proctor:false});
+    // }
 
   }
   handleInstructionChange = (e, newValue) => {
@@ -1289,7 +1297,7 @@ class Add extends Component {
     // console.log(this.state.scheduleTest,"scheduleTest")
     // console.log(this.state.eventDate,"scheduleTest")
     // console.log(this.state.eventEndDate,"scheduleTest")
-
+   
     return (
       <>
         <Card padding={"12px 20px"}>
@@ -1299,19 +1307,12 @@ class Add extends Component {
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
             {aedept === "assessment_engine_admin" ?(
-            <RadioButtonsGroup
-                  radioData={{
-                    name: "proctor",
-                    // activeValue: type,
-                    activevalue:proctor,
-                    radioItemData: [
-                      {  id:"AE_TEST",label: "Proctor" },
-                    ],
-                    handleRadioChange: this.handleProctoringChange,
-                    
-                    marginRightValue: "733px",
-                  }}
-                />) :<></>}
+           <FormGroup>
+           <FormControlLabel control={<Checkbox  checked={proctor} color={"primary"}
+           onChange ={()=>this.setState({proctor:!this.state.proctor})}
+           
+           />} label="Proctor" />
+         </FormGroup>) :<></>}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
               {/* cancel */}
               <Cancel
