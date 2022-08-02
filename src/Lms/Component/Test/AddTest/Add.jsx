@@ -56,7 +56,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { CheckedButtonsGroup } from "../../../Utils/CheckButton";
+// import { CheckedButtonsGroup } from "../../../Utils/CheckButton";
 
 const dialogContent = {
   type: "delete",
@@ -1307,9 +1307,9 @@ class Add extends Component {
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
             {aedept === "assessment_engine_admin" ?(
-           <FormGroup>
-           <FormControlLabel control={<Checkbox  checked={proctor} color={"primary"}
-           onChange ={()=>this.setState({proctor:!this.state.proctor})}
+           <FormGroup  style={{marginRight:"700px"}}>
+           <FormControlLabel control={<Checkbox  checked={proctor} color={"primary"} 
+           onChange ={()=>this.setState({proctor:!this.state.proctor})} 
            
            />} label="Proctor" />
          </FormGroup>) :<></>}
