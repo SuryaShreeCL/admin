@@ -1307,9 +1307,10 @@ class Add extends Component {
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
             {aedept === "assessment_engine_admin" ?(
-           <FormGroup  style={{marginRight:"700px"}}>
-           <FormControlLabel control={<Checkbox  checked={proctor} color={"primary"} 
-           onChange ={()=>this.setState({proctor:!this.state.proctor})} 
+              
+           <FormGroup style={{marginRight:"700px"}}>
+           <FormControlLabel control={<Checkbox  checked={proctor} color={"primary"}
+           onChange ={()=>this.setState({proctor:!this.state.proctor})}
            
            />} label="Proctor" />
          </FormGroup>) :<></>}

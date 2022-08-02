@@ -126,8 +126,7 @@ class Index extends Component {
             />
           );
         }
-      
-        
+    
       }
       else if(type === "VIDEO")
       {
