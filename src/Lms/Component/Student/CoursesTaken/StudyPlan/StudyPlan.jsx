@@ -102,7 +102,11 @@ function StudyPlan({ studentId, courseId }) {
 
   useEffect(() => {
     if (studyPlanData) {
-      if (studyPlanData.success) {
+      if (
+        studyPlanData.success &&
+        studyPlanData.data &&
+        studyPlanData.data.studyPlanModelList
+      ) {
         const { data } = studyPlanData;
         let monthArr = data.studyPlanModelList.filter(
           (a, i) =>

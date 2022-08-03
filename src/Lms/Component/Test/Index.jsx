@@ -116,6 +116,7 @@ class TestLanding extends Component {
       conceptId: null,
       topicOptions: [],
       courseValue: null,
+      isLoadingFirstTime: true,
     };
   }
 
@@ -174,6 +175,7 @@ class TestLanding extends Component {
                           subjectId: subjectResponse.data[0]?.id,
                           conceptId: conceptResponse.data[0]?.id,
                           topicId: topicResponse.data?.[0]?.id,
+                          isLoadingFirstTime: false,
                         });
                       }
                     );
@@ -318,14 +320,15 @@ class TestLanding extends Component {
           courseValue,
         } = this.state;
         if (
-          prevState.currentPage !== currentPage ||
-          prevState.testType !== testType ||
-          prevState.topicId !== topicId ||
-          prevState.status !== status ||
-          prevState.field !== field ||
-          prevState.order !== order ||
-          prevState.courseId !== courseId
-        )
+          (prevState.currentPage !== currentPage ||
+            prevState.testType !== testType ||
+            prevState.topicId !== topicId ||
+            prevState.status !== status ||
+            prevState.field !== field ||
+            prevState.order !== order ||
+            prevState.courseId !== courseId) &&
+          !this.state.isLoadingFirstTime
+        ) {
           this.props.getQuestionSet({
             ...paramObj,
             courseId:
@@ -335,6 +338,7 @@ class TestLanding extends Component {
                 ? courseId
                 : null,
           });
+        }
       }
     }
     if (topicList && prevProps.topicList !== topicList) {
