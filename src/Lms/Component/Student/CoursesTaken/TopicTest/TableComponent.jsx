@@ -29,27 +29,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TableComponent({ handleTableRowClick, tableData }) {
+function TableComponent({ handleTableRowClick, tableData, pageNo }) {
   const classes = useStyles();
   const headText = [
-    "Topic name",
-    "Start Date",
-    "End Date",
-    "Test",
-    "Que Attempted",
-    "Duration",
-    "Score",
-    "Status",
+    { title: "#", style: { textAlign: "center" } },
+    { title: "Topic name", style: {} },
+    { title: "Start Date", style: { textAlign: "center" } },
+    { title: "End Date", style: { textAlign: "center" } },
+    { title: "Test", style: {} },
+    { title: "Que Attempted", style: { textAlign: "center" } },
+    { title: "Duration", style: { textAlign: "center" } },
+    { title: "Score", style: { textAlign: "center" } },
+    { title: "Status", style: {} },
   ];
   return (
     <TableBox>
       <Table>
         <Head>
           <TableRow>
-            {headText.map((item, index) => {
+            {headText.map(({ title, style }, index) => {
               return (
-                <HeadCell>
-                  <HeadInline>{item}</HeadInline>
+                <HeadCell style={style}>
+                  <HeadInline>{title}</HeadInline>
                 </HeadCell>
               );
             })}
@@ -58,7 +59,7 @@ function TableComponent({ handleTableRowClick, tableData }) {
         <TableBody>
           {tableData &&
             tableData.length !== 0 &&
-            tableData.map((item) => {
+            tableData.map((item, index) => {
               return (
                 <TableRow
                   onClick={handleTableRowClick}
@@ -69,28 +70,29 @@ function TableComponent({ handleTableRowClick, tableData }) {
                       : classes.incomplete
                   }
                 >
+                  <BoldCell>{pageNo * 10 + index + 1}</BoldCell>
                   <BoldCell>{item.topicName}</BoldCell>
-                  <BoldCell>
+                  <BoldCell style={{ textAlign: "center" }}>
                     {item.status === "Completed" ? `${item.startDate}` : "-"}
                   </BoldCell>
-                  <BodyCell>
+                  <BodyCell style={{ textAlign: "center" }}>
                     {item.status === "Completed" ? `${item.endDate}` : "-"}
                   </BodyCell>
                   <BodyCell>{item.testName}</BodyCell>
-                  <BodyCell>
+                  <BodyCell style={{ textAlign: "center" }}>
                     {item.status === "Completed"
                       ? `${item.attemptQuestions}/${item.noOfQuestions}`
                       : "-"}
                   </BodyCell>
-                  <BodyCell>
+                  <BodyCell style={{ textAlign: "center" }}>
                     {item.status === "Completed" ? `${item.duration}` : "-"}
                   </BodyCell>
-                  <BodyCell>
+                  <BodyCell style={{ textAlign: "center" }}>
                     {item.status === "Completed"
                       ? `${item.score}/${item.TotalScore}`
                       : "-"}
                   </BodyCell>
-                  <BodyCell>
+                  <BodyCell style={{ whiteSpace: "nowrap" }}>
                     <FlexView justifyContent={"start"} gap={"13px"}>
                       {ICONS[item.status]}
                       {item.status}

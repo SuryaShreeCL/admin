@@ -98,11 +98,11 @@ function Index({ studentId, courseId }) {
           ...state,
           data: [],
         });
-        setSnack({
-          open: true,
-          message: strengthAndWeakness.message,
-          color: "error",
-        });
+        // setSnack({
+        //   open: true,
+        //   message: strengthAndWeakness.message,
+        //   color: "error",
+        // });
       }
       dispatch(clearFieldValue("strengthAndWeakness"));
     }
