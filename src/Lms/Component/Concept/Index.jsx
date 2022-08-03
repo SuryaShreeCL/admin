@@ -19,6 +19,7 @@ import FilterContainer from "./Component/FilterContainer";
 import Popup from "./Component/Popup";
 import { STATUS_POPUP_CONTENT } from "./Component/StatusPopupContent";
 
+const FILE_REQUIRED_MESSAGE = "Please select a file";
 const SIZE = 10;
 
 function Index(props) {
@@ -49,6 +50,8 @@ function Index(props) {
     conceptDescription: null,
     conceptData: [],
     fileSize: null,
+    search: "",
+    searchText: "",
   });
 
   const {
@@ -77,6 +80,8 @@ function Index(props) {
     conceptDescription,
     conceptData,
     fileSize,
+    search,
+    searchText,
   } = state;
 
   const { conceptList } = useSelector((state) => state.LmsConceptReducer);
@@ -96,16 +101,36 @@ function Index(props) {
     return arr;
   };
 
-  const getDataModel = (newOrder, newPage, data) => {
-    const totalCount = data.length;
+  const searchArray = (searchVal, data) => {
+    let arr = [...data];
+    return arr.filter(
+      ({ name }) => name.toLowerCase().indexOf(searchVal.toLowerCase()) !== -1
+    );
+  };
+
+  const getDataModel = (searchVal, newOrder, newPage, data) => {
+    const newData =
+      searchVal.trim().length !== 0 ? searchArray(searchVal, data) : data;
+    const totalCount = newData.length;
     const startIndex = newPage * SIZE;
-    const selectedItems = data.slice(startIndex, startIndex + SIZE);
+    const selectedItems = newData.slice(startIndex, startIndex + SIZE);
     return {
       ...state,
       conceptData: sortedArray(newOrder, selectedItems),
       totalPages: Math.ceil(totalCount / SIZE),
     };
   };
+
+  useEffect(() => {
+    if (search.length === 0) {
+      setState({
+        ...getDataModel("", order, 0, content),
+        search: "",
+        searchText: "",
+        page: 0,
+      });
+    }
+  }, [search]);
 
   useEffect(() => {
     dispatch(
@@ -139,7 +164,7 @@ function Index(props) {
     if (conceptList) {
       if (conceptList.success) {
         setState({
-          ...getDataModel(order, page, [...conceptList.data]),
+          ...getDataModel(searchText, order, page, [...conceptList.data]),
           content: [...conceptList.data],
         });
       } else {
@@ -152,6 +177,8 @@ function Index(props) {
           conceptData: [],
           totalPages: 0,
           page: 0,
+          searchText: "",
+          search: "",
         });
       }
     }
@@ -221,6 +248,8 @@ function Index(props) {
       anchorEl: null,
       conceptDetails: {},
       page: 0,
+      searchText: "",
+      search: "",
     });
   };
 
@@ -254,7 +283,10 @@ function Index(props) {
   };
 
   const handlePageChange = (event, value) => {
-    setState({ ...getDataModel(order, value - 1, content), page: value - 1 });
+    setState({
+      ...getDataModel(searchText, order, value - 1, content),
+      page: value - 1,
+    });
   };
 
   const handleButton1Click = () => {
@@ -391,73 +423,83 @@ function Index(props) {
       conceptName &&
       conceptName.trim().length !== 0 &&
       conceptDescription &&
-      conceptDescription.trim().length !== 0 &&
-      imageUrl
+      conceptDescription.trim().length !== 0
     ) {
-      let obj = {
-        name: conceptName,
-        descriptions: conceptDescription,
-        imageUrl: imageUrl,
-        subject: { id: conceptSubjectValue.id },
-        fileSize: fileSize,
-      };
-      const defaultObj = {
-        ...state,
-        snackOpen: true,
-        snackColor: "success",
-        conceptCourseValue: null,
-        conceptDescription: null,
-        conceptName: null,
-        conceptSubjectValue: null,
-        conceptSubjectOptions: [],
-        imageUrl: null,
-        conceptPopupOpen: false,
-        popupName: "",
-        page: 0,
-        fileSize: null,
-      };
-      if (popupName === "Add") {
-        dispatch(
-          addConcept(obj, (res) => {
-            if (res.success) {
-              setTimeout(() => {
+      if (imageUrl) {
+        let obj = {
+          name: conceptName,
+          descriptions: conceptDescription,
+          imageUrl: imageUrl,
+          subject: { id: conceptSubjectValue.id },
+          fileSize: fileSize,
+        };
+        const defaultObj = {
+          ...state,
+          snackOpen: true,
+          snackColor: "success",
+          conceptCourseValue: null,
+          conceptDescription: null,
+          conceptName: null,
+          conceptSubjectValue: null,
+          conceptSubjectOptions: [],
+          imageUrl: null,
+          conceptPopupOpen: false,
+          popupName: "",
+          page: 0,
+          fileSize: null,
+          searchText: "",
+          search: "",
+        };
+        if (popupName === "Add") {
+          dispatch(
+            addConcept(obj, (res) => {
+              if (res.success) {
+                setTimeout(() => {
+                  setState({
+                    ...defaultObj,
+                    snackMessage: "Concept Created Successfully",
+                  });
+                  dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
+                }, 500);
+              } else {
                 setState({
-                  ...defaultObj,
-                  snackMessage: "Concept Created Successfully",
+                  ...state,
+                  snackOpen: true,
+                  snackColor: "error",
+                  snackMessage: res.message,
                 });
-                dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
-              }, 500);
-            } else {
-              setState({
-                ...state,
-                snackOpen: true,
-                snackColor: "error",
-                snackMessage: res.message,
-              });
-            }
-          })
-        );
+              }
+            })
+          );
+        } else {
+          dispatch(
+            updateConcept(conceptDetails.id, obj, (res) => {
+              if (res.success) {
+                setTimeout(() => {
+                  setState({
+                    ...defaultObj,
+                    snackMessage: "Concept Updated Successfully",
+                  });
+                  dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
+                }, 500);
+              } else {
+                setState({
+                  ...state,
+                  snackOpen: true,
+                  snackColor: "error",
+                  snackMessage: res.message,
+                });
+              }
+            })
+          );
+        }
       } else {
-        dispatch(
-          updateConcept(conceptDetails.id, obj, (res) => {
-            if (res.success) {
-              setTimeout(() => {
-                setState({
-                  ...defaultObj,
-                  snackMessage: "Concept Updated Successfully",
-                });
-                dispatch(getConcept(courseValue?.courseId, subjectValue?.id));
-              }, 500);
-            } else {
-              setState({
-                ...state,
-                snackOpen: true,
-                snackColor: "error",
-                snackMessage: res.message,
-              });
-            }
-          })
-        );
+        setState({
+          ...state,
+          snackOpen: true,
+          snackColor: "error",
+          snackMessage: FILE_REQUIRED_MESSAGE,
+        });
       }
     } else {
       setState({
@@ -485,6 +527,15 @@ function Index(props) {
     });
   };
 
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setState({
+      ...getDataModel(value, order, 0, content),
+      page: 0,
+      searchText: value,
+    });
+  };
+
   return (
     <Container>
       <Grid container spacing={3}>
@@ -504,6 +555,8 @@ function Index(props) {
               courseValue={courseValue}
               subjectValue={subjectValue}
               onChange={handleChange}
+              search={search}
+              handleSearch={handleSearch}
             />
           </Box>
         </Grid>
