@@ -58,11 +58,11 @@ function CalibrationTest({ studentId, courseId }) {
           ...state,
           insights: null,
         });
-        setSnack({
-          open: true,
-          message: calibrationTestReport.message,
-          color: "error",
-        });
+        // setSnack({
+        //   open: true,
+        //   message: calibrationTestReport.message,
+        //   color: "error",
+        // });
       }
       dispatch(clearFieldValue("calibrationTestReport"));
     }

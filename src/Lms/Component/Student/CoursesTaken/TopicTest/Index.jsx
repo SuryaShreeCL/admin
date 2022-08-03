@@ -82,15 +82,15 @@ function Index({ studentId, courseId }) {
     }
   }, [studentId, courseId]);
 
-  useEffect(() => {
-    if (topicList && !topicList.success) {
-      setSnack({
-        open: true,
-        message: topicList.message,
-        color: "error",
-      });
-    }
-  }, [topicList]);
+  // useEffect(() => {
+  //   if (topicList && !topicList.success) {
+  //     setSnack({
+  //       open: true,
+  //       message: topicList.message,
+  //       color: "error",
+  //     });
+  //   }
+  // }, [topicList]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -127,7 +127,6 @@ function Index({ studentId, courseId }) {
   };
 
   const handlePageChange = (event, value) => {
-    window.scroll(0, 0);
     setState({ ...state, currentPage: value - 1 });
     getTopicList(status, topicId, value - 1);
   };
@@ -169,39 +168,46 @@ function Index({ studentId, courseId }) {
             {isReport ? (
               <TopicTestReport data={data} handleClickBack={handleClickBack} />
             ) : (
-              <Grid container spacing={3} style={{ marginTop: "20px" }}>
-                <Grid item xs={4} md={4}>
-                  <DropDown
-                    label={"Status"}
-                    name={"status"}
-                    items={[DEFAULT_OBJ, ...STATUS]}
-                    value={status || "default"}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={4} md={4}>
-                  <DropDown
-                    label={"Topic Name"}
-                    name={"topicId"}
-                    items={[DEFAULT_OBJ, ...(topics?.data || [])]}
-                    value={topicId || "default"}
-                    onChange={handleChange}
-                  />
+              <>
+                <Grid container spacing={3} style={{ marginTop: "10px" }}>
+                  <Grid item xs={4} md={4}>
+                    <DropDown
+                      label={"Status"}
+                      name={"status"}
+                      items={[DEFAULT_OBJ, ...STATUS]}
+                      value={status || "default"}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={4} md={4}>
+                    <DropDown
+                      label={"Topic Name"}
+                      name={"topicId"}
+                      items={[DEFAULT_OBJ, ...(topics?.data || [])]}
+                      value={topicId || "default"}
+                      onChange={handleChange}
+                    />
+                  </Grid>
                 </Grid>
                 {tableData && (
                   <TableComponent
                     tableData={tableData.content}
                     handleTableRowClick={handleTableRowClick}
+                    pageNo={currentPage}
                   />
                 )}
-                {tableData && tableData.content && (
-                  <PaginationComponent
-                    page={currentPage + 1}
-                    pageCount={tableData.totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                )}
-              </Grid>
+                <Box paddingTop={"10px !important"}>
+                  {tableData &&
+                    tableData.content &&
+                    tableData.content.length !== 0 && (
+                      <PaginationComponent
+                        page={currentPage + 1}
+                        pageCount={tableData.totalPages}
+                        onPageChange={handlePageChange}
+                      />
+                    )}
+                </Box>
+              </>
             )}
           </>
         )}

@@ -59,9 +59,9 @@ class Index extends Component {
         this.setState({ taskTopicData: { ...taskTopic.data } });
       } else {
         this.setState({
-          open: true,
-          message: taskTopic.message,
-          color: "error",
+          // open: true,
+          // message: taskTopic.message,
+          // color: "error",
           taskTopicData: {},
         });
       }
