@@ -351,13 +351,17 @@ class Index extends Component {
       formData.append("file", file);
       this.props.createFileUpload(studyPlanDetails.id, formData, (res) => {
         if (res.success) {
+          setTimeout(() => {
+            this.setState({
+              snackOpen: true,
+              snackColor: "success",
+              snackMessage: res.message,
+              popupName: "",
+              studyPlanPopupOpen: false,
+              page: 0,
+            });
+          }, 500);
           this.props.getStudyPlan(courseValue.id, 0, SIZE);
-          this.setState({
-            snackOpen: true,
-            snackColor: "success",
-            snackMessage: res.message,
-            page: 0,
-          });
         } else {
           this.setState({
             snackOpen: true,
