@@ -70,7 +70,9 @@ function TableComponent({ handleTableRowClick, tableData, pageNo }) {
                       : classes.incomplete
                   }
                 >
-                  <BoldCell>{pageNo * 10 + index + 1}</BoldCell>
+                  <BoldCell style={{ textAlign: "center" }}>
+                    {pageNo * 10 + index + 1}
+                  </BoldCell>
                   <BoldCell>{item.topicName}</BoldCell>
                   <BoldCell style={{ textAlign: "center" }}>
                     {item.status === "Completed" ? `${item.startDate}` : "-"}

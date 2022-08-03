@@ -145,11 +145,11 @@ function StudyPlan({ studentId, courseId }) {
           month: null,
           page: 0,
         });
-        setSnack({
-          open: true,
-          color: "error",
-          message: studyPlanData.message,
-        });
+        // setSnack({
+        //   open: true,
+        //   color: "error",
+        //   message: studyPlanData.message,
+        // });
       }
 
       new Promise((resolve, reject) => {
