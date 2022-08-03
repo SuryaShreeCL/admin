@@ -164,7 +164,7 @@ function DropDownRack(props) {
                         padding: "0 10px 0 8px",
                         zIndex: 1,
                       }}
-                      placeholder={"Score"}
+                      // placeholder={"Score"}
                     >Score
                     
                     </InputLabel>
@@ -186,8 +186,17 @@ function DropDownRack(props) {
                       value={separateScore}
                       name="separateScore"
                       min="0"
+                      disabled={type === "FILE_UPLOAD"  }
+                      
                       // placeholder='Expected time for completion'
-                      onChange={handleInputChange}
+                      // onChange={handleInputChange}
+                      onChange={(e)=>{
+                        if(e.target.value.length<=4){
+                        handleInputChange(e);}
+                      else{
+                        e.preventDefault();
+                      }
+                      }}
                     />
                   </FormControl>
                   {/* {console.log(score)} */}

@@ -1,8 +1,9 @@
-// import MomentUtils from "@date-io/moment";
 import {
   FormControlLabel,
   Grid,
   IconButton,
+  FormGroup,
+  Checkbox,
   Switch,
   Typography,
   Backdrop,
@@ -81,6 +82,7 @@ class Add extends Component {
       type: "CALIBRATION",
       description: [],
       descriptionTitle: "",
+      proctor: false,
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
@@ -241,6 +243,7 @@ class Add extends Component {
           name: questionSet.name,
           type: questionSet.type,
           description: questionSet.description,
+          proctor: questionSet.proctor,
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
@@ -317,7 +320,16 @@ class Add extends Component {
       });
     }
   };
-
+  handleProctoringChange = (event) => {
+    const { value } = event.target;
+    this.setState({ proctor: true });
+    // if(value === "AE_TEST"){
+    // this.setState({proctor:true});
+    // }
+    // else{
+    //   this.setState({proctor:false});
+    // }
+  };
   handleInstructionChange = (e, newValue) => {
     this.setState({ description: newValue });
   };
@@ -563,6 +575,7 @@ class Add extends Component {
       descriptionTitle,
       nameDescription,
       topicTestSections,
+      proctor,
       name,
       courseId,
       calibrationTestData,
@@ -833,8 +846,6 @@ class Add extends Component {
         if (
           this.state.scheduleTest &&
           moment(eventEndDate).isSameOrBefore(eventDate)
-          // || moment(eventDate).isBefore(moment()) ||
-          // moment(eventEndDate).isBefore(moment())
         ) {
           this.setState({
             snackOpen: true,
@@ -847,8 +858,6 @@ class Add extends Component {
           !this.state.scheduleTest ||
           (this.state.scheduleTest &&
             !moment(eventEndDate).isSameOrBefore(eventDate))
-          // || moment(eventDate).isBefore(moment()) ||
-          // moment(eventEndDate).isBefore(moment())
         ) {
           if (calibrationTestData.length !== 0) {
             if (!calibrationTestDataTotalValidation.includes(false)) {
@@ -856,6 +865,7 @@ class Add extends Component {
                 id: testQuestionSetId,
                 name: name,
                 type: type,
+                proctor: proctor,
                 // course: { id: courseId },
                 description: description,
                 descriptionTitle: descriptionTitle,
@@ -919,6 +929,7 @@ class Add extends Component {
                           tempcalibrationTestData[index].id = item.id;
                         }
                       }
+                      // }
                     );
                     this.setState({
                       snackOpen: true,
@@ -929,9 +940,6 @@ class Add extends Component {
                       sectionId:
                         calibrationTestResponse?.data?.testSection[0]?.id,
                       calibrationTestData: tempcalibrationTestData,
-                      calibrationTestCopyContent: JSON.parse(
-                        JSON.stringify(tempcalibrationTestData)
-                      ),
                       loading: false,
                     });
                     this.handleBannerUpload(calibrationTestResponse?.data?.id);
@@ -943,7 +951,7 @@ class Add extends Component {
                       message:
                         aedept !== "assessment_engine_admin"
                           ? "Network Failed"
-                          : "Session Expired",
+                          : "Session Expired Please login to the page again",
                       loading: false,
                     });
                   }
@@ -1234,6 +1242,7 @@ class Add extends Component {
   render() {
     const {
       type,
+      proctor,
       description,
       calibrationTestData,
       testQuestionSetId,
@@ -1295,6 +1304,24 @@ class Add extends Component {
             <TestTitle flex={1}>
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
+            {aedept === "assessment_engine_admin" ? (
+              <FormGroup style={{ marginRight: "700px" }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={proctor}
+                      color={"primary"}
+                      onChange={() =>
+                        this.setState({ proctor: !this.state.proctor })
+                      }
+                    />
+                  }
+                  label='Proctor'
+                />
+              </FormGroup>
+            ) : (
+              <></>
+            )}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
               {/* cancel */}
               <Cancel

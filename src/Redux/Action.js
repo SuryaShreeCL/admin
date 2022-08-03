@@ -17,6 +17,12 @@ export const COURSES = {
   deleteCourse: "deleteCourse",
   getPaginateCourse: "getPaginateCourse",
 };
+export const USERMANAGEMENT = {
+  getUserDepartment: "getUserDepartment",
+  getUserDetails: "getUserDetails",
+  editAdmin: "editAdmin",
+};
+
 
 export const QUESTIONS = {
   getQuestions: "getQuestions",
@@ -149,12 +155,6 @@ export const INTAKE = {
   deleteIntake: "deleteIntake",
   getAllIntakes: "getAllIntakes",
   getPaginateIntake: "getPaginateIntake",
-};
-
-export const USERMANAGEMENT = {
-  getUserDepartment: "getUserDepartment",
-  getUserDetails: "getUserDetails",
-  editAdmin: "editAdmin",
 };
 
 // Selva
