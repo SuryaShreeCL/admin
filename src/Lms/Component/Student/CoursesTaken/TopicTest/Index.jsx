@@ -24,7 +24,7 @@ const DEFAULT_OBJ = { id: "default", title: "Select" };
 const STATUS = [
   { id: "Completed", title: "Completed" },
   { id: "Yet to start", title: "Yet to start" },
-  { id: "On going", title: "On going" },
+  { id: "Progress", title: "On going" },
 ];
 
 const defaultState = {

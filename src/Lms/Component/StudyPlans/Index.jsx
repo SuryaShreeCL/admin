@@ -30,7 +30,7 @@ const POPUP_NAMES = {
 
 const FILE_REQUIRED_MESSAGE = "Please select a file";
 const FILE_SELECT_INVALID =
-  "Please select a valid format (.csv/.xlsx/.xls)  file";
+  "Please select a valid format (.csv/.xlsx/.xls) file";
 const FILE_SIZE_MESSAGE = "Please upload an file within 5MB size";
 const SIZE = 10;
 

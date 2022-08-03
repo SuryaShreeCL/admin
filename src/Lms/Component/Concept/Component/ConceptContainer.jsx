@@ -24,6 +24,7 @@ function ConceptContainer({
       },
     };
   };
+
   return (
     <Box padding={"20px 0px 30px !important"}>
       <Grid container spacing={3}>
@@ -83,6 +84,7 @@ function ConceptContainer({
         </Grid>
         <Grid item xs={12}>
           <FileUploadField
+            mimeTypes={"image/jpeg, image/png	"}
             fileType={"image"}
             imageUrl={imageUrl}
             setFile={setFile}

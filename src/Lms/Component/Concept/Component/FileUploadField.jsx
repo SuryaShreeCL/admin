@@ -1,12 +1,16 @@
 import { Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { SnackBar } from "../../../Utils/SnackBar";
 import { SingleFileUploadWithProgress } from "../../../Utils/Upload/SingleFileUploadWithProgress";
 import { UploadError } from "../../../Utils/Upload/UploadError";
 
+const FILE_SELECT_INVALID = "Please select a valid format (.jpeg/.png) file";
+const FILE_SIZE_MESSAGE = "Please upload an file within 2MB size";
 export function FileUploadField({
   imageUrl,
   fileType,
+  mimeTypes,
   fileSize,
   disable,
   setFile,
@@ -37,11 +41,34 @@ export function FileUploadField({
   const [url, setUrl] = useState("");
   const [isUpload, setIsUpload] = useState(false);
   const [error, setError] = useState({ isError: false });
+  const [snack, setSnack] = useState({
+    snackOpen: false,
+    snackColor: "",
+    snackMessage: "",
+  });
+
+  const { snackColor, snackMessage, snackOpen } = snack;
 
   const onDrop = (files) => {
     if (files && files.length !== 0) {
-      setFileData(files[0]);
-      setIsUpload(true);
+      let fileSize = files[0]["size"] / 1024 / 1024;
+      // Validate within 2Mb
+      if (fileSize < 2) {
+        setFileData(files[0]);
+        setIsUpload(true);
+      } else {
+        setSnack({
+          snackOpen: true,
+          snackColor: "error",
+          snackMessage: FILE_SIZE_MESSAGE,
+        });
+      }
+    } else {
+      setSnack({
+        snackOpen: true,
+        snackColor: "error",
+        snackMessage: FILE_SELECT_INVALID,
+      });
     }
   };
 
@@ -80,9 +107,16 @@ export function FileUploadField({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: [`${fileType}/*`],
-    maxSize: 2000 * 1024, // 2Mb
+    accept: mimeTypes,
   });
+
+  const handleSnackClose = () => {
+    setSnack({
+      snackOpen: false,
+      snackMessage: "",
+      snackColor: "",
+    });
+  };
 
   return (
     <React.Fragment>
@@ -115,6 +149,14 @@ export function FileUploadField({
           )}
         </Grid>
       )}
+      <SnackBar
+        snackData={{
+          open: snackOpen,
+          snackClose: handleSnackClose,
+          snackType: snackColor,
+          message: snackMessage,
+        }}
+      />
     </React.Fragment>
   );
 }

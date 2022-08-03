@@ -1,4 +1,5 @@
-import { Box, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, InputAdornment, TextField } from "@material-ui/core";
+import { SearchOutlined } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import { FlexView } from "../../../Assets/StyledComponents";
@@ -8,7 +9,9 @@ function FilterContainer({
   courseValue,
   subjectOptions = [],
   subjectValue,
+  search,
   onChange,
+  handleSearch,
 }) {
   const getEventObjectModel = (name, value) => {
     return {
@@ -46,6 +49,25 @@ function FilterContainer({
           )}
           fullWidth
         />
+      </Grid>
+      <Grid item xs>
+        <Box textAlign={"right"}>
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position={"start"}>
+                  <SearchOutlined color={"primary"} />
+                </InputAdornment>
+              ),
+            }}
+            name={"search"}
+            value={search}
+            variant={"outlined"}
+            placeholder={"Search concept name"}
+            onChange={onChange}
+            onKeyPress={(e) => e.key === "Enter" && handleSearch(e)}
+          />
+        </Box>
       </Grid>
     </Grid>
   );
