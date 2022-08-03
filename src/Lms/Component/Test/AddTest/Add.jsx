@@ -1,9 +1,9 @@
-// import MomentUtils from "@date-io/moment";
 import {
   FormControlLabel,
   Grid,
   IconButton,
-  FormGroup,Checkbox,
+  FormGroup,
+  Checkbox,
   Switch,
   Typography,
   Backdrop,
@@ -84,7 +84,7 @@ class Add extends Component {
       type: "CALIBRATION",
       description: [],
       descriptionTitle: "",
-      proctor:false,
+      proctor: false,
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
@@ -245,7 +245,7 @@ class Add extends Component {
           name: questionSet.name,
           type: questionSet.type,
           description: questionSet.description,
-          proctor:questionSet.proctor,
+          proctor: questionSet.proctor,
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
@@ -322,17 +322,16 @@ class Add extends Component {
       });
     }
   };
-  handleProctoringChange=(event)=>{
+  handleProctoringChange = (event) => {
     const { value } = event.target;
-    this.setState({proctor:true});
+    this.setState({ proctor: true });
     // if(value === "AE_TEST"){
     // this.setState({proctor:true});
     // }
     // else{
     //   this.setState({proctor:false});
     // }
-
-  }
+  };
   handleInstructionChange = (e, newValue) => {
     this.setState({ description: newValue });
   };
@@ -868,7 +867,7 @@ class Add extends Component {
                 id: testQuestionSetId,
                 name: name,
                 type: type,
-                proctor:proctor,
+                proctor: proctor,
                 // course: { id: courseId },
                 description: description,
                 descriptionTitle: descriptionTitle,
@@ -1298,7 +1297,7 @@ class Add extends Component {
     // console.log(this.state.scheduleTest,"scheduleTest")
     // console.log(this.state.eventDate,"scheduleTest")
     // console.log(this.state.eventEndDate,"scheduleTest")
-   
+
     return (
       <>
         <Card padding={"12px 20px"}>

@@ -1,7 +1,8 @@
-import { Button, Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  CardContainer,
   CourseContainer,
   CourseTabs,
   CourseTabsDuplicateCard,
@@ -9,24 +10,18 @@ import {
 import { RadioButtonsGroup } from "../../../Utils/RadioButton";
 import { StyledTaps } from "../../../Utils/Tabs";
 import TasksAndTopic from "./TasksAndTopic/Index";
-import {
-  getTaskTopic,
-  getProducts,
-  strengthWeaknessExport,
-  studyPlanExport,
-  calibrationTestExport,
-  topicTestExport,
-  topicTestReportExport,
-} from "../../../Redux/Action/Student";
+import { getProducts } from "../../../Redux/Action/Student";
 import StudyPlan from "./StudyPlan/StudyPlan";
-
+import StrengthAndWeakness from "./StrengthAndWeakness/Index";
+import TopicTest from "./TopicTest/Index";
 import QueryString from "qs";
 import { withRouter } from "react-router-dom";
-import { Box } from "../../../Assets/StyledComponents";
+import CalibrationTest from "./CalibrationTest/Index";
+import Review from "./CalibrationTest/Review";
 
 const tabsLabels = [
   { tabLabel: "Tasks & Topic" },
-  { tabLabel: "Strength & Weakness" },
+  { tabLabel: "Strengths & Weakness" },
   { tabLabel: "Study Plan" },
   { tabLabel: "Calibration Test" },
   { tabLabel: "Topic Test" },
@@ -40,11 +35,12 @@ class Index extends Component {
       productId: "",
       studentId: "",
       tabId: 0,
+      review: [],
     };
     this.category = {
       taskAndTopic: "taskTopic",
       studyPlan: "studyPlans/monthlyDetails",
-      strengthAndWeekNess: "strengthWeakness",
+      strengthAndWeakNess: "strengthWeakness",
       calibrationReport: "calibrationReport",
     };
   }
@@ -61,6 +57,24 @@ class Index extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { calibrationTestReport } = this.props;
+    if (
+      calibrationTestReport &&
+      calibrationTestReport !== prevProps.calibrationTestReport
+    ) {
+      if (calibrationTestReport.success) {
+        this.setState({
+          review: calibrationTestReport.data?.review || [],
+        });
+      } else {
+        this.setState({
+          review: [],
+        });
+      }
+    }
+  }
+
   renderComponent = () => {
     const { productId, studentId, tabId } = this.state;
     switch (tabId) {
@@ -74,76 +88,27 @@ class Index extends Component {
         );
       case 1:
         return (
-          <div className='flex-center'>
-            <Button
-              variant='contained'
-              onClick={() =>
-                this.props.strengthWeaknessExport(studentId, productId)
-              }
-              // onClick={() => {
-              //   this.props.getTaskTopic(
-              //     studentId,
-              //     productId,
-              //     this.category.strengthAndWeekNess
-              //   );
-              // }}
-            >
-              Export
-            </Button>
-          </div>
+          <Box padding={"20px !important"}>
+            <StrengthAndWeakness courseId={productId} studentId={studentId} />
+          </Box>
         );
       case 2:
         return (
           <Box padding={"20px !important"}>
-            <Box textAlign={"right"} padding={"0 0 10px !important"}>
-              <Button
-                variant='contained'
-                onClick={() => this.props.studyPlanExport(studentId, productId)}
-              >
-                {"Export"}
-              </Button>
-            </Box>
             <StudyPlan studentId={studentId} courseId={productId} />
           </Box>
         );
       case 3:
         return (
-          <div className='flex-center'>
-            <Button
-              variant='contained'
-              onClick={() =>
-                this.props.calibrationTestExport(studentId, productId)
-              }
-            >
-              Export
-            </Button>
-          </div>
+          <Box padding={"20px !important"}>
+            <CalibrationTest courseId={productId} studentId={studentId} />
+          </Box>
         );
       case 4:
         return (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              padding: "32px",
-            }}
-          >
-            <Button
-              variant='contained'
-              onClick={() => this.props.topicTestExport(studentId, productId)}
-            >
-              Export TopicTest
-            </Button>
-            <Button
-              variant='contained'
-              onClick={() =>
-                this.props.topicTestReportExport(studentId, productId)
-              }
-            >
-              Export TopicTestReport
-            </Button>
-          </div>
+          <Box padding={"20px !important"}>
+            <TopicTest studentId={studentId} courseId={productId} />
+          </Box>
         );
       default:
         return null;
@@ -151,52 +116,59 @@ class Index extends Component {
   };
 
   render() {
-    const { productId, studentId, tabId } = this.state;
-    const { products } = this.props;
+    const { productId, tabId, review } = this.state;
+    const { products, loading } = this.props;
 
     return (
-      <CourseContainer>
-        <Grid
-          container
-          spacing={2}
-          justifyContent={"flex-end"}
-          alignItems={"center"}
-          style={{ paddingRight: 36, height: 56 }}
-        >
-          <RadioButtonsGroup
-            radioData={{
-              name: "Course",
-              activeValue: productId,
-              handleRadioChange: (e) => {
-                this.setState({ productId: e.target.value });
-              },
-              radioItemData:
-                (products.length !== 0 &&
-                  products.data.map((item) => ({
-                    id: item.id,
-                    label: item.productName,
-                  }))) ||
-                [],
-            }}
-          />
-        </Grid>
-        <CourseTabs>
-          <StyledTaps
-            tabsData={{
-              tabId: tabId,
-              handleTabChange: (e, newValue) => {
-                this.setState({ tabId: newValue });
-              },
-              tabsBackColor: "#FFE100",
-              tabData: tabsLabels,
-              activeClass: "course__task__tab",
-              styleName: "courseTaken",
-            }}
-          />
-          <CourseTabsDuplicateCard />
-        </CourseTabs>
-        {this.renderComponent()}
-      </CourseContainer>
+      <>
+        <CourseContainer>
+          <Grid
+            container
+            spacing={2}
+            justifyContent={"flex-end"}
+            alignItems={"center"}
+            style={{ paddingRight: 36, height: 56 }}
+          >
+            <RadioButtonsGroup
+              radioData={{
+                name: "Course",
+                activeValue: productId,
+                handleRadioChange: (e) => {
+                  this.setState({ productId: e.target.value });
+                },
+                radioItemData:
+                  (products.length !== 0 &&
+                    products.data.map((item) => ({
+                      id: item.id,
+                      label: item.productName,
+                    }))) ||
+                  [],
+              }}
+            />
+          </Grid>
+          <CourseTabs>
+            <StyledTaps
+              tabsData={{
+                tabId: tabId,
+                handleTabChange: (e, newValue) => {
+                  this.setState({ tabId: newValue });
+                },
+                tabsBackColor: "#FFE100",
+                tabData: tabsLabels,
+                activeClass: "course__task__tab",
+                styleName: "courseTaken",
+              }}
+            />
+            <CourseTabsDuplicateCard />
+          </CourseTabs>
+          {this.renderComponent()}
+        </CourseContainer>
+        {!loading && tabId === 3 && review && review.length !== 0 && (
+          <CardContainer marginTop={"10px"}>
+            <Review data={review} />
+          </CardContainer>
+        )}
+      </>
     );
   }
 }
@@ -208,10 +180,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getProducts,
-  getTaskTopic,
-  strengthWeaknessExport,
-  studyPlanExport,
-  calibrationTestExport,
-  topicTestExport,
-  topicTestReportExport,
 })(withRouter(Index));

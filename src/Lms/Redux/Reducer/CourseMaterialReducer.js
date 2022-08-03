@@ -1,4 +1,4 @@
-import { COURSE_MATERIAL, TEST } from '../Action';
+import { COURSE_MATERIAL, TEST } from "../Action";
 
 const initialState = {
   courses: [],
@@ -14,6 +14,7 @@ const initialState = {
   monthlyCourse: null,
   monthlyPlan: null,
   totalPageNo: 0,
+  studyPlan: null,
 };
 
 const CourseMaterialReducer = (state = initialState, action) => {
@@ -94,6 +95,13 @@ const CourseMaterialReducer = (state = initialState, action) => {
       return {
         ...state,
         monthlyPlan: action.payload,
+      };
+    }
+
+    case COURSE_MATERIAL.getStudyPlan: {
+      return {
+        ...state,
+        studyPlan: action.payload,
       };
     }
 

@@ -73,8 +73,10 @@ import {
   webinarPath,
   userManagementPath,
   placementDrives,
+  lms_concept,
 } from "./RoutePaths";
 import Routes from "./Routes";
+import { LMS_ROLES, ROLES } from "../Lms/Constants";
 
 const drawerWidth = 240;
 
@@ -677,8 +679,7 @@ function RootContainer(props) {
         },
       ]);
     } else if (
-      window.sessionStorage.getItem("role") === "LMSCHECKER" ||
-      window.sessionStorage.getItem("role") === "LMSEDITOR"
+      LMS_ROLES.includes(window.sessionStorage.getItem("department"))
     ) {
       let lms_nav_items = [
         {
@@ -717,14 +718,15 @@ function RootContainer(props) {
           path: lms_passage,
           items: [],
         },
+        {
+          icon: <></>,
+          title: "Concept",
+          path: lms_concept,
+          items: [],
+        },
       ];
       setSideNav(lms_nav_items);
-    } else if (
-      window.sessionStorage.getItem("role") === "SUPER ADMIN" &&
-      window.sessionStorage.getItem("department") !== "assessment_engine_admin"
-    ) {
-      var deptName = window.sessionStorage.getItem("department");
-      console.log(deptName);
+    } else if (window.sessionStorage.getItem("department") === ROLES.admin) {
       setSideNav([
         {
           icon: <></>,

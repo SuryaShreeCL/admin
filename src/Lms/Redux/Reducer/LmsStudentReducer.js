@@ -1,4 +1,3 @@
-import Student from "../../../Component/Student";
 import { STUDENT } from "../Action";
 
 const initialState = {
@@ -13,6 +12,12 @@ const initialState = {
   studentProducts: {},
   studyPlanData: null,
   updateStudyPlanStatus: null,
+  strengthAndWeakness: null,
+  calibrationTestReport: null,
+  topics: null,
+  topicList: null,
+  topicReport: null,
+  loading: false,
 };
 
 const LmsStudentReducer = (state = initialState, action) => {
@@ -27,6 +32,7 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         taskTopic: action.payload,
+        loading: action.loading || false,
       };
     }
     case STUDENT.getLmsProducts: {
@@ -80,6 +86,7 @@ const LmsStudentReducer = (state = initialState, action) => {
       return {
         ...state,
         studyPlanData: action.payload,
+        loading: action.loading || false,
       };
     }
     case STUDENT.updateStudyPlan: {
@@ -88,6 +95,54 @@ const LmsStudentReducer = (state = initialState, action) => {
         updateStudyPlanStatus: action.payload,
       };
     }
+    case STUDENT.getStrengthAndWeakness: {
+      return {
+        ...state,
+        strengthAndWeakness: action.payload,
+        loading: action.loading || false,
+      };
+    }
+    case STUDENT.getCalibrationTestReport: {
+      return {
+        ...state,
+        calibrationTestReport: action.payload,
+        loading: action.loading || false,
+      };
+    }
+    case STUDENT.getTopicName: {
+      return {
+        ...state,
+        topics: action.payload,
+        loading: action.loading || false,
+      };
+    }
+
+    case STUDENT.postTopicTestList: {
+      return {
+        ...state,
+        topicList: action.payload,
+      };
+    }
+
+    case STUDENT.getTopicTestReport: {
+      return {
+        ...state,
+        topicReport: action.payload,
+      };
+    }
+    case STUDENT.clearFieldValue: {
+      return {
+        ...state,
+        [action.fieldName]: null,
+      };
+    }
+    case STUDENT.loader: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+
     default:
       break;
   }

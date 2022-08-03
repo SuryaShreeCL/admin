@@ -49,7 +49,7 @@ import VideoPlayer from "../../../Lms/Utils/VideoPlayer";
 import { getVideoInfo } from "../../../Lms/Redux/Action/CourseMaterial";
 import { connect } from "react-redux";
 
-const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -83,7 +83,7 @@ const headCells = [
 ];
 
 function Webinars(props) {
-  let role = window.sessionStorage.getItem("role");
+  let role = window.sessionStorage.getItem("department");
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -258,10 +258,10 @@ function Webinars(props) {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder="Search Recorded Videos"
+            placeholder='Search Recorded Videos'
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <Search />
                 </InputAdornment>
               ),
@@ -295,7 +295,7 @@ function Webinars(props) {
                       >
                         <LinkIcon
                           id={item.id}
-                          fontSize="small"
+                          fontSize='small'
                           color={
                             item.webinarRecordingsVideoUrl ? "primary" : ""
                           }
@@ -305,7 +305,7 @@ function Webinars(props) {
                       <Controls.ActionButton
                         onClick={() => handleDeleteClick(item)}
                       >
-                        <DeleteIcon fontSize="small" color="secondary" />
+                        <DeleteIcon fontSize='small' color='secondary' />
                       </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
@@ -318,16 +318,16 @@ function Webinars(props) {
         <Dialog
           open={activeDialogId}
           onClose={handleDialogClose}
-          aria-labelledby="form-dialog-title"
+          aria-labelledby='form-dialog-title'
           maxWidth={"md"}
           fullWidth
         >
-          <DialogTitle id="form-dialog-title">Recorded Video Url</DialogTitle>
+          <DialogTitle id='form-dialog-title'>Recorded Video Url</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
-              margin="dense"
-              label="Enter the URL"
+              margin='dense'
+              label='Enter the URL'
               fullWidth
               value={linkField}
               onChange={handleLinkFieldChange}
@@ -345,19 +345,19 @@ function Webinars(props) {
           <DialogActions>
             <Controls.ActionButton
               onClick={handleDialogClose}
-              color="Secondary"
+              color='Secondary'
             >
               Cancel
             </Controls.ActionButton>
             <Controls.ActionButton
               onClick={() => handleSaveClick()}
-              color="primary"
+              color='primary'
             >
               Save
             </Controls.ActionButton>
             <Controls.ActionButton
               onClick={() => handlePreviewClick()}
-              color="primary"
+              color='primary'
             >
               Preview
             </Controls.ActionButton>
@@ -366,16 +366,16 @@ function Webinars(props) {
 
         <DialogDiv>
           {loading && <Loader />}
-          {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert severity='error'>{error}</Alert>}
           {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity="info">0 Webinars Found</Alert>
+            <Alert severity='info'>0 Webinars Found</Alert>
           )}
         </DialogDiv>
         <TblPagination />
       </Paper>
 
       <Drawer
-        anchor="right"
+        anchor='right'
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
@@ -386,8 +386,8 @@ function Webinars(props) {
               style={{ fontSize: "1rem" }}
               onClick={() => openInPage(viewData)}
             >
-              <IconButton aria-label="edit">
-                <EditIcon color="primary" size="large" />
+              <IconButton aria-label='edit'>
+                <EditIcon color='primary' size='large' />
               </IconButton>
               Edit
             </span>
@@ -405,8 +405,8 @@ function Webinars(props) {
                 });
               }}
             >
-              <IconButton aria-label="remove">
-                <DeleteIcon color="secondary" size="large" />
+              <IconButton aria-label='remove'>
+                <DeleteIcon color='secondary' size='large' />
               </IconButton>
               Remove
             </span>

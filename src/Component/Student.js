@@ -50,6 +50,7 @@ import {
   postStudents,
 } from "../Actions/Student";
 import "../Asset/StudentData.css";
+import { LMS_ROLES } from "../Lms/Constants";
 import {
   getAllLmsProduct,
   getStudentProducts,
@@ -119,12 +120,7 @@ export class Student extends Component {
   // ];
 
   hasLmsAccess = () => {
-    var role = window.sessionStorage.getItem("role");
-    if (role === "LMSCHECKER" || role === "LMSEDITOR") {
-      return true;
-    } else {
-      return false;
-    }
+    return LMS_ROLES.includes(window.sessionStorage.getItem("department"));
   };
 
   stu_header = [
@@ -235,9 +231,7 @@ export class Student extends Component {
   }
 
   rowClick = (rowData) => {
-    if (
-      ["LMSEDITOR", "LMSCHECKER"].indexOf(sessionStorage.getItem("role")) === -1
-    ) {
+    if (!LMS_ROLES.includes(window.sessionStorage.getItem("department"))) {
       window.sessionStorage.setItem("student", rowData);
       this.props.match.path !== "/admin/productpunching"
         ? this.props.history.push(studentIdPath + "/" + rowData.id)
@@ -331,7 +325,9 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
-    this.state.lastName === null || this.state.lastName.length === 0 || this.state.lastName?.trim(" ")  === ""
+    this.state.lastName === null ||
+    this.state.lastName.length === 0 ||
+    this.state.lastName?.trim(" ") === ""
       ? this.setState({
           lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
           isLoading: false,
@@ -396,7 +392,7 @@ export class Student extends Component {
       this.state.product.length !== 0
     )
       this.lmsProductSetState(this.state.product);
-    console.log(this.state)
+    console.log(this.state);
     if (
       this.state.firstName !== null &&
       this.state.firstName.length !== 0 &&
@@ -434,7 +430,7 @@ export class Student extends Component {
         internshipAccess: this.state.internAccess === false ? "no" : "yes",
         origin: "ADMIN Portal",
       };
-      console.log(studentObj)
+      console.log(studentObj);
       this.props.mernStudentSignUp(studentObj, (response) => {
         if (response.auth) {
           if (
@@ -496,14 +492,14 @@ export class Student extends Component {
           isLoading: false,
         })
       : this.setState({ firstNameHelperText: "" });
-     this.state.lastName === null ||
-     this.state.lastName.length === 0 ||
-     this.state.lastName?.trim(" ") === ""
-       ? this.setState({
-           lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
-           isLoading: false,
-         })
-       : this.setState({ lastNameHelperText: "" });
+    this.state.lastName === null ||
+    this.state.lastName.length === 0 ||
+    this.state.lastName?.trim(" ") === ""
+      ? this.setState({
+          lastNameHelperText: `If there is no lastname just enter "." on this field otherwise kindly enter your lastname here`,
+          isLoading: false,
+        })
+      : this.setState({ lastNameHelperText: "" });
     this.state.eMail === null || this.state.eMail.length === 0
       ? this.setState({
           emailHelperText: "Please fill the required field",
@@ -568,7 +564,8 @@ export class Student extends Component {
     ) {
       let studentObj = {
         firstName: this.state.firstName,
-        lastName: this.state.lastName?.trim(" ") !== "" ? this.state.lastName : ".",
+        lastName:
+          this.state.lastName?.trim(" ") !== "" ? this.state.lastName : ".",
         college: this.state.college.id,
         department: this.state.department.id,
         email_id: this.state.eMail,
@@ -721,8 +718,8 @@ export class Student extends Component {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Product Name"
-                    variant="outlined"
+                    label='Product Name'
+                    variant='outlined'
                     error={item.productNameHelperText.length !== 0}
                     helperText={item.productNameHelperText}
                   />
@@ -806,11 +803,11 @@ export class Student extends Component {
                       onChange={(e) => {
                         this.onChange("stage", e.target.checked, idx);
                       }}
-                      name="stage"
-                      color="primary"
+                      name='stage'
+                      color='primary'
                     />
                   }
-                  label="isActive"
+                  label='isActive'
                 />
               )}
             </Grid>
@@ -1013,18 +1010,18 @@ export class Student extends Component {
         <Dialog
           open={this.state.dialogOpen}
           onClose={this.handleDialogClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id="alert-dialog-title">
+          <DialogTitle id='alert-dialog-title'>
             {this.state.id === null ? "Add New Student" : "Edit Student"}
           </DialogTitle>
           <DialogContent>
             <Grid container spacing={2}>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   fullWidth
                   error={this.state.firstNameHelperText.length !== 0}
                   helperText={this.state.firstNameHelperText}
@@ -1033,14 +1030,14 @@ export class Student extends Component {
                   }}
                   value={this.state.firstName || null}
                   onChange={(e) => this.setState({ firstName: e.target.value })}
-                  label="First Name"
+                  label='First Name'
                 />
               </Grid>
 
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   fullWidth
                   error={this.state.lastNameHelperText.length !== 0}
                   helperText={this.state.lastNameHelperText}
@@ -1049,38 +1046,38 @@ export class Student extends Component {
                   }}
                   value={this.state.lastName || null}
                   onChange={(e) => this.setState({ lastName: e.target.value })}
-                  label="Last Name"
+                  label='Last Name'
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.emailHelperText.length !== 0}
                   helperText={this.state.emailHelperText}
                   value={this.state.eMail || null}
                   onChange={(e) => this.setState({ eMail: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label="E-Mail"
+                  label='E-Mail'
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   disabled
                   value={this.state.eMail || ""}
                   InputLabelProps={{
                     shrink: this.state.eMail !== null ? true : false,
                   }}
                   fullWidth
-                  label="UserName"
+                  label='UserName'
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   value={this.state.college}
                   options={this.props.allCollegeList}
                   onChange={(e, newValue) =>
@@ -1097,16 +1094,16 @@ export class Student extends Component {
                       helperText={this.state.collegeHelperText}
                       error={this.state.collegeHelperText.length !== 0}
                       {...params}
-                      size="small"
-                      label="College"
-                      variant="outlined"
+                      size='small'
+                      label='College'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id='combo-box-demo'
                   value={this.state.department}
                   options={this.props.BranchList}
                   onChange={(e, newValue) =>
@@ -1123,17 +1120,17 @@ export class Student extends Component {
                       helperText={this.state.departmentHelperText}
                       error={this.state.departmentHelperText.length !== 0}
                       {...params}
-                      size="small"
-                      label="Department"
-                      variant="outlined"
+                      size='small'
+                      label='Department'
+                      variant='outlined'
                     />
                   )}
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.phoneHelperText.length !== 0}
                   helperText={this.state.phoneHelperText}
                   onKeyPress={(evt) => {
@@ -1143,7 +1140,7 @@ export class Student extends Component {
                   onChange={(e) => this.setState({ phone: e.target.value })}
                   disabled={this.state.id}
                   fullWidth
-                  label="Phone Number"
+                  label='Phone Number'
                   inputProps={{
                     maxLength: 10,
                   }}
@@ -1152,8 +1149,8 @@ export class Student extends Component {
 
               <Grid item md={6}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   error={this.state.studentIdHelperText.length !== 0}
                   helperText={this.state.studentIdHelperText}
                   value={this.state.studentId || null}
@@ -1164,11 +1161,11 @@ export class Student extends Component {
                     this.state.oldStudentId.trim().length !== 0
                   }
                   fullWidth
-                  label="Student ID"
+                  label='Student ID'
                 />
               </Grid>
 
-              <Grid item md={3} align="center">
+              <Grid item md={3} align='center'>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -1177,14 +1174,14 @@ export class Student extends Component {
                       onChange={(e) =>
                         this.setState({ toogleButton: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
                   label={this.state.provider === null ? "App User" : "Google"}
                 />
               </Grid>
-              <Grid item md={3} align="center">
+              <Grid item md={3} align='center'>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -1192,11 +1189,11 @@ export class Student extends Component {
                       onChange={(e) =>
                         this.setState({ isActive: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="Is Active"
+                  label='Is Active'
                 />
               </Grid>
               <Grid item md={3}>
@@ -1207,11 +1204,11 @@ export class Student extends Component {
                       onChange={(e) =>
                         this.setState({ internAccess: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="Internship Access"
+                  label='Internship Access'
                 />
               </Grid>
               <Grid item md={3}>
@@ -1222,25 +1219,25 @@ export class Student extends Component {
                       onChange={(e) =>
                         this.setState({ lmsAccess: e.target.checked })
                       }
-                      name="checkedB"
-                      color="primary"
+                      name='checkedB'
+                      color='primary'
                     />
                   }
-                  label="LMS Access"
+                  label='LMS Access'
                 />
               </Grid>
               <Grid item md={12}>
                 <TextField
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   disabled
                   value={this.state.phone || ""}
                   fullWidth
-                  label="Password"
+                  label='Password'
                 />
               </Grid>
-              {["LMSEDITOR", "LMSCHECKER"].includes(
-                window.sessionStorage.getItem("role")
+              {LMS_ROLES.includes(
+                window.sessionStorage.getItem("department")
               ) && (
                 <Grid
                   item
@@ -1263,7 +1260,7 @@ export class Student extends Component {
                   ? this.handleSubmit(e)
                   : this.handleEdit(e)
               }
-              color="primary"
+              color='primary'
               disabled={this.state.isLoading}
               autoFocus
             >
@@ -1293,7 +1290,7 @@ export class Student extends Component {
   }
 }
 function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
 const LinkButton = styled.button`

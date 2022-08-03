@@ -1,7 +1,7 @@
-import React from 'react';
-import Pagination from '@material-ui/lab/Pagination';
-import { createTheme, makeStyles } from '@material-ui/core/styles';
-import { ThemeProvider } from 'styled-components';
+import React from "react";
+import Pagination from "@material-ui/lab/Pagination";
+import { createTheme, makeStyles } from "@material-ui/core/styles";
+import { ThemeProvider } from "styled-components";
 
 // import PropType from 'prop-types';
 
@@ -13,46 +13,46 @@ import { ThemeProvider } from 'styled-components';
 //   },
 // });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   ul: {
-    '& .MuiPaginationItem-root': {
-      color: '#fff',
+    "& .MuiPaginationItem-root": {
+      color: "#fff",
     },
   },
   root: {
-    '& > *': {
+    "& > *": {
       marginTop: theme.spacing(2),
     },
-    '& .MuiPaginationItem-icon': {
-      color: '#ffffff',
+    "& .MuiPaginationItem-icon": {
+      color: "#ffffff",
     },
-    '& .MuiPagination-ul > li': {
-      '&:first-child': {
-        '& button': {
-          background: '#1093ff',
+    "& .MuiPagination-ul > li": {
+      "&:first-child": {
+        "& button": {
+          background: "#1093ff",
         },
       },
-      '&:last-child': {
-        '& button': {
-          background: '#1093ff',
+      "&:last-child": {
+        "& button": {
+          background: "#1093ff",
         },
       },
     },
-    '& .MuiPagination-ul': {
-      justifyContent: 'center',
+    "& .MuiPagination-ul": {
+      justifyContent: "center",
 
-      flexWrap: 'nowrap',
+      flexWrap: "nowrap",
     },
-    '& .Mui-selected': {
-      backgroundColor: 'white',
-      color: '#1093ff',
-      borderColor: '#1093ff',
+    "& .Mui-selected": {
+      backgroundColor: "white",
+      color: "#1093ff",
+      borderColor: "#1093ff",
     },
-    '& .Mui-selected:hover': {
-      backgroundColor: 'white',
+    "& .Mui-selected:hover": {
+      backgroundColor: "white",
     },
-    '& .MuiPaginationItem-page:hover': {
-      backgroundColor: 'white',
+    "& .MuiPaginationItem-page:hover": {
+      backgroundColor: "white",
     },
   },
 }));
@@ -69,6 +69,7 @@ function PaginationComponent({ pageCount, onPageChange, ...rest }) {
           onChange={onPageChange}
           variant='outlined'
           shape='rounded'
+          {...rest}
         />
       </React.Fragment>
     );

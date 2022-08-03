@@ -90,6 +90,7 @@ import {
   lms_study_plans,
   lms_copy_question,
   lms_passage,
+  lms_view_study_plan,
   loginPath,
   notificationPath,
   obOperationPath,
@@ -131,6 +132,7 @@ import {
   thirdYear,
   createWebinarPath,
   editWebinarPath,
+  lms_concept,
 } from "./RoutePaths";
 import Student from "./Student";
 import Student_data from "./StudentData";
@@ -154,7 +156,10 @@ import PlacementDrives from "./Wall/PlacementDrives";
 import DriveResult from "./Wall/Pages/DriveResult";
 import CopyQuestion from "../Lms/Component/Test/CopyQuestion/Index";
 import Passage from "../Lms/Component/Passage/Index";
+import ViewStudyPlan from "../Lms/Component/StudyPlans/ViewStudyPlan";
+import LmsConcept from "../Lms/Component/Concept/Index";
 // import PersonaInfo from './Utils/DoccumentCard'
+
 export default function Routes(props) {
   return (
     <Switch>
@@ -502,6 +507,12 @@ export default function Routes(props) {
 
       <Route
         exact
+        path={lms_view_study_plan}
+        render={(props) => <ViewStudyPlan {...props} />}
+      />
+
+      <Route
+        exact
         path={clsaPath}
         render={(props) => <ClsaLanding {...props} />}
       />
@@ -537,6 +548,7 @@ export default function Routes(props) {
         component={BulkUpload}
       />
       <Route export exact path={single_upload} component={SingleUpload} />
+      <Route export exact path={lms_concept} component={LmsConcept} />
       <Route
         exact
         path={clsaPath}

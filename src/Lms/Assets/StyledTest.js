@@ -248,7 +248,7 @@ export const textFieldTheme = createTheme({
 });
 
 export const QDiv = styled.div`
-  padding: 24px 0px;
+  padding: 24px 0px 0px;
 `;
 
 export const EditorBox = styled.div`

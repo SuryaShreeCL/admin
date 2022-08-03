@@ -15,8 +15,8 @@ import { Alert } from "@material-ui/lab";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import MomentUtils from '@date-io/moment';
-import ScheduleIcon from '@mui/icons-material/Schedule';
+import MomentUtils from "@date-io/moment";
+import ScheduleIcon from "@mui/icons-material/Schedule";
 import { rescheduleTest } from "../../../AsyncApiCall/Student";
 import { lms_add_test } from "../../../Component/RoutePaths";
 import PublishIcon from "../../Assets/icons/Publish.svg";
@@ -116,6 +116,7 @@ class TestLanding extends Component {
       conceptId: null,
       topicOptions: [],
       courseValue: null,
+      isLoadingFirstTime: true,
     };
   }
 
@@ -129,13 +130,12 @@ class TestLanding extends Component {
   };
 
   componentDidMount() {
-    const role = sessionStorage.getItem("role");
+    const role = sessionStorage.getItem("department");
     var deptname = window.sessionStorage.getItem("department");
     console.log(deptname);
     this.setState({
       deptName: deptname,
     });
-
     var paramObj = {
       page: INITIAL_PAGE_NO,
       size: NO_OF_RESPONSE,
@@ -175,6 +175,7 @@ class TestLanding extends Component {
                           subjectId: subjectResponse.data[0]?.id,
                           conceptId: conceptResponse.data[0]?.id,
                           topicId: topicResponse.data?.[0]?.id,
+                          isLoadingFirstTime: false,
                         });
                       }
                     );
@@ -319,14 +320,15 @@ class TestLanding extends Component {
           courseValue,
         } = this.state;
         if (
-          prevState.currentPage !== currentPage ||
-          prevState.testType !== testType ||
-          prevState.topicId !== topicId ||
-          prevState.status !== status ||
-          prevState.field !== field ||
-          prevState.order !== order ||
-          prevState.courseId !== courseId
-        )
+          (prevState.currentPage !== currentPage ||
+            prevState.testType !== testType ||
+            prevState.topicId !== topicId ||
+            prevState.status !== status ||
+            prevState.field !== field ||
+            prevState.order !== order ||
+            prevState.courseId !== courseId) &&
+          !this.state.isLoadingFirstTime
+        ) {
           this.props.getQuestionSet({
             ...paramObj,
             courseId:
@@ -336,6 +338,7 @@ class TestLanding extends Component {
                 ? courseId
                 : null,
           });
+        }
       }
     }
     if (topicList && prevProps.topicList !== topicList) {
@@ -356,13 +359,10 @@ class TestLanding extends Component {
     this.setState({
       anchorEl: event.currentTarget,
       popUpId: topicId,
-      openStatus:status === "Expired"? false:!this.state.openStatus,
+      openStatus: status === "Expired" ? false : !this.state.openStatus,
       clickableStatus: status,
-      
     });
-    
   };
-
 
   handleClose = () => {
     this.setState({ anchorEl: null, popUpId: null, openStatus: false });
@@ -381,7 +381,7 @@ class TestLanding extends Component {
         type: "archive",
         icon: <ArchiveIcon style={{ fontSize: "48px", fill: "#1093FF" }} />,
         title: "Are you sure you want to Archive?",
-        body: deptname !== "assessment_engine_admin"? topicName : "",
+        body: deptname !== "assessment_engine_admin" ? topicName : "",
         button1: "No",
         button2: "Yes",
       };
@@ -839,7 +839,7 @@ class TestLanding extends Component {
             alertMsg: "Test rescheduled successfully",
             popupOpen: false,
           });
-          this.handleClose()
+          this.handleClose();
           let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
           this.state.department !== "assessment_engine_admin"
             ? this.props.getQuestionSet({
@@ -891,7 +891,7 @@ class TestLanding extends Component {
             alertMsg: "Test rescheduled successfully",
             popupOpen: false,
           });
-          this.handleClose()
+          this.handleClose();
           let paramObj = { page: INITIAL_PAGE_NO, size: NO_OF_RESPONSE };
           this.state.department !== "assessment_engine_admin"
             ? this.props.getQuestionSet({
