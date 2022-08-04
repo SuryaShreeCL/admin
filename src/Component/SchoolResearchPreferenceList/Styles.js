@@ -12,6 +12,13 @@ export const useStyles = makeStyles((theme) => ({
     marginTop: "25px",
     marginLeft: "25px",
   },
+  table: {
+    minWidth: 650,
+  },
+  tableCell: {
+    border: "2px solid #488DFF",
+  },
+
   gridMarginTop: {
     marginTop: "25px",
   },
@@ -36,8 +43,8 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "scroll",
   },
   tooltip: {
-    color: "#343B89 important",
-    backgroundColor: "#343B89 !important",
+    color: "#343B89",
+    backgroundColor: "#343B89",
     fontSize: "12px",
     padding: "10px",
     left: 0,
@@ -45,7 +52,7 @@ export const useStyles = makeStyles((theme) => ({
     top: "-8px",
   },
   arrow: {
-    color: "#343B89 !important",
+    color: "#343B89",
     width: "20px",
   },
 
@@ -694,6 +701,52 @@ export const useStyles = makeStyles((theme) => ({
     cursor: "pointer !important",
     textTransform: "capitalize !important",
   },
+  // tableData:{
+  //   width: "100%",
+  //   borderCollapse: "separate",
+  //   borderSpacing: 0,
+  //   border: "2px solid #488dff",
+  //   borderTopLeftRadius: "10px",
+  //   borderBottomLeftRadius: "10px",
+  //   overflow: "auto !important"
+  //   left: 0px;
+  //   ::-webkit-scrollbar {
+  //     width: 8px,
+  //     height: 52px,
+  //   }
+
+  //   tr th,
+  //   tr td {
+  //     border-left: 2px solid #488dff,
+  //     border-bottom: 2px solid #488dff,
+  //     padding: 5px,
+  //   }
+
+  //   tr th:first-child,
+  //   tr td:first-child {
+  //     border-left: none,
+  //   }
+
+  //   tr:last-child td {
+  //     border-bottom: none,
+  //   }
+
+  //   tr:first-child th {
+  //     border-top-left-radius: 10px,
+  //   }
+
+  //   tr:last-child td {
+  //     border-bottom-left-radius: 10px,
+  //   }
+
+  //   tr:last-child th {
+  //     border-bottom: none !important,
+  //   }
+
+  //   tr:first-child td {
+  //     border-top-left-radius: 10px,
+  //   }
+  // }
 }));
 
 export const MainContainer = styled.div`

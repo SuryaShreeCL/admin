@@ -1,8 +1,10 @@
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
+import React from "react";
+import { useDispatch } from "react-redux";
 import "../../../src/Asset/StyledComponents/Styles";
-import CustomButton from "../../CommonComponents/CustomButton";
-import React, { useState } from "react";
+import { addRecommendationAction } from "../../Actions/SchoolResearchAction";
+import "../../Asset/schoolResearch.css";
 import {
   AddedData,
   Category,
@@ -12,23 +14,14 @@ import {
   VerticalTable,
   VerticalTableHead,
 } from "../../Asset/StyledComponents/Styles";
+import CustomButton from "../../CommonComponents/CustomButton";
 import { preferenceListHeader } from "../../Utils/Data";
 import { COLORS } from "../../Utils/Shared";
 import { useStyles } from "./Styles";
-import "../../Asset/schoolResearch.css";
-import { addRecommendationAction } from "../../Actions/SchoolResearchAction";
-import { useDispatch } from "react-redux";
 export default function PreferenceTabTable(tableData) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const handleClick = (
-    event,
-    universityId,
-    opsAddToRecommend,
-    programNameId,
-    studentAddToRecommend,
-    regionId
-  ) => {
+  const handleClick = (universityId, opsAddToRecommend, programNameId) => {
     let obj = {
       programNameId: programNameId,
       universityId: universityId,
@@ -36,19 +29,26 @@ export default function PreferenceTabTable(tableData) {
     };
     console.log(
       programNameId,
-      opsAddToRecommend,
       universityId,
-      "*****************"
+      opsAddToRecommend,
+      "******************************obj"
     );
     dispatch(
       addRecommendationAction(
-        "3c3b4bee-aab8-462b-9222-9fe30a576734",
-        "c46ccdff-0ce7-4b60-95d7-fc6b8a109646",
+        tableData?.props?.studentId,
+        tableData?.props?.productId,
         obj,
         tableData?.currentTab
       )
     );
+    console.log(obj, "***********************************obj");
+    console.log("**************************************handleClick");
   };
+  console.log(
+    tableData?.buttonDisabled,
+    "****************************tableDataButton"
+  );
+  console.log("rendering element 4");
   return (
     <div className="GraduationListTable">
       <Grid container xs={12} sm={12} md={12} lg={12} xl={12} direction="row">
@@ -84,6 +84,10 @@ export default function PreferenceTabTable(tableData) {
                 }) => (
                   <TableRow>
                     {/* Table Data */}
+                    {console.log(
+                      universityId,
+                      "*****************************************uni"
+                    )}
                     <Category>{categoryName ? categoryName : "NA"}</Category>
                     <TableData>
                       {universityName ? universityName : "NA"}
@@ -91,11 +95,12 @@ export default function PreferenceTabTable(tableData) {
                     <TableData>
                       {programName ? (
                         <Link
-                          href={programName}
+                          href="#"
+                          // href={programName}
                           underline="always"
                           color={COLORS.linkColor}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          // target="_blank"
+                          // rel="noopener noreferrer"
                         >
                           {programName}
                         </Link>
@@ -116,23 +121,22 @@ export default function PreferenceTabTable(tableData) {
                     </TableData>
                     <AddedData style={{ borderLeft: "none" }}>
                       <CustomButton
-                        children={opsAddToRecommend ? "Add" : "Added"}
                         onClick={(event) =>
                           handleClick(
-                            event,
                             universityId,
                             opsAddToRecommend,
-                            programNameId,
-                            studentAddToRecommend,
-                            regionId
+                            programNameId
                           )
                         }
+                        disabled={tableData?.buttonDisabled}
                         className={
                           opsAddToRecommend
-                            ? classes.addedButton
+                            ? classes.addButton
                             : classes.addButton
                         }
-                      />
+                      >
+                        {opsAddToRecommend ? "Added" : "Add"}
+                      </CustomButton>
                     </AddedData>
                   </TableRow>
                 )
