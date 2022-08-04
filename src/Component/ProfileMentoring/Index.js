@@ -44,7 +44,7 @@ function Index(props) {
   const [state, setState] = useState({
     steps: [],
     documentList: [],
-    activeTabValue: null,
+    activeTabValue: "QPMC 1",
     sectionId: null,
     open: false,
     comment: null,
@@ -106,6 +106,7 @@ function Index(props) {
       })
     );
   }, []);
+
   useEffect(() => {
     console.log(stageDetails);
     let id = stageDetails?.steps?.find(
@@ -159,7 +160,7 @@ function Index(props) {
           setState({
             ...state,
             steps: arr,
-            activeTabValue: arr.length !== 0 && arr[0]["CV"],
+            activeTabValue: arr.length !== 0 && arr[0]["sectionName"],
             sectionId: arr.length !== 0 && arr[0]["id"],
           });
         }
@@ -386,14 +387,14 @@ function Index(props) {
       lastestCVLoading: cvloader,
       ...props,
     };
-
+    console.log("rendering element 0");
     if (activeTabValue === "QPMC 1") {
       return <DocumentComponent {...renderProps} />;
-    }
-    if (activeTabValue === "QPMC 2") {
-    }
-    if (activeTabValue === "School Research") {
+    } else if (activeTabValue === "QPMC 2") {
+    } else if (activeTabValue === "School Research") {
       return <PreferenceList studentId={studentId} productId={productId} />;
+    } else {
+      return null;
     }
   };
 

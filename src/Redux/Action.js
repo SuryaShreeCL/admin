@@ -674,4 +674,5 @@ export const SCHOOL_RESEARCH = {
   getPreferenceListBasedOnPreferenceID: "getPreferenceListBasedOnPreferenceID",
   addRecommendation: "addRecommendation",
   getStageComplete: "getStageComplete",
+  clearData: "clearData",
 };

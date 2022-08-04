@@ -28,11 +28,16 @@ const SchoolResearchReducer = (state = initialState, action) => {
         ...state,
         getStageComplete: action.payload,
       };
-    // case SCHOOL_RESEARCH.clearCustomData:
-    //   return {
-    //     ...state,
-    //     [action.fieldName]: null,
-    //   };
+    case SCHOOL_RESEARCH.getStageCalls:
+      return {
+        ...state,
+        getStageCalls: action.payload,
+      };
+    case SCHOOL_RESEARCH.clearData:
+      return {
+        ...state,
+        getStageComplete: null,
+      };
     default:
       break;
   }
