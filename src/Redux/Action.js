@@ -305,6 +305,7 @@ export const ADMIN = {
   getAdminUserDepartments: "getAdminUserDepartments",
   clearCustomData: "clearAdminLoginCustomData",
   getProductsInReports: "getProductsInReports",
+  getManageStudentsByStages:"getManageStudentsByStages"
 };
 
 export const MENTORSCHEDULELIST = {
