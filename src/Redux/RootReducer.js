@@ -69,6 +69,9 @@ import UserManagementReducer from "../Reducer/UserManagementReducer";
 import PassageReducer from "../Lms/Redux/Reducer/PassageReducer";
 import LmsConceptReducer from "../Lms/Redux/Reducer/ConceptReducer";
 
+//School Research
+import SchoolResearchReducer from "../Reducer/SchoolResearchReducer";
+
 export default combineReducers({
   CourseReducer: CourseReducer,
   QuestionsReducer: QuestionsReducer,
@@ -135,4 +138,5 @@ export default combineReducers({
   //elev8 clsa
   ClsaReducer: ClsaReducer,
   UserManagementReducer: UserManagementReducer,
+  SchoolResearchReducer: SchoolResearchReducer,
 });

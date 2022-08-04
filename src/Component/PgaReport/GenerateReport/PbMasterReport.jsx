@@ -145,7 +145,7 @@ function PbMasterReport({ content = [] }) {
             csfs,
             additionalPoint,
           } = item;
-          console.log(item);
+          console.log(item,"+++++++++++++++++");
           return (
             <MyDocument
               preferredProgram={content.preferredProgram}

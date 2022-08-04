@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Card,
-  createMuiTheme,
+  createTheme,
   Dialog,
   DialogContent,
   Table,
@@ -65,7 +65,7 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import * as moment from "moment";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {
@@ -407,7 +407,7 @@ class GraduateTestResult extends Component {
     this.setState({
       show: true,
       greattempt: { title: data.attempt },
-      gredate: data.completedExamDate,
+      gredate: moment(data.completedExamDate).format("YYYY-MM-DD"),
       grequan: data.quantitativeReasoning,
       greverbal: data.verbalReasoning,
       greanalytic: {
@@ -440,7 +440,7 @@ class GraduateTestResult extends Component {
       gmatint: data.integratedReasoning,
       gmatscore: data.score,
       gmatanalytic: { title: data.analyticalAssessment.toString() },
-      gmatdate: data.completedExamDate,
+      gmatdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
       gmatid: data.id,
       gmatfinalFile: this.customFileFormat(data.studentDocument),
     });
@@ -454,7 +454,7 @@ class GraduateTestResult extends Component {
       toefllis: data.listening,
       toeflread: data.reading,
       toeflwrite: data.writing,
-      toefldate: data.completedExamDate,
+      toefldate: moment(data.completedExamDate).format("YYYY-MM-DD"),
       toeflscore: data.score,
       toeflid: data.id,
       toeflfinalFile: this.customFileFormat(data.studentDocument),
@@ -469,7 +469,7 @@ class GraduateTestResult extends Component {
       ieltslis: data.listeningScore,
       ieltsread: data.readingScore,
       ieltswrite: data.writingScore,
-      ieltsdate: data.completedExamDate,
+      ieltsdate: moment(data.completedExamDate).format("YYYY-MM-DD"),
       ieltsscore: data.totalScore,
       ieltsid: data.id,
       ieltsfinalFile: this.customFileFormat(data.studentDocument),
@@ -549,7 +549,8 @@ class GraduateTestResult extends Component {
       let month = new Date(this.state.gredate).getMonth();
       let year = new Date(this.state.gredate).getFullYear();
       let time = new Date(this.state.gredate).toLocaleTimeString();
-
+      let finalDate = date + "-" + month + "-" + year;
+      console.log(this.state.gredate, "bakugan");
       let obj = {
         attempt: this.state.greattempt && this.state.greattempt.title,
         expectedExamDate: null,
@@ -558,7 +559,7 @@ class GraduateTestResult extends Component {
         analyticalWriting:
           this.state.greanalytic && this.state.greanalytic.title,
         score: this.state.gretotal,
-        completedExamDate: this.state.gredate,
+        completedExamDate: moment(this.state.gredate).format("DD-MM-YYYY"),
       };
 
       this.props.updategrescore(this.state.greid, obj);
@@ -586,7 +587,7 @@ class GraduateTestResult extends Component {
         integratedReasoning: this.state.gmatint,
         analyticalAssessment: this.state.gmatanalytic.title,
         score: this.state.gmatscore,
-        completedExamDate: this.state.gmatdate,
+        completedExamDate: moment(this.state.gmatdate).format("DD-MM-YYYY"),
         verbalReasoning: this.state.gmatverb,
       };
 
@@ -615,7 +616,7 @@ class GraduateTestResult extends Component {
         writing: this.state.toeflwrite,
         speaking: this.state.toeflspeak,
         score: this.state.toeflscore,
-        completedExamDate: this.state.toefldate,
+        completedExamDate: moment(this.state.toefldate).format("DD-MM-YYYY"),
         expectedExamDate: null,
       };
 
@@ -644,7 +645,7 @@ class GraduateTestResult extends Component {
         speakingScore: this.state.ieltsspeak,
         writingScore: this.state.ieltswrite,
         totalScore: this.state.ieltsscore,
-        completedExamDate: this.state.ieltsdate,
+        completedExamDate: moment(this.state.ieltsdate).format("DD-MM-YYYY"),
         expectedExamDate: null,
       };
 
@@ -711,10 +712,21 @@ class GraduateTestResult extends Component {
   };
 
   render() {
+    const {
+      greDateList,
+      gmatDateList,
+      ieltsDateList,
+      toeflDateList,
+    } = this.state;
     const files = this.renderScoreCard(this.state.finalFile);
     const gmatfiles = this.renderScoreCard(this.state.gmatfinalFile);
     const toeflfiles = this.renderScoreCard(this.state.toeflfinalFile);
     const ieltsfiles = this.renderScoreCard(this.state.ieltsfinalFile);
+    const isExamDate =
+      greDateList.length !== 0 ||
+      gmatDateList.length !== 0 ||
+      ieltsDateList.length !== 0 ||
+      toeflDateList.length !== 0;
 
     const { classes } = this.props;
 
@@ -793,7 +805,7 @@ class GraduateTestResult extends Component {
                   {this.props.getgrescoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -804,7 +816,7 @@ class GraduateTestResult extends Component {
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -815,7 +827,7 @@ class GraduateTestResult extends Component {
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -826,7 +838,7 @@ class GraduateTestResult extends Component {
                         Verbal Reasoning
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -837,7 +849,7 @@ class GraduateTestResult extends Component {
                         Analytical Writing
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -848,7 +860,7 @@ class GraduateTestResult extends Component {
                         Quantitative Reasoning
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -859,7 +871,7 @@ class GraduateTestResult extends Component {
                         Total
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -870,7 +882,7 @@ class GraduateTestResult extends Component {
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -879,7 +891,7 @@ class GraduateTestResult extends Component {
                         }}
                       ></TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -893,7 +905,7 @@ class GraduateTestResult extends Component {
                 <TableBody>
                   {this.props.getgrescoreList !== null &&
                     this.props.getgrescoreList.map((eachdata, index) => {
-                      console.log(eachdata.expectedExamDate);
+                      console.log(eachdata.completedExamDate);
                       let date = new Date(eachdata.completedExamDate).getDate();
                       let month =
                         new Date(eachdata.completedExamDate).getMonth() + 1;
@@ -904,7 +916,7 @@ class GraduateTestResult extends Component {
                       return (
                         <TableRow>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -917,7 +929,7 @@ class GraduateTestResult extends Component {
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             style={{
                               color: "#000000",
                               fontWeight: 400,
@@ -926,13 +938,12 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                            {eachdata.completedExamDate}
+                            {console.log(examdate)}
                           </TableCell>
 
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -945,7 +956,7 @@ class GraduateTestResult extends Component {
                             {eachdata.verbalReasoning}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -958,7 +969,7 @@ class GraduateTestResult extends Component {
                             {eachdata.analyticalWriting}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -971,7 +982,7 @@ class GraduateTestResult extends Component {
                             {eachdata.quantitativeReasoning}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -984,7 +995,7 @@ class GraduateTestResult extends Component {
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{ borderBottom: "none", cursor: "pointer" }}
                             // onClick={() => }
@@ -1046,7 +1057,7 @@ class GraduateTestResult extends Component {
                   {this.props.getgmatscoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1057,7 +1068,7 @@ class GraduateTestResult extends Component {
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1068,7 +1079,7 @@ class GraduateTestResult extends Component {
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1079,7 +1090,7 @@ class GraduateTestResult extends Component {
                         Quantitative
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1091,7 +1102,7 @@ class GraduateTestResult extends Component {
                         Analytical Writing Assessment
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1103,7 +1114,7 @@ class GraduateTestResult extends Component {
                         Verbal Reasoning
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1115,7 +1126,7 @@ class GraduateTestResult extends Component {
                         Integrated Reasoning
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1126,7 +1137,7 @@ class GraduateTestResult extends Component {
                         Total
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1137,7 +1148,7 @@ class GraduateTestResult extends Component {
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1162,7 +1173,7 @@ class GraduateTestResult extends Component {
                       return (
                         <TableRow>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1175,7 +1186,7 @@ class GraduateTestResult extends Component {
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1185,13 +1196,11 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                            {eachdata.completedExamDate}
                           </TableCell>
 
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1204,7 +1213,7 @@ class GraduateTestResult extends Component {
                             {eachdata.quantitativeReasoning}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1217,7 +1226,7 @@ class GraduateTestResult extends Component {
                             {eachdata.analyticalAssessment}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1230,7 +1239,7 @@ class GraduateTestResult extends Component {
                             {eachdata.verbalReasoning}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1243,7 +1252,7 @@ class GraduateTestResult extends Component {
                             {eachdata.integratedReasoning}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1256,7 +1265,7 @@ class GraduateTestResult extends Component {
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{ borderBottom: "none" }}
                           >
@@ -1317,7 +1326,7 @@ class GraduateTestResult extends Component {
                   {this.props.gettoeflscoreList.length !== 0 && (
                     <TableRow>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1328,7 +1337,7 @@ class GraduateTestResult extends Component {
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1339,7 +1348,7 @@ class GraduateTestResult extends Component {
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1350,7 +1359,7 @@ class GraduateTestResult extends Component {
                         Reading
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1361,7 +1370,7 @@ class GraduateTestResult extends Component {
                         Writing
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1372,7 +1381,7 @@ class GraduateTestResult extends Component {
                         Speaking{" "}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1383,7 +1392,7 @@ class GraduateTestResult extends Component {
                         Listening
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1394,7 +1403,7 @@ class GraduateTestResult extends Component {
                         Total
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1405,7 +1414,7 @@ class GraduateTestResult extends Component {
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1429,7 +1438,7 @@ class GraduateTestResult extends Component {
                       return (
                         <TableRow>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1442,7 +1451,7 @@ class GraduateTestResult extends Component {
                             {eachdata.attempt}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1452,13 +1461,11 @@ class GraduateTestResult extends Component {
                               borderBottom: "none",
                             }}
                           >
-                            {moment(
-                              new Date(eachdata && eachdata.completedExamDate)
-                            ).format("MMM yyyy")}
+                            {eachdata.completedExamDate}
                           </TableCell>
 
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1471,7 +1478,7 @@ class GraduateTestResult extends Component {
                             {eachdata.reading}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1484,7 +1491,7 @@ class GraduateTestResult extends Component {
                             {eachdata.writing}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1497,7 +1504,7 @@ class GraduateTestResult extends Component {
                             {eachdata.speaking}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1510,7 +1517,7 @@ class GraduateTestResult extends Component {
                             {eachdata.listening}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{
                               color: "#000000",
@@ -1524,7 +1531,7 @@ class GraduateTestResult extends Component {
                             {eachdata.score}
                           </TableCell>
                           <TableCell
-                            align='center'
+                            align="center"
                             contentEditable={this.state.disable}
                             style={{ borderBottom: "none" }}
                           >
@@ -1591,7 +1598,7 @@ class GraduateTestResult extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1602,7 +1609,7 @@ class GraduateTestResult extends Component {
                         Attempt #
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1613,7 +1620,7 @@ class GraduateTestResult extends Component {
                         Exam Date
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1624,7 +1631,7 @@ class GraduateTestResult extends Component {
                         Reading
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1635,7 +1642,7 @@ class GraduateTestResult extends Component {
                         Writing
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1646,7 +1653,7 @@ class GraduateTestResult extends Component {
                         Speaking{" "}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1657,7 +1664,7 @@ class GraduateTestResult extends Component {
                         Listening
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1668,7 +1675,7 @@ class GraduateTestResult extends Component {
                         Total
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1679,7 +1686,7 @@ class GraduateTestResult extends Component {
                         Transcripts
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{
                           color: "#000000",
                           fontWeight: 400,
@@ -1705,7 +1712,7 @@ class GraduateTestResult extends Component {
                         return (
                           <TableRow>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1718,7 +1725,7 @@ class GraduateTestResult extends Component {
                               {eachdata.attempt}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1728,13 +1735,11 @@ class GraduateTestResult extends Component {
                                 borderBottom: "none",
                               }}
                             >
-                              {moment(
-                                new Date(eachdata && eachdata.completedExamDate)
-                              ).format("MMM yyyy")}
+                              {eachdata.completedExamDate}
                             </TableCell>
 
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1747,7 +1752,7 @@ class GraduateTestResult extends Component {
                               {eachdata.readingScore}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1760,7 +1765,7 @@ class GraduateTestResult extends Component {
                               {eachdata.writingScore}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1773,7 +1778,7 @@ class GraduateTestResult extends Component {
                               {eachdata.speakingScore}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1786,7 +1791,7 @@ class GraduateTestResult extends Component {
                               {eachdata.listeningScore}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               contentEditable={this.state.disable}
                               style={{
                                 color: "#000000",
@@ -1799,7 +1804,7 @@ class GraduateTestResult extends Component {
                               {eachdata.totalScore}
                             </TableCell>
                             <TableCell
-                              align='center'
+                              align="center"
                               style={{ borderBottom: "none" }}
                             >
                               <div
@@ -1846,7 +1851,7 @@ class GraduateTestResult extends Component {
             {this.props.getAllDocumentList.GRE &&
               this.props.getAllDocumentList.GRE.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction='column'>
+                  <Grid item md={12} direction="column">
                     <p style={GridStyle}>GRE</p>
                   </Grid>
                   <Grid item={12} container>
@@ -1855,7 +1860,7 @@ class GraduateTestResult extends Component {
                           <Grid
                             item
                             md={4}
-                            direction='row'
+                            direction="row"
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1863,7 +1868,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category='Gre'
+                              category="Gre"
                               id={data.greId}
                               // status={this.state.documentedit}
                               status={true}
@@ -1877,7 +1882,7 @@ class GraduateTestResult extends Component {
             {this.props.getAllDocumentList.GMAT &&
               this.props.getAllDocumentList.GMAT.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction='column'>
+                  <Grid item md={12} direction="column">
                     <p style={GridStyle}>GMAT</p>
                   </Grid>
                   <Grid item={12} container>
@@ -1886,7 +1891,7 @@ class GraduateTestResult extends Component {
                           <Grid
                             item
                             md={4}
-                            direction='row'
+                            direction="row"
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1894,7 +1899,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category='Gmat'
+                              category="Gmat"
                               id={data.gmatId}
                               // status={this.state.documentedit}
                               status={true}
@@ -1917,7 +1922,7 @@ class GraduateTestResult extends Component {
                           <Grid
                             item
                             md={4}
-                            direction='row'
+                            direction="row"
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1925,7 +1930,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category='Toefl'
+                              category="Toefl"
                               id={data.tofelId}
                               // status={this.state.documentedit}
                               status={true}
@@ -1939,7 +1944,7 @@ class GraduateTestResult extends Component {
             {this.props.getAllDocumentList.IELTS &&
               this.props.getAllDocumentList.IELTS.length !== 0 && (
                 <Grid item md={12}>
-                  <Grid item md={12} direction='column'>
+                  <Grid item md={12} direction="column">
                     <p style={GridStyle}>IELTS</p>
                   </Grid>
                   <Grid item={12} container>
@@ -1948,7 +1953,7 @@ class GraduateTestResult extends Component {
                           <Grid
                             item
                             md={4}
-                            direction='row'
+                            direction="row"
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
@@ -1956,7 +1961,7 @@ class GraduateTestResult extends Component {
                               date={data.date}
                               path={data.path}
                               studentid={this.props.match.params.studentId}
-                              category='Ielts'
+                              category="Ielts"
                               id={data.ieltsId}
                               // status={this.state.documentedit}
                               status={true}
@@ -1967,9 +1972,11 @@ class GraduateTestResult extends Component {
                   </Grid>
                 </Grid>
               )}
-            <Grid item md={12}>
-              <p style={HeadStyle}>Exam Date</p>
-            </Grid>
+            {isExamDate && (
+              <Grid item md={12}>
+                <p style={HeadStyle}>Exam Date</p>
+              </Grid>
+            )}
             <Grid item md={12}>
               <Grid container spacing={3}>
                 <Grid item md={12}>
@@ -2050,7 +2057,7 @@ class GraduateTestResult extends Component {
                 <Grid item md={12}>
                   <Grid item md={12}>
                     <p style={GridStyle}>
-                      {this.state.toeflDateList.length > 0 ? "IELTS" : ""}
+                      {this.props.ietlsCompletedScore.length > 0 ? "IELTS" : ""}
                     </p>
                   </Grid>
                   <Grid item md={12}>
@@ -2078,7 +2085,7 @@ class GraduateTestResult extends Component {
             <Dialog
               open={this.state.show}
               onClose={() => this.setState({ show: false })}
-              maxWidth='sm'
+              maxWidth="sm"
               fullWidth={true}
             >
               <DialogContent>
@@ -2099,7 +2106,7 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       options={this.attempt}
                       value={this.state.greattempt}
@@ -2112,34 +2119,21 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Attempt'
-                          variant='standard'
+                          label="Attempt"
+                          variant="standard"
                         />
                       )}
                     />
                   </Grid>
+
                   <Grid item xs={12} md={6}>
-                    {/* <KeyboardDatePicker
-                     
-                     
-                      id="date-picker-dialog"
-                      
-                      format="MMM/yyyy"
-                     
-                     
-                      onChange={(newValue) =>
-                        this.setState({ gredate: new Date(newValue) })
-                      }
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    /> */}
+                    {console.log(this.state.gredate)}
+
                     <TextField
-                      disableFuture
-                      margin='normal'
-                      label='Exam Date'
+                      margin="normal"
+                      label="Exam Date"
                       value={this.state.gredate}
-                      type='month'
+                      type="date"
                       onChange={(e) =>
                         this.setState({ gredate: e.target.value })
                       }
@@ -2147,13 +2141,13 @@ class GraduateTestResult extends Component {
                         shrink: true,
                       }}
                       fullWidth
-                      name='ExamDate'
+                      name="ExamDate"
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Quantative Reasoning (Max Score 170)'
+                      type="number"
+                      label="Quantative Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.grequan}
                       onChange={(e) => {
@@ -2169,8 +2163,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Verbal Reasoning (Max Score 170)'
+                      type="number"
+                      label="Verbal Reasoning (Max Score 170)"
                       fullWidth
                       value={this.state.greverbal}
                       onChange={(e) => {
@@ -2186,8 +2180,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Total (Max Score 340)'
+                      type="number"
+                      label="Total (Max Score 340)"
                       fullWidth
                       value={this.state.gretotal}
                       onChange={(e) => {
@@ -2202,20 +2196,9 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6}>
-                    {/* <TextField
-                      type="number"
-                      label="Analytical Writing"
-                      fullWidth
-                      value={this.state.greanalytic}
-                      onChange={(e) =>
-                        this.setState({
-                          greanalytic: e.target.value,
-                        })
-                      }
-                    /> */}
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       options={this.analyticalArr}
                       value={this.state.greanalytic}
@@ -2228,14 +2211,14 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Analytical Writing (Max Score 6)'
-                          variant='standard'
+                          label="Analytical Writing (Max Score 6)"
+                          variant="standard"
                         />
                       )}
                     />
                   </Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.onDrop}>
+                    <Dropzone onDrop={this.onDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2250,7 +2233,7 @@ class GraduateTestResult extends Component {
                             {...getRootProps({ className: "dropzone" })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color='primary' />
+                            <PublishRoundedIcon color="primary" />
                           </div>
                           <Typography
                             style={{
@@ -2327,7 +2310,7 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       options={this.attempt}
                       value={this.state.gmatattempt}
@@ -2340,8 +2323,8 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Attempt'
-                          variant='standard'
+                          label="Attempt"
+                          variant="standard"
                         />
                       )}
                     />
@@ -2349,10 +2332,10 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <TextField
                       disableFuture
-                      margin='normal'
-                      label='Exam Date'
+                      margin="normal"
+                      label="Exam Date"
                       value={this.state.gmatdate}
-                      type='month'
+                      type="date"
                       onChange={(e) =>
                         this.setState({ gmatdate: e.target.value })
                       }
@@ -2360,29 +2343,13 @@ class GraduateTestResult extends Component {
                         shrink: true,
                       }}
                       fullWidth
-                      name='ExamDate'
+                      name="ExamDate"
                     />
-                    {/* <KeyboardDatePicker
-                      disableFuture
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Exam Date"
-                      format="MMM/yyyy"
-                      fullWidth
-                     
-                      // disabled
-                      onChange={(newValue) => {
-                        this.setState({ gmatdate: new Date(newValue) });
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Quantative Reasoning (Max Score 60)'
+                      type="number"
+                      label="Quantative Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatquan}
                       onChange={(e) => {
@@ -2395,18 +2362,9 @@ class GraduateTestResult extends Component {
                     />
                   </Grid>
                   <Grid item md={6}>
-                    {/* <TextField
-                      type="number"
-                      label="Analytical Writing Assessment"
-                      fullWidth
-                      value={this.state.gmatanalytic}
-                      onChange={(e) =>
-                        this.setState({ gmatanalytic: e.target.value })
-                      }
-                    /> */}
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       options={this.analyticalArr}
                       value={this.state.gmatanalytic}
@@ -2419,16 +2377,16 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Analytical Writing Assessment (Max Score 6)'
-                          variant='standard'
+                          label="Analytical Writing Assessment (Max Score 6)"
+                          variant="standard"
                         />
                       )}
                     />
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Integrated Reasoning (Max Score 8)'
+                      type="number"
+                      label="Integrated Reasoning (Max Score 8)"
                       fullWidth
                       value={this.state.gmatint}
                       onChange={(e) => {
@@ -2442,8 +2400,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Verbal Reasoning (Max Score 60)'
+                      type="number"
+                      label="Verbal Reasoning (Max Score 60)"
                       fullWidth
                       value={this.state.gmatverb}
                       onChange={(e) => {
@@ -2457,8 +2415,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Total (Max Score 800)'
+                      type="number"
+                      label="Total (Max Score 800)"
                       fullWidth
                       value={this.state.gmatscore}
                       onChange={(e) => {
@@ -2472,7 +2430,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.gmatonDrop}>
+                    <Dropzone onDrop={this.gmatonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2487,7 +2445,7 @@ class GraduateTestResult extends Component {
                             {...getRootProps({ className: "dropzone" })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color='primary' />
+                            <PublishRoundedIcon color="primary" />
                           </div>
                           <Typography
                             style={{
@@ -2567,7 +2525,7 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       // disabled={this.state.disable}
                       options={this.attempt}
@@ -2581,8 +2539,8 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Attempt'
-                          variant='standard'
+                          label="Attempt"
+                          variant="standard"
                         />
                       )}
                     />
@@ -2590,10 +2548,10 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <TextField
                       disableFuture
-                      margin='normal'
-                      label='Exam Date'
+                      margin="normal"
+                      label="Exam Date"
                       value={this.state.toefldate}
-                      type='month'
+                      type="date"
                       onChange={(e) =>
                         this.setState({ toefldate: e.target.value })
                       }
@@ -2601,30 +2559,13 @@ class GraduateTestResult extends Component {
                         shrink: true,
                       }}
                       fullWidth
-                      name='ExamDate'
+                      name="ExamDate"
                     />
-                    {/* <KeyboardDatePicker
-                      disableFuture
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Exam Date"
-                      disableFuture
-                      format="MMM/yyyy"
-                      fullWidth
-                      value={this.state.toefldate}
-                      // disabled
-                      onChange={(newValue) =>
-                        this.setState({ toefldate: new Date(newValue) })
-                      }
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Reading (Max Score 30)'
+                      type="number"
+                      label="Reading (Max Score 30)"
                       fullWidth
                       value={this.state.toeflread}
                       onChange={(e) => {
@@ -2638,8 +2579,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Writing (Max Score 30)'
+                      type="number"
+                      label="Writing (Max Score 30)"
                       fullWidth
                       value={this.state.toeflwrite}
                       onChange={(e) => {
@@ -2653,8 +2594,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Speaking (Max Score 30)'
+                      type="number"
+                      label="Speaking (Max Score 30)"
                       fullWidth
                       value={this.state.toeflspeak}
                       onChange={(e) => {
@@ -2668,8 +2609,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Listening (Max Score 30)'
+                      type="number"
+                      label="Listening (Max Score 30)"
                       fullWidth
                       value={this.state.toefllis}
                       onChange={(e) => {
@@ -2683,8 +2624,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Total (Max Score 120)'
+                      type="number"
+                      label="Total (Max Score 120)"
                       fullWidth
                       value={this.state.toeflscore}
                       onChange={(e) => {
@@ -2698,7 +2639,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.toeflonDrop}>
+                    <Dropzone onDrop={this.toeflonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2713,7 +2654,7 @@ class GraduateTestResult extends Component {
                             {...getRootProps({ className: "dropzone" })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color='primary' />
+                            <PublishRoundedIcon color="primary" />
                           </div>
                           <Typography
                             style={{
@@ -2793,7 +2734,7 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <Autocomplete
                       popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      id='combo-box-demo'
+                      id="combo-box-demo"
                       fullWidth
                       options={this.attempt}
                       value={this.state.ieltsattempt}
@@ -2806,8 +2747,8 @@ class GraduateTestResult extends Component {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          label='Attempt'
-                          variant='standard'
+                          label="Attempt"
+                          variant="standard"
                         />
                       )}
                     />
@@ -2815,10 +2756,10 @@ class GraduateTestResult extends Component {
                   <Grid item xs={12} md={6}>
                     <TextField
                       disableFuture
-                      margin='normal'
-                      label='Exam Date'
+                      margin="normal"
+                      label="Exam Date"
                       value={this.state.ieltsdate}
-                      type='month'
+                      type="date"
                       onChange={(e) =>
                         this.setState({ ieltsdate: e.target.value })
                       }
@@ -2826,28 +2767,13 @@ class GraduateTestResult extends Component {
                         shrink: true,
                       }}
                       fullWidth
-                      name='ExamDate'
+                      name="ExamDate"
                     />
-                    {/* <KeyboardDatePicker
-                      disableFuture
-                      margin="normal"
-                      id="date-picker-dialog"
-                      label="Exam Date"
-                      format="dd/MM/yyyy"
-                      fullWidth
-                      value={this.state.ieltsdate}
-                      onChange={(newValue) => {
-                        this.setState({ ieltsdate: newValue });
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    /> */}
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Reading (Max Score 9)'
+                      type="number"
+                      label="Reading (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsread}
                       onChange={(e) => {
@@ -2861,8 +2787,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Writing (Max Score 9)'
+                      type="number"
+                      label="Writing (Max Score 9)"
                       fullWidth
                       value={this.state.ieltswrite}
                       onChange={(e) => {
@@ -2876,8 +2802,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Speaking (Max Score 9)'
+                      type="number"
+                      label="Speaking (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsspeak}
                       onChange={(e) => {
@@ -2891,8 +2817,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Listening (Max Score 9)'
+                      type="number"
+                      label="Listening (Max Score 9)"
                       fullWidth
                       value={this.state.ieltslis}
                       onChange={(e) => {
@@ -2906,8 +2832,8 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}>
                     <TextField
-                      type='number'
-                      label='Total (Max Score 9)'
+                      type="number"
+                      label="Total (Max Score 9)"
                       fullWidth
                       value={this.state.ieltsscore}
                       onChange={(e) => {
@@ -2921,7 +2847,7 @@ class GraduateTestResult extends Component {
                   </Grid>
                   <Grid item md={6}></Grid>
                   <Grid item md={6} sm={5} xs={5}>
-                    <Dropzone onDrop={this.ieltsonDrop}>
+                    <Dropzone onDrop={this.ieltsonDrop} accept={".pdf"}>
                       {({ getRootProps, getInputProps }) => (
                         <section>
                           <div
@@ -2936,7 +2862,7 @@ class GraduateTestResult extends Component {
                             {...getRootProps({ className: "dropzone" })}
                           >
                             <input {...getInputProps()} />
-                            <PublishRoundedIcon color='primary' />
+                            <PublishRoundedIcon color="primary" />
                           </div>
                           <Typography
                             style={{

@@ -5,6 +5,9 @@
 *{
     font-family: 'Poppins', sans-serif !important;
 }
+iframe{
+    position: unset!important;
+}
 .heading-new-container{
     margin-bottom: 4%;
 }

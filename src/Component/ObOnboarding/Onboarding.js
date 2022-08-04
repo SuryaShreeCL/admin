@@ -338,7 +338,7 @@ export class Onboarding extends Component {
                           {`Search by Email ID / Mobile / Full Name / CLS ID `}
                         </span>
                       }
-                      variant='outlined'
+                      variant="outlined"
                       value={this.state.search}
                       onChange={(e) => {
                         this.setState({ search: e.target.value });
@@ -358,9 +358,9 @@ export class Onboarding extends Component {
                     <IconButton
                       style={{ marginLeft: "8px" }}
                       onClick={this.handleSearch}
-                      color='primary'
+                      color="primary"
                       id={"search"}
-                      aria-label='search'
+                      aria-label="search"
                     >
                       <SearchRoundedIcon />
                     </IconButton>

@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import "./Rec_lite/Asset/Cardview.css";
 //import Grid from '@material-ui/core/Grid';
@@ -26,7 +26,7 @@ import Sixth from "./Rec_lite/Asset/images/six.png";
 
 export class CardView extends Component {
   getMuitheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCard: {
           root: {
@@ -39,11 +39,10 @@ export class CardView extends Component {
   render() {
     return (
       <ThemeProvider theme={this.getMuitheme()}>
+        <div className="right-header" background-color="#263C9A">
+          <h2>hii</h2>
+        </div>
 
-        <div className="right-header" background-color='#263C9A'><h2>hii</h2></div>
-
-
-        
         <img src={Image} width="100%" height="25%" />
 
         <div>

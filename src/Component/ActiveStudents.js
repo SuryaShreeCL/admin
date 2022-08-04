@@ -4,10 +4,20 @@ import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import MaterialTable from "material-table";
 import history from "./History";
-import {isAlpha, isEmailSpecialChar, isEmptyString, isNumber, isSpecialCharacter} from "./Validation"
-import { createMuiTheme, MuiThemeProvider, ThemeProvider } from "@material-ui/core/styles";
+import {
+  isAlpha,
+  isEmailSpecialChar,
+  isEmptyString,
+  isNumber,
+  isSpecialCharacter,
+} from "./Validation";
+import {
+  createTheme,
+  MuiThemeProvider,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import AddBox from "@material-ui/icons/AddBox";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
 import ChevronLeft from "@material-ui/icons/ChevronLeft";
@@ -22,15 +32,23 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import { getStudents, getStudentPaginate, postStudents, mernStudentSignUp, mernStudentEdit, getWhiteListedUser } from "../Actions/Student";
-import {getAllColleges,getBranches} from "../Actions/College"
+import {
+  getStudents,
+  getStudentPaginate,
+  postStudents,
+  mernStudentSignUp,
+  mernStudentEdit,
+  getWhiteListedUser,
+} from "../Actions/Student";
+import { getAllColleges, getBranches } from "../Actions/College";
 import { connect } from "react-redux";
 import { URL } from "../Actions/URL";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { studentIdPath } from "./RoutePaths";
 import TableComponent from "./TableComponent/TableComponent";
-import {CircularProgress,
+import {
+  CircularProgress,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -40,39 +58,39 @@ import {CircularProgress,
   Grid,
   TextField,
   FormControlLabel,
-  Checkbox
-} from "@material-ui/core"
+  Checkbox,
+} from "@material-ui/core";
 import Loader from "./Utils/controls/Loader";
 export class ActiveStudents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id : null,
-      snackOpen : false,
-      snackColor : null,
-      snackMessage : null,
+      id: null,
+      snackOpen: false,
+      snackColor: null,
+      snackMessage: null,
       data: [],
-      dialogOpen : false,
-      firstName : null,
-      lastName : null,
-      eMail : null,
-      userName : null,
-      college : null,
-      department : null,
-      phone : null,
-      provider : "",
-      toogleButton : false,
-      password : "123456",
-      studentId : null,
-      isActive : false,
-      firstNameHelperText : '',
-      lastNameHelperText : '',
-      emailHelperText : '',
-      collegeHelperText : '',
-      departmentHelperText : '',
-      phoneHelperText : '',
-      studentIdHelperText : '',
-      internAccess : false,
+      dialogOpen: false,
+      firstName: null,
+      lastName: null,
+      eMail: null,
+      userName: null,
+      college: null,
+      department: null,
+      phone: null,
+      provider: "",
+      toogleButton: false,
+      password: "123456",
+      studentId: null,
+      isActive: false,
+      firstNameHelperText: "",
+      lastNameHelperText: "",
+      emailHelperText: "",
+      collegeHelperText: "",
+      departmentHelperText: "",
+      phoneHelperText: "",
+      studentIdHelperText: "",
+      internAccess: false,
       search: {
         page: 0,
         size: "",
@@ -132,53 +150,51 @@ export class ActiveStudents extends Component {
   componentDidMount() {
     // this.props.getStudents();
     this.props.getWhiteListedUser(0, 20);
-    this.props.getAllColleges()
-    this.props.getBranches()
+    this.props.getAllColleges();
+    this.props.getBranches();
   }
 
-  componentDidUpdate(prevProps,prevState){
-    if(this.props.signUpResponse !== prevProps.signUpResponse){
-      if(this.props.signUpResponse.auth === true){
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.signUpResponse !== prevProps.signUpResponse) {
+      if (this.props.signUpResponse.auth === true) {
         this.setState({
-          snackMessage : "Student Registered Successfully",
-          snackColor : "success",
-          snackOpen : true
-        }) 
-        
+          snackMessage: "Student Registered Successfully",
+          snackColor: "success",
+          snackOpen: true,
+        });
       }
       this.props.getWhiteListedUser(0, 20);
     }
-    if(this.props.signUpError !== prevProps.signUpError){
-      console.log("Something")
+    if (this.props.signUpError !== prevProps.signUpError) {
+      console.log("Something");
       this.setState({
-        snackMessage : this.props.signUpError,
-        snackColor : "error",
-        snackOpen : true
-      })
+        snackMessage: this.props.signUpError,
+        snackColor: "error",
+        snackOpen: true,
+      });
     }
-    if(this.props.editStudentResponse !== prevProps.editStudentResponse){
+    if (this.props.editStudentResponse !== prevProps.editStudentResponse) {
       this.setState({
-        snackMessage : "Student Edited Successfully",
-        snackColor : "success",
-        snackOpen : true
-      }) 
+        snackMessage: "Student Edited Successfully",
+        snackColor: "success",
+        snackOpen: true,
+      });
       this.props.getWhiteListedUser(0, 20);
-    } 
-     // TO search users when the input feild for search is empty
-     if (this.state.search.keyword !== prevState.search.keyword) {
+    }
+    // TO search users when the input feild for search is empty
+    if (this.state.search.keyword !== prevState.search.keyword) {
       if (isEmptyString(this.state.search.keyword)) {
         this.props.getWhiteListedUser(0, 20);
       }
     }
   }
 
-
   rowClick = (rowData) => {
     history.push(studentIdPath + rowData.id);
   };
 
   getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiTypography: {
           h6: {
@@ -187,17 +203,17 @@ export class ActiveStudents extends Component {
         },
       },
     });
-    spinnerTheme = () =>createMuiTheme({
-      overrides :{
-        MuiCircularProgress :  {
-          colorPrimary:{
-            color: "#009be5"
-          }
-        }
-      }
+  spinnerTheme = () =>
+    createTheme({
+      overrides: {
+        MuiCircularProgress: {
+          colorPrimary: {
+            color: "#009be5",
+          },
+        },
+      },
     });
   paginate = (page, size, keyword) => {
-
     var tempSearchHolder = { ...this.state.search };
     tempSearchHolder.page = page;
     tempSearchHolder.size = size;
@@ -212,10 +228,16 @@ export class ActiveStudents extends Component {
       this.props.getWhiteListedUser(page, size, keyword);
     }
   };
-  handleSubmit = (e) =>{
-    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : ''})
-    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : ''})
-    this.state.eMail === null || this.state.eMail.length === 0 ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : ''})
+  handleSubmit = (e) => {
+    this.state.firstName === null || this.state.firstName.length === 0
+      ? this.setState({ firstNameHelperText: "Please fill the required feild" })
+      : this.setState({ firstNameHelperText: "" });
+    this.state.lastName === null || this.state.lastName.length === 0
+      ? this.setState({ lastNameHelperText: "Please fill the required feild" })
+      : this.setState({ lastNameHelperText: "" });
+    this.state.eMail === null || this.state.eMail.length === 0
+      ? this.setState({ emailHelperText: "Please fill the required feild" })
+      : this.setState({ emailHelperText: "" });
     if (isEmptyString(this.state.phone)) {
       this.setState({ phoneHelperText: "Please fill the required feild" });
     } else if (this.state.phone.length !== 10) {
@@ -225,18 +247,33 @@ export class ActiveStudents extends Component {
         phoneHelperText: "",
       });
     }
-    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : ''})
-    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : ''})
-    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : ''})
-    if(
-     this.state.firstName !== null && this.state.firstName.length !== 0 &&
-     this.state.lastName !== null && this.state.lastName.length !== 0 &&
-     this.state.eMail !== null && this.state.eMail.length !== 0 &&
-     this.state.phone !== null && this.state.phone.length === 10 &&
-     this.state.college !== null && this.state.college.length !== 0 &&
-     this.state.department !== null && this.state.department.length !== 0 &&
-     this.state.studentId !== null && this.state.studentId.length !== 0 
-     ){
+    this.state.college === null || this.state.college.length === 0
+      ? this.setState({ collegeHelperText: "Please fill the required feild" })
+      : this.setState({ collegeHelperText: "" });
+    this.state.department === null || this.state.department.length === 0
+      ? this.setState({
+          departmentHelperText: "Please fill the required feild",
+        })
+      : this.setState({ departmentHelperText: "" });
+    this.state.studentId === null || this.state.studentId.length === 0
+      ? this.setState({ studentIdHelperText: "Please fill the required feild" })
+      : this.setState({ studentIdHelperText: "" });
+    if (
+      this.state.firstName !== null &&
+      this.state.firstName.length !== 0 &&
+      this.state.lastName !== null &&
+      this.state.lastName.length !== 0 &&
+      this.state.eMail !== null &&
+      this.state.eMail.length !== 0 &&
+      this.state.phone !== null &&
+      this.state.phone.length === 10 &&
+      this.state.college !== null &&
+      this.state.college.length !== 0 &&
+      this.state.department !== null &&
+      this.state.department.length !== 0 &&
+      this.state.studentId !== null &&
+      this.state.studentId.length !== 0
+    ) {
       let studentObj = {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
@@ -249,35 +286,40 @@ export class ActiveStudents extends Component {
         password: this.state.phone,
         provider: this.state.toogleButton === true ? "Google" : "Local",
         privacyPolicy: true,
-        internshipAccess : this.state.internAccess === false ? "no" : "yes",
+        internshipAccess: this.state.internAccess === false ? "no" : "yes",
         avatar: "",
         isActive: this.state.isActive,
         studentId: this.state.studentId,
-        origin : "ADMIN Portal"
+        origin: "ADMIN Portal",
       };
-      this.props.mernStudentSignUp(studentObj)
-      console.log(studentObj)
+      this.props.mernStudentSignUp(studentObj);
+      console.log(studentObj);
       this.setState({
-        dialogOpen : false,
-        firstName : null,
-        lastName : null,
-        eMail : null,
-        phone : null,
-        college : null,
-        internAccess : false,
-        department : null,
-        isActive : false,
-        toogleButton : false,
-        provider : "",
-        studentId : null
-      })
-   }
-   
-  }
-  handleEdit = () =>{
-    this.state.firstName === null || this.state.firstName.length === 0 ? this.setState({firstNameHelperText : "Please fill the required feild"}) : this.setState({firstNameHelperText : ''})
-    this.state.lastName === null || this.state.lastName.length === 0 ? this.setState({lastNameHelperText : "Please fill the required feild"}) : this.setState({lastNameHelperText : ''})
-    this.state.eMail === null || this.state.eMail.length === 0  ? this.setState({emailHelperText : "Please fill the required feild"}) : this.setState({emailHelperText : ''})
+        dialogOpen: false,
+        firstName: null,
+        lastName: null,
+        eMail: null,
+        phone: null,
+        college: null,
+        internAccess: false,
+        department: null,
+        isActive: false,
+        toogleButton: false,
+        provider: "",
+        studentId: null,
+      });
+    }
+  };
+  handleEdit = () => {
+    this.state.firstName === null || this.state.firstName.length === 0
+      ? this.setState({ firstNameHelperText: "Please fill the required feild" })
+      : this.setState({ firstNameHelperText: "" });
+    this.state.lastName === null || this.state.lastName.length === 0
+      ? this.setState({ lastNameHelperText: "Please fill the required feild" })
+      : this.setState({ lastNameHelperText: "" });
+    this.state.eMail === null || this.state.eMail.length === 0
+      ? this.setState({ emailHelperText: "Please fill the required feild" })
+      : this.setState({ emailHelperText: "" });
     if (isEmptyString(this.state.phone)) {
       this.setState({ phoneHelperText: "Please fill the required feild" });
     } else if (this.state.phone.length !== 10) {
@@ -287,51 +329,66 @@ export class ActiveStudents extends Component {
         phoneHelperText: "",
       });
     }
-    this.state.college === null || this.state.college.length === 0 ? this.setState({collegeHelperText : "Please fill the required feild"}) : this.setState({collegeHelperText : ''})
-    this.state.department === null || this.state.department.length === 0 ? this.setState({departmentHelperText : "Please fill the required feild"}) : this.setState({departmentHelperText : ''})
-    this.state.studentId === null || this.state.studentId.length === 0 ? this.setState({studentIdHelperText : "Please fill the required feild"}) : this.setState({studentIdHelperText : ''})
-    if(
-      this.state.firstName !== null && this.state.firstName.length !== 0 &&
-     this.state.lastName !== null && this.state.lastName.length !== 0 &&
-     this.state.eMail !== null && this.state.eMail.length !== 0 &&
-     this.state.phone !== null && this.state.phone.length === 0 &&
-     this.state.college !== null && this.state.college.length !== 0 &&
-     this.state.department !== null && this.state.department.length !== 0 &&
-     this.state.studentId !== null && this.state.studentId.length !== 0 
-      ){
-    let studentObj = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      college: this.state.college.id,
-      department: this.state.department.id,
-      isActive: this.state.isActive,
-      avatar: "",
-      internshipAccess : this.state.internAccess === false ? "no" : "yes",
-      studentId: this.state.studentId,
-      provider: this.state.toogleButton === true ? "Google" : "Local",
-      password: this.state.phone,
-    };
-    console.log(studentObj)
-    this.props.mernStudentEdit(this.state.id,studentObj)
-    this.setState({
-      dialogOpen : false,
-      firstName : null,
-      lastName : null,
-      eMail : null,
-      phone : null,
-      college : null,
-      department : null,
-      isActive : false,
-      toogleButton : false,
-      internAccess : false,
-      provider : "",
-      studentId : null
-    })
-  }
-  }
+    this.state.college === null || this.state.college.length === 0
+      ? this.setState({ collegeHelperText: "Please fill the required feild" })
+      : this.setState({ collegeHelperText: "" });
+    this.state.department === null || this.state.department.length === 0
+      ? this.setState({
+          departmentHelperText: "Please fill the required feild",
+        })
+      : this.setState({ departmentHelperText: "" });
+    this.state.studentId === null || this.state.studentId.length === 0
+      ? this.setState({ studentIdHelperText: "Please fill the required feild" })
+      : this.setState({ studentIdHelperText: "" });
+    if (
+      this.state.firstName !== null &&
+      this.state.firstName.length !== 0 &&
+      this.state.lastName !== null &&
+      this.state.lastName.length !== 0 &&
+      this.state.eMail !== null &&
+      this.state.eMail.length !== 0 &&
+      this.state.phone !== null &&
+      this.state.phone.length === 0 &&
+      this.state.college !== null &&
+      this.state.college.length !== 0 &&
+      this.state.department !== null &&
+      this.state.department.length !== 0 &&
+      this.state.studentId !== null &&
+      this.state.studentId.length !== 0
+    ) {
+      let studentObj = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        college: this.state.college.id,
+        department: this.state.department.id,
+        isActive: this.state.isActive,
+        avatar: "",
+        internshipAccess: this.state.internAccess === false ? "no" : "yes",
+        studentId: this.state.studentId,
+        provider: this.state.toogleButton === true ? "Google" : "Local",
+        password: this.state.phone,
+      };
+      console.log(studentObj);
+      this.props.mernStudentEdit(this.state.id, studentObj);
+      this.setState({
+        dialogOpen: false,
+        firstName: null,
+        lastName: null,
+        eMail: null,
+        phone: null,
+        college: null,
+        department: null,
+        isActive: false,
+        toogleButton: false,
+        internAccess: false,
+        provider: "",
+        studentId: null,
+      });
+    }
+  };
 
-   // Function that handle search
-   handleSearch = () => {
+  // Function that handle search
+  handleSearch = () => {
     this.props.getWhiteListedUser(
       0,
       this.state.search.size,
@@ -339,8 +396,8 @@ export class ActiveStudents extends Component {
     );
   };
 
-  render() {  
-    console.log("Props............",this.props.whiteListedUserDetails)
+  render() {
+    console.log("Props............", this.props.whiteListedUserDetails);
     return (
       <MuiThemeProvider theme={this.getmuitheme}>
         <div>
@@ -377,43 +434,54 @@ export class ActiveStudents extends Component {
                 }
               }}
               onSearchClick={this.handleSearch}
-              onAddClick={(e)=>this.setState({
-                dialogOpen : true,
-                id : null,
-                id : null,
-                firstName : null,
-                lastName : null,
-                eMail : null,
-                userName : null,
-                college : null,
-                department : null,
-                phone : null,
-                provider : "",
-                internAccess : false,
-                toogleButton : false,
-                studentId : null,
-                isActive : false,
-
-              })}
+              onAddClick={(e) =>
+                this.setState({
+                  dialogOpen: true,
+                  id: null,
+                  id: null,
+                  firstName: null,
+                  lastName: null,
+                  eMail: null,
+                  userName: null,
+                  college: null,
+                  department: null,
+                  phone: null,
+                  provider: "",
+                  internAccess: false,
+                  toogleButton: false,
+                  studentId: null,
+                  isActive: false,
+                })
+              }
               action={true}
               onEdit={true}
-              onEditClick={(rowdata)=>{
-                console.log(rowdata)
+              onEditClick={(rowdata) => {
+                console.log(rowdata);
                 this.setState({
-                  id : rowdata.id,
-                  firstName : rowdata.firstName,
-                  lastName : rowdata.lastName,
-                  eMail : rowdata.emailId,
-                  phone : rowdata.phoneNumber,
-                  college : rowdata.college ? {id : rowdata.college.id, name : rowdata.college.name} : null,
-                  department : rowdata.department ? {id :rowdata.department.id, name : rowdata.department.name} : null,
-                  isActive : rowdata.isactive,
-                  internAccess : rowdata.oldUser === null || rowdata.oldUser === "no" ? false : true,
-                  toogleButton : rowdata.provider === "Google" ? true : false,
-                  provider : rowdata.provider,
-                  studentId : rowdata.studentID,
-                  dialogOpen : true
-                })
+                  id: rowdata.id,
+                  firstName: rowdata.firstName,
+                  lastName: rowdata.lastName,
+                  eMail: rowdata.emailId,
+                  phone: rowdata.phoneNumber,
+                  college: rowdata.college
+                    ? { id: rowdata.college.id, name: rowdata.college.name }
+                    : null,
+                  department: rowdata.department
+                    ? {
+                        id: rowdata.department.id,
+                        name: rowdata.department.name,
+                      }
+                    : null,
+                  isActive: rowdata.isactive,
+                  internAccess:
+                    rowdata.oldUser === null || rowdata.oldUser === "no"
+                      ? false
+                      : true,
+                  toogleButton: rowdata.provider === "Google" ? true : false,
+                  provider: rowdata.provider,
+                  studentId: rowdata.studentID,
+                  dialogOpen: true,
+                });
               }}
               cols={this.stu_header}
               onRowClick={this.rowClick}
@@ -424,202 +492,258 @@ export class ActiveStudents extends Component {
             />
           ) : (
             <ThemeProvider theme={this.spinnerTheme()}>
-                <div style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "65vh",
-                }}>
-              {/* <CircularProgress
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "65vh",
+                }}
+              >
+                {/* <CircularProgress
              color="primary"
               variant="indeterminate"
               size = "3rem"
               thickness="3"
                /> */}
-               <Loader />
-               </div>
-              </ThemeProvider>
+                <Loader />
+              </div>
+            </ThemeProvider>
           )}
         </div>
         <Dialog
-        open={this.state.dialogOpen}
-        onClose={(e)=>this.setState({dialogOpen : false})}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{this.state.id === null ? "Add New Student" : "Edit Student"}</DialogTitle>
-        <DialogContent>
+          open={this.state.dialogOpen}
+          onClose={(e) => this.setState({ dialogOpen: false })}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {this.state.id === null ? "Add New Student" : "Edit Student"}
+          </DialogTitle>
+          <DialogContent>
             <Grid container spacing={2}>
-                <Grid item md={6}>
-               <TextField
-               variant="outlined"
-               size="small"
-               fullWidth
-               helperText={this.state.firstNameHelperText}
-               error={this.state.firstNameHelperText.length !== 0}
-               onKeyPress={(evt)=>{ if (isAlpha(evt)) evt.preventDefault() }}
-               value={this.state.firstName}
-               onChange={(e)=>this.setState({firstName : e.target.value})}
-               label="First Name"
-               /> 
-                </Grid>
-                <Grid item md={6}>
+              <Grid item md={6}>
                 <TextField
-               variant="outlined"
-               size="small"
-               fullWidth
-               error={this.state.lastNameHelperText.length !== 0}
-               helperText={this.state.lastNameHelperText}
-               onKeyPress={(evt)=>{ if (isAlpha(evt)) evt.preventDefault() }}
-               value={this.state.lastName}
-               onChange={(e)=>this.setState({lastName : e.target.value})}
-               label="Last Name"
-               />
-                  </Grid>
-                  <Grid item md={6}>
-                  <TextField
-               variant="outlined"
-               size="small"
-               error={this.state.emailHelperText.length !== 0}
-               helperText={this.state.emailHelperText}
-               value={this.state.eMail}
-               onChange={(e)=>this.setState({eMail : e.target.value})}
-               fullWidth
-               label="E-Mail"
-               />
-                  </Grid>
-                  <Grid item md={6}>
-                  <TextField
-               variant="outlined"
-               size="small"
-               disabled
-               value={this.state.eMail}
-               InputLabelProps={{shrink : this.state.eMail !== null ? true : false}}
-               fullWidth
-               label="Username"
-               />
-                  </Grid>
-                  <Grid item md={6}>
-                  <Autocomplete
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  helperText={this.state.firstNameHelperText}
+                  error={this.state.firstNameHelperText.length !== 0}
+                  onKeyPress={(evt) => {
+                    if (isAlpha(evt)) evt.preventDefault();
+                  }}
+                  value={this.state.firstName}
+                  onChange={(e) => this.setState({ firstName: e.target.value })}
+                  label="First Name"
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  error={this.state.lastNameHelperText.length !== 0}
+                  helperText={this.state.lastNameHelperText}
+                  onKeyPress={(evt) => {
+                    if (isAlpha(evt)) evt.preventDefault();
+                  }}
+                  value={this.state.lastName}
+                  onChange={(e) => this.setState({ lastName: e.target.value })}
+                  label="Last Name"
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  error={this.state.emailHelperText.length !== 0}
+                  helperText={this.state.emailHelperText}
+                  value={this.state.eMail}
+                  onChange={(e) => this.setState({ eMail: e.target.value })}
+                  fullWidth
+                  label="E-Mail"
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled
+                  value={this.state.eMail}
+                  InputLabelProps={{
+                    shrink: this.state.eMail !== null ? true : false,
+                  }}
+                  fullWidth
+                  label="Username"
+                />
+              </Grid>
+              <Grid item md={6}>
+                <Autocomplete
                   id="combo-box-demo"
                   value={this.state.college}
                   options={this.props.allCollegeList}
-                  onChange={(e,newValue)=>this.setState({college : {id : newValue !== null ? newValue.id : null, name : newValue !== null ? newValue.name : null}})}
+                  onChange={(e, newValue) =>
+                    this.setState({
+                      college: {
+                        id: newValue !== null ? newValue.id : null,
+                        name: newValue !== null ? newValue.name : null,
+                      },
+                    })
+                  }
                   // onChange={(e,newValue)=>console.log(newValue)}
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField helperText={this.state.collegeHelperText}   
-                    error={this.state.collegeHelperText.length !== 0}
-                  {...params} size="small" label="College" variant="outlined" />}
+                  renderInput={(params) => (
+                    <TextField
+                      helperText={this.state.collegeHelperText}
+                      error={this.state.collegeHelperText.length !== 0}
+                      {...params}
+                      size="small"
+                      label="College"
+                      variant="outlined"
+                    />
+                  )}
                 />
-                  </Grid>
-                  <Grid item md={6}>
-                  <Autocomplete
+              </Grid>
+              <Grid item md={6}>
+                <Autocomplete
                   id="combo-box-demo"
                   value={this.state.department}
                   options={this.props.BranchList}
-                  onChange={(e,newValue)=>this.setState({department : {id :newValue !== null ?  newValue.id : null, name : newValue !== null ? newValue.name : null}})}
+                  onChange={(e, newValue) =>
+                    this.setState({
+                      department: {
+                        id: newValue !== null ? newValue.id : null,
+                        name: newValue !== null ? newValue.name : null,
+                      },
+                    })
+                  }
                   getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField
-                     helperText={this.state.departmentHelperText}
-                     error={this.state.departmentHelperText.length !== 0}
-                      {...params} size="small" label="Department" variant="outlined" />}
+                  renderInput={(params) => (
+                    <TextField
+                      helperText={this.state.departmentHelperText}
+                      error={this.state.departmentHelperText.length !== 0}
+                      {...params}
+                      size="small"
+                      label="Department"
+                      variant="outlined"
+                    />
+                  )}
                 />
-                  </Grid>
-                  <Grid item md={6}>
-                  <TextField
-               variant="outlined"
-               size="small"
-               helperText={this.state.phoneHelperText}
-               onKeyPress={(evt)=>{ if (isNumber(evt)) evt.preventDefault() }}
-               value={this.state.phone}
-               onChange={(e)=>this.setState({phone : e.target.value})}
-               fullWidth
-               error={this.state.phoneHelperText.length !== 0}
-               inputProps={{
-                maxLength: 10,
-              }}
-               label="Phone Number"
-               />
-                  </Grid>
-                  <Grid item md={6}>
-                  <TextField
-               variant="outlined"
-               size="small"
-               error={this.state.studentIdHelperText.length !== 0}
-                helperText={this.state.studentIdHelperText}
-               value={this.state.studentId}
-               onChange={(e)=>this.setState({studentId : e.target.value})}
-               fullWidth
-               label="Student ID"
-               />
-                  </Grid>
-                  <Grid item md={4} align="center">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.toogleButton}
-                        onChange={(e)=>this.setState({toogleButton : e.target.checked})}
-                        name="checkedB"
-                        disabled={this.state.provider === null ? true : false}
-                        color="primary"
-                        
-                      />
-                    }
-                    label={this.state.provider === null ? "App User" : "Google"}
-                  />
-                
-                  </Grid>
-                  <Grid item md={4} align="center">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.isActive}
-                        onChange={(e)=>this.setState({isActive : e.target.checked})}
-                        name="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Is Active"
-                  />
-                  </Grid>
-                  <Grid item md={4}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={this.state.internAccess}
-                        onChange={(e)=>this.setState({internAccess : e.target.checked})}
-                        name="checkedB"
-                        color="primary"
-                      />
-                    }
-                    label="Internship Access"
-                  />
-                  </Grid>
-                  <Grid item md={12}>
-                  <TextField
-               variant="outlined"
-               size="small"
-               disabled
-               value={this.state.phone || ""}
-               fullWidth
-               label="Password"
-               />
-                  </Grid>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  helperText={this.state.phoneHelperText}
+                  onKeyPress={(evt) => {
+                    if (isNumber(evt)) evt.preventDefault();
+                  }}
+                  value={this.state.phone}
+                  onChange={(e) => this.setState({ phone: e.target.value })}
+                  fullWidth
+                  error={this.state.phoneHelperText.length !== 0}
+                  inputProps={{
+                    maxLength: 10,
+                  }}
+                  label="Phone Number"
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  error={this.state.studentIdHelperText.length !== 0}
+                  helperText={this.state.studentIdHelperText}
+                  value={this.state.studentId}
+                  onChange={(e) => this.setState({ studentId: e.target.value })}
+                  fullWidth
+                  label="Student ID"
+                />
+              </Grid>
+              <Grid item md={4} align="center">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.toogleButton}
+                      onChange={(e) =>
+                        this.setState({ toogleButton: e.target.checked })
+                      }
+                      name="checkedB"
+                      disabled={this.state.provider === null ? true : false}
+                      color="primary"
+                    />
+                  }
+                  label={this.state.provider === null ? "App User" : "Google"}
+                />
+              </Grid>
+              <Grid item md={4} align="center">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.isActive}
+                      onChange={(e) =>
+                        this.setState({ isActive: e.target.checked })
+                      }
+                      name="checkedB"
+                      color="primary"
+                    />
+                  }
+                  label="Is Active"
+                />
+              </Grid>
+              <Grid item md={4}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.internAccess}
+                      onChange={(e) =>
+                        this.setState({ internAccess: e.target.checked })
+                      }
+                      name="checkedB"
+                      color="primary"
+                    />
+                  }
+                  label="Internship Access"
+                />
+              </Grid>
+              <Grid item md={12}>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled
+                  value={this.state.phone || ""}
+                  fullWidth
+                  label="Password"
+                />
+              </Grid>
             </Grid>
-         
-        </DialogContent>
-        <DialogActions>
-          
-          <Button onClick={(e)=>this.state.id === null ? this.handleSubmit(e) : this.handleEdit(e)} color="primary" autoFocus>
-           {this.state.id === null ? "Add" : "Edit"} 
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Snackbar open={this.state.snackOpen} autoHideDuration={3000} onClose={()=>this.setState({snackOpen : false})}>
-        <Alert onClose={()=>this.setState({snackOpen : false})} severity={this.state.snackColor}>
-          {this.state.snackMessage}
-        </Alert>
-      </Snackbar>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={(e) =>
+                this.state.id === null
+                  ? this.handleSubmit(e)
+                  : this.handleEdit(e)
+              }
+              color="primary"
+              autoFocus
+            >
+              {this.state.id === null ? "Add" : "Edit"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Snackbar
+          open={this.state.snackOpen}
+          autoHideDuration={3000}
+          onClose={() => this.setState({ snackOpen: false })}
+        >
+          <Alert
+            onClose={() => this.setState({ snackOpen: false })}
+            severity={this.state.snackColor}
+          >
+            {this.state.snackMessage}
+          </Alert>
+        </Snackbar>
       </MuiThemeProvider>
     );
   }
@@ -629,19 +753,25 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-
 const mapStateToProps = (state) => {
   return {
     StudentsList: state.StudentReducer.StudentsList,
     StudentFilterList: state.StudentReducer.StudentFilterList,
-    allCollegeList : state.CollegeReducer.allCollegeList,
-    BranchList : state.CollegeReducer.BranchList,
-    whiteListedUserDetails : state.StudentReducer.whiteListedUserDetails,
-    signUpResponse : state.StudentReducer.signUpResponse,
-    signUpError : state.StudentReducer.signUpError,
-    editStudentResponse : state.StudentReducer.editStudentResponse
+    allCollegeList: state.CollegeReducer.allCollegeList,
+    BranchList: state.CollegeReducer.BranchList,
+    whiteListedUserDetails: state.StudentReducer.whiteListedUserDetails,
+    signUpResponse: state.StudentReducer.signUpResponse,
+    signUpError: state.StudentReducer.signUpError,
+    editStudentResponse: state.StudentReducer.editStudentResponse,
   };
 };
-export default connect(mapStateToProps, { getStudents, getStudentPaginate, getWhiteListedUser ,postStudents, getAllColleges, getBranches, mernStudentSignUp, mernStudentEdit })(
-    ActiveStudents
-);
+export default connect(mapStateToProps, {
+  getStudents,
+  getStudentPaginate,
+  getWhiteListedUser,
+  postStudents,
+  getAllColleges,
+  getBranches,
+  mernStudentSignUp,
+  mernStudentEdit,
+})(ActiveStudents);

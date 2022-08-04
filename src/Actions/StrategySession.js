@@ -30,7 +30,7 @@ export const getDocumentModelBySubStageId = (
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
         .get(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}?admin=true`,
           {
             headers: {
               admin: "yes",
@@ -107,7 +107,7 @@ export const uploadDocumentBySubStageId = (
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
         .put(
-          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}`,
+          `${URL}/api/v1/students/${studentId}/products/${productId}/subStages/${subStageId}/fileUploadDetails`,
           data,
           {
             headers: {
@@ -234,6 +234,9 @@ export const updateIeltsData = (studentId, data) => {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
             },
+            params: {
+              stage: "Strategy Session",
+            },
           }
         )
         .then((result) => {
@@ -273,7 +276,7 @@ export const getIeltsData = (studentId) => {
         .then((result) => {
           dispatch({
             type: STRATEGY_SESSION.getIeltsData,
-            payload: { data: result.data, success: true },
+            payload: result.data,
             loading: false,
           });
         });
@@ -296,6 +299,9 @@ export const updateToeflData = (studentId, data) => {
             headers: {
               admin: "yes",
               Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              stage: "Strategy Session",
             },
           }
         )
@@ -333,7 +339,7 @@ export const getToeflData = (studentId) => {
         .then((result) => {
           dispatch({
             type: STRATEGY_SESSION.getToeflData,
-            payload: { data: result.data, success: true },
+            payload: result.data,
             loading: false,
           });
         });
@@ -354,6 +360,9 @@ export const updateGmatData = (studentId, data) => {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: "Strategy Session",
           },
         })
         .then((result) => {
@@ -381,7 +390,7 @@ export const getGmatData = (studentId) => {
     try {
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
-        .get(`/api/v1/students/${studentId}/testTranscripts/gmat`, {
+        .get(`${URL}/api/v1/students/${studentId}/testTranscripts/gmat`, {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
@@ -390,7 +399,7 @@ export const getGmatData = (studentId) => {
         .then((result) => {
           dispatch({
             type: STRATEGY_SESSION.getGmatData,
-            payload: { data: result.data, success: true },
+            payload: result.data,
             loading: false,
           });
         });
@@ -411,6 +420,9 @@ export const updateGreData = (studentId, data) => {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            stage: "Strategy Session",
           },
         })
         .then((result) => {
@@ -447,7 +459,7 @@ export const getGreData = (studentId) => {
         .then((result) => {
           dispatch({
             type: STRATEGY_SESSION.getGreData,
-            payload: { data: result.data, success: true },
+            payload: result.data,
             loading: false,
           });
         });
@@ -457,61 +469,63 @@ export const getGreData = (studentId) => {
   };
 };
 
-export const getExpectedDate = (type, id) => {
-  let accessToken = window.sessionStorage.getItem("accessToken");
-  const types = {
-    gre: STRATEGY_SESSION.getGreExpectedDate,
-    gmat: STRATEGY_SESSION.getGmatExpectedDate,
-    tofel: STRATEGY_SESSION.getToelfExpectedDate,
-    toefl: STRATEGY_SESSION.getToelfExpectedDate,
-  };
-  return async (dispatch) => {
-    try {
-      dispatch({ type: STRATEGY_SESSION.loader });
-      await axios
-        .get(`${URL}/api/v1/${type}/${id}`, {
-          headers: {
-            admin: "yes",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((result) => {
-          dispatch({
-            type: types[type],
-            payload: { data: result.data, success: true },
-            loading: false,
-          });
-        });
-    } catch (error) {
-      dispatch(errorHandler(types[type], error, false));
-    }
-  };
-};
-
-export const getIeltsExpectedDate = (id) => {
+export const getTestTranscriptFiles = (studentId, productId) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
       dispatch({ type: STRATEGY_SESSION.loader });
       await axios
-        .get(`${URL}/api/v1/students/${id}/testComplete/graduate/ielts`, {
-          headers: {
-            admin: "yes",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        .get(
+          `${URL}/api/v1/students/${studentId}/product/${productId}/testTranscriptFiles/strategySession`,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
         .then((result) => {
           dispatch({
-            type: STRATEGY_SESSION.getIeltsExpectedDate,
-            payload: { data: result.data, success: true },
+            type: STRATEGY_SESSION.getTestTranscriptFiles,
+            payload: { success: true, data: result.data },
             loading: false,
           });
         });
     } catch (error) {
       dispatch(
-        errorHandler(STRATEGY_SESSION.getIeltsExpectedDate, error, false)
+        errorHandler(STRATEGY_SESSION.getTestTranscriptFiles, error, false)
       );
+    }
+  };
+};
+
+const getFileType = (fileName) => fileName.split(".").pop();
+
+export const getFilePath = (studentId, subStageId, filePath) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+
+  return async (dispatch) => {
+    try {
+      await axios
+        .get(
+          `${URL}/api/v1/students/${studentId}/subStage/${subStageId}/${filePath}`,
+          {
+            headers: {
+              admin: "yes",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "blob",
+          }
+        )
+        .then((response) => {
+          dispatch({
+            type: STRATEGY_SESSION.getFilePath,
+            payload: { path: response.data, type: getFileType(filePath) },
+          });
+        });
+    } catch (error) {
+      dispatch(errorHandler(STRATEGY_SESSION.getFilePath, error, false));
     }
   };
 };

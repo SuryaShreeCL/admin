@@ -33,6 +33,7 @@ function PlanOfAction(props) {
     rows: [],
     plans: [],
   });
+  const [eachPlan, setEachPlan] = useState([]);
   const [snack, setSnack] = useState({
     snackOpen: false,
     snackMsg: "",
@@ -152,7 +153,29 @@ function PlanOfAction(props) {
 
   const handleSave = () => {
     let error = false;
-
+    for (let index = 0; index < planOfAction.plans.length; index++) {
+      for (
+        let j = 0;
+        j < planOfAction.plans[index].pgaStudentPoaFocus.length;
+        j++
+      ) {
+        if (
+          isEmptyObject(
+            planOfAction.plans[index].pgaStudentPoaFocus[j].activity
+          )
+        ) {
+          error = true;
+          break;
+        }
+        if (
+          isEmptyString(planOfAction.plans[index].pgaStudentPoaFocus[j].remark)
+        ) {
+          error = true;
+          break;
+        }
+      }
+    }
+    console.log("eachPlan", error);
     if (!error) {
       savePlanOfAction(
         props.match.params.studentId,
@@ -177,6 +200,7 @@ function PlanOfAction(props) {
           });
         }
       });
+      setEachPlan([]);
     } else {
       setSnack({
         snackMsg: HELPER_TEXT.requiredField,

@@ -34,6 +34,10 @@ import CvViewer from "./CvViewer";
 import { useStyles } from "./FormStyles";
 import SimilarityPopup from "./SimilarityPopup";
 function TenthForm(props) {
+  const popperAnchorEl = useSelector(
+    (state) => state.HelperReducer.popperState.popperAnchorEl
+  );
+  const profileSimilarityPopupOpen = Boolean(popperAnchorEl);
   // Setting up initial values for the variable
   const choice = [
     { title: "10", value: 10 },
@@ -92,7 +96,10 @@ function TenthForm(props) {
             if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -102,14 +109,19 @@ function TenthForm(props) {
       title: "Subject Name",
       field: "subjectDetails.subjectName",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectName : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectName
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
             if (!isEmptyString(rowData.subjectDetails.subjectName)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -123,7 +135,9 @@ function TenthForm(props) {
       },
       type: "numeric",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.maximumMarks
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
@@ -140,7 +154,10 @@ function TenthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
@@ -175,7 +192,10 @@ function TenthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
@@ -249,8 +269,14 @@ function TenthForm(props) {
     getSimilarStudentsByGrade(props.match.params.studentId, "ssc", year).then(
       (response) => {
         if (response.status === 200) {
-          
           setStudentMatch(response.data.data);
+          if (!response.data.data?.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "Given Filter is not Found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
         // else{
         //   setSnack({
@@ -270,6 +296,13 @@ function TenthForm(props) {
       (response) => {
         if (response.status === 200) {
           setDistinctMatch(response.data.data);
+          if (!response.data.data?.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "No Result Found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );

@@ -8,6 +8,7 @@ function Index(props) {
       columns={props.columns}
       onRowDelete={props.handleRowDelete}
       onRowAdd={props.handleRowAdd}
+      onRowUpdate={props.handleRowUpdate}
     />
   );
 }

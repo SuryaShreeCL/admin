@@ -27,6 +27,7 @@ export const renderListCategory = (categories) => {
  * @returns Object
  */
 export const errorHandler = (type, error, loading) => {
+  console.log(error,type,"****************************",loading)
   var message = "Expectation Failed";
   if (
     error.response &&

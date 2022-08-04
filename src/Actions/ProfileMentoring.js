@@ -71,7 +71,9 @@ export const uploadFile = (studentId, productId, data, comment) => {
           },
           params: {
             comment: comment,
+            stage: "Profile Mentoring",
           },
+          
         })
         .then((response) => {
           dispatch({
@@ -123,14 +125,14 @@ export const uploadDocumentBySubStageId = (
   };
 };
 
-export const getDownloadByDocumentId = (studentId, fileName) => {
+export const getDownloadByDocumentId = (studentId, cvId, fileName) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
 
   return async (dispatch) => {
     try {
       dispatch({ type: PROFILE_MENTORING.loader });
       await axios
-        .get(`${URL}/api/v1/cv/download/cv/${studentId}/${fileName}`, {
+        .get(`${URL}/api/v1/files/students/${studentId}/cv/${cvId}`, {
           headers: {
             admin: "yes",
             Authorization: `Bearer ${accessToken}`,

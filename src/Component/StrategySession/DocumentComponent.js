@@ -1,10 +1,13 @@
 import { Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import React from "react";
+import { URL } from "../../Actions/URL";
+import PdfViewer from "../../Utils/PdfViewer";
 import CvViewer from "../ProfileGapAnalysis/CvViewer";
 import { DocumentUploadPopup } from "../Utils/controls/DocumentUploadPopup";
 import { customTheme, StyledButton } from "../Utils/controls/Styles";
 import { DownloadCvTable } from "../Utils/DownloadCvTable";
+import FileViewer from "../../Utils/FileViewer";
 
 function DocumentComponent({
   open,
@@ -25,6 +28,7 @@ function DocumentComponent({
   file,
   disabledUploadButton,
   isDisabledFileName,
+  fileObject,
   ...props
 }) {
   return (
@@ -60,7 +64,10 @@ function DocumentComponent({
       </Grid>
 
       <Grid item xs={4}>
-        <CvViewer doctype={"cv"} {...props} />
+        <FileViewer
+          filePath={window.URL.createObjectURL(new Blob([fileObject?.path]))}
+          fileType={fileObject?.type}
+        />
       </Grid>
       <DocumentUploadPopup
         open={open}
@@ -70,7 +77,7 @@ function DocumentComponent({
         handleLeftButton={handleUpload}
         handleRightButton={handleCancel}
         handleClose={handleCancel}
-        acceptTypes={".doc, .docx, .xls, .xlsx"}
+        acceptTypes={".doc, .docx, .xls, .xlsx, .csv, .pdf"}
         onDrop={onDrop}
         handleChange={handleChange}
         comment={comment}

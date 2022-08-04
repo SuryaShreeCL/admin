@@ -25,13 +25,14 @@ import {
   ObIncomplete,
   StudentStepDetails,
   opsStageComplete,
+  getCompletedStages,
+  getStageLockStatus,
 } from "../../Actions/Student";
 import "../../Asset/All.css";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import RevampDialog from "../../OnboardingRevamp/RevampDialog";
 import Dot from "../../Utils/Dot";
 import PrimaryButton from "../../Utils/PrimaryButton";
-import ApplicationStage from "../ApplicationStage/Index";
 import MySnackBar from "../MySnackBar";
 import AdmissionServices from "../ObCallSummary/admissionServices";
 import AspirationDetails from "../ObCallSummary/aspirationDetails";
@@ -48,7 +49,23 @@ import { ThemedTab, ThemedTabs } from "../Utils/ThemedComponents";
 import SubLayoutTab from "./SubLayoutTab";
 import StrategySession from "../StrategySession/Index";
 import ProfileMentoring from "../ProfileMentoring/Index";
+import ApplicationStage from "../ApplicationStage/Index";
 
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+};
 const STAGES = [
   {
     name: "Onboarding",
@@ -56,6 +73,7 @@ const STAGES = [
     component: null,
     isCompleteButton: true,
     buttonText: "Onboarding Complete",
+    buttonCompletedText: "Onboarding Completed",
   },
   {
     name: "Profile Gap Analysis",
@@ -63,6 +81,7 @@ const STAGES = [
     component: (props) => <ProfileGapRoot {...props} />,
     isCompleteButton: false,
     buttonText: "Profile Gap Analysis Complete",
+    buttonCompletedText: "Profile Gap Analysis Completed",
   },
   {
     name: "Profile Mentoring",
@@ -70,6 +89,7 @@ const STAGES = [
     component: (props) => <ProfileMentoring {...props} />,
     isCompleteButton: true,
     buttonText: "Profile Mentoring Complete",
+    buttonCompletedText: "Profile Mentoring Completed",
   },
   {
     name: "Strategy Session",
@@ -77,6 +97,7 @@ const STAGES = [
     component: (props) => <StrategySession {...props} />,
     isCompleteButton: true,
     buttonText: "Strategy Session Complete",
+    buttonCompletedText: "Strategy Session Completed",
   },
   {
     name: "Application Stage",
@@ -84,6 +105,7 @@ const STAGES = [
     component: (props) => <ApplicationStage {...props} />,
     isCompleteButton: true,
     buttonText: "Application Stage Complete",
+    buttonCompletedText: "Application Stage Completed",
   },
   {
     name: "Post Admit Services",
@@ -91,6 +113,7 @@ const STAGES = [
     component: () => null,
     isCompleteButton: false,
     buttonText: "Post Admit Services Complete",
+    buttonCompletedText: "Post Admit Services Completed",
   },
 ];
 
@@ -122,6 +145,8 @@ class StageBasedLayout extends Component {
         "Uplaod CV": "UploadCV",
         Others: "AdmissionServices",
       },
+      completedStagesList: [],
+      verifiedStages: [],
     };
   }
 
@@ -186,7 +211,7 @@ class StageBasedLayout extends Component {
           </Grid>
           <Grid item md={12}>
             <TextField
-              label='Add Comments'
+              label="Add Comments"
               fullWidth
               value={this.state.comments}
               onChange={(e) => this.setState({ comments: e.target.value })}
@@ -213,9 +238,21 @@ class StageBasedLayout extends Component {
 
   handleText() {
     return (
-      <Typography className={"incomplete_text"}>{" incomplete"}</Typography>
+      <Typography className={"incomplete_text"}>&nbsp;{" incomplete"}</Typography>
     );
   }
+
+  checkStageVerified = (stageName) => {
+    const { verifiedStages } = this.state;
+    let verified = false;
+    if (verifiedStages && verifiedStages.length !== 0) {
+      let arr = verifiedStages.filter(({ name }) => name === stageName);
+      if (arr.length !== 0) {
+        verified = arr[0]["status"] !== "Verified";
+      }
+    }
+    return verified;
+  };
 
   handleIncomplete = () => {
     this.setState({
@@ -281,7 +318,7 @@ class StageBasedLayout extends Component {
           );
           this.setState({
             snackOpen: true,
-            snackMsg: response.data,
+            snackMsg: "Completed Successfully",
             snackVariant: "success",
             open: false,
             isLoading: false,
@@ -342,10 +379,15 @@ class StageBasedLayout extends Component {
   }
 
   componentDidMount() {
+    const { match } = this.props;
+    const studentId = match.params.studentId;
+    const productId = match.params.productId;
     this.props.getVariantStepsById(
       this.props.match.params.productId +
         `?studentId=${this.props.match.params.studentId}`
     );
+    this.props.getCompletedStages(studentId, productId);
+    this.props.getStageLockStatus(studentId, productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -392,7 +434,7 @@ class StageBasedLayout extends Component {
         STAGES.findIndex(({ stageName }) => stageName === newStageName) || 0;
       let activeTab =
         sortedArr.findIndex(
-          ({ stepName }) => stepName === STAGES[index]["name"]
+          ({ stepName }) => stepName === STAGES[index]?.["name"]
         ) || 0;
 
       this.setState({
@@ -455,6 +497,65 @@ console.log(verifyArr,nvArr,mismatchArr)
         this.props.match.params.productId +
           `?studentId=${this.props.match.params.studentId}`
       );
+    }
+    if (
+      this.props.opsStageCompleteStatus &&
+      this.props.opsStageCompleteStatus !== prevProps.opsStageCompleteStatus
+    ) {
+      if (this.props.opsStageCompleteStatus.success) {
+        const { match } = this.props;
+        const studentId = match.params.studentId;
+        const productId = match.params.productId;
+        this.setState({
+          snackMsg: "Successfully Updated",
+          snackVariant: "success",
+          snackOpen: true,
+        });
+        this.props.getCompletedStages(studentId, productId);
+        this.props.getStageLockStatus(studentId, productId);
+      } else {
+        this.setState({
+          snackMsg: this.props.opsStageCompleteStatus.message,
+          snackVariant: "error",
+          snackOpen: true,
+        });
+      }
+    }
+    if (
+      this.props.completedStages &&
+      this.props.completedStages !== prevProps.completedStages
+    ) {
+      const { completedStages } = this.props;
+      if (completedStages.success) {
+        this.setState({
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: completedStages.message,
+          snackVariant: "error",
+          snackOpen: true,
+          completedStagesList: [],
+        });
+      }
+    }
+    if (
+      this.props.stageLockStatus &&
+      this.props.stageLockStatus !== prevProps.stageLockStatus
+    ) {
+      const { stageLockStatus } = this.props;
+      if (stageLockStatus.success) {
+        this.setState({
+          verifiedStages: stageLockStatus.data || [],
+        });
+      } else {
+        this.setState({
+          snackMsg: stageLockStatus.message,
+          snackVariant: "error",
+          snackOpen: true,
+          verifiedStages: [],
+        });
+      }
     }
   }
 
@@ -563,27 +664,15 @@ console.log(verifyArr,nvArr,mismatchArr)
         break;
       }
       case STAGES[2]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[2]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[2]["name"]);
         break;
       }
       case STAGES[3]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[3]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[3]["name"]);
         break;
       }
       case STAGES[4]["stageName"]: {
-        this.props.opsStageComplete(
-          studentId,
-          productId,
-          STAGES[4]["stageName"]
-        );
+        this.props.opsStageComplete(studentId, productId, STAGES[4]["name"]);
         break;
       }
       case STAGES[5]["stageName"]: {
@@ -592,6 +681,11 @@ console.log(verifyArr,nvArr,mismatchArr)
       default:
         break;
     }
+  };
+
+  isStageCompleted = () => {
+    const { customStageIndex, completedStagesList } = this.state;
+    return completedStagesList.includes(STAGES[customStageIndex]["name"]);
   };
 
   renderHeaderTabsAndButtonContainer = () => {
@@ -616,9 +710,9 @@ console.log(verifyArr,nvArr,mismatchArr)
                   <ThemedTab
                     key={index}
                     label={item.stepName}
-                    // disabled={item.disabled}
+                    disabled={this.checkStageVerified(item.stepName)}
                     icon={
-                      item.disabled ? (
+                      this.checkStageVerified(item.stepName) ? (
                         <LockIcon className={"icon_style"} />
                       ) : null
                     }
@@ -628,14 +722,18 @@ console.log(verifyArr,nvArr,mismatchArr)
           </ThemedTabs>
         </Grid>
         {isCompleteButtonContainer && (
-          <Grid item md={4} align='right' className={"button_grid"}>
+          <Grid item md={4} align="right" className={"button_grid"}>
             <PrimaryButton
               color={"primary"}
               variant={"contained"}
-              disabled={false}
+              disabled={this.isStageCompleted()}
               onClick={() => this.handleStageComplete()}
             >
-              {STAGES[customStageIndex]["buttonText"]}
+              {
+                STAGES[customStageIndex][
+                  this.isStageCompleted() ? "buttonCompletedText" : "buttonText"
+                ]
+              }
             </PrimaryButton>
             <PrimaryButton
               color={"primary"}
@@ -687,7 +785,7 @@ console.log(verifyArr,nvArr,mismatchArr)
             style={{ cursor: "pointer", marginTop: "-10px" }}
             onClick={() => this.props.history.goBack()}
           />
-          <Breadcrumbs separator={<NavigateNextIcon fontSize='small' />}>
+          <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />}>
             <Typography
               style={{
                 cursor: "pointer",
@@ -711,17 +809,17 @@ console.log(verifyArr,nvArr,mismatchArr)
                 value={this.state.tabCount}
                 textColor={"inherit"}
                 onChange={(e, value) => this.setState({ tabCount: value })}
-                aria-label='ant example'
-                variant='scrollable'
+                aria-label="ant example"
+                variant="scrollable"
               >
                 {this.state.productDetails !== null &&
                   this.state.productDetails.map((item, index) => {
                     return (
                       <ThemedTab
                         label={item.stepName}
-                        // disabled={item.disabled}
+                        disabled={this.checkStageVerified(item.stepName)}
                         icon={
-                          item.disabled ? (
+                          this.checkStageVerified(item.stepName) ? (
                             <LockIcon className={"icon_style"} />
                           ) : null
                         }
@@ -730,7 +828,7 @@ console.log(verifyArr,nvArr,mismatchArr)
                   })}
               </ThemedTabs>
             </Grid>
-            <Grid item md={4} align='right' className={"button_grid"}>
+            <Grid item md={4} align="right" className={"button_grid"}>
               <PrimaryButton
                 color={"primary"}
                 variant={"contained"}
@@ -756,12 +854,12 @@ console.log(verifyArr,nvArr,mismatchArr)
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant='scrollable'
+                  variant="scrollable"
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label='ant example'
+                  aria-label="ant example"
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -783,13 +881,13 @@ console.log(verifyArr,nvArr,mismatchArr)
                         });
                       })}
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
@@ -837,12 +935,12 @@ console.log(verifyArr,nvArr,mismatchArr)
               {this.state.tabCount === 0 && (
                 <ThemedTabs
                   value={this.state.selectedItem}
-                  variant='scrollable'
+                  variant="scrollable"
                   textColor={"inherit"}
                   onChange={(e, value) =>
                     this.setState({ selectedItem: value })
                   }
-                  aria-label='ant example'
+                  aria-label="ant example"
                 >
                   {this.state.productDetails !== null &&
                     this.state.productDetails
@@ -864,13 +962,13 @@ console.log(verifyArr,nvArr,mismatchArr)
                         });
                       })}
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"CallSummaryLayout"}
                     label={"Ob Call Summary"}
                   />
 
                   <ThemedTab
-                    textColor='primary'
+                    textColor="primary"
                     value={"Others"}
                     label={"Allocate Mentor"}
                     disabled={
@@ -939,6 +1037,8 @@ const mapStateToProps = (state) => ({
   updateVerificationStatus: state.AdminReducer.updateVerificationResponse,
   StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
   opsStageCompleteStatus: state.StudentReducer.opsStageCompleteStatus,
+  completedStages: state.StudentReducer.completedStages,
+  stageLockStatus: state.StudentReducer.stageLockStatus,
 });
 
 export default connect(mapStateToProps, {
@@ -951,4 +1051,6 @@ export default connect(mapStateToProps, {
   ObIncomplete,
   IncompleteStatus,
   opsStageComplete,
+  getCompletedStages,
+  getStageLockStatus,
 })(StageBasedLayout);

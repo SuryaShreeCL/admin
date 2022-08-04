@@ -32,6 +32,7 @@ const MyDocument = ({
   tableHelper = [],
   rowDataLength = 4,
   additionalPoint = [],
+  spiderGraph,
 }) => (
   <View>
     {/* Top Color Box */}
@@ -120,6 +121,59 @@ const MyDocument = ({
         ))}
       </View>
     )}
+
+    {isEmpty(spiderGraph) && (
+      <>
+        <View style={{ ...styles.p_10, ...styles.heading }}>
+          <Text style={styles.colorBoxTitle}>{title}</Text>
+        </View>
+        <Text style={{ ...styles.small, ...styles.p_10 }}>
+          {descriptionOne}
+        </Text>
+        <Text style={{ ...styles.small, ...styles.p_15 }}>
+          {descriptionTwo}
+        </Text>
+        {spiderGraph.map((data) => (
+          <View style={styles.spider_graph_card} wrap={false}>
+            <View style={styles.plan_left_view}>
+              <Text style={styles.spider_graph_left_title}>Career Plan</Text>
+              <Text style={styles.spider_graph_left_title}>
+                Preferred Career Track
+              </Text>
+              <Text style={styles.spider_graph_left_title}>
+                Course Selection 1
+              </Text>
+              <Text style={styles.spider_graph_left_title}>
+                Course Selection 2
+              </Text>
+            </View>
+            <View style={styles.plan_right_view}>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.plan}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.career}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.courseOne}
+              </Text>
+              <Text style={styles.spider_graph_left_title_text}>
+                {data.courseTwo}
+              </Text>
+            </View>
+            <View style={styles.verticalLine} />
+            <View style={styles.graph_image_view}>
+              <Image
+                source={{
+                  uri: data.spiderGraphUrl,
+                }}
+                style={styles.graph_image}
+              />
+            </View>
+          </View>
+        ))}
+      </>
+    )}
   </View>
 );
 
@@ -146,6 +200,7 @@ function PbPlacementReport({ content = [] }) {
             additionalPoint,
           } = item;
           console.log(item);
+          console.log(csfs);
           return (
             <MyDocument
               preferredProgram={content.preferredProgram}

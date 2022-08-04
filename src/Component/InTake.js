@@ -1,6 +1,6 @@
 import {
   CircularProgress,
-  createMuiTheme,
+  createTheme,
   Grid,
   Slide,
   ThemeProvider,
@@ -68,7 +68,7 @@ export class InTake extends Component {
   };
 
   tableTheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",
@@ -92,7 +92,7 @@ export class InTake extends Component {
     });
 
   modeltheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiDialog: {
           paperWidthSm: {
@@ -136,7 +136,7 @@ export class InTake extends Component {
       },
     });
   spinnerTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {

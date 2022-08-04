@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import {tableIcons} from './MaterialTableIcon';
-import {ThemeProvider,createMuiTheme} from '@material-ui/core/styles'
+import {ThemeProvider,createTheme} from '@material-ui/core/styles'
 import {connect} from 'react-redux';
 import TableComponent from "./TableComponent/TableComponent";
 import {getPaginateUniversity} from "../Actions/College"
@@ -62,7 +62,7 @@ export  class University extends Component {
   }
 
     tableTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiSvgIcon: {
           root: {
@@ -71,7 +71,7 @@ export  class University extends Component {
         },
       },
     });
-    spinnerTheme = () =>createMuiTheme({
+    spinnerTheme = () =>createTheme({
       overrides :{
         MuiCircularProgress :  {
           colorPrimary:{
@@ -81,7 +81,7 @@ export  class University extends Component {
       }
     });
     modeltheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiDialog: {
           paperWidthSm: {

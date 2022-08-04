@@ -241,7 +241,7 @@ class TestEngineResult extends Component {
             <TableHead>
               <TableRow>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -252,7 +252,7 @@ class TestEngineResult extends Component {
                   No
                 </TableCell>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -263,7 +263,7 @@ class TestEngineResult extends Component {
                   Exam Date
                 </TableCell>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -274,7 +274,7 @@ class TestEngineResult extends Component {
                   TestSetName
                 </TableCell>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -285,7 +285,7 @@ class TestEngineResult extends Component {
                   Questions Attempted
                 </TableCell>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -296,7 +296,7 @@ class TestEngineResult extends Component {
                   Test Score
                 </TableCell>
                 <TableCell
-                  align='center'
+                  align="center"
                   style={{
                     color: "#000000",
                     fontWeight: 400,
@@ -323,7 +323,7 @@ class TestEngineResult extends Component {
                   return (
                     <TableRow>
                       <TableCell
-                        align='center'
+                        align="center"
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -336,7 +336,7 @@ class TestEngineResult extends Component {
                         {index + 1}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -352,7 +352,7 @@ class TestEngineResult extends Component {
                       </TableCell>
 
                       <TableCell
-                        align='center'
+                        align="center"
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -365,7 +365,7 @@ class TestEngineResult extends Component {
                         {eachItem.questionSetName}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -378,7 +378,7 @@ class TestEngineResult extends Component {
                         {eachItem.noOfQuestionAttempt}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         contentEditable={this.state.disable}
                         style={{
                           color: "#000000",
@@ -393,7 +393,7 @@ class TestEngineResult extends Component {
                           : 0 + "/" + eachItem.total}
                       </TableCell>
                       <TableCell
-                        align='center'
+                        align="center"
                         style={{ borderBottom: "none" }}
                       >
                         <IconButton
@@ -430,15 +430,15 @@ class TestEngineResult extends Component {
           </Table>
         </TableContainer>
         <Dialog
-          maxWidth='xs'
+          maxWidth="sm"
           fullWidth={true}
           open={this.state.show}
           onClose={() => this.setState({ show: false })}
-          aria-labelledby='customized-dialog-title'
+          aria-labelledby="customized-dialog-title"
         >
-          <DialogContent>
+          <DialogContent style={{padding:"40px"}}>
             <Typography
-              style={{ color: "#052A4E", fontSize: 24, fontWeight: "bold" }}
+              style={{ color: "#052A4E", fontSize: 22, fontWeight: "bold" }}
             >
               Reset {this.state.questionSetName} ?
             </Typography>
@@ -462,8 +462,8 @@ class TestEngineResult extends Component {
             >
               <Button
                 style={{ width: 150, borderRadius: 20 }}
-                variant='contained'
-                color='primary'
+                variant="contained"
+                color="primary"
                 onClick={this.handleResetTest}
               >
                 Reset
@@ -472,9 +472,9 @@ class TestEngineResult extends Component {
           </DialogContent>
         </Dialog>
         <Dialog
-          maxWidth='md'
+          maxWidth="md"
           open={this.state.showEye}
-          aria-labelledby='customized-dialog-title'
+          aria-labelledby="customized-dialog-title"
         >
           <DialogTitle>
             {/* <div
@@ -537,12 +537,30 @@ class TestEngineResult extends Component {
             </div>
             {this.state.quesAns.length !== 0 &&
               this.state.quesAns.map((eachItem, index) => {
+                /** Modify the questions */
+                let string = eachItem.question || "";
+                let indexOf = string.indexOf(".");
+                let length = string.length;
+                let questionNo = `<span style="float: left;padding-right: 4px;">${string.slice(
+                  0,
+                  indexOf + 1
+                )}</span>`;
+                let newQuestion = string.slice(indexOf + 1, length).trim();
                 return (
                   <>
-                    <div style={{ paddingTop: "10px" }}>
-                      <Typography style={{ color: "#052A4E", fontSize: 14 }}>
-                        {eachItem.question}
-                      </Typography>
+                    <div
+                      id={`questions-${index}`}
+                      style={{ paddingTop: "10px" }}
+                    >
+                      <div
+                        style={{
+                          color: "rgb(5, 42, 78)",
+                          fontSize: "11.5px",
+                        }}
+                        dangerouslySetInnerHTML={{
+                          __html: `${questionNo}${newQuestion}`,
+                        }}
+                      />
                     </div>
                     <div style={{ paddingTop: 10 }}>
                       <Typography style={{ color: "#686868", fontSize: 14 }}>

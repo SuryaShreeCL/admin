@@ -1,4 +1,4 @@
-import { PROFILE_FIT_SPIDER_GRAPH } from '../Redux/Action';
+import { PROFILE_FIT_SPIDER_GRAPH } from "../Redux/Action";
 
 const initialState = {
   isLoading: false,
@@ -7,6 +7,7 @@ const initialState = {
   spiderDetails: null,
   graph: null,
   updateRemark: null,
+  spiderGraph: null,
 };
 
 const ProfileFitSpiderGraphReducer = (state, action) => {
@@ -44,6 +45,13 @@ const ProfileFitSpiderGraphReducer = (state, action) => {
       return {
         ...state,
         updateRemark: action.payload,
+        isLoading: action.loading,
+      };
+
+    case PROFILE_FIT_SPIDER_GRAPH.spiderGraph:
+      return {
+        ...state,
+        spiderGraph: action.payload,
         isLoading: action.loading,
       };
     default:

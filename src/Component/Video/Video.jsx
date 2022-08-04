@@ -30,7 +30,7 @@ import {
  import { isEmptyString } from "../Validation"
  import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
  import TableComponent from "../TableComponent/TableComponent";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import {studentPath } from "../RoutePaths";
 import BackButton from '../../Asset/Images/backbutton.svg';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
@@ -58,7 +58,7 @@ export class Video extends Component {
     }
     // Model Theme
   modeltheme = () =>
-  createMuiTheme({
+  createTheme({
     overrides: {
       MuiDialog: {
         paperWidthSm: {
@@ -102,7 +102,7 @@ export class Video extends Component {
     },
   });
     spinnerTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {
@@ -112,7 +112,7 @@ export class Video extends Component {
       },
     });
     getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",

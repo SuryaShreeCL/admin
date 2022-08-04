@@ -1,4 +1,4 @@
-import { createMuiTheme, makeStyles } from "@material-ui/core";
+import { createTheme, makeStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles((theme) => ({
   HeadStyle: {
@@ -123,7 +123,7 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {

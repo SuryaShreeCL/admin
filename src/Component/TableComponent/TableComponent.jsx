@@ -1,4 +1,4 @@
-import { createMuiTheme, IconButton, ThemeProvider } from "@material-ui/core";
+import { createTheme, IconButton, ThemeProvider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
@@ -87,7 +87,7 @@ export default class TableComponent extends Component {
   };
 
   paginationTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiSvgIcon: {
           root: {
@@ -103,7 +103,7 @@ export default class TableComponent extends Component {
     });
 
   paginationTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiSvgIcon: {
           root: {
