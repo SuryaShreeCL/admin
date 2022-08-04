@@ -305,7 +305,7 @@ export const ADMIN = {
   getAdminUserDepartments: "getAdminUserDepartments",
   clearCustomData: "clearAdminLoginCustomData",
   getProductsInReports: "getProductsInReports",
-  getManageStudentsByStages:"getManageStudentsByStages"
+  getManageStudentsByStages: "getManageStudentsByStages",
 };
 
 export const MENTORSCHEDULELIST = {
@@ -675,5 +675,6 @@ export const SCHOOL_RESEARCH = {
   getPreferenceListBasedOnPreferenceID: "getPreferenceListBasedOnPreferenceID",
   addRecommendation: "addRecommendation",
   getStageComplete: "getStageComplete",
+  getStageCalls: "getStageCalls",
   clearData: "clearData",
 };

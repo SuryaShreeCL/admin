@@ -101,10 +101,13 @@ export default function PreferenceIndex(props) {
   }, [currentTab]);
   useEffect(() => {
     if (getStageCalls) {
+      console.log(getStageCalls, "**********************button stage");
       const findingStage = getStageCalls?.data.find(
         (item) => item.stepName === "Choose Preferences"
       );
+
       const status = findingStage.status;
+      console.log(status, "*********************************button disabled");
       if (status === "COMPLETED") {
         setButtonDisabled(true);
       } else {
@@ -112,6 +115,10 @@ export default function PreferenceIndex(props) {
       }
     }
   }, [getStageCalls]);
+  console.log(
+    buttonDisabled,
+    "**********************************button disabled"
+  );
   useEffect(() => {
     if (getStageComplete) {
       if (getStageComplete?.success) {
@@ -121,8 +128,8 @@ export default function PreferenceIndex(props) {
           snackMsg: "Stage Complete Successfully",
           snackVariant: "success",
         });
-        setTimeout(() => dispatch(clearData()), 3000);
         setButtonDisabled(true);
+        setTimeout(() => dispatch(clearData()), 3000);
       } else {
         setSnackbar({
           ...snackbar,
