@@ -355,7 +355,7 @@ class Index extends Component {
             this.setState({
               snackOpen: true,
               snackColor: "success",
-              snackMessage: res.message,
+              snackMessage: "Study Plan uploaded successfully",
               popupName: "",
               studyPlanPopupOpen: false,
               page: 0,
