@@ -82,7 +82,7 @@ function TopicTestReport({ data, handleClickBack }) {
                                   variant={"subtitle1"}
                                   className={classes.subRightText}
                                 >
-                                  {minutesToTime(item.time)}
+                                  {minutesToTime(item.minutes)}
                                 </Typography>
                               </FlexView>
                             );
