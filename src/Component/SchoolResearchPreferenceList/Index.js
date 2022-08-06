@@ -125,7 +125,7 @@ export default function PreferenceIndex(props) {
         setSnackbar({
           ...snackbar,
           snackOpen: true,
-          snackMsg: "Stage Complete Successfully",
+          snackMsg: "Recommended Schools Added Successfully",
           snackVariant: "success",
         });
         setButtonDisabled(true);
@@ -134,7 +134,7 @@ export default function PreferenceIndex(props) {
         setSnackbar({
           ...snackbar,
           snackOpen: true,
-          snackMsg: "Stage Completion Failed",
+          snackMsg: "Recommended Schools Adding Failed",
           snackVariant: "error",
         });
       }
