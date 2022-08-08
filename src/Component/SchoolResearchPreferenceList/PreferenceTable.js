@@ -82,12 +82,8 @@ export default function PreferenceTabTable(tableData) {
                   universityId,
                   regionId,
                 }) => (
-                  <TableRow>
+                  <TableRow key={categoryName}>
                     {/* Table Data */}
-                    {console.log(
-                      universityId,
-                      "*****************************************uni"
-                    )}
                     <Category>{categoryName ? categoryName : "NA"}</Category>
                     <TableData>
                       {universityName ? universityName : "NA"}
