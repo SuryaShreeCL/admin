@@ -953,7 +953,7 @@ class Add extends Component {
                       message:
                         aedept !== "assessment_engine_admin"
                           ? "Network Failed"
-                          : "Session Expired Please login to the page again",
+                          : calibrationTestResponse.message,
                       loading: false,
                     });
                   }
