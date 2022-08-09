@@ -26,6 +26,7 @@ import {
   getproductsteps,
   postproductstructure,
   putproductstructure,
+  getproductstepsCall,
 } from "../../Actions/ProductAction";
 import BackButton from "../../Asset/Images/backbutton.svg";
 import PrimaryButton from "../../Utils/PrimaryButton";
@@ -136,7 +137,7 @@ class ProductStages extends Component {
     isEmptyString(this.state.description)
       ? this.setState({ descriptionErr: hlptxt })
       : this.setState({ descriptionErr: "" });
-
+    console.log(this.state);
     if (
       !isEmptyString(this.state.stepname) &&
       !isEmptyString(this.state.image) &&
@@ -247,6 +248,7 @@ class ProductStages extends Component {
     }
   };
   handleClick = (data) => {
+    console.log(data);
     this.setState({
       open: true,
       stepname: data.stepName,
@@ -265,6 +267,8 @@ class ProductStages extends Component {
     });
   };
   render() {
+    console.log(this.props.match.params.id);
+    console.log(this.props.getproductstepsList);
     return (
       <div>
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
@@ -564,5 +568,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   postproductstructure,
   putproductstructure,
-  getproductsteps,
+  getproductstepsCall,
 })(ProductStages);

@@ -91,3 +91,8 @@ export const isEmail = (email) => {
   export const isNanAndEmpty = (value) =>{
 	return value === undefined || value === null || Number.isNaN(value)
   }
+export const isSpace = (evt) => {
+    return (evt.which != 8 && evt.which != 0 && evt.which < 48) && evt.which !== 46 || evt.which > 57 ;
+  };
+export const spaceRemoveRegex = /^(?!\s)[A-Za-z\s]+$/; 
+  

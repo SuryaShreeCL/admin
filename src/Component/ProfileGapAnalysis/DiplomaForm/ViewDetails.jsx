@@ -1,12 +1,12 @@
 // new design
-import { Typography, Grid, TextField, withStyles } from "@material-ui/core";
-import React, { Component } from "react";
-import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
-import "../DiplomaForm/DiplomaForm.css";
+import { Grid, TextField, Typography } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
-
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAcademicType } from "../../../Actions/HelperAction";
+import AutoCompleteDropDown from "../../../Utils/CreatableDropdown";
+import { isNumber } from "../../Validation";
+import "../DiplomaForm/DiplomaForm.css";
 
 class ViewDetails extends Component {
   //   college Array
@@ -21,18 +21,23 @@ class ViewDetails extends Component {
   degree = [];
 
   renderDegree = () => {
+    const { allDegrees, degreeNameErr } = this.props;
+    const degreeOptions =
+      allDegrees && Array.isArray(allDegrees) ? allDegrees : [];
     if (this.props.item.degree) {
       return (
         <Grid item md={2}>
           <AutoCompleteDropDown
             popupIcon={<ExpandMore style={{ color: "black" }} />}
             id="degreeName"
-            options={this.degree}
+            options={degreeOptions}
             value={this.props.degreeName}
             onChange={this.props.handleDegreeChange}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
+                error={degreeNameErr.length !== 0}
+                helperText={degreeNameErr}
                 {...params}
                 label="Degree"
                 variant="standard"
@@ -59,6 +64,12 @@ class ViewDetails extends Component {
       departmentResponse,
       universityResponse,
       gpaScale,
+      allDegrees,
+      collegeNameErr,
+      departmentNameErr,
+      universityNameErr,
+      scoreScaleErr,
+      scoreErr,
     } = this.props;
 
     return (
@@ -90,6 +101,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={collegeNameErr.length !== 0}
+                  helperText={collegeNameErr}
                   {...params}
                   label="College Name"
                   variant="standard"
@@ -109,6 +122,8 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={departmentNameErr.length !== 0}
+                  helperText={departmentNameErr}
                   {...params}
                   label="Department"
                   variant="standard"
@@ -127,7 +142,8 @@ class ViewDetails extends Component {
               fullWidth
             /> */}
             <AutoCompleteDropDown
-              id="CGPA/Percentage"
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="CGPA"
               options={gpaScale}
               value={gpaScale.find((item) => item.value === scoreScale) || null}
               // value={gpaScale}
@@ -135,8 +151,10 @@ class ViewDetails extends Component {
               getOptionLabel={(option) => option.title}
               renderInput={(params) => (
                 <TextField
+                  error={scoreScaleErr?.length !== 0}
+                  helperText={scoreScaleErr}
                   {...params}
-                  label="CGPA/Percentage"
+                  label="CGPA"
                   variant="standard"
                   name="scoreScale"
                 />
@@ -147,17 +165,19 @@ class ViewDetails extends Component {
           <Grid item md={4}>
             <AutoCompleteDropDown
               popupIcon={<ExpandMore style={{ color: "black" }} />}
-              id="universityName"
+              id="UniversityName"
               options={universityResponse}
               value={universityName}
               onChange={this.props.handleUniversityChange}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField
+                  error={universityNameErr.length !== 0}
+                  helperText={universityNameErr}
                   {...params}
-                  label="university Name"
+                  label="University Name"
                   variant="standard"
-                  name="universityName"
+                  name="UniversityName"
                 />
               )}
             />
@@ -189,13 +209,23 @@ class ViewDetails extends Component {
             <TextField
               fullWidth
               name="score"
-              label="CGPA Scale"
+              label="CGPA/Percentage"
               type="number"
+              onKeyPress={(evt) => {
+                if (isNumber(evt)) {
+                  evt.preventDefault();
+                }
+              }}
               value={score}
               onChange={this.props.handleChange}
-              error={scoreScale !== null && scoreScale < score}
+              error={
+                (scoreScale !== null && scoreScale < score) ||
+                scoreErr.length !== 0
+              }
               helperText={
-                scoreScale !== null && scoreScale < score ? "Invalid Input" : ""
+                scoreScale !== null && scoreScale < score
+                  ? "Invalid Input"
+                  : "" || scoreErr
               }
             />
           </Grid>

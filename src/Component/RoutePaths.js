@@ -87,6 +87,10 @@ export const lms_course_landing = rootPath.concat("/course-landing");
 export const lms_add_topic = rootPath.concat("/add-topic");
 export const lms_study_plans = rootPath.concat("/study-plans");
 export const lms_add_study_plan = rootPath.concat("/add-study-plans");
+export const lms_view_study_plan = rootPath.concat(
+  "/view-study-plan/:studyPlanId"
+);
+export const lms_concept = rootPath.concat("/concept");
 export const lms_course_taken = rootPath.concat("/course-taken");
 export const lmsTest = rootPath.concat("/test");
 export const lms_add_test = rootPath.concat("/test/add");
@@ -98,4 +102,6 @@ export const lms_passage = rootPath.concat("/passage");
 // NAVIGATE ROUTE PATH
 export const NAVIGATE_TO = {
   reportContentPath: (reportName) => `${rootPath}/report/${reportName}`,
+  viewStudyPlanPath: (studyPlanId) =>
+    `${rootPath}/view-study-plan/${studyPlanId}`,
 };

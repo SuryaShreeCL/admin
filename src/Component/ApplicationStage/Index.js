@@ -1,4 +1,5 @@
 import { Backdrop, Box, Divider, Grid } from "@material-ui/core";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,15 +7,16 @@ import {
   clearCustomData,
   getDocumentModelBySubStageId,
   getDownloadByDocumentId,
+  getMiscellaneousList,
+  getSchoolList,
   uploadDocumentBySubStageId,
   uploadFileBySubStageId,
-  getSchoolList,
-  getMiscellaneousList,
 } from "../../Actions/ApplicationStage";
 import {
   getStepsBySubStageId,
   getStudentStageByProductId,
 } from "../../Actions/Student";
+import { ReactComponent as EmptySchool } from "../../Asset/icons/empty-school.svg";
 import {
   customTheme,
   StyledStaticButton,
@@ -25,6 +27,7 @@ import MySnackBar from "../MySnackBar";
 import { CommentBoxPopper } from "../Utils/controls/CommentBoxPopper";
 import { CustomTab, CustomTabs } from "../Utils/controls/CustomTabComponent";
 import Loader from "../Utils/controls/Loader";
+import { StyledButton, Typo } from "../Utils/controls/Styles";
 import {
   bytesToMegaBytes,
   getSubStageByStage,
@@ -33,9 +36,6 @@ import {
 } from "../Utils/Helpers";
 import DocumentComponent from "./DocumentComponent";
 import { PopperMenu } from "./MiscellaneousPopover";
-import { ReactComponent as EmptySchool } from "../../Asset/icons/empty-school.svg";
-import { StyledButton, Typo } from "../Utils/controls/Styles";
-import moment from "moment";
 
 const FILE_FORMAT_ERROR = "Invalid file format";
 const FILE_SIZE_ERROR = "Please check the file size";
@@ -48,6 +48,8 @@ function Index(props) {
   const dispatch = useDispatch();
   const params = useParams();
   const { studentId, productId } = params;
+  const [neededValue,setNeededValue] = useState("");
+  const [schoolNeededValue,setSchoolNeededValue] = useState("")
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -74,7 +76,9 @@ function Index(props) {
     miscellaneousAnchorEl: null,
     miscellaneousSelectedValue: null,
     programLink: null,
+   
     deadline: null,
+    completedStagesList: [],
   });
 
   const {
@@ -104,7 +108,9 @@ function Index(props) {
     miscellaneousSelectedValue,
     programLink,
     deadline,
+    completedStagesList,
   } = state;
+
   const {
     loading,
     schoolList,
@@ -115,13 +121,29 @@ function Index(props) {
     miscellaneousList,
   } = useSelector((state) => state.ApplicationStageReducer);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
   useEffect(() => {
     dispatch(getStudentStageByProductId(studentId, productId));
   }, []);
+
+  useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
 
   useEffect(() => {
     if (studentStages) {
@@ -184,7 +206,7 @@ function Index(props) {
       dispatch(getSchoolList(studentId, productId, sectionId));
       dispatch(getMiscellaneousList(studentId, productId, sectionId));
     }
-  }, [sectionId]);
+  }, [sectionId, activeTabValue]);
 
   useEffect(() => {
     if (schoolId) {
@@ -213,24 +235,14 @@ function Index(props) {
             schoolType: schoolObj.type,
             schoolName: schoolObj.name,
           });
-          dispatch(
-            getDocumentModelBySubStageId(
-              studentId,
-              productId,
-              sectionId,
-              schoolObj.id,
-              schoolObj.type
-            )
-          );
         } else {
           setState({ ...state, schoolSteps: [] });
         }
       } else {
         setState({
           ...state,
-          snackOpen: true,
-          snackVariant: "error",
-          snackMsg: schoolList.message,
+          
+          
           schoolSteps: [],
           schoolId: null,
           schoolType: null,
@@ -267,14 +279,8 @@ function Index(props) {
           upcomingFileName: data.fileName,
           status: data.stepStatus,
           documentList: data.content || [],
-          deadline:
-            data.content.length !== 0
-              ? data.content[0]["schoolDetails"]["deadline"]
-              : null,
-          programLink:
-            data.content.length !== 0
-              ? data.content[0]["schoolDetails"]["programLink"]
-              : null,
+          deadline: data?.schoolDetails?.deadLine,
+          programLink: data?.schoolDetails?.programLink,
         });
       } else {
         setState({
@@ -312,6 +318,8 @@ function Index(props) {
             studentId,
             productId,
             sectionId,
+            schoolId,
+            schoolType,
             requestBody
           )
         );
@@ -391,6 +399,7 @@ function Index(props) {
       open: false,
     });
   };
+  console.log(schoolList)
 
   const handleUpload = () => {
     let error = false;
@@ -470,8 +479,10 @@ function Index(props) {
     });
   };
 
-  const handleDownload = (path, e) => {
-    dispatch(getDownloadByDocumentId(studentId, sectionId, path));
+  const handleDownload = (path, id, e) => {
+    dispatch(
+      getDownloadByDocumentId(studentId, sectionId, path, schoolId, schoolType)
+    );
   };
 
   const handleDelete = (id, path, e) => {};
@@ -479,6 +490,10 @@ function Index(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
+  };
+
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Application Stage");
   };
 
   const renderComponent = () => {
@@ -545,8 +560,10 @@ function Index(props) {
   };
 
   const handleTabChange = (e, newValue) => {
+    
     let arr = steps.filter(({ sectionName }) => sectionName === newValue);
     let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
+    setNeededValue(newValue)
     setState({
       ...state,
       activeTabValue: newValue,
@@ -556,14 +573,17 @@ function Index(props) {
   };
 
   const handleSchoolTabChange = (e, newValue) => {
+    
     let arr = schoolSteps.filter(({ id }) => id === newValue);
     let newSchoolType = arr.length !== 0 ? arr[0]["type"] : null;
     let newSchoolName = arr.length !== 0 ? arr[0]["name"] : null;
+    setSchoolNeededValue(newSchoolName)
     setState({
       ...state,
       schoolId: newValue,
       schoolType: newSchoolType,
       schoolName: newSchoolName,
+     
     });
   };
 
@@ -581,7 +601,9 @@ function Index(props) {
   };
 
   const renderSchoolTab = () => {
-    return schoolSteps.length !== 0
+    // console.log(neededValue,schoolNeededValue,schoolSteps)
+    console.log(schoolList?.message !== "School List is Empty")
+    return schoolSteps?.length !== 0
       ? schoolSteps.map(({ name, id }, index) => (
           <CustomTab
             value={id}
@@ -617,6 +639,8 @@ function Index(props) {
       miscellaneousSelectedValue: val,
       activeTabValue: null,
       miscellaneousAnchorEl: null,
+      documentList: [],
+      schoolSteps: [],
     });
   };
 
@@ -630,6 +654,8 @@ function Index(props) {
   };
 
   const isMiscellaneous = Boolean(miscellaneousSelectedValue);
+  const disabledUploadButton = isStageCompleted();
+
   return (
     <div className={classes.stageBoxLayoutStyle}>
       <Grid container>
@@ -682,7 +708,16 @@ function Index(props) {
                     </Box>
                     <Typo color={"#004CFE"} component={"span"} fontWeight={500}>
                       {programLink ? (
-                        <a href={programLink}>{"Program Link"}</a>
+                        <a
+                          href={
+                            programLink.indexOf("http") > -1
+                              ? programLink
+                              : `https://${programLink}`
+                          }
+                          target="_blank"
+                        >
+                          {"Program Link"}
+                        </a>
                       ) : (
                         "NA"
                       )}
@@ -706,11 +741,11 @@ function Index(props) {
                     variant={"contained"}
                     style={
                       customTheme["palette"][
-                        Boolean(status) ? "disabled" : "contained"
+                        disabledUploadButton ? "disabled" : "contained"
                       ]
                     }
                     onClick={handleUploadClick}
-                    disabled={Boolean(status)}
+                    disabled={disabledUploadButton}
                   >
                     {"Upload"}
                   </StyledButton>

@@ -28,6 +28,10 @@ import { ExpandMore } from "@material-ui/icons";
 
 function TwelthForm(props) {
   // Setting up initial state values
+  const popperAnchorEl = useSelector(
+    (state) => state.HelperReducer.popperState.popperAnchorEl
+  );
+  const profileSimilarityPopupOpen = Boolean(popperAnchorEl);
   const [educationalDetailsId, setEducationalDetailsId] = useState("");
   const [schoolName, setSchoolName] = useState({
     name: "",
@@ -89,14 +93,19 @@ function TwelthForm(props) {
       title: "Subject Code",
       field: "subjectDetails.subjectCode",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectCode : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectCode
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
             if (!isEmptyString(rowData.subjectDetails.subjectCode)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -106,14 +115,19 @@ function TwelthForm(props) {
       title: "Subject Name",
       field: "subjectDetails.subjectName",
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.subjectName : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.subjectName
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
             if (!isEmptyString(rowData.subjectDetails.subjectName)) {
               return true;
             } else {
-              return { isValid: false };
+              return {
+                isValid: false,
+                helperText: "Please fill this required field",
+              };
             }
           }
         }
@@ -127,7 +141,9 @@ function TwelthForm(props) {
         textAlign: "center",
       },
       render: (rowData, renderType) =>
-        renderType === "row" ? rowData.subjectDetails.maximumMarks : "",
+        renderType === "row"
+          ? rowData.subjectDetails && rowData.subjectDetails.maximumMarks
+          : "",
       validate: (rowData) => {
         if (!isEmptyObject(rowData)) {
           if (rowData.subjectDetails) {
@@ -144,7 +160,10 @@ function TwelthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
@@ -179,7 +198,10 @@ function TwelthForm(props) {
               return { isValid: false };
             }
           } else {
-            return { isValid: false };
+            return {
+              isValid: false,
+              helperText: "Please fill this required field",
+            };
           }
         }
       },
@@ -238,6 +260,13 @@ function TwelthForm(props) {
       (response) => {
         if (response.status === 200) {
           setStudentMatch(response.data.data);
+          if (!response.data.data.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "Given Filter is not found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );
@@ -290,6 +319,13 @@ function TwelthForm(props) {
       (response) => {
         if (response.status === 200) {
           setDistinctMatch(response.data.data);
+          if (!response.data.data.length && profileSimilarityPopupOpen) {
+            setSnack({
+              snackMsg: "No Data found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         }
       }
     );

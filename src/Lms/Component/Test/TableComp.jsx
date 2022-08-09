@@ -17,42 +17,9 @@ import {
 import { downloadTest } from "../../Redux/Action/Test";
 import Menu from "./Menu";
 let deptName = window.sessionStorage.getItem("department");
-console.log(deptName);
-
-// const headText = deptName === "assessment_engine_admin" && window.sessionStorage.getItem('role') === 'SUPER ADMIN' ? [
-//   "Name",
-//   "Test Type",
-//   "#  Que Assignes",
-//   "# Que filled",
-//   "",
-//   "",
-//    "Status",
-
-//   "Download",
-//   "Test URL",
-//   "",
-// ]:[
-//   "Name",
-//   "Test Type",
-//   "#  Que Assignes",
-//   "# Que filled",
-//   "Course",
-//   "Topic name",
-//   "Status",
-
-//   "",
-// ];
-
-// const handleOpen = (itemId, popUpId, role, status) => {
-//   //
-//   //
-//   if (role === 'LMSEDITOR' && (status === 'Live' || status === 'In Review'))
-//     return false;
-//   else return itemId === popUpId;
-// };
 
 const handleShowThreeDot = (role, status) => {
-  let deptName = window.sessionStorage.getItem("department")
+  let deptName = window.sessionStorage.getItem("department");
   return !(
     deptName === "lms_editor" &&
     (status === "Live" ||
@@ -63,8 +30,6 @@ const handleShowThreeDot = (role, status) => {
 };
 
 export default function TableComp(props) {
-  console.log(props.deptname);
-  console.log(props);
   const dispatch = useDispatch();
 
   const headText =
@@ -125,24 +90,24 @@ export default function TableComp(props) {
     const queIndex = field.indexOf("queValue");
     const courseNameIndex = field.indexOf("courseName");
     const statusIndex = field.indexOf("wkStatusValue");
-    const fields = ["type", "courseName", "wkStatusValue","queValue"];
+    const fields = ["type", "courseName", "wkStatusValue", "queValue"];
     if (index === 1 && order[typeIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
-            id="type"
+            id='type'
             onClick={() => {
               handleSortBlue(typeIndex);
             }}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
-            id="type"
+            id='type'
             onClick={() => {
               handleSortBlur(typeIndex);
             }}
@@ -154,18 +119,18 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
-            id="type"
+            id='type'
             onClick={() => {
               handleSortBlur(typeIndex);
             }}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
-            id="type"
+            id='type'
             onClick={() => handleSortBlue(typeIndex)}
           />
         </IconBox>
@@ -175,14 +140,14 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
             id={"courseName"}
             onClick={() => handleSortBlue(courseNameIndex)}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             id={"courseName"}
             onClick={() => handleSortBlur(courseNameIndex)}
@@ -194,75 +159,71 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             id={"courseName"}
             onClick={() => handleSortBlur(courseNameIndex)}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
             id={"courseName"}
             onClick={() => handleSortBlue(courseNameIndex)}
           />
         </IconBox>
       );
-    } 
-
-
-    else if (index === 3 && order[ queIndex ] === "ASC") {
+    } else if (index === 3 && order[queIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
             id={"queValue"}
-            onClick={() => handleSortBlue( queIndex )}
+            onClick={() => handleSortBlue(queIndex)}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             id={"queValue"}
-            onClick={() => handleSortBlur( queIndex )}
+            onClick={() => handleSortBlur(queIndex)}
           />
         </IconBox>
       );
-    } else if (index === 3 && order[ queIndex ] === "DESC") {
+    } else if (index === 3 && order[queIndex] === "DESC") {
       return (
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             id={"queValue"}
-            onClick={() => handleSortBlur( queIndex )}
+            onClick={() => handleSortBlur(queIndex)}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
             id={"queValue"}
-            onClick={() => handleSortBlue( queIndex )}
+            onClick={() => handleSortBlue(queIndex)}
           />
         </IconBox>
       );
-    } 
-    else if (index === 6 && order[statusIndex] === "ASC") {
+    } else if (index === 6 && order[statusIndex] === "ASC") {
       return (
         <IconBox>
           <img
             src={Blue}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow rotate"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlue(statusIndex)}
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             id={"wkStatusValue"}
             onClick={() => handleSortBlur(statusIndex)}
@@ -274,14 +235,14 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             id={"courseName"}
             onClick={() => handleSortBlur(statusIndex)}
           />
           <img
             src={Blue}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow"}
             id={"courseName"}
             onClick={() => handleSortBlue(statusIndex)}
@@ -295,7 +256,7 @@ export default function TableComp(props) {
         <IconBox>
           <img
             src={Blur}
-            alt="Up arrow"
+            alt='Up arrow'
             className={"up_arrow"}
             onClick={() => {
               handleSortNew(index, "ASC");
@@ -303,7 +264,7 @@ export default function TableComp(props) {
           />
           <img
             src={Blur}
-            alt="Down arrow"
+            alt='Down arrow'
             className={"down_arrow rotate"}
             onClick={() => {
               handleSortNew(index, "DESC");
@@ -314,7 +275,9 @@ export default function TableComp(props) {
   };
 
   return (
-    <TableBox style={{height:aedept === "assessment_engine_admin"? "450px" : ""}}>
+    <TableBox
+      style={{ height: aedept === "assessment_engine_admin" ? "450px" : "" }}
+    >
       <Table>
         <Head>
           <TableRow>
@@ -322,10 +285,11 @@ export default function TableComp(props) {
               <HeadCell>
                 <HeadInline>
                   {item}
-                  {aedept !== "assessment_engine_admin" ?
-                  ((index === 1 || index === 4 || index === 6) &&
-                    renderIcons(field, order, index)): ((index === 1 || index === 6) &&
-                    renderIcons(field, order, index))}
+                  {aedept !== "assessment_engine_admin"
+                    ? (index === 1 || index === 4 || index === 6) &&
+                      renderIcons(field, order, index)
+                    : (index === 1 || index === 6) &&
+                      renderIcons(field, order, index)}
                 </HeadInline>
               </HeadCell>
             ))}
@@ -358,8 +322,8 @@ export default function TableComp(props) {
                       href={`${process.env.REACT_APP_API_URL}`}
                     > */}
                         <CloudDownloadIcon
-                          fontSize="small"
-                          style={{  marginLeft:"40px"}}
+                          fontSize='small'
+                          style={{ marginLeft: "40px" }}
                           onClick={() => handleDownload(item.id)}
                         />
                         {/* </Controls.ActionButton> */}
@@ -382,17 +346,20 @@ export default function TableComp(props) {
                   <BodyCell>
                     {handleShowThreeDot(role, item.status) && (
                       <div>
-                        {item.status !== "Expired" ?
-                        <IconButton
-                          aria-controls={item.id}
-                          aria-haspopup="true"
-                          onClick={(event) =>
-                            handleThreeDotClick(event, item.id, item.status)
-                          }
-                          style={{ padding: "0px" }}
-                        >
-                          <MoreVertRounded style={{ fill: "#1093FF" }} />
-                        </IconButton>:<></>}
+                        {item.status !== "Expired" ? (
+                          <IconButton
+                            aria-controls={item.id}
+                            aria-haspopup='true'
+                            onClick={(event) =>
+                              handleThreeDotClick(event, item.id, item.status)
+                            }
+                            style={{ padding: "0px" }}
+                          >
+                            <MoreVertRounded style={{ fill: "#1093FF" }} />
+                          </IconButton>
+                        ) : (
+                          <></>
+                        )}
                         <Menu
                           role={role}
                           anchorEl={anchorEl}

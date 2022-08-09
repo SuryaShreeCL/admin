@@ -113,7 +113,6 @@ function SpecializationTrack(props) {
           if (item.name === "Digital Marketing") {
             let arr = careerTrackList;
             arr.push({ ...item, label: "Marketing" });
-            console.log(arr,"+++++++++++++")
             setCareerTrackList(arr);
           } else if (item.name === "UX/UI Design") {
             let arr = careerTrackList;
@@ -190,9 +189,7 @@ function SpecializationTrack(props) {
         props.match.params.productId,
         studentSpecializationTrack
       ).then((response) => {
-        console.log(response);
         if (response.status === 200) {
-          console.log("yes");
           setSnack({
             snackMsg: "Saved Successfully",
             snackColor: "success",
@@ -411,6 +408,7 @@ function SpecializationTrack(props) {
       )
     );
   };
+console.log(careerTrackList)
   return (
     <PageWrapper>
       <div className={classes.specializationWrapper}>

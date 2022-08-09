@@ -45,7 +45,7 @@ function Index(props) {
         } else if (rowData.semester?.toString()?.length > 1) {
           return { isValid: false, helperText: "Enter the valid data" };
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
       },
     },
@@ -77,7 +77,7 @@ function Index(props) {
             return { isValid: false, helperText: HELPER_TEXT.requiredField };
           }
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
         // if (!isNanAndEmpty(rowData.sgpa)) {
         //   return true;
@@ -123,7 +123,7 @@ function Index(props) {
             helperText: "Enter the valid data",
           };
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
         // if (!isNanAndEmpty(rowData.activeBackLog)) {
         //   return true;
@@ -137,9 +137,22 @@ function Index(props) {
       field: "activeBackLogSubjects",
       validate: (rowData) => {
         if (!isEmptyString(rowData.activeBackLogSubjects)) {
-          return true;
+          if (rowData.activeBackLogSubjects) {
+            if (!isNanAndEmpty(rowData.activeBackLogSubjects)) {
+              if (rowData.activeBackLogSubjects >= parseInt("0")) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
+          }
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
       },
     },
@@ -171,7 +184,7 @@ function Index(props) {
         } else if (rowData.clearedBackLog?.toString()?.length >= 2) {
           return { isValid: false, helperText: "Enter the valid data" };
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
         // if (!isNanAndEmpty(rowData.clearedBackLog)) {
         //   return true;
@@ -185,9 +198,22 @@ function Index(props) {
       field: "clearedBackLogSubjects",
       validate: (rowData) => {
         if (!isEmptyString(rowData.clearedBackLogSubjects)) {
-          return true;
+          if (rowData.clearedBackLogSubjects) {
+            if (!isNanAndEmpty(rowData.clearedBackLogSubjects)) {
+              if (rowData.clearedBackLogSubjects >= parseInt("0")) {
+                return true;
+              } else {
+                return {
+                  isValid: false,
+                  helperText: "It cannot be negative value",
+                };
+              }
+            } else {
+              return { isValid: false };
+            }
+          }
         } else {
-          return { isValid: false, helperText: HELPER_TEXT.requiredField };
+          return { isValid: true };
         }
       },
     },
@@ -196,6 +222,7 @@ function Index(props) {
   const [tabValue, setTabValue] = useState(0);
   const [dropDownValue, setDropdownValue] = useState([]);
   const [degreeType, setDegreeType] = useState(null);
+  const [type, setType] = useState(null);
   const [degreeTypeHelperText, setDegreeTypeHelperText] = useState("");
   const [subCategory, setSubCategory] = useState(null);
   const [subCategoryHelperText, setSubCategoryHelperText] = useState("");
@@ -247,6 +274,16 @@ function Index(props) {
         }
         if (response.data.data.subjects) {
           setSubjects(response.data.data.subjects);
+          if (
+            !response.data.data.subjects?.length &&
+            !response.data.data.backlogSummary?.length
+          ) {
+            setSnack({
+              snackMsg: "No details Found",
+              snackVariant: "error",
+              snackOpen: true,
+            });
+          }
         } else {
           setSubjects([]);
         }
@@ -314,6 +351,17 @@ function Index(props) {
     });
   };
 
+  const handleRowUpdate = (newData, oldData) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const dataUpdate = [...data];
+        const index = oldData.tableData.id;
+        dataUpdate[index] = newData;
+        setData([...dataUpdate]);
+        resolve();
+      }, 1000);
+    });
+  };
   //   Declaring tab labels
 
   const tabLabel = ["Top Subjects", "Backlog Summary"];
@@ -325,7 +373,7 @@ function Index(props) {
       return (
         <TopSubjects
           subjects={subjects}
-          degreeType={degreeType}
+          degreeType={type}
           subjectTableFields={subjectTableFields}
           semester={semester}
         />
@@ -335,6 +383,7 @@ function Index(props) {
         <BacklogSummary
           data={data}
           handleRowAdd={handleRowAdd}
+          handleRowUpdate={handleRowUpdate}
           handleRowDelete={handleRowDelete}
           columns={columns}
         />
@@ -351,6 +400,7 @@ function Index(props) {
       ? setSubCategoryHelperText(HELPER_TEXT.requiredField)
       : setSubCategoryHelperText("");
     if (!isEmptyObject(degreeType) && !isEmptyObject(subCategory)) {
+      setType(degreeType);
       getAndSetAcademicSummary();
     }
   };

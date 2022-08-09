@@ -1,5 +1,5 @@
 import {
-  createMuiTheme,
+  createTheme,
   Divider,
   Grid,
   Typography,
@@ -28,7 +28,7 @@ class ObOperationLanding extends Component {
       adminDepartment: null,
     };
   }
-  theme = createMuiTheme({
+  theme = createTheme({
     overrides: {
       MuiDivider: {
         root: {
@@ -44,12 +44,13 @@ class ObOperationLanding extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.adminLinkedProductDetails,prevProps.adminLinkedProductDetails)
     if (
       this.props.adminLinkedProductDetails !==
       prevProps.adminLinkedProductDetails
     ) {
       this.setState({
-        adminDepartment: this.props.adminLinkedProductDetails.department,
+        adminDepartment: this.props.adminLinkedProductDetails?.department,
       });
       // window.sessionStorage.setItem(
       //   "adminLinkedProduct",

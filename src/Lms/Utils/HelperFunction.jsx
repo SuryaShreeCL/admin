@@ -22,3 +22,11 @@ export const customDateFormat = (date, format) => {
   if (date) newDate = moment(new Date(date)).format(format);
   return newDate;
 };
+
+export const minutesToTime = (minutes) => {
+  if (minutes) {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${h > 0 ? `${h}h ${Math.floor(m)} min` : `${m.toFixed(2)} mins`}`;
+  } else return `0.00 mins`;
+};

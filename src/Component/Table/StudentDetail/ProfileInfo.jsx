@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import { VscChevronUp, VscChevronDown } from "react-icons/vsc";
 import Slide from "@material-ui/core/Slide";

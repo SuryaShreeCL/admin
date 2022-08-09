@@ -1,8 +1,9 @@
-// import MomentUtils from "@date-io/moment";
 import {
   FormControlLabel,
   Grid,
   IconButton,
+  FormGroup,
+  Checkbox,
   Switch,
   Typography,
   Backdrop,
@@ -55,6 +56,7 @@ import CalibrationTestCard from "./CalibrationTestCard";
 import TestAddButtonCard from "./TestAddButtonCard";
 import TopicTestCard from "./TopicTestCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
+// import { CheckedButtonsGroup } from "../../../Utils/CheckButton";
 
 const dialogContent = {
   type: "delete",
@@ -71,6 +73,7 @@ const sectionDialogContent = {
   // body: calibrationSectionTabLabels,
   button1: "No",
   button2: "Yes",
+
 };
 
 class Add extends Component {
@@ -81,7 +84,7 @@ class Add extends Component {
       type: "CALIBRATION",
       description: [],
       descriptionTitle: "",
-      proctor:false,
+      proctor: false,
       nameDescription: "",
       courseId: undefined,
       topicId: undefined,
@@ -173,8 +176,8 @@ class Add extends Component {
     // Editable Mode
     if (testQuestionSetId !== undefined) {
       deptName === "assessment_engine_admin"
-        ? this.props.aegetTestQuestionSet(testQuestionSetId, () => {})
-        : this.props.getTestQuestionSet(testQuestionSetId, () => {});
+        ? this.props.aegetTestQuestionSet(testQuestionSetId, () => { })
+        : this.props.getTestQuestionSet(testQuestionSetId, () => { });
     }
   }
 
@@ -242,7 +245,7 @@ class Add extends Component {
           name: questionSet.name,
           type: questionSet.type,
           description: questionSet.description,
-          proctor:questionSet.proctor,
+          proctor: questionSet.proctor,
           descriptionTitle: questionSet.descriptionTitle,
           nameDescription: questionSet.nameDescription,
           calibrationTestData: questionSet.testSection,
@@ -319,11 +322,16 @@ class Add extends Component {
       });
     }
   };
-  handleProctoringChange=(event)=>{
+  handleProctoringChange = (event) => {
     const { value } = event.target;
-    this.setState({proctor:true});
-
-  }
+    this.setState({ proctor: true });
+    // if(value === "AE_TEST"){
+    // this.setState({proctor:true});
+    // }
+    // else{
+    //   this.setState({proctor:false});
+    // }
+  };
   handleInstructionChange = (e, newValue) => {
     this.setState({ description: newValue });
   };
@@ -417,7 +425,7 @@ class Add extends Component {
                 "";
               this.props.history.push(
                 bulk_upload +
-                  `/${testQuestionSetId}/${calibrationSectionId}/${courseIdValue}`
+                `/${testQuestionSetId}/${calibrationSectionId}/${courseIdValue}`
               );
             } else {
               this.setState({
@@ -492,7 +500,7 @@ class Add extends Component {
         let limit =
           parseInt(
             calibrationTestCopyContent[calibrationActiveSectionTab - 1][
-              "noOfQuestions"
+            "noOfQuestions"
             ]
           ) -
           calibrationTestCopyContent[calibrationActiveSectionTab - 1][
@@ -588,37 +596,37 @@ class Add extends Component {
         };
         this.state.department === "assessment_engine_admin"
           ? this.props.aecreateTestQuestionSet(
-              questionBankSet,
-              (questionBankResponse) => {
-                if (questionBankResponse?.success) {
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: questionBankResponse?.data?.id,
-                    loading: false,
-                  });
-                }
+            questionBankSet,
+            (questionBankResponse) => {
+              if (questionBankResponse?.success) {
+                var message =
+                  testQuestionSetId === null ? "ADDED" : "UPDATED";
+                this.setState({
+                  snackOpen: true,
+                  snackType: "success",
+                  message: `${type} TEST ${message} SUCCESSFULLY`,
+                  testQuestionSetId: questionBankResponse?.data?.id,
+                  loading: false,
+                });
               }
-            )
+            }
+          )
           : this.props.createTestQuestionSet(
-              questionBankSet,
-              (questionBankResponse) => {
-                if (questionBankResponse?.success) {
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: questionBankResponse?.data?.id,
-                    loading: false,
-                  });
-                }
+            questionBankSet,
+            (questionBankResponse) => {
+              if (questionBankResponse?.success) {
+                var message =
+                  testQuestionSetId === null ? "ADDED" : "UPDATED";
+                this.setState({
+                  snackOpen: true,
+                  snackType: "success",
+                  message: `${type} TEST ${message} SUCCESSFULLY`,
+                  testQuestionSetId: questionBankResponse?.data?.id,
+                  loading: false,
+                });
               }
-            );
+            }
+          );
       } else {
         this.setState({
           snackOpen: true,
@@ -653,54 +661,54 @@ class Add extends Component {
         };
         this.state.department === "assessment_engine_admin"
           ? this.props.aecreateTestQuestionSet(
-              topicTestSet,
-              (topicTestResponse) => {
-                if (topicTestResponse?.success) {
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  var tempTopicTestSections = this.state.topicTestSections;
-                  tempTopicTestSections.id =
-                    topicTestResponse.data.testSection[0].id;
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: topicTestResponse.data.id,
-                    sectionId: topicTestResponse.data.testSection[0].id,
-                    topicTestSections: tempTopicTestSections,
-                    topicTestCopySections: JSON.parse(
-                      JSON.stringify(tempTopicTestSections)
-                    ),
+            topicTestSet,
+            (topicTestResponse) => {
+              if (topicTestResponse?.success) {
+                var message =
+                  testQuestionSetId === null ? "ADDED" : "UPDATED";
+                var tempTopicTestSections = this.state.topicTestSections;
+                tempTopicTestSections.id =
+                  topicTestResponse.data.testSection[0].id;
+                this.setState({
+                  snackOpen: true,
+                  snackType: "success",
+                  message: `${type} TEST ${message} SUCCESSFULLY`,
+                  testQuestionSetId: topicTestResponse.data.id,
+                  sectionId: topicTestResponse.data.testSection[0].id,
+                  topicTestSections: tempTopicTestSections,
+                  topicTestCopySections: JSON.parse(
+                    JSON.stringify(tempTopicTestSections)
+                  ),
 
-                    loading: false,
-                  });
-                }
+                  loading: false,
+                });
               }
-            )
+            }
+          )
           : this.props.createTestQuestionSet(
-              topicTestSet,
-              (topicTestResponse) => {
-                if (topicTestResponse?.success) {
-                  var message =
-                    testQuestionSetId === null ? "ADDED" : "UPDATED";
-                  var tempTopicTestSections = this.state.topicTestSections;
-                  tempTopicTestSections.id =
-                    topicTestResponse.data.testSection[0].id;
-                  this.setState({
-                    snackOpen: true,
-                    snackType: "success",
-                    message: `${type} TEST ${message} SUCCESSFULLY`,
-                    testQuestionSetId: topicTestResponse.data.id,
-                    sectionId: topicTestResponse.data.testSection[0].id,
-                    topicTestSections: tempTopicTestSections,
-                    topicTestCopySections: JSON.parse(
-                      JSON.stringify(tempTopicTestSections)
-                    ),
-                    loading: false,
-                  });
-                }
+            topicTestSet,
+            (topicTestResponse) => {
+              if (topicTestResponse?.success) {
+                var message =
+                  testQuestionSetId === null ? "ADDED" : "UPDATED";
+                var tempTopicTestSections = this.state.topicTestSections;
+                tempTopicTestSections.id =
+                  topicTestResponse.data.testSection[0].id;
+                this.setState({
+                  snackOpen: true,
+                  snackType: "success",
+                  message: `${type} TEST ${message} SUCCESSFULLY`,
+                  testQuestionSetId: topicTestResponse.data.id,
+                  sectionId: topicTestResponse.data.testSection[0].id,
+                  topicTestSections: tempTopicTestSections,
+                  topicTestCopySections: JSON.parse(
+                    JSON.stringify(tempTopicTestSections)
+                  ),
+                  loading: false,
+                });
               }
-            );
+            }
+          );
       } else {
         this.setState({
           snackOpen: true,
@@ -859,7 +867,7 @@ class Add extends Component {
                 id: testQuestionSetId,
                 name: name,
                 type: type,
-                proctor:proctor,
+                proctor: proctor,
                 // course: { id: courseId },
                 description: description,
                 descriptionTitle: descriptionTitle,
@@ -945,7 +953,7 @@ class Add extends Component {
                       message:
                         aedept !== "assessment_engine_admin"
                           ? "Network Failed"
-                          : "Session Expired Please login to the page again",
+                          : calibrationTestResponse.message,
                       loading: false,
                     });
                   }
@@ -1039,22 +1047,22 @@ class Add extends Component {
     console.log(this.state.popUpId);
     this.state.department === "assessment_engine_admin"
       ? this.props.aedeleteQuestion(this.state.popUpId, (response) => {
-          if (response.success) {
-            this.props.aegetTestQuestionSet(
-              testQuestionSetId,
-              (testResponse) => {
-                if (testResponse.success) {
-                  this.handleCloseIconClick();
-                }
+        if (response.success) {
+          this.props.aegetTestQuestionSet(
+            testQuestionSetId,
+            (testResponse) => {
+              if (testResponse.success) {
+                this.handleCloseIconClick();
               }
-            );
-          }
-        })
+            }
+          );
+        }
+      })
       : this.props.deleteQuestion(this.state.popUpId, (response) => {
-          if (response.success) {
-            this.props.getTestQuestionSet(testQuestionSetId, () => {});
-          }
-        });
+        if (response.success) {
+          this.props.getTestQuestionSet(testQuestionSetId, () => { });
+        }
+      });
   };
 
   handleSectionDelete = () => {
@@ -1067,17 +1075,17 @@ class Add extends Component {
       if (deleteSectionId !== null) {
         this.state.department === "assessment_engine_admin"
           ? this.props.aedeleteSection(deleteSectionId, (response) => {
-              if (response.success) {
-                this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
-                  if (res.success) this.handleCloseIconClick();
-                });
-              }
-            })
+            if (response.success) {
+              this.props.aegetTestQuestionSet(testQuestionSetId, (res) => {
+                if (res.success) this.handleCloseIconClick();
+              });
+            }
+          })
           : this.props.deleteSection(deleteSectionId, (response) => {
-              if (response.success) {
-                this.props.getTestQuestionSet(testQuestionSetId, () => {});
-              }
-            });
+            if (response.success) {
+              this.props.getTestQuestionSet(testQuestionSetId, () => { });
+            }
+          });
       } else {
         let tabArr = [];
         let testArr = [];
@@ -1298,20 +1306,14 @@ class Add extends Component {
             <TestTitle flex={1}>
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
-            {aedept === "assessment_engine_admin" ?(
-            <RadioButtonsGroup
-                  radioData={{
-                    name: "proctor",
-                    // activeValue: type,
-                    activevalue:proctor,
-                    radioItemData: [
-                      {  id:"AE_TEST",label: "Proctor" },
-                    ],
-                    handleRadioChange: this.handleProctoringChange,
-                    
-                    marginRightValue: "733px",
-                  }}
-                />) :<></>}
+            {aedept === "assessment_engine_admin" ? (
+
+              <FormGroup style={{ marginRight: "700px" }}>
+                <FormControlLabel control={<Checkbox checked={proctor} color={"primary"}
+                  onChange={() => this.setState({ proctor: !this.state.proctor })}
+
+                />} label="Proctor" />
+              </FormGroup>) : <></>}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
               {/* cancel */}
               <Cancel

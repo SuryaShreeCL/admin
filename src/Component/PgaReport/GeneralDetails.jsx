@@ -19,11 +19,13 @@ import { isEmptyObject, isEmptyString, isNumber } from "../Validation";
 import { HELPER_TEXT } from "../../Constant/Variables";
 import MySnackBar from "../MySnackBar";
 import moment from "moment";
+import { data } from "jquery";
 function GeneralDetails(props) {
   const classes = useStyles();
   const [id, setId] = useState(null);
   const [selectedDate, handleDateChange] = useState({
     value: null,
+    
     helperText: "",
   });
   const [preferredProgramList, setPreferredProgramList] = useState([]);
@@ -71,12 +73,10 @@ function GeneralDetails(props) {
             strDate,
           } = response.data.data;
           setId(id);
+          console.log(date)
           setPreferredProgram((prev) => ({ ...prev, value: preferredProgram }));
           setContextDesc((prev) => ({ ...prev, value: contextDescription }));
-          handleDateChange((prev) => ({
-            ...prev,
-            value: date ? moment(new Date(date)).format("YYYY-MM-DD") : null,
-          }));
+          handleDateChange((prev) => ({ ...prev,value:date? moment(new Date(date)).format("YYYY-MM-DD") : null}));
           setAreaOfSpec((prev) => ({ ...prev, value: areaOfSpecialization }));
           setIntake((prev) => ({ ...prev, value: inTake }));
           setRound((prev) => ({ ...prev, value: pgaRound }));
@@ -96,6 +96,7 @@ function GeneralDetails(props) {
       })
     );
     getSchoolProgram(props.match.params.productId).then((response) => {
+      
       if (response.status === 200) {
         setPreferredProgramList(response.data.data);
       }
@@ -108,11 +109,13 @@ function GeneralDetails(props) {
     getPgaRound().then((response) => {
       if (response.status === 200) {
         setRoundList(response.data.data);
+        
       }
     });
     getAndSetStudentGeneralDetails();
+    
   }, []);
-
+   
   const handleSave = () => {
     const findObj = props.adminLinkedProductDetails.products.find(
       (el) => el.id === props.match.params.productId
@@ -163,7 +166,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item md={4} lg={4} xl={4}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={preferredProgramList}
                 value={preferredProgram.value}
                 onChange={(e, value) => {
@@ -178,15 +181,15 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={preferredProgram.helperText}
                     error={preferredProgram.helperText.length > 0}
-                    label="Preferred Program"
-                    variant="standard"
+                    label='Preferred Program'
+                    variant='standard'
                   />
                 )}
               />
             </Grid>
             <Grid item md={4} lg={4} xl={4}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={allSpecializationList}
                 value={areaOfSpec.value}
                 onChange={(e, value) =>
@@ -198,8 +201,8 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={areaOfSpec.helperText}
                     error={areaOfSpec.helperText.length > 0}
-                    label="Area of Specialization"
-                    variant="standard"
+                    label='Area of Specialization'
+                    variant='standard'
                   />
                 )}
               />
@@ -221,15 +224,16 @@ function GeneralDetails(props) {
               />
             </Grid>
             <Grid item md={2} lg={2} xl={2} container alignItems={"flex-end"}>
+              {console.log(selectedDate)}
               <TextField
                 label={"Date"}
-                value={selectedDate.value}
+                value={ selectedDate.value || ""}
                 helperText={selectedDate.helperText}
                 error={selectedDate.helperText.length > 0}
                 onChange={(e) =>
-                  handleDateChange({ value: e.target.value, helperText: "" })
+                  {console.log(e.target.value); handleDateChange({ value: e.target.value, helperText: "" })}
                 }
-                type="date"
+                type='date'
                 InputLabelProps={{ shrink: true }}
               />
               {/* <DatePick
@@ -261,7 +265,7 @@ function GeneralDetails(props) {
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={intakeList}
                 value={intake.value}
                 onChange={(e, value) =>
@@ -274,15 +278,15 @@ function GeneralDetails(props) {
                     {...params}
                     helperText={intake.helperText}
                     error={intake.helperText.length > 0}
-                    label="Intake"
-                    variant="standard"
+                    label='Intake'
+                    variant='standard'
                   />
                 )}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
               <DropDown
-                id="combo-box-demo"
+                id='combo-box-demo'
                 options={roundList}
                 value={round.value}
                 onChange={(e, value) =>
@@ -292,10 +296,10 @@ function GeneralDetails(props) {
                 renderInput={(params) => (
                   <TextFieldComponent
                     {...params}
-                    label="Round"
+                    label='Round'
                     helperText={round.helperText}
                     error={round.helperText.length > 0}
-                    variant="standard"
+                    variant='standard'
                   />
                 )}
               />

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Link, Font } from "@react-pdf/renderer";
+import { StyleSheet, Text, View, Font, Link } from "@react-pdf/renderer";
 import React, { useEffect } from "react";
 
 const Table = ({
@@ -29,8 +29,7 @@ const Table = ({
       flex: `0 0 ${100 / rowDataLength}%`,
       maxWidth: `${100 / rowDataLength}%}`,
       textAlign: "center",
-      flexShrink: 1,
-      flexWrap: "wrap",
+      overflow: "hidden",
     },
     td: {
       fontSize: 10,
@@ -128,8 +127,8 @@ const Table = ({
                   {isProgramLink ? (
                     <Link
                       src={item.link}
-                      onClick={() => window.open(item.link, "_blank")}
-                      rel="noreferrer"
+                      target="_blank"
+                      rel="noreferrer noopener"
                     >
                       {item.name}
                     </Link>

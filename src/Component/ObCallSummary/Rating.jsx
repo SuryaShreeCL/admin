@@ -10,7 +10,7 @@ import Unhappy from "../../Asset/Images/unhappy.svg";
 import Apathy from "../../Asset/Images/apathy.svg";
 import Happy from "../../Asset/Images/happy.svg";
 import Love from "../../Asset/Images/love.svg";
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 import { ThemeProvider } from "styled-components";
 // import {updateRating } from '../../Actions/Calldetails';
 import { connect } from "react-redux";
@@ -384,7 +384,7 @@ const customIcons = {
     label: "Love",
   },
 };
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiRating: {
       iconHover: {

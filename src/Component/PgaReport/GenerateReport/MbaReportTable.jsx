@@ -28,6 +28,7 @@ const MbaReportTable = ({
       flex: `0 0 ${100 / rowDataLength}%`,
       maxWidth: `${100 / rowDataLength}%}`,
       textAlign: "center",
+      overflow: "hidden",
     },
     td: {
       fontSize: 10,

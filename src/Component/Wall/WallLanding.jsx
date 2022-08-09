@@ -8,10 +8,10 @@ import Events from "./Pages/Events";
 import { useLocation } from "react-router-dom";
 import Webinars from "./Pages/Webinars";
 import RecordedVideos from "./Pages/RecordedVideos";
+import { LMS_ROLES } from "../../Lms/Constants";
 
-export const Lms_Roles = ["LMSCHECKER", "LMSEDITOR"];
 export const isLms_Role = (role) => {
-  return Lms_Roles.indexOf(role) > -1;
+  return LMS_ROLES.includes(role);
 };
 
 const Lms_Tabs = [
@@ -24,7 +24,7 @@ const Lms_Tabs = [
 ];
 
 const WallLanding = () => {
-  let role = window.sessionStorage.getItem("role");
+  let role = window.sessionStorage.getItem("department");
   console.log();
   let location = useLocation();
   const [tabCount, setTabCount] = useState(location.tab ?? 0);
@@ -74,7 +74,7 @@ const WallLanding = () => {
               value={tabCount}
               textColor={"inherit"}
               onChange={(e, value) => setTabCount(value)}
-              aria-label="tabs"
+              aria-label='tabs'
             >
               {renderLmsTab()}
             </TopTabs>
@@ -83,17 +83,17 @@ const WallLanding = () => {
               value={tabCount}
               textColor={"inherit"}
               onChange={(e, value) => setTabCount(value)}
-              aria-label="tabs"
+              aria-label='tabs'
             >
-              <TopTab label="Live Posts" />
-              <TopTab label="Draft Posts" />
-              <TopTab label="Scheduled Posts" />
+              <TopTab label='Live Posts' />
+              <TopTab label='Draft Posts' />
+              <TopTab label='Scheduled Posts' />
               {/* <TopTab label='Events' /> */}
               {/* <TopTab label="Webinars" /> */}
             </TopTabs>
           )}
         </Grid>
-        <Grid item md={12} overflow="auto">
+        <Grid item md={12} overflow='auto'>
           {isLms_Role(role)
             ? renderLmsWebinarContent(tabCount)
             : renderContent(tabCount)}

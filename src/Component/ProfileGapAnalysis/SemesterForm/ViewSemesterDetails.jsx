@@ -86,7 +86,7 @@ class ViewSemesterDetails extends Component {
           {/* try */}
 
           <Grid item md={12} className={"details_grid"}>
-            <Grid container>
+            <Grid container spacing={2}>
               <Grid item md={3}>
                 <Typography color="textSecondary">College Name</Typography>
               </Grid>

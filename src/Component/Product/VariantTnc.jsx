@@ -2,7 +2,7 @@ import {
   Grid,
   Typography,
   withStyles,
-  createMuiTheme,
+  createTheme,
   Button,
 } from "@material-ui/core";
 import React, { Component } from "react";
@@ -100,7 +100,7 @@ class VariantTnc extends Component {
     );
   }
 }
-const useStyles = (theme = createMuiTheme()) => ({
+const useStyles = (theme = createTheme()) => ({
   heading: {
     fontFamily: "Montserrat",
     fontStyle: "normal",

@@ -60,7 +60,6 @@ function TableComponent({
                           aria-haspopup='true'
                           onClick={(e) => handleThreeDotClick(e, item)}
                           id={item.id}
-                          style={{ padding: "0px" }}
                         >
                           <MoreVertRounded style={{ fill: "#1093FF" }} />
                         </IconButton>

@@ -6,6 +6,7 @@ import {
   clearCustomData,
   getDocumentModelBySubStageId,
   getDownloadByDocumentId,
+  getFilePath,
   uploadDocumentBySubStageId,
   uploadFileBySubStageId,
 } from "../../Actions/StrategySession";
@@ -36,7 +37,7 @@ function Index(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const params = useParams();
-  const { studentId, productId } = params;
+  const { studentId, productId, subStageId } = params;
   const [state, setState] = useState({
     steps: [],
     documentList: [],
@@ -55,6 +56,7 @@ function Index(props) {
     status: null,
     anchorEl: null,
     popoverComment: null,
+    completedStagesList: [],
   });
 
   const {
@@ -75,6 +77,7 @@ function Index(props) {
     status,
     anchorEl,
     popoverComment,
+    completedStagesList,
   } = state;
   const {
     loading,
@@ -82,9 +85,11 @@ function Index(props) {
     fileUploadStatus,
     documentUpdateStatus,
     downloadFileResponse,
+    fileObject,
   } = useSelector((state) => state.StrategySessionReducer);
+  console.log(fileObject);
 
-  const { studentStages, subStageSteps } = useSelector(
+  const { studentStages, subStageSteps, completedStages } = useSelector(
     (state) => state.StudentReducer
   );
 
@@ -164,6 +169,10 @@ function Index(props) {
           status: data.stepStatus,
           documentList: data.content || [],
         });
+        const index = data.content.length - 1;
+        const path =
+          data.content.length !== 0 ? data.content[index]["path"] : "";
+        dispatch(getFilePath(studentId, sectionId, path));
       } else {
         setState({
           ...state,
@@ -178,7 +187,6 @@ function Index(props) {
       dispatch(clearCustomData("documentModel"));
     }
   }, [documentModel]);
-
   useEffect(() => {
     if (fileUploadStatus) {
       if (fileUploadStatus.success) {
@@ -259,6 +267,22 @@ function Index(props) {
       dispatch(clearCustomData("downloadFileResponse"));
     }
   }, [downloadFileResponse]);
+
+  useEffect(() => {
+    if (completedStages) {
+      if (completedStages.success) {
+        setState({
+          ...state,
+          completedStagesList: completedStages.data || [],
+        });
+      } else {
+        setState({
+          ...state,
+          completedStagesList: [],
+        });
+      }
+    }
+  }, [completedStages]);
 
   const handleCancel = () => {
     setState({
@@ -343,7 +367,7 @@ function Index(props) {
     });
   };
 
-  const handleDownload = (path, e) => {
+  const handleDownload = (path, id, e) => {
     dispatch(getDownloadByDocumentId(studentId, sectionId, path));
   };
 
@@ -352,6 +376,10 @@ function Index(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value, [`${name}HelperText`]: null });
+  };
+
+  const isStageCompleted = () => {
+    return completedStagesList.includes("Strategy Session");
   };
 
   const renderComponent = () => {
@@ -372,13 +400,16 @@ function Index(props) {
       fileNameHelperText: fileNameHelperText,
       commentHelperText: commentHelperText,
       file: file,
-      disabledUploadButton: Boolean(status),
+      disabledUploadButton: isStageCompleted() || documentList.length === 0,
       isDisabledFileName: false,
+      fileObject: fileObject,
       ...props,
     };
     switch (activeTabValue) {
       case "Test Transcripts":
-        return <TestTranscripts {...props} />;
+        return (
+          <TestTranscripts {...props} isStageCompleted={isStageCompleted()} />
+        );
       default:
         return <DocumentComponent {...renderProps} />;
     }
@@ -414,7 +445,7 @@ function Index(props) {
   return (
     <div className={classes.preStrategyWorkSheetContainer}>
       <Grid container>
-        <Grid item lg={12}>
+        <Grid item xs={12} lg={12}>
           <Box display={"flex"} alignItems={"center"}>
             <Box flex={1}>
               <CustomTabs value={activeTabValue} onChange={handleTabChange}>
@@ -424,7 +455,7 @@ function Index(props) {
           </Box>
           <Divider className={classes.dividerStyle} />
         </Grid>
-        <Grid item lg={12}>
+        <Grid item xs={12} lg={12}>
           {renderComponent()}
         </Grid>
       </Grid>

@@ -8,7 +8,7 @@ import PrimaryButton from "../../../Utils/PrimaryButton";
 import { Typo } from "../../Utils/controls/Styles";
 import { useStyles } from "./Styles";
 
-function ToelfDialogContent({
+function ToeflDialogContent({
   handleChange,
   handleDrop,
   handleClose,
@@ -48,7 +48,6 @@ function ToelfDialogContent({
             onChange={(e, newValue) => {
               handleChange({
                 target: { name: "attempt", value: newValue },
-                ...e,
               });
             }}
             getOptionLabel={({ title }) => title}
@@ -64,7 +63,7 @@ function ToelfDialogContent({
             margin={"normal"}
             label={"Exam Date"}
             value={date}
-            type={"month"}
+            type={"date"}
             name={"date"}
             onChange={handleChange}
             InputLabelProps={{
@@ -205,4 +204,4 @@ function ToelfDialogContent({
   );
 }
 
-export { ToelfDialogContent };
+export { ToeflDialogContent };

@@ -1,53 +1,53 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const useStyles = () => ({
   buttonGrid: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
   bottomContainer: {
-    height: '84px',
-    display: 'flex',
-    alignSelf: 'flex-end',
+    height: "84px",
+    display: "flex",
+    alignSelf: "flex-end",
   },
   addIcon: {
-    marginRight: '8px',
-    cursor: 'pointer',
+    marginRight: "8px",
+    cursor: "pointer",
   },
   deleteIcon: {
-    cursor: 'pointer',
+    cursor: "pointer",
   },
   container: {
-    height: '100vh',
-    padding: '0% !important',
-    width: '100% !important',
-    margin: '0px !important',
+    height: "100vh",
+    padding: "0% !important",
+    width: "100% !important",
+    margin: "0px !important",
   },
   topGrid: {
-    maxHeight: '100vh',
-    overflowY: 'scroll',
-    position: 'relative',
+    maxHeight: "100vh",
+    overflowY: "scroll",
+    position: "relative",
   },
   wrap: {
-    padding: '0% !important',
-    width: '100% !important',
-    margin: '0px !important',
+    padding: "0% !important",
+    width: "100% !important",
+    margin: "0px !important",
   },
   dividerColor: {
-    background: '#E7E7E7',
+    background: "#E7E7E7",
   },
   customDividerColor: {
-    background: '#E7E7E7',
-    height: 'calc(100% - 70px)',
+    background: "#E7E7E7",
+    height: "calc(100% - 70px)",
   },
   rightWrapper: {
-    maxHeight: '100vh',
-    position: 'relative',
-    padding: '0px !important',
+    maxHeight: "100vh",
+    position: "relative",
+    padding: "0px !important",
   },
   containerTopPad: {
-    paddingTop: '15px',
+    paddingTop: "15px",
   },
 });
 
@@ -94,6 +94,9 @@ export const QuestionList = styled.ul`
     text-indent: 0px !important;
     text-align: start !important;
     text-align-last: start !important;
+  }
+  div {
+    margin-bottom: 1rem;
   }
 `;
 

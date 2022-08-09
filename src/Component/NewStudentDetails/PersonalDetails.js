@@ -9,7 +9,7 @@ import {
   Typography,
   TextField,
   IconButton,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   Tooltip,
   Button,
@@ -159,7 +159,7 @@ export class PersonalDetails extends Component {
       });
     }
   }
-  theme = createMuiTheme({
+  theme = createTheme({
     overrides: {
       MuiSvgIcon: {
         root: {

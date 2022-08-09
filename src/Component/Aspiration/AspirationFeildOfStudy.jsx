@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import {
     Grid,
     Paper,
@@ -45,7 +45,7 @@ export class AspirationFeildOfStudy extends Component {
     }
     // Component Theme
     getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",
@@ -69,7 +69,7 @@ export class AspirationFeildOfStudy extends Component {
     });
     // Model Theme
     modeltheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiDialog: {
           paperWidthSm: {
@@ -112,7 +112,7 @@ export class AspirationFeildOfStudy extends Component {
         },
       },
     });
-    spinnerTheme = () =>createMuiTheme({
+    spinnerTheme = () =>createTheme({
       overrides :{
         MuiCircularProgress :  {
           colorPrimary:{

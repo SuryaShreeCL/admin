@@ -43,7 +43,7 @@ export class UploadCV extends Component {
                             onClick={() => this.documentClick(data)}
                           >
                             <DoccumentCard
-                              certificate={data.path}
+                              certificate={data.fileName}
                               date={data.uploadDate}
                               path={data.path}
                               studentid={this.props.match.params.studentId}

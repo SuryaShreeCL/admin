@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../../../Asset/Course.css";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
 import CreatableSelect from "react-select/creatable";
 import CardContent from "@material-ui/core/CardContent";
@@ -273,7 +273,7 @@ export default class CourseContent extends Component {
 // Theme
 
 export const rootTheme = () =>
-  createMuiTheme({
+  createTheme({
     overrides: {
       MuiCard: {
         root: {
