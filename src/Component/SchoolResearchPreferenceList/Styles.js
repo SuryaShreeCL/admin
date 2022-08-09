@@ -82,6 +82,8 @@ export const useStyles = makeStyles((theme) => ({
     gap: "15px",
     borderTop: "1px solid #E7E7E7",
     marginBottom: "0px",
+    backgroundColor: "white",
+    boxShadow: "none",
   },
   stepLabel: {
     color: `${COLORS.white} !important`,

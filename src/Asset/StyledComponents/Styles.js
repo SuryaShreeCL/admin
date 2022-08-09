@@ -323,4 +323,5 @@ export const Category = styled.td`
   font-size: 14px;
   align-items: center;
   width: 10%;
+  color: black !important;
 `;
