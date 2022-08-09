@@ -389,6 +389,7 @@ function Index(props) {
     };
     console.log("rendering element 0");
     if (activeTabValue === "QPMC 1") {
+      
       return <DocumentComponent {...renderProps} />;
     } else if (activeTabValue === "QPMC 2") {
     } else if (activeTabValue === "School Research") {
@@ -400,6 +401,7 @@ function Index(props) {
 
   const handleTabChange = (e, newValue) => {
     if (newValue === "QPMC 1") {
+      dispatch(getDocumentModelBySubStageId(studentId, productId,"c4971d3a-b4a4-11ec-b909-0242ac120002"));
       let arr = steps.filter(({ sectionName }) => sectionName === newValue);
       let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
       setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
