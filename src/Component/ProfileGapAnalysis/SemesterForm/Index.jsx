@@ -33,7 +33,6 @@ import {
   getUniversity,
   getBranches,
 } from "../../../Actions/College";
-import { SentimentSatisfiedTwoTone } from "@material-ui/icons";
 import MySnackBar from "../../MySnackBar";
 import DropDown from "../../../Component/Controls/DropDown";
 import TextFieldComponent from "../../../Component/Controls/TextField";
@@ -312,6 +311,22 @@ class Index extends Component {
   // save button click function
   handleSaveClick = () => {
     let hlpTxt = "Please fill the required field";
+    isEmptyString(this.state.collegeName)
+      ? this.setState({ collegeNameErr: hlpTxt })
+      : this.setState({ collegeNameErr: "" });
+
+    isEmptyString(this.state.departmentName)
+      ? this.setState({ departmentNameErr: hlpTxt })
+      : this.setState({ departmentNameErr: "" });
+
+    isEmptyString(this.state.universityName)
+      ? this.setState({ universityNameErr: hlpTxt })
+      : this.setState({ universityNameErr: "" });
+
+    isEmptyString(this.state.degree)
+      ? this.setState({ degreeErr: hlpTxt })
+      : this.setState({ degreeErr: "" });
+
     isEmptyString(this.state.subjectDetails.sgpa)
       ? this.setState({ sgpaErr: hlpTxt })
       : this.state.subjectDetails.sgpa <= 0
@@ -324,13 +339,14 @@ class Index extends Component {
       : this.state.subjectDetails.cgpa <= 0
       ? this.setState({ cgpaErr: "It cannot be zero or negative value" })
       : this.setState({ cgpaErr: "" });
-    // isEmptyString(this.state.subjectDetails.formulaEmployed)
-    //   ? this.setState({ formulaEmployedErr: hlpTxt })
-    //   : this.state.subjectDetails.formulaEmployed <= 0
-    //   ? this.setState({
-    //       formulaEmployedErr: "It cannot be zero or negative value",
-    //     })
-    //   : this.setState({ formulaEmployedErr: "" });
+
+    isEmptyString(this.state.subjectDetails.formulaEmployed)
+      ? this.setState({ formulaEmployedErr: hlpTxt })
+      : this.state.subjectDetails.formulaEmployed <= 0
+      ? this.setState({
+          formulaEmployedErr: "It cannot be zero or negative value",
+        })
+      : this.setState({ formulaEmployedErr: "" });
     // isEmptyString(this.state.subjectDetails.percentage)
     //   ? this.setState({ percentageErr: hlpTxt })
     //   : this.state.subjectDetails.percentage <= 0
@@ -341,8 +357,8 @@ class Index extends Component {
       !isEmptyString(this.state.subjectDetails.sgpa) &&
       !(this.state.subjectDetails.sgpa <= 0) &&
       !isEmptyString(this.state.subjectDetails.cgpa) &&
-      !(this.state.subjectDetails.cgpa <= 0)
-      // !isEmptyString(this.state.subjectDetails.formulaEmployed) &&
+      !(this.state.subjectDetails.cgpa <= 0) &&
+      !isEmptyString(this.state.subjectDetails.formulaEmployed)
       // !(this.state.subjectDetails.formulaEmployed <= 0) &&
       // !isEmptyString(this.state.subjectDetails.percentage) &&
       // !(this.state.subjectDetails.percentage <= 0)
@@ -433,6 +449,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.sgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -459,6 +482,13 @@ class Index extends Component {
       this.props.academicTypes,
       this.state.semesterData,
       (response) => {
+        if(isNaN(response.data.data.cgpa)){
+          this.setState({
+            snackMsg: "Please fill the required field",
+            snackVariant: "error",
+            snackOpen: true,
+          });
+        }
         if (response.data.success) {
           this.setState({
             subjectDetails: {
@@ -476,7 +506,7 @@ class Index extends Component {
 
   render() {
     const { classes } = this.props;
-
+    
     // table columns
     const columns = [
       {
@@ -506,7 +536,7 @@ class Index extends Component {
               //   snackOpen : true,
               //   snackVariant : "error"
               // })
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           }
         },
@@ -533,7 +563,7 @@ class Index extends Component {
               //   snackOpen : true,
               //   snackVariant : "error"
               // })
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           }
         },
@@ -544,7 +574,7 @@ class Index extends Component {
         // type : "numeric",
         render: (rowData, renderType) =>
           renderType === "row" ? rowData.maximumMarks : "",
-        validate: (rowData) => {
+        validate: (rowData,e) => {
           if (!isEmptyObject(rowData)) {
             if (rowData.maximumMarks) {
               if (!isNanAndEmpty(rowData.maximumMarks)) {
@@ -553,13 +583,14 @@ class Index extends Component {
                 } else {
                   return {
                     isValid: false,
+                    helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
                 return { isValid: false };
               }
             } else {
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           }
         },
@@ -586,7 +617,7 @@ class Index extends Component {
                 return { isValid: false };
               }
             } else {
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           }
         },
@@ -638,6 +669,14 @@ class Index extends Component {
                   }
                   label="Type"
                   variant="standard"
+                  inputProps={{
+                    ...params.inputProps,
+                    onKeyDown: (e) => {
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                          }
+                    },
+                  }}
                 />
               )}
             />
@@ -646,7 +685,7 @@ class Index extends Component {
       },
 
       {
-        title: "obtained Score",
+        title: "Obtained Score",
         field: "score",
         // type : "numeric",
         render: (rowData, renderType) =>
@@ -660,13 +699,14 @@ class Index extends Component {
                 } else {
                   return {
                     isValid: false,
+                    helperText: "It cannot be zero or negative value",
                   };
                 }
               } else {
                 return { isValid: false };
               }
             } else {
-              return { isValid: false };
+              return { isValid: false, helperText: HELPER_TEXT.requiredField };
             }
           }
         },
@@ -720,6 +760,14 @@ class Index extends Component {
                   }
                   label="Pass/Fail"
                   variant="standard"
+                  inputProps={{
+                    ...params.inputProps,
+                    onKeyDown: (e) => {
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                          }
+                    },
+                  }}
                 />
               )}
             />
@@ -783,6 +831,10 @@ class Index extends Component {
                       list={this.state.list}
                       degree={this.state.degreeType}
                       degreeType={this.state.degreeDetails}
+                      collegeNameErr={this.state.collegeNameErr}
+                      universityNameErr={this.state.universityNameErr}
+                      departmentNameErr={this.state.departmentNameErr}
+                      degreeErr={this.state.degreeErr}
                     />
                   </Grid>
                   <Grid item md={12}>
@@ -815,7 +867,7 @@ class Index extends Component {
 
                 <div className={classes.buttonDiv}>
                   <Button
-                    className={"button"}
+                    // className={"button"}
                     variant={"outlined"}
                     color={"primary"}
                     className={classes.sgpaButton}
@@ -823,8 +875,9 @@ class Index extends Component {
                   >
                     Calculate SGPA
                   </Button>
+
                   <Button
-                    className={"button"}
+                    // className={"button"}
                     variant={"outlined"}
                     color={"primary"}
                     className={classes.cgpaButton}
@@ -870,11 +923,12 @@ const useStyles = (theme) => ({
     marginLeft: "10px",
   },
   sgpaButton: {
-    borderRadius: "20px",
-    marginRight: "15px",
+    borderRadius: "5px",
+    marginRight: "10px",
   },
   cgpaButton: {
-    borderRadius: "20px",
+    borderRadius: "5px",
+    marginRight: "10px",
   },
   examTypeStyle: {
     "& .MuiFormLabel-root.Mui-error": {

@@ -31,20 +31,20 @@ class TestResultsGraph extends Component {
         this.setState({
           data: response.data,
           diagnosticTest: response.data.find(
-            (item) => item.testName === "Diagnostic Test"
+            (item) => item.testName === "Diagnostic_Test"
           ),
           technicalTest: response.data.find(
-            (item) => item.testName === "Technical Test"
+            (item) => item.testName === "Technical_Test"
           ),
         });
         const diagnosticLabel = response.data
-          .find((item) => item.testName === "Diagnostic Test")
+          .find((item) => item.testName === "Diagnostic_Test")
           .sectionScoreModels.map((item) => item.sectionName);
         const diagnosticStudentScore = response.data
-          .find((item) => item.testName === "Diagnostic Test")
+          .find((item) => item.testName === "Diagnostic_Test")
           .sectionScoreModels.map((item) => item.studentScore);
         const diagnosticAvgScore = response.data
-          .find((item) => item.testName === "Diagnostic Test")
+          .find((item) => item.testName === "Diagnostic_Test")
           .sectionScoreModels.map((item) => item.averageScore);
         const data = {
           labels: ["Quant", "Verbal", "Logical", "Psychometric"],
@@ -70,13 +70,13 @@ class TestResultsGraph extends Component {
         });
         // technical test
         const technicalLabel = response.data
-          .find((item) => item.testName === "Technical Test")
+          .find((item) => item.testName === "Technical_Test")
           .sectionScoreModels.map((item) => item.sectionName.replace("_", " "));
         const technicalStudentScore = response.data
-          .find((item) => item.testName === "Technical Test")
+          .find((item) => item.testName === "Technical_Test")
           .sectionScoreModels.map((item) => item.studentScore);
         const technicalAvgScore = response.data
-          .find((item) => item.testName === "Technical Test")
+          .find((item) => item.testName === "Technical_Test")
           .sectionScoreModels.map((item) => item.averageScore);
         const item = {
           labels: technicalLabel,

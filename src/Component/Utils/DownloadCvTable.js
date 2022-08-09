@@ -33,11 +33,19 @@ function DownloadCvTable({
           body.length !== 0 &&
           body.map(
             (
-              { comment, versionName, uploadedDate, id, path, isDelete },
-              index
+              { comment, uploadedDate,fileName,id, path, isDelete },
+              index,status
             ) => (
               <tr id={`row${index}`}>
-                <td>{versionName || "NA"}</td>
+                 {status=== "Review Completed"? (
+            <td>
+              {fileName}
+              </td>
+            ):(
+              <td>
+                {fileName}
+              </td>)
+  }
                 <td>
                   {uploadedDate
                     ? moment(new Date(uploadedDate)).format("DD MMMM YYYY")
@@ -79,7 +87,7 @@ function DownloadCvTable({
                           Boolean(!path) ? "disabled" : "outlined"
                         ]
                       }
-                      onClick={(e) => handleDownload(path, e)}
+                      onClick={(e) => handleDownload(path, id, e)}
                       disabled={Boolean(!path)}
                     >
                       {"Download"}

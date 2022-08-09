@@ -197,7 +197,7 @@ function MsReport({ content = [] }) {
   let ReportDate =
     content.find((item) => item.content.dateTime) &&
     content.find((item) => item.content.dateTime).content.dateTime;
-
+    console.log(content)
   return (
     <Document>
       <Page style={styles.body} wrap>
@@ -388,16 +388,21 @@ const styles = StyleSheet.create({
   spider_graph_left_title: {
     fontSize: 10,
     color: "#a9a9a9",
+    lineHeight:2,
+    // backgroundColor:"red"
   },
   spider_graph_left_title_text: {
     fontSize: 10,
-    marginLeft: "6px",
+    lineHeight: 2,
+    display: "flex",
+    overflow: "hidden",
+    // backgroundColor:"green"
   },
   verticalLine: {
     height: "90%",
     width: 1,
     backgroundColor: "#909090",
-    marginLeft: "39px",
+    // marginLeft: "39px",
     alignItems: "center",
     display: "flex",
   },
@@ -413,11 +418,13 @@ const styles = StyleSheet.create({
     width: 200,
   },
   plan_left_view: {
-    padding: "2%",
+    padding: "1%",
+    width: "35%",
+    lineHeight: 2,
   },
   plan_right_view: {
-    marginLeft: "16px",
-    padding: "2%",
+    padding: "1%",
+    display: "flex",
   },
 });
 

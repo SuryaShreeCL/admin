@@ -1087,17 +1087,17 @@ export const putproductstructure = (data, callback) => {
         console.log(result);
       })
       .catch((error) => {
+                console.log(error);
         callback(error);
-        console.log(error);
       });
   };
 };
 
-export const getproductsteps = (id) => {
+export const getproductstepsCall = (id) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {
     axios
-      .get(URL + "/api/v1/get/steps/" + id, {
+      .get(URL + `/api/v1/get/steps/${id}`, {
         crossDomain: true,
         headers: {
           admin: "yes",
@@ -1176,7 +1176,7 @@ export const getVariantStepsById = (variantId, callback) => {
         headers: {
           admin: "yes",
           Authorization: `Bearer ${accessToken}`,
-        },
+        },     
       })
       .then((result) => {
         dispatch({

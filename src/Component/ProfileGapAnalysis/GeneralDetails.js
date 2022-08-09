@@ -48,6 +48,11 @@ import {
 import Mysnack from "./../MySnackBar";
 import CommentDialog from "./CommentDialog";
 import CvViewer from "./CvViewer";
+import {
+  getAspirationLocation,
+  getAspirationPackage,
+  getAspirationWork,
+} from "../../Actions/Student";
 const theme = createTheme({
   overrides: {
     MuiGrid: {
@@ -123,7 +128,10 @@ class GeneralDetails extends Component {
       aspdegree: "",
       aspfieldofstudy: "",
       buttonStatus: false,
-
+      isThreeFieldOnly: "",
+      preferredWork: {},
+      preferredLocation: {},
+      preferredPackage: {},
       commentUpdateList: [],
       fieldname: {
         fieldOfStudy: "Field Of Study",
@@ -146,8 +154,8 @@ class GeneralDetails extends Component {
     filterarr.push({
       fieldName: name,
       oldValue:
-        this.props.getgeneraldetailsList.studentDetails[name] &&
-        this.props.getgeneraldetailsList.studentDetails[name],
+        this.props.getgeneraldetailsList?.studentDetails[name] &&
+        this.props.getgeneraldetailsList?.studentDetails[name],
       newValue: value,
       comment: "",
     });
@@ -204,6 +212,19 @@ class GeneralDetails extends Component {
         }
       }
     );
+    this.props.getAspirationLocation(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id
+    );
+    // this.props.getAspirationWork(
+    //   this.props.match.params.studentId,
+    //   this.props.variantStepList.id,
+    //   null
+    // );
+    this.props.getAspirationPackage(
+      this.props.match.params.studentId,
+      this.props.variantStepList.id
+    );
 
     this.fetchCommentHistory();
 
@@ -227,62 +248,73 @@ class GeneralDetails extends Component {
             fieldofstudy: response.data.studentDetails.fieldOfStudy,
             sem: response.data.studentDetails.currentSem,
             areaofspecialisation:
-              response.data.aspirationDetails.aspirationAreaOfSpecializations,
+              response.data.aspirationDetails?.aspirationAreaOfSpecializations,
             package: response.data.packageDetails.packagedPurchased,
             product: response.data.packageDetails.pgaProduct,
             intake: response.data.packageDetails.pgaIntake && {
               title: response.data.packageDetails.pgaIntake,
             },
             enrollmentdate: response.data.packageDetails.enrollmentDate,
-            prefschool: response.data.aspirationDetails.aspirationUniversities,
+            prefschool:
+              response.data.schoolType === "ASPIRATION_BS"
+                ? response.data.aspirationDetails.aspirationBschool
+                : response.data.aspirationDetails.aspirationUniversities,
             round: response.data.packageDetails.round,
-            aspdegree: response.data.aspirationDetails.aspirationDegrees,
-            aspfieldofstudy: response.data.aspirationDetails.aspirationBranches,
+            aspdegree: response.data.aspirationDetails?.aspirationDegrees,
+            aspfieldofstudy:
+              response.data.aspirationDetails?.aspirationBranches,
+            isThreeFieldOnly: response.data.aspirationDetails?.isThreeFieldOnly,
+            preferredLocation: response.data.aspirationDetails?.jobLocation,
+            preferredWork: response.data.aspirationDetails?.workProfile,
+            preferredPackage: response.data.aspirationDetails?.preferredPackage,
           });
         }
       }
     );
   }
-
   componentDidUpdate(prevProps) {
     const { commentHistory } = this.props;
 
     if (prevProps.getgeneraldetailsList !== this.props.getgeneraldetailsList) {
       this.setState({
-        clsid: this.props.getgeneraldetailsList.studentDetails?.clsId,
-        firstname: this.props.getgeneraldetailsList.studentDetails?.firstName,
-        lastname: this.props.getgeneraldetailsList.studentDetails?.lastName,
-        phone: this.props.getgeneraldetailsList.studentDetails?.phoneNumber,
-        email: this.props.getgeneraldetailsList.studentDetails?.emailId,
-        workexp: this.props.getgeneraldetailsList.studentDetails
+        clsid: this.props.getgeneraldetailsList?.studentDetails?.clsId,
+        firstname: this.props.getgeneraldetailsList?.studentDetails?.firstName,
+        lastname: this.props.getgeneraldetailsList?.studentDetails?.lastName,
+        phone: this.props.getgeneraldetailsList?.studentDetails?.phoneNumber,
+        email: this.props.getgeneraldetailsList?.studentDetails?.emailId,
+        workexp: this.props.getgeneraldetailsList?.studentDetails
           ?.workExperience,
-        pgcollege: this.props.getgeneraldetailsList.studentDetails
+        pgcollege: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateCollege,
-        pgdegree: this.props.getgeneraldetailsList.studentDetails
+        pgdegree: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateDegree,
-        pguniversity: this.props.getgeneraldetailsList.studentDetails
+        pguniversity: this.props.getgeneraldetailsList?.studentDetails
           ?.postGraduateUniversity,
-        college: this.props.getgeneraldetailsList.studentDetails?.college,
-        degree: this.props.getgeneraldetailsList.studentDetails?.degree,
-        fieldofstudy: this.props.getgeneraldetailsList.studentDetails
+        college: this.props.getgeneraldetailsList?.studentDetails?.college,
+        degree: this.props.getgeneraldetailsList?.studentDetails?.degree,
+        fieldofstudy: this.props.getgeneraldetailsList?.studentDetails
           ?.fieldOfStudy,
-        sem: this.props.getgeneraldetailsList.studentDetails?.currentSem,
-        areaofspecialisation: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationAreaOfSpecializations,
-        package: this.props.getgeneraldetailsList.packageDetails
+        sem: this.props.getgeneraldetailsList?.studentDetails?.currentSem,
+        areaofspecialisation: this.props.getgeneraldetailsList
+          ?.aspirationDetails?.aspirationAreaOfSpecializations,
+        package: this.props.getgeneraldetailsList?.packageDetails
           ?.packagedPurchased,
-        product: this.props.getgeneraldetailsList.packageDetails?.pgaProduct,
-        intake: this.props.getgeneraldetailsList.packageDetails?.pgaIntake && {
-          title: this.props.getgeneraldetailsList.packageDetails?.pgaIntake,
+        product: this.props.getgeneraldetailsList?.packageDetails?.pgaProduct,
+        intake: this.props.getgeneraldetailsList?.packageDetails?.pgaIntake && {
+          title: this.props.getgeneraldetailsList?.packageDetails?.pgaIntake,
         },
-        enrollmentdate: this.props.getgeneraldetailsList.packageDetails
+        enrollmentdate: this.props.getgeneraldetailsList?.packageDetails
           ?.enrollmentDate,
-        prefschool: this.props.getgeneraldetailsList.aspirationDetails
-          ?.aspirationUniversities,
-        round: this.props.getgeneraldetailsList.packageDetails?.round,
-        aspdegree: this.props.getgeneraldetailsList.aspirationDetails
+        prefschool:
+          this.props.getgeneraldetailsList?.schoolType === "ASPIRATION_BS"
+            ? this.props.getgeneraldetailsList?.aspirationDetails
+                ?.aspirationBschool
+            : this.props.getgeneraldetailsList?.aspirationDetails
+                ?.aspirationUniversities,
+        round: this.props.getgeneraldetailsList?.packageDetails?.round,
+        aspdegree: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationDegrees,
-        aspfieldofstudy: this.props.getgeneraldetailsList.aspirationDetails
+        aspfieldofstudy: this.props.getgeneraldetailsList?.aspirationDetails
           ?.aspirationBranches,
       });
     }
@@ -942,6 +974,74 @@ class GeneralDetails extends Component {
               onChange={(e, newValue) =>
                 this.setState({ prefschool: newValue })
               }
+            />
+          </Grid>
+        </Grid>
+      );
+    } else if (this.state.isThreeFieldOnly) {
+      return (
+        <Grid container spacing={3}>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getWorkList || []}
+              getOptionLabel={(option) => option.workProfile}
+              value={this.state.preferredWork || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredWork"
+                  label="Preferred Work"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getlocationList || []}
+              getOptionLabel={(option) => option.jobLocation}
+              value={this.state.preferredLocation || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredLocation"
+                  label="Preferred Location"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item md={4}>
+            <Autocomplete
+              // multiple
+              disabled
+              popupIcon={<ExpandMore style={{ color: "black" }} />}
+              id="tags-outlined"
+              options={this.props.getPackagelist || []}
+              getOptionLabel={(option) => option.preferredPackage}
+              value={this.state.preferredPackage || []}
+              InputLabelProps={{ shrink: true }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  name="preferredPackage"
+                  label="Preferred Package"
+                  // className={"degree_style"}
+                  // InputLabelProps={{ shrink: true }}
+                />
+              )}
             />
           </Grid>
         </Grid>
@@ -2081,6 +2181,9 @@ const mapStateToProps = (state) => {
     getAllBranchList: state.AspirationReducer.allBranchList,
     getAllDegreeList: state.AspirationReducer.allDegreeList,
     StudentStepDetailsList: state.StudentReducer.StudentStepDetails,
+    getlocationList: state.StudentReducer.aspirationLocation,
+    getPackagelist: state.StudentReducer.aspirationPackage,
+    getWorkList: state.StudentReducer.aspirationWork,
   };
 };
 export default connect(mapStateToProps, {
@@ -2099,4 +2202,7 @@ export default connect(mapStateToProps, {
   getAllBranch,
   getAllDegree,
   StudentStepDetails,
+  getAspirationLocation,
+  getAspirationPackage,
+  getAspirationWork,
 })(withStyles(useStyles)(GeneralDetails));

@@ -226,7 +226,7 @@ class ProfileGapRoot extends Component {
       value: "pgForm",
       open: false,
       anchorEl: null,
-      arrowOpenName : null
+      arrowOpenName: null,
     });
     this.props.getAcademicType("pg");
   };
@@ -301,7 +301,13 @@ class ProfileGapRoot extends Component {
     {
       label: "Academics Summary",
       value: "index",
-      handler: () => this.setState({ value: "index", open: false }),
+      handler: () =>
+        this.setState({
+          value: "index",
+          open: false,
+          anchorEl: null,
+          arrowOpenName: null,
+        }),
     },
   ];
 
@@ -367,7 +373,7 @@ class ProfileGapRoot extends Component {
   };
 
   visibleCvReview = () => {
-    return this.props?.variantStepList?.codeName === "ACS_MBA";
+    return this.props?.variantStepList?.referProductCodeName === "ACS_MBA";
   };
 
   render() {
@@ -558,6 +564,7 @@ class ProfileGapRoot extends Component {
                 {...this.props}
                 handlePageChange={this.handlePageChange}
               />
+              {console.log(this.state.value)}
             </TabPanel>
             <TabPanel value={this.state.value} index={"profileFitGraph"}>
               <ProfileFit {...this.props} />

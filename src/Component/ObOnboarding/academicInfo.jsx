@@ -4,7 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Card,
-  createMuiTheme,
+  createTheme,
   Grid,
   IconButton,
   TextField,
@@ -50,10 +50,10 @@ import Warning from "../../Asset/Images/warningImg.png";
 import PrimaryButton from "../../Utils/PrimaryButton";
 import { URL } from "../../Actions/URL";
 import MySnackBar from "../MySnackBar";
-import { ErrorMessage, isNumber } from "../Validation";
+import { ErrorMessage,isNumber,isSpace, spaceRemoveRegex } from "../Validation";
 import * as moment from "moment";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiIconButton: {
       root: {
@@ -910,8 +910,8 @@ export class academicInfo extends Component {
                     <AccordionSummary
                       style={{ height: 49 }}
                       expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
@@ -920,7 +920,7 @@ export class academicInfo extends Component {
                           width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Postgraduate Degree</p>
                         </Grid>
                       </div>
@@ -932,7 +932,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             onChange={(e, newValue) =>
                               this.setState({
                                 pgCollege: newValue,
@@ -949,8 +949,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.pgCollegeErr.length > 0}
                                 helperText={this.state.pgCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -960,7 +960,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
@@ -977,8 +977,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.pgUniversityErr.length > 0}
                                 helperText={this.state.pgUniversityErr}
-                                label='University Name'
-                                margin='normal'
+                                label="University Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -988,7 +988,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
@@ -1005,8 +1005,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.pgDepartmentErr.length > 0}
                                 helperText={this.state.pgDepartmentErr}
-                                label='Department'
-                                margin='normal'
+                                label="Department"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1016,7 +1016,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getPGDegreesList}
                             getOptionLabel={(option) => option.name}
@@ -1032,8 +1032,8 @@ export class academicInfo extends Component {
                                 {...params}
                                 disabled={this.state.documentedit}
                                 error={this.state.pgDegreeErr.length > 0}
-                                label='Degree'
-                                margin='normal'
+                                label="Degree"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1045,7 +1045,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
                             value={this.state.pgCgpaScale}
@@ -1062,20 +1062,27 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.pgCgpaScaleErr.length > 0}
                                 helperText={this.state.pgCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
                               this.state.pgCgpaScale === "" ||
                               this.state.pgCgpaScale === null
                             }
-                            label='CGPA'
+                            // onKeyPress={(evt) => {
+                            //   if (
+                            //     isNumber(evt) ||
+                            //     evt.target.value?.length >= 2
+                            //   )
+                            //     evt.preventDefault();
+                            // }}
+                            label="CGPA"
                             onChange={(e) => {
                               if (this.state.pgCgpaScale) {
                                 if (e.target.value) {
@@ -1120,14 +1127,18 @@ export class academicInfo extends Component {
                             }}
                             value={this.state.pgCgpa}
                             error={this.state.pgCgpaErr.length > 0}
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             helperText={this.state.pgCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.pgStartDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 pgStartDate: e.target.value,
@@ -1140,7 +1151,7 @@ export class academicInfo extends Component {
                             error={this.state.pgStartDateErr.length > 0}
                             helperText={this.state.pgStartDateErr}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
                             inputProps={{
                               max: moment(new Date()).format("yyyy-MM"),
@@ -1149,9 +1160,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.pgEndDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 pgEndDate: e.target.value,
@@ -1168,7 +1179,7 @@ export class academicInfo extends Component {
                               this.state.documentedit ||
                               this.state.pgStartDate === null
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
                             inputProps={{
                               min: moment(
@@ -1187,8 +1198,8 @@ export class academicInfo extends Component {
                     <AccordionSummary
                       style={{ height: 49 }}
                       expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
@@ -1197,7 +1208,7 @@ export class academicInfo extends Component {
                           width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Undergraduate Degree</p>
                         </Grid>
                       </div>
@@ -1210,7 +1221,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.ugCollege}
@@ -1226,8 +1237,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.ugCollegeErr.length > 0}
                                 helperText={this.state.ugCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1238,7 +1249,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.ugUniversity}
@@ -1254,8 +1265,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.ugUniversityErr.length > 0}
                                 helperText={this.state.ugUniversityErr}
-                                label='University Name'
-                                margin='normal'
+                                label="University Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1266,7 +1277,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getBranchesList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.ugDepartment}
@@ -1282,8 +1293,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.ugDepartmentErr.length > 0}
                                 helperText={this.state.ugDepartmentErr}
-                                label='Department'
-                                margin='normal'
+                                label="Department"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1294,7 +1305,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.props.getDegreeList}
                             getOptionLabel={(option) => option.name}
                             value={this.state.ugDegree}
@@ -1309,8 +1320,8 @@ export class academicInfo extends Component {
                                 error={this.state.ugDegreeErr.length > 0}
                                 helperText={this.state.ugDegreeErr}
                                 {...params}
-                                label='Degree'
-                                margin='normal'
+                                label="Degree"
+                                margin="normal"
                                 disabled={this.state.documentedit}
                               />
                             )}
@@ -1323,7 +1334,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
                             value={this.state.ugCgpaScale}
@@ -1339,7 +1350,7 @@ export class academicInfo extends Component {
                                 {...params}
                                 error={this.state.ugCgpaScaleErr.length > 0}
                                 helperText={this.state.ugCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                                 InputLabelProps={{ shrink: true }}
                               />
                             )}
@@ -1347,13 +1358,20 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
                               this.state.ugCgpaScale === "" ||
                               this.state.ugCgpaScale === null
                             }
-                            label='CGPA'
+                            label="CGPA"
+                            // onKeyPress={(evt) => {
+                            //   if (
+                            //     isNumber(evt) ||
+                            //     evt.target.value?.length >= 2
+                            //   )
+                            //     evt.preventDefault();
+                            // }}
                             value={this.state.ugCgpa}
                             onChange={(e) => {
                               if (this.state.ugCgpaScale) {
@@ -1395,14 +1413,18 @@ export class academicInfo extends Component {
                               }
                             }}
                             error={this.state.ugCgpaErr.length > 0}
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             helperText={this.state.ugCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.ugStartDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 ugStartDate: e.target.value,
@@ -1415,7 +1437,7 @@ export class academicInfo extends Component {
                             error={this.state.ugStartDateErr.length > 0}
                             helperText={this.state.ugStartDateErr}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
                             inputProps={{
                               max: moment(new Date()).format("yyyy-MM"),
@@ -1424,9 +1446,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.ugEndDate}
-                            type='month'
+                            type="month"
                             minDate={this.state.ugStartDate}
                             onChange={(e) =>
                               this.setState({
@@ -1443,7 +1465,7 @@ export class academicInfo extends Component {
                             }
                             error={this.state.ugEndDateErr.length > 0}
                             helperText={this.state.ugEndDateErr}
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
                             inputProps={{
                               min: moment(
@@ -1465,8 +1487,8 @@ export class academicInfo extends Component {
                     <AccordionSummary
                       style={{ height: 49 }}
                       expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
@@ -1475,7 +1497,7 @@ export class academicInfo extends Component {
                           width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>Diploma Course</p>
                         </Grid>
                       </div>
@@ -1487,7 +1509,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getCollegesList}
                             getOptionLabel={(option) => option.name}
@@ -1504,8 +1526,8 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.diplomaCollegeErr.length > 0}
                                 helperText={this.state.diplomaCollegeErr}
-                                label='College Name'
-                                margin='normal'
+                                label="College Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1515,7 +1537,7 @@ export class academicInfo extends Component {
                             popupIcon={
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
-                            id='debug'
+                            id="debug"
                             disabled={this.state.documentedit}
                             options={this.props.getUniversityList}
                             getOptionLabel={(option) => option.name}
@@ -1534,8 +1556,8 @@ export class academicInfo extends Component {
                                   this.state.diplomoUniversityErr.length > 0
                                 }
                                 helperText={this.state.diplomoUniversityErr}
-                                label='ExamBoard Name'
-                                margin='normal'
+                                label="ExamBoard Name"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1546,7 +1568,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.diplomaType}
                             getOptionLabel={(option) => option.title}
                             value={this.state.diplomoDepartment}
@@ -1564,8 +1586,8 @@ export class academicInfo extends Component {
                                   this.state.diplomoDepartmentErr.length > 0
                                 }
                                 helperText={this.state.diplomoDepartmentErr}
-                                label='Diploma Type'
-                                margin='normal'
+                                label="Diploma Type"
+                                margin="normal"
                               />
                             )}
                           />
@@ -1576,7 +1598,7 @@ export class academicInfo extends Component {
                               <ExpandMore style={{ color: "#1093FF" }} />
                             }
                             disabled={this.state.documentedit}
-                            id='debug'
+                            id="debug"
                             options={this.gpascale}
                             getOptionLabel={(option) => option.title}
                             value={this.state.diplomoCgpaScale}
@@ -1594,16 +1616,23 @@ export class academicInfo extends Component {
                                   this.state.diplomoCgpaScaleErr.length > 0
                                 }
                                 helperText={this.state.diplomoCgpaScaleErr}
-                                label='CGPA Scale'
-                                margin='normal'
+                                label="CGPA Scale"
+                                margin="normal"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             value={this.state.diplomoCgpa}
+                            // onKeyPress={(evt) => {
+                            //   if (
+                            //     isNumber(evt) ||
+                            //     evt.target.value?.length >= 2
+                            //   )
+                            //     evt.preventDefault();
+                            // }}
                             onChange={(e) => {
                               if (this.state.diplomoCgpaScale) {
                                 if (e.target.value) {
@@ -1645,21 +1674,25 @@ export class academicInfo extends Component {
                               }
                             }}
                             InputLabelProps={{ shrink: true }}
-                            label='CGPA'
+                            label="CGPA"
                             disabled={
                               this.state.documentedit ||
                               this.state.diplomoCgpaScale === "" ||
                               this.state.diplomoCgpaScale === null
                             }
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             error={this.state.diplomoCgpaErr.length > 0}
                             helperText={this.state.diplomoCgpaErr}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.diplomostartDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 diplomostartDate: e.target.value,
@@ -1672,7 +1705,7 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
                             inputProps={{
                               max: moment(new Date()).format("yyyy-MM"),
@@ -1681,9 +1714,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.diplomoEndDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 diplomoEndDate: e.target.value,
@@ -1699,7 +1732,7 @@ export class academicInfo extends Component {
                               this.state.diplomostartDate === null ||
                               this.state.documentedit
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
                             inputProps={{
                               min: moment(
@@ -1718,8 +1751,8 @@ export class academicInfo extends Component {
                     <AccordionSummary
                       style={{ height: 49 }}
                       expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
@@ -1728,7 +1761,7 @@ export class academicInfo extends Component {
                           width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>12th Grade</p>
                         </Grid>
                       </div>
@@ -1740,14 +1773,19 @@ export class academicInfo extends Component {
                             error={this.state.twelthSchoolErr.length > 0}
                             helperText={this.state.twelthSchoolErr}
                             value={this.state.twelthSchool}
-                            label='School Name'
+                            label="School Name"
                             // margin="normal"
-                            onChange={(e) =>
-                              this.setState({
-                                twelthSchool: e.target.value,
-                                twelthSchoolErr: "",
-                              })
-                            }
+                              onChange={(e) => {
+                                if (spaceRemoveRegex.test(e.target.value) || e.target.value === "") {
+                                  this.setState({
+                                    twelthSchool: e.target.value,
+                                    twelthSchoolErr: "",
+                                  })
+                              
+                                } else {
+                                  e.preventDefault();
+                                }
+                              }}
                             disabled={this.state.documentedit}
                           />
                         </Grid>
@@ -1772,7 +1810,7 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.twelthExamBoardErr.length > 0}
                                 helperText={this.state.twelthExamBoardErr}
-                                label='Exam Board'
+                                label="Exam Board"
                               />
                             )}
                           />
@@ -1799,7 +1837,7 @@ export class academicInfo extends Component {
                                 disabled={this.state.documentedit}
                                 error={this.state.twelthCgpaScaleErr.length > 0}
                                 helperText={this.state.twelthCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
@@ -1807,13 +1845,17 @@ export class academicInfo extends Component {
 
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
-                            label='CGPA'
+                            id="standard-basic"
+                            label="CGPA"
                             disabled={
                               this.state.documentedit ||
                               this.state.twelthCgpaScale === "" ||
                               this.state.twelthCgpaScale === null
                             }
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
                             error={this.state.twelthCgpaErr.length > 0}
                             helperText={this.state.twelthCgpaErr}
                             value={this.state.twelthCgpa}
@@ -1861,9 +1903,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.twelthStartDate || ""}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 twelthStartDate: e.target.value,
@@ -1876,7 +1918,7 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
                             inputProps={{
                               max: moment(new Date()).format("yyyy-MM"),
@@ -1885,9 +1927,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.twelthEndDate || ""}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 twelthEndDate: e.target.value,
@@ -1903,7 +1945,7 @@ export class academicInfo extends Component {
                               this.state.documentedit ||
                               this.state.twelthStartDate === null
                             }
-                            name='EndDate'
+                            name="EndDate"
                             fullWidth
                             inputProps={{
                               min: moment(
@@ -1921,8 +1963,8 @@ export class academicInfo extends Component {
                     <AccordionSummary
                       style={{ height: 49 }}
                       expandIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-                      aria-controls='panel2d-content'
-                      id='panel2d-header'
+                      aria-controls="panel2d-content"
+                      id="panel2d-header"
                     >
                       <div
                         style={{
@@ -1931,7 +1973,7 @@ export class academicInfo extends Component {
                           width: "100%",
                         }}
                       >
-                        <Grid container direction='row' justify='flex-start'>
+                        <Grid container direction="row" justify="flex-start">
                           <p style={title}>10th Grade</p>
                         </Grid>
                       </div>
@@ -1942,16 +1984,27 @@ export class academicInfo extends Component {
                           <TextField
                             error={this.state.tenthSchoolErr.length > 0}
                             helperText={this.state.tenthSchoolErr}
-                            label='School Name'
+                            label="School Name"
                             disabled={this.state.documentedit}
-                            margin='normal'
+                            margin="normal"
                             value={this.state.tenthSchool}
-                            onChange={(e) =>
-                              this.setState({
-                                tenthSchool: e.target.value,
-                                tenthSchoolErr: "",
-                              })
-                            }
+                            // onChange={(e) =>
+                            //   this.setState({
+                            //     tenthSchool: e.target.value,
+                            //     tenthSchoolErr: "",
+                            //   })
+                            // }
+                            onChange={(e) => {
+                              if (spaceRemoveRegex.test(e.target.value) || e.target.value === "") {
+                                this.setState({
+                                  tenthSchool: e.target.value,
+                                  tenthSchoolErr: "",
+                                })
+                            
+                              } else {
+                                e.preventDefault();
+                              }
+                            }}
                           />
                         </Grid>
                         <Grid item md={6}>
@@ -1974,8 +2027,8 @@ export class academicInfo extends Component {
                                 {...params}
                                 error={this.state.tenthExamBoardErr.length > 0}
                                 helperText={this.state.tenthExamBoardErr}
-                                label='Exam Board'
-                                margin='normal'
+                                label="Exam Board"
+                                margin="normal"
                               />
                             )}
                           />
@@ -2002,20 +2055,25 @@ export class academicInfo extends Component {
                                 {...params}
                                 error={this.state.tenthCgpaScaleErr.length > 0}
                                 helperText={this.state.tenthCgpaScaleErr}
-                                label='CGPA Scale'
+                                label="CGPA Scale"
                               />
                             )}
                           />
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            id='standard-basic'
+                            id="standard-basic"
                             disabled={
                               this.state.documentedit ||
                               this.state.tenthCgpaScale === "" ||
                               this.state.tenthCgpaScale === null
                             }
-                            label='CGPA'
+                            label="CGPA"
+                            onKeyPress={(evt) => {
+                              if (isSpace(evt) || evt.target.value?.length >= 5)
+                                evt.preventDefault();
+                            }}
+
                             error={this.state.tenthCgpaErr.length > 0}
                             helperText={this.state.tenthCgpaErr}
                             onChange={(e) => {
@@ -2067,9 +2125,9 @@ export class academicInfo extends Component {
 
                         <Grid item md={3}>
                           <TextField
-                            label='Start Date'
+                            label="Start Date"
                             value={this.state.tenthStartDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 tenthStartDate: e.target.value,
@@ -2082,7 +2140,7 @@ export class academicInfo extends Component {
                               shrink: true,
                             }}
                             disabled={this.state.documentedit}
-                            name='startDate'
+                            name="startDate"
                             fullWidth
                             inputProps={{
                               max: moment(new Date()).format("yyyy-MM"),
@@ -2091,9 +2149,9 @@ export class academicInfo extends Component {
                         </Grid>
                         <Grid item md={3}>
                           <TextField
-                            label='End Date'
+                            label="End Date"
                             value={this.state.tenthEndDate}
-                            type='month'
+                            type="month"
                             onChange={(e) =>
                               this.setState({
                                 tenthEndDate: e.target.value,
@@ -2115,7 +2173,7 @@ export class academicInfo extends Component {
                                 new Date(this.state.tenthStartDate)
                               ).format("yyyy-MM"),
                             }}
-                            name='EndDate'
+                            name="EndDate"
                             minDate={this.state.tenthStartDate}
                           />
                         </Grid>
@@ -2129,7 +2187,7 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList["PG Degree"] &&
                     this.props.getAllDocumentList["PG Degree"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>PG Degree</p>
                         </Grid>
                         <Grid item={12} container>
@@ -2139,7 +2197,7 @@ export class academicInfo extends Component {
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2149,8 +2207,10 @@ export class academicInfo extends Component {
                                       studentid={
                                         this.props.match.params.studentId
                                       }
+                                      productId={
+                                        this.props.match.params.productId
+                                      }
                                       status={this.state.documentedit}
-                                      // status={true}
                                     />
                                   </Grid>
                                 )
@@ -2163,7 +2223,7 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList["UG Degree"] &&
                     this.props.getAllDocumentList["UG Degree"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>UG Degree</p>
                         </Grid>
                         <Grid item={12} container>
@@ -2173,7 +2233,7 @@ export class academicInfo extends Component {
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2200,7 +2260,7 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList.Diploma &&
                     this.props.getAllDocumentList.Diploma.length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>Diploma</p>
                         </Grid>
                         <Grid item={12} container>
@@ -2210,7 +2270,7 @@ export class academicInfo extends Component {
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2221,6 +2281,9 @@ export class academicInfo extends Component {
                                         this.props.match.params.studentId
                                       }
                                       status={this.state.documentedit}
+                                      productId={
+                                        this.props.match.params.productId
+                                      }
                                       // status={true}
                                     />
                                   </Grid>
@@ -2234,7 +2297,7 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList["XII Grade"] &&
                     this.props.getAllDocumentList["XII Grade"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>XII Grade</p>
                         </Grid>
                         <Grid item={12} container>
@@ -2244,7 +2307,7 @@ export class academicInfo extends Component {
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2255,6 +2318,9 @@ export class academicInfo extends Component {
                                       // status={true}
                                       studentid={
                                         this.props.match.params.studentId
+                                      }
+                                      productId={
+                                        this.props.match.params.productId
                                       }
                                     />
                                   </Grid>
@@ -2267,7 +2333,7 @@ export class academicInfo extends Component {
                   {this.props.getAllDocumentList["X Grade"] &&
                     this.props.getAllDocumentList["X Grade"].length !== 0 && (
                       <Grid item md={12}>
-                        <Grid item md={12} direction='column'>
+                        <Grid item md={12} direction="column">
                           <p style={GridStyle}>X Grade</p>
                         </Grid>
                         <Grid item={12} container>
@@ -2277,7 +2343,7 @@ export class academicInfo extends Component {
                                   <Grid
                                     item
                                     md={4}
-                                    direction='row'
+                                    direction="row"
                                     onClick={() => this.documentClick(data)}
                                   >
                                     <DoccumentCard
@@ -2288,6 +2354,9 @@ export class academicInfo extends Component {
                                         this.props.match.params.studentId
                                       }
                                       status={this.state.documentedit}
+                                      productId={
+                                        this.props.match.params.productId
+                                      }
                                       // status={true}
                                     />
                                   </Grid>

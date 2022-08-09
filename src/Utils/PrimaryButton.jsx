@@ -1,6 +1,6 @@
 import {
   Button,
-  createMuiTheme,
+  createTheme,
   ThemeProvider,
   Dialog,
   DialogActions,
@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 function PrimaryButton(props) {
-    const buttonTheme = createMuiTheme({
+    const buttonTheme = createTheme({
         overrides : {
             MuiButton : {
               root : {

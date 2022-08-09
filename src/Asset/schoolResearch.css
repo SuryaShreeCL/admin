@@ -1,0 +1,27 @@
+.GraduationListTable {
+    text-align: center;
+    margin-top: 10px;
+  }
+  Hide scrollbar for Chrome, Safari and Opera
+.scrollingTable::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollingTable {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+height: 327px;
+overflow: scroll;
+flex-grow: 1;
+}
+.MasterHeading{
+ 
+  font-size: 12px;
+ color: #666666;
+ 
+}
+.DegreeHeading{
+  font-size: 12px;
+  font-weight: 550
+}

@@ -1,6 +1,6 @@
 import {
   Checkbox,
-  createMuiTheme,
+  createTheme,
   FormControlLabel,
   Grid,
   TextField,
@@ -52,7 +52,7 @@ import {
   getAspirationTerms,
 } from "../../Actions/Student";
 import { isEmptyArray, isEmptyString, isEmptyObject } from "../Validation";
-const theme = createMuiTheme({
+const theme = createTheme({
   overrides: {
     MuiRadio: {
       colorSecondary: {
@@ -277,7 +277,7 @@ class AspirationDetails extends Component {
         if (response.status === 200) {
           var filteredList = response.data
             .map((eachElement, index) => {
-              if (searchData.includes(eachElement?.aspirationBranch?.name)) {
+              if (searchData?.includes(eachElement?.aspirationBranch?.name)) {
                 return eachElement;
               }
             })
@@ -302,7 +302,7 @@ class AspirationDetails extends Component {
           if (response.status === 200) {
             var filteredListTwo = response.data
               .map((eachElement, index) => {
-                if (searchDataTwo.includes(eachElement?.country?.name)) {
+                if (searchDataTwo?.includes(eachElement?.country?.name)) {
                   return eachElement;
                 }
               })
@@ -776,17 +776,19 @@ class AspirationDetails extends Component {
       aspirationUniversities: newUniversityList,
     });
   };
+  
   renderLabel = () => {
+    console.log(this.props.variantStepList?.referProductCodeName)
     if (
-      this.props.variantStepList.codeName === "ACS_MIM" ||
-      this.props.variantStepList.codeName === "PBM" ||
-      this.props.variantStepList.codeName === "ACS_MIM_PB"
+      this.props.variantStepList?.referProductCodeName === "ACS_MIM" ||
+      this.props.variantStepList?.referProductCodeName === "PBM" ||
+      this.props.variantStepList?.referProductCodeName === "ACS_MIM_PB"
     ) {
       return "Preferred B-schools / Grad Schools";
     }
     if (
-      this.props.variantStepList.codeName === "ACS_MBA" ||
-      this.props.variantStepList.codeName === "ACS_MBA_PB"
+      this.props.variantStepList?.referProductCodeName === "ACS_MBA" ||
+      this.props.variantStepList?.referProductCodeName === "ACS_MBA_PB"
     ) {
       return "Preferred B-schools";
     } else {
@@ -966,7 +968,7 @@ class AspirationDetails extends Component {
             <Autocomplete
               multiple
               popupIcon={<ExpandMore style={{ color: "#1093FF" }} />}
-              id="combo-box-demo"
+              id='combo-box-demo'
               options={this.state.filteredAspirationSpecializationList?.sort(
                 (a, b) =>
                   -b.aspirationBranch.name.localeCompare(

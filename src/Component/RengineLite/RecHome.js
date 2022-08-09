@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Image from "../../Asset/Images/leftpic.png";
 import Grid from "@material-ui/core/Grid";
 import CareerImage from "../../Asset/Images/cimg.png";

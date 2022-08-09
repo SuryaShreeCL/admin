@@ -394,6 +394,7 @@ export const getAdminLinkedProduct = () => {
         },
       })
       .then((result) => {
+        console.log(result)
         window.sessionStorage.setItem(
           'adminDetails',
           JSON.stringify(result.data)

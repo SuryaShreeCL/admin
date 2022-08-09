@@ -5,20 +5,22 @@ import {
   IconButton,
   Popper,
   TextField,
-} from '@material-ui/core';
-import CreateIcon from '@material-ui/icons/Create';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import moment from 'moment';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+} from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
+import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   getDetails,
   getSpiderGraph,
   getSpiderGraphQuestions,
   putRemarks,
   putSpiderGraphAnswers,
-} from '../../../Actions/ProfileFitSpiderGraph';
+  postSpiderGraph,
+  postSpiderGraphImg,
+} from "../../../Actions/ProfileFitSpiderGraph";
 import {
   BottomContainer,
   ContentFlexWrapper,
@@ -30,30 +32,30 @@ import {
   Typo,
   useStyles,
   Wrapper,
-} from '../../../Asset/StyledComponents/ProfileFitSpiderGraph';
-import MySnackBar from '../../MySnackBar';
-import Loader from '../../Utils/controls/Loader';
-import Popup from '../../Utils/controls/PopupModel';
-import Details from './Details';
-import EditQuestionsTable from './EditQuestionsTable';
-import QuestionsTable from './QuestionsTable';
-import SpiderGraph from './SpiderGraph';
+} from "../../../Asset/StyledComponents/ProfileFitSpiderGraph";
+import MySnackBar from "../../MySnackBar";
+import Loader from "../../Utils/controls/Loader";
+import Popup from "../../Utils/controls/PopupModel";
+import Details from "./Details";
+import EditQuestionsTable from "./EditQuestionsTable";
+import QuestionsTable from "./QuestionsTable";
+import SpiderGraph from "./SpiderGraph";
 
 const TITLE = {
-  details: 'Profile fit Graph',
-  graph: 'Profile fit Graph | Spider Graph',
+  details: "Profile fit Graph",
+  graph: "Profile fit Graph | Spider Graph",
 };
 
-const REQUIRED_ALL_FIELD = 'Please fill all the required field';
-const UPDATE_SUCCESS = 'Updated Successfully';
+const REQUIRED_ALL_FIELD = "Please fill all the required field";
+const UPDATE_SUCCESS = "Updated Successfully";
 
 function Index() {
   const classes = useStyles();
   const [state, setState] = useState({
     snackOpen: false,
-    snackVariant: '',
-    snackMsg: '',
-    toggleName: 'details',
+    snackVariant: "",
+    snackMsg: "",
+    toggleName: "details",
     isGraph: true,
     isEdit: true,
     isGenerate: false,
@@ -64,8 +66,8 @@ function Index() {
   });
   const [info, setInfo] = useState({
     anchorEl: false,
-    whereToMeasure: '',
-    howToMeasure: '',
+    whereToMeasure: "",
+    howToMeasure: "",
   });
   const [remarkDetails, setRemarkDetails] = useState({
     remark: null,
@@ -97,7 +99,8 @@ function Index() {
     spiderDetails,
     graph,
     updateRemark,
-  } = useSelector(state => state.ProfileFitSpiderGraphReducer);
+    spiderGraph,
+  } = useSelector((state) => state.ProfileFitSpiderGraphReducer);
 
   const handleSnack = (open, color, message) => {
     setState({
@@ -112,6 +115,7 @@ function Index() {
     dispatch(getSpiderGraphQuestions(studentId, productId));
     dispatch(getDetails(studentId, productId));
     dispatch(getSpiderGraph(studentId, productId));
+    // dispatch(postSpiderGraph(studentId, productId));
   }, []);
 
   useEffect(() => {
@@ -139,12 +143,12 @@ function Index() {
         setState({
           ...state,
           questionsList: data,
-          isGenerate: data.length !== 0 && data[0]['id'],
-          isEdit: data.length !== 0 && !data[0]['id'],
+          isGenerate: data.length !== 0 && data[0]["id"],
+          isEdit: data.length !== 0 && !data[0]["id"],
           selectedValues: [...values],
         });
       } else {
-        handleSnack(true, 'error', spiderGraphQuestions.message);
+        handleSnack(true, "error", spiderGraphQuestions.message);
       }
     }
   }, [spiderGraphQuestions]);
@@ -155,7 +159,7 @@ function Index() {
         const { data } = spiderDetails;
         setState({ ...state, details: data });
       } else {
-        handleSnack(true, 'error', spiderDetails.message);
+        handleSnack(true, "error", spiderDetails.message);
       }
     }
   }, [spiderDetails]);
@@ -166,7 +170,7 @@ function Index() {
         const { data } = graph;
         setState({ ...state, graphData: data });
       } else {
-        handleSnack(true, 'error', graph.message);
+        handleSnack(true, "error", graph.message);
       }
     }
   }, [graph]);
@@ -180,12 +184,12 @@ function Index() {
           isEdit: false,
           snackOpen: true,
           snackMsg: UPDATE_SUCCESS,
-          snackVariant: 'success',
+          snackVariant: "success",
         });
         dispatch(getSpiderGraphQuestions(studentId, productId));
         dispatch(getSpiderGraph(studentId, productId));
       } else {
-        handleSnack(true, 'error', answerUpdateStatus.message);
+        handleSnack(true, "error", answerUpdateStatus.message);
       }
     }
   }, [answerUpdateStatus]);
@@ -195,11 +199,11 @@ function Index() {
       if (updateRemark.success) {
         const { data } = updateRemark;
         let arr = [...selectedValues];
-        arr[remarkDetails.index]['remarks'] = data?.remarks;
+        arr[remarkDetails.index]["remarks"] = data?.remarks;
         let newQuestionList = [...questionsList];
-        newQuestionList[remarkDetails.index]['createdBy'] = data?.createdBy;
-        newQuestionList[remarkDetails.index]['remarkDate'] = data?.remarkDate;
-        newQuestionList[remarkDetails.index]['remarks'] = data?.remarks;
+        newQuestionList[remarkDetails.index]["createdBy"] = data?.createdBy;
+        newQuestionList[remarkDetails.index]["remarkDate"] = data?.remarkDate;
+        newQuestionList[remarkDetails.index]["remarks"] = data?.remarks;
         setState({
           ...state,
           selectedValues: arr,
@@ -215,14 +219,14 @@ function Index() {
           questionId: null,
         });
       } else {
-        handleSnack(true, 'error', updateRemark.message);
+        handleSnack(true, "error", updateRemark.message);
       }
     }
   }, [updateRemark]);
 
   const handleToggleChange = (e, newVal) => {
     let value = newVal || toggleName;
-    let displayGraph = (value === 'graph' && isGenerate) || value === 'details';
+    let displayGraph = (value === "graph" && isGenerate) || value === "details";
     setState({
       ...state,
       toggleName: value,
@@ -230,12 +234,12 @@ function Index() {
       isEdit: !isGenerate,
     });
 
-    if (isEdit && (isGenerate || value === 'details')) {
+    if (isEdit && (isGenerate || value === "details")) {
       dispatch(getSpiderGraphQuestions(studentId, productId));
     }
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     const { id, name, value } = e.currentTarget;
     let arr = [...selectedValues];
     let oldValue = arr[id][name];
@@ -249,12 +253,12 @@ function Index() {
       ...remarkDetails,
       open: true,
       index: index,
-      name: value ? 'viewRemark' : 'addRemark',
+      name: value ? "viewRemark" : "addRemark",
       remark: value,
       remarkStatus:
         createdBy &&
         remarkDate &&
-        `${createdBy} | ${moment(new Date(remarkDate)).format('DD-MM-YYYY')}`,
+        `${createdBy} | ${moment(new Date(remarkDate)).format("DD-MM-YYYY")}`,
       questionId: questionId,
     });
   };
@@ -262,12 +266,12 @@ function Index() {
   const handleEditRemark = () => {
     setRemarkDetails({
       ...remarkDetails,
-      name: 'addRemark',
+      name: "addRemark",
       remarkStatus: null,
     });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { value } = e.target;
     setRemarkDetails({
       ...remarkDetails,
@@ -287,16 +291,16 @@ function Index() {
   const handleMouseLeave = () => {
     setInfo({
       anchorEl: false,
-      whereToMeasure: '',
-      howToMeasure: '',
+      whereToMeasure: "",
+      howToMeasure: "",
     });
   };
 
   const renderContent = () => {
     switch (toggleName) {
-      case 'details':
+      case "details":
         return <Details details={details} />;
-      case 'graph': {
+      case "graph": {
         if (isEdit)
           return (
             <EditQuestionsTable
@@ -345,21 +349,21 @@ function Index() {
     return valid;
   };
 
-  const handleClick = name => {
+  const handleClick = (name) => {
     switch (name) {
-      case 'saveAndGenerate': {
+      case "saveAndGenerate": {
         if (selectedValues.length !== 0) {
           if (isValidate()) {
             dispatch(
               putSpiderGraphAnswers(studentId, productId, selectedValues)
             );
           } else {
-            handleSnack(true, 'error', REQUIRED_ALL_FIELD);
+            handleSnack(true, "error", REQUIRED_ALL_FIELD);
           }
         }
         break;
       }
-      case 'edit': {
+      case "edit": {
         setState({ ...state, isGraph: false, isEdit: true });
         break;
       }
@@ -368,28 +372,59 @@ function Index() {
     }
   };
 
+  const dataUrlToFormData = (dataURL) => {
+    var blobBin = atob(dataURL.split(",")[1]);
+    var array = [];
+    for (var i = 0; i < blobBin.length; i++) {
+      array.push(blobBin.charCodeAt(i));
+    }
+    var file = new Blob([new Uint8Array(array)], { type: "image/jpeg" });
+
+    var formData = new FormData();
+    formData.append("file", file, "spider_graph.jpeg");
+    return formData;
+  };
+
+  const generateImage = () => {
+    var canvas = document.getElementById("spider_graph");
+    var dataURL = canvas?.toDataURL();
+    console.log(dataURL);
+    dispatch(
+      postSpiderGraphImg(studentId, productId, dataUrlToFormData(dataURL))
+    );
+  };
+
   const renderButtons = () => {
     switch (toggleName) {
-      case 'graph': {
+      case "graph": {
         if (isEdit) {
           return (
             <StyledButton
-              variant={'contained'}
+              variant={"contained"}
               style={customTheme.palette.contained}
-              onClick={() => handleClick('saveAndGenerate')}
+              onClick={() => handleClick("saveAndGenerate")}
             >
-              {'Save & Generate'}
+              {"Save & Generate"}
             </StyledButton>
           );
         } else {
           return (
-            <StyledButton
-              variant={'contained'}
-              style={customTheme.palette.contained}
-              onClick={() => handleClick('edit')}
-            >
-              {'Edit'}
-            </StyledButton>
+            <>
+              <StyledButton
+                variant={"contained"}
+                style={customTheme.palette.contained}
+                onClick={() => handleClick("edit")}
+              >
+                {"Edit"}
+              </StyledButton>
+              <StyledButton
+                variant={"contained"}
+                style={customTheme.palette.contained}
+                onClick={generateImage}
+              >
+                {"Add to Report"}
+              </StyledButton>
+            </>
           );
         }
       }
@@ -401,27 +436,27 @@ function Index() {
   const renderPopperContent = () => {
     return (
       <Paper>
-        <Typo variant={'body1'} color={'#666666'}>
-          {'Where to Measure:'}
+        <Typo variant={"body1"} color={"#666666"}>
+          {"Where to Measure:"}
         </Typo>
         <Typo
-          variant={'body1'}
-          color={'#333333'}
+          variant={"body1"}
+          color={"#333333"}
           paragraph={true}
           className={classes.popperContent}
         >
-          {info.whereToMeasure || 'NA'}
+          {info.whereToMeasure || "NA"}
         </Typo>
-        <Typo variant={'body1'} color={'#666666'}>
-          {'How to Measure:'}
+        <Typo variant={"body1"} color={"#666666"}>
+          {"How to Measure:"}
         </Typo>
         <Typo
-          variant={'body1'}
-          color={'#333333'}
+          variant={"body1"}
+          color={"#333333"}
           paragraph={true}
           className={classes.popperContent}
         >
-          {info.howToMeasure || 'NA'}
+          {info.howToMeasure || "NA"}
         </Typo>
       </Paper>
     );
@@ -429,35 +464,35 @@ function Index() {
 
   const renderDialogContent = () => {
     switch (remarkDetails.name) {
-      case 'addRemark': {
+      case "addRemark": {
         return (
           <div className={classes.addRemarkContainer}>
-            <Typo variant={'subtitle2'} color={'#333333'}>
-              {'Profile fit Graph | Spider Graph Remark'}
+            <Typo variant={"subtitle2"} color={"#333333"}>
+              {"Profile fit Graph | Spider Graph Remark"}
             </Typo>
             <TextField
               id={remarkDetails.index}
-              type={'text'}
+              type={"text"}
               value={remarkDetails.remark}
-              placeholder={'Add Comments'}
+              placeholder={"Add Comments"}
               onChange={handleChange}
               fullWidth
             />
           </div>
         );
       }
-      case 'viewRemark': {
+      case "viewRemark": {
         return (
           <div className={classes.viewRemarkContainer}>
             <FlexJustifyView>
-              <Typo variant={'subtitle2'} color={'#333333'}>
-                {'Profile fit Graph | Spider Graph Remark'}
+              <Typo variant={"subtitle2"} color={"#333333"}>
+                {"Profile fit Graph | Spider Graph Remark"}
               </Typo>
-              <Typo variant={'subtitle2'} color={'#999999'}>
+              <Typo variant={"subtitle2"} color={"#999999"}>
                 <IconButton
-                  color={'primary'}
+                  color={"primary"}
                   className={classes.editIconStyle}
-                  title={'Edit Remark'}
+                  title={"Edit Remark"}
                   onClick={handleEditRemark}
                 >
                   <CreateIcon />
@@ -465,7 +500,7 @@ function Index() {
                 {remarkDetails.remarkStatus}
               </Typo>
             </FlexJustifyView>
-            <Typo variant={'subtitle2'} color={'#333333'}>
+            <Typo variant={"subtitle2"} color={"#333333"}>
               {remarkDetails.remark}
             </Typo>
           </div>
@@ -478,7 +513,7 @@ function Index() {
 
   const handleLeftButton = () => {
     switch (remarkDetails.name) {
-      case 'addRemark': {
+      case "addRemark": {
         let requestBody = {
           mbaSpiderQuestionId: remarkDetails.questionId,
           remarks: remarkDetails.remark,
@@ -486,7 +521,7 @@ function Index() {
         dispatch(putRemarks(studentId, productId, requestBody));
         break;
       }
-      case 'viewRemark': {
+      case "viewRemark": {
         let requestBody = {
           mbaSpiderQuestionId: remarkDetails.questionId,
           remarks: null,
@@ -512,17 +547,17 @@ function Index() {
   };
 
   const renderLeftButtonText = () => {
-    if (remarkDetails.name === 'addRemark') return 'Add Remark';
-    else return 'Delete';
+    if (remarkDetails.name === "addRemark") return "Add Remark";
+    else return "Delete";
   };
 
   const handleSnackClose = () => {
-    setState({ ...state, snackOpen: false, snackVariant: '', snackMsg: '' });
+    setState({ ...state, snackOpen: false, snackVariant: "", snackMsg: "" });
   };
 
   const leftVariantSize = isGraph ? 8 : 12;
   return (
-    <Box height={'80vh'}>
+    <Box height={"80vh"}>
       <Wrapper>
         <ContentFlexWrapper>
           <Grid container className={classes.fullHeight}>
@@ -533,7 +568,7 @@ function Index() {
               className={classes.contentWrap}
             >
               <HeaderContainer>
-                <Typo variant={'h6'} className={classes.title}>
+                <Typo variant={"h6"} className={classes.title}>
                   {TITLE[toggleName]}
                 </Typo>
                 <ToggleButtonGroup
@@ -542,8 +577,8 @@ function Index() {
                   className={classes.toggleButton}
                   exclusive
                 >
-                  <ToggleButton value='details'>{'Details'}</ToggleButton>
-                  <ToggleButton value='graph'>{'Graph'}</ToggleButton>
+                  <ToggleButton value="details">{"Details"}</ToggleButton>
+                  <ToggleButton value="graph">{"Graph"}</ToggleButton>
                 </ToggleButtonGroup>
               </HeaderContainer>
               {renderContent()}
@@ -555,23 +590,23 @@ function Index() {
             )}
           </Grid>
         </ContentFlexWrapper>
-        {toggleName !== 'details' && (
+        {toggleName !== "details" && (
           <BottomContainer>{renderButtons()}</BottomContainer>
         )}
       </Wrapper>
       <Popper
         open={Boolean(info.anchorEl)}
         anchorEl={info.anchorEl}
-        placement={'bottom-start'}
+        placement={"bottom-start"}
       >
         {renderPopperContent()}
       </Popper>
       <Popup
         open={remarkDetails.open}
-        title={'Spider Graph'}
-        width={'660px'}
+        title={"Spider Graph"}
+        width={"660px"}
         leftButtonText={renderLeftButtonText()}
-        rightButtonText={'Cancel'}
+        rightButtonText={"Cancel"}
         handleLeftButton={handleLeftButton}
         handleRightButton={handleCancel}
         handleClose={handleCancel}

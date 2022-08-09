@@ -32,7 +32,7 @@ import { listWallWebinars, deleteWallPost } from "../../../Actions/WallActions";
 import { renderListCategory } from "../../Utils/Helpers";
 import { isLms_Role } from "../WallLanding";
 
-const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
+const Alert = (props) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -66,7 +66,7 @@ const headCells = [
 ];
 
 export default function Webinars() {
-  let role = window.sessionStorage.getItem("role");
+  let role = window.sessionStorage.getItem("department");
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -199,10 +199,10 @@ export default function Webinars() {
         <Toolbar>
           <Controls.RoundedInput
             className={classes.searchInput}
-            placeholder="Search Webinars"
+            placeholder='Search Webinars'
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <Search />
                 </InputAdornment>
               ),
@@ -217,9 +217,9 @@ export default function Webinars() {
             className={classes.filterBtn}
           /> */}
           <Controls.Button
-            text="Create New Webinar"
-            variant="contained"
-            color="primary"
+            text='Create New Webinar'
+            variant='contained'
+            color='primary'
             startIcon={<AddIcon />}
             className={classes.newButton}
             onClick={() => {
@@ -252,12 +252,12 @@ export default function Webinars() {
                     <TableCell>{item.activeStatus}</TableCell>
                     <TableCell>
                       <Controls.ActionButton onClick={() => openInPage(item)}>
-                        <EditOutlinedIcon fontSize="small" color="primary" />
+                        <EditOutlinedIcon fontSize='small' color='primary' />
                       </Controls.ActionButton>
                       <Controls.ActionButton
                         onClick={() => handleDeleteClick(item)}
                       >
-                        <DeleteIcon fontSize="small" color="secondary" />
+                        <DeleteIcon fontSize='small' color='secondary' />
                       </Controls.ActionButton>
                     </TableCell>
                   </TableRow>
@@ -268,16 +268,16 @@ export default function Webinars() {
         </TblContainer>
         <div style={{ margin: "2rem auto", width: "60%" }}>
           {loading && <Loader />}
-          {error && <Alert severity="error">{error}</Alert>}
+          {error && <Alert severity='error'>{error}</Alert>}
           {!loading && filteredWebinars?.length === 0 && (
-            <Alert severity="info">0 Webinars Found</Alert>
+            <Alert severity='info'>0 Webinars Found</Alert>
           )}
         </div>
         <TblPagination />
       </Paper>
 
       <Drawer
-        anchor="right"
+        anchor='right'
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
       >
@@ -288,8 +288,8 @@ export default function Webinars() {
               style={{ fontSize: "1rem" }}
               onClick={() => openInPage(viewData)}
             >
-              <IconButton aria-label="edit">
-                <EditIcon color="primary" size="large" />
+              <IconButton aria-label='edit'>
+                <EditIcon color='primary' size='large' />
               </IconButton>
               Edit
             </span>
@@ -307,8 +307,8 @@ export default function Webinars() {
                 });
               }}
             >
-              <IconButton aria-label="remove">
-                <DeleteIcon color="secondary" size="large" />
+              <IconButton aria-label='remove'>
+                <DeleteIcon color='secondary' size='large' />
               </IconButton>
               Remove
             </span>

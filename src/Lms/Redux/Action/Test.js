@@ -1047,3 +1047,49 @@ export const copyQuestion = (data, callback) => {
       });
   };
 };
+
+export const getCourseByTestQuestionSetId = (testQuestionSetId, callback) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return () => {
+    axios
+      .get(`${URL}/api/v1/lms/get/course/question/${testQuestionSetId}`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => catchError(error));
+  };
+};
+
+export const getQuestionTypeList = (
+  testQuestionSetId,
+  subjectName,
+  answerType,
+  callback
+) => {
+  let accessToken = sessionStorage.getItem("accessToken");
+  return () => {
+    axios
+      .get(`${URL}/api/v1/lms/get/QuestionTypes/new`, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          testQuestionSetId: testQuestionSetId,
+          subjectName: subjectName,
+          type: answerType,
+        },
+      })
+      .then((response) => {
+        callback(response.data);
+      })
+      .catch((error) => catchError(error));
+  };
+};

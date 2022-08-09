@@ -43,35 +43,35 @@ import NextStepsContainer from '../Components/NextStepsContainer';
 
 const useStyles = makeStyles({
   root: {
-    '& .MuiSelect-root': {
-      border: '1px solid rgba(0, 0, 0, 0.12)',
-      borderRadius: '4px',
-      padding: '1rem',
+    "& .MuiSelect-root": {
+      border: "1px solid rgba(0, 0, 0, 0.12)",
+      borderRadius: "4px",
+      padding: "1rem",
     },
   },
   captionStyle: {
-    width: '80%',
+    width: "80%",
     marginTop: 20,
     marginBottom: 15,
   },
   roleStyle: {
-    width: '100%',
+    width: "100%",
     marginTop: 10,
   },
   title: {
-    fontSize: '16px',
-    color: '#052A4E',
+    fontSize: "16px",
+    color: "#052A4E",
     marginTop: 40,
     fontWeight: 400,
-    lineHeight: '19.5px',
+    lineHeight: "19.5px",
   },
-  divider: { backgroundColor: '#D8D8D8', marginTop: 40 },
+  divider: { backgroundColor: "#D8D8D8", marginTop: 40 },
   spacer: {
-    width: '80%',
-    marginTop: '10px',
+    width: "80%",
+    marginTop: "10px",
   },
   hostImage: {
-    borderRadius: '50%',
+    borderRadius: "50%",
   },
 });
 
@@ -91,43 +91,43 @@ const EditPost = () => {
 
   const [state, setState] = useState({
     jobCategory: null,
-    roleDescription: '',
+    roleDescription: "",
     wallCategories: [],
-    caption: '',
+    caption: "",
     isEvent: false,
     wallFiles: [],
-    isWebinar: location?.postType === 'Webinar',
+    isWebinar: location?.postType === "Webinar",
     canComment: false,
     totalViews: 0,
     totalLikes: 0,
-    linkedSelfPrepVideos: [{ videoName: '', videoLink: '' }],
-    eventTitle: '',
+    linkedSelfPrepVideos: [{ videoName: "", videoLink: "" }],
+    eventTitle: "",
     linkedWebinars: [],
-    redirectionUrl: '',
-    buttonText: '',
-    createdBy: window.sessionStorage.getItem('department') || '',
+    redirectionUrl: "",
+    buttonText: "",
+    createdBy: window.sessionStorage.getItem("department") || "",
     eventDate: new Date(),
     resumeNeeded: false,
     eventEndDate: new Date(),
     selectedDate: new Date(),
     isScheduled: false,
     isVideoUrlEnabled: false,
-    videoUrl: '',
-    jobRole: '',
-    hostImageUrl: '',
-    banner: '',
+    videoUrl: "",
+    jobRole: "",
+    hostImageUrl: "",
+    banner: "",
     platforms: [],
   });
 
   const [notify, setNotify] = useState({
     isOpen: false,
-    message: '',
-    type: '',
+    message: "",
+    type: "",
   });
   const [confirmDialog, setConfirmDialog] = useState({
     isOpen: false,
-    title: '',
-    subTitle: '',
+    title: "",
+    subTitle: "",
   });
 
   const { categories } = useSelector((state) => state.getWallCategoriesReducer);
@@ -135,8 +135,8 @@ const EditPost = () => {
   const { jobs } = useSelector((state) => state.getWallJobListReducer);
 
   useEffect(() => {
-    dispatch(getWallCategories('Live'));
-    dispatch(getWallJobList('Live'));
+    dispatch(getWallCategories("Live"));
+    dispatch(getWallJobList("Live"));
     dispatch(getPlatforms());
     //SETTING PRE POPULATED RECORD
     if (records != null)
@@ -150,8 +150,8 @@ const EditPost = () => {
     else dispatch(updateWallPost({ ...post, activeStatus }));
     setNotify({
       isOpen: true,
-      message: 'Drafted Successfully',
-      type: 'success',
+      message: "Drafted Successfully",
+      type: "success",
     });
     setTimeout(() => {
       history.push({
@@ -165,8 +165,8 @@ const EditPost = () => {
     dispatch(updateWallPost(post));
     setNotify({
       isOpen: true,
-      message: 'Updated Successfully',
-      type: 'success',
+      message: "Updated Successfully",
+      type: "success",
     });
     setTimeout(() => {
       history.push({
@@ -181,9 +181,9 @@ const EditPost = () => {
     const fileType = e.target.files[0].type;
 
     // File size less than 1 MiB && Image file check
-    if (fileSize < 1 && fileType.includes('image')) {
+    if (fileSize < 1 && fileType.includes("image")) {
       let formData = new FormData();
-      formData.append('file', e.target.files[0]);
+      formData.append("file", e.target.files[0]);
       dispatch(
         uploadImage(formData, (response) => {
           if (type === 'BANNER') setFieldValue('banner', response.data.imageUrl);
@@ -193,61 +193,61 @@ const EditPost = () => {
     } else {
       setNotify({
         isOpen: true,
-        message: 'Please upload an image file within 1MB size',
-        type: 'error',
+        message: "Please upload an image file within 1MB size",
+        type: "error",
       });
     }
   };
 
   const handleDeleteClick = (setFieldValue) => {
-    setFieldValue('banner', '');
+    setFieldValue("banner", "");
   };
 
   const handleHostDeleteClick = (setFieldValue) => {
-    setFieldValue('hostImageUrl', '');
+    setFieldValue("hostImageUrl", "");
   };
 
   const eventvalidationSchema = yup.object({
     jobCategory: yup
       .object()
       .nullable()
-      .required('job category is required'),
+      .required("job category is required"),
     wallCategories: yup
       .array()
       .min(1)
-      .required('category is required'),
+      .required("category is required"),
     platforms: yup
       .array()
       .min(1)
-      .required('platform is required'),
-    caption: yup.string().required('caption is required'),
-    location: yup.string().required('location is required'),
-    salary: yup.string().required('salary is required'),
-    roleDescription: yup.string().required('role description is required'),
-    eventTitle: yup.string().required('title is required'),
-    jobRole: yup.string().required('job role is required'),
+      .required("platform is required"),
+    caption: yup.string().required("caption is required"),
+    location: yup.string().required("location is required"),
+    salary: yup.string().required("salary is required"),
+    roleDescription: yup.string().required("role description is required"),
+    eventTitle: yup.string().required("title is required"),
+    jobRole: yup.string().required("job role is required"),
     linkedSelfPrepVideos: yup
       .array()
       .of(
         yup.object().shape({
-          videoName: yup.string().required('Video name is Required'),
-          videoLink: yup.string().required('Video Link is Required'),
+          videoName: yup.string().required("Video name is Required"),
+          videoLink: yup.string().required("Video Link is Required"),
         })
       )
       .nullable(true),
     wallSteps: yup.array().of(
       yup.object().shape({
-        heading: yup.string().required('Heading is Required'),
-        subText: yup.string().required('Sub Heading is Required'),
+        heading: yup.string().required("Heading is Required"),
+        subText: yup.string().required("Sub Heading is Required"),
         form: yup
           .object()
           .shape({
             formQuestions: yup.array().of(
               yup.object().shape({
-                questionText: yup.string().required('Question is Required'),
+                questionText: yup.string().required("Question is Required"),
                 formQuestionsChoices: yup.array().of(
                   yup.object().shape({
-                    questionChoice: yup.string().required('Choice is required'),
+                    questionChoice: yup.string().required("Choice is required"),
                   })
                 ),
               })
@@ -262,13 +262,13 @@ const EditPost = () => {
     wallCategories: yup
       .array()
       .min(1)
-      .required('category is required'),
-    caption: yup.string().required('caption is required'),
+      .required("category is required"),
+    caption: yup.string().required("caption is required"),
     // eventTitle: yup.string().required('title is required'),
     platforms: yup
       .array()
       .min(1)
-      .required('platform is required'),
+      .required("platform is required"),
     // jobRole: yup.string().required('job role is required'),
     // location: yup.string().required('location is required'),
     // salary: yup.string().required('salary is required'),
@@ -289,7 +289,7 @@ const EditPost = () => {
           onSubmit={(values, { resetForm }) => {
             updatePost({
               ...values,
-              activeStatus: values.isWebinar ? 'Scheduled' : 'Live',
+              activeStatus: values.isWebinar ? "Scheduled" : "Live",
               wallFiles: [...(values.wallFilesUpdate ?? [])],
             });
             resetForm();
@@ -310,16 +310,16 @@ const EditPost = () => {
                           name={values.isEvent}
                           disabled
                           color='primary'
-                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                          inputProps={{ "aria-label": "primary checkbox" }}
                         />
                       </Grid>
                       <Grid item>Event</Grid>
                     </Grid>
                     <RadioGroup
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        marginBottom: '10px',
+                        display: "flex",
+                        flexDirection: "row",
+                        marginBottom: "10px",
                       }}
                       aria-label='type'
                       disabled
@@ -415,8 +415,8 @@ const EditPost = () => {
                             />
                           )}
                           style={{
-                            marginTop: '10px',
-                            marginBottom: '10px',
+                            marginTop: "10px",
+                            marginBottom: "10px",
                           }}
                         />
                       </FormControl>
@@ -430,7 +430,7 @@ const EditPost = () => {
                             getOptionLabel={(option) => option?.name}
                             options={jobs ?? []}
                             onChange={(e, value) => {
-                              setFieldValue('jobCategory', value);
+                              setFieldValue("jobCategory", value);
                             }}
                             fullWidth
                             value={values.jobCategory}
@@ -444,14 +444,14 @@ const EditPost = () => {
                               />
                             )}
                             style={{
-                              marginTop: '10px',
-                              marginBottom: '10px',
+                              marginTop: "10px",
+                              marginBottom: "10px",
                             }}
                           />
                         </FormControl>
                       )}
 
-                      {values.supportingMedia === 'webinar' ? (
+                      {values.supportingMedia === "webinar" ? (
                         <Grid item>
                           <Controls.Input
                             label='Enter Webinar Title'
@@ -472,8 +472,8 @@ const EditPost = () => {
                             error={touched.jobRole && Boolean(errors.jobRole)}
                             multiline
                             style={{
-                              width: '80%',
-                              marginTop: '18px',
+                              width: "80%",
+                              marginTop: "18px",
                             }}
                           />
                           <Controls.Input
@@ -496,9 +496,9 @@ const EditPost = () => {
                               label='Enter Salary'
                               name='salary'
                               style={{
-                                width: '80%',
-                                marginTop: '10px',
-                                marginBottom: '10px',
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
                               }}
                               value={values.salary}
                               error={touched.salary && Boolean(errors.salary)}
@@ -510,9 +510,9 @@ const EditPost = () => {
                               label='Enter Location'
                               name='location'
                               style={{
-                                width: '80%',
-                                marginTop: '10px',
-                                marginBottom: '10px',
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
                               }}
                               value={values.location}
                               error={touched.location && Boolean(errors.location)}
@@ -528,9 +528,9 @@ const EditPost = () => {
                             label='Host Name'
                             name='hostName'
                             style={{
-                              width: '80%',
-                              marginTop: '10px',
-                              marginBottom: '10px',
+                              width: "80%",
+                              marginTop: "10px",
+                              marginBottom: "10px",
                             }}
                             value={values.hostName}
                             onChange={handleChange}
@@ -545,20 +545,20 @@ const EditPost = () => {
                               label='Banner image (Banner image should be in 16:9 ratio or 1920 x 1080 resolution)'
                               name='bannerImage'
                               style={{
-                                width: '80%',
-                                marginTop: '10px',
-                                marginBottom: '10px',
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
                               }}
                               inputProps={{
-                                accept: 'image/png, image/jpeg',
-                                style: { opacity: '0' },
+                                accept: "image/png, image/jpeg",
+                                style: { opacity: "0" },
                               }}
                               value={values.banner}
                               type='file'
                               onInput={(e) =>
                                 handleImageUpload({
                                   e,
-                                  type: 'BANNER',
+                                  type: "BANNER",
                                   setFieldValue,
                                 })
                               }
@@ -586,13 +586,13 @@ const EditPost = () => {
                               label='Host image'
                               name='hostName'
                               style={{
-                                width: '80%',
-                                marginTop: '10px',
-                                marginBottom: '10px',
+                                width: "80%",
+                                marginTop: "10px",
+                                marginBottom: "10px",
                               }}
                               inputProps={{
-                                accept: 'image/png, image/jpeg',
-                                style: { opacity: '0' },
+                                accept: "image/png, image/jpeg",
+                                style: { opacity: "0" },
                               }}
                               value={values.hostImage}
                               type='file'
@@ -618,7 +618,7 @@ const EditPost = () => {
                         </Grid>
                       )}
 
-                      {values.supportingMedia === 'webinar' && (
+                      {values.supportingMedia === "webinar" && (
                         <Grid item>
                           <Controls.Input
                             label='Type description here..'
@@ -633,16 +633,16 @@ const EditPost = () => {
                         </Grid>
                       )}
 
-                      {values.supportingMedia === 'video' && (
+                      {values.supportingMedia === "video" && (
                         <Grid item>
-                          <span style={{ fontSize: '1rem' }}>
+                          <span style={{ fontSize: "1rem" }}>
                             Video URL Available
                             <Switch
                               checked={values.isVideoUrlEnabled}
                               name='isVideoUrlEnabled'
                               onChange={handleChange}
                               color='primary'
-                              inputProps={{ 'aria-label': 'primary checkbox' }}
+                              inputProps={{ "aria-label": "primary checkbox" }}
                             />
                           </span>
                         </Grid>
@@ -666,9 +666,9 @@ const EditPost = () => {
                             type='number'
                             error={touched.zoomLink && Boolean(errors.zoomLink)}
                             style={{
-                              width: '80%',
-                              marginTop: '10px',
-                              marginBottom: '14px',
+                              width: "80%",
+                              marginTop: "10px",
+                              marginBottom: "14px",
                             }}
                             value={values.zoomLink}
                             onChange={handleChange}
@@ -686,12 +686,12 @@ const EditPost = () => {
                               onChange={handleChange}
                               error={
                                 values.redirectionUrl.length > 5 &&
-                                !values.redirectionUrl.includes('http')
+                                !values.redirectionUrl.includes("http")
                               }
                               helperText={
                                 values.redirectionUrl.length > 5 &&
-                                !values.redirectionUrl.includes('http') &&
-                                'Enter Full link Ex:https://www.example.com/'
+                                !values.redirectionUrl.includes("http") &&
+                                "Enter Full link Ex:https://www.example.com/"
                               }
                             />
                           </Grid>
@@ -705,9 +705,9 @@ const EditPost = () => {
                                 Boolean(true)
                               }
                               style={{
-                                width: '80%',
-                                marginTop: '18px',
-                                marginBottom: '14px',
+                                width: "80%",
+                                marginTop: "18px",
+                                marginBottom: "14px",
                               }}
                               value={values.buttonText}
                               onChange={handleChange}
@@ -741,26 +741,26 @@ const EditPost = () => {
                         className={classes.spacer}
                       >
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>
+                          <h6 style={{ fontSize: "1rem" }}>
                             Schedule Post for Later
                             <Switch
                               checked={values.isScheduled}
                               onChange={handleChange}
                               name='isScheduled'
                               color='primary'
-                              inputProps={{ 'aria-label': 'primary checkbox' }}
+                              inputProps={{ "aria-label": "primary checkbox" }}
                             />
                           </h6>
                         </Grid>
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>
+                          <h6 style={{ fontSize: "1rem" }}>
                             Disable Comments
                             <Switch
                               checked={values.canComment}
                               onChange={handleChange}
                               name='canComment'
                               color='primary'
-                              inputProps={{ 'aria-label': 'primary checkbox' }}
+                              inputProps={{ "aria-label": "primary checkbox" }}
                             />
                           </h6>
                         </Grid>
@@ -799,17 +799,17 @@ const EditPost = () => {
                                 ),
                               }}
                               value={values.eventDate}
-                              style={{ width: '100%', margin: '10px 0px' }}
+                              style={{ width: "100%", margin: "10px 0px" }}
                               name='eventDate'
                               inputVariant='outlined'
                               onChange={(val) => {
-                                setFieldValue('eventDate', val);
+                                setFieldValue("eventDate", val);
                               }}
                             />
                           </MuiPickersUtilsProvider>
                         </Grid>
                         <Grid item>
-                          <h6 style={{ fontSize: '1rem' }}>Event End Date </h6>
+                          <h6 style={{ fontSize: "1rem" }}>Event End Date </h6>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DateTimePicker
                               InputProps={{
@@ -820,11 +820,11 @@ const EditPost = () => {
                                 ),
                               }}
                               value={values.eventEndDate}
-                              style={{ width: '100%', margin: '10px 0px' }}
+                              style={{ width: "100%", margin: "10px 0px" }}
                               name='eventEndDate'
                               inputVariant='outlined'
                               onChange={(val) => {
-                                setFieldValue('eventEndDate', val);
+                                setFieldValue("eventEndDate", val);
                               }}
                             />
                           </MuiPickersUtilsProvider>
@@ -850,12 +850,12 @@ const EditPost = () => {
                                 ),
                               }}
                               value={values.eventDate}
-                              style={{ width: '400px', margin: '10px 0px' }}
+                              style={{ width: "400px", margin: "10px 0px" }}
                               disablePast
                               name='eventDate'
                               inputVariant='outlined'
                               onChange={(val) => {
-                                setFieldValue('eventDate', val);
+                                setFieldValue("eventDate", val);
                               }}
                             />
                           </MuiPickersUtilsProvider>
@@ -872,12 +872,12 @@ const EditPost = () => {
                                 ),
                               }}
                               value={values.eventEndDate}
-                              style={{ width: '400px', margin: '10px 0px' }}
+                              style={{ width: "400px", margin: "10px 0px" }}
                               disablePast
                               name='eventEndDate'
                               inputVariant='outlined'
                               onChange={(val) => {
-                                setFieldValue('eventEndDate', val);
+                                setFieldValue("eventEndDate", val);
                               }}
                             />
                           </MuiPickersUtilsProvider>
@@ -896,11 +896,11 @@ const EditPost = () => {
                               ),
                             }}
                             value={values.selectedDate}
-                            style={{ width: '80%', margin: '10px 0px' }}
+                            style={{ width: "80%", margin: "10px 0px" }}
                             name='selectedDate'
                             inputVariant='outlined'
                             onChange={(val) => {
-                              setFieldValue('selectedDate', val);
+                              setFieldValue("selectedDate", val);
                             }}
                             label='Schedule Data & Time'
                           />
@@ -910,7 +910,7 @@ const EditPost = () => {
                     {/* <pre>{JSON.stringify({ values }, null, 4)}</pre> */}
                   </Form>
                   {/* Swetha */}
-                  <div style={{ flexDirection: 'column' }}>
+                  <div style={{ flexDirection: "column" }}>
                     {values.isWebinar ? null : <Preview state={values} />}
                     {values.isWebinar || values.isEvent ? (
                       <>
@@ -951,7 +951,7 @@ const EditPost = () => {
                     onClick={() => {
                       setConfirmDialog({
                         isOpen: true,
-                        title: 'Are you sure to discard this post?',
+                        title: "Are you sure to discard this post?",
                         subTitle: "You can't undo this operation",
                         onConfirm: () => {
                           history.push(wallPath);
@@ -959,13 +959,13 @@ const EditPost = () => {
                       });
                     }}
                   >
-                    {`Discard ${location?.postType ?? 'Post'}`}
+                    {`Discard ${location?.postType ?? "Post"}`}
                   </Button>
                   <Controls.Button
-                    text={`Update ${location?.postType ?? 'Post'}`}
+                    text={`Update ${location?.postType ?? "Post"}`}
                     variant='contained'
                     color='primary'
-                    style={{ borderRadius: '26px' }}
+                    style={{ borderRadius: "26px" }}
                     type='submit'
                     onClick={submitForm}
                   />

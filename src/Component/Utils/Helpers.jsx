@@ -27,6 +27,7 @@ export const renderListCategory = (categories) => {
  * @returns Object
  */
 export const errorHandler = (type, error, loading) => {
+  console.log(error,type,"****************************",loading)
   var message = "Expectation Failed";
   if (
     error.response &&
@@ -77,7 +78,7 @@ export const catchError = (error) => {
     message: message,
     ...error?.response,
   };
-}
+};
 
 /** Unified Portal */
 export const getSubStageSteps = (variantStepList, stageName, subStageName) => {

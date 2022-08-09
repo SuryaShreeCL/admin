@@ -27,7 +27,7 @@ import {
  import AddIcon from "@material-ui/icons/Add";
  import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
  import TableComponent from "../TableComponent/TableComponent";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 export class Choice extends Component {
     constructor(props) {
         super(props)
@@ -45,7 +45,7 @@ export class Choice extends Component {
     }
     // Model Theme
   modeltheme = () =>
-  createMuiTheme({
+  createTheme({
     overrides: {
       MuiDialog: {
         paperWidthSm: {
@@ -89,7 +89,7 @@ export class Choice extends Component {
     },
   });
     spinnerTheme = () =>
-    createMuiTheme({
+    createTheme({
       overrides: {
         MuiCircularProgress: {
           colorPrimary: {
@@ -99,7 +99,7 @@ export class Choice extends Component {
       },
     });
     getmuitheme = () =>
-    createMuiTheme({
+    createTheme({
       palette: {
         primary: {
           main: "#007bff",

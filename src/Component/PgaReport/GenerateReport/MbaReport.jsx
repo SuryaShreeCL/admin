@@ -17,6 +17,7 @@ import {
 import { MONTHS } from "./Variables";
 import MbaReportTable from "./MbaReportTable";
 import MbaReportGraph from "../../../Asset/Images/MbaReportGraph.png";
+import { data } from "jquery";
 
 const footerDescription = [
   {
@@ -49,6 +50,7 @@ const MyDocument = ({
   additionalPoint = [],
   allRoundActivities,
   strength,
+  spiderGraphUrl,
 }) => (
   <View>
     {/* ------ */}
@@ -63,11 +65,11 @@ const MyDocument = ({
     ) : null}
 
     {/* Table Component */}
+
     <View style={{ margin: "5px 0px" }}>
       {isTableVisible && (
         <>
           <Text style={{ ...styles.heading, ...styles.p_10 }}>{title}</Text>
-
           <MbaReportTable
             tableHeading={title}
             rowDataLength={rowDataLength}
@@ -95,6 +97,19 @@ const MyDocument = ({
             </View>
           </View>
         ))}
+      </View>
+    )}
+
+    {isEmpty(spiderGraphUrl) && (
+      <View style={styles.spider_graph_card} wrap={false}>
+        <View style={styles.spider_graph_image_view}>
+          <Image
+            source={{
+              uri: spiderGraphUrl,
+            }}
+            style={styles.sipder_graph_image}
+          />
+        </View>
       </View>
     )}
   </View>
@@ -178,8 +193,8 @@ function MbaReport({ content = [], assessment = [] }) {
               descriptionTwo,
               csfs,
               additionalPoint,
+              spiderGraphUrl,
             } = item;
-            console.log(item);
             return (
               <MyDocument
                 preferredProgram={content.preferredProgram}
@@ -206,6 +221,7 @@ function MbaReport({ content = [], assessment = [] }) {
                 list={csfs}
                 additionalPoint={additionalPoint}
                 isEnd={content.length - 1 === idx}
+                spiderGraphUrl={spiderGraphUrl}
               />
             );
           })}
@@ -224,6 +240,7 @@ function MbaReport({ content = [], assessment = [] }) {
               <Image src={MbaReportGraph} />
             </View>
           </View>
+
           {/* footer description */}
           {footerDescription.map((data, idx) => (
             <View style={styles.list_wrapper} key={idx.toString()}>
@@ -360,6 +377,34 @@ const styles = StyleSheet.create({
     fontSize: "10px",
     opacity: "1",
     marginRight: "8px",
+  },
+  spider_graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "105%",
+    width: "70%",
+    marginLeft: "80px",
+  },
+  spider_graph_image: {
+    height: 600,
+    width: 300,
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+  },
+
+  spider_graph_card: {
+    border: " 2px solid #ac9eca",
+    height: "200px",
+    width: "515px",
+    borderRadius: "6px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "3px",
+    padding: "8px",
   },
 });
 

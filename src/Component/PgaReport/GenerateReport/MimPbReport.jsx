@@ -32,6 +32,7 @@ const MyDocument = ({
   tableHelper = [],
   rowDataLength = 4,
   additionalPoint = [],
+  spiderGraphUrl,
 }) => (
   <View>
     {/* Top Color Box */}
@@ -106,7 +107,13 @@ const MyDocument = ({
     )}
 
     {isEmpty(additionalPoint) && (
-      <View>
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <View style={{ ...styles.p_10, ...styles.heading }}>
           <Text style={styles.colorBoxTitle}>{title}</Text>
         </View>
@@ -118,6 +125,19 @@ const MyDocument = ({
             </View>
           </View>
         ))}
+      </View>
+    )}
+
+    {isEmpty(spiderGraphUrl) && (
+      <View style={styles.Graph_card} wrap={false}>
+        <View style={styles.Graph_image_view}>
+          <Image
+            source={{
+              uri: spiderGraphUrl,
+            }}
+            style={styles.Graph_image}
+          />
+        </View>
       </View>
     )}
   </View>
@@ -144,6 +164,7 @@ function MimPbReport({ content = [] }) {
             descriptionTwo,
             csfs,
             additionalPoint,
+            spiderGraphUrl,
           } = item;
           console.log(item);
           return (
@@ -173,6 +194,7 @@ function MimPbReport({ content = [] }) {
               list={csfs}
               additionalPoint={additionalPoint}
               isEnd={content.length - 1 === idx}
+              spiderGraphUrl={spiderGraphUrl}
             />
           );
         })}
@@ -258,6 +280,38 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   footer: { textAlign: "center", padding: 10 },
+
+  Graph_image_view: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "105%",
+    width: "70%",
+    marginLeft: "80px",
+  },
+  Graph_image: {
+    height: 900,
+    width: 300,
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+  },
+
+  Graph_card: {
+    border: " 2px solid #ac9eca",
+    height: "200px",
+    width: "515px",
+    borderRadius: "6px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    display: "flex",
+    flexDirection: "row",
+    lineHeight: "3px",
+    padding: "8px",
+    alignContent: "center",
+    justifyContent: "center",
+    marginLeft: "40px",
+  },
 });
 
 export default MimPbReport;
