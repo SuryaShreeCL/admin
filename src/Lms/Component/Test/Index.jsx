@@ -664,34 +664,34 @@ class TestLanding extends Component {
                     : null,
               });
           this.handleCloseIconClick();
+        } else {
+          this.setState({
+            alertState: true,
+            alertMsg: response.message,
+            alertSeverity: "error",
+          });
         }
       });
-      this.props.aedraftTest(this.state.popUpId, (response) => {
-        if (response.success) {
-          let paramObj = {
-            page: INITIAL_PAGE_NO,
-            size: NO_OF_RESPONSE,
-            testType:
-              this.state.testType !== "default" ? this.state.testType : null,
-            topicId:
-              this.state.topicId !== "default" ? this.state.topicId : null,
-            status: this.state.status !== "default" ? this.state.status : null,
-          };
+      if (this.state.department === "assessment_engine_admin") {
+        this.props.aedraftTest(this.state.popUpId, (response) => {
+          if (response.success) {
+            let paramObj = {
+              page: INITIAL_PAGE_NO,
+              size: NO_OF_RESPONSE,
+              testType:
+                this.state.testType !== "default" ? this.state.testType : null,
+              topicId:
+                this.state.topicId !== "default" ? this.state.topicId : null,
+              status:
+                this.state.status !== "default" ? this.state.status : null,
+            };
 
-          this.state.department === "assessment_engine_admin"
-            ? this.props.aegetQuestionSet(paramObj)
-            : this.props.getQuestionSet({
-                ...paramObj,
-                courseId:
-                  this.state.testType === "CALIBRATION"
-                    ? this.state.courseValue
-                    : this.state.courseId !== "default"
-                    ? this.state.courseId
-                    : null,
-              });
-          this.handleCloseIconClick();
-        }
-      });
+            this.props.aegetQuestionSet(paramObj);
+
+            this.handleCloseIconClick();
+          }
+        });
+      }
     } else if (this.state.dialogContent.type === "approve") {
       this.props.approveTest(this.state.popUpId, (response) => {
         if (response.success) {

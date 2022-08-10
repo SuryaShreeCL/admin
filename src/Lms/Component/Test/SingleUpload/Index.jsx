@@ -617,7 +617,7 @@ export class Index extends Component {
           msg: "Please fill the required fields",
         },
       });
-    } else if (answerType !== ("VIDEO" && "FILE_UPLOAD") && this.hasDuplicates()) {
+    } else if (answerType !== "VIDEO" && answerType!=="FILE_UPLOAD" && (this.hasDuplicates())) {
       this.setState({
         alert: {
           severity: "error",
@@ -1152,3 +1152,4 @@ export default connect(mapStateToProps, {
   getCourseByTestQuestionSetId,
   getQuestionTypeList,
 })(Index);
+

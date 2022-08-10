@@ -3,6 +3,11 @@
   src: url("./Fonts/proxima nova font/PROXIMANOVA-REG-WEBFONT.TTF")
     format("truetype"); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }
+
+#app {
+  background: transparent !important;
+}
+
 * {
   font-family: "proxima-nova", sans-serif;
   letter-spacing: 0px;

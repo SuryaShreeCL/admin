@@ -75,7 +75,7 @@ function TableComponent({ handleTableRowClick, tableData, pageNo }) {
                   </BoldCell>
                   <BoldCell>{item.topicName}</BoldCell>
                   <BoldCell style={{ textAlign: "center" }}>
-                    {item.status === "Completed" ? `${item.startDate}` : "-"}
+                    {item.startDate || "-"}
                   </BoldCell>
                   <BodyCell style={{ textAlign: "center" }}>
                     {item.status === "Completed" ? `${item.endDate}` : "-"}
