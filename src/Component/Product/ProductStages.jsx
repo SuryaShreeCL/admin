@@ -562,11 +562,14 @@ const mapStateToProps = (state) => {
     postproductstructureList: state.ProductReducer.postproductstructure,
     putproductstructureList: state.ProductReducer.putproductstructure,
     getproductstepsList: state.ProductReducer.getproductsteps,
+    
+    
   };
 };
 
 export default connect(mapStateToProps, {
   postproductstructure,
+  getproductsteps,
   putproductstructure,
   getproductstepsCall,
 })(ProductStages);
