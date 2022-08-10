@@ -160,7 +160,7 @@ function Index(props) {
           setState({
             ...state,
             steps: arr,
-            activeTabValue: arr.length !== 0 && arr[0]["sectionName"],
+            activeTabValue: "QPMC 1",
             sectionId: arr.length !== 0 && arr[0]["id"],
           });
         }
