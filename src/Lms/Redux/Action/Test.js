@@ -779,6 +779,7 @@ export const draftTest = (testQuestionSetId, callback) => {
       })
       .catch((error) => {
         console.log(error);
+        callback(catchError(error));
       });
   };
 };
