@@ -1092,7 +1092,29 @@ export const putproductstructure = (data, callback) => {
       });
   };
 };
-
+export const getproductsteps = (id) => {
+  let accessToken = window.sessionStorage.getItem("accessToken");
+  return (dispatch) => {
+    axios
+      .get(URL + "/api/v1/get/steps/" + id, {
+        crossDomain: true,
+        headers: {
+          admin: "yes",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((result) => {
+        dispatch({
+          type: PRODUCT.getproductsteps,
+          payload: result.data,
+        });
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
 export const getproductstepsCall = (id) => {
   let accessToken = window.sessionStorage.getItem("accessToken");
   return (dispatch) => {

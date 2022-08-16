@@ -144,7 +144,30 @@ class Index extends Component {
           <AesingleSelect
             question={question}
             options={choices}
-            // selectedChoice={[]}
+            selectedChoice={[]}
+            description={description}
+            imgUrl={imgURL}
+            isMulti={true}
+          />
+        );
+      }
+      else if(type === "FILE_UPLOAD")
+      {
+        return isHaveDescription || isHaveImage ? (
+          <AePassage
+            description={description}
+            question={question}
+            choices={choices}
+            selectedChoice={[]}
+            imgUrl={imgURL}
+            isMulti={true}
+            bundleLength={totalBundle}
+          />
+        ) : (
+          <AesingleSelect
+            question={question}
+            options={choices}
+            selectedChoice={[]}
             description={description}
             imgUrl={imgURL}
             isMulti={true}

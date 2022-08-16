@@ -160,7 +160,7 @@ function Index(props) {
           setState({
             ...state,
             steps: arr,
-            activeTabValue: arr.length !== 0 && arr[0]["sectionName"],
+            activeTabValue: "QPMC 1",
             sectionId: arr.length !== 0 && arr[0]["id"],
           });
         }
@@ -177,7 +177,7 @@ function Index(props) {
 
   useEffect(() => {
     if (sectionId && activeTabValue === "QPMC 1") {
-      dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
+      dispatch(getDocumentModelBySubStageId(studentId, productId, "c4971d3a-b4a4-11ec-b909-0242ac120002"));
     }
   }, [sectionId]);
 
@@ -238,7 +238,7 @@ function Index(props) {
           open: false,
           cvloader: true,
         });
-        dispatch(getDocumentModelBySubStageId(studentId, productId, sectionId));
+        dispatch(getDocumentModelBySubStageId(studentId, productId, "c4971d3a-b4a4-11ec-b909-0242ac120002"));
       } else {
         setState({
           ...state,
@@ -284,7 +284,9 @@ function Index(props) {
   };
 
   const handleUpload = () => {
+    console.log("file upload")
     let error = false;
+    console.log(file)
     if (!file) {
       error = true;
       setState({
@@ -297,7 +299,8 @@ function Index(props) {
       error = true;
       setState({ ...state, commentHelperText: REQUIRED_ERROR });
     }
-    if (!error && sectionId) {
+    console.log()
+    if (!error && "c4971d3a-b4a4-11ec-b909-0242ac120002") {
       var fileObj = file;
       var newFileName = fileName;
       var newFileType = fileObj.path.split(".").pop();
@@ -389,6 +392,7 @@ function Index(props) {
     };
     console.log("rendering element 0");
     if (activeTabValue === "QPMC 1") {
+      
       return <DocumentComponent {...renderProps} />;
     } else if (activeTabValue === "QPMC 2") {
     } else if (activeTabValue === "School Research") {
@@ -400,6 +404,7 @@ function Index(props) {
 
   const handleTabChange = (e, newValue) => {
     if (newValue === "QPMC 1") {
+      dispatch(getDocumentModelBySubStageId(studentId, productId,"c4971d3a-b4a4-11ec-b909-0242ac120002"));
       let arr = steps.filter(({ sectionName }) => sectionName === newValue);
       let newSectionId = arr.length !== 0 ? arr[0]["id"] : null;
       setState({ ...state, activeTabValue: newValue, sectionId: newSectionId });
