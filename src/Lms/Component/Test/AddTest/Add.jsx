@@ -1306,14 +1306,12 @@ class Add extends Component {
             <TestTitle flex={1}>
               {id !== undefined ? "Edit Test" : "Add New Test"}
             </TestTitle>
-            {aedept === "assessment_engine_admin" ? (
-
+            {/* {aedept === "assessment_engine_admin" ? (
               <FormGroup style={{ marginRight: "700px" }}>
                 <FormControlLabel control={<Checkbox checked={proctor} color={"primary"}
                   onChange={() => this.setState({ proctor: !this.state.proctor })}
-
                 />} label="Proctor" />
-              </FormGroup>) : <></>}
+              </FormGroup>) : <></>} */}
             <Box display={"flex"} gridGap={"30px"} overflow={"auto"}>
               {/* cancel */}
               <Cancel
@@ -1347,6 +1345,14 @@ class Add extends Component {
                   placeholder='Course'
                 />
               )}
+               {aedept === "assessment_engine_admin" ? (
+
+<FormGroup style={{ marginRight: "700px" }}>
+  <FormControlLabel control={<Checkbox checked={proctor} color={"primary"}
+    onChange={() => this.setState({ proctor: !this.state.proctor })}
+
+  />} label="Proctor" />
+</FormGroup>) : <></>}
             </Grid>
             <Grid item xs={12} md={8}>
               {aedept !== "assessment_engine_admin" ? (

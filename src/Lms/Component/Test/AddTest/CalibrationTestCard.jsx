@@ -118,7 +118,7 @@ class CalibrationTestCard extends Component {
                   <Grid item xs={12} md={item.duration > 0 ? 4 : 6}>
                     <InputTextField
                       name="noOfQuestions"
-                      onChange={e => testPropertiesChange(index, e)}
+                      // onChange={e => testPropertiesChange(index, e)}
                       value={item.noOfQuestions}
                       label="Number of question"
                       placeholder="Number of question"
@@ -131,6 +131,13 @@ class CalibrationTestCard extends Component {
                           evt.keyCode === 40) &&
                         evt.preventDefault()
                       }
+                       onChange={(e) => {
+                        if (e.target.value.length <= 3) {
+                          testPropertiesChange(index,e);
+                        } else {
+                          e.preventDefault();
+                        }
+                      }}
                     />
                   </Grid>
                   {item.duration > 0 ? (
